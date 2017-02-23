@@ -15,6 +15,15 @@ export const PAGES_MENU = [
         }
       },
       {
+        path: 'cities',
+        data: {
+          menu: {
+            title: 'Cities',
+            icon: 'ion-android-pin'
+          }
+        }
+      },
+      {
         path: 'editors',
         data: {
           menu: {
