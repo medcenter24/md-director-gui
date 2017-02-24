@@ -11,7 +11,7 @@ import {Component} from '@angular/core';
   styles: [],
   template: `<router-outlet></router-outlet>`
 })
-export class Cities {
+export class Doctors {
 
   constructor() {
   }

@@ -15,13 +15,101 @@ export const PAGES_MENU = [
         }
       },
       {
-        path: 'cities',
+        path: 'geo',
         data: {
           menu: {
-            title: 'Cities',
+            title: 'Geo',
             icon: 'ion-android-pin'
           }
-        }
+        },
+        children: [
+          {
+            path: 'cities',
+            data: {
+              menu: {
+                title: 'Cities'
+              }
+            }
+          },
+          {
+            path: 'hotels',
+            data: {
+              menu: {
+                title: 'Hotels'
+              }
+            }
+          }
+        ]
+      },
+      {
+        path: 'doctors',
+        data: {
+          menu: {
+            title: 'Doctors',
+            icon: 'fa fa-user-md'
+          }
+        },
+        children: [
+          {
+            path: 'stuff',
+            data: {
+              menu: {
+                title: 'Stuff'
+              }
+            }
+          },
+          {
+            path: 'diagnostics',
+            data: {
+              menu: {
+                title: 'Diagnostics'
+              }
+            }
+          },
+          {
+            path: 'services',
+            data: {
+              menu: {
+                title: 'Services'
+              }
+            }
+          }
+        ]
+      },
+      {
+        path: 'accidents',
+        data: {
+          menu: {
+            title: 'Accidents',
+            icon: 'fa fa-ambulance'
+          }
+        },
+        children: [
+          {
+            path: 'assistants',
+            data: {
+              menu: {
+                title: 'Assistants'
+              }
+            }
+          },
+          {
+            path: 'checkpoints',
+            data: {
+              menu: {
+                title: 'Checkpoints'
+              }
+            }
+          },
+          {
+            path: 'statuses',
+            data: {
+              menu: {
+                title: 'Statuses'
+              }
+            }
+          }
+        ]
       },
       {
         path: 'editors',

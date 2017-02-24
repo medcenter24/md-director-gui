@@ -6,16 +6,18 @@
 
 import { Routes, RouterModule }  from '@angular/router';
 
-import { Cities } from './cities.component';
-import { SmartTables } from './components/smartTables/smartTables.component';
+import { Geo } from './geo.component';
+import { Cities } from './components/cities/cities.component';
+import { Hotels } from './components/hotels/hotels.component';
 
 // noinspection TypeScriptValidateTypes
 const routes: Routes = [
   {
     path: '',
-    component: Cities,
+    component: Geo,
     children: [
-      { path: 'smarttables', component: SmartTables }
+      { path: 'cities', component: Cities },
+      { path: 'hotels', component: Hotels }
     ]
   }
 ];

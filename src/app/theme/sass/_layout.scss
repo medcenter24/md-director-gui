@@ -92,14 +92,14 @@ a {
   margin-right: 12px;
   i {
     margin: 0 4px;
-    color: $danger;
+    color: $info;
     font-size: 12px;
   }
   a {
     margin-left: 4px;
     color: $default-text;
     &:hover {
-      color: $danger;
+      color: $info;
     }
   }
 }
