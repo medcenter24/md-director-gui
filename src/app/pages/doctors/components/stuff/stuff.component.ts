@@ -9,6 +9,8 @@ import { Component, ViewEncapsulation } from '@angular/core';
 import { StuffService } from './stuff.service';
 import { LocalDataSource } from 'ng2-smart-table';
 
+import { Confirm } from '../../../../services/confirm/confirm.component';
+
 @Component({
   selector: 'basic-tables',
   encapsulation: ViewEncapsulation.None,
@@ -20,6 +22,9 @@ export class Stuff {
   query: string = '';
 
   settings = {
+    actions: {
+      position: 'right',
+    },
     add: {
       addButtonContent: '<i class="ion-ios-plus-outline"></i>',
       createButtonContent: '<i class="ion-checkmark"></i>',
@@ -30,7 +35,7 @@ export class Stuff {
       saveButtonContent: '<i class="ion-checkmark"></i>',
       cancelButtonContent: '<i class="ion-close"></i>',
     },
-    delete: {
+    'delete': {
       deleteButtonContent: '<i class="ion-trash-a"></i>',
       confirmDelete: true
     },
@@ -71,6 +76,8 @@ export class Stuff {
   }
 
   onDeleteConfirm(event): void {
+    console.log('hola');
+    // Confirm;
     if (window.confirm('Are you sure you want to delete?')) {
       event.confirm.resolve();
     } else {
