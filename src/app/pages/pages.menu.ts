@@ -15,6 +15,65 @@ export const PAGES_MENU = [
         }
       },
       {
+        path: 'cases',
+        data: {
+          menu: {
+            title: 'Cases',
+            icon: 'fa fa-ambulance'
+          }
+        },
+        children: [
+          {
+            path: 'accidents',
+            data: {
+              menu: {
+                title: 'Accidents'
+              }
+            }
+          },
+          {
+            path: 'patients',
+            data: {
+              menu: {
+                title: 'Patients'
+              }
+            }
+          },
+          {
+            path: 'assistants',
+            data: {
+              menu: {
+                title: 'Assistants'
+              }
+            }
+          },
+          {
+            path: 'checkpoints',
+            data: {
+              menu: {
+                title: 'Checkpoints'
+              }
+            }
+          },
+          {
+            path: 'statuses',
+            data: {
+              menu: {
+                title: 'Statuses'
+              }
+            }
+          },
+          {
+            path: 'types',
+            data: {
+              menu: {
+                title: 'Types'
+              }
+            }
+          }
+        ]
+      },
+      {
         path: 'geo',
         data: {
           menu: {
@@ -71,41 +130,6 @@ export const PAGES_MENU = [
             data: {
               menu: {
                 title: 'Services'
-              }
-            }
-          }
-        ]
-      },
-      {
-        path: 'accidents',
-        data: {
-          menu: {
-            title: 'Accidents',
-            icon: 'fa fa-ambulance'
-          }
-        },
-        children: [
-          {
-            path: 'assistants',
-            data: {
-              menu: {
-                title: 'Assistants'
-              }
-            }
-          },
-          {
-            path: 'checkpoints',
-            data: {
-              menu: {
-                title: 'Checkpoints'
-              }
-            }
-          },
-          {
-            path: 'statuses',
-            data: {
-              menu: {
-                title: 'Statuses'
               }
             }
           }
