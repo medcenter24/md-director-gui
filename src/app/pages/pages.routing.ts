@@ -19,7 +19,9 @@ export const routes: Routes = [
     component: Pages,
     children: [
       { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
-      { path: 'cities', loadChildren: 'app/pages/cities/cities.module#CitiesModule' },
+      { path: 'geo', loadChildren: 'app/pages/geo/geo.module#GeoModule' },
+      { path: 'doctors', loadChildren: 'app/pages/doctors/doctors.module#DoctorsModule' },
+      { path: 'accidents', loadChildren: 'app/pages/accidents/accidents.module#AccidentsModule' },
       { path: 'dashboard', loadChildren: 'app/pages/dashboard/dashboard.module#DashboardModule' },
       { path: 'editors', loadChildren: 'app/pages/editors/editors.module#EditorsModule' },
       { path: 'components', loadChildren: 'app/pages/components/components.module#ComponentsModule' },

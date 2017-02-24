@@ -1,15 +1,21 @@
+/*
+ * Copyright (c) 2017. 
+ *
+ * @author Alexander Zagovorichev <zagovorichev@gmail.com>
+ */
+
 import { Component, ViewEncapsulation } from '@angular/core';
 
-import { SmartTablesService } from './smartTables.service';
+import { CitiesService } from './cities.service';
 import { LocalDataSource } from 'ng2-smart-table';
 
 @Component({
   selector: 'basic-tables',
   encapsulation: ViewEncapsulation.None,
-  styleUrls: ['./smartTables.scss'],
-  templateUrl: './smartTables.html',
+  styleUrls: ['./cities.scss'],
+  templateUrl: './cities.html',
 })
-export class SmartTables {
+export class Cities {
 
   query: string = '';
 
@@ -58,7 +64,7 @@ export class SmartTables {
 
   source: LocalDataSource = new LocalDataSource();
 
-  constructor(protected service: SmartTablesService) {
+  constructor(protected service: CitiesService) {
     this.service.getData().then((data) => {
       this.source.load(data);
     });

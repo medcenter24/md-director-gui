@@ -10,10 +10,14 @@ import { FormsModule } from '@angular/forms';
 import { NgaModule } from '../../theme/nga.module';
 import { Ng2SmartTableModule } from 'ng2-smart-table';
 
-import { routing }       from './cities.routing';
-import { Cities } from './cities.component';
-import { SmartTables } from './components/smartTables/smartTables.component';
-import { SmartTablesService } from './components/smartTables/smartTables.service';
+import { routing }       from './geo.routing';
+import { Geo } from './geo.component';
+
+import { Cities } from './components/cities/cities.component';
+import { CitiesService } from './components/cities/cities.service';
+
+import { Hotels } from './components/hotels/hotels.component';
+import { HotelsService } from './components/hotels/hotels.service';
 
 @NgModule({
   imports: [
@@ -24,12 +28,14 @@ import { SmartTablesService } from './components/smartTables/smartTables.service
     Ng2SmartTableModule,
   ],
   declarations: [
+    Geo,
     Cities,
-    SmartTables,
+    Hotels,
   ],
   providers: [
-    SmartTablesService,
+    CitiesService,
+    HotelsService,
   ]
 })
 
-export class CitiesModule {}
+export class GeoModule {}

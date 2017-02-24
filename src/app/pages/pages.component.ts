@@ -17,14 +17,14 @@ import { MENU } from '../app.menu';
       </div>
     </div>
     <footer class="al-footer clearfix">
-      <div class="al-footer-right">Created with <i class="ion-heart"></i></div>
+      <div class="al-footer-right">Created for <i class="ion-medkit"></i></div>
       <div class="al-footer-main clearfix">
         <div class="al-copy">&copy; <a href="mailto:zagovorichev@gmail.com">A. Zagovorichev</a> 2017</div>
         <ul class="al-share clearfix">
           <li><i class="socicon socicon-facebook"></i></li>
           <li><i class="socicon socicon-twitter"></i></li>
           <li><i class="socicon socicon-google"></i></li>
-          <li><i class="socicon socicon-github"></i></li>
+          <li><i class="socicon socicon-youtube"></i></li>
         </ul>
       </div>
     </footer>
