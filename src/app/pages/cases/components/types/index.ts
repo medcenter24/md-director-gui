@@ -4,4 +4,4 @@
  * @author Alexander Zagovorichev <zagovorichev@gmail.com>
  */
 
-export * from './geo.component';
+export * from './types.component';
