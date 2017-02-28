@@ -15,6 +15,7 @@ import { Doctors } from './doctors.component';
 
 import { Diagnostics } from './components/diagnostics/diagnostics.component';
 import { DiagnosticsService } from './components/diagnostics/diagnostics.service';
+import { Diagnose } from './components/diagnostics/components/diagnose/diagnose.component';
 
 import { Services } from './components/services/services.component';
 import { ServicesService } from './components/services/services.service';
@@ -32,14 +33,15 @@ import { StuffService } from './components/stuff/stuff.service';
   ],
   declarations: [
     Doctors,
-    Diagnostics,
     Stuff,
     Services,
+    Diagnostics,
+    Diagnose
   ],
   providers: [
-    DiagnosticsService,
     StuffService,
     ServicesService,
+    DiagnosticsService,
   ]
 })
 

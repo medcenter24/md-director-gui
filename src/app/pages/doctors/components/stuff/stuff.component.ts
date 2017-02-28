@@ -9,8 +9,6 @@ import { Component, ViewEncapsulation } from '@angular/core';
 import { StuffService } from './stuff.service';
 import { LocalDataSource } from 'ng2-smart-table';
 
-import { Confirm } from '../../../../services/confirm/confirm.component';
-
 @Component({
   selector: 'basic-tables',
   encapsulation: ViewEncapsulation.None,
@@ -76,7 +74,6 @@ export class Stuff {
   }
 
   onDeleteConfirm(event): void {
-    console.log('hola');
     // Confirm;
     if (window.confirm('Are you sure you want to delete?')) {
       event.confirm.resolve();
