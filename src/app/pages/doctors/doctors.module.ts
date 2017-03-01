@@ -15,7 +15,11 @@ import { Doctors } from './doctors.component';
 
 import { Diagnostics } from './components/diagnostics/diagnostics.component';
 import { DiagnosticsService } from './components/diagnostics/diagnostics.service';
-import { Diagnose } from './components/diagnostics/components/diagnose/diagnose.component';
+
+import { DiagnosticComponent } from './components/diagnostics/components/diagnostic/diagnostic.component';
+import { DiagnosticService } from './components/diagnostics/components/diagnostic/diagnostic.service';
+
+import { CategoriesComponent } from './components/diagnostics/components/categories'
 
 import { Services } from './components/services/services.component';
 import { ServicesService } from './components/services/services.service';
@@ -36,12 +40,14 @@ import { StuffService } from './components/stuff/stuff.service';
     Stuff,
     Services,
     Diagnostics,
-    Diagnose
+    DiagnosticComponent,
+    CategoriesComponent,
   ],
   providers: [
     StuffService,
     ServicesService,
     DiagnosticsService,
+    DiagnosticService,
   ]
 })
 

@@ -8,19 +8,19 @@ import { Component, ViewEncapsulation } from '@angular/core';
 
 import { DiagnosticsService } from './diagnostics.service';
 import { LocalDataSource } from 'ng2-smart-table';
-import { Diagnose } from './components/diagnose/diagnose.component';
+
+import { Diagnostic } from './components/diagnostic/diagnostic';
 
 @Component({
   selector: 'basic-tables',
   encapsulation: ViewEncapsulation.None,
   styleUrls: ['./diagnostics.scss'],
   templateUrl: './diagnostics.html',
-  entryComponents: [Diagnose]
 })
 export class Diagnostics {
 
-  selectedDiagnose: boolean = false;
-  currentDiagnose: diagnose;
+  selectedDiagnostic: boolean = false;
+  currentDiagnostic: Diagnostic;
   query: string = '';
 
   settings = {
@@ -71,17 +71,15 @@ export class Diagnostics {
   }
 
   onUserSelectRow(event): void {
-    this.selectedDiagnose = true;
-    this.currentDiagnose = event.selected;
+    this.selectedDiagnostic = true;
+    this.currentDiagnostic = event.data;
   }
 
-  onUpdateDiagnose(event): void {
-    console.log('replace updated diagnose in the list table', event);
+  onUpdateDiagnostic(diagnostic: Diagnostic): void {
+    this.source.update(this.currentDiagnostic, diagnostic);
   }
-}
 
-interface diagnose {
-  id: number;
-  title: string;
-  description: string;
+  onChangeRow(event): void {
+    // todo send request to update model in the storage
+  }
 }

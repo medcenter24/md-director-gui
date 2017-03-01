@@ -66,9 +66,8 @@ export class DiagnosticsService {
 
   getData(): Promise<any> {
     return new Promise((resolve, reject) => {
-      setTimeout(() => {
+      // todo check if dev than return fake else return by url
         resolve(this.DiagnosticsData);
-      }, 1);
     });
   }
 }
