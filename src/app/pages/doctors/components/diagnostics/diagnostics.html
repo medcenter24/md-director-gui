@@ -2,12 +2,13 @@
 
   <div class="row">
     <div class="col-sm-6">
-      <ba-card title="Basic Example" baCardClass="with-scroll">
+      <ba-card baCardClass="with-scroll">
         <ng2-smart-table [settings]="settings" [source]="source" (deleteConfirm)="onDeleteConfirm($event)" (userRowSelect)="onUserSelectRow($event)"></ng2-smart-table>
       </ba-card>
     </div>
     <div class="col-sm-6">
-      <diagnose-card [hidden]="!selectedDiagnose" [diagnose]="currentDiagnose" (diagnoseSaved)="onUpdateDiagnose($event)"></diagnose-card>
+        <diagnostic-card [hidden]="!selectedDiagnostic" [diagnostic]="currentDiagnostic" (diagnosticSaved)="onUpdateDiagnostic($event)"></diagnostic-card>
+        <categories-editor></categories-editor>
     </div>
   </div>
 
