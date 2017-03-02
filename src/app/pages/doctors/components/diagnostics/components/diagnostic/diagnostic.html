@@ -48,14 +48,13 @@
             </div>
             <div class="col-sm-6">
                 <div class="form-group">
-                    <label for="categories">Category</label>
-                    <select class="form-control" id="categories"
+                    <!--<select class="form-control" id="categories"
                             [(ngModel)]="diagnostic.category" name="category"
                             #category="ngModel"
-                    ></select>
-                    <p>
-                        + Categories editor
-                    </p>
+                    ></select>-->
+
+                    <diagnostic-category-selector [category]="diagnostic.category"></diagnostic-category-selector>
+                    <a (click)="toggleEditor()" class="pull-right">{{ showEditor ? '- Close categories editor' : '+ Open categories editor' }}</a>
                 </div>
             </div>
         </div>

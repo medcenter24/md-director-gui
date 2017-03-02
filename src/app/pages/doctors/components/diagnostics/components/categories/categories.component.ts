@@ -4,7 +4,9 @@
  * @author Alexander Zagovorichev <zagovorichev@gmail.com>
  */
 
-import {Component} from "@angular/core";
+import {Component, Input} from "@angular/core";
+
+import { Category } from './category';
 
 @Component({
     selector: 'categories-editor',
@@ -12,5 +14,11 @@ import {Component} from "@angular/core";
 })
 export class CategoriesComponent {
 
+    @Input() category: Category;
 
+    constructor () {};
+
+    onCategoryChange(category): void {
+        console.log(category);
+    }
 }

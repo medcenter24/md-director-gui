@@ -4,4 +4,4 @@
  * @author Alexander Zagovorichev <zagovorichev@gmail.com>
  */
 
-export * from './diagnostics.component';
+export * from './diagnostics.module';

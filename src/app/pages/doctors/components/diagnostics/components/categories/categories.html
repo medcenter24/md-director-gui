@@ -1,3 +1,24 @@
-<ba-card title="Diagnostic Categories" baCardClass="with-scroll">
+<ba-card title="Categories Editor" baCardClass="with-scroll">
+    <diagnostic-category-selector [category]="category" (categoryChanged)="onCategoryChange($event)"></diagnostic-category-selector>
+
+    <form (ngSubmit)="onSubmit()" #diagnosticForm="ngForm">
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label for="inputTitle">Title</label>
+                    <input type="text" class="form-control" id="inputTitle"
+                           required
+                           [(ngModel)]="category.title" name="title"
+                           #title="ngModel"
+                           placeholder="Category Title" maxlength="70"
+                    >
+                    <div [hidden]="title.valid || title.pristine" class="alert alert-danger">
+                        Title is required
+                    </div>
+                </div>
+            </div>
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
 
 </ba-card>

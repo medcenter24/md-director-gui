@@ -13,19 +13,13 @@ import { Ng2SmartTableModule } from 'ng2-smart-table';
 import { routing }       from './doctors.routing';
 import { Doctors } from './doctors.component';
 
-import { Diagnostics } from './components/diagnostics/diagnostics.component';
-import { DiagnosticsService } from './components/diagnostics/diagnostics.service';
-
-import { DiagnosticComponent } from './components/diagnostics/components/diagnostic/diagnostic.component';
-import { DiagnosticService } from './components/diagnostics/components/diagnostic/diagnostic.service';
-
-import { CategoriesComponent } from './components/diagnostics/components/categories'
-
 import { Services } from './components/services/services.component';
 import { ServicesService } from './components/services/services.service';
 
 import { Stuff } from './components/stuff/stuff.component';
 import { StuffService } from './components/stuff/stuff.service';
+
+import { DiagnosticsModule } from './components/diagnostics'
 
 @NgModule({
   imports: [
@@ -34,20 +28,16 @@ import { StuffService } from './components/stuff/stuff.service';
     NgaModule,
     routing,
     Ng2SmartTableModule,
+    DiagnosticsModule,
   ],
   declarations: [
     Doctors,
     Stuff,
     Services,
-    Diagnostics,
-    DiagnosticComponent,
-    CategoriesComponent,
   ],
   providers: [
     StuffService,
     ServicesService,
-    DiagnosticsService,
-    DiagnosticService,
   ]
 })
 

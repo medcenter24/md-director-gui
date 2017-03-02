@@ -20,6 +20,7 @@ import { Diagnostic } from './components/diagnostic/diagnostic';
 export class Diagnostics {
 
   selectedDiagnostic: boolean = false;
+  editCategories: boolean = false;
   currentDiagnostic: Diagnostic;
   query: string = '';
 
