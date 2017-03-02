@@ -7,8 +7,8 @@
       </ba-card>
     </div>
     <div class="col-sm-6">
-        <diagnostic-card [hidden]="!selectedDiagnostic" [diagnostic]="currentDiagnostic" (diagnosticSaved)="onUpdateDiagnostic($event)"></diagnostic-card>
-        <categories-editor></categories-editor>
+        <diagnostic-card [hidden]="!selectedDiagnostic" [diagnostic]="currentDiagnostic" (diagnosticSaved)="onUpdateDiagnostic($event)" (openCategoryEditor)="editCategories = $event"></diagnostic-card>
+        <categories-editor [hidden]="!editCategories"></categories-editor>
     </div>
   </div>
 

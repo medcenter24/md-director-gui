@@ -17,12 +17,19 @@ export class DiagnosticComponent {
 
     @Input() diagnostic: Diagnostic;
     @Output() diagnosticSaved: EventEmitter<Diagnostic> = new EventEmitter<Diagnostic>();
+    @Output() openCategoryEditor: EventEmitter<boolean> = new EventEmitter<boolean>();
+
+    showEditor: boolean = false;
 
     constructor (
-        private diagnosticService: DiagnosticService
+        private service: DiagnosticService
     ) { }
 
-    onSubmit() {
+    onSubmit(): void {
         this.diagnosticSaved.emit(this.diagnostic);
+    }
+
+    toggleEditor(): void {
+        this.openCategoryEditor.emit(this.showEditor = !this.showEditor)
     }
 }
