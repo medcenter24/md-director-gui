@@ -18,6 +18,10 @@ export class CategoriesComponent {
 
     constructor () {};
 
+    onSubmit(): void {
+        console.log(this.category);
+    }
+
     onCategoryChange(category): void {
         console.log(category);
     }
