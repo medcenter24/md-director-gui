@@ -57,7 +57,11 @@ export class Diagnostics {
 
   source: LocalDataSource = new LocalDataSource();
 
-  constructor(protected service: DiagnosticsService) {
+  constructor(
+      protected service: DiagnosticsService
+  ) { }
+
+  ngOnInit() {
     this.service.getData().then((data) => {
       this.source.load(data);
     });
