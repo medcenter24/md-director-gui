@@ -1,10 +1,12 @@
+@import 'variables';
+
 /// Slightly lighten a color
 /// @access public
 /// @param {Color} $color - color to tint
 /// @param {Number} $percentage - percentage of `$color` in returned color
 /// @return {Color}
 @function tint($color, $percentage) {
-  @return mix(white, $color, $percentage);
+  @return mix($white-color, $color, $percentage);
 }
 
 /// Slightly darken a color
@@ -13,13 +15,13 @@
 /// @param {Number} $percentage - percentage of `$color` in returned color
 /// @return {Color}
 @function shade($color, $percentage) {
-  @return mix(black, $color, $percentage);
+  @return mix($black-color, $color, $percentage);
 }
 
-@mixin scrollbars($size, $foreground-color, $background-color: mix($foreground-color, white, 50%)) {
+@mixin scrollbars($size, $foreground-color, $background-color: mix($foreground-color, $white-color, 50%)) {
   ::-webkit-scrollbar {
-    width: $size;
     height: $size;
+    width: $size;
   }
 
   ::-webkit-scrollbar-thumb {
