@@ -10,19 +10,30 @@ import { Category } from './category';
 
 @Component({
     selector: 'categories-editor',
+    styleUrls: ['./categories.scss'],
     templateUrl: './categories.html'
 })
 export class CategoriesComponent {
 
     @Input() category: Category;
 
-    constructor () {};
+    constructor () {
+        this.setEmptyCategory();
+    };
 
     onSubmit(): void {
         console.log(this.category);
     }
 
     onCategoryChange(category): void {
-        console.log(category);
+        this.category = category;
+    }
+
+    onCreateCategory(): void {
+        this.setEmptyCategory();
+    }
+
+    private setEmptyCategory(): void {
+        this.category = new Category(0, '');
     }
 }
