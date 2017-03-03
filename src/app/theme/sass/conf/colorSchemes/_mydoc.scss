@@ -1,11 +1,17 @@
-$default: #fff;
+/*!
+ * Copyright (c) 2017.
+ *
+ * @author Alexander Zagovorichev <zagovorichev@gmail.com>
+ */
+
+$default: #999;
 $body-bg: #f0f3f4;
 
-$default-text: #666;
+$default-text: #252525;
 $content-text: $default-text;
 $help-text: #949494;
 
-$label-text: #fff;
+$label-text: #999;
 $disabled: #ddd;
 $disabled-bg: tint($disabled, 15%);
 $border: #d6d6d6;
