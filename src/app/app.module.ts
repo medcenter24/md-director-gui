@@ -12,10 +12,6 @@ import { removeNgStyles, createNewHosts, createInputTransfer } from '@angularcla
 import { ENV_PROVIDERS } from './environment';
 import { routing } from './app.routing';
 
-// todo delete or comment after release fake the Http requests
-import { InMemoryWebApiModule } from 'angular-in-memory-web-api';
-import {InMemoryDataOverrideService}  from './faker/in-memory-data.service';
-
 // App is our top level component
 import { App } from './app.component';
 import { AppState, InternalStateType } from './app.service';
@@ -46,7 +42,6 @@ export type StoreType = {
   imports: [ // import Angular's modules
     BrowserModule,
     HttpModule,
-    InMemoryWebApiModule.forRoot(InMemoryDataOverrideService),
     RouterModule,
     FormsModule,
     ReactiveFormsModule,

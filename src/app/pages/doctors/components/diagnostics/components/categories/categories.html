@@ -1,7 +1,7 @@
 <ba-card title="Categories Editor" baCardClass="with-scroll" class="diagnostics-categories">
     <div class="row">
         <div class="col-sm-10">
-            <diagnostic-category-selector [category]="category" (categoryChanged)="onCategoryChange($event)"></diagnostic-category-selector>
+            <diagnostic-category-selector [category_id]="category.id" (categoryChanged)="onCategoryChange($event)"></diagnostic-category-selector>
         </div>
         <div class="col-sm-2 text-center">
             <label for="add-category-btn">New Category</label>

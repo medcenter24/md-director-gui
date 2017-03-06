@@ -20,6 +20,7 @@ export class DiagnosticService {
     constructor(private http: Http) { }
 
     getDiagnostics(): Promise<Diagnostic[]> {
+
         return this.http.get(this.diagnosticUrl)
             .toPromise()
             .then(response => response.json().data as Diagnostic[])

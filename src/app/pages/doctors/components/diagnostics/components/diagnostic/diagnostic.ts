@@ -9,7 +9,7 @@ export class Diagnostic {
         public id: number,
         public title: string,
         public description: string,
-        public category?: string,
+        public diagnostic_category_id: number,
         public comment?: string
     ) {}
 }
