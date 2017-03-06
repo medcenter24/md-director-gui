@@ -15,32 +15,16 @@ import { Category } from './category';
 export class CategoryService {
 
     private headers = new Headers({'Content-Type': 'application/json'});
-    private categoryUrl = 'director/diagnostic/categories';  // URL to web api
-
-    CategoriesData = [{
-        id: 1,
-        title: 'Category 1',
-    },{
-        id: 2,
-        title: 'Category 2',
-    }];
+    private categoryUrl = 'director/categories';  // URL to web api
 
     constructor(private http: Http) { }
 
     getCategories(): Promise<Category[]> {
-
-        if (ENV === 'production') {
-            return this.http.get(this.categoryUrl)
-                .toPromise()
-                .then(response => response.json().data as Category[])
-                .catch(this.handleError);
-        } else {
-            return new Promise((resolve, reject) => {
-                resolve(this.CategoriesData as Category[]);
-            });
-        }
+        return this.http.get(this.categoryUrl)
+            .toPromise()
+            .then(response => response.json().data as Category[])
+            .catch(this.handleError);
     }
-
 
     getCategory(id: number): Promise<Category> {
         const url = `${this.categoryUrl}/${id}`;

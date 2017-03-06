@@ -8,7 +8,6 @@ import { Component, ViewEncapsulation } from '@angular/core';
 
 import { DiagnosticsService } from './diagnostics.service';
 import { LocalDataSource } from 'ng2-smart-table';
-
 import { Diagnostic } from './components/diagnostic/diagnostic';
 
 @Component({

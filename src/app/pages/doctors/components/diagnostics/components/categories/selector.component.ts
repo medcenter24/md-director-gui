@@ -13,21 +13,32 @@ import { CategoryService } from './category.service';
     selector: 'diagnostic-category-selector',
     template: `
         <label for="categories">Category</label>
-        <select id="categories" class="form-control" name="category" [ngModel]="category" (ngModelChange)="onChange($event)">
+        <select id="categories" class="form-control" name="category" [(ngModel)]="category" (ngModelChange)="onChange($event)">
             <option [ngValue]="_category" *ngFor="let _category of categories">{{ _category.title }}</option>
         </select>
     `
 })
 export class CategorySelectorComponent {
 
-    @Input() category: Category;
+    category: Category;
+
+    @Input()
+    set category_id(id: number) {
+        _.forEach(this.categories, (cat) => {
+            if (id === cat.id) {
+                this.category = cat;
+            }
+        });
+    }
     @Output() categoryChanged: EventEmitter<Category> = new EventEmitter<Category>();
 
     categories: Category[] = [];
 
     constructor (
         private service: CategoryService
-    ) {
+    ) { }
+
+    ngOnInit(): void {
         this.service.getCategories().then((data) => {
             this.categories = data;
             if (!this.category && this.categories.length) {
@@ -36,9 +47,7 @@ export class CategorySelectorComponent {
         });
     }
 
-    onChange(_category): void {
-        console.log(_category);
-        this.category = _category;
+    onChange(): void {
         this.categoryChanged.emit(this.category);
     }
 

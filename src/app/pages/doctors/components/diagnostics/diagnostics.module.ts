@@ -21,12 +21,16 @@ import { CategoriesComponent } from './components/categories';
 import { CategorySelectorComponent } from './components/categories/selector.component';
 import { CategoryService } from './components/categories/category.service';
 
+import { InMemoryWebApiModule } from 'angular-in-memory-web-api';
+import { InMemoryDataService }  from './faker/in-memory-data.service';
+
 @NgModule({
     imports: [
         CommonModule,
         FormsModule,
         NgaModule,
         Ng2SmartTableModule,
+        InMemoryWebApiModule.forRoot(InMemoryDataService, {apiBase: 'director/'}),
     ],
     declarations: [
         Diagnostics,

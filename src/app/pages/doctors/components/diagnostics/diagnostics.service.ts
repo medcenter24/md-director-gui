@@ -6,6 +6,7 @@
 
 import {Injectable} from '@angular/core';
 import {DiagnosticService} from "./components/diagnostic/diagnostic.service";
+import {Diagnostic} from "./components/diagnostic/diagnostic";
 
 @Injectable()
 export class DiagnosticsService {
@@ -14,7 +15,7 @@ export class DiagnosticsService {
         private service: DiagnosticService
     ) {}
 
-  getData(): Promise<any> {
+  getData(): Promise<Diagnostic[]> {
     return this.service.getDiagnostics();
   }
 }
