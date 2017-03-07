@@ -10,6 +10,7 @@ import { MENU } from '../app.menu';
   template: `
     <ba-sidebar></ba-sidebar>
     <ba-page-top></ba-page-top>
+    <ng2-slim-loading-bar [color]="'#209e91'"></ng2-slim-loading-bar>
     <div class="al-main">
       <div class="al-content">
         <ba-content-top></ba-content-top>
@@ -17,7 +18,7 @@ import { MENU } from '../app.menu';
       </div>
     </div>
     <footer class="al-footer clearfix">
-      <div class="al-footer-right">Created for <i class="ion-medkit"></i></div>
+      <div class="al-footer-right">Created for <i class="fa fa-heartbeat"></i></div>
       <div class="al-footer-main clearfix">
         <div class="al-copy">&copy; <a href="mailto:zagovorichev@gmail.com">A. Zagovorichev</a> 2017</div>
         <ul class="al-share clearfix">

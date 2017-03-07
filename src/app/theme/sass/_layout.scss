@@ -91,13 +91,13 @@ a {
   float: right;
   margin-right: 12px;
   i {
+    color: $danger;
+    font-size: $font-size-large;
     margin: 0 4px;
-    color: $info;
-    font-size: 12px;
   }
   a {
-    margin-left: 4px;
     color: $default-text;
+    margin-left: 4px;
     &:hover {
       color: $info;
     }

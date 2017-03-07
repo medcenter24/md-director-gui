@@ -1,14 +1,27 @@
 <div class="widgets">
-
   <div class="row">
     <div class="col-sm-6">
       <ba-card baCardClass="with-scroll">
-        <ng2-smart-table [settings]="settings" [source]="source" (deleteConfirm)="onDeleteConfirm($event)" (userRowSelect)="onUserSelectRow($event)"></ng2-smart-table>
+        <ng2-slim-loading-bar [color]="'#209e91'"></ng2-slim-loading-bar>
+        <ng2-smart-table
+                [settings]="settings"
+                [source]="source"
+                (deleteConfirm)="onDeleteConfirm($event)"
+                (userRowSelect)="onUserSelectRow($event)"
+                (edit)="onSaveConfirm($event)"
+                (createConfirm)="onCreateConfirm($event)"
+        ></ng2-smart-table>
       </ba-card>
     </div>
     <div class="col-sm-6">
-        <diagnostic-card [hidden]="!selectedDiagnostic" [diagnostic]="currentDiagnostic" (diagnosticSaved)="onUpdateDiagnostic($event)" (openCategoryEditor)="editCategories = $event"></diagnostic-card>
-        <categories-editor [hidden]="!editCategories"></categories-editor>
+        <diagnostic-card
+                [hidden]="!selectedDiagnostic"
+                [diagnostic]="currentDiagnostic"
+                (diagnosticSaved)="onUpdateDiagnostic($event)"
+                (openCategoryEditor)="openCategoryEditor($event)"
+                (loaded)="diagnosticCardLoaded()"
+        ></diagnostic-card>
+        <categories-editor [hidden]="!editCategories" [categoryId]="categoryId" (loaded)="editorLoaded()"></categories-editor>
     </div>
   </div>
 

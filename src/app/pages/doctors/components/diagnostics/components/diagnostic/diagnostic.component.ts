@@ -11,13 +11,15 @@ import { DiagnosticService } from './diagnostic.service';
 
 @Component({
     selector: 'diagnostic-card',
+    styleUrls: ['./diagnostic.scss'],
     templateUrl: './diagnostic.html'
 })
 export class DiagnosticComponent {
 
     @Input() diagnostic: Diagnostic;
     @Output() diagnosticSaved: EventEmitter<Diagnostic> = new EventEmitter<Diagnostic>();
-    @Output() openCategoryEditor: EventEmitter<boolean> = new EventEmitter<boolean>();
+    @Output() openCategoryEditor: EventEmitter<EditorEvent> = new EventEmitter<EditorEvent>();
+    @Output() loaded: EventEmitter<boolean> = new EventEmitter<boolean>();
 
     showEditor: boolean = false;
 
@@ -29,7 +31,17 @@ export class DiagnosticComponent {
         this.diagnosticSaved.emit(this.diagnostic);
     }
 
-    toggleEditor(): void {
-        this.openCategoryEditor.emit(this.showEditor = !this.showEditor)
+    toggleEditor(categoryId): void {
+        this.showEditor = !this.showEditor;
+        this.openCategoryEditor.emit({show: this.showEditor, categoryId: categoryId})
     }
+
+    editorLoaded(): void {
+        this.loaded.emit(true);
+    }
+}
+
+interface EditorEvent {
+    show: boolean;
+    categoryId: number;
 }

@@ -45,3 +45,6 @@ $dribble-color: #f26798;
 $behace-color: #0093fa;
 $white-color: #fff;
 $black-color: #000;
+
+$line-height-base:        1.428571429 !default; // 20/14
+$line-height-computed:    floor(($font-size-base * $line-height-base)) !default; // ~20px
