@@ -24,6 +24,8 @@ import { CategoryService } from './components/categories/category.service';
 import { InMemoryWebApiModule } from 'angular-in-memory-web-api';
 import { InMemoryDataService }  from './faker/in-memory-data.service';
 
+import { SlimLoadingBarModule } from 'ng2-slim-loading-bar';
+
 @NgModule({
     imports: [
         CommonModule,
@@ -31,6 +33,7 @@ import { InMemoryDataService }  from './faker/in-memory-data.service';
         NgaModule,
         Ng2SmartTableModule,
         InMemoryWebApiModule.forRoot(InMemoryDataService, {apiBase: 'director/'}),
+        SlimLoadingBarModule.forRoot()
     ],
     declarations: [
         Diagnostics,

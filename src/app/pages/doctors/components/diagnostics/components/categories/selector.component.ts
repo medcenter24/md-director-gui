@@ -23,14 +23,14 @@ export class CategorySelectorComponent {
     category: Category;
 
     @Input()
-    set category_id(id: number) {
+    set categoryId(id: number) {
         _.forEach(this.categories, (cat) => {
             if (id === cat.id) {
                 this.category = cat;
             }
         });
     }
-    @Output() categoryChanged: EventEmitter<Category> = new EventEmitter<Category>();
+    @Output() categoryChanged: EventEmitter<number> = new EventEmitter<number>();
 
     categories: Category[] = [];
 
@@ -48,7 +48,7 @@ export class CategorySelectorComponent {
     }
 
     onChange(): void {
-        this.categoryChanged.emit(this.category);
+        this.categoryChanged.emit(this.category.id);
     }
 
 }

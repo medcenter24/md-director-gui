@@ -4,7 +4,7 @@
  * @author Alexander Zagovorichev <zagovorichev@gmail.com>
  */
 
-import { Injectable }    from '@angular/core';
+import {Injectable, NgZone}    from '@angular/core';
 import { Headers, Http } from '@angular/http';
 
 import 'rxjs/add/operator/toPromise';
@@ -17,12 +17,17 @@ export class CategoryService {
     private headers = new Headers({'Content-Type': 'application/json'});
     private categoryUrl = 'director/categories';  // URL to web api
 
-    constructor(private http: Http) { }
+    constructor(
+        private http: Http
+    ) { }
 
     getCategories(): Promise<Category[]> {
+        let self = this;
         return this.http.get(this.categoryUrl)
             .toPromise()
-            .then(response => response.json().data as Category[])
+            .then(function (response) {
+                return response.json().data as Category[];
+            })
             .catch(this.handleError);
     }
 

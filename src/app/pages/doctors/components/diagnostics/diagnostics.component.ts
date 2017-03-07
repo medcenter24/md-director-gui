@@ -9,6 +9,7 @@ import { Component, ViewEncapsulation } from '@angular/core';
 import { DiagnosticsService } from './diagnostics.service';
 import { LocalDataSource } from 'ng2-smart-table';
 import { Diagnostic } from './components/diagnostic/diagnostic';
+import { SlimLoadingBarService } from 'ng2-slim-loading-bar';
 
 @Component({
   selector: 'basic-tables',
@@ -22,6 +23,7 @@ export class Diagnostics {
   editCategories: boolean = false;
   currentDiagnostic: Diagnostic;
   query: string = '';
+  categoryId: number = 0;
 
   settings = {
     add: {
@@ -57,12 +59,16 @@ export class Diagnostics {
   source: LocalDataSource = new LocalDataSource();
 
   constructor(
-      protected service: DiagnosticsService
+      protected service: DiagnosticsService,
+      private slimLoadingBarService: SlimLoadingBarService
   ) { }
 
   ngOnInit() {
+    this.slimLoadingBarService.reset();
+    this.slimLoadingBarService.start();
     this.service.getData().then((data) => {
       this.source.load(data);
+      this.slimLoadingBarService.complete();
     });
   }
 
@@ -74,9 +80,18 @@ export class Diagnostics {
     }
   }
 
+  onSaveConfirm(edit): void {
+    console.log('save');
+  }
+
+  onCreateConfirm(edit): void {
+    console.log('create');
+  }
+
   onUserSelectRow(event): void {
     this.selectedDiagnostic = true;
     this.currentDiagnostic = event.data;
+    this.categoryId = this.currentDiagnostic.diagnostic_category_id;
   }
 
   onUpdateDiagnostic(diagnostic: Diagnostic): void {
@@ -85,5 +100,10 @@ export class Diagnostics {
 
   onChangeRow(event): void {
     // todo send request to update model in the storage
+  }
+
+  openCategoryEditor(event): void {
+    this.editCategories = event.show;
+    this.categoryId = event.categoryId;
   }
 }
