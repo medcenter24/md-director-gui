@@ -8,6 +8,8 @@ import {Component, Input, Output, EventEmitter} from '@angular/core';
 
 import { Diagnostic } from './diagnostic';
 import { DiagnosticService } from './diagnostic.service';
+import { SlimLoadingBarService } from 'ng2-slim-loading-bar';
+
 
 @Component({
     selector: 'diagnostic-card',
@@ -24,8 +26,11 @@ export class DiagnosticComponent {
     showEditor: boolean = false;
 
     constructor (
-        private service: DiagnosticService
+        private service: DiagnosticService,
+        private slimLoadingBarService: SlimLoadingBarService
     ) { }
+
+    ngOnInit() {}
 
     onSubmit(): void {
         this.diagnosticSaved.emit(this.diagnostic);
@@ -36,8 +41,13 @@ export class DiagnosticComponent {
         this.openCategoryEditor.emit({show: this.showEditor, categoryId: categoryId})
     }
 
-    editorLoaded(): void {
-        this.loaded.emit(true);
+    onSelectorLoaded(): void {
+        this.slimLoadingBarService.complete();
+    }
+
+    onSelectorLoading(): void {
+        this.slimLoadingBarService.reset();
+        this.slimLoadingBarService.start();
     }
 }
 

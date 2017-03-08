@@ -4,6 +4,7 @@
   ~ @author Alexander Zagovorichev <zagovorichev@gmail.com>
   -->
 
+<ng2-slim-loading-bar [color]="'#209e91'"></ng2-slim-loading-bar>
 <ba-card *ngIf="diagnostic" title="Diagnostic Form #{{ diagnostic.id }}" baCardClass="with-scroll">
     <form (ngSubmit)="onSubmit()" #diagnosticForm="ngForm">
         <div class="row">
@@ -49,7 +50,12 @@
             </div>
             <div class="col-sm-6">
                 <div class="form-group">
-                    <diagnostic-category-selector [categoryId]="diagnostic.diagnostic_category_id" (categoryChanged)="diagnostic.diagnostic_category_id = $event"></diagnostic-category-selector>
+                    <diagnostic-category-selector
+                            [categoryId]="diagnostic.diagnostic_category_id"
+                            (categoryChanged)="diagnostic.diagnostic_category_id = $event"
+                            (loaded)="onSelectorLoaded()"
+                            (loading)="onSelectorLoading"
+                    ></diagnostic-category-selector>
                     <a (click)="toggleEditor(diagnostic.diagnostic_category_id)" class="editor-toggle">{{ showEditor ? '- Close categories editor' : '+ Open categories editor' }}</a>
                 </div>
             </div>

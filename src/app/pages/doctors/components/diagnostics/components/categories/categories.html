@@ -1,10 +1,18 @@
+<!--
+  ~ Copyright (c) 2017.
+  ~
+  ~ @author Alexander Zagovorichev <zagovorichev@gmail.com>
+  -->
+
+<ng2-slim-loading-bar [color]="'#209e91'"></ng2-slim-loading-bar>
 <ba-card title="Categories Editor" baCardClass="with-scroll" class="diagnostics-categories">
     <div class="row">
         <div class="col-sm-10">
             <diagnostic-category-selector
                     [categoryId]="category.id"
                     (categoryChanged)="onCategoryChange($event)"
-                    (loaded)="editorLoaded()"
+                    (loaded)="onSelectorLoaded()"
+                    (loading)="onSelectorLoading()"
             ></diagnostic-category-selector>
         </div>
         <div class="col-sm-2 text-center">

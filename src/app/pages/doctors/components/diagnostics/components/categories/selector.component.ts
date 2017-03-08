@@ -31,6 +31,8 @@ export class CategorySelectorComponent {
         });
     }
     @Output() categoryChanged: EventEmitter<number> = new EventEmitter<number>();
+    @Output() loading: EventEmitter<any> = new EventEmitter<any>();
+    @Output() loaded: EventEmitter<any> = new EventEmitter<any>();
 
     categories: Category[] = [];
 
@@ -39,11 +41,13 @@ export class CategorySelectorComponent {
     ) { }
 
     ngOnInit(): void {
+        this.loading.emit();
         this.service.getCategories().then((data) => {
             this.categories = data;
             if (!this.category && this.categories.length) {
                 this.category = this.categories[0];
             }
+            this.loaded.emit();
         });
     }
 
