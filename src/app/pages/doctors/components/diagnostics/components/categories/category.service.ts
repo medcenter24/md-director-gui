@@ -22,7 +22,6 @@ export class CategoryService {
     ) { }
 
     getCategories(): Promise<Category[]> {
-        let self = this;
         return this.http.get(this.categoryUrl)
             .toPromise()
             .then(function (response) {

@@ -19,9 +19,12 @@
                 [diagnostic]="currentDiagnostic"
                 (diagnosticSaved)="onUpdateDiagnostic($event)"
                 (openCategoryEditor)="openCategoryEditor($event)"
-                (loaded)="diagnosticCardLoaded()"
         ></diagnostic-card>
-        <categories-editor [hidden]="!editCategories" [categoryId]="categoryId" (loaded)="editorLoaded()"></categories-editor>
+        <categories-editor
+                [hidden]="!editCategories"
+                [categoryId]="categoryId"
+                (changedCategories)="onCategoryChanged()"
+        ></categories-editor>
     </div>
   </div>
 

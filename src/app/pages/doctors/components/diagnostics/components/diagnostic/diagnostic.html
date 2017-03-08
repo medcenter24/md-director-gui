@@ -52,7 +52,7 @@
                 <div class="form-group">
                     <diagnostic-category-selector
                             [categoryId]="diagnostic.diagnostic_category_id"
-                            (categoryChanged)="diagnostic.diagnostic_category_id = $event"
+                            (categoryChanged)="onSelectCategory($event)"
                             (loaded)="onSelectorLoaded()"
                             (loading)="onSelectorLoading"
                     ></diagnostic-category-selector>
