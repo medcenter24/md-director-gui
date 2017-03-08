@@ -4,12 +4,13 @@
  * @author Alexander Zagovorichev <zagovorichev@gmail.com>
  */
 
-import { Component, ViewEncapsulation } from '@angular/core';
+import {Component, ViewEncapsulation, ViewChild} from '@angular/core';
 
 import { DiagnosticsService } from './diagnostics.service';
 import { LocalDataSource } from 'ng2-smart-table';
 import { Diagnostic } from './components/diagnostic/diagnostic';
 import { SlimLoadingBarService } from 'ng2-slim-loading-bar';
+import { DiagnosticComponent } from "./components/diagnostic/diagnostic.component";
 
 @Component({
   selector: 'basic-tables',
@@ -18,6 +19,9 @@ import { SlimLoadingBarService } from 'ng2-slim-loading-bar';
   templateUrl: './diagnostics.html',
 })
 export class Diagnostics {
+
+  @ViewChild(DiagnosticComponent)
+      private diagnosticComponent: DiagnosticComponent;
 
   selectedDiagnostic: boolean = false;
   editCategories: boolean = false;
@@ -105,5 +109,9 @@ export class Diagnostics {
   openCategoryEditor(event): void {
     this.editCategories = event.show;
     this.categoryId = event.categoryId;
+  }
+
+  onCategoryChanged(): void {
+    this.diagnosticComponent.reloadCategories();
   }
 }
