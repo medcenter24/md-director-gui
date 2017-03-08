@@ -20,7 +20,7 @@ import { MENU } from '../app.menu';
     <footer class="al-footer clearfix">
       <div class="al-footer-right">Created for <i class="fa fa-heartbeat"></i></div>
       <div class="al-footer-main clearfix">
-        <div class="al-copy">&copy; <a href="mailto:zagovorichev@gmail.com">A. Zagovorichev</a> 2017</div>
+        <div class="al-copy">&copy; <a href="https://mydoctor24.com">MyDoctor24.com</a> 2017</div>
         <ul class="al-share clearfix">
           <li><i class="socicon socicon-facebook"></i></li>
           <li><i class="socicon socicon-twitter"></i></li>
