@@ -37,7 +37,15 @@ export class DiagnosticComponent {
     ngOnInit() {}
 
     onSubmit(): void {
-        this.diagnosticSaved.emit(this.diagnostic);
+        this.slimLoadingBarService.reset();
+        this.slimLoadingBarService.start();
+        this.service.update(this.diagnostic).then(() => {
+            this.diagnosticSaved.emit(this.diagnostic);
+            this.slimLoadingBarService.complete();
+        }).catch(() => {
+            this.slimLoadingBarService.color = 'red';
+            this.slimLoadingBarService.complete();
+        });
     }
 
     toggleEditor(categoryId): void {

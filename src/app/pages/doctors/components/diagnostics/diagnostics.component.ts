@@ -6,11 +6,11 @@
 
 import {Component, ViewEncapsulation, ViewChild} from '@angular/core';
 
-import { DiagnosticsService } from './diagnostics.service';
 import { LocalDataSource } from 'ng2-smart-table';
 import { Diagnostic } from './components/diagnostic/diagnostic';
 import { SlimLoadingBarService } from 'ng2-slim-loading-bar';
 import { DiagnosticComponent } from "./components/diagnostic/diagnostic.component";
+import {DiagnosticService} from "./components/diagnostic/diagnostic.service";
 
 @Component({
   selector: 'basic-tables',
@@ -63,14 +63,14 @@ export class Diagnostics {
   source: LocalDataSource = new LocalDataSource();
 
   constructor(
-      protected service: DiagnosticsService,
+      protected service: DiagnosticService,
       private slimLoadingBarService: SlimLoadingBarService
   ) { }
 
   ngOnInit() {
     this.slimLoadingBarService.reset();
     this.slimLoadingBarService.start();
-    this.service.getData().then((data) => {
+    this.service.getDiagnostics().then((data) => {
       this.source.load(data);
       this.slimLoadingBarService.complete();
     });
@@ -78,7 +78,15 @@ export class Diagnostics {
 
   onDeleteConfirm(event): void {
     if (window.confirm('Are you sure you want to delete?')) {
-      event.confirm.resolve();
+      this.slimLoadingBarService.reset();
+      this.slimLoadingBarService.start();
+      this.service.delete(event.data.id).then(() => {
+        event.confirm.resolve();
+        this.slimLoadingBarService.complete();
+      }).catch(() => {
+        this.slimLoadingBarService.color = '#f89711';
+        this.slimLoadingBarService.complete();
+      });
     } else {
       event.confirm.reject();
     }
