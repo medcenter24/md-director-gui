@@ -27,17 +27,22 @@ export class Diagnostics {
   @ViewChild('deleteDialog')
       private deleteDialog: ModalComponent;
 
+  @ViewChild('errorDialog')
+    private errorDialog: ModalComponent;
+
   selectedDiagnostic: boolean = false;
   editCategories: boolean = false;
   currentDiagnostic: Diagnostic;
   query: string = '';
   categoryId: number = 0;
+  errorMessage: string = '';
 
   settings = {
     add: {
       addButtonContent: '<i class="ion-ios-plus-outline"></i>',
       createButtonContent: '<i class="ion-checkmark"></i>',
       cancelButtonContent: '<i class="ion-close"></i>',
+      confirmCreate: true
     },
     edit: {
       editButtonContent: '<i class="ion-edit"></i>',
@@ -123,19 +128,21 @@ export class Diagnostics {
   onTableSave(event): void {
     this.slimLoadingBarService.reset();
     this.slimLoadingBarService.start();
-    this.service.update(event.newData.id).then(() => {
+
+    this.service.update(event.newData).then(() => {
       event.confirm.resolve();
       this.slimLoadingBarService.complete();
     }).catch((reason) => {
       this.slimLoadingBarService.color = '#f89711';
       this.slimLoadingBarService.complete();
       event.confirm.reject();
-      console.log(reason);
+      this.showError('Something bad happened, you can\'t save diagnostic')
     });
   }
 
-  onCreate(event): void {
-    console.log(event);
+  private showError(message: string): void {
+    this.errorMessage = message;
+    this.errorDialog.open('sm');
   }
 
   onUserSelectRow(event): void {
@@ -146,10 +153,6 @@ export class Diagnostics {
 
   onUpdateDiagnostic(diagnostic: Diagnostic): void {
     this.source.update(this.currentDiagnostic, diagnostic);
-  }
-
-  onChangeRow(event): void {
-    // todo send request to update model in the storage
   }
 
   openCategoryEditor(event): void {
