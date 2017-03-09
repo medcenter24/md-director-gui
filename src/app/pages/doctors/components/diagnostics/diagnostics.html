@@ -1,31 +1,45 @@
 <div class="widgets">
-  <div class="row">
-    <div class="col-sm-6">
-      <ba-card baCardClass="with-scroll">
-        <ng2-slim-loading-bar [color]="'#209e91'"></ng2-slim-loading-bar>
-        <ng2-smart-table
-                [settings]="settings"
-                [source]="source"
-                (deleteConfirm)="onDeleteConfirm($event)"
-                (userRowSelect)="onUserSelectRow($event)"
-                (edit)="onSaveConfirm($event)"
-                (createConfirm)="onCreateConfirm($event)"
-        ></ng2-smart-table>
-      </ba-card>
+    <div class="row">
+        <div class="col-sm-6">
+            <ba-card baCardClass="with-scroll">
+                <ng2-slim-loading-bar [color]="'#209e91'"></ng2-slim-loading-bar>
+                <ng2-smart-table
+                        [settings]="settings"
+                        [source]="source"
+                        (deleteConfirm)="onDeleteConfirm($event)"
+                        (userRowSelect)="onUserSelectRow($event)"
+                        (create)="onCreate($event)"
+                        (editConfirm)="onTableSave($event)"
+                ></ng2-smart-table>
+            </ba-card>
+        </div>
+        <div class="col-sm-6">
+            <diagnostic-card
+                    [hidden]="!selectedDiagnostic"
+                    [diagnostic]="currentDiagnostic"
+                    (diagnosticSaved)="onUpdateDiagnostic($event)"
+                    (openCategoryEditor)="openCategoryEditor($event)"
+            ></diagnostic-card>
+            <categories-editor
+                    [hidden]="!editCategories"
+                    [categoryId]="categoryId"
+                    (changedCategories)="onCategoryChanged()"
+            ></categories-editor>
+        </div>
     </div>
-    <div class="col-sm-6">
-        <diagnostic-card
-                [hidden]="!selectedDiagnostic"
-                [diagnostic]="currentDiagnostic"
-                (diagnosticSaved)="onUpdateDiagnostic($event)"
-                (openCategoryEditor)="openCategoryEditor($event)"
-        ></diagnostic-card>
-        <categories-editor
-                [hidden]="!editCategories"
-                [categoryId]="categoryId"
-                (changedCategories)="onCategoryChanged()"
-        ></categories-editor>
-    </div>
-  </div>
 
 </div>
+
+<modal #deleteDialog>
+    <modal-header [show-close]="true">
+        <h5 class="modal-title">Confirmation</h5>
+    </modal-header>
+    <modal-body>
+        Are you sure wants to delete &laquo;<b>{{ titleForDeletion }}</b>&raquo;?
+    </modal-body>
+    <modal-footer>
+        <button type="button" class="btn btn-default" data-dismiss="modal"
+                (click)="onDeleteDialogCancel()">Cancel</button>
+        <button type="button" class="btn btn-primary" (click)="onDeleteDialogOk()" [disabled]="deleteProcess">Ok</button>
+    </modal-footer>
+</modal>

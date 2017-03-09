@@ -11,6 +11,7 @@ import { Diagnostic } from './components/diagnostic/diagnostic';
 import { SlimLoadingBarService } from 'ng2-slim-loading-bar';
 import { DiagnosticComponent } from "./components/diagnostic/diagnostic.component";
 import {DiagnosticService} from "./components/diagnostic/diagnostic.service";
+import {ModalComponent} from "ng2-bs3-modal/components/modal";
 
 @Component({
   selector: 'basic-tables',
@@ -22,6 +23,9 @@ export class Diagnostics {
 
   @ViewChild(DiagnosticComponent)
       private diagnosticComponent: DiagnosticComponent;
+
+  @ViewChild('deleteDialog')
+      private deleteDialog: ModalComponent;
 
   selectedDiagnostic: boolean = false;
   editCategories: boolean = false;
@@ -39,6 +43,7 @@ export class Diagnostics {
       editButtonContent: '<i class="ion-edit"></i>',
       saveButtonContent: '<i class="ion-checkmark"></i>',
       cancelButtonContent: '<i class="ion-close"></i>',
+      confirmSave: true
     },
     'delete': {
       deleteButtonContent: '<i class="ion-trash-a"></i>',
@@ -76,28 +81,61 @@ export class Diagnostics {
     });
   }
 
+  deleteDialogEvent: any = null;
+  titleForDeletion: string = '';
+  deleteProcess: boolean = false;
+
+  onDeleteDialogOk(): void {
+    this.deleteProcess = true;
+    this.slimLoadingBarService.reset();
+    this.slimLoadingBarService.start();
+    this.service.delete(this.deleteDialogEvent.data.id).then(() => {
+      this.deleteDialogEvent.confirm.resolve();
+      this.slimLoadingBarService.complete();
+      this.deleteDialogEvent = null;
+      this.deleteDialog.close();
+      this.deleteProcess = false;
+
+      this.selectedDiagnostic = false;
+      this.editCategories = false;
+      this.currentDiagnostic = null;
+      this.categoryId = 0;
+    }).catch(() => {
+      this.slimLoadingBarService.color = '#f89711';
+      this.slimLoadingBarService.complete();
+      this.deleteDialogEvent.confirm.reject();
+      this.deleteDialogEvent = null;
+      this.deleteProcess = false;
+    });
+  }
+
+  onDeleteDialogCancel(): void {
+    this.deleteDialogEvent.confirm.reject();
+    this.deleteDialogEvent = null;
+  }
+
   onDeleteConfirm(event): void {
-    if (window.confirm('Are you sure you want to delete?')) {
-      this.slimLoadingBarService.reset();
-      this.slimLoadingBarService.start();
-      this.service.delete(event.data.id).then(() => {
-        event.confirm.resolve();
-        this.slimLoadingBarService.complete();
-      }).catch(() => {
-        this.slimLoadingBarService.color = '#f89711';
-        this.slimLoadingBarService.complete();
-      });
-    } else {
+    this.deleteDialogEvent = event;
+    this.titleForDeletion = event.data.title;
+    this.deleteDialog.open('sm');
+  }
+
+  onTableSave(event): void {
+    this.slimLoadingBarService.reset();
+    this.slimLoadingBarService.start();
+    this.service.update(event.newData.id).then(() => {
+      event.confirm.resolve();
+      this.slimLoadingBarService.complete();
+    }).catch((reason) => {
+      this.slimLoadingBarService.color = '#f89711';
+      this.slimLoadingBarService.complete();
       event.confirm.reject();
-    }
+      console.log(reason);
+    });
   }
 
-  onSaveConfirm(edit): void {
-    console.log('save');
-  }
-
-  onCreateConfirm(edit): void {
-    console.log('create');
+  onCreate(event): void {
+    console.log(event);
   }
 
   onUserSelectRow(event): void {
