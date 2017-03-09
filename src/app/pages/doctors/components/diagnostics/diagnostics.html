@@ -8,7 +8,7 @@
                         [source]="source"
                         (deleteConfirm)="onDeleteConfirm($event)"
                         (userRowSelect)="onUserSelectRow($event)"
-                        (create)="onCreate($event)"
+                        (createConfirm)="onTableSave($event)"
                         (editConfirm)="onTableSave($event)"
                 ></ng2-smart-table>
             </ba-card>
@@ -41,5 +41,18 @@
         <button type="button" class="btn btn-default" data-dismiss="modal"
                 (click)="onDeleteDialogCancel()">Cancel</button>
         <button type="button" class="btn btn-primary" (click)="onDeleteDialogOk()" [disabled]="deleteProcess">Ok</button>
+    </modal-footer>
+</modal>
+
+<modal #errorDialog>
+    <modal-header [show-close]="true">
+        <h4 class="modal-title">Error</h4>
+    </modal-header>
+    <modal-body>
+        {{ errorMessage }}
+    </modal-body>
+    <modal-footer>
+        <button type="button" class="btn btn-danger" data-dismiss="modal"
+                (click)="onDeleteDialogCancel()">Ok</button>
     </modal-footer>
 </modal>

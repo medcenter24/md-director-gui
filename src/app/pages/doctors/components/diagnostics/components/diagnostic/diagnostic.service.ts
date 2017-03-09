@@ -44,9 +44,9 @@ export class DiagnosticService {
             .catch(this.handleError);
     }
 
-    create(title: string): Promise<Diagnostic> {
+    create(diagnostic: Diagnostic): Promise<Diagnostic> {
         return this.http
-            .post(this.diagnosticUrl, JSON.stringify({title: title}), {headers: this.headers})
+            .post(this.diagnosticUrl, JSON.stringify(diagnostic), {headers: this.headers})
             .toPromise()
             .then(res => res.json().data)
             .catch(this.handleError);
