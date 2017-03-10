@@ -4,10 +4,12 @@
  * @author Alexander Zagovorichev <zagovorichev@gmail.com>
  */
 
-import { Component, ViewEncapsulation } from '@angular/core';
+import {Component, ViewEncapsulation, ViewChild} from '@angular/core';
 
 import { ServicesService } from './services.service';
 import { LocalDataSource } from 'ng2-smart-table';
+import { SlimLoadingBarService } from 'ng2-slim-loading-bar';
+import { ModalComponent } from "ng2-bs3-modal/components/modal";
 
 @Component({
   selector: 'basic-tables',
@@ -17,6 +19,12 @@ import { LocalDataSource } from 'ng2-smart-table';
 })
 export class Services {
 
+  @ViewChild('deleteDialog')
+    private deleteDialog: ModalComponent;
+
+  @ViewChild('errorDialog')
+    private errorDialog: ModalComponent;
+
   query: string = '';
 
   settings = {
@@ -24,13 +32,15 @@ export class Services {
       addButtonContent: '<i class="ion-ios-plus-outline"></i>',
       createButtonContent: '<i class="ion-checkmark"></i>',
       cancelButtonContent: '<i class="ion-close"></i>',
+      confirmCreate: true
     },
     edit: {
       editButtonContent: '<i class="ion-edit"></i>',
       saveButtonContent: '<i class="ion-checkmark"></i>',
       cancelButtonContent: '<i class="ion-close"></i>',
+      confirmSave: true
     },
-    delete: {
+    'delete': {
       deleteButtonContent: '<i class="ion-trash-a"></i>',
       confirmDelete: true
     },
@@ -39,42 +49,113 @@ export class Services {
         title: 'ID',
         type: 'number'
       },
-      firstName: {
-        title: 'First Name',
+      title: {
+        title: 'Title',
         type: 'string'
       },
-      lastName: {
-        title: 'Last Name',
+      description: {
+        title: 'Description',
         type: 'string'
       },
-      username: {
-        title: 'Username',
-        type: 'string'
-      },
-      email: {
-        title: 'E-mail',
-        type: 'string'
-      },
-      age: {
-        title: 'Age',
-        type: 'number'
+      price: {
+        title: 'Price',
+        type: 'decimal'
       }
     }
   };
 
   source: LocalDataSource = new LocalDataSource();
 
-  constructor(protected service: ServicesService) {
-    this.service.getData().then((data) => {
+  deleteDialogEvent: any = null;
+  titleForDeletion: string = '';
+  deleteProcess: boolean = false;
+  errorMessage: string = '';
+
+
+  constructor(
+      protected service: ServicesService,
+      private slimLoadingBarService: SlimLoadingBarService
+  ) { }
+
+  ngOnInit(): void {
+    this.slimLoadingBarService.reset();
+    this.slimLoadingBarService.start();
+
+    this.service.getServices().then((data) => {
       this.source.load(data);
+      this.slimLoadingBarService.complete();
     });
   }
 
-  onDeleteConfirm(event): void {
-    if (window.confirm('Are you sure you want to delete?')) {
+  onTableSave(event): void {
+    this.slimLoadingBarService.reset();
+    this.slimLoadingBarService.start();
+
+    this.service.update(event.newData).then(() => {
       event.confirm.resolve();
-    } else {
-      event.confirm.reject();
+      this.slimLoadingBarService.complete();
+    }).catch((reason) => {
+      this.slimLoadingBarService.color = '#f89711';
+      this.slimLoadingBarService.complete();
+      console.log(reason);
+      if (event && event.confirm) {
+        event.confirm.reject();
+      }
+      this.showError('Something bad happened, you can\'t save diagnostic')
+    });
+  }
+
+  onTableCreate(event): void {
+    this.slimLoadingBarService.reset();
+    this.slimLoadingBarService.start();
+
+    this.service.create(event.newData).then(() => {
+      event.confirm.resolve();
+      this.slimLoadingBarService.complete();
+    }).catch((reason) => {
+      this.slimLoadingBarService.color = '#f89711';
+      this.slimLoadingBarService.complete();
+      if (event && event.confirm) {
+        event.confirm.reject();
+      }
+      this.showError('Something bad happened, you can\'t add diagnostic')
+    });
+  }
+
+  private showError(message: string): void {
+    this.errorMessage = message;
+    this.errorDialog.open('sm');
+  }
+
+  onDeleteConfirm(event): void {
+    this.deleteDialogEvent = event;
+    this.titleForDeletion = event.data.title;
+    this.deleteDialog.open('sm');
+  }
+
+  onDeleteDialogOk(): void {
+    this.deleteProcess = true;
+    this.slimLoadingBarService.reset();
+    this.slimLoadingBarService.start();
+    this.service.delete(this.deleteDialogEvent.data.id).then(() => {
+      this.deleteDialogEvent.confirm.resolve();
+      this.slimLoadingBarService.complete();
+      this.deleteDialogEvent = null;
+      this.deleteDialog.close();
+      this.deleteProcess = false;
+    }).catch(() => {
+      this.slimLoadingBarService.color = '#f89711';
+      this.slimLoadingBarService.complete();
+      this.deleteDialogEvent.confirm.reject();
+      this.deleteDialogEvent = null;
+      this.deleteProcess = false;
+    });
+  }
+
+  onDeleteDialogCancel(): void {
+    if (this.deleteDialogEvent && this.deleteDialogEvent.confirm) {
+      this.deleteDialogEvent.confirm.reject();
     }
+    this.deleteDialogEvent = null;
   }
 }

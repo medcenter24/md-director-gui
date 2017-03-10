@@ -21,6 +21,12 @@ import { StuffService } from './components/stuff/stuff.service';
 
 import { DiagnosticsModule } from './components/diagnostics'
 
+import { SlimLoadingBarModule } from 'ng2-slim-loading-bar';
+import { Ng2Bs3ModalModule } from 'ng2-bs3-modal/ng2-bs3-modal';
+
+import { InMemoryWebApiModule } from 'angular-in-memory-web-api';
+import { InMemoryDataService }  from './components/faker/in-memory-data.service';
+
 @NgModule({
   imports: [
     CommonModule,
@@ -28,7 +34,10 @@ import { DiagnosticsModule } from './components/diagnostics'
     NgaModule,
     routing,
     Ng2SmartTableModule,
+    InMemoryWebApiModule.forRoot(InMemoryDataService, {apiBase: 'director/'}),
     DiagnosticsModule,
+    SlimLoadingBarModule.forRoot(),
+    Ng2Bs3ModalModule
   ],
   declarations: [
     Doctors,

@@ -12,7 +12,6 @@ import { NgaModule } from '../../../../theme/nga.module';
 import { Ng2SmartTableModule } from 'ng2-smart-table';
 
 import { Diagnostics } from './diagnostics.component';
-import { DiagnosticsService } from './diagnostics.service';
 
 import { DiagnosticComponent } from './components/diagnostic/diagnostic.component';
 import { DiagnosticService } from './components/diagnostic/diagnostic.service';
@@ -44,7 +43,6 @@ import { Ng2Bs3ModalModule } from 'ng2-bs3-modal/ng2-bs3-modal';
         CategorySelectorComponent,
     ],
     providers: [
-        DiagnosticsService,
         DiagnosticService,
         CategoryService,
     ]
