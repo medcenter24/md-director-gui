@@ -140,6 +140,21 @@ export class Diagnostics {
     });
   }
 
+  onTableCreate(event): void {
+    this.slimLoadingBarService.reset();
+    this.slimLoadingBarService.start();
+
+    this.service.create(event.newData).then(() => {
+      event.confirm.resolve();
+      this.slimLoadingBarService.complete();
+    }).catch((reason) => {
+      this.slimLoadingBarService.color = '#f89711';
+      this.slimLoadingBarService.complete();
+      event.confirm.reject();
+      this.showError('Something bad happened, you can\'t add diagnostic')
+    });
+  }
+
   private showError(message: string): void {
     this.errorMessage = message;
     this.errorDialog.open('sm');
