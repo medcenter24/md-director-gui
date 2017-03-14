@@ -4,7 +4,7 @@
  * @author Alexander Zagovorichev <zagovorichev@gmail.com>
  */
 
-import { Category } from "../components/categories/category";
+import { Category } from "../diagnostics/components/categories/category";
 
 export const CategoriesDb: Category[] = [
     {id: 1, title: 'Foreign bodies'},

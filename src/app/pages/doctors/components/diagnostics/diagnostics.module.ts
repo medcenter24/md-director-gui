@@ -20,8 +20,8 @@ import { CategoriesComponent } from './components/categories';
 import { CategorySelectorComponent } from './components/categories/selector.component';
 import { CategoryService } from './components/categories/category.service';
 
-import { InMemoryWebApiModule } from 'angular-in-memory-web-api';
-import { InMemoryDataService }  from './faker/in-memory-data.service';
+// import { InMemoryWebApiModule } from 'angular-in-memory-web-api';
+// import { InMemoryDataService }  from './faker/in-memory-data.service';
 
 import { SlimLoadingBarModule } from 'ng2-slim-loading-bar';
 import { Ng2Bs3ModalModule } from 'ng2-bs3-modal/ng2-bs3-modal';
@@ -32,7 +32,7 @@ import { Ng2Bs3ModalModule } from 'ng2-bs3-modal/ng2-bs3-modal';
         FormsModule,
         NgaModule,
         Ng2SmartTableModule,
-        InMemoryWebApiModule.forRoot(InMemoryDataService, {apiBase: 'director/'}),
+        // InMemoryWebApiModule.forRoot(InMemoryDataService, {apiBase: 'director/'}),
         SlimLoadingBarModule.forRoot(),
         Ng2Bs3ModalModule
     ],

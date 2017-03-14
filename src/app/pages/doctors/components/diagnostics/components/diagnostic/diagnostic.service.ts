@@ -27,7 +27,6 @@ export class DiagnosticService {
             .catch(this.handleError);
     }
 
-
     getDiagnostic(id: number): Promise<Diagnostic> {
         const url = `${this.diagnosticUrl}/${id}`;
         return this.http.get(url)
