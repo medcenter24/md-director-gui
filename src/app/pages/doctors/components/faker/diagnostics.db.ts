@@ -4,7 +4,7 @@
  * @author Alexander Zagovorichev <zagovorichev@gmail.com>
  */
 
-import { Diagnostic } from "../components/diagnostic/diagnostic";
+import { Diagnostic } from "../diagnostics/components/diagnostic/diagnostic";
 
 export const DiagnosticsDb: Diagnostic[] = [
     {id: 1, title: 'Sore throat', description: 'When throat is red', diagnostic_category_id: 1, comment: 'Hola, Spain'},
