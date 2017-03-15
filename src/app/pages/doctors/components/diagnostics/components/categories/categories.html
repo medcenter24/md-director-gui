@@ -4,8 +4,8 @@
   ~ @author Alexander Zagovorichev <zagovorichev@gmail.com>
   -->
 
-<ng2-slim-loading-bar [color]="'#209e91'"></ng2-slim-loading-bar>
-<ba-card title="Categories Editor" baCardClass="with-scroll" class="diagnostics-categories">
+<ng2-slim-loading-bar #loadingBarCategories></ng2-slim-loading-bar>
+<ba-card title="Categories Editor" baCardClass="with-scroll" class="edit-form-container">
     <div class="row">
         <div class="col-sm-10">
             <diagnostic-category-selector
@@ -16,11 +16,11 @@
             ></diagnostic-category-selector>
         </div>
         <div class="col-sm-2 text-center">
-            <label for="add-category-btn">New Category</label>
-            <i class="ion-ios-plus-outline new-category-btn" id="add-category-btn" title="Add new category" (click)="onCreateCategory()"></i>
+            <label for="add-category-btn">New Category</label><br>
+            <i class="ion-ios-plus-outline create-new-btn" id="add-category-btn" title="Add new category" (click)="onCreateCategory()"></i>
         </div>
     </div>
-    <form (ngSubmit)="onSubmit()" #diagnosticForm="ngForm" class="edit-category-form">
+    <form (ngSubmit)="onSubmit()" #diagnosticForm="ngForm" class="edit-form">
         <div class="row">
             <div class="col-sm-6">
                 <div class="form-group{{ title.valid || title.pristine ? '' : ' has-error'}}">

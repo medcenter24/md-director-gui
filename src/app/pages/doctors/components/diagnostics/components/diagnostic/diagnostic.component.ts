@@ -8,7 +8,7 @@ import {Component, Input, Output, EventEmitter, ViewChild} from '@angular/core';
 
 import { Diagnostic } from './diagnostic';
 import { DiagnosticService } from './diagnostic.service';
-import { SlimLoadingBarService } from 'ng2-slim-loading-bar';
+import {SlimLoadingBarComponent} from 'ng2-slim-loading-bar';
 import { CategorySelectorComponent } from "../categories/selector.component";
 
 @Component({
@@ -26,25 +26,42 @@ export class DiagnosticComponent {
     @ViewChild(CategorySelectorComponent)
         private categorySelectorComponent: CategorySelectorComponent;
 
+    @ViewChild('loadingBarDiagnosticEditor')
+        private loadingBar: SlimLoadingBarComponent;
+
     showEditor: boolean = false;
     isInit: boolean = true;
 
     constructor (
-        private service: DiagnosticService,
-        private slimLoadingBarService: SlimLoadingBarService
+        private service: DiagnosticService
     ) { }
 
     ngOnInit() {}
 
+    startLoading(): void {
+        this.loadingBar.color = '#209e91';
+        this.loadingBar.show = true;
+        this.loadingBar.service.reset();
+        this.loadingBar.service.start();
+    }
+
+    completeLoading(): void {
+        this.loadingBar.service.complete();
+        this.loadingBar.show = false;
+    }
+
+    errorLoading(): void {
+        this.loadingBar.color = '#f89711';
+    }
+
     onSubmit(): void {
-        this.slimLoadingBarService.reset();
-        this.slimLoadingBarService.start();
+        this.startLoading();
         this.service.update(this.diagnostic).then(() => {
             this.diagnosticSaved.emit(this.diagnostic);
-            this.slimLoadingBarService.complete();
+            this.completeLoading();
         }).catch(() => {
-            this.slimLoadingBarService.color = 'red';
-            this.slimLoadingBarService.complete();
+            this.errorLoading();
+            this.completeLoading();
         });
     }
 
@@ -54,7 +71,7 @@ export class DiagnosticComponent {
     }
 
     onSelectorLoaded(): void {
-        this.slimLoadingBarService.complete();
+        this.completeLoading();
         if (this.isInit) {
             this.reloadCategories();
             this.isInit = false;
@@ -62,8 +79,7 @@ export class DiagnosticComponent {
     }
 
     onSelectorLoading(): void {
-        this.slimLoadingBarService.reset();
-        this.slimLoadingBarService.start();
+        this.startLoading();
     }
 
     onSelectCategory(event): void {

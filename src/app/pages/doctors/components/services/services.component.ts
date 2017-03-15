@@ -71,7 +71,6 @@ export class Services {
   deleteProcess: boolean = false;
   errorMessage: string = '';
 
-
   constructor(
       protected service: ServicesService,
       private slimLoadingBarService: SlimLoadingBarService

@@ -8,12 +8,11 @@ import {Component, Input, ViewChild, Output, EventEmitter} from "@angular/core";
 
 import { Category } from './category';
 import {CategoryService} from "./category.service";
-import { SlimLoadingBarService } from 'ng2-slim-loading-bar';
+import {SlimLoadingBarComponent} from 'ng2-slim-loading-bar';
 import {CategorySelectorComponent} from "./selector.component";
 
 @Component({
     selector: 'categories-editor',
-    styleUrls: ['./categories.scss'],
     templateUrl: './categories.html'
 })
 export class CategoriesComponent {
@@ -28,32 +27,53 @@ export class CategoriesComponent {
     @Output() changedCategories: EventEmitter<null> = new EventEmitter<null>();
 
     @ViewChild(CategorySelectorComponent)
-    private categorySelectorComponent: CategorySelectorComponent;
+        private categorySelectorComponent: CategorySelectorComponent;
 
-    constructor (
-        private service: CategoryService,
-        private slimLoadingBarService: SlimLoadingBarService
-    ) {};
+    @ViewChild('loadingBarCategories')
+        private loadingBar: SlimLoadingBarComponent;
+
+    constructor (private service: CategoryService) {};
 
     ngOnInit(): void {
         this.setEmptyCategory();
     }
 
+    startLoading(): void {
+        this.loadingBar.color = '#209e91';
+        this.loadingBar.show = true;
+        this.loadingBar.service.reset();
+        this.loadingBar.service.start();
+    }
+
+    completeLoading(): void {
+        this.loadingBar.service.complete();
+        this.loadingBar.show = false;
+    }
+
+    errorLoading(): void {
+        this.loadingBar.color = '#f89711';
+    }
+
     onSubmit(): void {
-        this.slimLoadingBarService.reset();
-        this.slimLoadingBarService.start();
+        this.startLoading();
 
         if (this.category.id) {
             this.service.update(this.category).then((category: Category) => {
-                this.slimLoadingBarService.complete();
+                this.completeLoading();
                 this.category = this.categorySelectorComponent.reloadCategories(category);
                 this.changedCategories.emit();
+            }).catch(() => {
+                this.errorLoading();
+                this.completeLoading();
             });
         } else {
             this.service.create(this.category.title).then((category: Category) => {
-                this.slimLoadingBarService.complete();
+                this.completeLoading();
                 this.category = this.categorySelectorComponent.reloadCategories(category);
                 this.changedCategories.emit();
+            }).catch(() => {
+                this.errorLoading();
+                this.completeLoading();
             });
         }
     }
@@ -67,12 +87,11 @@ export class CategoriesComponent {
     }
 
     onSelectorLoaded(): void {
-        this.slimLoadingBarService.complete();
+        this.completeLoading();
     }
 
     onSelectorLoading(): void {
-        this.slimLoadingBarService.reset();
-        this.slimLoadingBarService.start();
+        this.startLoading();
     }
 
     private setEmptyCategory(): void {
@@ -81,11 +100,13 @@ export class CategoriesComponent {
 
     private loadCategory(id: number): void {
         if (id) {
-            this.slimLoadingBarService.reset();
-            this.slimLoadingBarService.start();
+            this.startLoading();
             this.service.getCategory(id).then((category) => {
                 this.category = category;
-                this.slimLoadingBarService.complete();
+                this.completeLoading();
+            }).catch(() => {
+                this.errorLoading();
+                this.completeLoading();
             });
         }
     }
