@@ -4,14 +4,12 @@
  * @author Alexander Zagovorichev <zagovorichev@gmail.com>
  */
 
-@import '../../../../../../theme/sass/conf/conf';
-
-.diagnostics-categories {
-  .new-category-btn {
+.edit-form-container {
+  .create-new-btn {
     cursor: pointer;
     font-size: 25px;
   }
-  .edit-category-form {
+  .edit-form {
     margin-top: 10px;
     .label-error {
       color: $danger-dark;

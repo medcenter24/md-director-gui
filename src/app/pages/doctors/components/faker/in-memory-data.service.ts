@@ -8,13 +8,15 @@ import {Injectable} from "@angular/core";
 
 import { InMemoryDbService } from 'angular-in-memory-web-api';
 import {Service} from "../services/service";
-import {ServicesDb} from "./services.db";
 import {Diagnostic} from "../diagnostics/components/diagnostic/diagnostic";
 import {Category} from "../diagnostics/components/categories/category";
 import {DiagnosticsDb} from "./diagnostics.db";
 import {CategoriesDb} from "./categories.db";
-import {Doctor} from "../stuff/doctor";
 import {DoctorsDb} from "./doctors.db";
+import {ServicesDb} from "./services.db";
+import {Doctor} from "../../../../components/doctors/doctor";
+import {User} from "../../../../components/users/user";
+import {UsersDb} from "./users.db";
 
 @Injectable()
 export class InMemoryDataService implements InMemoryDbService {
@@ -23,7 +25,8 @@ export class InMemoryDataService implements InMemoryDbService {
         let categories: Category[] = CategoriesDb;
         let services: Service[] = ServicesDb;
         let doctors: Doctor[] = DoctorsDb;
+        let users: User[] = UsersDb;
 
-        return { services, diagnostics, categories, doctors };
+        return { services, diagnostics, categories, doctors, users };
     }
 }

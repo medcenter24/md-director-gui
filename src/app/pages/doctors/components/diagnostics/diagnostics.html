@@ -1,8 +1,8 @@
 <div class="widgets">
     <div class="row">
         <div class="col-sm-6">
-            <ba-card baCardClass="with-scroll">
-                <ng2-slim-loading-bar [color]="'#209e91'"></ng2-slim-loading-bar>
+            <ba-card title="List of Diagnostics" baCardClass="with-scroll">
+                <ng2-slim-loading-bar #loadingBarDiagnosticList></ng2-slim-loading-bar>
                 <ng2-smart-table
                         [settings]="settings"
                         [source]="source"

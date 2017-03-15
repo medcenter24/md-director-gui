@@ -17,7 +17,6 @@ import { Services } from './components/services/services.component';
 import { ServicesService } from './components/services/services.service';
 
 import { Stuff } from './components/stuff/stuff.component';
-import { StuffService } from './components/stuff/stuff.service';
 
 import { DiagnosticsModule } from './components/diagnostics'
 
@@ -26,6 +25,10 @@ import { Ng2Bs3ModalModule } from 'ng2-bs3-modal/ng2-bs3-modal';
 
 import { InMemoryWebApiModule } from 'angular-in-memory-web-api';
 import { InMemoryDataService }  from './components/faker/in-memory-data.service';
+import {DoctorsService} from "../../components/doctors/doctors.service";
+import {UserEditorComponent} from "../../components/users/editor/editor.component";
+import {UserSelectorComponent} from "../../components/users/selector/selector.component";
+import {UsersService} from "../../components/users/users.service";
 
 @NgModule({
   imports: [
@@ -43,10 +46,13 @@ import { InMemoryDataService }  from './components/faker/in-memory-data.service'
     Doctors,
     Stuff,
     Services,
+    UserEditorComponent,
+    UserSelectorComponent,
   ],
   providers: [
-    StuffService,
+    DoctorsService,
     ServicesService,
+    UsersService,
   ]
 })
 

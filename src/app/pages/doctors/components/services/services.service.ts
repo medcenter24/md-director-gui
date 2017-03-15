@@ -44,20 +44,20 @@ export class ServicesService {
         .catch(this.handleError);
   }
 
-  create(diagnostic: Service): Promise<Service> {
+  create(service: Service): Promise<Service> {
     return this.http
-        .post(this.servicesUrl, JSON.stringify(diagnostic), {headers: this.headers})
+        .post(this.servicesUrl, JSON.stringify(service), {headers: this.headers})
         .toPromise()
         .then(res => res.json().data)
         .catch(this.handleError);
   }
 
-  update(diagnostic: Service): Promise<Service> {
-    const url = `${this.servicesUrl}/${diagnostic.id}`;
+  update(service: Service): Promise<Service> {
+    const url = `${this.servicesUrl}/${service.id}`;
     return this.http
-        .put(url, JSON.stringify(diagnostic), {headers: this.headers})
+        .put(url, JSON.stringify(service), {headers: this.headers})
         .toPromise()
-        .then(() => diagnostic)
+        .then(() => service)
         .catch(this.handleError);
   }
 

@@ -1,0 +1,69 @@
+<!--
+  ~ Copyright (c) 2017.
+  ~
+  ~ @author Alexander Zagovorichev <zagovorichev@gmail.com>
+  -->
+
+<ng2-slim-loading-bar #loadingBarUserEditor></ng2-slim-loading-bar>
+<ba-card title="User Editor" baCardClass="with-scroll" class="edit-form-container">
+    <div class="row">
+        <div class="col-sm-10">
+            <user-selector
+                    [userId]="user.id"
+                    (userChanged)="onUserChanged($event)"
+                    (loaded)="onSelectorLoaded()"
+                    (loading)="onSelectorLoading()"
+            ></user-selector>
+        </div>
+        <div class="col-sm-2 text-center">
+            <label for="add-user-btn">New User</label><br>
+            <i class="ion-ios-plus-outline create-new-btn" id="add-user-btn" title="Add new user" (click)="onUserCreated()"></i>
+        </div>
+    </div>
+    <form (ngSubmit)="onSubmit()" #diagnosticForm="ngForm" class="edit-form">
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="form-group{{ userName.valid || userName.pristine ? '' : ' has-error'}}">
+                    <label for="inputName" class="label{{ userName.valid || userName.pristine ? '' : ' label-error' }}">
+                        {{ userName.valid || userName.pristine ? 'Name' : 'Name is required' }}
+                    </label>
+                    <input type="text" class="form-control" id="inputName"
+                           required
+                           [(ngModel)]="user.name" name="userName"
+                           #userName="ngModel"
+                           placeholder="User Name" maxlength="70"
+                    >
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="form-group{{ phone.valid || phone.pristine ? '' : ' has-error'}}">
+                    <label for="phone" class="label{{ phone.valid || phone.pristine ? '' : ' label-error' }}">
+                        {{ phone.valid || phone.pristine ? 'Phone' : 'Phone is required' }}
+                    </label>
+                    <input type="text" class="form-control" id="phone"
+                           required
+                           [(ngModel)]="user.phone" name="phone"
+                           #phone="ngModel"
+                           placeholder="Users Phone" maxlength="70"
+                    >
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="form-group{{ email.valid || email.pristine ? '' : ' has-error'}}">
+                    <label for="email" class="label{{ email.valid || email.pristine ? '' : ' label-error' }}">
+                        {{ email.valid || email.pristine ? 'Email' : 'Email is required' }}
+                    </label>
+                    <input type="text" class="form-control" id="email"
+                           required
+                           [(ngModel)]="user.email" name="email"
+                           #email="ngModel"
+                           placeholder="Users Email" maxlength="200"
+                    >
+                </div>
+            </div>
+        </div>
+        <button type="submit" class="btn btn-primary">{{ user.id ? 'Submit' : 'Create' }}</button>
+    </form>
+</ba-card>
