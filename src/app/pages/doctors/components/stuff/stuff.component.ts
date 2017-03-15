@@ -21,17 +21,19 @@ export class Stuff {
 
   settings = {
     actions: {
-      position: 'right',
+      position: 'left',
     },
     add: {
       addButtonContent: '<i class="ion-ios-plus-outline"></i>',
       createButtonContent: '<i class="ion-checkmark"></i>',
       cancelButtonContent: '<i class="ion-close"></i>',
+      confirmCreate: true
     },
     edit: {
       editButtonContent: '<i class="ion-edit"></i>',
       saveButtonContent: '<i class="ion-checkmark"></i>',
       cancelButtonContent: '<i class="ion-close"></i>',
+      confirmSave: true
     },
     'delete': {
       deleteButtonContent: '<i class="ion-trash-a"></i>',
@@ -42,25 +44,17 @@ export class Stuff {
         title: 'ID',
         type: 'number'
       },
-      firstName: {
-        title: 'First Name',
+      name: {
+        title: 'Name',
         type: 'string'
       },
-      lastName: {
-        title: 'Last Name',
+      description: {
+        title: 'Description',
         type: 'string'
       },
-      username: {
-        title: 'Username',
+      ref_key: {
+        title: 'Ref. Key',
         type: 'string'
-      },
-      email: {
-        title: 'E-mail',
-        type: 'string'
-      },
-      age: {
-        title: 'Age',
-        type: 'number'
       }
     }
   };
