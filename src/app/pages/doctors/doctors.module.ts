@@ -29,6 +29,7 @@ import {DoctorsService} from "../../components/doctors/doctors.service";
 import {UserEditorComponent} from "../../components/users/editor/editor.component";
 import {UserSelectorComponent} from "../../components/users/selector/selector.component";
 import {UsersService} from "../../components/users/users.service";
+import {DoctorEditorComponent} from "../../components/doctors/editor/editor.component";
 
 @NgModule({
   imports: [
@@ -48,6 +49,7 @@ import {UsersService} from "../../components/users/users.service";
     Services,
     UserEditorComponent,
     UserSelectorComponent,
+    DoctorEditorComponent,
   ],
   providers: [
     DoctorsService,

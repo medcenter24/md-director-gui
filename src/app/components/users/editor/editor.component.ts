@@ -58,7 +58,7 @@ export class UserEditorComponent {
         if (this.user.id) {
             this.service.update(this.user).then((user: User) => {
                 this.completeLoading();
-                this.user = this.userSelectorComponent.reloadUsers(user);
+                this.user = this.userSelectorComponent.reload(user);
                 this.changedUser.emit();
             }).catch(() => {
                 this.errorLoading();
@@ -67,7 +67,7 @@ export class UserEditorComponent {
         } else {
             this.service.create(this.user).then((user: User) => {
                 this.completeLoading();
-                this.user = this.userSelectorComponent.reloadUsers(user);
+                this.user = this.userSelectorComponent.reload(user);
                 this.changedUser.emit();
             }).catch(() => {
                 this.errorLoading();

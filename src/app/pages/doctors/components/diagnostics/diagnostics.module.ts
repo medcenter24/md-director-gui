@@ -11,20 +11,17 @@ import { FormsModule } from '@angular/forms';
 import { NgaModule } from '../../../../theme/nga.module';
 import { Ng2SmartTableModule } from 'ng2-smart-table';
 
-import { Diagnostics } from './diagnostics.component';
-
-import { DiagnosticComponent } from './components/diagnostic/diagnostic.component';
-import { DiagnosticService } from './components/diagnostic/diagnostic.service';
-
-import { CategoriesComponent } from './components/categories';
-import { CategorySelectorComponent } from './components/categories/selector.component';
-import { CategoryService } from './components/categories/category.service';
-
 // import { InMemoryWebApiModule } from 'angular-in-memory-web-api';
 // import { InMemoryDataService }  from './faker/in-memory-data.service';
 
 import { SlimLoadingBarModule } from 'ng2-slim-loading-bar';
 import { Ng2Bs3ModalModule } from 'ng2-bs3-modal/ng2-bs3-modal';
+import {Diagnostics} from "./diagnostics.component";
+import {DiagnosticEditorComponent} from "../../../../components/diagnostic/editor/editor.component";
+import {DiagnosticCategoryEditorComponent} from "../../../../components/diagnostic/category/editor/editor.component";
+import {DiagnosticCategorySelectorComponent} from "../../../../components/diagnostic/category/selector/selector.component";
+import {DiagnosticService} from "../../../../components/diagnostic/diagnostic.service";
+import {DiagnosticCategoryService} from "../../../../components/diagnostic/category/category.service";
 
 @NgModule({
     imports: [
@@ -38,13 +35,13 @@ import { Ng2Bs3ModalModule } from 'ng2-bs3-modal/ng2-bs3-modal';
     ],
     declarations: [
         Diagnostics,
-        DiagnosticComponent,
-        CategoriesComponent,
-        CategorySelectorComponent,
+        DiagnosticEditorComponent,
+        DiagnosticCategoryEditorComponent,
+        DiagnosticCategorySelectorComponent,
     ],
     providers: [
         DiagnosticService,
-        CategoryService,
+        DiagnosticCategoryService,
     ]
 })
 
