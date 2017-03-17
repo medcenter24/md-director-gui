@@ -1,0 +1,68 @@
+<!--
+  ~ Copyright (c) 2017.
+  ~
+  ~ @author Alexander Zagovorichev <zagovorichev@gmail.com>
+  -->
+
+<ng2-slim-loading-bar #loadingBarDoctorEditor></ng2-slim-loading-bar>
+<ba-card *ngIf="doctor" title="Doctor Editor #{{ doctor.id }}" baCardClass="with-scroll" class="edit-form-container">
+    <form (ngSubmit)="onSubmit()" #diagnosticForm="ngForm">
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="form-group{{ doctorName.valid || doctorName.pristine ? '' : ' has-error'}}">
+                    <label for="inputName" class="label{{ doctorName.valid || doctorName.pristine ? '' : ' label-error' }}">
+                        {{ doctorName.valid || doctorName.pristine ? 'Name' : 'Name is required' }}
+                    </label>
+                    <input type="text" class="form-control" id="inputName"
+                           required
+                           [(ngModel)]="doctor.name" name="doctorName"
+                           #doctorName="ngModel"
+                           placeholder="Doctor Name" maxlength="70"
+                    >
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="form-group{{ refKey.valid || refKey.pristine ? '' : ' has-error'}}">
+                    <label for="inputRefKey" class="label{{ refKey.valid || refKey.pristine ? '' : ' label-error' }}">
+                        {{ refKey.valid || refKey.pristine ? 'Referral Key' : 'Referral Key is required' }}
+                    </label>
+                    <input type="text" class="form-control" id="inputRefKey"
+                           required
+                           [(ngModel)]="doctor.ref_key" name="doctorRefKey"
+                           #refKey="ngModel"
+                           placeholder="Doctor Ref. Key" maxlength="3"
+                    >
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label for="description">Description</label>
+                    <textarea name="description" class="form-control"
+                              [(ngModel)]="doctor.description"
+                              #description="ngModel"
+                              maxlength="255"
+                              [innerHTML]="doctor.description"
+                    ></textarea>
+                    <div [hidden]="description.valid || description.pristine" class="alert alert-danger">
+                        Description is required
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <user-selector
+                            [userId]="doctor.user_id"
+                            (userChanged)="onUserChanged($event)"
+                            (loaded)="onSelectorLoaded()"
+                            (loading)="onSelectorLoading()"
+                    ></user-selector>
+                    <a (click)="toggleEditor(doctor.user_id)"
+                       class="editor-toggle">{{ showUserEditor ? 'Close user editor' : 'Open user editor' }}</a>
+                </div>
+            </div>
+        </div>
+        <button type="submit" class="btn btn-primary">{{ doctor.id ? 'Submit' : 'Create' }}</button>
+    </form>
+</ba-card>
