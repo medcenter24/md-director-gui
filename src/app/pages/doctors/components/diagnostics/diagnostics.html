@@ -14,17 +14,17 @@
             </ba-card>
         </div>
         <div class="col-sm-6">
-            <diagnostic-card
+            <diagnostic-editor
                     [hidden]="!selectedDiagnostic"
                     [diagnostic]="currentDiagnostic"
                     (diagnosticSaved)="onUpdateDiagnostic($event)"
                     (openCategoryEditor)="openCategoryEditor($event)"
-            ></diagnostic-card>
-            <categories-editor
+            ></diagnostic-editor>
+            <diagnostic-category-editor
                     [hidden]="!editCategories"
                     [categoryId]="categoryId"
                     (changedCategories)="onCategoryChanged()"
-            ></categories-editor>
+            ></diagnostic-category-editor>
         </div>
     </div>
 

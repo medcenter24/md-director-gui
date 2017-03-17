@@ -42,7 +42,7 @@ export class UserSelectorComponent {
     ) { }
 
     ngOnInit(): void {
-        this.reloadUsers(this.user);
+        this.reload(this.user);
     }
 
     changeUser(id): User {
@@ -61,7 +61,7 @@ export class UserSelectorComponent {
         return this.user;
     }
 
-    reloadUsers(user: User): User {
+    reload(user: User): User {
         this.loading.emit();
         this.service.getUsers().then((data) => {
             this.users = data;
@@ -75,7 +75,7 @@ export class UserSelectorComponent {
         return user;
     }
 
-    reloadUsersWithUserId(id: number): void {
+    reloadWithUserId(id: number): void {
         this.loading.emit();
         this.service.getUsers().then((data) => {
             this.users = data;

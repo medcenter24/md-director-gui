@@ -10,8 +10,7 @@ import { LocalDataSource } from 'ng2-smart-table';
 import {SlimLoadingBarService} from "ng2-slim-loading-bar";
 import {ModalComponent} from "ng2-bs3-modal/components/modal";
 import {DoctorsService} from "../../../../components/doctors/doctors.service";
-import {UserEditorComponent} from "../../../../components/users/editor/editor.component";
-import {Doctor} from "../../../../components/doctors/doctor";
+import {DoctorEditorComponent} from "../../../../components/doctors/editor/editor.component";
 
 @Component({
   selector: 'basic-tables',
@@ -27,8 +26,22 @@ export class Stuff {
   @ViewChild('errorDialog')
     private errorDialog: ModalComponent;
 
-  @ViewChild(UserEditorComponent)
-    private userEditorComponent: UserEditorComponent;
+  @ViewChild(DoctorEditorComponent)
+    private doctorEditorComponent: DoctorEditorComponent;
+
+  /**
+   * User editor
+   * @type {boolean}
+   */
+  userEditorHidden: boolean = true;
+  editableUserId: number = 0;
+
+  /**
+   * Doctor editor
+   * @type {boolean}
+   */
+  doctorEditorHidden: boolean = true;
+  editableDoctorId: number = 0;
 
   query: string = '';
 
@@ -53,10 +66,6 @@ export class Stuff {
       confirmDelete: true
     },
     columns: {
-      id: {
-        title: 'ID',
-        type: 'number'
-      },
       name: {
         title: 'Name',
         type: 'string'
@@ -73,9 +82,6 @@ export class Stuff {
   };
 
   source: LocalDataSource = new LocalDataSource();
-
-  selectedUser: boolean = false;
-  currentDoctor: Doctor;
 
   deleteDialogEvent: any = null;
   titleForDeletion: string = '';
@@ -169,7 +175,16 @@ export class Stuff {
   }
 
   onUserSelectRow(event): void {
-    this.selectedUser = true;
-    this.currentDoctor = event.data;
+    this.doctorEditorHidden = false;
+    this.editableDoctorId = event.data.id;
+  }
+
+  onToggleUserEditor(userId: number): void {
+    this.userEditorHidden = !this.userEditorHidden;
+    this.editableUserId = userId;
+  }
+
+  onUserEdited(): void {
+    this.doctorEditorComponent.reloadUsers();
   }
 }

@@ -21,9 +21,15 @@
             </ba-card>
         </div>
         <div class="col-sm-6">
+            <doctor-editor
+                    [hidden]="doctorEditorHidden"
+                    [doctorId]="editableDoctorId"
+                    (toggleUserEditor)="onToggleUserEditor($event)"
+            ></doctor-editor>
             <user-editor
-                    [hidden]="!selectedUser"
-                    [userId]="currentUserId"
+                    [hidden]="userEditorHidden"
+                    [userId]="editableUserId"
+                    (changedUser)="onUserEdited()"
             ></user-editor>
         </div>
     </div>

@@ -4,9 +4,9 @@
  * @author Alexander Zagovorichev <zagovorichev@gmail.com>
  */
 
-import { Category } from "../diagnostics/components/categories/category";
 
-export const CategoriesDb: Category[] = [
+import {DiagnosticCategory} from "../../../../components/diagnostic/category/category";
+export const DiagnosticCategoriesDb: DiagnosticCategory[] = [
     {id: 1, title: 'Foreign bodies'},
     {id: 2, title: 'ENT, respiratory'},
     {id: 3, title: 'Eye'},
@@ -14,4 +14,4 @@ export const CategoriesDb: Category[] = [
     {id: 5, title: 'Allergy'},
     {id: 6, title: 'Genitourinary'},
     {id: 7, title: 'Teeth, mouth'}
-].map(x => new Category(x.id, x.title));
+].map(x => new DiagnosticCategory(x.id, x.title));

@@ -7,16 +7,16 @@
 import {Component, ViewEncapsulation, ViewChild} from '@angular/core';
 
 import { LocalDataSource } from 'ng2-smart-table';
-import { Diagnostic } from './components/diagnostic/diagnostic';
 import {SlimLoadingBarComponent} from 'ng2-slim-loading-bar';
-import { DiagnosticComponent } from "./components/diagnostic/diagnostic.component";
-import {DiagnosticService} from "./components/diagnostic/diagnostic.service";
 import {ModalComponent} from "ng2-bs3-modal/components/modal";
+import {DiagnosticEditorComponent} from "../../../../components/diagnostic/editor/editor.component";
+import {Diagnostic} from "../../../../components/diagnostic/diagnostic";
+import {DiagnosticService} from "../../../../components/diagnostic/diagnostic.service";
 
 @Component({
   selector: 'basic-tables',
   encapsulation: ViewEncapsulation.None,
-  styleUrls: ['./diagnostics.scss'],
+  styleUrls: [],
   templateUrl: './diagnostics.html',
 })
 export class Diagnostics {
@@ -24,8 +24,8 @@ export class Diagnostics {
   @ViewChild('loadingBarDiagnosticList')
     private loadingBar: SlimLoadingBarComponent;
 
-  @ViewChild(DiagnosticComponent)
-      private diagnosticComponent: DiagnosticComponent;
+  @ViewChild(DiagnosticEditorComponent)
+      private diagnosticComponent: DiagnosticEditorComponent;
 
   @ViewChild('deleteDialog')
       private deleteDialog: ModalComponent;

@@ -9,10 +9,19 @@
     cursor: pointer;
     font-size: 25px;
   }
+
   .edit-form {
     margin-top: 10px;
+
     .label-error {
       color: $danger-dark;
     }
   }
+
+  .editor-toggle {
+    cursor: pointer;
+    float: right;
+    margin-top: 10px;
+  }
+
 }
