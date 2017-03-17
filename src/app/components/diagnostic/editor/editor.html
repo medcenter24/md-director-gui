@@ -1,0 +1,66 @@
+<!--
+  ~ Copyright (c) 2017.
+  ~
+  ~ @author Alexander Zagovorichev <zagovorichev@gmail.com>
+  -->
+
+<ng2-slim-loading-bar #loadingBarDiagnosticEditor></ng2-slim-loading-bar>
+<ba-card *ngIf="diagnostic" title="Diagnostic Form #{{ diagnostic.id }}" baCardClass="with-scroll">
+    <form (ngSubmit)="onSubmit()" #diagnosticForm="ngForm">
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label for="inputTitle">Title</label>
+                    <input type="text" class="form-control" id="inputTitle"
+                           required
+                           [(ngModel)]="diagnostic.title" name="title"
+                           #title="ngModel"
+                           placeholder="Diagnose Title" maxlength="70"
+                    >
+                    <div [hidden]="title.valid || title.pristine" class="alert alert-danger">
+                        Title is required
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label for="inputComment">Commentary</label>
+                    <input type="text" class="form-control" id="inputComment"
+                           [(ngModel)]="diagnostic.comment" name="comment"
+                           #comment="ngModel"
+                           placeholder="use only with SARS" maxlength="70"
+                    >
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label for="inputDescription">Description</label>
+                    <textarea class="form-control" id="inputDescription" placeholder="Diagnose Description"
+                              [(ngModel)]="diagnostic.description" name="description"
+                              #description="ngModel"
+                              maxlength="255"
+                              [innerHTML]="diagnostic ? diagnostic.description : ''"
+                    ></textarea>
+                    <div [hidden]="description.valid || description.pristine" class="alert alert-danger">
+                        Description is required
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <diagnostic-category-selector
+                            [categoryId]="diagnostic.diagnostic_category_id"
+                            (categoryChanged)="onSelectCategory($event)"
+                            (loaded)="onSelectorLoaded()"
+                            (loading)="onSelectorLoading"
+                    ></diagnostic-category-selector>
+                    <a (click)="toggleEditor(diagnostic.diagnostic_category_id)"
+                       class="editor-toggle">{{ showEditor ? 'Close categories editor' : 'Open categories editor' }}</a>
+                </div>
+            </div>
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+</ba-card>
