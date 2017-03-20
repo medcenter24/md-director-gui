@@ -17,8 +17,6 @@ import { Services } from './components/services/services.component';
 
 import { Stuff } from './components/stuff/stuff.component';
 
-import { DiagnosticsModule } from './components/diagnostics'
-
 import { SlimLoadingBarModule } from 'ng2-slim-loading-bar';
 import { Ng2Bs3ModalModule } from 'ng2-bs3-modal/ng2-bs3-modal';
 
@@ -30,6 +28,12 @@ import {UserSelectorComponent} from "../../components/users/selector/selector.co
 import {UsersService} from "../../components/users/users.service";
 import {DoctorEditorComponent} from "../../components/doctors/editor/editor.component";
 import {ServicesService} from "../../components/service/services.service";
+import {Diagnostics} from "./components/diagnostics/diagnostics.component";
+import {DiagnosticEditorComponent} from "../../components/diagnostic/editor/editor.component";
+import {DiagnosticCategoryEditorComponent} from "../../components/diagnostic/category/editor/editor.component";
+import {DiagnosticCategorySelectorComponent} from "../../components/diagnostic/category/selector/selector.component";
+import {DiagnosticService} from "../../components/diagnostic/diagnostic.service";
+import {DiagnosticCategoryService} from "../../components/diagnostic/category/category.service";
 
 @NgModule({
   imports: [
@@ -39,7 +43,6 @@ import {ServicesService} from "../../components/service/services.service";
     routing,
     Ng2SmartTableModule,
     InMemoryWebApiModule.forRoot(InMemoryDataService, {apiBase: 'director/'}),
-    DiagnosticsModule,
     SlimLoadingBarModule.forRoot(),
     Ng2Bs3ModalModule
   ],
@@ -50,11 +53,17 @@ import {ServicesService} from "../../components/service/services.service";
     UserEditorComponent,
     UserSelectorComponent,
     DoctorEditorComponent,
+    Diagnostics,
+    DiagnosticEditorComponent,
+    DiagnosticCategoryEditorComponent,
+    DiagnosticCategorySelectorComponent,
   ],
   providers: [
     DoctorsService,
     ServicesService,
     UsersService,
+    DiagnosticService,
+    DiagnosticCategoryService,
   ]
 })
 

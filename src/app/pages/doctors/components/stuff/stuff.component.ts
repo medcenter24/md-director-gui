@@ -7,7 +7,7 @@
 import {Component, ViewEncapsulation, ViewChild} from '@angular/core';
 
 import { LocalDataSource } from 'ng2-smart-table';
-import {SlimLoadingBarService, SlimLoadingBarComponent} from "ng2-slim-loading-bar";
+import {SlimLoadingBarComponent} from "ng2-slim-loading-bar";
 import {ModalComponent} from "ng2-bs3-modal/components/modal";
 import {DoctorsService} from "../../../../components/doctors/doctors.service";
 import {DoctorEditorComponent} from "../../../../components/doctors/editor/editor.component";
