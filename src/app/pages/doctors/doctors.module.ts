@@ -14,7 +14,6 @@ import { routing }       from './doctors.routing';
 import { Doctors } from './doctors.component';
 
 import { Services } from './components/services/services.component';
-import { ServicesService } from './components/services/services.service';
 
 import { Stuff } from './components/stuff/stuff.component';
 
@@ -30,6 +29,7 @@ import {UserEditorComponent} from "../../components/users/editor/editor.componen
 import {UserSelectorComponent} from "../../components/users/selector/selector.component";
 import {UsersService} from "../../components/users/users.service";
 import {DoctorEditorComponent} from "../../components/doctors/editor/editor.component";
+import {ServicesService} from "../../components/service/services.service";
 
 @NgModule({
   imports: [

@@ -4,8 +4,7 @@
  * @author Alexander Zagovorichev <zagovorichev@gmail.com>
  */
 
-import { Service } from "../services/service";
-
+import {Service} from "../../../../components/service/service";
 export const ServicesDb: Service[] = [
     {id: 1, title: 'Sore throat', description: 'When throat is red', price: 100.5},
     {id: 2, title: 'Jellyfish sting', description: 'Sometimes they could be really dangerous', price: 230},

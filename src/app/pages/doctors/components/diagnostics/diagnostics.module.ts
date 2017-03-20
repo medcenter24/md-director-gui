@@ -11,9 +11,6 @@ import { FormsModule } from '@angular/forms';
 import { NgaModule } from '../../../../theme/nga.module';
 import { Ng2SmartTableModule } from 'ng2-smart-table';
 
-// import { InMemoryWebApiModule } from 'angular-in-memory-web-api';
-// import { InMemoryDataService }  from './faker/in-memory-data.service';
-
 import { SlimLoadingBarModule } from 'ng2-slim-loading-bar';
 import { Ng2Bs3ModalModule } from 'ng2-bs3-modal/ng2-bs3-modal';
 import {Diagnostics} from "./diagnostics.component";
@@ -29,7 +26,6 @@ import {DiagnosticCategoryService} from "../../../../components/diagnostic/categ
         FormsModule,
         NgaModule,
         Ng2SmartTableModule,
-        // InMemoryWebApiModule.forRoot(InMemoryDataService, {apiBase: 'director/'}),
         SlimLoadingBarModule.forRoot(),
         Ng2Bs3ModalModule
     ],

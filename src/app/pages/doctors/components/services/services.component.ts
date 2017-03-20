@@ -6,18 +6,21 @@
 
 import {Component, ViewEncapsulation, ViewChild} from '@angular/core';
 
-import { ServicesService } from './services.service';
 import { LocalDataSource } from 'ng2-smart-table';
-import { SlimLoadingBarService } from 'ng2-slim-loading-bar';
+import {SlimLoadingBarComponent} from 'ng2-slim-loading-bar';
 import { ModalComponent } from "ng2-bs3-modal/components/modal";
+import {ServicesService} from "../../../../components/service/services.service";
 
 @Component({
   selector: 'basic-tables',
   encapsulation: ViewEncapsulation.None,
-  styleUrls: ['./services.scss'],
+  styleUrls: [],
   templateUrl: './services.html',
 })
 export class Services {
+
+  @ViewChild('loadingBarServiceList')
+    private loadingBar: SlimLoadingBarComponent;
 
   @ViewChild('deleteDialog')
     private deleteDialog: ModalComponent;
@@ -67,53 +70,60 @@ export class Services {
   deleteProcess: boolean = false;
   errorMessage: string = '';
 
-  constructor(
-      protected service: ServicesService,
-      private slimLoadingBarService: SlimLoadingBarService
-  ) { }
+  constructor(protected service: ServicesService) { }
 
   ngOnInit(): void {
-    this.slimLoadingBarService.reset();
-    this.slimLoadingBarService.start();
-
+    this.startLoading();
     this.service.getServices().then((data) => {
       this.source.load(data);
-      this.slimLoadingBarService.complete();
+      this.completeLoading();
+    }).catch(function (error) {
+      this.showError('Something bad happened, you can\'t load list of services');
+      this.errorLoading();
     });
   }
 
-  onTableSave(event): void {
-    this.slimLoadingBarService.reset();
-    this.slimLoadingBarService.start();
+  startLoading(): void {
+    this.loadingBar.color = '#209e91';
+    this.loadingBar.show = true;
+    this.loadingBar.service.reset();
+    this.loadingBar.service.start();
+  }
 
+  completeLoading(): void {
+    this.loadingBar.service.complete();
+    this.loadingBar.show = false;
+  }
+
+  errorLoading(): void {
+    this.loadingBar.color = '#f89711';
+  }
+
+  onTableSave(event): void {
+    this.startLoading();
     this.service.update(event.newData).then(() => {
       event.confirm.resolve();
-      this.slimLoadingBarService.complete();
+      this.completeLoading();
     }).catch((reason) => {
-      this.slimLoadingBarService.color = '#f89711';
-      this.slimLoadingBarService.complete();
-      console.log(reason);
-      if (event && event.confirm) {
-        event.confirm.reject();
-      }
-      this.showError('Something bad happened, you can\'t save diagnostic')
+      this.errorLoading();
+      event.confirm.reject();
+      this.showError('Something bad happened, you can\'t save service');
+      this.completeLoading();
     });
   }
 
   onTableCreate(event): void {
-    this.slimLoadingBarService.reset();
-    this.slimLoadingBarService.start();
-
+    this.startLoading();
     this.service.create(event.newData).then(() => {
       event.confirm.resolve();
-      this.slimLoadingBarService.complete();
+      this.completeLoading();
     }).catch((reason) => {
-      this.slimLoadingBarService.color = '#f89711';
-      this.slimLoadingBarService.complete();
+      this.errorLoading();
       if (event && event.confirm) {
         event.confirm.reject();
       }
-      this.showError('Something bad happened, you can\'t add diagnostic')
+      this.showError('Something bad happened, you can\'t create service');
+      this.completeLoading();
     });
   }
 
@@ -130,20 +140,19 @@ export class Services {
 
   onDeleteDialogOk(): void {
     this.deleteProcess = true;
-    this.slimLoadingBarService.reset();
-    this.slimLoadingBarService.start();
+    this.startLoading();
     this.service.delete(this.deleteDialogEvent.data.id).then(() => {
       this.deleteDialogEvent.confirm.resolve();
-      this.slimLoadingBarService.complete();
       this.deleteDialogEvent = null;
       this.deleteDialog.close();
       this.deleteProcess = false;
+      this.completeLoading();
     }).catch(() => {
-      this.slimLoadingBarService.color = '#f89711';
-      this.slimLoadingBarService.complete();
+      this.errorLoading();
       this.deleteDialogEvent.confirm.reject();
       this.deleteDialogEvent = null;
       this.deleteProcess = false;
+      this.completeLoading();
     });
   }
 
