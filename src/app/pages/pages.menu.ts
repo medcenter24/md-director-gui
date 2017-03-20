@@ -91,10 +91,10 @@ export const PAGES_MENU = [
             }
           },
           {
-            path: 'hotels',
+            path: 'hospitals',
             data: {
               menu: {
-                title: 'Hotels'
+                title: 'Hospitals'
               }
             }
           }

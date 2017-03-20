@@ -14,10 +14,11 @@ import { routing }       from './geo.routing';
 import { Geo } from './geo.component';
 
 import { Cities } from './components/cities/cities.component';
-import { CitiesService } from './components/cities/cities.service';
-
-import { Hotels } from './components/hotels/hotels.component';
-import { HotelsService } from './components/hotels/hotels.service';
+import {Hospitals} from "./components/hospitals/hospitals.component";
+import {CitiesService} from "../../components/city/cities.service";
+import {HospitalsService} from "../../components/hospital/hospitals.service";
+import {SlimLoadingBarModule} from "ng2-slim-loading-bar";
+import {Ng2Bs3ModalModule} from "ng2-bs3-modal/ng2-bs3-modal";
 
 @NgModule({
   imports: [
@@ -26,15 +27,17 @@ import { HotelsService } from './components/hotels/hotels.service';
     NgaModule,
     routing,
     Ng2SmartTableModule,
+    SlimLoadingBarModule.forRoot(),
+    Ng2Bs3ModalModule
   ],
   declarations: [
     Geo,
     Cities,
-    Hotels,
+    Hospitals,
   ],
   providers: [
     CitiesService,
-    HotelsService,
+    HospitalsService,
   ]
 })
 
