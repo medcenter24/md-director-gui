@@ -4,7 +4,7 @@
  * @author Alexander Zagovorichev <zagovorichev@gmail.com>
  */
 
-import {Doctor} from "../../../../components/doctors/doctor";
+import {Doctor} from "../components/doctors/doctor";
 export const DoctorsDb: Doctor[] = [
     {id: 1, name: 'Foster Abigail', description: 'Medic of the United States', ref_key: 'fa', user_id: 0},
     {id: 2, name: 'Peter Long', description: 'Another medic of the tenerife island', ref_key: 'pl', user_id: 1},

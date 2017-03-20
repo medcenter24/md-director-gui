@@ -4,7 +4,7 @@
  * @author Alexander Zagovorichev <zagovorichev@gmail.com>
  */
 
-import {User} from "../../../../components/users/user";
+import {User} from "../components/users/user";
 export const UsersDb: User[] = [
     {id: 1, name: 'alex', email: 'alex@mydoctor24.com', phone: '+375255283638'},
     {id: 2, name: 'foster', email: 'foster@mydoctor24.com', phone: '+375255283638'},

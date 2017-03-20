@@ -77,7 +77,7 @@ export class Services {
     this.service.getServices().then((data) => {
       this.source.load(data);
       this.completeLoading();
-    }).catch(function (error) {
+    }).catch((error) => {
       this.showError('Something bad happened, you can\'t load list of services');
       this.errorLoading();
     });

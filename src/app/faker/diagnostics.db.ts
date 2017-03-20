@@ -5,7 +5,7 @@
  */
 
 
-import {Diagnostic} from "../../../../components/diagnostic/diagnostic";
+import {Diagnostic} from "../components/diagnostic/diagnostic";
 export const DiagnosticsDb: Diagnostic[] = [
     {id: 1, title: 'Sore throat', description: 'When throat is red', diagnostic_category_id: 1, comment: 'Hola, Spain'},
     {id: 2, title: 'Jellyfish sting', description: 'Sometimes they could be really dangerous', diagnostic_category_id: 1, comment: ''},

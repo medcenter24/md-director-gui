@@ -5,7 +5,7 @@
  */
 
 
-import {DiagnosticCategory} from "../../../../components/diagnostic/category/category";
+import {DiagnosticCategory} from "../components/diagnostic/category/category";
 export const DiagnosticCategoriesDb: DiagnosticCategory[] = [
     {id: 1, title: 'Foreign bodies'},
     {id: 2, title: 'ENT, respiratory'},
