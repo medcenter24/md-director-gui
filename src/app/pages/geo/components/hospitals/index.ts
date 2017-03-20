@@ -4,4 +4,4 @@
  * @author Alexander Zagovorichev <zagovorichev@gmail.com>
  */
 
-export * from './hotels.component';
+export * from './hospitals.component';

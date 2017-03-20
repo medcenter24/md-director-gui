@@ -7,38 +7,28 @@
 import {Component, ViewEncapsulation, ViewChild} from '@angular/core';
 
 import { LocalDataSource } from 'ng2-smart-table';
-import {SlimLoadingBarComponent} from 'ng2-slim-loading-bar';
+import {HospitalsService} from "../../../../components/hospital/hospitals.service";
 import {ModalComponent} from "ng2-bs3-modal/components/modal";
-import {DiagnosticEditorComponent} from "../../../../components/diagnostic/editor/editor.component";
-import {Diagnostic} from "../../../../components/diagnostic/diagnostic";
-import {DiagnosticService} from "../../../../components/diagnostic/diagnostic.service";
+import {SlimLoadingBarService, SlimLoadingBarComponent} from "ng2-slim-loading-bar";
 
 @Component({
   selector: 'basic-tables',
   encapsulation: ViewEncapsulation.None,
   styleUrls: [],
-  templateUrl: './diagnostics.html',
+  templateUrl: './hospitals.html',
 })
-export class Diagnostics {
+export class Hospitals {
 
-  @ViewChild('loadingBarDiagnosticList')
-    private loadingBar: SlimLoadingBarComponent;
-
-  @ViewChild(DiagnosticEditorComponent)
-      private diagnosticComponent: DiagnosticEditorComponent;
+  @ViewChild('loadingBarHospitalsList')
+  private loadingBar: SlimLoadingBarComponent;
 
   @ViewChild('deleteDialog')
-      private deleteDialog: ModalComponent;
+  private deleteDialog: ModalComponent;
 
   @ViewChild('errorDialog')
-    private errorDialog: ModalComponent;
+  private errorDialog: ModalComponent;
 
-  selectedDiagnostic: boolean = false;
-  editCategories: boolean = false;
-  currentDiagnostic: Diagnostic;
   query: string = '';
-  categoryId: number = 0;
-  errorMessage: string = '';
 
   settings = {
     add: {
@@ -53,7 +43,7 @@ export class Diagnostics {
       cancelButtonContent: '<i class="ion-close"></i>',
       confirmSave: true
     },
-    'delete': {
+    delete: {
       deleteButtonContent: '<i class="ion-trash-a"></i>',
       confirmDelete: true
     },
@@ -62,12 +52,12 @@ export class Diagnostics {
         title: 'Title',
         type: 'string'
       },
-      description: {
-        title: 'Description',
+      address: {
+        title: 'Address',
         type: 'string'
       },
-      comment: {
-        title: 'Commentary',
+      ref_key: {
+        title: 'Ref. key',
         type: 'string'
       }
     }
@@ -76,7 +66,8 @@ export class Diagnostics {
   source: LocalDataSource = new LocalDataSource();
 
   constructor(
-      protected service: DiagnosticService
+      protected service: HospitalsService,
+      private slimLoadingBarService: SlimLoadingBarService
   ) { }
 
   startLoading(): void {
@@ -97,11 +88,11 @@ export class Diagnostics {
 
   ngOnInit(): void {
     this.startLoading();
-    this.service.getDiagnostics().then((data) => {
+    this.service.getHospitals().then((data) => {
       this.source.load(data);
       this.completeLoading()
     }).catch(function (error) {
-      this.showError('Something bad happened, you can\'t load list of diagnostics');
+      this.showError('Something bad happened, you can\'t load list of hospitals');
       this.errorLoading();
     });
   }
@@ -109,6 +100,7 @@ export class Diagnostics {
   deleteDialogEvent: any = null;
   titleForDeletion: string = '';
   deleteProcess: boolean = false;
+  errorMessage: string = '';
 
   onDeleteDialogOk(): void {
     this.deleteProcess = true;
@@ -118,10 +110,6 @@ export class Diagnostics {
       this.deleteDialogEvent = null;
       this.deleteDialog.close();
       this.deleteProcess = false;
-      this.selectedDiagnostic = false;
-      this.editCategories = false;
-      this.currentDiagnostic = null;
-      this.categoryId = 0;
       this.completeLoading();
     }).catch(() => {
       this.errorLoading();
@@ -151,7 +139,7 @@ export class Diagnostics {
     }).catch((reason) => {
       this.errorLoading();
       event.confirm.reject();
-      this.showError('Something bad happened, you can\'t save diagnostic');
+      this.showError('Something bad happened, you can\'t save hospital');
       this.completeLoading();
     });
   }
@@ -164,7 +152,7 @@ export class Diagnostics {
     }).catch((reason) => {
       this.errorLoading();
       event.confirm.reject();
-      this.showError('Something bad happened, you can\'t add diagnostic')
+      this.showError('Something bad happened, you can\'t add hospital')
       this.completeLoading();
     });
   }
@@ -172,24 +160,5 @@ export class Diagnostics {
   private showError(message: string): void {
     this.errorMessage = message;
     this.errorDialog.open('sm');
-  }
-
-  onUserSelectRow(event): void {
-    this.selectedDiagnostic = true;
-    this.currentDiagnostic = event.data;
-    this.categoryId = this.currentDiagnostic.diagnostic_category_id;
-  }
-
-  onUpdateDiagnostic(diagnostic: Diagnostic): void {
-    this.source.update(this.currentDiagnostic, diagnostic);
-  }
-
-  openCategoryEditor(event): void {
-    this.editCategories = event.show;
-    this.categoryId = event.categoryId;
-  }
-
-  onCategoryChanged(): void {
-    this.diagnosticComponent.reloadCategories();
   }
 }

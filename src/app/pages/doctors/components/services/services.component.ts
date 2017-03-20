@@ -45,10 +45,6 @@ export class Services {
       confirmDelete: true
     },
     columns: {
-      id: {
-        title: 'ID',
-        type: 'number'
-      },
       title: {
         title: 'Title',
         type: 'string'

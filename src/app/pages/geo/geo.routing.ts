@@ -8,7 +8,7 @@ import { Routes, RouterModule }  from '@angular/router';
 
 import { Geo } from './geo.component';
 import { Cities } from './components/cities/cities.component';
-import { Hotels } from './components/hotels/hotels.component';
+import { Hospitals } from './components/hospitals/hospitals.component';
 
 // noinspection TypeScriptValidateTypes
 const routes: Routes = [
@@ -17,7 +17,7 @@ const routes: Routes = [
     component: Geo,
     children: [
       { path: 'cities', component: Cities },
-      { path: 'hotels', component: Hotels }
+      { path: 'hospitals', component: Hospitals }
     ]
   }
 ];
