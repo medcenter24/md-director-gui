@@ -15,8 +15,6 @@ import { AccidentCheckpoints } from './components/checkpoints/checkpoints.compon
 import { AccidentTypes } from './components/types/types.component';
 import { Accidents } from './components/accidents/accidents.component';
 import { AccidentsService } from './components/accidents/accidents.service';
-import { Patients } from './components/patients/patients.component';
-import { PatientsService } from './components/patients/patients.service';
 import {AccidentTypesService} from "../../components/accident/type/types.service";
 import {SlimLoadingBarModule} from "ng2-slim-loading-bar";
 import {Ng2Bs3ModalModule} from "ng2-bs3-modal/ng2-bs3-modal";
@@ -28,6 +26,8 @@ import {AccidentStatuses} from "./components/statuses/statuses.component";
 import {Assistants} from "./components/assistants/assistants.component";
 import {AssistantsService} from "../../components/assistant/assistant.service";
 import {AssistantEditorComponent} from "../../components/assistant/editor/editor.component";
+import {PatientsService} from "../../components/patient/patients.service";
+import {Patients} from "./components/patients/patients.component";
 
 @NgModule({
   imports: [

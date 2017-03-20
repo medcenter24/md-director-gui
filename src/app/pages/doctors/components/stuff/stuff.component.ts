@@ -157,7 +157,7 @@ export class Stuff {
 
   onDeleteConfirm(event): void {
     this.deleteDialogEvent = event;
-    this.titleForDeletion = event.data.title;
+    this.titleForDeletion = event.data.name;
     this.deleteDialog.open('sm');
   }
 
