@@ -90,7 +90,7 @@ export class Hospitals {
     this.service.getHospitals().then((data) => {
       this.source.load(data);
       this.completeLoading()
-    }).catch(function (error) {
+    }).catch((error) => {
       this.showError('Something bad happened, you can\'t load list of hospitals');
       this.errorLoading();
     });

@@ -98,7 +98,7 @@ export class Stuff {
     this.service.getDoctors().then((data) => {
       this.source.load(data);
       this.completeLoading()
-    }).catch(function (error) {
+    }).catch((error) => {
       this.showError('Something bad happened, you can\'t load list of doctors');
       this.errorLoading();
     });

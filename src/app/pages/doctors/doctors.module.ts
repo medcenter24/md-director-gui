@@ -20,8 +20,6 @@ import { Stuff } from './components/stuff/stuff.component';
 import { SlimLoadingBarModule } from 'ng2-slim-loading-bar';
 import { Ng2Bs3ModalModule } from 'ng2-bs3-modal/ng2-bs3-modal';
 
-import { InMemoryWebApiModule } from 'angular-in-memory-web-api';
-import { InMemoryDataService }  from './components/faker/in-memory-data.service';
 import {DoctorsService} from "../../components/doctors/doctors.service";
 import {UserEditorComponent} from "../../components/users/editor/editor.component";
 import {UserSelectorComponent} from "../../components/users/selector/selector.component";
@@ -34,6 +32,8 @@ import {DiagnosticCategoryEditorComponent} from "../../components/diagnostic/cat
 import {DiagnosticCategorySelectorComponent} from "../../components/diagnostic/category/selector/selector.component";
 import {DiagnosticService} from "../../components/diagnostic/diagnostic.service";
 import {DiagnosticCategoryService} from "../../components/diagnostic/category/category.service";
+import {InMemoryWebApiModule} from "angular-in-memory-web-api";
+import {InMemoryDataService} from "../../faker/in-memory-data.service";
 
 @NgModule({
   imports: [
@@ -42,9 +42,9 @@ import {DiagnosticCategoryService} from "../../components/diagnostic/category/ca
     NgaModule,
     routing,
     Ng2SmartTableModule,
-    InMemoryWebApiModule.forRoot(InMemoryDataService, {apiBase: 'director/'}),
     SlimLoadingBarModule.forRoot(),
-    Ng2Bs3ModalModule
+    Ng2Bs3ModalModule,
+    InMemoryWebApiModule.forRoot(InMemoryDataService, {apiBase: 'director/'}),
   ],
   declarations: [
     Doctors,

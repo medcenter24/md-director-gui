@@ -99,10 +99,11 @@ export class Diagnostics {
     this.startLoading();
     this.service.getDiagnostics().then((data) => {
       this.source.load(data);
-      this.completeLoading()
-    }).catch(function (error) {
-      this.showError('Something bad happened, you can\'t load list of diagnostics');
+      this.completeLoading();
+    }).catch((error) => {
       this.errorLoading();
+      this.showError('Something bad happened, you can\'t load list of diagnostics');
+      this.completeLoading();
     });
   }
 

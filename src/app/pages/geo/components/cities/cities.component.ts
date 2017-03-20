@@ -67,7 +67,7 @@ export class Cities {
     this.service.getCities().then((data) => {
       this.source.load(data);
       this.completeLoading()
-    }).catch(function (error) {
+    }).catch((error) => {
       this.showError('Something bad happened, you can\'t load list of cities');
       this.errorLoading();
     });
