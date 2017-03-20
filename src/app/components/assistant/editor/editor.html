@@ -1,0 +1,80 @@
+<!--
+  ~ Copyright (c) 2017.
+  ~
+  ~ @author Alexander Zagovorichev <zagovorichev@gmail.com>
+  -->
+
+<ng2-slim-loading-bar #loadingBarAssistantEditor></ng2-slim-loading-bar>
+<ba-card *ngIf="assistant" title="Assistant #{{ assistant.id }}" baCardClass="with-scroll" class="edit-form-container">
+    <form (ngSubmit)="onSubmit()" #diagnosticForm="ngForm">
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label for="inputTitle">Title</label>
+                    <input type="text" class="form-control" id="inputTitle"
+                           required
+                           [(ngModel)]="assistant.title" name="title"
+                           #title="ngModel"
+                           placeholder="Assistant Title" maxlength="70"
+                    >
+                    <div [hidden]="title.valid || title.pristine" class="alert alert-danger">
+                        Title is required
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label for="inputComment">Commentary</label>
+                    <input type="text" class="form-control" id="inputComment"
+                           [(ngModel)]="assistant.comment" name="comment"
+                           #comment="ngModel"
+                           placeholder="Something about assistant" maxlength="70"
+                    >
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label for="inputEmail">E-Mail</label>
+                    <input type="text" class="form-control" id="inputEmail" placeholder="E-Mail"
+                              [(ngModel)]="assistant.email" name="email"
+                              #email="ngModel"
+                              maxlength="255"
+                              [innerHTML]="assistant.email"
+                    >
+                    <div [hidden]="email.valid || email.pristine" class="alert alert-danger">
+                        Description is required
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label for="inputRefKey">Ref. Key</label>
+                    <input class="form-control" id="inputRefKey" placeholder="Referral key"
+                              [(ngModel)]="assistant.ref_key" name="ref_key"
+                              #ref="ngModel"
+                              maxlength="255"
+                              [innerHTML]="assistant.ref_key"
+                    >
+                    <div [hidden]="ref.valid || ref.pristine" class="alert alert-danger">
+                        Referral key is required
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-6"></div>
+            <div class="col-sm-6">
+                <ba-picture-uploader
+                        [picture]="assistant.picture"
+                        [defaultPicture]="defaultPicture"
+                        [uploaderOptions]="uploaderOptions"
+                        (onUpload)="startUpload($event)"
+                        (onUploadCompleted)="endUpload($event)"
+                ></ba-picture-uploader>
+            </div>
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+</ba-card>

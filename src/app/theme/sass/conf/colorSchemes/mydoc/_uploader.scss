@@ -1,0 +1,17 @@
+/*!
+ * Copyright (c) 2017.
+ *
+ * @author Alexander Zagovorichev <zagovorichev@gmail.com>
+ */
+
+.picture-group {
+  input {
+    opacity: 0;
+    position: absolute;
+    left: -2000px;
+  }
+  i {
+    background-color: $white-color;
+    color: $black-color;
+  }
+}
