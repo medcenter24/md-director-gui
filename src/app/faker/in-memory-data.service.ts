@@ -21,6 +21,10 @@ import {City} from "../components/city/city";
 import {Hospital} from "../components/hospital/hospital";
 import {CitiesDb} from "./cities.db";
 import {HospitalsDb} from "./hospitals.db";
+import {AccidentType} from "../components/accident/type/type";
+import {AccidentTypesDb} from "./accidentTypes.db";
+import {AccidentCheckpoint} from "../components/accident/checkpoint/checkpoint";
+import {AccidentCheckpointsDb} from "./accidentCheckpoints.db";
 
 @Injectable()
 export class InMemoryDataService implements InMemoryDbService {
@@ -32,7 +36,9 @@ export class InMemoryDataService implements InMemoryDbService {
         let users: User[] = UsersDb;
         let cities: City[] = CitiesDb;
         let hospitals: Hospital[] = HospitalsDb;
+        let types: AccidentType[] = AccidentTypesDb;
+        let checkpoints: AccidentCheckpoint[] = AccidentCheckpointsDb;
 
-        return { services, diagnostics, categories, doctors, users, cities, hospitals };
+        return { services, diagnostics, categories, doctors, users, cities, hospitals, types, checkpoints };
     }
 }
