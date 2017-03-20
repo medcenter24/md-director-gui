@@ -9,7 +9,7 @@ import { Routes, RouterModule }  from '@angular/router';
 import { Cases } from './cases.component';
 import { Assistants } from './components/assistants/assistants.component';
 import { AccidentCheckpoints } from './components/checkpoints/checkpoints.component';
-import { Statuses } from './components/statuses/statuses.component';
+import { AccidentStatuses } from './components/statuses/statuses.component';
 import { AccidentTypes } from './components/types/types.component';
 import { Patients } from './components/patients/patients.component';
 import { Accidents } from './components/accidents/accidents.component';
@@ -22,7 +22,7 @@ const routes: Routes = [
     children: [
       { path: 'assistants', component: Assistants },
       { path: 'checkpoints', component: AccidentCheckpoints },
-      { path: 'statuses', component: Statuses },
+      { path: 'statuses', component: AccidentStatuses },
       { path: 'types', component: AccidentTypes },
       { path: 'patients', component: Patients },
       { path: 'accidents', component: Accidents },
