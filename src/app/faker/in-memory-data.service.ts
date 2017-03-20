@@ -17,6 +17,10 @@ import {DiagnosticCategory} from "../components/diagnostic/category/category";
 import {Service} from "../components/service/service";
 import {Doctor} from "../components/doctors/doctor";
 import {User} from "../components/users/user";
+import {City} from "../components/city/city";
+import {Hospital} from "../components/hospital/hospital";
+import {CitiesDb} from "./cities.db";
+import {HospitalsDb} from "./hospitals.db";
 
 @Injectable()
 export class InMemoryDataService implements InMemoryDbService {
@@ -26,7 +30,9 @@ export class InMemoryDataService implements InMemoryDbService {
         let services: Service[] = ServicesDb;
         let doctors: Doctor[] = DoctorsDb;
         let users: User[] = UsersDb;
+        let cities: City[] = CitiesDb;
+        let hospitals: Hospital[] = HospitalsDb;
 
-        return { services, diagnostics, categories, doctors, users };
+        return { services, diagnostics, categories, doctors, users, cities, hospitals };
     }
 }

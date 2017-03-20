@@ -7,16 +7,18 @@
 <div class="widgets">
 
   <div class="row">
-    <ba-card title="Basic Example" baCardClass="with-scroll">
-      <ng2-slim-loading-bar #loadingBarCitiesList></ng2-slim-loading-bar>
-      <ng2-smart-table
-              [settings]="settings"
-              [source]="source"
-              (deleteConfirm)="onDeleteConfirm($event)"
-              (createConfirm)="onTableCreate($event)"
-              (editConfirm)="onTableSave($event)"
-      ></ng2-smart-table>
-    </ba-card>
+    <div class="col-sm-6">
+      <ba-card title="Basic Example" baCardClass="with-scroll">
+        <ng2-slim-loading-bar #loadingBarCitiesList></ng2-slim-loading-bar>
+        <ng2-smart-table
+                [settings]="settings"
+                [source]="source"
+                (deleteConfirm)="onDeleteConfirm($event)"
+                (createConfirm)="onTableCreate($event)"
+                (editConfirm)="onTableSave($event)"
+        ></ng2-smart-table>
+      </ba-card>
+    </div>
   </div>
 
 </div>

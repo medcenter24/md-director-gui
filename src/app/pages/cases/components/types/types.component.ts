@@ -12,7 +12,7 @@ import { LocalDataSource } from 'ng2-smart-table';
 @Component({
   selector: 'basic-tables',
   encapsulation: ViewEncapsulation.None,
-  styleUrls: ['./types.scss'],
+  styleUrls: [],
   templateUrl: './types.html',
 })
 export class Types {

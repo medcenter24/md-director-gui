@@ -19,6 +19,8 @@ import {CitiesService} from "../../components/city/cities.service";
 import {HospitalsService} from "../../components/hospital/hospitals.service";
 import {SlimLoadingBarModule} from "ng2-slim-loading-bar";
 import {Ng2Bs3ModalModule} from "ng2-bs3-modal/ng2-bs3-modal";
+import {InMemoryWebApiModule} from "angular-in-memory-web-api";
+import {InMemoryDataService} from "../../faker/in-memory-data.service";
 
 @NgModule({
   imports: [
@@ -28,7 +30,8 @@ import {Ng2Bs3ModalModule} from "ng2-bs3-modal/ng2-bs3-modal";
     routing,
     Ng2SmartTableModule,
     SlimLoadingBarModule.forRoot(),
-    Ng2Bs3ModalModule
+    Ng2Bs3ModalModule,
+    InMemoryWebApiModule.forRoot(InMemoryDataService, {apiBase: 'director/'}),
   ],
   declarations: [
     Geo,
