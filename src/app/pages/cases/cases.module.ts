@@ -11,8 +11,6 @@ import { NgaModule } from '../../theme/nga.module';
 import { Ng2SmartTableModule } from 'ng2-smart-table';
 import { routing }       from './cases.routing';
 import { Cases } from './cases.component';
-import { Assistants } from './components/assistants/assistants.component';
-import { AssistantsService } from './components/assistants/assistants.service';
 import { AccidentCheckpoints } from './components/checkpoints/checkpoints.component';
 import { AccidentTypes } from './components/types/types.component';
 import { Accidents } from './components/accidents/accidents.component';
@@ -27,6 +25,9 @@ import {InMemoryDataService} from "../../faker/in-memory-data.service";
 import {AccidentCheckpointsService} from "../../components/accident/checkpoint/checkpoints.service";
 import {AccidentStatusesService} from "../../components/accident/status/statuses.service";
 import {AccidentStatuses} from "./components/statuses/statuses.component";
+import {Assistants} from "./components/assistants/assistants.component";
+import {AssistantsService} from "../../components/assistant/assistant.service";
+import {AssistantEditorComponent} from "../../components/assistant/editor/editor.component";
 
 @NgModule({
   imports: [
@@ -47,6 +48,7 @@ import {AccidentStatuses} from "./components/statuses/statuses.component";
     AccidentTypes,
     Patients,
     Cases,
+    AssistantEditorComponent,
   ],
   providers: [
     AssistantsService,

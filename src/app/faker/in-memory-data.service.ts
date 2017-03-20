@@ -27,6 +27,8 @@ import {AccidentCheckpoint} from "../components/accident/checkpoint/checkpoint";
 import {AccidentCheckpointsDb} from "./accidentCheckpoints.db";
 import {AccidentStatusesDb} from "./accidentStatuses.db";
 import {AccidentStatus} from "../components/accident/status/status";
+import {Assistant} from "../components/assistant/assistant";
+import {AssistantsDb} from "./assistants.db";
 
 @Injectable()
 export class InMemoryDataService implements InMemoryDbService {
@@ -41,7 +43,8 @@ export class InMemoryDataService implements InMemoryDbService {
         let types: AccidentType[] = AccidentTypesDb;
         let checkpoints: AccidentCheckpoint[] = AccidentCheckpointsDb;
         let statuses: AccidentStatus[] = AccidentStatusesDb;
+        let assistants: Assistant[] = AssistantsDb;
 
-        return { services, diagnostics, categories, doctors, users, cities, hospitals, types, checkpoints, statuses };
+        return { services, diagnostics, categories, doctors, users, cities, hospitals, types, checkpoints, statuses, assistants };
     }
 }
