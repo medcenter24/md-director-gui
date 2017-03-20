@@ -7,7 +7,6 @@
 import {Injectable} from "@angular/core";
 
 import { InMemoryDbService } from 'angular-in-memory-web-api';
-import {Service} from "../services/service";
 import {DoctorsDb} from "./doctors.db";
 import {ServicesDb} from "./services.db";
 import {Doctor} from "../../../../components/doctors/doctor";
@@ -17,6 +16,7 @@ import {Diagnostic} from "../../../../components/diagnostic/diagnostic";
 import {DiagnosticsDb} from "./diagnostics.db";
 import {DiagnosticCategory} from "../../../../components/diagnostic/category/category";
 import {DiagnosticCategoriesDb} from "./diagnosticCategories.db";
+import {Service} from "../../../../components/service/service";
 
 @Injectable()
 export class InMemoryDataService implements InMemoryDbService {

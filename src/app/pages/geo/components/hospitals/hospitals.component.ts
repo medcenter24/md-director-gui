@@ -9,7 +9,7 @@ import {Component, ViewEncapsulation, ViewChild} from '@angular/core';
 import { LocalDataSource } from 'ng2-smart-table';
 import {HospitalsService} from "../../../../components/hospital/hospitals.service";
 import {ModalComponent} from "ng2-bs3-modal/components/modal";
-import {SlimLoadingBarService, SlimLoadingBarComponent} from "ng2-slim-loading-bar";
+import {SlimLoadingBarComponent} from "ng2-slim-loading-bar";
 
 @Component({
   selector: 'basic-tables',
@@ -20,13 +20,13 @@ import {SlimLoadingBarService, SlimLoadingBarComponent} from "ng2-slim-loading-b
 export class Hospitals {
 
   @ViewChild('loadingBarHospitalsList')
-  private loadingBar: SlimLoadingBarComponent;
+    private loadingBar: SlimLoadingBarComponent;
 
   @ViewChild('deleteDialog')
-  private deleteDialog: ModalComponent;
+    private deleteDialog: ModalComponent;
 
   @ViewChild('errorDialog')
-  private errorDialog: ModalComponent;
+    private errorDialog: ModalComponent;
 
   query: string = '';
 
@@ -66,8 +66,7 @@ export class Hospitals {
   source: LocalDataSource = new LocalDataSource();
 
   constructor(
-      protected service: HospitalsService,
-      private slimLoadingBarService: SlimLoadingBarService
+      protected service: HospitalsService
   ) { }
 
   startLoading(): void {
