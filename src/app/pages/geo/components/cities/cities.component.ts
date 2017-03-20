@@ -8,7 +8,7 @@ import {Component, ViewEncapsulation, ViewChild} from '@angular/core';
 
 import { LocalDataSource } from 'ng2-smart-table';
 import {ModalComponent} from "ng2-bs3-modal/components/modal";
-import {SlimLoadingBarService, SlimLoadingBarComponent} from "ng2-slim-loading-bar";
+import {SlimLoadingBarComponent} from "ng2-slim-loading-bar";
 import {CitiesService} from "../../../../components/city/cities.service";
 
 @Component({
@@ -57,10 +57,7 @@ export class Cities {
 
   source: LocalDataSource = new LocalDataSource();
 
-  constructor(
-      protected service: CitiesService,
-      private slimLoadingBarService: SlimLoadingBarService
-  ) { }
+  constructor(protected service: CitiesService) { }
 
   ngOnInit(): void {
     this.startLoading();

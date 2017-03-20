@@ -65,9 +65,7 @@ export class Hospitals {
 
   source: LocalDataSource = new LocalDataSource();
 
-  constructor(
-      protected service: HospitalsService
-  ) { }
+  constructor(protected service: HospitalsService) { }
 
   startLoading(): void {
     this.loadingBar.color = '#209e91';
