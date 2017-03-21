@@ -14,7 +14,7 @@ import { Cases } from './cases.component';
 import { AccidentCheckpoints } from './components/checkpoints/checkpoints.component';
 import { AccidentTypes } from './components/types/types.component';
 import { Accidents } from './components/accidents/accidents.component';
-import { AccidentsService } from './components/accidents/accidents.service';
+import { AccidentsService } from '../../components/accident/accidents.service';
 import {AccidentTypesService} from "../../components/accident/type/types.service";
 import {SlimLoadingBarModule} from "ng2-slim-loading-bar";
 import {Ng2Bs3ModalModule} from "ng2-bs3-modal/ng2-bs3-modal";

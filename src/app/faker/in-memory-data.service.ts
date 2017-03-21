@@ -31,6 +31,8 @@ import {Assistant} from "../components/assistant/assistant";
 import {AssistantsDb} from "./assistants.db";
 import {Patient} from "../components/patient/patient";
 import {PatientsDb} from "./patients.db";
+import {Accident} from "../components/accident/accident";
+import {AccidentsDb} from "./accidents.db";
 
 @Injectable()
 export class InMemoryDataService implements InMemoryDbService {
@@ -47,7 +49,8 @@ export class InMemoryDataService implements InMemoryDbService {
         let statuses: AccidentStatus[] = AccidentStatusesDb;
         let assistants: Assistant[] = AssistantsDb;
         let patients: Patient[] = PatientsDb;
+        let accidents: Accident[] = AccidentsDb;
 
-        return { services, diagnostics, categories, doctors, users, cities, hospitals, types, checkpoints, statuses, assistants, patients };
+        return { services, diagnostics, categories, doctors, users, cities, hospitals, types, checkpoints, statuses, assistants, patients, accidents };
     }
 }
