@@ -15,6 +15,18 @@ export const PAGES_MENU = [
         }
       },
       {
+        path: 'cases',
+        data: {
+          menu: {
+            title: 'Cases',
+            icon: 'fa fa-ambulance',
+            selected: false,
+            expanded: false,
+            order: 1
+          }
+        }
+      },
+      {
         path: 'companions',
         data: {
           menu: {
@@ -39,22 +51,14 @@ export const PAGES_MENU = [
         }]
       },
       {
-        path: 'cases',
+        path: 'accidents',
         data: {
           menu: {
-            title: 'Cases',
-            icon: 'fa fa-ambulance'
+            title: 'Accidents',
+            icon: 'fa fa-info-circle'
           }
         },
         children: [
-          {
-            path: 'accidents',
-            data: {
-              menu: {
-                title: 'Accidents'
-              }
-            }
-          },
           {
             path: 'checkpoints',
             data: {

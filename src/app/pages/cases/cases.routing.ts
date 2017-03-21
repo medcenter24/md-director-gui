@@ -7,23 +7,17 @@
 import { Routes, RouterModule }  from '@angular/router';
 
 import { Cases } from './cases.component';
-import { AccidentCheckpoints } from './components/checkpoints/checkpoints.component';
-import { AccidentStatuses } from './components/statuses/statuses.component';
-import { AccidentTypes } from './components/types/types.component';
-import { Accidents } from './components/accidents/accidents.component';
+import { ModuleWithProviders } from '@angular/core';
 
 // noinspection TypeScriptValidateTypes
-const routes: Routes = [
+export const routes: Routes = [
   {
     path: '',
     component: Cases,
     children: [
-      { path: 'checkpoints', component: AccidentCheckpoints },
-      { path: 'statuses', component: AccidentStatuses },
-      { path: 'types', component: AccidentTypes },
-      { path: 'accidents', component: Accidents },
+      //{ path: 'treeview', component: TreeViewComponent }
     ]
   }
 ];
 
-export const routing = RouterModule.forChild(routes);
+export const routing: ModuleWithProviders = RouterModule.forChild(routes);
