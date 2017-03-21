@@ -10,8 +10,8 @@ import { LocalDataSource } from 'ng2-smart-table';
 import {ModalComponent} from "ng2-bs3-modal/components/modal";
 import {SlimLoadingBarComponent} from "ng2-slim-loading-bar";
 import {Response} from "@angular/http";
-import {AssistantsService} from "../../../../components/assistant/assistant.service";
 import {Assistant} from "../../../../components/assistant/assistant";
+import {AssistantsService} from "../../../../components/assistant/assistant.service";
 
 @Component({
   selector: 'basic-tables',
