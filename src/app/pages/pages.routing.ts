@@ -23,6 +23,7 @@ export const routes: Routes = [
       { path: 'geo', loadChildren: 'app/pages/geo/geo.module#GeoModule' },
       { path: 'doctors', loadChildren: 'app/pages/doctors/doctors.module#DoctorsModule' },
       { path: 'dashboard', loadChildren: 'app/pages/dashboard/dashboard.module#DashboardModule' },
+      { path: 'companions', loadChildren: 'app/pages/companions/companions.module#CompanionsModule' },
       { path: 'editors', loadChildren: 'app/pages/editors/editors.module#EditorsModule' },
       { path: 'components', loadChildren: 'app/pages/components/components.module#ComponentsModule' },
       { path: 'charts', loadChildren: 'app/pages/charts/charts.module#ChartsModule' },

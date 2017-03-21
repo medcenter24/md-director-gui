@@ -15,6 +15,30 @@ export const PAGES_MENU = [
         }
       },
       {
+        path: 'companions',
+        data: {
+          menu: {
+            title: 'Address Book',
+            icon: 'fa fa-address-book-o'
+          }
+        },
+        children: [{
+          path: 'patients',
+          data: {
+            menu: {
+              title: 'Patients'
+            }
+          }
+        }, {
+            path: 'assistants',
+            data: {
+              menu: {
+                title: 'Assistants'
+              }
+            }
+        }]
+      },
+      {
         path: 'cases',
         data: {
           menu: {
@@ -28,22 +52,6 @@ export const PAGES_MENU = [
             data: {
               menu: {
                 title: 'Accidents'
-              }
-            }
-          },
-          {
-            path: 'patients',
-            data: {
-              menu: {
-                title: 'Patients'
-              }
-            }
-          },
-          {
-            path: 'assistants',
-            data: {
-              menu: {
-                title: 'Assistants'
               }
             }
           },
