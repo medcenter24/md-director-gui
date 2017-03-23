@@ -34,7 +34,7 @@ import {PatientsDb} from "./patients.db";
 import {Accident} from "../components/accident/accident";
 import {AccidentsDb} from "./accidents.db";
 import {CasesDb} from "./cases.db";
-import {Case, CaseAccident} from "../components/case/case";
+import {CaseAccident} from "../components/case/case";
 
 @Injectable()
 export class InMemoryDataService implements InMemoryDbService {
