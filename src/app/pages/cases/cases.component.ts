@@ -12,7 +12,7 @@ import {Response} from "@angular/http";
 import {ModalComponent} from "ng2-bs3-modal/components/modal";
 import {Router} from "@angular/router";
 import {CasesService} from "../../components/case/cases.service";
-import {Case, CaseAccident} from "../../components/case/case";
+import {CaseAccident} from "../../components/case/case";
 
 @Component({
   selector: 'basic-tables',

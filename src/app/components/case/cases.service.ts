@@ -9,7 +9,7 @@ import { Http } from '@angular/http';
 
 import 'rxjs/add/operator/toPromise';
 
-import { Case } from './case';
+import { CaseAccident } from './case';
 
 @Injectable()
 export class CasesService {
@@ -18,10 +18,11 @@ export class CasesService {
 
   constructor(private http: Http) { }
 
-  getCases(): Promise<Case[]> {
+  getCases(): Promise<CaseAccident[]> {
+
     return this.http.get(this.casesUrl)
         .toPromise()
-        .then(response => response.json().data as Case[])
+        .then(response => response.json().data as CaseAccident[])
         .catch(this.handleError);
   }
 
