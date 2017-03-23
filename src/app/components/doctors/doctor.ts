@@ -10,6 +10,6 @@ export class Doctor {
         public user_id: number = 0,
         public name: string = '',
         public description: string = '',
-        public ref_key: string = '',
+        public ref_key: string = ''
     ) {}
 }

@@ -12,12 +12,12 @@ import { NgaModule } from '../../theme/nga.module';
 import { Cases } from './cases.component';
 import { routing }       from './cases.routing';
 
-import {AccidentsService} from "../../components/accident/accidents.service";
 import {Ng2SmartTableModule} from "ng2-smart-table";
 import {SlimLoadingBarModule} from "ng2-slim-loading-bar";
 import {Ng2Bs3ModalModule} from "ng2-bs3-modal/ng2-bs3-modal";
 import {InMemoryWebApiModule} from "angular-in-memory-web-api";
 import {InMemoryDataService} from "../../faker/in-memory-data.service";
+import {CasesService} from "../../components/case/cases.service";
 
 @NgModule({
   imports: [
@@ -34,7 +34,7 @@ import {InMemoryDataService} from "../../faker/in-memory-data.service";
     Cases
   ],
   providers: [
-    AccidentsService
+      CasesService
   ]
 })
 export class CasesModule {}
