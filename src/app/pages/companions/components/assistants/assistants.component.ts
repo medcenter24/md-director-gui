@@ -84,7 +84,7 @@ export class Assistants {
 
   ngOnInit(): void {
     this.startLoading();
-    this.service.getAssistants().then((data) => {
+    this.service.getAssistants().then((data: Assistant[]) => {
       this.source.load(data);
       this.completeLoading()
     }).catch((response) => {

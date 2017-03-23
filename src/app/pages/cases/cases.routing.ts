@@ -15,7 +15,8 @@ export const routes: Routes = [
     path: '',
     component: Cases,
     children: [
-      //{ path: 'treeview', component: TreeViewComponent }
+      /*{ path: 'new', component: CaseEditorComponent },
+      { path: ':id', component: CaseEditorComponent },*/
     ]
   }
 ];
