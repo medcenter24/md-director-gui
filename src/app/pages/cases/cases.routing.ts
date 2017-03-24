@@ -8,6 +8,8 @@ import { Routes, RouterModule }  from '@angular/router';
 
 import { Cases } from './cases.component';
 import { ModuleWithProviders } from '@angular/core';
+import {CaseEditorComponent} from "../../components/case/editor/editor.component";
+import {CasesListComponent} from "../../components/case/list/list.component";
 
 // noinspection TypeScriptValidateTypes
 export const routes: Routes = [
@@ -15,8 +17,10 @@ export const routes: Routes = [
     path: '',
     component: Cases,
     children: [
-      /*{ path: 'new', component: CaseEditorComponent },
-      { path: ':id', component: CaseEditorComponent },*/
+
+      { path: '', component: CasesListComponent },
+      { path: 'new', component: CaseEditorComponent },
+      /*{ path: ':id', component: CaseEditorComponent },*/
     ]
   }
 ];
