@@ -24,7 +24,7 @@ export class AccidentsService {
   }
 
 
-  getCheckpoint(id: number): Promise<Accident> {
+  getAccident(id: number): Promise<Accident> {
     const url = `${this.accidentsUrl}/${id}`;
     return this.http.get(url)
         .toPromise()

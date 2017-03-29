@@ -7,12 +7,12 @@
 import {Component, ViewEncapsulation, ViewChild} from '@angular/core';
 
 import { LocalDataSource } from 'ng2-smart-table';
-import {SlimLoadingBarComponent} from "ng2-slim-loading-bar";
-import {Response} from "@angular/http";
-import {ModalComponent} from "ng2-bs3-modal/components/modal";
-import {Router} from "@angular/router";
-import {CasesService} from "../cases.service";
-import {CaseAccident} from "../case";
+import { SlimLoadingBarComponent } from 'ng2-slim-loading-bar';
+import { Response} from '@angular/http';
+import { ModalComponent} from 'ng2-bs3-modal/components/modal';
+import { Router} from '@angular/router';
+import { CasesService} from '../cases.service';
+import { CaseAccident} from '../case';
 
 @Component({
   selector: 'basic-tables',
@@ -23,10 +23,10 @@ import {CaseAccident} from "../case";
 export class CasesListComponent {
 
   @ViewChild('loadingBarCasesList')
-    private loadingBar: SlimLoadingBarComponent;
+    loadingBar: SlimLoadingBarComponent;
 
   @ViewChild('errorDialog')
-    private errorDialog: ModalComponent;
+    errorDialog: ModalComponent;
 
   query: string = '';
 
@@ -84,7 +84,7 @@ export class CasesListComponent {
     this.startLoading();
     this.service.getCases().then((data: CaseAccident[]) => {
       this.source.load(data);
-      this.completeLoading()
+      this.completeLoading();
     }).catch((response) => {
       this.showError('Something bad happened, you can\'t load list of cases', response);
       this.errorLoading();
@@ -107,15 +107,19 @@ export class CasesListComponent {
     this.loadingBar.color = '#f89711';
   }
 
+  onEdit(event): void {
+    this.router.navigate(['pages/cases/', event.data.id]);
+  }
+
+  onCreate(): void {
+    this.router.navigate(['pages/cases/new']);
+  }
+
   private showError(message: string, response: Response = null): void {
     this.errorMessage = message;
     if (response) {
       this.errorResponse = response;
     }
     this.errorDialog.open('sm');
-  }
-
-  onCreate(): void {
-    this.router.navigate(['pages/cases/new']);
   }
 }
