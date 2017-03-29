@@ -450,8 +450,8 @@ export const PAGES_MENU = [
         path: '',
         data: {
           menu: {
-            title: 'External Link',
-            url: 'http://akveo.com',
+            title: 'Doctor',
+            url: 'https://myDoctors24.com/doctor',
             icon: 'ion-android-exit',
             order: 800,
             target: '_blank'
