@@ -4,15 +4,15 @@
  * @author Alexander Zagovorichev <zagovorichev@gmail.com>
  */
 
-import {Component, ViewEncapsulation, ViewChild} from '@angular/core';
+import { Component, ViewEncapsulation, ViewChild } from '@angular/core';
 
 import { LocalDataSource } from 'ng2-smart-table';
 import { SlimLoadingBarComponent } from 'ng2-slim-loading-bar';
-import { Response} from '@angular/http';
-import { ModalComponent} from 'ng2-bs3-modal/components/modal';
-import { Router} from '@angular/router';
-import { CasesService} from '../cases.service';
-import { CaseAccident} from '../case';
+import { Response } from '@angular/http';
+import { ModalComponent } from 'ng2-bs3-modal/components/modal';
+import { Router } from '@angular/router';
+import { CasesService } from '../../cases.service';
+import { CaseAccident } from '../../case';
 
 @Component({
   selector: 'basic-tables',
@@ -23,10 +23,10 @@ import { CaseAccident} from '../case';
 export class CasesListComponent {
 
   @ViewChild('loadingBarCasesList')
-    loadingBar: SlimLoadingBarComponent;
+  loadingBar: SlimLoadingBarComponent;
 
   @ViewChild('errorDialog')
-    errorDialog: ModalComponent;
+  errorDialog: ModalComponent;
 
   query: string = '';
 
@@ -78,9 +78,10 @@ export class CasesListComponent {
 
   source: LocalDataSource = new LocalDataSource();
 
-  constructor(protected service: CasesService, public router: Router) { }
+  constructor (protected service: CasesService, public router: Router) {
+  }
 
-  ngOnInit(): void {
+  ngOnInit (): void {
     this.startLoading();
     this.service.getCases().then((data: CaseAccident[]) => {
       this.source.load(data);
@@ -91,31 +92,31 @@ export class CasesListComponent {
     });
   }
 
-  startLoading(): void {
+  startLoading (): void {
     this.loadingBar.color = '#209e91';
     this.loadingBar.show = true;
     this.loadingBar.service.reset();
     this.loadingBar.service.start();
   }
 
-  completeLoading(): void {
+  completeLoading (): void {
     this.loadingBar.service.complete();
     this.loadingBar.show = false;
   }
 
-  errorLoading(): void {
+  errorLoading (): void {
     this.loadingBar.color = '#f89711';
   }
 
-  onEdit(event): void {
-    this.router.navigate(['pages/cases/', event.data.id]);
+  onEdit (event): void {
+    this.router.navigate([ 'pages/cases/', event.data.id ]);
   }
 
-  onCreate(): void {
-    this.router.navigate(['pages/cases/new']);
+  onCreate (): void {
+    this.router.navigate([ 'pages/cases/new' ]);
   }
 
-  private showError(message: string, response: Response = null): void {
+  private showError (message: string, response: Response = null): void {
     this.errorMessage = message;
     if (response) {
       this.errorResponse = response;

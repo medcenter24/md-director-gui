@@ -7,9 +7,9 @@
 import { Component, Output, EventEmitter, ViewChild } from '@angular/core';
 import { SlimLoadingBarComponent } from 'ng2-slim-loading-bar';
 import { ActivatedRoute, Params } from '@angular/router';
-import { Accident } from '../../accident/accident';
-import { AccidentsService } from '../../accident/accidents.service';
-import { SelectServicesComponent } from '../../service/components/select/select.component';
+import { Accident } from '../../../accident/accident';
+import { AccidentsService } from '../../../accident/accidents.service';
+import { SelectServicesComponent } from '../../../service/components/select/select.component';
 
 @Component({
   selector: 'case-editor',
