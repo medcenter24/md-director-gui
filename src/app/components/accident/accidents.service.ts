@@ -4,9 +4,9 @@
  * @author Alexander Zagovorichev <zagovorichev@gmail.com>
  */
 
-import {Injectable} from '@angular/core';
-import {Headers, Http} from "@angular/http";
-import {Accident} from "./accident";
+import { Injectable } from '@angular/core';
+import { Headers, Http } from '@angular/http';
+import { Accident } from './accident';
 
 @Injectable()
 export class AccidentsService {
@@ -22,7 +22,6 @@ export class AccidentsService {
         .then(response => response.json().data as Accident[])
         .catch(this.handleError);
   }
-
 
   getAccident(id: number): Promise<Accident> {
     const url = `${this.accidentsUrl}/${id}`;

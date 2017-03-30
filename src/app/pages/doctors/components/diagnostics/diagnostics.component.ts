@@ -4,14 +4,14 @@
  * @author Alexander Zagovorichev <zagovorichev@gmail.com>
  */
 
-import {Component, ViewEncapsulation, ViewChild} from '@angular/core';
+import { Component, ViewEncapsulation, ViewChild } from '@angular/core';
 
 import { LocalDataSource } from 'ng2-smart-table';
-import {SlimLoadingBarComponent} from 'ng2-slim-loading-bar';
-import {ModalComponent} from "ng2-bs3-modal/components/modal";
-import {DiagnosticEditorComponent} from "../../../../components/diagnostic/editor/editor.component";
-import {Diagnostic} from "../../../../components/diagnostic/diagnostic";
-import {DiagnosticService} from "../../../../components/diagnostic/diagnostic.service";
+import { SlimLoadingBarComponent } from 'ng2-slim-loading-bar';
+import { ModalComponent } from 'ng2-bs3-modal/components/modal';
+import { DiagnosticEditorComponent } from '../../../../components/diagnostic/components/editor/editor.component';
+import { Diagnostic } from '../../../../components/diagnostic/diagnostic';
+import { DiagnosticService } from '../../../../components/diagnostic/diagnostic.service';
 
 @Component({
   selector: 'basic-tables',
@@ -22,16 +22,16 @@ import {DiagnosticService} from "../../../../components/diagnostic/diagnostic.se
 export class Diagnostics {
 
   @ViewChild('loadingBarDiagnosticList')
-    private loadingBar: SlimLoadingBarComponent;
+  private loadingBar: SlimLoadingBarComponent;
 
   @ViewChild(DiagnosticEditorComponent)
-      private diagnosticComponent: DiagnosticEditorComponent;
+  private diagnosticComponent: DiagnosticEditorComponent;
 
   @ViewChild('deleteDialog')
-      private deleteDialog: ModalComponent;
+  private deleteDialog: ModalComponent;
 
   @ViewChild('errorDialog')
-    private errorDialog: ModalComponent;
+  private errorDialog: ModalComponent;
 
   selectedDiagnostic: boolean = false;
   editCategories: boolean = false;
@@ -75,27 +75,26 @@ export class Diagnostics {
 
   source: LocalDataSource = new LocalDataSource();
 
-  constructor(
-      protected service: DiagnosticService
-  ) { }
+  constructor (protected service: DiagnosticService) {
+  }
 
-  startLoading(): void {
+  startLoading (): void {
     this.loadingBar.color = '#209e91';
     this.loadingBar.show = true;
     this.loadingBar.service.reset();
     this.loadingBar.service.start();
   }
 
-  completeLoading(): void {
+  completeLoading (): void {
     this.loadingBar.service.complete();
     this.loadingBar.show = false;
   }
 
-  errorLoading(): void {
+  errorLoading (): void {
     this.loadingBar.color = '#f89711';
   }
 
-  ngOnInit(): void {
+  ngOnInit (): void {
     this.startLoading();
     this.service.getDiagnostics().then((data) => {
       this.source.load(data);
@@ -111,7 +110,7 @@ export class Diagnostics {
   titleForDeletion: string = '';
   deleteProcess: boolean = false;
 
-  onDeleteDialogOk(): void {
+  onDeleteDialogOk (): void {
     this.deleteProcess = true;
     this.startLoading();
     this.service.delete(this.deleteDialogEvent.data.id).then(() => {
@@ -133,18 +132,18 @@ export class Diagnostics {
     });
   }
 
-  onDeleteDialogCancel(): void {
+  onDeleteDialogCancel (): void {
     this.deleteDialogEvent.confirm.reject();
     this.deleteDialogEvent = null;
   }
 
-  onDeleteConfirm(event): void {
+  onDeleteConfirm (event): void {
     this.deleteDialogEvent = event;
     this.titleForDeletion = event.data.title;
     this.deleteDialog.open('sm');
   }
 
-  onTableSave(event): void {
+  onTableSave (event): void {
     this.startLoading();
     this.service.update(event.newData).then(() => {
       event.confirm.resolve();
@@ -157,7 +156,7 @@ export class Diagnostics {
     });
   }
 
-  onTableCreate(event): void {
+  onTableCreate (event): void {
     this.startLoading();
     this.service.create(event.newData).then(() => {
       event.confirm.resolve();
@@ -165,32 +164,32 @@ export class Diagnostics {
     }).catch((reason) => {
       this.errorLoading();
       event.confirm.reject();
-      this.showError('Something bad happened, you can\'t add diagnostic')
+      this.showError('Something bad happened, you can\'t add diagnostic');
       this.completeLoading();
     });
   }
 
-  private showError(message: string): void {
+  private showError (message: string): void {
     this.errorMessage = message;
     this.errorDialog.open('sm');
   }
 
-  onUserSelectRow(event): void {
+  onUserSelectRow (event): void {
     this.selectedDiagnostic = true;
     this.currentDiagnostic = event.data;
     this.categoryId = this.currentDiagnostic.diagnostic_category_id;
   }
 
-  onUpdateDiagnostic(diagnostic: Diagnostic): void {
+  onUpdateDiagnostic (diagnostic: Diagnostic): void {
     this.source.update(this.currentDiagnostic, diagnostic);
   }
 
-  openCategoryEditor(event): void {
+  openCategoryEditor (event): void {
     this.editCategories = event.show;
     this.categoryId = event.categoryId;
   }
 
-  onCategoryChanged(): void {
+  onCategoryChanged (): void {
     this.diagnosticComponent.reloadCategories();
   }
 }

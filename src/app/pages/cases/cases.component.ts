@@ -4,7 +4,7 @@
  * @author Alexander Zagovorichev <zagovorichev@gmail.com>
  */
 
-import {Component} from '@angular/core';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'forms',
@@ -12,7 +12,5 @@ import {Component} from '@angular/core';
   template: `<router-outlet></router-outlet>`
 })
 export class Cases {
-
-  constructor() {
-  }
+  constructor () {}
 }

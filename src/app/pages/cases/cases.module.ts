@@ -12,14 +12,17 @@ import { NgaModule } from '../../theme/nga.module';
 import { Cases } from './cases.component';
 import { routing }       from './cases.routing';
 
-import {Ng2SmartTableModule} from "ng2-smart-table";
-import {SlimLoadingBarModule} from "ng2-slim-loading-bar";
-import {Ng2Bs3ModalModule} from "ng2-bs3-modal/ng2-bs3-modal";
-import {InMemoryWebApiModule} from "angular-in-memory-web-api";
-import {InMemoryDataService} from "../../faker/in-memory-data.service";
-import {CasesService} from "../../components/case/cases.service";
-import {CaseEditorComponent} from "../../components/case/editor/editor.component";
-import {CasesListComponent} from "../../components/case/list/list.component";
+import { Ng2SmartTableModule } from 'ng2-smart-table';
+import { SlimLoadingBarModule } from 'ng2-slim-loading-bar';
+import { Ng2Bs3ModalModule } from 'ng2-bs3-modal/ng2-bs3-modal';
+import { InMemoryWebApiModule } from 'angular-in-memory-web-api';
+import { InMemoryDataService } from '../../faker/in-memory-data.service';
+import { CasesService } from '../../components/case/cases.service';
+import { CaseEditorComponent } from '../../components/case/editor/editor.component';
+import { CasesListComponent } from '../../components/case/list/list.component';
+import { AccidentsService } from '../../components/accident/accidents.service';
+import { SelectServicesComponent } from '../../components/service/components/select/select.component';
+import { Ng2CompleterModule } from 'ng2-completer';
 
 @NgModule({
   imports: [
@@ -31,14 +34,17 @@ import {CasesListComponent} from "../../components/case/list/list.component";
     SlimLoadingBarModule.forRoot(),
     Ng2Bs3ModalModule,
     InMemoryWebApiModule.forRoot(InMemoryDataService, {apiBase: 'director/'}),
+    Ng2CompleterModule
   ],
   declarations: [
     Cases,
     CaseEditorComponent,
     CasesListComponent,
+    SelectServicesComponent
   ],
   providers: [
-      CasesService
+    CasesService,
+    AccidentsService
   ]
 })
-export class CasesModule {}
+export class CasesModule { }

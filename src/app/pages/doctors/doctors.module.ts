@@ -20,20 +20,20 @@ import { Stuff } from './components/stuff/stuff.component';
 import { SlimLoadingBarModule } from 'ng2-slim-loading-bar';
 import { Ng2Bs3ModalModule } from 'ng2-bs3-modal/ng2-bs3-modal';
 
-import {DoctorsService} from "../../components/doctors/doctors.service";
-import {UserEditorComponent} from "../../components/users/editor/editor.component";
-import {UserSelectorComponent} from "../../components/users/selector/selector.component";
-import {UsersService} from "../../components/users/users.service";
-import {DoctorEditorComponent} from "../../components/doctors/editor/editor.component";
-import {ServicesService} from "../../components/service/services.service";
-import {Diagnostics} from "./components/diagnostics/diagnostics.component";
-import {DiagnosticEditorComponent} from "../../components/diagnostic/editor/editor.component";
-import {DiagnosticCategoryEditorComponent} from "../../components/diagnostic/category/editor/editor.component";
-import {DiagnosticCategorySelectorComponent} from "../../components/diagnostic/category/selector/selector.component";
-import {DiagnosticService} from "../../components/diagnostic/diagnostic.service";
-import {DiagnosticCategoryService} from "../../components/diagnostic/category/category.service";
-import {InMemoryWebApiModule} from "angular-in-memory-web-api";
-import {InMemoryDataService} from "../../faker/in-memory-data.service";
+import { DoctorsService } from '../../components/doctors/doctors.service';
+import { UserEditorComponent } from '../../components/users/editor/editor.component';
+import { UserSelectorComponent } from '../../components/users/selector/selector.component';
+import { UsersService } from '../../components/users/users.service';
+import { DoctorEditorComponent } from '../../components/doctors/editor/editor.component';
+import { ServicesService } from '../../components/service/services.service';
+import { Diagnostics } from './components/diagnostics/diagnostics.component';
+import { DiagnosticEditorComponent } from '../../components/diagnostic/components/editor/editor.component';
+import { DiagnosticCategoryEditorComponent } from '../../components/diagnostic/category/components/editor/editor.component';
+import { DiagnosticCategorySelectorComponent } from '../../components/diagnostic/category/components/selector/selector.component';
+import { DiagnosticService } from '../../components/diagnostic/diagnostic.service';
+import { DiagnosticCategoryService } from '../../components/diagnostic/category/category.service';
+import { InMemoryWebApiModule } from 'angular-in-memory-web-api';
+import { InMemoryDataService } from '../../faker/in-memory-data.service';
 
 @NgModule({
   imports: [
@@ -67,4 +67,5 @@ import {InMemoryDataService} from "../../faker/in-memory-data.service";
   ]
 })
 
-export class DoctorsModule {}
+export class DoctorsModule {
+}
