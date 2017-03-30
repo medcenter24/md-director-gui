@@ -8,8 +8,8 @@ import { Routes, RouterModule }  from '@angular/router';
 
 import { Cases } from './cases.component';
 import { ModuleWithProviders } from '@angular/core';
-import { CaseEditorComponent } from '../../components/case/editor/editor.component';
-import { CasesListComponent } from '../../components/case/list/list.component';
+import { CaseEditorComponent } from '../../components/case/components/editor/editor.component';
+import { CasesListComponent } from '../../components/case/components/list/list.component';
 
 // noinspection TypeScriptValidateTypes
 export const routes: Routes = [
