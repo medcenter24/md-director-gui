@@ -6,7 +6,7 @@ import { NgaModule } from '../theme/nga.module';
 
 import { Pages } from './pages.component';
 
-import {SlimLoadingBarModule} from 'ng2-slim-loading-bar';
+import { SlimLoadingBarModule } from 'ng2-slim-loading-bar';
 
 @NgModule({
   imports: [
@@ -15,8 +15,8 @@ import {SlimLoadingBarModule} from 'ng2-slim-loading-bar';
     routing,
     SlimLoadingBarModule.forRoot()
   ],
-  exports: [SlimLoadingBarModule],
-  declarations: [Pages]
+  exports: [ SlimLoadingBarModule ],
+  declarations: [ Pages ]
 })
 export class PagesModule {
 }

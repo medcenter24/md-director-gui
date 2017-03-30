@@ -12,7 +12,7 @@ ng2-smart-table {
   th, td {
     border: 1px solid $border-light !important;
     font-size: $font-size-base !important;
-    line-height: 35px;
+    line-height: $line-height-base;
     vertical-align: middle;
   }
 
@@ -51,13 +51,17 @@ ng2-smart-table {
   }
 
   a.ng2-smart-action {
-    font-size: 14px !important;
+    font-size: $font-size-base;
     color: $default-text;
     padding: 0 5px;
     display: inline-block;
 
     &.ng2-smart-action-add-add {
-      font-size: 25px !important;
+      font-size: $font-size-large;
+      text-align: center;
+      display: flex;
+      align-content: center;
+      justify-content: center;
     }
   }
 }
