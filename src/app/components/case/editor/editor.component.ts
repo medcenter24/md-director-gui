@@ -6,50 +6,53 @@
 
 import { Component, Output, EventEmitter, ViewChild } from '@angular/core';
 import { SlimLoadingBarComponent } from 'ng2-slim-loading-bar';
-import { GlobalState } from '../../../global.state';
-//import { ActivatedRoute, Params } from '@angular/router';
-//import { AccidentsService } from '../../accident/accidents.service';
+import { ActivatedRoute, Params } from '@angular/router';
 import { Accident } from '../../accident/accident';
+import { AccidentsService } from '../../accident/accidents.service';
+import { SelectServicesComponent } from '../../service/components/select/select.component';
 
 @Component({
-    selector: 'case-editor',
-    templateUrl: './editor.html'
+  selector: 'case-editor',
+  templateUrl: './editor.html'
 })
 export class CaseEditorComponent {
 
-    @Output() loaded: EventEmitter<null> = new EventEmitter<null>();
+  @Output() loaded: EventEmitter<null> = new EventEmitter<null>();
 
-    @ViewChild('loadingBarCaseEditor') loadingBar: SlimLoadingBarComponent;
+  @ViewChild('loadingBarCaseEditor') loadingBar: SlimLoadingBarComponent;
 
-    accident: Accident;
+  accident: Accident;
 
-    constructor (private _state: GlobalState,
-                 /*private route: ActivatedRoute,
-                 private accidentService: AccidentsService*/
-    ) { }
+  @ViewChild(SelectServicesComponent)
+    private servicesComponent: SelectServicesComponent;
 
-    ngOnInit() {
-        this._state.notifyDataChanged('menu.activeLink', {title: 'Creation of a new case'});
+  constructor (private route: ActivatedRoute, private accidentsService: AccidentsService) { }
 
-/*        this.route.params
-            // (+) converts string 'id' to a number
-            .switchMap((params: Params) => this.accidentService.getAccident(+params['id']))
-            .subscribe((accident: Accident) => this.accident = accident ? accident : new Accident());*/
+  ngOnInit () {
+    if (this.route.params['id'] && this.route.params['id'] !== 'new' ) {
+      this.route.params
+        // (+) converts string 'id' to a number
+        .switchMap((params: Params) => this.accidentsService.getAccident(+params[ 'id' ]))
+        .subscribe((accident: Accident) => this.accident = accident ? accident : new Accident());
+    } else {
+      this.accident = new Accident;
     }
 
-    startLoading(): void {
-        this.loadingBar.color = '#209e91';
-        this.loadingBar.show = true;
-        this.loadingBar.service.reset();
-        this.loadingBar.service.start();
-    }
+  }
 
-    completeLoading(): void {
-        this.loadingBar.service.complete();
-        this.loadingBar.show = false;
-    }
+  startLoading (): void {
+    this.loadingBar.color = '#209e91';
+    this.loadingBar.show = true;
+    this.loadingBar.service.reset();
+    this.loadingBar.service.start();
+  }
 
-    errorLoading(): void {
-        this.loadingBar.color = '#f89711';
-    }
+  completeLoading (): void {
+    this.loadingBar.service.complete();
+    this.loadingBar.show = false;
+  }
+
+  errorLoading (): void {
+    this.loadingBar.color = '#f89711';
+  }
 }

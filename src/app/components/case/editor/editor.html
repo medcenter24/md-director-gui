@@ -5,6 +5,6 @@
   -->
 
 <ng2-slim-loading-bar #loadingBarCaseEditor></ng2-slim-loading-bar>
-<ba-card *ngIf="accident" title="Case #{{ accident.id ? accident.id : 'new' }}" baCardClass="with-scroll" class="edit-form-container">
-    <div>asdf</div>
+<ba-card *ngIf="accident" title="{{ accident.id ? 'Editing case #' + accident.id : 'Creating new case' }}" baCardClass="with-scroll" class="edit-form-container">
+    <select-services></select-services>
 </ba-card>

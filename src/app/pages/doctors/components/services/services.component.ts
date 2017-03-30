@@ -4,12 +4,12 @@
  * @author Alexander Zagovorichev <zagovorichev@gmail.com>
  */
 
-import {Component, ViewEncapsulation, ViewChild} from '@angular/core';
+import { Component, ViewEncapsulation, ViewChild } from '@angular/core';
 
 import { LocalDataSource } from 'ng2-smart-table';
-import {SlimLoadingBarComponent} from 'ng2-slim-loading-bar';
-import { ModalComponent } from "ng2-bs3-modal/components/modal";
-import {ServicesService} from "../../../../components/service/services.service";
+import { SlimLoadingBarComponent } from 'ng2-slim-loading-bar';
+import { ModalComponent } from 'ng2-bs3-modal/components/modal';
+import { ServicesService } from '../../../../components/service/services.service';
 
 @Component({
   selector: 'basic-tables',
@@ -20,13 +20,13 @@ import {ServicesService} from "../../../../components/service/services.service";
 export class Services {
 
   @ViewChild('loadingBarServiceList')
-    private loadingBar: SlimLoadingBarComponent;
+  private loadingBar: SlimLoadingBarComponent;
 
   @ViewChild('deleteDialog')
-    private deleteDialog: ModalComponent;
+  private deleteDialog: ModalComponent;
 
   @ViewChild('errorDialog')
-    private errorDialog: ModalComponent;
+  private errorDialog: ModalComponent;
 
   query: string = '';
 
@@ -70,9 +70,10 @@ export class Services {
   deleteProcess: boolean = false;
   errorMessage: string = '';
 
-  constructor(protected service: ServicesService) { }
+  constructor (protected service: ServicesService) {
+  }
 
-  ngOnInit(): void {
+  ngOnInit (): void {
     this.startLoading();
     this.service.getServices().then((data) => {
       this.source.load(data);
@@ -83,23 +84,23 @@ export class Services {
     });
   }
 
-  startLoading(): void {
+  startLoading (): void {
     this.loadingBar.color = '#209e91';
     this.loadingBar.show = true;
     this.loadingBar.service.reset();
     this.loadingBar.service.start();
   }
 
-  completeLoading(): void {
+  completeLoading (): void {
     this.loadingBar.service.complete();
     this.loadingBar.show = false;
   }
 
-  errorLoading(): void {
+  errorLoading (): void {
     this.loadingBar.color = '#f89711';
   }
 
-  onTableSave(event): void {
+  onTableSave (event): void {
     this.startLoading();
     this.service.update(event.newData).then(() => {
       event.confirm.resolve();
@@ -112,7 +113,7 @@ export class Services {
     });
   }
 
-  onTableCreate(event): void {
+  onTableCreate (event): void {
     this.startLoading();
     this.service.create(event.newData).then(() => {
       event.confirm.resolve();
@@ -127,18 +128,18 @@ export class Services {
     });
   }
 
-  private showError(message: string): void {
+  private showError (message: string): void {
     this.errorMessage = message;
     this.errorDialog.open('sm');
   }
 
-  onDeleteConfirm(event): void {
+  onDeleteConfirm (event): void {
     this.deleteDialogEvent = event;
     this.titleForDeletion = event.data.title;
     this.deleteDialog.open('sm');
   }
 
-  onDeleteDialogOk(): void {
+  onDeleteDialogOk (): void {
     this.deleteProcess = true;
     this.startLoading();
     this.service.delete(this.deleteDialogEvent.data.id).then(() => {
@@ -156,7 +157,7 @@ export class Services {
     });
   }
 
-  onDeleteDialogCancel(): void {
+  onDeleteDialogCancel (): void {
     if (this.deleteDialogEvent && this.deleteDialogEvent.confirm) {
       this.deleteDialogEvent.confirm.reject();
     }

@@ -1,0 +1,8 @@
+<div>
+    <ng2-completer
+            [(ngModel)]="searchStr"
+            [minSearchLength]="0"
+            [clearSelected]="true"
+            (selected)="onSelected($event)"
+    ></ng2-completer>
+</div>
