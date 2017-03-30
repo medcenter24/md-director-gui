@@ -4,13 +4,13 @@
  * @author Alexander Zagovorichev <zagovorichev@gmail.com>
  */
 
-import {Component, ViewEncapsulation, ViewChild} from '@angular/core';
+import { Component, ViewEncapsulation, ViewChild } from '@angular/core';
 
 import { LocalDataSource } from 'ng2-smart-table';
-import {ModalComponent} from "ng2-bs3-modal/components/modal";
-import {SlimLoadingBarComponent} from "ng2-slim-loading-bar";
-import {Response} from "@angular/http";
-import {AccidentStatusesService} from "../../../../components/accident/status/statuses.service";
+import { ModalComponent } from 'ng2-bs3-modal/components/modal';
+import { SlimLoadingBarComponent } from 'ng2-slim-loading-bar';
+import { Response } from '@angular/http';
+import { AccidentStatusesService } from '../../../../components/accident/status/statuses.service';
 
 @Component({
   selector: 'basic-tables',
@@ -21,13 +21,13 @@ import {AccidentStatusesService} from "../../../../components/accident/status/st
 export class AccidentStatuses {
 
   @ViewChild('loadingBarStatusesList')
-    private loadingBar: SlimLoadingBarComponent;
+  private loadingBar: SlimLoadingBarComponent;
 
   @ViewChild('deleteDialog')
-    private deleteDialog: ModalComponent;
+  private deleteDialog: ModalComponent;
 
   @ViewChild('errorDialog')
-    private errorDialog: ModalComponent;
+  private errorDialog: ModalComponent;
 
   query: string = '';
 
@@ -68,36 +68,37 @@ export class AccidentStatuses {
 
   source: LocalDataSource = new LocalDataSource();
 
-  constructor(protected service: AccidentStatusesService) { }
+  constructor (protected service: AccidentStatusesService) {
+  }
 
-  ngOnInit(): void {
+  ngOnInit (): void {
     this.startLoading();
     this.service.getStatuses().then((data) => {
       this.source.load(data);
-      this.completeLoading()
+      this.completeLoading();
     }).catch((response) => {
       this.showError('Something bad happened, you can\'t load list of accident statuses', response);
       this.errorLoading();
     });
   }
 
-  startLoading(): void {
+  startLoading (): void {
     this.loadingBar.color = '#209e91';
     this.loadingBar.show = true;
     this.loadingBar.service.reset();
     this.loadingBar.service.start();
   }
 
-  completeLoading(): void {
+  completeLoading (): void {
     this.loadingBar.service.complete();
     this.loadingBar.show = false;
   }
 
-  errorLoading(): void {
+  errorLoading (): void {
     this.loadingBar.color = '#f89711';
   }
 
-  onDeleteDialogOk(): void {
+  onDeleteDialogOk (): void {
     this.deleteProcess = true;
     this.startLoading();
     this.service.delete(this.deleteDialogEvent.data.id).then(() => {
@@ -115,18 +116,18 @@ export class AccidentStatuses {
     });
   }
 
-  onDeleteDialogCancel(): void {
+  onDeleteDialogCancel (): void {
     this.deleteDialogEvent.confirm.reject();
     this.deleteDialogEvent = null;
   }
 
-  onDeleteConfirm(event): void {
+  onDeleteConfirm (event): void {
     this.deleteDialogEvent = event;
     this.titleForDeletion = event.data.title;
     this.deleteDialog.open('sm');
   }
 
-  onTableSave(event): void {
+  onTableSave (event): void {
     this.startLoading();
     this.service.update(event.newData).then(() => {
       event.confirm.resolve();
@@ -139,7 +140,7 @@ export class AccidentStatuses {
     });
   }
 
-  onTableCreate(event): void {
+  onTableCreate (event): void {
     this.startLoading();
     this.service.create(event.newData).then(() => {
       event.confirm.resolve();
@@ -152,7 +153,7 @@ export class AccidentStatuses {
     });
   }
 
-  private showError(message: string, response: Response = null): void {
+  private showError (message: string, response: Response = null): void {
     this.errorMessage = message;
     if (response) {
       this.errorResponse = response;

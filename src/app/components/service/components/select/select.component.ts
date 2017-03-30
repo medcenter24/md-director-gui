@@ -42,4 +42,7 @@ export class SelectServicesComponent {
     this.dataService = this.completerService.local(this.searchData, 'color', 'color');
   }
 
+  onSelected(event): void {
+    console.log(event);
+  }
 }

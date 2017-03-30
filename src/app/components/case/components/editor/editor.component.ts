@@ -55,4 +55,8 @@ export class CaseEditorComponent {
   errorLoading (): void {
     this.loadingBar.color = '#f89711';
   }
+
+  onSubmit(): void {
+    console.log('submit');
+  }
 }
