@@ -1,14 +1,9 @@
 <div>
-
-    <ng2-completer
-            [(ngModel)]="searchStr"
-            [minSearchLength]="0"
-            [clearSelected]="true"
-            [dataService]="dataService"
+    <ng-select
+            #servicesSelector
+            [allowClear]="true"
+            [items]="dataItems"
             (selected)="onSelected($event)"
-            inputClass="form-control"
-            placeholder="Services"
-            textSearching="Searching ..."
-
-    ></ng2-completer>
+            placeholder="Select Service"
+    ></ng-select>
 </div>

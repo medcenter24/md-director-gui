@@ -9,7 +9,7 @@ import { SlimLoadingBarComponent } from 'ng2-slim-loading-bar';
 import { ActivatedRoute, Params } from '@angular/router';
 import { Accident } from '../../../accident/accident';
 import { AccidentsService } from '../../../accident/accidents.service';
-import { SelectServicesComponent } from '../../../service/components/select/select.component';
+import { ServicesSelectorComponent } from '../../../service/components/selector/selector.component';
 
 @Component({
   selector: 'case-editor',
@@ -22,9 +22,6 @@ export class CaseEditorComponent {
   @ViewChild('loadingBarCaseEditor') loadingBar: SlimLoadingBarComponent;
 
   accident: Accident;
-
-  @ViewChild(SelectServicesComponent)
-    private servicesComponent: SelectServicesComponent;
 
   constructor (private route: ActivatedRoute, private accidentsService: AccidentsService) { }
 

@@ -1,0 +1,21 @@
+/*!
+ * Copyright (c) 2017
+ *
+ *  @author Alexander Zagovorichev <zagovorichev@gmail.com>
+ */
+
+.table {
+  background-color: $white-color;
+  thead {
+    th {
+      font-weight: $font-bold;
+      color: $github-color;
+    }
+    &.table-inverse {
+      background-color: $black-color;
+      th {
+        color: $white-color;
+      }
+    }
+  }
+}

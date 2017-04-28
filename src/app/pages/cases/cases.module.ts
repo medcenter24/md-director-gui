@@ -22,7 +22,10 @@ import { CaseEditorComponent } from '../../components/case/components/editor/edi
 import { CasesListComponent } from '../../components/case/components/list/list.component';
 import { AccidentsService } from '../../components/accident/accidents.service';
 import { SelectServicesComponent } from '../../components/service/components/select/select.component';
-import { Ng2CompleterModule } from 'ng2-completer';
+import { ServicesService } from '../../components/service/services.service';
+import { ServicesSelectorComponent } from '../../components/service/components/selector/selector.component';
+import { SelectModule } from 'ng2-select';
+
 
 @NgModule({
   imports: [
@@ -34,17 +37,19 @@ import { Ng2CompleterModule } from 'ng2-completer';
     SlimLoadingBarModule.forRoot(),
     Ng2Bs3ModalModule,
     InMemoryWebApiModule.forRoot(InMemoryDataService, {apiBase: 'director/'}),
-    Ng2CompleterModule
+    SelectModule
   ],
   declarations: [
     Cases,
     CaseEditorComponent,
     CasesListComponent,
-    SelectServicesComponent
+    SelectServicesComponent,
+    ServicesSelectorComponent
   ],
   providers: [
     CasesService,
-    AccidentsService
+    AccidentsService,
+    ServicesService
   ]
 })
 export class CasesModule { }
