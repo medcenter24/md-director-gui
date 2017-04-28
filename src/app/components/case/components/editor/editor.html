@@ -5,14 +5,19 @@
   -->
 
 <ng2-slim-loading-bar #loadingBarCaseEditor></ng2-slim-loading-bar>
-<h1>{{ accident.id ? 'Editing case #' + accident.id : 'Creating new case' }}</h1>
-<form *ngIf="accident" class="edit-form-container form">
+<div *ngIf="accident">
+    <h1>{{ accident.id ? 'Editing case #' + accident.id : 'Creating new case' }}</h1>
     <div class="row">
-        <div class="col-sm-6">
-            <div class="form-group">
-                <label for="service">Services</label>
-                <select-services name="services"></select-services>
-            </div>
+        <div class="col-lg-9">
+            <form class="edit-form-container form">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="form-group">
+                            <services-selector></services-selector>
+                        </div>
+                    </div>
+                </div>
+            </form>
         </div>
     </div>
-</form>
+</div>

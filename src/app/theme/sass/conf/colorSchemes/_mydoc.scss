@@ -4,19 +4,12 @@
  * @author Alexander Zagovorichev <zagovorichev@gmail.com>
  */
 
-
-
-a.al-sidebar-list-link i {
-  font-size: $font-size-large;
-}
-
-.table > tbody > tr > td {
-  line-height: $line-height-base;
-}
-
 @import 'mydoc/variables';
+@import 'mydoc/styles';
+@import 'mydoc/table';
 @import 'mydoc/mixins';
 @import 'mydoc/ng2-table';
 @import 'mydoc/edit-form';
 @import 'mydoc/uploader';
 @import 'mydoc/form';
+
