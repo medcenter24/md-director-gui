@@ -4,7 +4,7 @@
  *  @author Alexander Zagovorichev <zagovorichev@gmail.com>
  */
 
-import { Component, ViewChild } from '@angular/core';
+import { Component, Output, ViewChild, EventEmitter } from '@angular/core';
 import { ServicesService } from '../../services.service';
 import { SelectComponent } from 'ng2-select';
 import { Service } from '../../service';
@@ -15,10 +15,12 @@ import { Service } from '../../service';
 })
 export class SelectServicesComponent {
 
-  protected searchStr: string;
+  @Output() loading: EventEmitter<string> = new EventEmitter<string>();
+  @Output() loaded: EventEmitter<string> = new EventEmitter<string>();
+  @Output() selected: EventEmitter<Service> = new EventEmitter<Service>();
 
-  @ViewChild('servicesSelector')
-    private servicesSelector: SelectComponent;
+  @ViewChild('servicesSelect')
+    private servicesSelect: SelectComponent;
 
   private dataItems: Array<any> = [];
   private loadedServices: Array<Service> = [];
@@ -26,21 +28,29 @@ export class SelectServicesComponent {
   constructor (private servicesService: ServicesService) { }
 
   ngOnInit () {
+    this.loading.emit('select-services');
     this.servicesService.getServices().then(services => {
       this.loadedServices = services;
       this.dataItems = services.map(x => {
         return {
           id: x.id,
-          text: '<div class="row"><div class="col-sm-6">' + x.title
+          text: '<div class="row margin-0"><div class="col-sm-6">' + x.title
             + '</div><div class="col-sm-6"><b>' + x.price + '</b></div></div>'
         };
       });
+      this.loaded.emit('select-services');
     }).catch((err) => {
-      console.log('log_error: ', err);
+      this.loaded.emit('select-services');
+      console.error('log_error: ', err);
     });
   }
 
   onSelected(event): void {
-    console.log(event);
+    const service = this.loadedServices.find(function (el) {
+      return el.id === event.id;
+    });
+
+    this.servicesSelect.remove(event);
+    this.selected.emit(service);
   }
 }

@@ -25,7 +25,8 @@ import { SelectServicesComponent } from '../../components/service/components/sel
 import { ServicesService } from '../../components/service/services.service';
 import { ServicesSelectorComponent } from '../../components/service/components/selector/selector.component';
 import { SelectModule } from 'ng2-select';
-
+import { SelectAccidentTypeComponent } from '../../components/accident/type/select/select.component';
+import { AccidentTypesService } from '../../components/accident/type/types.service';
 
 @NgModule({
   imports: [
@@ -37,19 +38,21 @@ import { SelectModule } from 'ng2-select';
     SlimLoadingBarModule.forRoot(),
     Ng2Bs3ModalModule,
     InMemoryWebApiModule.forRoot(InMemoryDataService, {apiBase: 'director/'}),
-    SelectModule
+    SelectModule,
   ],
   declarations: [
     Cases,
     CaseEditorComponent,
     CasesListComponent,
     SelectServicesComponent,
-    ServicesSelectorComponent
+    ServicesSelectorComponent,
+    SelectAccidentTypeComponent
   ],
   providers: [
     CasesService,
     AccidentsService,
-    ServicesService
+    ServicesService,
+    AccidentTypesService
   ]
 })
 export class CasesModule { }

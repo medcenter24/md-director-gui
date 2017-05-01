@@ -19,16 +19,6 @@ import {PatientsService} from "../../../../components/patient/patients.service";
   templateUrl: './patients.html',
 })
 export class Patients {
-
-  @ViewChild('loadingBarPatientsList')
-    private loadingBar: SlimLoadingBarComponent;
-
-  @ViewChild('deleteDialog')
-    private deleteDialog: ModalComponent;
-
-  @ViewChild('errorDialog')
-    private errorDialog: ModalComponent;
-
   query: string = '';
 
   deleteDialogEvent: any = null;
@@ -79,6 +69,15 @@ export class Patients {
   };
 
   source: LocalDataSource = new LocalDataSource();
+
+  @ViewChild('loadingBarPatientsList')
+  private loadingBar: SlimLoadingBarComponent;
+
+  @ViewChild('deleteDialog')
+  private deleteDialog: ModalComponent;
+
+  @ViewChild('errorDialog')
+  private errorDialog: ModalComponent;
 
   constructor(protected service: PatientsService) { }
 
