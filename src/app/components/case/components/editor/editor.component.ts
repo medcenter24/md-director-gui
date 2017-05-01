@@ -9,7 +9,6 @@ import { SlimLoadingBarComponent } from 'ng2-slim-loading-bar';
 import { ActivatedRoute, Params } from '@angular/router';
 import { Accident } from '../../../accident/accident';
 import { AccidentsService } from '../../../accident/accidents.service';
-import { ServicesSelectorComponent } from '../../../service/components/selector/selector.component';
 
 @Component({
   selector: 'case-editor',
@@ -22,10 +21,14 @@ export class CaseEditorComponent {
   @ViewChild('loadingBarCaseEditor') loadingBar: SlimLoadingBarComponent;
 
   accident: Accident;
+  appliedTime: string = '';
+
+  private loadingControl: Array<string> = [];
 
   constructor (private route: ActivatedRoute, private accidentsService: AccidentsService) { }
 
   ngOnInit () {
+    this.loadingBar.show = false;
     if (this.route.params['id'] && this.route.params['id'] !== 'new' ) {
       this.route.params
         // (+) converts string 'id' to a number
@@ -34,7 +37,6 @@ export class CaseEditorComponent {
     } else {
       this.accident = new Accident;
     }
-
   }
 
   startLoading (): void {
@@ -55,5 +57,27 @@ export class CaseEditorComponent {
 
   onSubmit(): void {
     console.log('submit');
+  }
+
+  onLoading(key): void {
+    if (this.loadingControl.indexOf(key) === -1){
+      this.loadingControl.push(key);
+      if (!this.loadingBar.show) {
+        this.startLoading();
+      }
+    }
+  }
+
+  onLoaded(key): void {
+    if (this.loadingBar.show) {
+      const index = this.loadingControl.indexOf(key);
+      if (index !== -1) {
+        this.loadingControl.splice(index, 1);
+      }
+    }
+
+    if (!this.loadingControl.length) {
+      this.completeLoading();
+    }
   }
 }

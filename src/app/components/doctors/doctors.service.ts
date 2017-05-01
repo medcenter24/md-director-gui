@@ -24,7 +24,6 @@ export class DoctorsService {
         .catch(this.handleError);
   }
 
-
   getDoctor(id: number): Promise<Doctor> {
     const url = `${this.doctorUrl}/${id}`;
     return this.http.get(url)
