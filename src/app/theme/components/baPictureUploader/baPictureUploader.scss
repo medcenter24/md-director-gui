@@ -22,9 +22,9 @@
     display: none;
     position: absolute;
     font-size: 32px;
-    background: $white-color;
+    background: $default;
     cursor: pointer;
-    color: $black-color;
+    color: $primary;
     top: -11px;
     right: -11px;
     height: 26px;
@@ -39,7 +39,7 @@
   a.change-picture {
     display: none;
     width: 202px;
-    background: rgba(255, 255, 255, 0.7);
+    background: rgba(0, 0, 0, 0.7);
     transition: all 200ms ease-in-out;
     color: $default-text;
     text-decoration: none;

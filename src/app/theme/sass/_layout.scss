@@ -91,15 +91,15 @@ a {
   float: right;
   margin-right: 12px;
   i {
-    color: $danger;
-    font-size: $font-size-large;
     margin: 0 4px;
+    color: $danger;
+    font-size: 12px;
   }
   a {
-    color: $default-text;
     margin-left: 4px;
+    color: $default-text;
     &:hover {
-      color: $info;
+      color: $danger;
     }
   }
 }
@@ -160,11 +160,12 @@ a {
 }
 
 .icon-up {
-  @include bg-nr('arrow-green-up.svg');
+  //@include bg-nr('arrow-green-up.svg');
+  background: url('/assets/img/arrow-green-up.svg') no-repeat 0 0;
 }
 
 .icon-down {
-  @include bg-nr('arrow-red-down.svg');
+  background: url('/assets/img/arrow-red-down.svg') no-repeat 0 0;
 }
 
 .disable-text-selection {

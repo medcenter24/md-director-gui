@@ -5,16 +5,16 @@
  */
 
 .table {
-  background-color: $white-color;
+  background-color: $white;
   thead {
     th {
       font-weight: $font-bold;
       color: $github-color;
     }
     &.table-inverse {
-      background-color: $black-color;
+      background-color: $black;
       th {
-        color: $white-color;
+        color: $white;
       }
     }
   }

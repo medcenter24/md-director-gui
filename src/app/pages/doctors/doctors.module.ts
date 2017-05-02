@@ -34,6 +34,7 @@ import { DiagnosticService } from '../../components/diagnostic/diagnostic.servic
 import { DiagnosticCategoryService } from '../../components/diagnostic/category/category.service';
 import { InMemoryWebApiModule } from 'angular-in-memory-web-api';
 import { InMemoryDataService } from '../../faker/in-memory-data.service';
+import { TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
   imports: [
@@ -41,6 +42,7 @@ import { InMemoryDataService } from '../../faker/in-memory-data.service';
     FormsModule,
     NgaModule,
     routing,
+    TranslateModule.forChild(),
     Ng2SmartTableModule,
     SlimLoadingBarModule.forRoot(),
     Ng2Bs3ModalModule,

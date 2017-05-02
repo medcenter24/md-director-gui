@@ -5,6 +5,7 @@
  */
 
 import { Routes, RouterModule }  from '@angular/router';
+import { ModuleWithProviders } from '@angular/core';
 
 import { Companions } from './companions.component';
 import { Assistants } from './components/assistants/assistants.component';
@@ -22,4 +23,4 @@ const routes: Routes = [
   }
 ];
 
-export const routing = RouterModule.forChild(routes);
+export const routing: ModuleWithProviders = RouterModule.forChild(routes);

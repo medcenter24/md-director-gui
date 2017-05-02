@@ -15,7 +15,7 @@ import { AccidentCheckpointsService } from '../../../../components/accident/chec
 @Component({
   selector: 'basic-tables',
   encapsulation: ViewEncapsulation.None,
-  styleUrls: [],
+
   templateUrl: './checkpoints.html',
 })
 export class AccidentCheckpoints {

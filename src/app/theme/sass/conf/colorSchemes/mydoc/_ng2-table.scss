@@ -3,6 +3,7 @@
  *
  * @author Alexander Zagovorichev <zagovorichev@gmail.com>
  */
+@import "variables";
 
 ng2-smart-table {
   tr {
@@ -57,7 +58,7 @@ ng2-smart-table {
     display: inline-block;
 
     &.ng2-smart-action-add-add {
-      font-size: $font-size-large;
+      font-size: $font-size-lg;
       text-align: center;
       display: flex;
       align-content: center;
