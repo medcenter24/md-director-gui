@@ -16,7 +16,6 @@ import {AssistantsService} from "../../../../components/assistant/assistant.serv
 @Component({
   selector: 'basic-tables',
   encapsulation: ViewEncapsulation.None,
-  styleUrls: [],
   templateUrl: './assistants.html',
 })
 export class Assistants {

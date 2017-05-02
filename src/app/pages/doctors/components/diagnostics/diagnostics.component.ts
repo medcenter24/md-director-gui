@@ -16,7 +16,7 @@ import { DiagnosticService } from '../../../../components/diagnostic/diagnostic.
 @Component({
   selector: 'basic-tables',
   encapsulation: ViewEncapsulation.None,
-  styleUrls: [],
+
   templateUrl: './diagnostics.html',
 })
 export class Diagnostics {

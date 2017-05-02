@@ -5,6 +5,7 @@
  */
 
 import { Routes, RouterModule }  from '@angular/router';
+import { ModuleWithProviders } from '@angular/core';
 
 import { Doctors } from './doctors.component';
 import { Diagnostics } from './components/diagnostics/diagnostics.component';
@@ -24,4 +25,4 @@ const routes: Routes = [
   }
 ];
 
-export const routing = RouterModule.forChild(routes);
+export const routing: ModuleWithProviders = RouterModule.forChild(routes);

@@ -4,6 +4,8 @@
  * @author Alexander Zagovorichev <zagovorichev@gmail.com>
  */
 
+// bootstrapped our application, little bit
+@import '~bootstrap/scss/variables';
 @import '../../variables';
 
 $default: #999;
@@ -67,4 +69,3 @@ $danger-bg: tint($danger, 20%);
 
 $activelink: $primary;
 $hoverlink: $primary-dark;
-

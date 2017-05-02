@@ -4,10 +4,10 @@
  *  @author Alexander Zagovorichev <zagovorichev@gmail.com>
  */
 
-import { Component, Output, ViewChild, EventEmitter, Input } from '@angular/core';
-import { ServicesService } from '../../services.service';
+import { Component, Output, EventEmitter, Input } from '@angular/core';
+import { ServicesService } from '../../../service/services.service';
 import { SelectComponent } from 'ng2-select';
-import { Service } from '../../service';
+import { Service } from '../../../service/service';
 import { AccidentType } from '../type';
 import { AccidentTypesService } from '../types.service';
 
