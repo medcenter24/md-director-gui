@@ -5,6 +5,7 @@
  */
 
 import { Routes, RouterModule }  from '@angular/router';
+import { ModuleWithProviders } from '@angular/core';
 
 import { Geo } from './geo.component';
 import { Cities } from './components/cities/cities.component';

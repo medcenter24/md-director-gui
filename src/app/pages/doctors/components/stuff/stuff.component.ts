@@ -15,7 +15,7 @@ import { DoctorEditorComponent } from '../../../../components/doctors/editor/edi
 @Component({
   selector: 'basic-tables',
   encapsulation: ViewEncapsulation.None,
-  styleUrls: [],
+
   templateUrl: './stuff.html',
 })
 export class Stuff {

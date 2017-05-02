@@ -9,6 +9,7 @@ import { Diagnostic } from '../../diagnostic';
 import { DiagnosticCategorySelectorComponent } from '../../category/components/selector/selector.component';
 import { SlimLoadingBarComponent } from 'ng2-slim-loading-bar';
 import { DiagnosticService } from '../../diagnostic.service';
+import { EditorEvent } from './editorEvent';
 
 @Component({
   selector: 'diagnostic-editor',
@@ -87,9 +88,4 @@ export class DiagnosticEditorComponent {
   reloadCategories (): void {
     this.categorySelectorComponent.reloadCategoriesWithCategoryId(this.diagnostic.diagnostic_category_id);
   }
-}
-
-interface EditorEvent {
-  show: boolean;
-  categoryId: number;
 }

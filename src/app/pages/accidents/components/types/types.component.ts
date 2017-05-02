@@ -15,7 +15,7 @@ import {Response} from "@angular/http";
 @Component({
   selector: 'basic-tables',
   encapsulation: ViewEncapsulation.None,
-  styleUrls: [],
+
   templateUrl: './types.html',
 })
 export class AccidentTypes {

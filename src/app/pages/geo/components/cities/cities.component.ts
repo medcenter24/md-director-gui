@@ -14,7 +14,7 @@ import {CitiesService} from "../../../../components/city/cities.service";
 @Component({
   selector: 'basic-tables',
   encapsulation: ViewEncapsulation.None,
-  styleUrls: [],
+
   templateUrl: './cities.html',
 })
 export class Cities {

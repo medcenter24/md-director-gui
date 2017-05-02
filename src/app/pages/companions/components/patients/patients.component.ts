@@ -15,7 +15,6 @@ import {PatientsService} from "../../../../components/patient/patients.service";
 @Component({
   selector: 'basic-tables',
   encapsulation: ViewEncapsulation.None,
-  styleUrls: [],
   templateUrl: './patients.html',
 })
 export class Patients {

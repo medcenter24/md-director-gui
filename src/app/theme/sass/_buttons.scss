@@ -5,9 +5,16 @@ $hover: 24;
 }
 
 .btn {
-  padding: .344rem 1rem;
+  cursor: pointer;
+  border-radius: 5px;
+  transition: all 0.1s ease;
+  padding: 0.344rem 1rem;
+  font-size: 0.9rem;
 }
 
+.btn:hover {
+  transform: scale(1.2);
+}
 
 @mixin styleButton($color, $borderColor) {
   background: $color;
