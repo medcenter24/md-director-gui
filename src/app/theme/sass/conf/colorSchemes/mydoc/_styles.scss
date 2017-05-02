@@ -3,9 +3,10 @@
  *
  *  @author Alexander Zagovorichev <zagovorichev@gmail.com>
  */
+@import "variables";
 
 a.al-sidebar-list-link i {
-  font-size: $font-size-large;
+  font-size: $font-size-lg;
 }
 
 .offset-bottom10 {
