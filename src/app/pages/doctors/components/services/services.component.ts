@@ -14,7 +14,7 @@ import { ServicesService } from '../../../../components/service/services.service
 @Component({
   selector: 'basic-tables',
   encapsulation: ViewEncapsulation.None,
-  styleUrls: [],
+
   templateUrl: './services.html',
 })
 export class Services {

@@ -14,7 +14,6 @@ import {SlimLoadingBarComponent} from "ng2-slim-loading-bar";
 @Component({
   selector: 'basic-tables',
   encapsulation: ViewEncapsulation.None,
-  styleUrls: [],
   templateUrl: './hospitals.html',
 })
 export class Hospitals {

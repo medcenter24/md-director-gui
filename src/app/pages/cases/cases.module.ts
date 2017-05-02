@@ -27,6 +27,7 @@ import { ServicesSelectorComponent } from '../../components/service/components/s
 import { SelectModule } from 'ng2-select';
 import { SelectAccidentTypeComponent } from '../../components/accident/type/select/select.component';
 import { AccidentTypesService } from '../../components/accident/type/types.service';
+import { TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
   imports: [
@@ -34,6 +35,7 @@ import { AccidentTypesService } from '../../components/accident/type/types.servi
     FormsModule,
     NgaModule,
     routing,
+    TranslateModule.forChild(),
     Ng2SmartTableModule,
     SlimLoadingBarModule.forRoot(),
     Ng2Bs3ModalModule,

@@ -1,12 +1,10 @@
-@import 'variables';
-
 /// Slightly lighten a color
 /// @access public
 /// @param {Color} $color - color to tint
 /// @param {Number} $percentage - percentage of `$color` in returned color
 /// @return {Color}
 @function tint($color, $percentage) {
-  @return mix($white-color, $color, $percentage);
+  @return mix(white, $color, $percentage);
 }
 
 /// Slightly darken a color
@@ -15,13 +13,13 @@
 /// @param {Number} $percentage - percentage of `$color` in returned color
 /// @return {Color}
 @function shade($color, $percentage) {
-  @return mix($black-color, $color, $percentage);
+  @return mix(black, $color, $percentage);
 }
 
-@mixin scrollbars($size, $foreground-color, $background-color: mix($foreground-color, $white-color, 50%)) {
+@mixin scrollbars($size, $foreground-color, $background-color: mix($foreground-color, white, 50%)) {
   ::-webkit-scrollbar {
-    height: $size;
     width: $size;
+    height: $size;
   }
 
   ::-webkit-scrollbar-thumb {
@@ -48,7 +46,7 @@
 }
 
 @mixin bg-image($relativeUrl) {
-  background-image: url($images-root + $relativeUrl);
+  background-image: url($assets-root + $images-root + $relativeUrl);
 }
 
 @mixin bg-translucent-dark($opacity) {
