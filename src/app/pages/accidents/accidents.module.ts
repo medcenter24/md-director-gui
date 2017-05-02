@@ -22,6 +22,7 @@ import { AccidentCheckpointsService } from '../../components/accident/checkpoint
 import { AccidentStatusesService } from '../../components/accident/status/statuses.service';
 import { AccidentStatuses } from './components/statuses/statuses.component';
 import { Accidents } from './accidents.component';
+import { TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
   imports: [
@@ -30,6 +31,7 @@ import { Accidents } from './accidents.component';
     NgaModule,
     routing,
     Ng2SmartTableModule,
+    TranslateModule.forChild(),
     SlimLoadingBarModule.forRoot(),
     Ng2Bs3ModalModule,
     InMemoryWebApiModule.forRoot(InMemoryDataService, {apiBase: 'director/'}),

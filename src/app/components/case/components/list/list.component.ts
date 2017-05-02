@@ -17,7 +17,7 @@ import { CaseAccident } from '../../case';
 @Component({
   selector: 'basic-tables',
   encapsulation: ViewEncapsulation.None,
-  styleUrls: [],
+
   templateUrl: './list.html',
 })
 export class CasesListComponent {

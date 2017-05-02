@@ -15,7 +15,7 @@ import { AccidentStatusesService } from '../../../../components/accident/status/
 @Component({
   selector: 'basic-tables',
   encapsulation: ViewEncapsulation.None,
-  styleUrls: [],
+
   templateUrl: './statuses.html',
 })
 export class AccidentStatuses {

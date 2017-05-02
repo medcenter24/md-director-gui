@@ -5,9 +5,9 @@
  */
 
 import { Component, Input, Output, EventEmitter } from '@angular/core';
-
 import { DiagnosticCategory } from '../../category';
 import { DiagnosticCategoryService } from '../../category.service';
+import * as _ from 'lodash';
 
 @Component({
   selector: 'diagnostic-category-selector',
