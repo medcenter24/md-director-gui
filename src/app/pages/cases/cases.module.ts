@@ -28,6 +28,7 @@ import { SelectModule } from 'ng2-select';
 import { SelectAccidentTypeComponent } from '../../components/accident/type/select/select.component';
 import { AccidentTypesService } from '../../components/accident/type/types.service';
 import { TranslateModule } from '@ngx-translate/core';
+import { SelectButtonModule, CalendarModule, MultiSelectModule } from 'primeng/primeng';
 
 @NgModule({
   imports: [
@@ -38,9 +39,12 @@ import { TranslateModule } from '@ngx-translate/core';
     TranslateModule.forChild(),
     Ng2SmartTableModule,
     SlimLoadingBarModule.forRoot(),
+    SelectButtonModule,
+    CalendarModule,
+    MultiSelectModule,
     Ng2Bs3ModalModule,
     InMemoryWebApiModule.forRoot(InMemoryDataService, {apiBase: 'director/'}),
-    SelectModule,
+    SelectModule
   ],
   declarations: [
     Cases,
@@ -57,4 +61,5 @@ import { TranslateModule } from '@ngx-translate/core';
     AccidentTypesService
   ]
 })
-export class CasesModule { }
+export class CasesModule {
+}

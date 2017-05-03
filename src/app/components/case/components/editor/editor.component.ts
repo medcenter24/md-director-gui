@@ -21,19 +21,27 @@ export class CaseEditorComponent {
   @ViewChild('loadingBarCaseEditor') loadingBar: SlimLoadingBarComponent;
 
   accident: Accident;
-  appliedTime: string = '';
+  appliedTime: Date;
+  maxDate: Date;
 
   private loadingControl: Array<string> = [];
 
   constructor (private route: ActivatedRoute, private accidentsService: AccidentsService) { }
 
   ngOnInit () {
+
+    this.maxDate = new Date();
+    this.appliedTime = new Date();
+
     this.loadingBar.show = false;
     if (this.route.params['id'] && this.route.params['id'] !== 'new' ) {
       this.route.params
         // (+) converts string 'id' to a number
         .switchMap((params: Params) => this.accidentsService.getAccident(+params[ 'id' ]))
-        .subscribe((accident: Accident) => this.accident = accident ? accident : new Accident());
+        .subscribe((accident: Accident) => {
+          this.accident = accident ? accident : new Accident()
+          this.appliedTime = new Date(this.accident.created_at);
+        });
     } else {
       this.accident = new Accident;
     }

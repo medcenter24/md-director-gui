@@ -15,7 +15,7 @@
                 <div class="form-group">
                     <div class="row">
                         <div class="col-sm-6">
-                            <label class="label">Accident Type</label>
+                            <label class="label">{{ 'Accident Type' | translate }}</label>
                             <select-accident-type
                                     [selectedTypeId]="accident.accident_type_id"
                                     (loading)="onLoading($event)"
@@ -23,7 +23,15 @@
                             ></select-accident-type>
                         </div>
                         <div class="col-sm-6">
-                            <label class="label">Applied Time</label>
+                            <label class="label">{{ 'Applied Time' | translate }}</label>
+                            <p-calendar
+                                    name="appliedTime"
+                                    [(ngModel)]="appliedTime"
+                                    [maxDate]="maxDate"
+                                    [showTime]="true"
+                                    [hourFormat]="24"
+                                    [required]="true"
+                            ></p-calendar>
                         </div>
                     </div>
                 </div>
