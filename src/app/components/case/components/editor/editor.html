@@ -15,14 +15,6 @@
                 <div class="form-group">
                     <div class="row">
                         <div class="col-sm-6">
-                            <label class="label">{{ 'Accident Type' | translate }}</label>
-                            <select-accident-type
-                                    [selectedTypeId]="accident.accident_type_id"
-                                    (loading)="onLoading($event)"
-                                    (loaded)="onLoaded($event)"
-                            ></select-accident-type>
-                        </div>
-                        <div class="col-sm-6">
                             <label class="label">{{ 'Applied Time' | translate }}</label>
                             <p-calendar
                                     name="appliedTime"
@@ -33,19 +25,35 @@
                                     [required]="true"
                             ></p-calendar>
                         </div>
+                        <div class="col-sm-6">
+                            <label class="label">{{ 'Accident Type' | translate }}</label>
+                            <select-accident-type
+                                    [selectedTypeId]="accident.accident_type_id"
+                                    (loading)="onLoading($event)"
+                                    (loaded)="onLoaded($event)"
+                            ></select-accident-type>
+                        </div>
                     </div>
                 </div>
 
                 <div class="form-group">
-
                     <div class="row">
                         <div class="col-sm-12">
-                            <label class="label">Services</label>
+                            <label class="label">{{ 'Services' | translate}}</label>
                             <services-selector
                                     [caseId]="accident.id"
                                     (loading)="onLoading($event)"
                                     (loaded)="onLoaded($event)"
                             ></services-selector>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <label class="label">{{ 'Assistant' | translate}}</label>
+                            <assistant-assigner></assistant-assigner>
                         </div>
                     </div>
                 </div>
