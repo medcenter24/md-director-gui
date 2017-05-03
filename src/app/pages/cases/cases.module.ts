@@ -28,7 +28,9 @@ import { SelectModule } from 'ng2-select';
 import { SelectAccidentTypeComponent } from '../../components/accident/type/select/select.component';
 import { AccidentTypesService } from '../../components/accident/type/types.service';
 import { TranslateModule } from '@ngx-translate/core';
-import { SelectButtonModule, CalendarModule, MultiSelectModule } from 'primeng/primeng';
+import { SelectButtonModule, CalendarModule, MultiSelectModule, AutoCompleteModule } from 'primeng/primeng';
+import { AssistantAssignerComponent } from '../../components/assistant/assigner/assigner.component';
+import { AssistantsService } from '../../components/assistant/assistant.service';
 
 @NgModule({
   imports: [
@@ -42,6 +44,7 @@ import { SelectButtonModule, CalendarModule, MultiSelectModule } from 'primeng/p
     SelectButtonModule,
     CalendarModule,
     MultiSelectModule,
+    AutoCompleteModule,
     Ng2Bs3ModalModule,
     InMemoryWebApiModule.forRoot(InMemoryDataService, {apiBase: 'director/'}),
     SelectModule
@@ -52,13 +55,15 @@ import { SelectButtonModule, CalendarModule, MultiSelectModule } from 'primeng/p
     CasesListComponent,
     SelectServicesComponent,
     ServicesSelectorComponent,
-    SelectAccidentTypeComponent
+    SelectAccidentTypeComponent,
+    AssistantAssignerComponent
   ],
   providers: [
     CasesService,
     AccidentsService,
     ServicesService,
-    AccidentTypesService
+    AccidentTypesService,
+    AssistantsService
   ]
 })
 export class CasesModule {
