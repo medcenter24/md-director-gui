@@ -4,11 +4,4 @@
   ~  @author Alexander Zagovorichev <zagovorichev@gmail.com>
   -->
 
-<div>
-    <ng-select
-            [allowClear]="false"
-            [items]="dataItems"
-            (selected)="onSelected($event)"
-            placeholder="Select Accident Type"
-    ></ng-select>
-</div>
+<p-selectButton [options]="dataItems" [(ngModel)]="selectedTypeId"></p-selectButton>

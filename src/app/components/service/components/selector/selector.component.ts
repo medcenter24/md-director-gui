@@ -20,10 +20,10 @@ export class ServicesSelectorComponent {
   @Output() loading: EventEmitter<string> = new EventEmitter<string>();
   @Output() loaded: EventEmitter<string> = new EventEmitter<string>();
 
-  @ViewChild('servicesSelector')
-  private servicesSelector: SelectServicesComponent;
+  @ViewChild('selectServices')
+    private selectServicesComponent: SelectServicesComponent;
 
-  private caseServices: Array<Service> = [];
+  caseServices: Array<Service> = [];
   private sumPrices: number = 0;
 
   constructor (private casesService: CasesService) {
@@ -42,13 +42,6 @@ export class ServicesSelectorComponent {
     }
   }
 
-  onServiceSelected (event): void {
-    if (!this.hasService(event)) {
-      this.caseServices.push(event);
-      this.recalculatePrice();
-    }
-  }
-
   onLoading (key): void {
     this.loading.emit(key);
   }
@@ -63,6 +56,7 @@ export class ServicesSelectorComponent {
         return el.id !== service.id;
       });
       this.recalculatePrice();
+      this.selectServicesComponent.reloadChosenServices(this.caseServices);
     }
   }
 
@@ -74,7 +68,7 @@ export class ServicesSelectorComponent {
     return !!result;
   }
 
-  private recalculatePrice (): void {
+  recalculatePrice (): void {
     this.sumPrices = 0;
     this.caseServices.forEach(service => this.sumPrices += service.price);
   }

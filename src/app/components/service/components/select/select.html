@@ -1,9 +1,6 @@
-<div>
-    <ng-select
-            #servicesSelect
-            [allowClear]="false"
-            [items]="dataItems"
-            (selected)="onSelected($event)"
-            placeholder="Select Service"
-    ></ng-select>
-</div>
+<p-multiSelect
+        [(ngModel)]="selectedServices"
+        [defaultLabel]="'Select Services' | translate"
+        [options]="dataServices"
+        (onChange)="onChanged($event)"
+></p-multiSelect>

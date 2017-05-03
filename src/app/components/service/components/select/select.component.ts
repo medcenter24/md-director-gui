@@ -4,9 +4,9 @@
  *  @author Alexander Zagovorichev <zagovorichev@gmail.com>
  */
 
-import { Component, Output, ViewChild, EventEmitter } from '@angular/core';
+import { Component, Output, EventEmitter, Input } from '@angular/core';
 import { ServicesService } from '../../services.service';
-import { SelectComponent } from 'ng2-select';
+import { SelectItem } from 'primeng/primeng';
 import { Service } from '../../service';
 
 @Component({
@@ -17,27 +17,30 @@ export class SelectServicesComponent {
 
   @Output() loading: EventEmitter<string> = new EventEmitter<string>();
   @Output() loaded: EventEmitter<string> = new EventEmitter<string>();
-  @Output() selected: EventEmitter<Service> = new EventEmitter<Service>();
 
-  @ViewChild('servicesSelect')
-    private servicesSelect: SelectComponent;
+  @Input() chosenServices: Array<Service> = [];
+  @Output() chosenServicesChange: EventEmitter<Service[]> = new EventEmitter<Service[]>();
 
-  private dataItems: Array<any> = [];
-  private loadedServices: Array<Service> = [];
+  dataServices: SelectItem[] = [];
+  selectedServices: Array<string> = [];
+  services: Array<Service> = [];
 
-  constructor (private servicesService: ServicesService) { }
+  constructor (private servicesService: ServicesService) {
+  }
 
   ngOnInit () {
+    this.reloadChosenServices(this.chosenServices);
+
     this.loading.emit('select-services');
     this.servicesService.getServices().then(services => {
-      this.loadedServices = services;
-      this.dataItems = services.map(x => {
+      this.services = services;
+      this.dataServices = services.map(x => {
         return {
-          id: x.id,
-          text: '<div class="row margin-0"><div class="col-sm-6">' + x.title
-            + '</div><div class="col-sm-6"><b>' + x.price + '</b></div></div>'
+          label: '' + x.title,
+          value: '' + x.id
         };
       });
+
       this.loaded.emit('select-services');
     }).catch((err) => {
       this.loaded.emit('select-services');
@@ -45,12 +48,16 @@ export class SelectServicesComponent {
     });
   }
 
-  onSelected(event): void {
-    const service = this.loadedServices.find(function (el) {
-      return el.id === event.id;
-    });
+   onChanged(event): void {
+     const services = this.services.filter(function (service) {
+       return event.value.indexOf(service.id+'') !== -1;
+     });
 
-    this.servicesSelect.remove(event);
-    this.selected.emit(service);
-  }
+     this.chosenServicesChange.emit(services);
+   }
+
+   reloadChosenServices(services): void {
+     this.chosenServices = services;
+     this.selectedServices = this.chosenServices.map(x => x.id+'');
+   }
 }
