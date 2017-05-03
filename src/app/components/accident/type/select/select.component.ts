@@ -5,9 +5,6 @@
  */
 
 import { Component, Output, EventEmitter, Input } from '@angular/core';
-import { ServicesService } from '../../../service/services.service';
-import { SelectComponent } from 'ng2-select';
-import { Service } from '../../../service/service';
 import { AccidentType } from '../type';
 import { AccidentTypesService } from '../types.service';
 
@@ -35,8 +32,8 @@ export class SelectAccidentTypeComponent {
       this.loadedTypes = types;
       this.dataItems = types.map(x => {
         return {
-          id: x.id,
-          text: x.title
+          label: x.title,
+          value: x.id
         };
       });
       this.loaded.emit('select-accident-type');

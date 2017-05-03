@@ -2,9 +2,11 @@
     <div class="row offset-bottom20">
         <div class="col-sm-10">
             <select-services
-                (selected)="onServiceSelected($event)"
+                #selectServices
+                [(chosenServices)]="caseServices"
                 (loading)="onLoading($event)"
                 (loaded)="onLoaded($event)"
+                (chosenServicesChange)="recalculatePrice($event)"
             ></select-services>
         </div>
     </div>
@@ -13,9 +15,9 @@
             <table class="table table-bordered table-hover table-striped">
                 <thead class="table-inverse">
                 <tr>
-                    <th>Title</th>
-                    <th>Description</th>
-                    <th>Price</th>
+                    <th>{{ 'Title' | translate }}</th>
+                    <th>{{ 'Description' | translate }}</th>
+                    <th>{{ 'Price' | translate }}</th>
                     <th></th>
                 </tr>
                 </thead>
@@ -32,7 +34,7 @@
                 <tfoot>
                     <tr>
                         <th colspan="3">
-                            <b class="pull-right">Total</b>
+                            <b class="pull-right">{{'Total' | translate}}</b>
                         </th>
                         <th class="text-center">
                             <span>{{ sumPrices }}</span>
