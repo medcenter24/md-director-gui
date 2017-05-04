@@ -23,6 +23,8 @@ import { AccidentStatusesService } from '../../components/accident/status/status
 import { AccidentStatuses } from './components/statuses/statuses.component';
 import { Accidents } from './accidents.component';
 import { TranslateModule } from '@ngx-translate/core';
+import { AccidentDiscounts } from './components/discounts/discounts.component';
+import { AccidentDiscountsService } from '../../components/accident/discount/discount.service';
 
 @NgModule({
   imports: [
@@ -40,6 +42,7 @@ import { TranslateModule } from '@ngx-translate/core';
     Accidents,
     AccidentStatuses,
     AccidentCheckpoints,
+    AccidentDiscounts,
     AccidentTypes,
   ],
   providers: [
@@ -47,6 +50,7 @@ import { TranslateModule } from '@ngx-translate/core';
     AccidentCheckpointsService,
     AccidentTypesService,
     AccidentsService,
+    AccidentDiscountsService
   ]
 })
 export class AccidentsModule {
