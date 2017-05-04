@@ -5,10 +5,10 @@
  */
 
 import { Component, Input, Output, EventEmitter, ViewChild } from '@angular/core';
-import { SlimLoadingBarComponent } from 'ng2-slim-loading-bar';
-import { Assistant } from '../assistant';
-import { AssistantsService } from '../assistant.service';
+import { Assistant } from '../../assistant';
+import { AssistantsService } from '../../assistant.service';
 import { NgUploaderOptions } from 'ngx-uploader';
+import { SlimLoadingBarService } from 'ng2-slim-loading-bar';
 
 @Component({
     selector: 'assistant-editor',
@@ -26,74 +26,36 @@ export class AssistantEditorComponent {
         url: '',
     };
 
-    @ViewChild('loadingBarAssistantEditor')
-    private loadingBar: SlimLoadingBarComponent;
-
     private loadingControl: Array<string> = [];
 
-    constructor (private service: AssistantsService) { }
+    constructor (private service: AssistantsService, private loadingBar: SlimLoadingBarService) { }
 
     ngOnInit() {}
 
-    startLoading(): void {
-        this.loadingBar.color = '#209e91';
-        this.loadingBar.show = true;
-        this.loadingBar.service.reset();
-        this.loadingBar.service.start();
-    }
-
-    completeLoading(): void {
-        this.loadingBar.service.complete();
-        this.loadingBar.show = false;
-    }
-
-    errorLoading(): void {
-        this.loadingBar.color = '#f89711';
-    }
-
     onSubmit(): void {
-        this.startLoading();
+        this.loadingBar.start();
         this.service.update(this.assistant).then(() => {
             this.assistantSaved.emit(this.assistant);
-            this.completeLoading();
+            this.loadingBar.complete();
         }).catch(() => {
-            this.errorLoading();
-            this.completeLoading();
+            this.loadingBar.complete();
         });
     }
 
     startUpload(): void {
-        this.startLoading();
+        this.loadingBar.start();
     }
 
     endUpload(event): void {
         this.assistant.media_id = event.media_id;
-        this.completeLoading();
+        this.loadingBar.complete();
     }
 
     onLoading(key): void {
         console.log('loading');
-        if (this.loadingControl.indexOf(key) === -1){
-            this.loadingControl.push(key);
-            if (!this.loadingBar.show) {
-                console.log('started');
-                this.startLoading();
-            }
-        }
     }
 
     onLoaded(key): void {
-        if (this.loadingBar.show) {
-            const index = this.loadingControl.indexOf(key);
-            if (index !== -1) {
-                console.log('deleted');
-                this.loadingControl.splice(index, 1);
-            }
-        }
-
-        if (!this.loadingControl.length) {
-            console.log('stopped');
-            this.completeLoading();
-        }
+        console.log('loaded');
     }
 }

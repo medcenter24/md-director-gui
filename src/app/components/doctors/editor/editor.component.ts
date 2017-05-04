@@ -5,7 +5,7 @@
  */
 
 import {Component, Input, ViewChild, Output, EventEmitter} from "@angular/core";
-import {SlimLoadingBarComponent} from "ng2-slim-loading-bar";
+import { SlimLoadingBarService } from 'ng2-slim-loading-bar';
 import {Doctor} from "../doctor";
 import {DoctorsService} from "../doctors.service";
 import {UserSelectorComponent} from "../../users/selector/selector.component";
@@ -27,60 +27,38 @@ export class DoctorEditorComponent {
     @Output() doctorChanged: EventEmitter<Doctor> = new EventEmitter<Doctor>();
     @Output() toggleUserEditor: EventEmitter<number> = new EventEmitter<number>();
 
-    @ViewChild('loadingBarDoctorEditor')
-        private loadingBar: SlimLoadingBarComponent;
-
     @ViewChild(UserSelectorComponent)
         private userSelectorComponent: UserSelectorComponent;
 
-    constructor (private service: DoctorsService) {};
+    constructor (private service: DoctorsService, private loadingBar: SlimLoadingBarService) {};
 
     ngOnInit(): void {}
 
-    startLoading(): void {
-        this.loadingBar.color = '#209e91';
-        this.loadingBar.show = true;
-        this.loadingBar.service.reset();
-        this.loadingBar.service.start();
-    }
-
-    completeLoading(): void {
-        this.loadingBar.service.complete();
-        this.loadingBar.show = false;
-    }
-
-    errorLoading(): void {
-        this.loadingBar.color = '#f89711';
-    }
-
     onSubmit(): void {
-        this.startLoading();
-
+        this.loadingBar.start();
         if (this.doctor.id) {
             this.service.update(this.doctor).then((doctor: Doctor) => {
-                this.completeLoading();
+                this.loadingBar.complete();
                 this.doctorChanged.emit(doctor);
             }).catch(() => {
-                this.errorLoading();
-                this.completeLoading();
+                this.loadingBar.complete();
             });
         } else {
             this.service.create(this.doctor).then((doctor: Doctor) => {
-                this.completeLoading();
+                this.loadingBar.complete();
                 this.doctorChanged.emit(doctor);
             }).catch(() => {
-                this.errorLoading();
-                this.completeLoading();
+                this.loadingBar.complete();
             });
         }
     }
 
     onSelectorLoaded(): void {
-        this.completeLoading();
+        this.loadingBar.complete();
     }
 
     onSelectorLoading(): void {
-        this.startLoading();
+        this.loadingBar.start();
     }
 
     onUserChanged(userId: number): void {
@@ -98,13 +76,12 @@ export class DoctorEditorComponent {
 
     private loadDoctor(id: number): void {
         if (id) {
-            this.startLoading();
+            this.loadingBar.start();
             this.service.getDoctor(id).then((doctor: Doctor) => {
                 this.doctor = doctor;
-                this.completeLoading();
+                this.loadingBar.complete();
             }).catch(() => {
-                this.errorLoading();
-                this.completeLoading();
+                this.loadingBar.complete();
             });
         }
     }

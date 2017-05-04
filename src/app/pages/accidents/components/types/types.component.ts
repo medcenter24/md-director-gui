@@ -8,20 +8,16 @@ import {Component, ViewEncapsulation, ViewChild} from '@angular/core';
 
 import { LocalDataSource } from 'ng2-smart-table';
 import {ModalComponent} from "ng2-bs3-modal/components/modal";
-import {SlimLoadingBarComponent} from "ng2-slim-loading-bar";
 import {AccidentTypesService} from "../../../../components/accident/type/types.service";
 import {Response} from "@angular/http";
+import { SlimLoadingBarService } from 'ng2-slim-loading-bar';
 
 @Component({
   selector: 'basic-tables',
   encapsulation: ViewEncapsulation.None,
-
   templateUrl: './types.html',
 })
 export class AccidentTypes {
-
-  @ViewChild('loadingBarTypesList')
-    private loadingBar: SlimLoadingBarComponent;
 
   @ViewChild('deleteDialog')
     private deleteDialog: ModalComponent;
@@ -68,50 +64,33 @@ export class AccidentTypes {
 
   source: LocalDataSource = new LocalDataSource();
 
-  constructor(protected service: AccidentTypesService) { }
+  constructor(protected service: AccidentTypesService, private loadingBar: SlimLoadingBarService) { }
 
   ngOnInit(): void {
-    this.startLoading();
+    this.loadingBar.start();
     this.service.getTypes().then((data) => {
       this.source.load(data);
-      this.completeLoading()
+      this.loadingBar.complete();
     }).catch((response) => {
       this.showError('Something bad happened, you can\'t load list of accident types', response);
-      this.errorLoading();
+      this.loadingBar.complete();
     });
-  }
-
-  startLoading(): void {
-    this.loadingBar.color = '#209e91';
-    this.loadingBar.show = true;
-    this.loadingBar.service.reset();
-    this.loadingBar.service.start();
-  }
-
-  completeLoading(): void {
-    this.loadingBar.service.complete();
-    this.loadingBar.show = false;
-  }
-
-  errorLoading(): void {
-    this.loadingBar.color = '#f89711';
   }
 
   onDeleteDialogOk(): void {
     this.deleteProcess = true;
-    this.startLoading();
+    this.loadingBar.start();
     this.service.delete(this.deleteDialogEvent.data.id).then(() => {
       this.deleteDialogEvent.confirm.resolve();
       this.deleteDialogEvent = null;
       this.deleteDialog.close();
       this.deleteProcess = false;
-      this.completeLoading();
+      this.loadingBar.complete();
     }).catch(() => {
-      this.errorLoading();
       this.deleteDialogEvent.confirm.reject();
       this.deleteDialogEvent = null;
       this.deleteProcess = false;
-      this.completeLoading();
+      this.loadingBar.complete();
     });
   }
 
@@ -127,28 +106,26 @@ export class AccidentTypes {
   }
 
   onTableSave(event): void {
-    this.startLoading();
+    this.loadingBar.start();
     this.service.update(event.newData).then(() => {
       event.confirm.resolve();
-      this.completeLoading();
+      this.loadingBar.complete();
     }).catch((reason) => {
-      this.errorLoading();
       event.confirm.reject();
       this.showError('Something bad happened, you can\'t save accident type');
-      this.completeLoading();
+      this.loadingBar.complete();
     });
   }
 
   onTableCreate(event): void {
-    this.startLoading();
+    this.loadingBar.start();
     this.service.create(event.newData).then(() => {
       event.confirm.resolve();
-      this.completeLoading();
+      this.loadingBar.complete();
     }).catch((reason) => {
-      this.errorLoading();
       event.confirm.reject();
       this.showError('Something bad happened, you can\'t add accident type');
-      this.completeLoading();
+      this.loadingBar.complete();
     });
   }
 

@@ -14,7 +14,6 @@ import { AccidentCheckpoints } from './components/checkpoints/checkpoints.compon
 import { AccidentTypes } from './components/types/types.component';
 import { AccidentsService } from '../../components/accident/accidents.service';
 import { AccidentTypesService } from '../../components/accident/type/types.service';
-import { SlimLoadingBarModule } from 'ng2-slim-loading-bar';
 import { Ng2Bs3ModalModule } from 'ng2-bs3-modal/ng2-bs3-modal';
 import { InMemoryWebApiModule } from 'angular-in-memory-web-api';
 import { InMemoryDataService } from '../../faker/in-memory-data.service';
@@ -34,7 +33,6 @@ import { AccidentDiscountsService } from '../../components/accident/discount/dis
     routing,
     Ng2SmartTableModule,
     TranslateModule.forChild(),
-    SlimLoadingBarModule.forRoot(),
     Ng2Bs3ModalModule,
     InMemoryWebApiModule.forRoot(InMemoryDataService, {apiBase: 'director/'}),
   ],

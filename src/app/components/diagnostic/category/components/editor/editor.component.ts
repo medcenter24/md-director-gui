@@ -5,11 +5,10 @@
  */
 
 import { Component, Input, ViewChild, Output, EventEmitter } from '@angular/core';
-
-import { SlimLoadingBarComponent } from 'ng2-slim-loading-bar';
 import { DiagnosticCategory } from '../../category';
 import { DiagnosticCategorySelectorComponent } from '../selector/selector.component';
 import { DiagnosticCategoryService } from '../../category.service';
+import { SlimLoadingBarService } from 'ng2-slim-loading-bar';
 
 @Component({
   selector: 'diagnostic-category-editor',
@@ -29,52 +28,31 @@ export class DiagnosticCategoryEditorComponent {
   @ViewChild(DiagnosticCategory)
   private categorySelectorComponent: DiagnosticCategorySelectorComponent;
 
-  @ViewChild('loadingBarCategories')
-  private loadingBar: SlimLoadingBarComponent;
-
-  constructor (private service: DiagnosticCategoryService) {
+  constructor (private service: DiagnosticCategoryService, private loadingBar: SlimLoadingBarService) {
   };
 
   ngOnInit (): void {
     this.setEmptyCategory();
   }
 
-  startLoading (): void {
-    this.loadingBar.color = '#209e91';
-    this.loadingBar.show = true;
-    this.loadingBar.service.reset();
-    this.loadingBar.service.start();
-  }
-
-  completeLoading (): void {
-    this.loadingBar.service.complete();
-    this.loadingBar.show = false;
-  }
-
-  errorLoading (): void {
-    this.loadingBar.color = '#f89711';
-  }
-
   onSubmit (): void {
-    this.startLoading();
-
+    this.loadingBar.start();
     if (this.category.id) {
       this.service.update(this.category).then((category: DiagnosticCategory) => {
-        this.completeLoading();
+        this.loadingBar.complete();
         this.category = this.categorySelectorComponent.reloadCategories(category);
         this.changedCategories.emit();
       }).catch(() => {
-        this.errorLoading();
-        this.completeLoading();
+        this.loadingBar.complete();
       });
     } else {
       this.service.create(this.category.title).then((category: DiagnosticCategory) => {
-        this.completeLoading();
         this.category = this.categorySelectorComponent.reloadCategories(category);
         this.changedCategories.emit();
+        this.loadingBar.complete();
       }).catch(() => {
-        this.errorLoading();
-        this.completeLoading();
+        console.log('error');
+        this.loadingBar.complete();
       });
     }
   }
@@ -88,11 +66,11 @@ export class DiagnosticCategoryEditorComponent {
   }
 
   onSelectorLoaded (): void {
-    this.completeLoading();
+    this.loadingBar.complete();
   }
 
   onSelectorLoading (): void {
-    this.startLoading();
+    this.loadingBar.start();
   }
 
   private setEmptyCategory (): void {
@@ -101,13 +79,12 @@ export class DiagnosticCategoryEditorComponent {
 
   private loadCategory (id: number): void {
     if (id) {
-      this.startLoading();
+      this.loadingBar.start();
       this.service.getCategory(id).then((category) => {
         this.category = category;
-        this.completeLoading();
+        this.loadingBar.complete();
       }).catch(() => {
-        this.errorLoading();
-        this.completeLoading();
+        this.loadingBar.complete();
       });
     }
   }

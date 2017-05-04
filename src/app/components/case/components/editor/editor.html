@@ -4,8 +4,7 @@
   ~ @author Alexander Zagovorichev <zagovorichev@gmail.com>
   -->
 
-<ng2-slim-loading-bar #loadingBarCaseEditor></ng2-slim-loading-bar>
-
+<p-growl [value]="msgs"></p-growl>
 <div *ngIf="accident">
     <h1>{{ accident.id ? 'Editing case #' + accident.id : 'Creating new case' }}</h1>
     <div class="row">
@@ -53,12 +52,15 @@
                     <div class="row">
                         <div class="col-sm-12">
                             <label class="label">{{ 'Assistant' | translate}}</label>
-                            <assistant-assigner></assistant-assigner>
+                            <assistant-assigner
+                                [caseId]="accident.id"
+                            ></assistant-assigner>
                         </div>
                     </div>
                 </div>
 
-                <button type="submit" class="btn btn-success btn-lg" [disabled]="!accidentForm.form.valid">Save</button>
+                <button pButton type="button" class="ui-button-success" (click)="onSave($event)"
+                        [disabled]="!accidentForm.form.valid" label="{{ 'Save' | translate }}"></button>
             </form>
         </div>
     </div>

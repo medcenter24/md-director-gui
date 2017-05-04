@@ -13,7 +13,6 @@ import { Cases } from './cases.component';
 import { routing }       from './cases.routing';
 
 import { Ng2SmartTableModule } from 'ng2-smart-table';
-import { SlimLoadingBarModule } from 'ng2-slim-loading-bar';
 import { Ng2Bs3ModalModule } from 'ng2-bs3-modal/ng2-bs3-modal';
 import { InMemoryWebApiModule } from 'angular-in-memory-web-api';
 import { InMemoryDataService } from '../../faker/in-memory-data.service';
@@ -30,7 +29,7 @@ import { AccidentTypesService } from '../../components/accident/type/types.servi
 import { TranslateModule } from '@ngx-translate/core';
 import {
   SelectButtonModule, CalendarModule, MultiSelectModule, AutoCompleteModule,
-  SpinnerModule
+  SpinnerModule, ButtonModule, GrowlModule
 } from 'primeng/primeng';
 import { AssistantAssignerComponent } from '../../components/assistant/components/assigner/assigner.component';
 import { AssistantsService } from '../../components/assistant/assistant.service';
@@ -44,7 +43,6 @@ import { AssistantSelectComponent } from '../../components/assistant/components/
     routing,
     TranslateModule.forChild(),
     Ng2SmartTableModule,
-    SlimLoadingBarModule.forRoot(),
     SelectButtonModule,
     CalendarModule,
     MultiSelectModule,
@@ -52,7 +50,9 @@ import { AssistantSelectComponent } from '../../components/assistant/components/
     SpinnerModule,
     Ng2Bs3ModalModule,
     InMemoryWebApiModule.forRoot(InMemoryDataService, {apiBase: 'director/'}),
-    SelectModule
+    SelectModule,
+    ButtonModule,
+    GrowlModule
   ],
   declarations: [
     Cases,
