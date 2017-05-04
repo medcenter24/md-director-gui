@@ -1,0 +1,8 @@
+<p-autoComplete
+        [(ngModel)]="assistant"
+        [suggestions]="filteredAssistants"
+        [dropdown]="true"
+        (completeMethod)="filterAssistants($event)"
+        (onDropdownClick)="handleDropdownClick($event)"
+        field="title"
+></p-autoComplete>

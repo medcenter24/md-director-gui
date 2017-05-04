@@ -1,25 +1,23 @@
 /*
- * Copyright (c) 2017. 
+ * Copyright (c) 2017
  *
- * @author Alexander Zagovorichev <zagovorichev@gmail.com>
+ *  @author Alexander Zagovorichev <zagovorichev@gmail.com>
  */
 
-import { Component, ViewEncapsulation, ViewChild } from '@angular/core';
-
-import { LocalDataSource } from 'ng2-smart-table';
-import { ModalComponent } from 'ng2-bs3-modal/components/modal';
+import { Component, ViewChild } from '@angular/core';
 import { SlimLoadingBarComponent } from 'ng2-slim-loading-bar';
-import { Response } from '@angular/http';
-import { AccidentCheckpointsService } from '../../../../components/accident/checkpoint/checkpoints.service';
+import { ModalComponent } from 'ng2-bs3-modal/ng2-bs3-modal';
+import { LocalDataSource } from 'ng2-smart-table';
+import { AccidentDiscountsService } from '../../../../components/accident/discount/discount.service';
+
 
 @Component({
-  selector: 'basic-tables',
-  encapsulation: ViewEncapsulation.None,
-  templateUrl: './checkpoints.html',
+  selector: 'basic-table',
+  templateUrl: './discounts.html'
 })
-export class AccidentCheckpoints {
+export class AccidentDiscounts {
 
-  @ViewChild('loadingBarCheckpointsList')
+  @ViewChild('loadingBarDiscountsList')
   private loadingBar: SlimLoadingBarComponent;
 
   @ViewChild('deleteDialog')
@@ -62,21 +60,25 @@ export class AccidentCheckpoints {
         title: 'Description',
         type: 'string'
       },
+      operation: {
+        title: 'Operation',
+        type: 'string'
+      }
     }
   };
 
   source: LocalDataSource = new LocalDataSource();
 
-  constructor (protected service: AccidentCheckpointsService) {
+  constructor (protected service: AccidentDiscountsService) {
   }
 
   ngOnInit (): void {
     this.startLoading();
-    this.service.getCheckpoints().then((data) => {
+    this.service.getDiscounts().then((data) => {
       this.source.load(data);
       this.completeLoading();
     }).catch((response) => {
-      this.showError('Something bad happened, you can\'t load list of accident types', response);
+      this.showError('Something bad happened, you can\'t load list of accident discounts', response);
       this.errorLoading();
     });
   }
@@ -134,7 +136,7 @@ export class AccidentCheckpoints {
     }).catch((reason) => {
       this.errorLoading();
       event.confirm.reject();
-      this.showError('Something bad happened, you can\'t save accident checkpoint');
+      this.showError('Something bad happened, you can\'t save accident discounts');
       this.completeLoading();
     });
   }
@@ -147,7 +149,7 @@ export class AccidentCheckpoints {
     }).catch((reason) => {
       this.errorLoading();
       event.confirm.reject();
-      this.showError('Something bad happened, you can\'t add accident checkpoint');
+      this.showError('Something bad happened, you can\'t add accident discounts');
       this.completeLoading();
     });
   }
@@ -159,4 +161,5 @@ export class AccidentCheckpoints {
     }
     this.errorDialog.open('sm');
   }
+
 }
