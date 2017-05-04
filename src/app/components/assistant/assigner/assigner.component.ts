@@ -36,13 +36,22 @@ export class AssistantAssignerComponent {
         });
     }
 
-    search (event): void {
-        console.log(event, this.assistants);
-        this.assistant = this.assistants[0];
+    filterAssistants (event): void {
+      this.filteredAssistants = [];
+      for(let i = 0; i < this.assistants.length; i++) {
+        let assistant = this.assistants[i];
+        if(assistant.title.toLowerCase().indexOf(event.query.toLowerCase()) == 0) {
+          this.filteredAssistants.push(assistant);
+        }
+      }
     }
 
     handleDropdownClick() {
+      this.filteredAssistants = [];
+
+      //mimic remote call
+      setTimeout(() => {
         this.filteredAssistants = this.assistants;
-        console.log(this.assistants);
+      }, 100)
     }
 }
