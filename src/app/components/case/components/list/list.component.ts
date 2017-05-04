@@ -7,23 +7,19 @@
 import { Component, ViewEncapsulation, ViewChild } from '@angular/core';
 
 import { LocalDataSource } from 'ng2-smart-table';
-import { SlimLoadingBarComponent } from 'ng2-slim-loading-bar';
 import { Response } from '@angular/http';
 import { ModalComponent } from 'ng2-bs3-modal/components/modal';
 import { Router } from '@angular/router';
 import { CasesService } from '../../cases.service';
 import { CaseAccident } from '../../case';
+import { SlimLoadingBarService } from 'ng2-slim-loading-bar';
 
 @Component({
   selector: 'basic-tables',
   encapsulation: ViewEncapsulation.None,
-
   templateUrl: './list.html',
 })
 export class CasesListComponent {
-
-  @ViewChild('loadingBarCasesList')
-  loadingBar: SlimLoadingBarComponent;
 
   @ViewChild('errorDialog')
   errorDialog: ModalComponent;
@@ -78,7 +74,7 @@ export class CasesListComponent {
 
   source: LocalDataSource = new LocalDataSource();
 
-  constructor (protected service: CasesService, public router: Router) {
+  constructor (protected service: CasesService, public router: Router, private slimLoader: SlimLoadingBarService) {
   }
 
   ngOnInit (): void {
@@ -93,19 +89,16 @@ export class CasesListComponent {
   }
 
   startLoading (): void {
-    this.loadingBar.color = '#209e91';
-    this.loadingBar.show = true;
-    this.loadingBar.service.reset();
-    this.loadingBar.service.start();
+    this.slimLoader.start();
   }
 
   completeLoading (): void {
-    this.loadingBar.service.complete();
-    this.loadingBar.show = false;
+    this.slimLoader.complete();
   }
 
   errorLoading (): void {
-    this.loadingBar.color = '#f89711';
+    this.slimLoader.color = 'firebrick';
+    this.slimLoader.complete();
   }
 
   onEdit (event): void {

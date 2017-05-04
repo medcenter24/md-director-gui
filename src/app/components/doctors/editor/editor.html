@@ -4,7 +4,6 @@
   ~ @author Alexander Zagovorichev <zagovorichev@gmail.com>
   -->
 
-<ng2-slim-loading-bar #loadingBarDoctorEditor></ng2-slim-loading-bar>
 <ba-card *ngIf="doctor" title="Doctor Editor #{{ doctor.id }}" baCardClass="with-scroll" class="edit-form-container">
     <form (ngSubmit)="onSubmit()" #diagnosticForm="ngForm">
         <div class="row">
@@ -38,7 +37,7 @@
         <div class="row">
             <div class="col-sm-6">
                 <div class="form-group">
-                    <label for="description">Description</label>
+                    <label>Description</label>
                     <textarea name="description" class="form-control"
                               [(ngModel)]="doctor.description"
                               #description="ngModel"

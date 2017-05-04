@@ -17,7 +17,6 @@ import { Services } from './components/services/services.component';
 
 import { Stuff } from './components/stuff/stuff.component';
 
-import { SlimLoadingBarModule } from 'ng2-slim-loading-bar';
 import { Ng2Bs3ModalModule } from 'ng2-bs3-modal/ng2-bs3-modal';
 
 import { DoctorsService } from '../../components/doctors/doctors.service';
@@ -44,7 +43,6 @@ import { TranslateModule } from '@ngx-translate/core';
     routing,
     TranslateModule.forChild(),
     Ng2SmartTableModule,
-    SlimLoadingBarModule.forRoot(),
     Ng2Bs3ModalModule,
     InMemoryWebApiModule.forRoot(InMemoryDataService, {apiBase: 'director/'}),
   ],

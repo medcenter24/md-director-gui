@@ -31,7 +31,6 @@ import { TranslateModule } from '@ngx-translate/core';
     routing,
     Ng2SmartTableModule,
     TranslateModule.forChild(),
-    SlimLoadingBarModule.forRoot(),
     Ng2Bs3ModalModule,
     InMemoryWebApiModule.forRoot(InMemoryDataService, {apiBase: 'director/'}),
   ],

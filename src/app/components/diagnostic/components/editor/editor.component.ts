@@ -7,9 +7,9 @@
 import { Component, Input, Output, EventEmitter, ViewChild } from '@angular/core';
 import { Diagnostic } from '../../diagnostic';
 import { DiagnosticCategorySelectorComponent } from '../../category/components/selector/selector.component';
-import { SlimLoadingBarComponent } from 'ng2-slim-loading-bar';
 import { DiagnosticService } from '../../diagnostic.service';
 import { EditorEvent } from './editorEvent';
+import { SlimLoadingBarService } from 'ng2-slim-loading-bar';
 
 @Component({
   selector: 'diagnostic-editor',
@@ -25,42 +25,22 @@ export class DiagnosticEditorComponent {
   @ViewChild(DiagnosticCategorySelectorComponent)
   private categorySelectorComponent: DiagnosticCategorySelectorComponent;
 
-  @ViewChild('loadingBarDiagnosticEditor')
-  private loadingBar: SlimLoadingBarComponent;
-
   showEditor: boolean = false;
   isInit: boolean = true;
 
-  constructor (private service: DiagnosticService) {
+  constructor (private service: DiagnosticService, private loadingBar: SlimLoadingBarService) {
   }
 
   ngOnInit () {
   }
 
-  startLoading (): void {
-    this.loadingBar.color = '#209e91';
-    this.loadingBar.show = true;
-    this.loadingBar.service.reset();
-    this.loadingBar.service.start();
-  }
-
-  completeLoading (): void {
-    this.loadingBar.service.complete();
-    this.loadingBar.show = false;
-  }
-
-  errorLoading (): void {
-    this.loadingBar.color = '#f89711';
-  }
-
   onSubmit (): void {
-    this.startLoading();
+    this.loadingBar.start();
     this.service.update(this.diagnostic).then(() => {
       this.diagnosticSaved.emit(this.diagnostic);
-      this.completeLoading();
+      this.loadingBar.complete();
     }).catch(() => {
-      this.errorLoading();
-      this.completeLoading();
+      this.loadingBar.complete();
     });
   }
 
@@ -70,7 +50,7 @@ export class DiagnosticEditorComponent {
   }
 
   onSelectorLoaded (): void {
-    this.completeLoading();
+    this.loadingBar.complete();
     if (this.isInit) {
       this.reloadCategories();
       this.isInit = false;
@@ -78,7 +58,7 @@ export class DiagnosticEditorComponent {
   }
 
   onSelectorLoading (): void {
-    this.startLoading();
+    this.loadingBar.start();
   }
 
   onSelectCategory (event): void {
