@@ -82,6 +82,14 @@ export const PAGES_MENU = [
                 title: 'general.menu.types'
               }
             }
+          },
+          {
+            path: 'discounts',
+            data: {
+              menu: {
+                title: 'general.menu.discounts'
+              }
+            }
           }
         ]
       },

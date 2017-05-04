@@ -11,6 +11,7 @@ import { Accidents } from './accidents.component';
 import { AccidentCheckpoints } from './components/checkpoints/checkpoints.component';
 import { AccidentStatuses } from './components/statuses/statuses.component';
 import { AccidentTypes } from './components/types/types.component';
+import { AccidentDiscounts } from './components/discounts/discounts.component';
 
 // noinspection TypeScriptValidateTypes
 const routes: Routes = [
@@ -21,6 +22,7 @@ const routes: Routes = [
       { path: 'checkpoints', component: AccidentCheckpoints },
       { path: 'statuses', component: AccidentStatuses },
       { path: 'types', component: AccidentTypes },
+      { path: 'discounts', component: AccidentDiscounts },
     ]
   }
 ];
