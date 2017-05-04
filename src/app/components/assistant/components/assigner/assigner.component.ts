@@ -13,7 +13,7 @@ import { Assistant } from '../../assistant';
 })
 export class AssistantAssignerComponent {
 
-  @Input() assistantId: number = 0;
+  @Input() caseId: number = 0;
 
   private assistant: Assistant;
 
@@ -21,7 +21,7 @@ export class AssistantAssignerComponent {
   }
 
   ngOnInit () {
-    if (this.assistantId) {
+    if (this.caseId) {
 
     }
   }

@@ -4,7 +4,6 @@
   ~ @author Alexander Zagovorichev <zagovorichev@gmail.com>
   -->
 
-<ng2-slim-loading-bar #loadingBarAssistantEditor></ng2-slim-loading-bar>
 <ba-card *ngIf="assistant" title="Assistant #{{ assistant.id }}" baCardClass="with-scroll" class="edit-form-container">
     <form (ngSubmit)="onSubmit()" #diagnosticForm="ngForm">
         <div class="row">

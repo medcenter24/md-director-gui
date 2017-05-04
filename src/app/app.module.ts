@@ -21,7 +21,7 @@ import { GlobalState } from './global.state';
 import { NgaModule } from './theme/nga.module';
 import { PagesModule } from './pages/pages.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-
+import { SlimLoadingBarModule } from 'ng2-slim-loading-bar';
 
 // Application wide providers
 const APP_PROVIDERS = [
@@ -55,6 +55,7 @@ export type StoreType = {
     PagesModule,
     routing,
     InMemoryWebApiModule.forRoot(InMemoryDataService, {apiBase: 'director/', passThruUnknownUrl: true}),
+    SlimLoadingBarModule.forRoot()
   ],
   providers: [ // expose our Services and Providers into Angular's dependency injection
     APP_PROVIDERS

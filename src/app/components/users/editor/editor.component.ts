@@ -7,8 +7,8 @@
 import {Component, Input, ViewChild, Output, EventEmitter} from "@angular/core";
 import {User} from "../user";
 import {UsersService} from "../users.service";
-import {SlimLoadingBarComponent} from "ng2-slim-loading-bar";
 import {UserSelectorComponent} from "../selector/selector.component";
+import { SlimLoadingBarService } from 'ng2-slim-loading-bar';
 @Component({
     selector: 'user-editor',
     templateUrl: './editor.html',
@@ -24,54 +24,32 @@ export class UserEditorComponent {
 
     @Output() changedUser: EventEmitter<null> = new EventEmitter<null>();
 
-    @ViewChild('loadingBarUserEditor')
-        private loadingBar: SlimLoadingBarComponent;
-
     @ViewChild(UserSelectorComponent)
         private userSelectorComponent: UserSelectorComponent;
 
-    constructor (private service: UsersService) {};
+    constructor (private service: UsersService, private loadingBar: SlimLoadingBarService) {};
 
     ngOnInit(): void {
         this.setEmptyUser();
     }
 
-    startLoading(): void {
-        this.loadingBar.color = '#209e91';
-        this.loadingBar.show = true;
-        this.loadingBar.service.reset();
-        this.loadingBar.service.start();
-    }
-
-    completeLoading(): void {
-        this.loadingBar.service.complete();
-        this.loadingBar.show = false;
-    }
-
-    errorLoading(): void {
-        this.loadingBar.color = '#f89711';
-    }
-
     onSubmit(): void {
-        this.startLoading();
-
+        this.loadingBar.start();
         if (this.user.id) {
             this.service.update(this.user).then((user: User) => {
-                this.completeLoading();
+                this.loadingBar.complete();
                 this.user = this.userSelectorComponent.reload(user);
                 this.changedUser.emit();
             }).catch(() => {
-                this.errorLoading();
-                this.completeLoading();
+                this.loadingBar.complete();
             });
         } else {
             this.service.create(this.user).then((user: User) => {
-                this.completeLoading();
+                this.loadingBar.complete();
                 this.user = this.userSelectorComponent.reload(user);
                 this.changedUser.emit();
             }).catch(() => {
-                this.errorLoading();
-                this.completeLoading();
+                this.loadingBar.complete();
             });
         }
     }
@@ -85,11 +63,11 @@ export class UserEditorComponent {
     }
 
     onSelectorLoaded(): void {
-        this.completeLoading();
+        this.loadingBar.complete();
     }
 
     onSelectorLoading(): void {
-        this.startLoading();
+        this.loadingBar.start();
     }
 
     private setEmptyUser(): void {
@@ -98,13 +76,12 @@ export class UserEditorComponent {
 
     private loadUser(id: number): void {
         if (id) {
-            this.startLoading();
+            this.loadingBar.start();
             this.service.getUser(id).then((user) => {
                 this.user = user;
-                this.completeLoading();
+                this.loadingBar.complete();
             }).catch(() => {
-                this.errorLoading();
-                this.completeLoading();
+                this.loadingBar.complete();
             });
         }
     }

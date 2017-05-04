@@ -5,10 +5,11 @@
  */
 
 import { Component, Output, EventEmitter, ViewChild } from '@angular/core';
-import { SlimLoadingBarComponent } from 'ng2-slim-loading-bar';
 import { ActivatedRoute, Params } from '@angular/router';
 import { Accident } from '../../../accident/accident';
 import { AccidentsService } from '../../../accident/accidents.service';
+import { Message } from 'primeng/primeng';
+import { SlimLoadingBarService } from 'ng2-slim-loading-bar';
 
 @Component({
   selector: 'case-editor',
@@ -18,7 +19,7 @@ export class CaseEditorComponent {
 
   @Output() loaded: EventEmitter<null> = new EventEmitter<null>();
 
-  @ViewChild('loadingBarCaseEditor') loadingBar: SlimLoadingBarComponent;
+  msgs: Message[] = [];
 
   accident: Accident;
   appliedTime: Date;
@@ -26,14 +27,14 @@ export class CaseEditorComponent {
 
   private loadingControl: Array<string> = [];
 
-  constructor (private route: ActivatedRoute, private accidentsService: AccidentsService) { }
+  constructor (private route: ActivatedRoute, private accidentsService: AccidentsService,
+               private slimLoader: SlimLoadingBarService) { }
 
   ngOnInit () {
 
     this.maxDate = new Date();
     this.appliedTime = new Date();
 
-    this.loadingBar.show = false;
     if (this.route.params['id'] && this.route.params['id'] !== 'new' ) {
       this.route.params
         // (+) converts string 'id' to a number
@@ -47,45 +48,17 @@ export class CaseEditorComponent {
     }
   }
 
-  startLoading (): void {
-    this.loadingBar.color = '#209e91';
-    this.loadingBar.show = true;
-    this.loadingBar.service.reset();
-    this.loadingBar.service.start();
-  }
-
-  completeLoading (): void {
-    this.loadingBar.service.complete();
-    this.loadingBar.show = false;
-  }
-
-  errorLoading (): void {
-    this.loadingBar.color = '#f89711';
-  }
-
-  onSubmit(): void {
-    console.log('submit');
+  onSave(): void {
+    this.msgs.push({severity:'error', summary:'Not saved!', detail:'Save method still has not been implemented!'});
+    this.slimLoader.start();
+    setTimeout(() => this.slimLoader.complete(), 3000)
   }
 
   onLoading(key): void {
-    if (this.loadingControl.indexOf(key) === -1){
-      this.loadingControl.push(key);
-      if (!this.loadingBar.show) {
-        this.startLoading();
-      }
-    }
+    this.slimLoader.start();
   }
 
   onLoaded(key): void {
-    if (this.loadingBar.show) {
-      const index = this.loadingControl.indexOf(key);
-      if (index !== -1) {
-        this.loadingControl.splice(index, 1);
-      }
-    }
-
-    if (!this.loadingControl.length) {
-      this.completeLoading();
-    }
+    this.slimLoader.complete();
   }
 }
