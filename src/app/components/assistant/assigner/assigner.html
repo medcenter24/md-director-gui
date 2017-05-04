@@ -4,7 +4,7 @@
                 [(ngModel)]="assistant"
                 [suggestions]="filteredAssistants"
                 [dropdown]="true"
-                (completeMethod)="search($event)"
+                (completeMethod)="filterAssistants($event)"
                 (onDropdownClick)="handleDropdownClick($event)"
                 field="title"
         ></p-autoComplete>
