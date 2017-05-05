@@ -7,7 +7,7 @@
 import { Component, ViewChild } from '@angular/core';
 import { ModalComponent } from 'ng2-bs3-modal/ng2-bs3-modal';
 import { LocalDataSource } from 'ng2-smart-table';
-import { AccidentDiscountsService } from '../../../../components/accident/discount/discount.service';
+import { AccidentDiscountsService } from '../../../../components/accident/components/discount/discount.service';
 import { SlimLoadingBarService } from 'ng2-slim-loading-bar';
 
 @Component({

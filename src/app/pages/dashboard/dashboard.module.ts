@@ -21,7 +21,7 @@ import { PieChartService } from './pieChart/pieChart.service';
 import { TodoService } from './todo/todo.service';
 import { TrafficChartService } from './trafficChart/trafficChart.service';
 import { UsersMapService } from './usersMap/usersMap.service';
-import { TranslateModule } from '@ngx-translate/core';
+import { AppTranslationModule } from '../../app.translation.module';
 
 @NgModule({
   imports: [
@@ -29,7 +29,7 @@ import { TranslateModule } from '@ngx-translate/core';
     FormsModule,
     NgaModule,
     routing,
-    TranslateModule.forChild(),
+    AppTranslationModule,
   ],
   declarations: [
     PopularApp,

@@ -1,4 +1,5 @@
 {
+  "test": "en translation :param1",
   "login": {
     "title": "Sign in to ng2-admin",
     "signup_link": "New to ng2-admin? Sign up!",
@@ -12,12 +13,28 @@
     "share_on_google_plus": "Share on Google Plus"
   },
   "general": {
+    "total_score": "Total Score",
+    "select_services": "Select Services",
+    "discount_type": "Discount Type",
+    "discount_value": "Discount Value",
+    "select_assistant": "Select Assistant",
+    "creating_new_case": "Creating new case",
+    "editing_case": "Editing case",
+    "applied_time": "Patient Applied Time",
+    "accident_type": "Accident Type",
+    "accident_services": "Accident Services is",
+    "services": "Services",
+    "assistant": "Assistant",
+    "save": "Save",
+    "created_for": "Created for",
+    "not_saved": "Not saved",
     "akveo": "Akveo",
     "home": "Home",
     "forms": {
       "option1": "Option 1"
     },
     "menu": {
+      "address_book": "Address Book",
       "dashboard": "Dashboard",
       "cases": "Cases",
       "accidents": "Accidents",

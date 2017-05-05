@@ -9,7 +9,7 @@ import { Component, ViewEncapsulation, ViewChild } from '@angular/core';
 import { LocalDataSource } from 'ng2-smart-table';
 import { ModalComponent } from 'ng2-bs3-modal/components/modal';
 import { Response } from '@angular/http';
-import { AccidentStatusesService } from '../../../../components/accident/status/statuses.service';
+import { AccidentStatusesService } from '../../../../components/accident/components/status/statuses.service';
 import { SlimLoadingBarService } from 'ng2-slim-loading-bar';
 
 @Component({

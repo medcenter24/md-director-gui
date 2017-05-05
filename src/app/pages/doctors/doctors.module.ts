@@ -33,7 +33,7 @@ import { DiagnosticService } from '../../components/diagnostic/diagnostic.servic
 import { DiagnosticCategoryService } from '../../components/diagnostic/category/category.service';
 import { InMemoryWebApiModule } from 'angular-in-memory-web-api';
 import { InMemoryDataService } from '../../faker/in-memory-data.service';
-import { TranslateModule } from '@ngx-translate/core';
+import { AppTranslationModule } from '../../app.translation.module';
 
 @NgModule({
   imports: [
@@ -41,10 +41,10 @@ import { TranslateModule } from '@ngx-translate/core';
     FormsModule,
     NgaModule,
     routing,
-    TranslateModule.forChild(),
+    AppTranslationModule,
     Ng2SmartTableModule,
     Ng2Bs3ModalModule,
-    InMemoryWebApiModule.forRoot(InMemoryDataService, {apiBase: 'director/'}),
+    InMemoryWebApiModule.forRoot(InMemoryDataService, {apiBase: 'director/', passThruUnknownUrl: true}),
   ],
   declarations: [
     Doctors,

@@ -1,10 +1,9 @@
-import { NgModule, ApplicationRef } from '@angular/core';
+import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { RouterModule } from '@angular/router';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { TranslateService } from '@ngx-translate/core';
 
 import { InMemoryWebApiModule } from 'angular-in-memory-web-api';
 import { InMemoryDataService }  from './faker/in-memory-data.service';
@@ -22,11 +21,13 @@ import { NgaModule } from './theme/nga.module';
 import { PagesModule } from './pages/pages.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { SlimLoadingBarModule } from 'ng2-slim-loading-bar';
+import { Logger } from 'angular2-logger/core';
 
 // Application wide providers
 const APP_PROVIDERS = [
   AppState,
-  GlobalState
+  GlobalState,
+  Logger,
 ];
 
 export type StoreType = {
@@ -47,6 +48,7 @@ export type StoreType = {
     BrowserModule,
     BrowserAnimationsModule,
     HttpModule,
+    InMemoryWebApiModule.forRoot(InMemoryDataService, {apiBase: 'director/', passThruUnknownUrl: true}),
     RouterModule,
     FormsModule,
     ReactiveFormsModule,
@@ -54,12 +56,12 @@ export type StoreType = {
     NgbModule.forRoot(),
     PagesModule,
     routing,
-    InMemoryWebApiModule.forRoot(InMemoryDataService, {apiBase: 'director/', passThruUnknownUrl: true}),
     SlimLoadingBarModule.forRoot()
   ],
+  exports: [InMemoryWebApiModule],
   providers: [ // expose our Services and Providers into Angular's dependency injection
     APP_PROVIDERS
-  ]
+  ],
 })
 
 export class AppModule {
