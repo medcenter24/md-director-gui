@@ -4,7 +4,7 @@
  * @author Alexander Zagovorichev <zagovorichev@gmail.com>
  */
 
-import { AccidentCheckpoint } from '../components/accident/checkpoint/checkpoint';
+import { AccidentCheckpoint } from '../components/accident/components/checkpoint/checkpoint';
 export const AccidentCheckpointsDb: AccidentCheckpoint[] = [
   {id: 1, title: 'Medical appointed was prepared', description: 'Notices about checkpoint'},
   {id: 2, title: 'Received a guarantee for the amount of', description: ''},

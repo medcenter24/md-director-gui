@@ -20,7 +20,6 @@ import { AssistantsService } from '../../components/assistant/assistant.service'
 import { PatientsService } from '../../components/patient/patients.service';
 import { Patients } from './components/patients/patients.component';
 import { Assistants } from './components/assistants/assistants.component';
-import { TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
   imports: [
@@ -29,10 +28,9 @@ import { TranslateModule } from '@ngx-translate/core';
     AppTranslationModule,
     NgaModule,
     routing,
-    TranslateModule.forChild(),
     Ng2SmartTableModule,
     Ng2Bs3ModalModule,
-    InMemoryWebApiModule.forRoot(InMemoryDataService, {apiBase: 'director/'}),
+    InMemoryWebApiModule.forRoot(InMemoryDataService, {apiBase: 'director/', passThruUnknownUrl: true}),
   ],
   declarations: [
     Companions,

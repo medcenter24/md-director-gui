@@ -8,7 +8,7 @@ import {Component, ViewEncapsulation, ViewChild} from '@angular/core';
 
 import { LocalDataSource } from 'ng2-smart-table';
 import {ModalComponent} from "ng2-bs3-modal/components/modal";
-import {AccidentTypesService} from "../../../../components/accident/type/types.service";
+import {AccidentTypesService} from "../../../../components/accident/components/type/types.service";
 import {Response} from "@angular/http";
 import { SlimLoadingBarService } from 'ng2-slim-loading-bar';
 

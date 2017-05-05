@@ -10,7 +10,7 @@ import { LocalDataSource } from 'ng2-smart-table';
 import { ModalComponent } from 'ng2-bs3-modal/components/modal';
 import { SlimLoadingBarService } from 'ng2-slim-loading-bar';
 import { Response } from '@angular/http';
-import { AccidentCheckpointsService } from '../../../../components/accident/checkpoint/checkpoints.service';
+import { AccidentCheckpointsService } from '../../../../components/accident/components/checkpoint/checkpoints.service';
 
 @Component({
   selector: 'basic-tables',

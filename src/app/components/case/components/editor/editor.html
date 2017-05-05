@@ -6,7 +6,8 @@
 
 <p-growl [value]="msgs"></p-growl>
 <div *ngIf="accident">
-    <h1>{{ accident.id ? 'Editing case #' + accident.id : 'Creating new case' }}</h1>
+    <h1 *ngIf="accident.id">{{ 'general.editing_case' | translate}} #{{ accident.id }}</h1>
+    <h1 *ngIf="!accident.id">{{ 'general.creating_new_case' | translate }}</h1>
     <div class="row">
         <div class="col-lg-9">
             <form class="edit-form-container form" (ngSubmit)="onSubmit()" #accidentForm="ngForm">
@@ -14,7 +15,7 @@
                 <div class="form-group">
                     <div class="row">
                         <div class="col-sm-6">
-                            <label class="label">{{ 'Applied Time' | translate }}</label>
+                            <b class="text-muted offset-right10">{{ 'general.applied_time' | translate }}</b>
                             <p-calendar
                                     name="appliedTime"
                                     [(ngModel)]="appliedTime"
@@ -25,7 +26,7 @@
                             ></p-calendar>
                         </div>
                         <div class="col-sm-6">
-                            <label class="label">{{ 'Accident Type' | translate }}</label>
+                            <b class="text-muted offset-right10">{{ 'general.accident_type' | translate }}</b>
                             <select-accident-type
                                     [selectedTypeId]="accident.accident_type_id"
                                     (loading)="onLoading($event)"
@@ -38,7 +39,6 @@
                 <div class="form-group">
                     <div class="row">
                         <div class="col-sm-12">
-                            <label class="label">{{ 'Services' | translate}}</label>
                             <services-selector
                                     [caseId]="accident.id"
                                     (loading)="onLoading($event)"
@@ -51,16 +51,45 @@
                 <div class="form-group">
                     <div class="row">
                         <div class="col-sm-12">
-                            <label class="label">{{ 'Assistant' | translate}}</label>
-                            <assistant-assigner
-                                [caseId]="accident.id"
-                            ></assistant-assigner>
+                            <b class="text-muted">{{ 'general.assistant' | translate }}</b>
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    <label class="label text-muted">{{ 'general.select_assistant' | translate }}</label>
+                                    <select-assistant></select-assistant>
+                                </div>
+                                <div class="col-sm-3">
+                                    <label class="label text-muted">{{ 'general.discount_value' | translate }}</label>
+                                    <p-spinner size="30" [min]="0" [(ngModel)]="discountValue" name="discountValue"></p-spinner>
+                                </div>
+                                <div class="col-sm-3">
+                                    <label class="label text-muted">{{ 'general.discount_type' | translate }}</label>
+                                    <div class="row">
+                                        <div class="col-sm-12">
+                                            <select-accident-discount-type></select-accident-discount-type>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-3">
+                                    <label class="label text-muted">{{ 'general.total_score' | translate }}</label>
+                                    <div class="row">
+                                        <div class="col-sm-12">
+                                            <div class="well well-lg bg-warning">Total Amount: 1000</div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-12">
+                                            <div class="well bg-success" pTooltip="Formula: 1000*0.2=800">Total Income: 800</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
                         </div>
                     </div>
                 </div>
 
                 <button pButton type="button" class="ui-button-success" (click)="onSave($event)"
-                        [disabled]="!accidentForm.form.valid" label="{{ 'Save' | translate }}"></button>
+                        [disabled]="!accidentForm.form.valid" label="general.save"></button>
             </form>
         </div>
     </div>
