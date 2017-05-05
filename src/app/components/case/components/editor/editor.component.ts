@@ -10,6 +10,7 @@ import { Accident } from '../../../accident/accident';
 import { AccidentsService } from '../../../accident/accidents.service';
 import { Message } from 'primeng/primeng';
 import { SlimLoadingBarService } from 'ng2-slim-loading-bar';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'case-editor',
@@ -24,14 +25,15 @@ export class CaseEditorComponent {
   accident: Accident;
   appliedTime: Date;
   maxDate: Date;
+  discountValue: number = 0;
 
   private loadingControl: Array<string> = [];
 
   constructor (private route: ActivatedRoute, private accidentsService: AccidentsService,
-               private slimLoader: SlimLoadingBarService) { }
+               private slimLoader: SlimLoadingBarService, private translate: TranslateService) {
+  }
 
   ngOnInit () {
-
     this.maxDate = new Date();
     this.appliedTime = new Date();
 
@@ -40,7 +42,7 @@ export class CaseEditorComponent {
         // (+) converts string 'id' to a number
         .switchMap((params: Params) => this.accidentsService.getAccident(+params[ 'id' ]))
         .subscribe((accident: Accident) => {
-          this.accident = accident ? accident : new Accident()
+          this.accident = accident ? accident : new Accident();
           this.appliedTime = new Date(this.accident.created_at);
         });
     } else {
@@ -49,7 +51,8 @@ export class CaseEditorComponent {
   }
 
   onSave(): void {
-    this.msgs.push({severity:'error', summary:'Not saved!', detail:'Save method still has not been implemented!'});
+    this.msgs = [];
+    this.msgs.push({severity: 'error', summary: this.translate.instant('general.not_saved') + '!', detail: 'Save method still has not been implemented!'});
     this.slimLoader.start();
     setTimeout(() => this.slimLoader.complete(), 3000)
   }

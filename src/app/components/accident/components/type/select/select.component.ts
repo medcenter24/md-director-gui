@@ -30,6 +30,9 @@ export class SelectAccidentTypeComponent {
     this.loading.emit('select-accident-type');
     this.accidentTypesService.getTypes().then(types => {
       this.loadedTypes = types;
+      if (!this.selectedTypeId) {
+        this.selectedTypeId = 1;
+      }
       this.dataItems = types.map(x => {
         return {
           label: x.title,

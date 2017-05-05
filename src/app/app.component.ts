@@ -15,11 +15,11 @@ import { layoutPaths } from './theme/theme.constants';
   styleUrls: ['./app.component.scss'],
   template: `
     <main [class.menu-collapsed]="isMenuCollapsed" baThemeRun>
-      <ng2-slim-loading-bar [height]="'3px'" [color]="'#ff0000'"></ng2-slim-loading-bar>
+      <ng2-slim-loading-bar [height]="'3px'" [color]="'#e85656'"></ng2-slim-loading-bar>
       <div class="additional-bg"></div>
       <router-outlet></router-outlet>
     </main>
-  `
+  `,
 })
 export class App {
 

@@ -30,7 +30,7 @@ export const PAGES_MENU = [
         path: 'companions',
         data: {
           menu: {
-            title: 'Address Book',
+            title: 'general.menu.address_book',
             icon: 'fa fa-address-book-o'
           }
         },
@@ -159,7 +159,7 @@ export const PAGES_MENU = [
         path: '',
         data: {
           menu: {
-            title: 'Pages',
+            title: 'general.menu.pages',
             icon: 'ion-document',
             selected: false,
             expanded: false,
@@ -171,7 +171,7 @@ export const PAGES_MENU = [
             path: ['/login'],
             data: {
               menu: {
-                title: 'Login'
+                title: 'general.menu.login'
               }
             }
           },
@@ -179,7 +179,7 @@ export const PAGES_MENU = [
             path: ['/register'],
             data: {
               menu: {
-                title: 'Register'
+                title: 'general.menu.register'
               }
             }
           }

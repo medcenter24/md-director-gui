@@ -24,16 +24,17 @@ import { SelectServicesComponent } from '../../components/service/components/sel
 import { ServicesService } from '../../components/service/services.service';
 import { ServicesSelectorComponent } from '../../components/service/components/selector/selector.component';
 import { SelectModule } from 'ng2-select';
-import { SelectAccidentTypeComponent } from '../../components/accident/type/select/select.component';
-import { AccidentTypesService } from '../../components/accident/type/types.service';
-import { TranslateModule } from '@ngx-translate/core';
+import { SelectAccidentTypeComponent } from '../../components/accident/components/type/select/select.component';
+import { AccidentTypesService } from '../../components/accident/components/type/types.service';
 import {
   SelectButtonModule, CalendarModule, MultiSelectModule, AutoCompleteModule,
-  SpinnerModule, ButtonModule, GrowlModule
+  SpinnerModule, ButtonModule, GrowlModule, TooltipModule
 } from 'primeng/primeng';
-import { AssistantAssignerComponent } from '../../components/assistant/components/assigner/assigner.component';
 import { AssistantsService } from '../../components/assistant/assistant.service';
 import { AssistantSelectComponent } from '../../components/assistant/components/select/select.component';
+import { AppTranslationModule } from '../../app.translation.module';
+import { SelectAccidentDiscountComponent } from '../../components/accident/components/discount/components/select/select.component';
+import { AccidentDiscountsService } from '../../components/accident/components/discount/discount.service';
 
 @NgModule({
   imports: [
@@ -41,7 +42,6 @@ import { AssistantSelectComponent } from '../../components/assistant/components/
     FormsModule,
     NgaModule,
     routing,
-    TranslateModule.forChild(),
     Ng2SmartTableModule,
     SelectButtonModule,
     CalendarModule,
@@ -49,10 +49,12 @@ import { AssistantSelectComponent } from '../../components/assistant/components/
     AutoCompleteModule,
     SpinnerModule,
     Ng2Bs3ModalModule,
-    InMemoryWebApiModule.forRoot(InMemoryDataService, {apiBase: 'director/'}),
+    InMemoryWebApiModule.forRoot(InMemoryDataService, {apiBase: 'director/', passThruUnknownUrl: true}),
     SelectModule,
     ButtonModule,
-    GrowlModule
+    GrowlModule,
+    TooltipModule,
+    AppTranslationModule,
   ],
   declarations: [
     Cases,
@@ -61,15 +63,16 @@ import { AssistantSelectComponent } from '../../components/assistant/components/
     SelectServicesComponent,
     ServicesSelectorComponent,
     SelectAccidentTypeComponent,
-    AssistantAssignerComponent,
-    AssistantSelectComponent
+    AssistantSelectComponent,
+    SelectAccidentDiscountComponent
   ],
   providers: [
     CasesService,
     AccidentsService,
     ServicesService,
     AccidentTypesService,
-    AssistantsService
+    AssistantsService,
+    AccidentDiscountsService,
   ]
 })
 export class CasesModule {

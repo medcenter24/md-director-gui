@@ -4,7 +4,7 @@
  * @author Alexander Zagovorichev <zagovorichev@gmail.com>
  */
 
-import {AccidentStatus} from "../components/accident/status/status";
+import {AccidentStatus} from "../components/accident/components/status/status";
 export const AccidentStatusesDb: AccidentStatus[] = [
     {id: 1, title: 'Doctor assigned', description: 'Doctor case'},
     {id: 2, title: 'Doctor started', description: 'Doctor case'},

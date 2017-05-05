@@ -41,6 +41,11 @@ export class SelectServicesComponent {
         };
       });
 
+      if (!this.selectedServices.length) {
+        // to show placeholder
+        this.selectedServices = [];
+      }
+
       this.loaded.emit('select-services');
     }).catch((err) => {
       this.loaded.emit('select-services');
@@ -58,6 +63,8 @@ export class SelectServicesComponent {
 
    reloadChosenServices(services): void {
      this.chosenServices = services;
-     this.selectedServices = this.chosenServices.map(x => x.id+'');
+     if (this.chosenServices.length) {
+       this.selectedServices = this.chosenServices.map(x => x.id + '');
+     }
    }
 }

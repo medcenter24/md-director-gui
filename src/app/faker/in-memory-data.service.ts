@@ -21,12 +21,12 @@ import {City} from "../components/city/city";
 import {Hospital} from "../components/hospital/hospital";
 import {CitiesDb} from "./cities.db";
 import {HospitalsDb} from "./hospitals.db";
-import {AccidentType} from "../components/accident/type/type";
+import {AccidentType} from "../components/accident/components/type/type";
 import {AccidentTypesDb} from "./accidentTypes.db";
-import {AccidentCheckpoint} from "../components/accident/checkpoint/checkpoint";
+import {AccidentCheckpoint} from "../components/accident/components/checkpoint/checkpoint";
 import {AccidentCheckpointsDb} from "./accidentCheckpoints.db";
 import {AccidentStatusesDb} from "./accidentStatuses.db";
-import {AccidentStatus} from "../components/accident/status/status";
+import {AccidentStatus} from "../components/accident/components/status/status";
 import {Assistant} from "../components/assistant/assistant";
 import {AssistantsDb} from "./assistants.db";
 import {Patient} from "../components/patient/patient";
@@ -35,7 +35,7 @@ import {Accident} from "../components/accident/accident";
 import {AccidentsDb} from "./accidents.db";
 import {CasesDb} from "./cases.db";
 import {CaseAccident} from "../components/case/case";
-import { AccidentDiscount } from '../components/accident/discount/discount';
+import { AccidentDiscount } from '../components/accident/components/discount/discount';
 import { AccidentDiscountsDb } from './accidentDiscounts.db';
 
 @Injectable()
