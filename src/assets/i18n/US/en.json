@@ -13,6 +13,12 @@
     "share_on_google_plus": "Share on Google Plus"
   },
   "general": {
+    "title": "Title",
+    "description": "Description",
+    "price": "Price",
+    "total": "Total",
+    "total_income": "Total Income",
+    "total_amount": "Total Amount",
     "total_score": "Total Score",
     "select_services": "Select Services",
     "discount_type": "Discount Type",
