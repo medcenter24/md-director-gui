@@ -8,6 +8,8 @@ import { Component, EventEmitter, Input, Output, ViewChild } from '@angular/core
 import { SelectServicesComponent } from '../select/select.component';
 import { Service } from '../../service';
 import { CasesService } from '../../../case/cases.service';
+import { SlimLoadingBarService } from 'ng2-slim-loading-bar';
+import { Logger } from 'angular2-logger/core';
 
 @Component({
   selector: 'services-selector',
@@ -16,9 +18,7 @@ import { CasesService } from '../../../case/cases.service';
 export class ServicesSelectorComponent {
 
   @Input() caseId: number = 0;
-
-  @Output() loading: EventEmitter<string> = new EventEmitter<string>();
-  @Output() loaded: EventEmitter<string> = new EventEmitter<string>();
+  @Output() priceChanged: EventEmitter<number> = new EventEmitter<number>();
 
   @ViewChild('selectServices')
     private selectServicesComponent: SelectServicesComponent;
@@ -26,28 +26,24 @@ export class ServicesSelectorComponent {
   caseServices: Array<Service> = [];
   private sumPrices: number = 0;
 
-  constructor (private casesService: CasesService) {
+  constructor (
+    private casesService: CasesService,
+    private loadingBar: SlimLoadingBarService,
+    private _logger: Logger
+  ) {
   }
 
   ngOnInit () {
     if (this.caseId) {
-      this.loading.emit('selected-services');
+      this.loadingBar.start();
       this.casesService.getCaseServices(this.caseId).then(services => {
         this.caseServices = services;
-        this.loaded.emit('selected-services');
+        this.loadingBar.complete();
       }).catch((err) => {
-        this.loaded.emit('selected-services');
-        console.error('log_error: ', err);
+        this.loadingBar.complete();
+        this._logger.error(err);
       });
     }
-  }
-
-  onLoading (key): void {
-    this.loading.emit(key);
-  }
-
-  onLoaded (key): void {
-    this.loaded.emit(key);
   }
 
   onDelete (service: Service): void {
@@ -71,5 +67,6 @@ export class ServicesSelectorComponent {
   recalculatePrice (): void {
     this.sumPrices = 0;
     this.caseServices.forEach(service => this.sumPrices += service.price);
+    this.priceChanged.emit(this.sumPrices);
   }
 }
