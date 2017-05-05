@@ -5,13 +5,13 @@
   -->
 
 <p-growl [value]="msgs"></p-growl>
-<div *ngIf="accident">
+<div *ngIf="accident" class="case-editor">
     <h1 *ngIf="accident.id">{{ 'general.editing_case' | translate}} #{{ accident.id }}</h1>
     <h1 *ngIf="!accident.id">{{ 'general.creating_new_case' | translate }}</h1>
     <div class="row">
-        <div class="col-lg-9">
-            <form class="edit-form-container form" (ngSubmit)="onSubmit()" #accidentForm="ngForm">
-
+        <div class="col-sm-12 form-block">
+            <ba-card baCardClass="with-scroll">
+            <form class="form" (ngSubmit)="onSubmit()" #accidentForm="ngForm">
                 <div class="form-group">
                     <div class="row">
                         <div class="col-sm-6">
@@ -29,8 +29,7 @@
                             <b class="text-muted offset-right10">{{ 'general.accident_type' | translate }}</b>
                             <select-accident-type
                                     [selectedTypeId]="accident.accident_type_id"
-                                    (loading)="onLoading($event)"
-                                    (loaded)="onLoaded($event)"
+                                    (selected)="onAccidentTypeSelected($event)"
                             ></select-accident-type>
                         </div>
                     </div>
@@ -41,44 +40,40 @@
                         <div class="col-sm-12">
                             <services-selector
                                     [caseId]="accident.id"
-                                    (loading)="onLoading($event)"
-                                    (loaded)="onLoaded($event)"
+                                    (priceChanged)="onServicesSelectorPriceChanged($event)"
                             ></services-selector>
                         </div>
                     </div>
                 </div>
 
-                <div class="form-group">
+                <div class="form-group" *ngIf="accident.accident_type_id === 1">
                     <div class="row">
                         <div class="col-sm-12">
                             <b class="text-muted">{{ 'general.assistant' | translate }}</b>
                             <div class="row">
-                                <div class="col-sm-3">
+                                <div class="col-sm-12 col-md-6 col-lg-3">
                                     <label class="label text-muted">{{ 'general.select_assistant' | translate }}</label>
-                                    <select-assistant></select-assistant>
+                                    <br><select-assistant></select-assistant>
                                 </div>
-                                <div class="col-sm-3">
-                                    <label class="label text-muted">{{ 'general.discount_value' | translate }}</label>
+                                <div class="col-sm-12 col-md-6 col-lg-3">
+                                    <label class="label text-muted">{{ 'general.discount_type' | translate }}</label>
+                                    <br>
+                                    <select-accident-discount-type></select-accident-discount-type>
+                                </div>
+                                <div class="col-sm-12 col-md-6 col-lg-3">
+                                    <label class="label text-muted">{{ 'general.discount_value' | translate }}</label><br>
                                     <p-spinner size="30" [min]="0" [(ngModel)]="discountValue" name="discountValue"></p-spinner>
                                 </div>
-                                <div class="col-sm-3">
-                                    <label class="label text-muted">{{ 'general.discount_type' | translate }}</label>
-                                    <div class="row">
-                                        <div class="col-sm-12">
-                                            <select-accident-discount-type></select-accident-discount-type>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-sm-3">
+                                <div class="col-sm-12 col-md-6 col-lg-3">
                                     <label class="label text-muted">{{ 'general.total_score' | translate }}</label>
                                     <div class="row">
                                         <div class="col-sm-12">
-                                            <div class="well well-lg bg-warning">Total Amount: 1000</div>
+                                            <div class="well well-lg bg-warning">{{ 'general.total_amount' | translate }}: {{ totalAmount }}</div>
                                         </div>
                                     </div>
                                     <div class="row">
                                         <div class="col-sm-12">
-                                            <div class="well bg-success" pTooltip="Formula: 1000*0.2=800">Total Income: 800</div>
+                                            <div class="well bg-success" pTooltip="Formula: 1000*0.2=800"><b>{{ 'general.total_income' | translate }}</b>: {{ totalIncome }}</div>
                                         </div>
                                     </div>
                                 </div>
@@ -91,6 +86,7 @@
                 <button pButton type="button" class="ui-button-success" (click)="onSave($event)"
                         [disabled]="!accidentForm.form.valid" label="general.save"></button>
             </form>
+            </ba-card>
         </div>
     </div>
 </div>

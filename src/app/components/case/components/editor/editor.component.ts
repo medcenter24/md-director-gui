@@ -11,6 +11,8 @@ import { AccidentsService } from '../../../accident/accidents.service';
 import { Message } from 'primeng/primeng';
 import { SlimLoadingBarService } from 'ng2-slim-loading-bar';
 import { TranslateService } from '@ngx-translate/core';
+import { AccidentType } from '../../../accident/components/type/type';
+import { Discount } from '../../../discount/discount';
 
 @Component({
   selector: 'case-editor',
@@ -26,11 +28,13 @@ export class CaseEditorComponent {
   appliedTime: Date;
   maxDate: Date;
   discountValue: number = 0;
+  discount: Discount;
 
-  private loadingControl: Array<string> = [];
+  totalAmount: number = 0;
+  totalIncome: number = 0;
 
   constructor (private route: ActivatedRoute, private accidentsService: AccidentsService,
-               private slimLoader: SlimLoadingBarService, private translate: TranslateService) {
+               private loadingBar: SlimLoadingBarService, private translate: TranslateService) {
   }
 
   ngOnInit () {
@@ -53,15 +57,29 @@ export class CaseEditorComponent {
   onSave(): void {
     this.msgs = [];
     this.msgs.push({severity: 'error', summary: this.translate.instant('general.not_saved') + '!', detail: 'Save method still has not been implemented!'});
-    this.slimLoader.start();
-    setTimeout(() => this.slimLoader.complete(), 3000)
+    this.loadingBar.start();
+    setTimeout(() => this.loadingBar.complete(), 3000)
   }
 
-  onLoading(key): void {
-    this.slimLoader.start();
+  onAccidentTypeSelected(accidentType: AccidentType): void {
+    this.accident.accident_type_id = accidentType.id;
   }
 
-  onLoaded(key): void {
-    this.slimLoader.complete();
+  onServicesSelectorPriceChanged(servicesPrice): void {
+    this.totalAmount = servicesPrice;
+    this.recalculatePrice();
+  }
+
+  private recalculatePrice(): void {
+    this.totalIncome = 0;
+    /*if (this.totalAmount && this.discount) {
+      if (this.discount.type === '%') {
+        // *
+      } else if (this.discount.type === 'EUR') {
+        // -
+      } else {
+        this.totalIncome = this.totalAmount;
+      }
+    }*/
   }
 }
