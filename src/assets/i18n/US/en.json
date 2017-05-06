@@ -13,6 +13,10 @@
     "share_on_google_plus": "Share on Google Plus"
   },
   "general": {
+    "repeated_treatment": "Repeated Treatment",
+    "patient_name": "Patient Name",
+    "symptoms": "Symptoms",
+    "without_discount": "No Discount",
     "title": "Title",
     "description": "Description",
     "price": "Price",

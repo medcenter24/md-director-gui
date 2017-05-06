@@ -58,11 +58,13 @@
                                 <div class="col-sm-12 col-md-6 col-lg-3">
                                     <label class="label text-muted">{{ 'general.discount_type' | translate }}</label>
                                     <br>
-                                    <select-accident-discount-type></select-accident-discount-type>
+                                    <select-accident-discount-type
+                                            (selected)="onDiscountTypeSelected($event)"
+                                    ></select-accident-discount-type>
                                 </div>
                                 <div class="col-sm-12 col-md-6 col-lg-3">
                                     <label class="label text-muted">{{ 'general.discount_value' | translate }}</label><br>
-                                    <p-spinner size="30" [min]="0" [(ngModel)]="discountValue" name="discountValue"></p-spinner>
+                                    <p-spinner size="30" [min]="0" [(ngModel)]="discountValue" name="discountValue" (onChange)="onDiscountValueChanged()"></p-spinner>
                                 </div>
                                 <div class="col-sm-12 col-md-6 col-lg-3">
                                     <label class="label text-muted">{{ 'general.total_score' | translate }}</label>
@@ -73,9 +75,32 @@
                                     </div>
                                     <div class="row">
                                         <div class="col-sm-12">
-                                            <div class="well bg-success" pTooltip="Formula: 1000*0.2=800"><b>{{ 'general.total_income' | translate }}</b>: {{ totalIncome }}</div>
+                                            <div class="well bg-success" pTooltip="Formula: {{ totalIncomeFormula }}"><b>{{ 'general.total_income' | translate }}</b>: {{ totalIncome }}</div>
                                         </div>
                                     </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <div class="row offset-bottom10">
+                                        <div class="col-sm-12">
+                                            <b class="text-muted">{{ 'general.patient_name' | translate }}</b>
+                                            <br>
+                                            <input type="text" pInputText/>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-12">
+                                            <b class="text-muted">{{ 'general.symptoms' | translate }}</b>
+                                            <br>
+                                            <textarea rows="5" cols="70" pInputTextarea autoResize="autoResize"></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <b class="text-muted">{{ 'general.repeated_treatment' | translate }}</b>
+                                    <br><select-accident [(selectedAccidentId)]="accident.parent_id"></select-accident>
                                 </div>
                             </div>
 
@@ -84,7 +109,7 @@
                 </div>
 
                 <button pButton type="button" class="ui-button-success" (click)="onSave($event)"
-                        [disabled]="!accidentForm.form.valid" label="general.save"></button>
+                        [disabled]="!accidentForm.form.valid" label="{{ 'general.save' | translate }}"></button>
             </form>
             </ba-card>
         </div>
