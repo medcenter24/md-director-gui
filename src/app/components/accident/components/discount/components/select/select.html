@@ -4,4 +4,8 @@
   ~  @author Alexander Zagovorichev <zagovorichev@gmail.com>
   -->
 
-<p-selectButton [options]="dataItems" [(ngModel)]="selectedDiscountId"></p-selectButton>
+<p-selectButton
+        [options]="dataItems"
+        [(ngModel)]="selectedDiscountId"
+        (onChange)="onSelected($event)"
+></p-selectButton>
