@@ -28,13 +28,14 @@ import { SelectAccidentTypeComponent } from '../../components/accident/component
 import { AccidentTypesService } from '../../components/accident/components/type/types.service';
 import {
   SelectButtonModule, CalendarModule, MultiSelectModule, AutoCompleteModule,
-  SpinnerModule, ButtonModule, GrowlModule, TooltipModule
+  SpinnerModule, ButtonModule, GrowlModule, TooltipModule, InputTextareaModule, InputTextModule
 } from 'primeng/primeng';
 import { AssistantsService } from '../../components/assistant/assistant.service';
 import { AssistantSelectComponent } from '../../components/assistant/components/select/select.component';
 import { AppTranslationModule } from '../../app.translation.module';
 import { SelectAccidentDiscountComponent } from '../../components/accident/components/discount/components/select/select.component';
 import { AccidentDiscountsService } from '../../components/accident/components/discount/discount.service';
+import { SelectAccidentComponent } from '../../components/accident/components/select/select.component';
 
 @NgModule({
   imports: [
@@ -55,6 +56,8 @@ import { AccidentDiscountsService } from '../../components/accident/components/d
     GrowlModule,
     TooltipModule,
     AppTranslationModule,
+    InputTextareaModule,
+    InputTextModule
   ],
   declarations: [
     Cases,
@@ -64,7 +67,8 @@ import { AccidentDiscountsService } from '../../components/accident/components/d
     ServicesSelectorComponent,
     SelectAccidentTypeComponent,
     AssistantSelectComponent,
-    SelectAccidentDiscountComponent
+    SelectAccidentDiscountComponent,
+    SelectAccidentComponent
   ],
   providers: [
     CasesService,

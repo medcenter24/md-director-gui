@@ -53,7 +53,7 @@ export class SelectAccidentDiscountComponent {
 
   onSelected(event): void {
     this.selectedDiscount = this.loadedDiscounts.find(function (el) {
-      return el.id === event.id;
+      return el.id === event.value;
     });
 
     this.selected.emit(this.selectedDiscount);

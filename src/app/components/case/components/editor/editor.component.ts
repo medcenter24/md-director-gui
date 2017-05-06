@@ -12,7 +12,8 @@ import { Message } from 'primeng/primeng';
 import { SlimLoadingBarService } from 'ng2-slim-loading-bar';
 import { TranslateService } from '@ngx-translate/core';
 import { AccidentType } from '../../../accident/components/type/type';
-import { Discount } from '../../../discount/discount';
+import { AccidentDiscount } from '../../../accident/components/discount/discount';
+import { Patient } from '../../../patient/patient';
 
 @Component({
   selector: 'case-editor',
@@ -25,19 +26,25 @@ export class CaseEditorComponent {
   msgs: Message[] = [];
 
   accident: Accident;
+  patient: Patient;
   appliedTime: Date;
   maxDate: Date;
   discountValue: number = 0;
-  discount: Discount;
+  discountType: AccidentDiscount;
 
   totalAmount: number = 0;
   totalIncome: number = 0;
+
+  totalIncomeFormula: string = '';
 
   constructor (private route: ActivatedRoute, private accidentsService: AccidentsService,
                private loadingBar: SlimLoadingBarService, private translate: TranslateService) {
   }
 
   ngOnInit () {
+    this.translate.get('general.without_discount').subscribe(res => {
+      this.totalIncomeFormula = res;
+    });
     this.maxDate = new Date();
     this.appliedTime = new Date();
 
@@ -70,16 +77,33 @@ export class CaseEditorComponent {
     this.recalculatePrice();
   }
 
+  onDiscountTypeSelected(discountType: AccidentDiscount): void {
+    this.discountType = discountType;
+    this.recalculatePrice();
+  }
+
+  onDiscountValueChanged(): void {
+    this.recalculatePrice();
+  }
+
   private recalculatePrice(): void {
     this.totalIncome = 0;
-    /*if (this.totalAmount && this.discount) {
-      if (this.discount.type === '%') {
+    if (this.totalAmount && this.discountType && this.discountValue) {
+      if (this.discountType.title === '%') {
         // *
-      } else if (this.discount.type === 'EUR') {
+        this.totalIncome = this.totalAmount - this.discountValue * this.totalAmount / 100;
+        this.totalIncomeFormula = this.totalAmount + ' - ' + this.discountValue + ' * ' + this.totalAmount + ' / 100';
+      } else if (this.discountType.title === 'EUR') {
         // -
+        this.totalIncome = this.totalAmount - this.discountValue;
+        this.totalIncomeFormula = this.totalAmount + ' - ' + this.discountValue;
       } else {
         this.totalIncome = this.totalAmount;
+        this.totalIncomeFormula = this.translate.instant('general.without_discount');
       }
-    }*/
+    } else {
+      this.totalIncome = this.totalAmount;
+      this.totalIncomeFormula = this.translate.instant('general.without_discount');
+    }
   }
 }
