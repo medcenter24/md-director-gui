@@ -14,6 +14,8 @@ import { TranslateService } from '@ngx-translate/core';
 import { AccidentType } from '../../../accident/components/type/type';
 import { AccidentDiscount } from '../../../accident/components/discount/discount';
 import { Patient } from '../../../patient/patient';
+import { Logger } from 'angular2-logger/core';
+import { GlobalState } from '../../../../global.state';
 
 @Component({
   selector: 'case-editor',
@@ -38,7 +40,8 @@ export class CaseEditorComponent {
   totalIncomeFormula: string = '';
 
   constructor (private route: ActivatedRoute, private accidentsService: AccidentsService,
-               private loadingBar: SlimLoadingBarService, private translate: TranslateService) {
+               private loadingBar: SlimLoadingBarService, private translate: TranslateService,
+              private _logger: Logger, private _state: GlobalState) {
   }
 
   ngOnInit () {
@@ -48,17 +51,22 @@ export class CaseEditorComponent {
     this.maxDate = new Date();
     this.appliedTime = new Date();
 
-    if (this.route.params['id'] && this.route.params['id'] !== 'new' ) {
-      this.route.params
-        // (+) converts string 'id' to a number
-        .switchMap((params: Params) => this.accidentsService.getAccident(+params[ 'id' ]))
-        .subscribe((accident: Accident) => {
+    this.route.params
+      // (+) converts string 'id' to a number
+      .subscribe((params: Params) => {
+        this.loadingBar.start();
+        this.accidentsService.getAccident(+params[ 'id' ]).then((accident: Accident) => {
           this.accident = accident ? accident : new Accident();
           this.appliedTime = new Date(this.accident.created_at);
+
+          this._state.notifyDataChanged('menu.activeLink', {title: 'general.menu.cases'});
+
+          this.loadingBar.complete();
+        }).catch((err) => {
+          this._logger.error(err);
+          this.loadingBar.complete();
         });
-    } else {
-      this.accident = new Accident;
-    }
+      });
   }
 
   onSave(): void {
@@ -70,6 +78,10 @@ export class CaseEditorComponent {
 
   onAccidentTypeSelected(accidentType: AccidentType): void {
     this.accident.accident_type_id = accidentType.id;
+  }
+
+  onAccidentSelected(accident: Accident): void {
+    this.accident.parent_id = accident.id;
   }
 
   onServicesSelectorPriceChanged(servicesPrice): void {
@@ -92,6 +104,7 @@ export class CaseEditorComponent {
       if (this.discountType.title === '%') {
         // *
         this.totalIncome = this.totalAmount - this.discountValue * this.totalAmount / 100;
+        this.totalIncome = +this.totalIncome.toFixed(2);
         this.totalIncomeFormula = this.totalAmount + ' - ' + this.discountValue + ' * ' + this.totalAmount + ' / 100';
       } else if (this.discountType.title === 'EUR') {
         // -

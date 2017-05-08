@@ -13,6 +13,12 @@
     "share_on_google_plus": "Share on Google Plus"
   },
   "general": {
+    "last_appointment": "Last Appointment",
+    "birthday": "Birthday",
+    "parent_accident": "Parent Accident",
+    "pp": "#",
+    "patient_phone": "Patient Phone Number",
+    "select_accident": "Select Accident",
     "repeated_treatment": "Repeated Treatment",
     "patient_name": "Patient Name",
     "symptoms": "Symptoms",
