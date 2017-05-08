@@ -28,7 +28,8 @@ import { SelectAccidentTypeComponent } from '../../components/accident/component
 import { AccidentTypesService } from '../../components/accident/components/type/types.service';
 import {
   SelectButtonModule, CalendarModule, MultiSelectModule, AutoCompleteModule,
-  SpinnerModule, ButtonModule, GrowlModule, TooltipModule, InputTextareaModule, InputTextModule
+  SpinnerModule, ButtonModule, GrowlModule, TooltipModule, InputTextareaModule, InputTextModule, InputMaskModule,
+  PanelModule
 } from 'primeng/primeng';
 import { AssistantsService } from '../../components/assistant/assistant.service';
 import { AssistantSelectComponent } from '../../components/assistant/components/select/select.component';
@@ -36,6 +37,8 @@ import { AppTranslationModule } from '../../app.translation.module';
 import { SelectAccidentDiscountComponent } from '../../components/accident/components/discount/components/select/select.component';
 import { AccidentDiscountsService } from '../../components/accident/components/discount/discount.service';
 import { SelectAccidentComponent } from '../../components/accident/components/select/select.component';
+import { AccidentCardComponent } from '../../components/accident/components/card/accidentCard.component';
+import { PatientsService } from '../../components/patient/patients.service';
 
 @NgModule({
   imports: [
@@ -57,7 +60,9 @@ import { SelectAccidentComponent } from '../../components/accident/components/se
     TooltipModule,
     AppTranslationModule,
     InputTextareaModule,
-    InputTextModule
+    InputTextModule,
+    InputMaskModule,
+    PanelModule
   ],
   declarations: [
     Cases,
@@ -68,7 +73,8 @@ import { SelectAccidentComponent } from '../../components/accident/components/se
     SelectAccidentTypeComponent,
     AssistantSelectComponent,
     SelectAccidentDiscountComponent,
-    SelectAccidentComponent
+    SelectAccidentComponent,
+    AccidentCardComponent
   ],
   providers: [
     CasesService,
@@ -77,6 +83,7 @@ import { SelectAccidentComponent } from '../../components/accident/components/se
     AccidentTypesService,
     AssistantsService,
     AccidentDiscountsService,
+    PatientsService
   ]
 })
 export class CasesModule {

@@ -6,7 +6,7 @@
 
 <p-growl [value]="msgs"></p-growl>
 <div *ngIf="accident" class="case-editor">
-    <h1 *ngIf="accident.id">{{ 'general.editing_case' | translate}} #{{ accident.id }}</h1>
+    <h1 *ngIf="accident.id">{{ 'general.editing_case' | translate}} {{ 'general.pp' | translate }}{{ accident.id }}</h1>
     <h1 *ngIf="!accident.id">{{ 'general.creating_new_case' | translate }}</h1>
     <div class="row">
         <div class="col-sm-12 form-block">
@@ -84,10 +84,15 @@
                             <div class="row">
                                 <div class="col-sm-6">
                                     <div class="row offset-bottom10">
-                                        <div class="col-sm-12">
+                                        <div class="col-sm-6">
                                             <b class="text-muted">{{ 'general.patient_name' | translate }}</b>
                                             <br>
                                             <input type="text" pInputText/>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <b class="text-muted">{{ 'general.patient_phone' | translate }}</b>
+                                            <br>
+                                            <p-inputMask mask="+34 (999) 999-999" slotChar="X"></p-inputMask>
                                         </div>
                                     </div>
                                     <div class="row">
@@ -100,7 +105,20 @@
                                 </div>
                                 <div class="col-sm-6">
                                     <b class="text-muted">{{ 'general.repeated_treatment' | translate }}</b>
-                                    <br><select-accident [(selectedAccidentId)]="accident.parent_id"></select-accident>
+                                    <div class="row">
+                                        <div class="col-sm-12">
+                                            <select-accident
+                                                    [selectedAccidentId]="accident.parent_id"
+                                                    (selected)="onAccidentSelected($event)"
+                                            ></select-accident>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-12">
+                                            <accident-card *ngIf="accident.parent_id" [selectedAccidentId]="accident.parent_id"></accident-card>
+                                        </div>
+                                    </div>
+
                                 </div>
                             </div>
 

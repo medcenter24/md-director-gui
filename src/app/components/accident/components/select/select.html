@@ -4,4 +4,15 @@
   ~  @author Alexander Zagovorichev <zagovorichev@gmail.com>
   -->
 
-<p-selectButton [options]="dataItems" [(ngModel)]="selectedAccidentId" (onChange)="onChanged($event)"></p-selectButton>
+<p-autoComplete
+        [(ngModel)]="accident"
+        [dropdown]="true"
+        [suggestions]="filteredAccidents"
+        (completeMethod)="filterAccidents($event)"
+        (onDropdownClick)="handleDropdownClick($event)"
+        (onSelect)="onChanged()"
+        (onUnselect)="onChanged()"
+        (onBlur)="onChanged()"
+        placeholder="{{ 'general.select_accident' | translate }}"
+        field="ref_num"
+></p-autoComplete>

@@ -19,9 +19,10 @@ export class SelectAccidentComponent {
   @Input() selectedAccidentId: number = 0;
   @Output() selected: EventEmitter<Accident> = new EventEmitter<Accident>();
 
-  private dataItems: Array<any> = [];
-  private selectedAccident: Accident = new Accident();
-  private loadedAccidents: Accident[] = [];
+  public accident: Accident = new Accident();
+
+  private accidents: Array<Accident> = [];
+  private filteredAccidents: Array<Accident> = [];
 
   constructor (
     private accidentService: AccidentsService,
@@ -32,14 +33,7 @@ export class SelectAccidentComponent {
   ngOnInit () {
     this.loadingBar.start();
     this.accidentService.getAccidents().then(accidents => {
-      console.log(accidents);
-      this.loadedAccidents = accidents;
-      this.dataItems = accidents.map(x => {
-        return {
-          label: x.ref_num,
-          value: x.id
-        };
-      });
+      this.accidents = accidents;
       this.loadingBar.complete();
     }).catch((err) => {
       this.loadingBar.complete();
@@ -47,11 +41,26 @@ export class SelectAccidentComponent {
     });
   }
 
-  onChanged(event): void {
-    this.selectedAccident = this.loadedAccidents.find(function (el) {
-      return el.id === event.value;
-    });
+  filterAccidents (event): void {
+    this.filteredAccidents = [];
+    for(let i = 0; i < this.accidents.length; i++) {
+      let assistant = this.accidents[i];
+      if(assistant.title.toLowerCase().indexOf(event.query.toLowerCase()) == 0) {
+        this.filteredAccidents.push(assistant);
+      }
+    }
+  }
 
-    this.selected.emit(this.selectedAccident);
+  handleDropdownClick() {
+    this.filteredAccidents = [];
+
+    //mimic remote call
+    setTimeout(() => {
+      this.filteredAccidents = this.accidents;
+    }, 100)
+  }
+
+  onChanged (): void {
+    this.selected.emit(this.accident);
   }
 }
