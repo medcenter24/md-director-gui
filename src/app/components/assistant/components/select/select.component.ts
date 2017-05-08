@@ -7,6 +7,8 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { AssistantsService } from '../../assistant.service';
 import { Assistant } from '../../assistant';
+import { SlimLoadingBarService } from 'ng2-slim-loading-bar';
+import { Logger } from 'angular2-logger/core';
 @Component({
   selector: 'select-assistant',
   templateUrl: './select.html'
@@ -15,22 +17,19 @@ export class AssistantSelectComponent {
 
   @Input() assistant: Assistant;
 
-  @Output() loading: EventEmitter<string> = new EventEmitter<string>();
-  @Output() loaded: EventEmitter<string> = new EventEmitter<string>();
-
   assistants: Array<Assistant> = [];
   filteredAssistants: Array<Assistant> = [];
 
-  constructor (private assistantsService: AssistantsService) {}
+  constructor (private assistantsService: AssistantsService, private loadingBar: SlimLoadingBarService, private _logger: Logger) {}
 
   ngOnInit () {
-    this.loading.emit('assistant-assigner');
+    this.loadingBar.start();
     this.assistantsService.getAssistants().then(assistants => {
       this.assistants = assistants;
-      this.loaded.emit('assistant-assigner');
+      this.loadingBar.complete();
     }).catch((err) => {
-      this.loaded.emit('assistant-assigner');
-      console.error('log_error: ', err);
+      this.loadingBar.complete();
+      this._logger.error(err);
     });
   }
 
