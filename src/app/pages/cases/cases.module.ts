@@ -39,6 +39,10 @@ import { AccidentDiscountsService } from '../../components/accident/components/d
 import { SelectAccidentComponent } from '../../components/accident/components/select/select.component';
 import { AccidentCardComponent } from '../../components/accident/components/card/accidentCard.component';
 import { PatientsService } from '../../components/patient/patients.service';
+import { DoctorSelectComponent } from '../../components/doctors/select/select.component';
+import { DoctorsService } from '../../components/doctors/doctors.service';
+import { HospitalsService } from '../../components/hospital/hospitals.service';
+import { HospitalSelectComponent } from '../../components/hospital/components/select/select.component';
 
 @NgModule({
   imports: [
@@ -74,7 +78,9 @@ import { PatientsService } from '../../components/patient/patients.service';
     AssistantSelectComponent,
     SelectAccidentDiscountComponent,
     SelectAccidentComponent,
-    AccidentCardComponent
+    AccidentCardComponent,
+    DoctorSelectComponent,
+    HospitalSelectComponent
   ],
   providers: [
     CasesService,
@@ -83,7 +89,9 @@ import { PatientsService } from '../../components/patient/patients.service';
     AccidentTypesService,
     AssistantsService,
     AccidentDiscountsService,
-    PatientsService
+    PatientsService,
+    DoctorsService,
+    HospitalsService
   ]
 })
 export class CasesModule {

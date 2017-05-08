@@ -105,7 +105,7 @@
                                 </div>
                                 <div class="col-sm-6">
                                     <b class="text-muted">{{ 'general.repeated_treatment' | translate }}</b>
-                                    <div class="row">
+                                    <div class="row offset-bottom10">
                                         <div class="col-sm-12">
                                             <select-accident
                                                     [selectedAccidentId]="accident.parent_id"
@@ -118,7 +118,24 @@
                                             <accident-card *ngIf="accident.parent_id" [selectedAccidentId]="accident.parent_id"></accident-card>
                                         </div>
                                     </div>
+                                </div>
+                            </div>
 
+                            <div class="row">
+                                <div class="col-sm-6">
+
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="row offset-bottom20">
+                                        <div class="col-sm-6">
+                                            <b class="text-muted">{{ 'general.doctor_case' | translate }}</b>
+                                            <br><select-doctor></select-doctor>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <b class="text-muted">{{ 'general.hospital_case' | translate }}</b>
+                                            <br><select-hospital></select-hospital>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
 
