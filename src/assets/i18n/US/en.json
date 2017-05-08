@@ -13,6 +13,10 @@
     "share_on_google_plus": "Share on Google Plus"
   },
   "general": {
+    "doctor_case": "Doctor Case",
+    "hospital_case": "Hospital Case",
+    "select_doctor": "Select Doctor",
+    "select_hospital": "Select Hospital",
     "last_appointment": "Last Appointment",
     "birthday": "Birthday",
     "parent_accident": "Parent Accident",

@@ -1,0 +1,15 @@
+<!--
+  ~ Copyright (c) 2017
+  ~
+  ~  @author Alexander Zagovorichev <zagovorichev@gmail.com>
+  -->
+
+<p-autoComplete
+        [(ngModel)]="doctors"
+        [suggestions]="filteredDoctors"
+        [dropdown]="true"
+        (completeMethod)="filterDoctors($event)"
+        (onDropdownClick)="handleDropdownClick($event)"
+        placeholder="{{ 'general.select_doctor' | translate}}"
+        field="name"
+></p-autoComplete>
