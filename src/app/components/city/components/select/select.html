@@ -5,11 +5,11 @@
   -->
 
 <p-autoComplete
-        [(ngModel)]="doctor"
-        [suggestions]="filteredDoctors"
+        [(ngModel)]="city"
+        [suggestions]="filteredCities"
         [dropdown]="true"
-        (completeMethod)="filterDoctors($event)"
+        (completeMethod)="filterCities($event)"
         (onDropdownClick)="handleDropdownClick($event)"
-        placeholder="{{ 'general.select_doctor' | translate}}"
-        field="name"
+        placeholder="{{ 'general.select_city' | translate}}"
+        field="title"
 ></p-autoComplete>

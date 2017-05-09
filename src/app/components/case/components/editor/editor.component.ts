@@ -16,6 +16,7 @@ import { AccidentDiscount } from '../../../accident/components/discount/discount
 import { Patient } from '../../../patient/patient';
 import { Logger } from 'angular2-logger/core';
 import { GlobalState } from '../../../../global.state';
+import { SelectAccidentComponent } from '../../../accident/components/select/select.component';
 
 @Component({
   selector: 'case-editor',
@@ -24,6 +25,9 @@ import { GlobalState } from '../../../../global.state';
 export class CaseEditorComponent {
 
   @Output() loaded: EventEmitter<null> = new EventEmitter<null>();
+
+  @ViewChild('parentSelector')
+    private parentSelector: SelectAccidentComponent;
 
   msgs: Message[] = [];
 
@@ -72,8 +76,13 @@ export class CaseEditorComponent {
   onSave(): void {
     this.msgs = [];
     this.msgs.push({severity: 'error', summary: this.translate.instant('general.not_saved') + '!', detail: 'Save method still has not been implemented!'});
+    this._state.notifyDataChanged('growl', this.msgs);
     this.loadingBar.start();
     setTimeout(() => this.loadingBar.complete(), 3000)
+  }
+
+  onCaseTypeSelected(type): void {
+    this.accident.caseable_type = type;
   }
 
   onAccidentTypeSelected(accidentType: AccidentType): void {
@@ -81,7 +90,13 @@ export class CaseEditorComponent {
   }
 
   onAccidentSelected(accident: Accident): void {
-    this.accident.parent_id = accident.id;
+    this.accident.parent_id = 0;
+    setTimeout(() => this.accident.parent_id = accident.id, 100);
+  }
+
+  onParentDeleted(): void {
+    this.accident.parent_id = 0;
+    this.parentSelector.clear();
   }
 
   onServicesSelectorPriceChanged(servicesPrice): void {

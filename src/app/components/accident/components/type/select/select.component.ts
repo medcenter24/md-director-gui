@@ -36,7 +36,7 @@ export class SelectAccidentTypeComponent {
       this.loadedTypes = types;
       if (!this.selectedTypeId) {
         this.selectedTypeId = 1;
-        this.onChanged({value: 1})
+        this.onChanged({value: this.selectedTypeId})
       }
       this.dataItems = types.map(x => {
         return {
