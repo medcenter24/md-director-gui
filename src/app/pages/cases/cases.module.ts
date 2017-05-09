@@ -28,8 +28,8 @@ import { SelectAccidentTypeComponent } from '../../components/accident/component
 import { AccidentTypesService } from '../../components/accident/components/type/types.service';
 import {
   SelectButtonModule, CalendarModule, MultiSelectModule, AutoCompleteModule,
-  SpinnerModule, ButtonModule, GrowlModule, TooltipModule, InputTextareaModule, InputTextModule, InputMaskModule,
-  PanelModule
+  SpinnerModule, ButtonModule, TooltipModule, InputTextareaModule, InputTextModule, InputMaskModule,
+  PanelModule, FileUploadModule
 } from 'primeng/primeng';
 import { AssistantsService } from '../../components/assistant/assistant.service';
 import { AssistantSelectComponent } from '../../components/assistant/components/select/select.component';
@@ -43,6 +43,11 @@ import { DoctorSelectComponent } from '../../components/doctors/select/select.co
 import { DoctorsService } from '../../components/doctors/doctors.service';
 import { HospitalsService } from '../../components/hospital/hospitals.service';
 import { HospitalSelectComponent } from '../../components/hospital/components/select/select.component';
+import { SelectCaseTypeComponent } from '../../components/case/components/type/select.component';
+import { CitySelectComponent } from '../../components/city/components/select/select.component';
+import { CitiesService } from '../../components/city/cities.service';
+import { FileUploaderComponent } from '../../components/file/components/uploader/uploader.component';
+import { UploadService } from '../../components/file/upload.service';
 
 @NgModule({
   imports: [
@@ -60,13 +65,13 @@ import { HospitalSelectComponent } from '../../components/hospital/components/se
     InMemoryWebApiModule.forRoot(InMemoryDataService, {apiBase: 'director/', passThruUnknownUrl: true}),
     SelectModule,
     ButtonModule,
-    GrowlModule,
     TooltipModule,
     AppTranslationModule,
     InputTextareaModule,
     InputTextModule,
     InputMaskModule,
-    PanelModule
+    PanelModule,
+    FileUploadModule
   ],
   declarations: [
     Cases,
@@ -80,7 +85,10 @@ import { HospitalSelectComponent } from '../../components/hospital/components/se
     SelectAccidentComponent,
     AccidentCardComponent,
     DoctorSelectComponent,
-    HospitalSelectComponent
+    HospitalSelectComponent,
+    SelectCaseTypeComponent,
+    CitySelectComponent,
+    FileUploaderComponent
   ],
   providers: [
     CasesService,
@@ -91,7 +99,9 @@ import { HospitalSelectComponent } from '../../components/hospital/components/se
     AccidentDiscountsService,
     PatientsService,
     DoctorsService,
-    HospitalsService
+    HospitalsService,
+    CitiesService,
+    UploadService
   ]
 })
 export class CasesModule {

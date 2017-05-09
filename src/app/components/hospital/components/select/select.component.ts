@@ -18,6 +18,7 @@ export class HospitalSelectComponent {
   @Input() hospitalId: number = 0;
 
   hospitals: Array<Hospital> = [];
+  hospital: Hospital;
   filteredHospitals: Array<Hospital> = [];
 
   constructor (private hospitalsService: HospitalsService, private loadingBar: SlimLoadingBarService, private _logger: Logger) {}

@@ -22,6 +22,7 @@ import { PagesModule } from './pages/pages.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { SlimLoadingBarModule } from 'ng2-slim-loading-bar';
 import { Logger } from 'angular2-logger/core';
+import { GrowlModule } from 'primeng/primeng';
 
 // Application wide providers
 const APP_PROVIDERS = [
@@ -56,7 +57,8 @@ export type StoreType = {
     NgbModule.forRoot(),
     PagesModule,
     routing,
-    SlimLoadingBarModule.forRoot()
+    SlimLoadingBarModule.forRoot(),
+    GrowlModule
   ],
   exports: [InMemoryWebApiModule],
   providers: [ // expose our Services and Providers into Angular's dependency injection

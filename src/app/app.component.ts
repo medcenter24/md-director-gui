@@ -5,6 +5,7 @@ import { GlobalState } from './global.state';
 import { BaImageLoaderService, BaThemePreloader, BaThemeSpinner } from './theme/services';
 import { BaThemeConfig } from './theme/theme.config';
 import { layoutPaths } from './theme/theme.constants';
+import { Message } from 'primeng/primeng';
 
 /*
  * App Component
@@ -16,6 +17,7 @@ import { layoutPaths } from './theme/theme.constants';
   template: `
     <main [class.menu-collapsed]="isMenuCollapsed" baThemeRun>
       <ng2-slim-loading-bar [height]="'3px'" [color]="'#e85656'"></ng2-slim-loading-bar>
+      <p-growl [value]="msgs"></p-growl>
       <div class="additional-bg"></div>
       <router-outlet></router-outlet>
     </main>
@@ -23,6 +25,7 @@ import { layoutPaths } from './theme/theme.constants';
 })
 export class App {
 
+  msgs: Message[] = [];
   isMenuCollapsed: boolean = false;
 
   constructor(private _state: GlobalState,
@@ -38,6 +41,8 @@ export class App {
     this._state.subscribe('menu.isCollapsed', (isCollapsed) => {
       this.isMenuCollapsed = isCollapsed;
     });
+
+    this._state.subscribe('growl', (msgs: Message[]) => this.msgs = msgs)
   }
 
   public ngAfterViewInit(): void {
