@@ -18,6 +18,7 @@ export class DoctorSelectComponent {
   @Input() doctorId: number = 0;
 
   doctors: Array<Doctor> = [];
+  doctor: Doctor;
   filteredDoctors: Array<Doctor> = [];
 
   constructor (private doctorsService: DoctorsService, private loadingBar: SlimLoadingBarService, private _logger: Logger) {}

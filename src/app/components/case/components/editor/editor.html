@@ -4,7 +4,6 @@
   ~ @author Alexander Zagovorichev <zagovorichev@gmail.com>
   -->
 
-<p-growl [value]="msgs"></p-growl>
 <div *ngIf="accident" class="case-editor">
     <h1 *ngIf="accident.id">{{ 'general.editing_case' | translate}} {{ 'general.pp' | translate }}{{ accident.id }}</h1>
     <h1 *ngIf="!accident.id">{{ 'general.creating_new_case' | translate }}</h1>
@@ -46,28 +45,27 @@
                     </div>
                 </div>
 
-                <div class="form-group" *ngIf="accident.accident_type_id === 1">
+                <div class="form-group">
                     <div class="row">
                         <div class="col-sm-12">
-                            <b class="text-muted">{{ 'general.assistant' | translate }}</b>
                             <div class="row">
                                 <div class="col-sm-12 col-md-6 col-lg-3">
-                                    <label class="label text-muted">{{ 'general.select_assistant' | translate }}</label>
+                                    <b class="text-muted">{{ 'general.assistant' | translate }}</b>
                                     <br><select-assistant></select-assistant>
                                 </div>
                                 <div class="col-sm-12 col-md-6 col-lg-3">
-                                    <label class="label text-muted">{{ 'general.discount_type' | translate }}</label>
+                                    <b class="text-muted">{{ 'general.discount_type' | translate }}</b>
                                     <br>
                                     <select-accident-discount-type
                                             (selected)="onDiscountTypeSelected($event)"
                                     ></select-accident-discount-type>
                                 </div>
                                 <div class="col-sm-12 col-md-6 col-lg-3">
-                                    <label class="label text-muted">{{ 'general.discount_value' | translate }}</label><br>
+                                    <b class="text-muted">{{ 'general.discount_value' | translate }}</b><br>
                                     <p-spinner size="30" [min]="0" [(ngModel)]="discountValue" name="discountValue" (onChange)="onDiscountValueChanged()"></p-spinner>
                                 </div>
                                 <div class="col-sm-12 col-md-6 col-lg-3">
-                                    <label class="label text-muted">{{ 'general.total_score' | translate }}</label>
+                                    <b class="text-muted">{{ 'general.total_score' | translate }}</b>
                                     <div class="row">
                                         <div class="col-sm-12">
                                             <div class="well well-lg bg-warning">{{ 'general.total_amount' | translate }}: {{ totalAmount }}</div>
@@ -81,9 +79,9 @@
                                 </div>
                             </div>
 
-                            <div class="row">
+                            <div class="row offset-bottom20">
                                 <div class="col-sm-6">
-                                    <div class="row offset-bottom10">
+                                    <div class="row offset-bottom20">
                                         <div class="col-sm-6">
                                             <b class="text-muted">{{ 'general.patient_name' | translate }}</b>
                                             <br>
@@ -104,10 +102,11 @@
                                     </div>
                                 </div>
                                 <div class="col-sm-6">
-                                    <b class="text-muted">{{ 'general.repeated_treatment' | translate }}</b>
+                                    <b class="text-muted">{{ 'general.repeated_appointment' | translate }}</b>
                                     <div class="row offset-bottom10">
                                         <div class="col-sm-12">
                                             <select-accident
+                                                    #parentSelector
                                                     [selectedAccidentId]="accident.parent_id"
                                                     (selected)="onAccidentSelected($event)"
                                             ></select-accident>
@@ -115,27 +114,53 @@
                                     </div>
                                     <div class="row">
                                         <div class="col-sm-12">
-                                            <accident-card *ngIf="accident.parent_id" [selectedAccidentId]="accident.parent_id"></accident-card>
+                                            <accident-card
+                                                    *ngIf="accident.parent_id"
+                                                    [(selectedAccidentId)]="accident.parent_id"
+                                                    (closed)="onParentDeleted()"
+                                            ></accident-card>
                                         </div>
                                     </div>
                                 </div>
                             </div>
 
-                            <div class="row">
-                                <div class="col-sm-6">
-
+                            <div class="row offset-bottom20">
+                                <div class="col-sm-5">
+                                    <b class="text-muted">{{ 'general.choose_case' | translate }}</b>
+                                    <br><select-case-type [selectedCaseTypeId]="accident.caseable_type" (selected)="onCaseTypeSelected($event)"></select-case-type>
                                 </div>
-                                <div class="col-sm-6">
-                                    <div class="row offset-bottom20">
-                                        <div class="col-sm-6">
-                                            <b class="text-muted">{{ 'general.doctor_case' | translate }}</b>
-                                            <br><select-doctor></select-doctor>
-                                        </div>
-                                        <div class="col-sm-6">
-                                            <b class="text-muted">{{ 'general.hospital_case' | translate }}</b>
-                                            <br><select-hospital></select-hospital>
+                                <div class="col-sm-7">
+                                    <div *ngIf="accident.caseable_type === 'App/Doctor'">
+                                        <div class="row">
+                                            <div class="col-sm-6">
+                                                <b class="text-muted">{{ 'general.doctor_case' | translate }}</b>
+                                                <br><select-doctor></select-doctor>
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <b class="text-muted">{{ 'general.city' | translate }}</b>
+                                                <br><select-city></select-city>
+                                            </div>
                                         </div>
                                     </div>
+                                    <div *ngIf="accident.caseable_type === 'App/Hospital'">
+                                        <b class="text-muted">{{ 'general.hospital_case' | translate }}</b>
+                                        <br><select-hospital></select-hospital>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row offset-bottom20">
+                                <div class="col-sm-9">
+                                    <b class="text-muted">{{ 'general.commentary' | translate }}</b>
+                                    <br><textarea class="form-control" pInputTextarea autoResize="autoResize"></textarea>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-sm-9">
+                                    <b class="text-muted">{{ 'general.accident_files' | translate }}</b>
+                                    <br>
+                                    <file-uploader></file-uploader>
                                 </div>
                             </div>
 

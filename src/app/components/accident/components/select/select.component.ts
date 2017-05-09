@@ -19,7 +19,7 @@ export class SelectAccidentComponent {
   @Input() selectedAccidentId: number = 0;
   @Output() selected: EventEmitter<Accident> = new EventEmitter<Accident>();
 
-  public accident: Accident = new Accident();
+  public accident: Accident = null;
 
   private accidents: Array<Accident> = [];
   private filteredAccidents: Array<Accident> = [];
@@ -34,6 +34,16 @@ export class SelectAccidentComponent {
     this.loadingBar.start();
     this.accidentService.getAccidents().then(accidents => {
       this.accidents = accidents;
+      if (this.selectedAccidentId) {
+        const selectedAccidentId = this.selectedAccidentId;
+        console.log(selectedAccidentId);
+        // find it in array
+        console.log(accidents);
+        /*this.accidents.find(function (accident) {
+          return accident.id = selectedAccidentId;
+        });*/
+      }
+
       this.loadingBar.complete();
     }).catch((err) => {
       this.loadingBar.complete();
@@ -61,6 +71,16 @@ export class SelectAccidentComponent {
   }
 
   onChanged (): void {
-    this.selected.emit(this.accident);
+    let toSendAccident;
+    if (!this.accident || !this.accident.id) {
+      toSendAccident = new Accident();
+    } else {
+      toSendAccident = this.accident;
+    }
+    this.selected.emit(toSendAccident);
+  }
+
+  clear(): void {
+    this.accident = null;
   }
 }

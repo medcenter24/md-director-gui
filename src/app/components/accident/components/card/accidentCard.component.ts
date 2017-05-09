@@ -19,6 +19,7 @@ import { Patient } from '../../../patient/patient';
 export class AccidentCardComponent {
 
   @Input() selectedAccidentId: number = 0;
+  @Output() closed: EventEmitter<any> = new EventEmitter();
 
   public accident: Accident;
   private patient: Patient;
@@ -51,5 +52,12 @@ export class AccidentCardComponent {
       this.loadingBar.complete();
       this._logger.error(err);
     });
+  }
+
+  closePanel(): void {
+    this.accident = null;
+    this.patient = null;
+
+    this.closed.emit();
   }
 }

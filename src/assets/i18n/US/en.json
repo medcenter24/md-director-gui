@@ -13,6 +13,14 @@
     "share_on_google_plus": "Share on Google Plus"
   },
   "general": {
+    "accident_files": "Accident Files",
+    "cancel": "Cancel",
+    "upload": "Upload",
+    "choose": "Choose",
+    "commentary": "Commentary",
+    "select_city": "Select City",
+    "city": "City",
+    "choose_case": "Choose Case",
     "doctor_case": "Doctor Case",
     "hospital_case": "Hospital Case",
     "select_doctor": "Select Doctor",
@@ -23,7 +31,7 @@
     "pp": "#",
     "patient_phone": "Patient Phone Number",
     "select_accident": "Select Accident",
-    "repeated_treatment": "Repeated Treatment",
+    "repeated_appointment": "Repeated Appointment",
     "patient_name": "Patient Name",
     "symptoms": "Symptoms",
     "without_discount": "No Discount",
