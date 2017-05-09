@@ -99,6 +99,10 @@ export class CaseEditorComponent {
     this.parentSelector.clear();
   }
 
+  onReferralChanged(event): void {
+    this.accident.ref_num = event.target.value;
+  }
+
   onServicesSelectorPriceChanged(servicesPrice): void {
     this.totalAmount = servicesPrice;
     this.recalculatePrice();
