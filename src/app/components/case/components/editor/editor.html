@@ -5,12 +5,30 @@
   -->
 
 <div *ngIf="accident" class="case-editor">
-    <h1 *ngIf="accident.id">{{ 'general.editing_case' | translate}} {{ 'general.pp' | translate }}{{ accident.id }}</h1>
-    <h1 *ngIf="!accident.id">{{ 'general.creating_new_case' | translate }}</h1>
     <div class="row">
         <div class="col-sm-12 form-block">
             <ba-card baCardClass="with-scroll">
             <form class="form" (ngSubmit)="onSubmit()" #accidentForm="ngForm">
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <h3 *ngIf="accident.id">{{ 'general.editing_case' | translate}} {{ 'general.pp' | translate }}{{ accident.id }}</h3>
+                            <h3 *ngIf="!accident.id">{{ 'general.creating_new_case' | translate }}</h3>
+                        </div>
+                        <div class="col-sm-6">
+                            <b class="text-muted offset-right10 pull-left">{{ 'general.referral_number' | translate }}</b>
+                            <p-inplace closable="true" class="pull-left">
+                                <span pInplaceDisplay>
+                                    {{ accident.ref_num }}
+                                </span>
+                                <span pInplaceContent>
+                                    <input type="text" value="{{ accident.ref_num }}" (change)="onReferralChanged($event)" pInputText placeholder="{{ 'general.referral_number' | translate }}">
+                                </span>
+                            </p-inplace>
+                            <b pTooltip="{{ 'general.referral_rule' | translate }}" class="pull-left badge badge-default">?</b>
+                        </div>
+                    </div>
+                </div>
                 <div class="form-group">
                     <div class="row">
                         <div class="col-sm-6">
@@ -73,7 +91,10 @@
                                     </div>
                                     <div class="row">
                                         <div class="col-sm-12">
-                                            <div class="well bg-success" pTooltip="Formula: {{ totalIncomeFormula }}"><b>{{ 'general.total_income' | translate }}</b>: {{ totalIncome }}</div>
+                                            <div class="well bg-success" pTooltip="{{ 'general.formula' | translate }}: {{ totalIncomeFormula }}">
+                                                <b>{{ 'general.total_income' | translate }}</b>: {{ totalIncome }}
+                                                <b class="pull-right badge badge-default">?</b>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
