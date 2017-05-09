@@ -13,6 +13,11 @@
     "share_on_google_plus": "Share on Google Plus"
   },
   "general": {
+    "formula": "Formula",
+    "referral_rule": "If you leave it empty then will be generated automatically",
+    "referral_number": "Referral Number",
+    "upload_error": "Upload Error",
+    "file_uploaded": "File Uploaded",
     "accident_files": "Accident Files",
     "cancel": "Cancel",
     "upload": "Upload",

@@ -29,7 +29,7 @@ import { AccidentTypesService } from '../../components/accident/components/type/
 import {
   SelectButtonModule, CalendarModule, MultiSelectModule, AutoCompleteModule,
   SpinnerModule, ButtonModule, TooltipModule, InputTextareaModule, InputTextModule, InputMaskModule,
-  PanelModule, FileUploadModule
+  PanelModule, FileUploadModule, InplaceModule
 } from 'primeng/primeng';
 import { AssistantsService } from '../../components/assistant/assistant.service';
 import { AssistantSelectComponent } from '../../components/assistant/components/select/select.component';
@@ -46,8 +46,8 @@ import { HospitalSelectComponent } from '../../components/hospital/components/se
 import { SelectCaseTypeComponent } from '../../components/case/components/type/select.component';
 import { CitySelectComponent } from '../../components/city/components/select/select.component';
 import { CitiesService } from '../../components/city/cities.service';
-import { FileUploaderComponent } from '../../components/file/components/uploader/uploader.component';
-import { UploadService } from '../../components/file/upload.service';
+import { FileUploaderComponent } from '../../components/media/components/uploader/uploader.component';
+import { MediaService } from '../../components/media/media.service';
 
 @NgModule({
   imports: [
@@ -71,7 +71,8 @@ import { UploadService } from '../../components/file/upload.service';
     InputTextModule,
     InputMaskModule,
     PanelModule,
-    FileUploadModule
+    FileUploadModule,
+    InplaceModule
   ],
   declarations: [
     Cases,
@@ -101,7 +102,7 @@ import { UploadService } from '../../components/file/upload.service';
     DoctorsService,
     HospitalsService,
     CitiesService,
-    UploadService
+    MediaService
   ]
 })
 export class CasesModule {
