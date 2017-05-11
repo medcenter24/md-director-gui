@@ -4,6 +4,7 @@
             <b class="text-muted offset-right10">{{ 'general.accident_services' | translate }}:</b>
             <select-services
                 #selectServices
+                [(chosenServices)]="caseServices"
                 (chosenServicesChange)="recalculatePrice($event)"
                 (loaded)="onSelectServicesLoaded()"
             ></select-services>
