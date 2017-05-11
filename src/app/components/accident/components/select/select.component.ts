@@ -35,13 +35,7 @@ export class SelectAccidentComponent {
     this.accidentService.getAccidents().then(accidents => {
       this.accidents = accidents;
       if (this.selectedAccidentId) {
-        const selectedAccidentId = this.selectedAccidentId;
-        console.log(selectedAccidentId);
-        // find it in array
-        console.log(accidents);
-        /*this.accidents.find(function (accident) {
-          return accident.id = selectedAccidentId;
-        });*/
+        this.accident = this.accidents.find(accident => accident.id === this.selectedAccidentId);
       }
 
       this.loadingBar.complete();
