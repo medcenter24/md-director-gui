@@ -17,6 +17,7 @@ import { Patient } from '../../../patient/patient';
 import { Logger } from 'angular2-logger/core';
 import { GlobalState } from '../../../../global.state';
 import { SelectAccidentComponent } from '../../../accident/components/select/select.component';
+import { PatientsService } from '../../../patient/patients.service';
 
 @Component({
   selector: 'case-editor',
@@ -37,6 +38,7 @@ export class CaseEditorComponent {
   maxDate: Date;
   discountValue: number = 0;
   discountType: AccidentDiscount;
+  phone: string;
 
   totalAmount: number = 0;
   totalIncome: number = 0;
@@ -45,7 +47,7 @@ export class CaseEditorComponent {
 
   constructor (private route: ActivatedRoute, private accidentsService: AccidentsService,
                private loadingBar: SlimLoadingBarService, private translate: TranslateService,
-              private _logger: Logger, private _state: GlobalState) {
+              private _logger: Logger, private _state: GlobalState, private patientService: PatientsService) {
   }
 
   ngOnInit () {
@@ -60,11 +62,12 @@ export class CaseEditorComponent {
       .subscribe((params: Params) => {
         this.loadingBar.start();
         this.accidentsService.getAccident(+params[ 'id' ]).then((accident: Accident) => {
+          this._state.notifyDataChanged('menu.activeLink', {title: 'general.menu.cases'});
           this.accident = accident ? accident : new Accident();
           this.appliedTime = new Date(this.accident.created_at);
-
-          this._state.notifyDataChanged('menu.activeLink', {title: 'general.menu.cases'});
-
+          this.discountValue = this.accident.discount_value;
+          this.loadPatient();
+          this.recalculatePrice();
           this.loadingBar.complete();
         }).catch((err) => {
           this._logger.error(err);
@@ -87,6 +90,10 @@ export class CaseEditorComponent {
 
   onAccidentTypeSelected(accidentType: AccidentType): void {
     this.accident.accident_type_id = accidentType.id;
+  }
+
+  onAssistantChanged(assistantId): void {
+    this.accident.assistant_id = assistantId;
   }
 
   onAccidentSelected(accident: Accident): void {
@@ -137,5 +144,17 @@ export class CaseEditorComponent {
       this.totalIncome = this.totalAmount;
       this.totalIncomeFormula = this.translate.instant('general.without_discount');
     }
+  }
+
+  private loadPatient(): void {
+    this.loadingBar.start();
+    this.patientService.getPatient(this.accident.patient_id).then((patient: Patient) => {
+      this.patient = patient;
+      this.phone = this.patient.phones;
+      this.loadingBar.complete();
+    }).catch((err) => {
+      this._logger.error(err);
+      this.loadingBar.complete();
+    });
   }
 }

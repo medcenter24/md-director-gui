@@ -34,16 +34,6 @@ export class ServicesSelectorComponent {
   }
 
   ngOnInit () {
-    if (this.caseId) {
-      this.loadingBar.start();
-      this.casesService.getCaseServices(this.caseId).then(services => {
-        this.caseServices = services;
-        this.loadingBar.complete();
-      }).catch((err) => {
-        this.loadingBar.complete();
-        this._logger.error(err);
-      });
-    }
   }
 
   onDelete (service: Service): void {
@@ -53,6 +43,21 @@ export class ServicesSelectorComponent {
       });
       this.recalculatePrice();
       this.selectServicesComponent.reloadChosenServices(this.caseServices);
+    }
+  }
+
+  onSelectServicesLoaded(): void {
+    if (this.caseId) {
+      this.loadingBar.start();
+      this.casesService.getCaseServices(this.caseId).then(services => {
+        this.caseServices = services;
+        this.selectServicesComponent.reloadChosenServices(this.caseServices);
+        this.recalculatePrice();
+        this.loadingBar.complete();
+      }).catch((err) => {
+        this.loadingBar.complete();
+        this._logger.error(err);
+      });
     }
   }
 

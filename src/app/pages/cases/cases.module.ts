@@ -28,7 +28,7 @@ import { SelectAccidentTypeComponent } from '../../components/accident/component
 import { AccidentTypesService } from '../../components/accident/components/type/types.service';
 import {
   SelectButtonModule, CalendarModule, MultiSelectModule, AutoCompleteModule,
-  SpinnerModule, ButtonModule, TooltipModule, InputTextareaModule, InputTextModule, InputMaskModule,
+  SpinnerModule, ButtonModule, TooltipModule, InputTextareaModule, InputTextModule,
   PanelModule, FileUploadModule, InplaceModule
 } from 'primeng/primeng';
 import { AssistantsService } from '../../components/assistant/assistant.service';
@@ -69,7 +69,6 @@ import { MediaService } from '../../components/media/media.service';
     AppTranslationModule,
     InputTextareaModule,
     InputTextModule,
-    InputMaskModule,
     PanelModule,
     FileUploadModule,
     InplaceModule
