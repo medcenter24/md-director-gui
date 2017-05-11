@@ -69,18 +69,26 @@
                             <div class="row">
                                 <div class="col-sm-12 col-md-6 col-lg-3">
                                     <b class="text-muted">{{ 'general.assistant' | translate }}</b>
-                                    <br><select-assistant></select-assistant>
+                                    <br><select-assistant
+                                            [assistantId]="accident.assistant_id"
+                                            (change)="onAssistantChanged($event)"
+                                        ></select-assistant>
                                 </div>
                                 <div class="col-sm-12 col-md-6 col-lg-3">
                                     <b class="text-muted">{{ 'general.discount_type' | translate }}</b>
                                     <br>
                                     <select-accident-discount-type
+                                            [selectedDiscountId]="accident.discount_type_id"
                                             (selected)="onDiscountTypeSelected($event)"
                                     ></select-accident-discount-type>
                                 </div>
                                 <div class="col-sm-12 col-md-6 col-lg-3">
                                     <b class="text-muted">{{ 'general.discount_value' | translate }}</b><br>
-                                    <p-spinner size="30" [min]="0" [(ngModel)]="discountValue" name="discountValue" (onChange)="onDiscountValueChanged()"></p-spinner>
+                                    <p-spinner size="30"
+                                               [min]="0"
+                                               [(ngModel)]="discountValue"
+                                               name="discountValue"
+                                               (onChange)="onDiscountValueChanged()"></p-spinner>
                                 </div>
                                 <div class="col-sm-12 col-md-6 col-lg-3">
                                     <b class="text-muted">{{ 'general.total_score' | translate }}</b>
@@ -106,19 +114,19 @@
                                         <div class="col-sm-6">
                                             <b class="text-muted">{{ 'general.patient_name' | translate }}</b>
                                             <br>
-                                            <input type="text" pInputText/>
+                                            <input *ngIf="patient" type="text" pInputText [value]="patient.name" placeholder="{{ 'general.patient_name' | translate }}"/>
                                         </div>
                                         <div class="col-sm-6">
                                             <b class="text-muted">{{ 'general.patient_phone' | translate }}</b>
                                             <br>
-                                            <p-inputMask mask="+34 (999) 999-999" slotChar="X"></p-inputMask>
+                                            <input *ngIf="patient" type="text" pInputText [value]="patient.phones" placeholder="{{ 'general.patient_phone' | translate }}"/>
                                         </div>
                                     </div>
                                     <div class="row">
                                         <div class="col-sm-12">
                                             <b class="text-muted">{{ 'general.symptoms' | translate }}</b>
                                             <br>
-                                            <textarea rows="5" cols="70" pInputTextarea autoResize="autoResize"></textarea>
+                                            <textarea rows="5" cols="70" pInputTextarea autoResize="autoResize" placeholder="{{ 'general.symptoms' | translate }}">{{ accident.symptoms }}</textarea>
                                         </div>
                                     </div>
                                 </div>

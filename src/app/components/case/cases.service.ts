@@ -28,7 +28,7 @@ export class CasesService {
   }
 
   getCaseServices(caseId: number): Promise<Service[]> {
-    const url = `${this.casesUrl}/${caseId}`;
+    const url = `${this.casesUrl}/${caseId}/services`;
 
     return this.http.get(url)
       .toPromise()
