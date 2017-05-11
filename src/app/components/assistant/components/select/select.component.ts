@@ -15,8 +15,10 @@ import { Logger } from 'angular2-logger/core';
 })
 export class AssistantSelectComponent {
 
-  @Input() assistant: Assistant;
+  @Input() assistantId: number;
+  @Output() change: EventEmitter<number> = new EventEmitter<number>();
 
+  assistant: Assistant;
   assistants: Array<Assistant> = [];
   filteredAssistants: Array<Assistant> = [];
 
@@ -27,6 +29,11 @@ export class AssistantSelectComponent {
     this.assistantsService.getAssistants().then(assistants => {
       this.assistants = assistants;
       this.loadingBar.complete();
+
+      this.assistant = this.assistants.find(_assistant => {
+        return _assistant.id === this.assistantId;
+      })
+
     }).catch((err) => {
       this.loadingBar.complete();
       this._logger.error(err);
@@ -50,5 +57,9 @@ export class AssistantSelectComponent {
     setTimeout(() => {
       this.filteredAssistants = this.assistants;
     }, 100)
+  }
+
+  onChanged(event): void {
+    this.change.emit(event.id);
   }
 }

@@ -8,6 +8,8 @@ import { Component, Output, EventEmitter, Input } from '@angular/core';
 import { ServicesService } from '../../services.service';
 import { SelectItem } from 'primeng/primeng';
 import { Service } from '../../service';
+import { SlimLoadingBarService } from 'ng2-slim-loading-bar';
+import { Logger } from 'angular2-logger/core';
 
 @Component({
   selector: 'select-services',
@@ -15,23 +17,23 @@ import { Service } from '../../service';
 })
 export class SelectServicesComponent {
 
-  @Output() loading: EventEmitter<string> = new EventEmitter<string>();
   @Output() loaded: EventEmitter<string> = new EventEmitter<string>();
-
-  @Input() chosenServices: Array<Service> = [];
   @Output() chosenServicesChange: EventEmitter<Service[]> = new EventEmitter<Service[]>();
 
   dataServices: SelectItem[] = [];
   selectedServices: Array<string> = [];
   services: Array<Service> = [];
+  chosenServices: Array<Service>;
 
-  constructor (private servicesService: ServicesService) {
+  constructor (
+    private servicesService: ServicesService,
+    private loadingBar: SlimLoadingBarService,
+    private _logger: Logger
+  ) {
   }
 
   ngOnInit () {
-    this.reloadChosenServices(this.chosenServices);
-
-    this.loading.emit('select-services');
+    this.loadingBar.start();
     this.servicesService.getServices().then(services => {
       this.services = services;
       this.dataServices = services.map(x => {
@@ -45,11 +47,11 @@ export class SelectServicesComponent {
         // to show placeholder
         this.selectedServices = [];
       }
-
-      this.loaded.emit('select-services');
+      this.loadingBar.complete();
+      this.loaded.emit();
     }).catch((err) => {
-      this.loaded.emit('select-services');
-      console.error('log_error: ', err);
+      this.loadingBar.complete();
+      this._logger.error(err);
     });
   }
 
@@ -61,7 +63,7 @@ export class SelectServicesComponent {
      this.chosenServicesChange.emit(services);
    }
 
-   reloadChosenServices(services): void {
+   reloadChosenServices(services: Array<Service>): void {
      this.chosenServices = services;
      if (this.chosenServices.length) {
        this.selectedServices = this.chosenServices.map(x => x.id + '');

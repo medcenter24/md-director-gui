@@ -43,10 +43,11 @@ export class SelectAccidentDiscountComponent {
         };
       });
 
+      let discountType = this.loadedDiscounts.find(discoType => discoType.id === this.selectedDiscountId);
+      this.selected.emit(discountType);
       this.loadingBar.complete();
     }).catch((err) => {
       this.loadingBar.complete();
-      console.error('log_error: ', err);
       this._logger.error(err);
     });
   }
