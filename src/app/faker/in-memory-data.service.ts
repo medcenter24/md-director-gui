@@ -43,6 +43,10 @@ import { AccidentDiscountsDb } from './accidentDiscounts.db';
 import { URLSearchParams } from '@angular/http';
 import { Logger } from 'angular2-logger/core';
 import { CaseServicesDb } from './CaseServicesDb.db';
+import { DoctorAccident } from '../components/doctorAccident/doctorAccident';
+import { DoctorAccidentDb } from './doctorAccident.db';
+import { HospitalAccident } from '../components/hospitalAccident/hospitalAccident';
+import { HospitalAccidentDb } from './hospitalAccident.db';
 
 class UrlStructure implements ParsedUrl {
     base: string;
@@ -97,7 +101,9 @@ export class InMemoryDataService implements InMemoryDbService {
      * @type {[string]}
      */
     private mapper: Array<MapItem> = [
-      new MapItem('director\/cases\/(\\d+)\/services', 'caseServices')
+      new MapItem('director\/cases\/(\\d+)\/services', 'caseServices'),
+      new MapItem('director\/cases\/(\\d+)\/doctorcase', 'doctorCase'),
+      new MapItem('director\/cases\/(\\d+)\/hospitalcase', 'hospitalCase'),
     ];
 
     constructor( private _logger: Logger ) { }
@@ -185,6 +191,8 @@ export class InMemoryDataService implements InMemoryDbService {
         let accidents: Accident[] = AccidentsDb;
         let cases: CaseAccident[] = CasesDb;
         let caseServices: Service[] = CaseServicesDb;
+        let doctorCase: DoctorAccident[] = DoctorAccidentDb;
+        let hospitalCase: HospitalAccident[] = HospitalAccidentDb;
 
         return {
             services,
@@ -202,7 +210,9 @@ export class InMemoryDataService implements InMemoryDbService {
             patients,
             accidents,
             cases,
-            caseServices
+            caseServices,
+            doctorCase,
+            hospitalCase,
         };
     }
 }

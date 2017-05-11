@@ -10,7 +10,7 @@ export class HospitalAccident {
         accident_id: number = 0,
         accident_status_id: number = 0,
         hospital_id: number = 0,
-        guatantee_id: number = 0,
+        guarantee_id: number = 0,
         invoice_id: number = 0,
         form_report_id: number = 0,
         status: string = '',
