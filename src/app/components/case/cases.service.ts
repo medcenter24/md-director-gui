@@ -36,6 +36,24 @@ export class CasesService {
       .catch(this.handleError);
   }
 
+  getDoctorCase (caseId: number): Promise<Service[]> {
+    const url = `${this.casesUrl}/${caseId}/doctorcase`;
+
+    return this.http.get(url)
+      .toPromise()
+      .then(response => response.json().data as Service[])
+      .catch(this.handleError);
+  }
+
+  getHospitalCase (caseId: number): Promise<Service[]> {
+    const url = `${this.casesUrl}/${caseId}/hospitalcase`;
+
+    return this.http.get(url)
+      .toPromise()
+      .then(response => response.json().data as Service[])
+      .catch(this.handleError);
+  }
+
   private handleError(error: any): Promise<any> {
     return Promise.reject(error.message || error);
   }

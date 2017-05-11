@@ -18,6 +18,9 @@ import { Logger } from 'angular2-logger/core';
 import { GlobalState } from '../../../../global.state';
 import { SelectAccidentComponent } from '../../../accident/components/select/select.component';
 import { PatientsService } from '../../../patient/patients.service';
+import { DoctorAccident } from '../../../doctorAccident/doctorAccident';
+import { HospitalAccident } from '../../../hospitalAccident/hospitalAccident';
+import { CasesService } from '../../cases.service';
 
 @Component({
   selector: 'case-editor',
@@ -39,6 +42,8 @@ export class CaseEditorComponent {
   discountValue: number = 0;
   discountType: AccidentDiscount;
   phone: string;
+  doctorAccident: DoctorAccident;
+  hospitalAccident: HospitalAccident;
 
   totalAmount: number = 0;
   totalIncome: number = 0;
@@ -47,7 +52,9 @@ export class CaseEditorComponent {
 
   constructor (private route: ActivatedRoute, private accidentsService: AccidentsService,
                private loadingBar: SlimLoadingBarService, private translate: TranslateService,
-              private _logger: Logger, private _state: GlobalState, private patientService: PatientsService) {
+               private _logger: Logger, private _state: GlobalState, private patientService: PatientsService,
+               private caseService: CasesService
+  ) {
   }
 
   ngOnInit () {
@@ -67,6 +74,7 @@ export class CaseEditorComponent {
           this.appliedTime = new Date(this.accident.created_at);
           this.discountValue = this.accident.discount_value;
           this.loadPatient();
+          this.loadCaseable();
           this.recalculatePrice();
           this.loadingBar.complete();
         }).catch((err) => {
@@ -156,5 +164,35 @@ export class CaseEditorComponent {
       this._logger.error(err);
       this.loadingBar.complete();
     });
+  }
+
+  private loadCaseable(): void {
+    let components = 2;
+    let complete = () => {
+      if (--components <= 0 ) {
+        this.loadingBar.complete();
+      }
+    };
+
+    this.loadingBar.start();
+    this.caseService.getDoctorCase(this.accident.id)
+      .then((doctorAccident: DoctorAccident) => {
+        this.doctorAccident = doctorAccident;
+        console.log(doctorAccident);
+        complete();
+      }).catch(err => {
+        this._logger.error(err);
+        complete();
+      });
+
+    this.caseService.getHospitalCase(this.accident.id)
+      .then((hospitalAccident: HospitalAccident) => {
+        this.hospitalAccident = hospitalAccident;
+        console.log(hospitalAccident);
+        complete();
+      }).catch((err) => {
+        this._logger.error(err);
+        complete();
+      });
   }
 }
