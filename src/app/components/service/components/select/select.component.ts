@@ -20,10 +20,11 @@ export class SelectServicesComponent {
   @Output() loaded: EventEmitter<string> = new EventEmitter<string>();
   @Output() chosenServicesChange: EventEmitter<Service[]> = new EventEmitter<Service[]>();
 
+  @Input() chosenServices: Array<Service> = [];
+
   dataServices: SelectItem[] = [];
   selectedServices: Array<string> = [];
   services: Array<Service> = [];
-  chosenServices: Array<Service>;
 
   constructor (
     private servicesService: ServicesService,
