@@ -29,28 +29,40 @@
                         </div>
                     </div>
                 </div>
-                <div class="form-group">
-                    <div class="row">
-                        <div class="col-sm-6">
-                            <b class="text-muted offset-right10">{{ 'general.applied_time' | translate }}</b>
-                            <p-calendar
-                                    name="appliedTime"
-                                    [(ngModel)]="appliedTime"
-                                    [maxDate]="maxDate"
-                                    [showTime]="true"
-                                    [hourFormat]="24"
-                                    [required]="true"
-                            ></p-calendar>
+
+                <div class="row offset-bottom20">
+                    <div class="col-sm-5">
+                        <b class="text-muted">{{ 'general.choose_case' | translate }}</b>
+                        <br><select-case-type [selectedCaseTypeId]="accident.caseable_type" (selected)="onCaseTypeSelected($event)"></select-case-type>
+                    </div>
+                    <div class="col-sm-7">
+                        <div *ngIf="accident.caseable_type === 'App/Doctor'">
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <b class="text-muted">{{ 'general.doctor_case' | translate }}</b>
+                                    <br>
+                                    <select-doctor
+                                            *ngIf="doctorAccident"
+                                            [doctorId]="doctorAccident.doctor_id"
+                                    ></select-doctor>
+                                </div>
+                                <div class="col-sm-6">
+                                    <b class="text-muted">{{ 'general.city' | translate }}</b>
+                                    <br><select-city></select-city>
+                                </div>
+                            </div>
                         </div>
-                        <div class="col-sm-6">
-                            <b class="text-muted offset-right10">{{ 'general.accident_type' | translate }}</b>
-                            <select-accident-type
-                                    [selectedTypeId]="accident.accident_type_id"
-                                    (selected)="onAccidentTypeSelected($event)"
-                            ></select-accident-type>
+                        <div *ngIf="accident.caseable_type === 'App/Hospital'">
+                            <b class="text-muted">{{ 'general.hospital_case' | translate }}</b>
+                            <br>
+                            <select-hospital
+                                    *ngIf="hospitalAccident"
+                                    [hospitalId]="hospitalAccident.hospital_id"
+                            ></select-hospital>
                         </div>
                     </div>
                 </div>
+
 
                 <div class="form-group">
                     <div class="row">
@@ -153,38 +165,29 @@
                                 </div>
                             </div>
 
-                            <div class="row offset-bottom20">
-                                <div class="col-sm-5">
-                                    <b class="text-muted">{{ 'general.choose_case' | translate }}</b>
-                                    <br><select-case-type [selectedCaseTypeId]="accident.caseable_type" (selected)="onCaseTypeSelected($event)"></select-case-type>
-                                </div>
-                                <div class="col-sm-7">
-                                    <div *ngIf="accident.caseable_type === 'App/Doctor'">
-                                        <div class="row">
-                                            <div class="col-sm-6">
-                                                <b class="text-muted">{{ 'general.doctor_case' | translate }}</b>
-                                                <br>
-                                                <select-doctor
-                                                        *ngIf="doctorAccident"
-                                                        [doctorId]="doctorAccident.doctor_id"
-                                                    ></select-doctor>
-                                            </div>
-                                            <div class="col-sm-6">
-                                                <b class="text-muted">{{ 'general.city' | translate }}</b>
-                                                <br><select-city></select-city>
-                                            </div>
-                                        </div>
+                            <div class="form-group">
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <b class="text-muted offset-right10">{{ 'general.applied_time' | translate }}</b>
+                                        <p-calendar
+                                                name="appliedTime"
+                                                [(ngModel)]="appliedTime"
+                                                [maxDate]="maxDate"
+                                                [showTime]="true"
+                                                [hourFormat]="24"
+                                                [required]="true"
+                                        ></p-calendar>
                                     </div>
-                                    <div *ngIf="accident.caseable_type === 'App/Hospital'">
-                                        <b class="text-muted">{{ 'general.hospital_case' | translate }}</b>
-                                        <br>
-                                        <select-hospital
-                                                *ngIf="hospitalAccident"
-                                                [hospitalId]="hospitalAccident.hospital_id"
-                                        ></select-hospital>
+                                    <div class="col-sm-6">
+                                        <b class="text-muted offset-right10">{{ 'general.accident_type' | translate }}</b>
+                                        <select-accident-type
+                                                [selectedTypeId]="accident.accident_type_id"
+                                                (selected)="onAccidentTypeSelected($event)"
+                                        ></select-accident-type>
                                     </div>
                                 </div>
                             </div>
+
 
                             <div class="row offset-bottom20">
                                 <div class="col-sm-9">
