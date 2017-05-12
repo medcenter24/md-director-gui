@@ -170,7 +170,7 @@
                                 </div>
                             </div>
 
-                            <div class="form-group">
+                            <div class="form-group offset-bottom20">
                                 <div class="row">
                                     <div class="col-sm-6">
                                         <b class="text-muted offset-right10">{{ 'general.applied_time' | translate }}</b>
@@ -193,11 +193,20 @@
                                 </div>
                             </div>
 
+                            <div class="form-group offset-bottom20">
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <diagnostics-selector [caseId]="accident.id"></diagnostics-selector>
+                                    </div>
+                                </div>
+                            </div>
 
-                            <div class="row offset-bottom20">
-                                <div class="col-sm-9">
-                                    <b class="text-muted">{{ 'general.commentary' | translate }}</b>
-                                    <br><textarea class="form-control" pInputTextarea autoResize="autoResize"></textarea>
+                            <div class="form-group">
+                                <div class="row offset-bottom20">
+                                    <div class="col-sm-9">
+                                        <b class="text-muted">{{ 'general.commentary' | translate }}</b>
+                                        <br><textarea class="form-control" pInputTextarea autoResize="autoResize"></textarea>
+                                    </div>
                                 </div>
                             </div>
 

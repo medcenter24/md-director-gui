@@ -48,6 +48,9 @@ import { CitySelectComponent } from '../../components/city/components/select/sel
 import { CitiesService } from '../../components/city/cities.service';
 import { FileUploaderComponent } from '../../components/media/components/uploader/uploader.component';
 import { MediaService } from '../../components/media/media.service';
+import { DiagnosticService } from '../../components/diagnostic/diagnostic.service';
+import { DiagnosticsSelectorComponent } from '../../components/diagnostic/components/selector/selector.component';
+import { SelectDiagnosticsComponent } from '../../components/diagnostic/components/select/select.component';
 
 @NgModule({
   imports: [
@@ -88,7 +91,9 @@ import { MediaService } from '../../components/media/media.service';
     HospitalSelectComponent,
     SelectCaseTypeComponent,
     CitySelectComponent,
-    FileUploaderComponent
+    FileUploaderComponent,
+    DiagnosticsSelectorComponent,
+    SelectDiagnosticsComponent
   ],
   providers: [
     CasesService,
@@ -102,6 +107,7 @@ import { MediaService } from '../../components/media/media.service';
     HospitalsService,
     CitiesService,
     MediaService,
+    DiagnosticService
   ]
 })
 export class CasesModule {

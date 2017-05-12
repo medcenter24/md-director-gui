@@ -15,6 +15,7 @@ import { Doctor } from '../doctors/doctor';
 import { Hospital } from '../hospital/hospital';
 import { DoctorAccident } from '../doctorAccident/doctorAccident';
 import { HospitalAccident } from '../hospitalAccident/hospitalAccident';
+import { Diagnostic } from '../diagnostic/diagnostic';
 
 @Injectable()
 export class CasesService {
@@ -37,6 +38,15 @@ export class CasesService {
     return this.http.get(url)
       .toPromise()
       .then(response => response.json().data as Service[])
+      .catch(this.handleError);
+  }
+
+  getCaseDiagnostics(caseId: number): Promise<Diagnostic[]> {
+    const url = `${this.casesUrl}/${caseId}/cases`;
+
+    return this.http.get(url)
+      .toPromise()
+      .then(response => response.json().data as Diagnostic[])
       .catch(this.handleError);
   }
 
