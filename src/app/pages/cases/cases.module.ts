@@ -48,8 +48,6 @@ import { CitySelectComponent } from '../../components/city/components/select/sel
 import { CitiesService } from '../../components/city/cities.service';
 import { FileUploaderComponent } from '../../components/media/components/uploader/uploader.component';
 import { MediaService } from '../../components/media/media.service';
-import { DoctorAccidentService } from '../../components/doctorAccident/doctorAccident.service';
-import { HospitalAccidentService } from '../../components/hospitalAccident/hospitalAccident.service';
 
 @NgModule({
   imports: [
@@ -104,8 +102,6 @@ import { HospitalAccidentService } from '../../components/hospitalAccident/hospi
     HospitalsService,
     CitiesService,
     MediaService,
-    DoctorAccidentService,
-    HospitalAccidentService
   ]
 })
 export class CasesModule {

@@ -27,6 +27,9 @@ export class CitySelectComponent {
     this.loadingBar.start();
     this.citiesService.getCities().then(cities => {
       this.cities = cities;
+      if (this.cityId) {
+        this.city = this.cities.find(city => city.id === this.cityId);
+      }
       this.loadingBar.complete();
     }).catch((err) => {
       this.loadingBar.complete();

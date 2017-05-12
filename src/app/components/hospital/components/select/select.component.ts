@@ -27,6 +27,9 @@ export class HospitalSelectComponent {
     this.loadingBar.start();
     this.hospitalsService.getHospitals().then(hospitals => {
       this.hospitals = hospitals;
+      if (this.hospitalId) {
+        this.hospital = this.hospitals.find(hospital => hospital.id === this.hospitalId);
+      }
       this.loadingBar.complete();
     }).catch((err) => {
       this.loadingBar.complete();

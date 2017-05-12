@@ -178,7 +178,6 @@ export class CaseEditorComponent {
     this.caseService.getDoctorCase(this.accident.id)
       .then((doctorAccident: DoctorAccident) => {
         this.doctorAccident = doctorAccident;
-        console.log(doctorAccident);
         complete();
       }).catch(err => {
         this._logger.error(err);
@@ -188,7 +187,6 @@ export class CaseEditorComponent {
     this.caseService.getHospitalCase(this.accident.id)
       .then((hospitalAccident: HospitalAccident) => {
         this.hospitalAccident = hospitalAccident;
-        console.log(hospitalAccident);
         complete();
       }).catch((err) => {
         this._logger.error(err);
