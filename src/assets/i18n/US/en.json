@@ -13,6 +13,8 @@
     "share_on_google_plus": "Share on Google Plus"
   },
   "general": {
+    "accident_diagnostics": "Diagnostics is",
+    "select_diagnostics": "Select Diagnostics",
     "formula": "Formula",
     "referral_rule": "If you leave it empty then will be generated automatically",
     "referral_number": "Referral Number",
@@ -55,7 +57,7 @@
     "editing_case": "Editing case",
     "applied_time": "Patient Applied Time",
     "accident_type": "Accident Type",
-    "accident_services": "Accident Services is",
+    "accident_services": "Services is",
     "services": "Services",
     "assistant": "Assistant",
     "save": "Save",
