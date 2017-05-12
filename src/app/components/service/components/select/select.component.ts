@@ -66,8 +66,6 @@ export class SelectServicesComponent {
 
    reloadChosenServices(services: Array<Service>): void {
      this.chosenServices = services;
-     if (this.chosenServices.length) {
-       this.selectedServices = this.chosenServices.map(x => x.id + '');
-     }
+     this.selectedServices = this.chosenServices.length ? this.chosenServices.map(x => x.id + '') : [];
    }
 }
