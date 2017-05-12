@@ -66,8 +66,6 @@ export class SelectDiagnosticsComponent {
 
    reloadChosenDiagnostics(diagnostics: Array<Diagnostic>): void {
      this.chosenDiagnostics = diagnostics;
-     if (this.chosenDiagnostics.length) {
-       this.selectedDiagnostics = this.chosenDiagnostics.map(x => x.id + '');
-     }
+     this.selectedDiagnostics = this.chosenDiagnostics.length ? this.chosenDiagnostics.map(x => x.id + '') : [];
    }
 }
