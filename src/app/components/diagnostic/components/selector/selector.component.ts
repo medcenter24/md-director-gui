@@ -4,7 +4,7 @@
  *  @author Alexander Zagovorichev <zagovorichev@gmail.com>
  */
 
-import { Component, EventEmitter, Input, Output, ViewChild } from '@angular/core';
+import { Component, Input, ViewChild } from '@angular/core';
 import { SelectDiagnosticsComponent } from '../select/select.component';
 import { Diagnostic } from '../../diagnostic';
 import { CasesService } from '../../../case/cases.service';
