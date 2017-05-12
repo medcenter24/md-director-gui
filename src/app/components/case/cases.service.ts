@@ -11,6 +11,10 @@ import 'rxjs/add/operator/toPromise';
 
 import { CaseAccident } from './case';
 import { Service } from '../service/service';
+import { Doctor } from '../doctors/doctor';
+import { Hospital } from '../hospital/hospital';
+import { DoctorAccident } from '../doctorAccident/doctorAccident';
+import { HospitalAccident } from '../hospitalAccident/hospitalAccident';
 
 @Injectable()
 export class CasesService {
@@ -36,21 +40,21 @@ export class CasesService {
       .catch(this.handleError);
   }
 
-  getDoctorCase (caseId: number): Promise<Service[]> {
+  getDoctorCase (caseId: number): Promise<DoctorAccident> {
     const url = `${this.casesUrl}/${caseId}/doctorcase`;
 
     return this.http.get(url)
       .toPromise()
-      .then(response => response.json().data as Service[])
+      .then(response => response.json().data as DoctorAccident)
       .catch(this.handleError);
   }
 
-  getHospitalCase (caseId: number): Promise<Service[]> {
+  getHospitalCase (caseId: number): Promise<HospitalAccident> {
     const url = `${this.casesUrl}/${caseId}/hospitalcase`;
 
     return this.http.get(url)
       .toPromise()
-      .then(response => response.json().data as Service[])
+      .then(response => response.json().data as HospitalAccident)
       .catch(this.handleError);
   }
 
