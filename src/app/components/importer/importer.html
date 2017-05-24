@@ -1,0 +1,30 @@
+<p-dialog
+        header="{{ 'general.importer' | translate }}"
+        [(visible)]="display"
+        [resizable]="false"
+        [draggable]="false"
+        [responsive]="true"
+        width="800"
+        height="600"
+        modal="true"
+>
+
+    <p-fileUpload name="files[]" url="{{ url }}" multiple="multiple"
+                  [accept]="selectedFormat" maxFileSize="1000000"
+                  chooseLabel="{{ 'general.choose' | translate }}"
+                  uploadLabel="{{ 'general.import' | translate}}"
+                  cancelLabel="{{ 'general.cancel' | translate}}"
+                  (onUpload)="handleUpload($event)"
+                  (onError)="handleError($event)"
+                  (onClear)="onClear($event)"
+                  (onBeforeUpload)="onBeforeUpload($event)"
+    >
+        <ng-template pTemplate="content">
+            <ul *ngIf="uploadedFiles.length">
+                <li *ngFor="let file of uploadedFiles">{{file.name}} - {{file.size}} bytes</li>
+            </ul>
+        </ng-template>
+    </p-fileUpload>
+
+
+</p-dialog>

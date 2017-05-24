@@ -46,3 +46,8 @@ a.al-sidebar-list-link i {
     max-width: 1200px;
   }
 }
+
+.ui-dialog .ui-fileupload .ui-fileupload-content {
+  max-height: 450px;
+  overflow: auto;
+}
