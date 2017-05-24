@@ -68,6 +68,10 @@ export class CasesService {
       .catch(this.handleError);
   }
 
+  getImportUrl (): string {
+    return `${this.casesUrl}/import`;
+  }
+
   private handleError(error: any): Promise<any> {
     return Promise.reject(error.message || error);
   }
