@@ -29,7 +29,7 @@ import { AccidentTypesService } from '../../components/accident/components/type/
 import {
   SelectButtonModule, CalendarModule, MultiSelectModule, AutoCompleteModule,
   SpinnerModule, ButtonModule, TooltipModule, InputTextareaModule, InputTextModule,
-  PanelModule, FileUploadModule, InplaceModule
+  PanelModule, FileUploadModule, InplaceModule, ToolbarModule, DialogModule
 } from 'primeng/primeng';
 import { AssistantsService } from '../../components/assistant/assistant.service';
 import { AssistantSelectComponent } from '../../components/assistant/components/select/select.component';
@@ -51,6 +51,7 @@ import { MediaService } from '../../components/media/media.service';
 import { DiagnosticService } from '../../components/diagnostic/diagnostic.service';
 import { DiagnosticsSelectorComponent } from '../../components/diagnostic/components/selector/selector.component';
 import { SelectDiagnosticsComponent } from '../../components/diagnostic/components/select/select.component';
+import { ImporterComponent } from '../../components/importer/importer.component';
 
 @NgModule({
   imports: [
@@ -74,7 +75,9 @@ import { SelectDiagnosticsComponent } from '../../components/diagnostic/componen
     InputTextModule,
     PanelModule,
     FileUploadModule,
-    InplaceModule
+    InplaceModule,
+    ToolbarModule,
+    DialogModule
   ],
   declarations: [
     Cases,
@@ -93,7 +96,8 @@ import { SelectDiagnosticsComponent } from '../../components/diagnostic/componen
     CitySelectComponent,
     FileUploaderComponent,
     DiagnosticsSelectorComponent,
-    SelectDiagnosticsComponent
+    SelectDiagnosticsComponent,
+    ImporterComponent
   ],
   providers: [
     CasesService,

@@ -13,6 +13,9 @@
     "share_on_google_plus": "Share on Google Plus"
   },
   "general": {
+    "importer": "Importer",
+    "import": "Import",
+    "export": "Export",
     "accident_diagnostics": "Diagnostics is",
     "select_diagnostics": "Select Diagnostics",
     "formula": "Formula",

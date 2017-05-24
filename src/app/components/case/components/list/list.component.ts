@@ -13,6 +13,7 @@ import { Router } from '@angular/router';
 import { CasesService } from '../../cases.service';
 import { CaseAccident } from '../../case';
 import { SlimLoadingBarService } from 'ng2-slim-loading-bar';
+import { ImporterComponent } from '../../../importer/importer.component';
 
 @Component({
   selector: 'basic-tables',
@@ -22,7 +23,10 @@ import { SlimLoadingBarService } from 'ng2-slim-loading-bar';
 export class CasesListComponent {
 
   @ViewChild('errorDialog')
-  errorDialog: ModalComponent;
+    errorDialog: ModalComponent;
+
+  @ViewChild('importer')
+    importer: ImporterComponent;
 
   query: string = '';
 
@@ -78,14 +82,7 @@ export class CasesListComponent {
   }
 
   ngOnInit (): void {
-    this.startLoading();
-    this.service.getCases().then((data: CaseAccident[]) => {
-      this.source.load(data);
-      this.completeLoading();
-    }).catch((response) => {
-      this.showError('Something bad happened, you can\'t load list of cases', response);
-      this.errorLoading();
-    });
+    this.reloadDatatable();
   }
 
   startLoading (): void {
@@ -107,6 +104,21 @@ export class CasesListComponent {
 
   onCreate (): void {
     this.router.navigate([ 'pages/cases/new' ]);
+  }
+
+  reloadDatatable(): void {
+    this.startLoading();
+    this.service.getCases().then((data: CaseAccident[]) => {
+      this.source.load(data);
+      this.completeLoading();
+    }).catch((response) => {
+      this.showError('Something bad happened, you can\'t load list of cases', response);
+      this.errorLoading();
+    });
+  }
+
+  openImporter (): void {
+    this.importer.showImporter();
   }
 
   private showError (message: string, response: Response = null): void {
