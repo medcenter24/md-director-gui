@@ -16,6 +16,7 @@ import { Ng2SmartTableModule } from 'ng2-smart-table';
 import { Ng2Bs3ModalModule } from 'ng2-bs3-modal/ng2-bs3-modal';
 import { InMemoryWebApiModule } from 'angular-in-memory-web-api';
 import { InMemoryDataService } from '../../faker/in-memory-data.service';
+
 import { CasesService } from '../../components/case/cases.service';
 import { CaseEditorComponent } from '../../components/case/components/editor/editor.component';
 import { CasesListComponent } from '../../components/case/components/list/list.component';
@@ -29,7 +30,7 @@ import { AccidentTypesService } from '../../components/accident/components/type/
 import {
   SelectButtonModule, CalendarModule, MultiSelectModule, AutoCompleteModule,
   SpinnerModule, ButtonModule, TooltipModule, InputTextareaModule, InputTextModule,
-  PanelModule, FileUploadModule, InplaceModule, ToolbarModule, DialogModule
+  PanelModule, FileUploadModule, InplaceModule, ToolbarModule, DialogModule, PaginatorModule
 } from 'primeng/primeng';
 import { AssistantsService } from '../../components/assistant/assistant.service';
 import { AssistantSelectComponent } from '../../components/assistant/components/select/select.component';
@@ -66,7 +67,7 @@ import { ImporterComponent } from '../../components/importer/importer.component'
     AutoCompleteModule,
     SpinnerModule,
     Ng2Bs3ModalModule,
-    InMemoryWebApiModule.forRoot(InMemoryDataService, {apiBase: 'director/', passThruUnknownUrl: true}),
+    // InMemoryWebApiModule.forRoot(InMemoryDataService, {apiBase: 'director/', passThruUnknownUrl: true}),
     SelectModule,
     ButtonModule,
     TooltipModule,
@@ -77,7 +78,8 @@ import { ImporterComponent } from '../../components/importer/importer.component'
     FileUploadModule,
     InplaceModule,
     ToolbarModule,
-    DialogModule
+    DialogModule,
+    PaginatorModule
   ],
   declarations: [
     Cases,
