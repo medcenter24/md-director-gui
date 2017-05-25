@@ -48,6 +48,7 @@ import { DoctorAccidentDb } from './doctorAccident.db';
 import { HospitalAccident } from '../components/hospitalAccident/hospitalAccident';
 import { HospitalAccidentDb } from './hospitalAccident.db';
 import { CaseDiagnosticsDb } from './CaseDiagnosticsDb.db';
+import { CaseImportDb } from './CaseImport.db';
 
 class UrlStructure implements ParsedUrl {
   base: string;
@@ -107,6 +108,7 @@ export class InMemoryDataService implements InMemoryDbService {
    * @type {[string]}
    */
   private mapper: Array<MapItem> = [
+    new MapItem('director\/cases\/import', 'caseImport'),
     new MapItem('director\/cases\/(\\d+)\/services', 'caseServices'),
     new MapItem('director\/cases\/(\\d+)\/diagnostics', 'caseDiagnostics'),
     new MapItem('director\/cases\/(\\d+)\/doctorcase', 'doctorCase', 1),
@@ -202,6 +204,7 @@ export class InMemoryDataService implements InMemoryDbService {
     let caseDiagnostics: Diagnostic[] = CaseDiagnosticsDb;
     let doctorCase: DoctorAccident[] = DoctorAccidentDb;
     let hospitalCase: HospitalAccident[] = HospitalAccidentDb;
+    let caseImport: Array<any> = CaseImportDb;
 
     return {
       services,
@@ -222,7 +225,8 @@ export class InMemoryDataService implements InMemoryDbService {
       caseServices,
       doctorCase,
       hospitalCase,
-      caseDiagnostics
+      caseDiagnostics,
+      caseImport
     };
   }
 }

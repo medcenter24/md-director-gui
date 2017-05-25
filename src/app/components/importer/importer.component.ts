@@ -21,7 +21,7 @@ export class ImporterComponent {
   display: boolean = false;
   msgs: Message[] = [];
   uploadedFiles: any[] = [];
-  selectedFormat: string = 'application/vnd.openxmlformats-officedocument.wordprocessingml.document';
+  selectedFormat: string = '.docx';
 
   // preload translations for the component
   private translateLoaded: string;
@@ -72,5 +72,9 @@ export class ImporterComponent {
     this._state.notifyDataChanged('growl', this.msgs);
     this._logger.error('Error: Upload to ' + event.xhr.responseURL + ' [' + event.xhr.status + ': ' + event.xhr.statusText + ']');
     this.loadingBar.complete();
+  }
+
+  removeFile (i): void {
+    console.log(i)
   }
 }
