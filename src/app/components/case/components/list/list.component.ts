@@ -14,6 +14,7 @@ import { CasesService } from '../../cases.service';
 import { CaseAccident } from '../../case';
 import { SlimLoadingBarService } from 'ng2-slim-loading-bar';
 import { ImporterComponent } from '../../../importer/importer.component';
+import { Pagination } from '../../../ui/pagination';
 
 @Component({
   selector: 'basic-tables',
@@ -29,6 +30,7 @@ export class CasesListComponent {
     importer: ImporterComponent;
 
   query: string = '';
+  pagination: Pagination = new Pagination;
 
   deleteDialogEvent: any = null;
   titleForDeletion: string = '';
@@ -108,8 +110,16 @@ export class CasesListComponent {
 
   reloadDatatable(): void {
     this.startLoading();
-    this.service.getCases().then((data: CaseAccident[]) => {
-      this.source.load(data);
+    this.service.getCases().then((response) => {
+      let paginator = response.meta.pagination;
+      let accidents = response.data as CaseAccident[];
+      this.source.load(accidents);
+
+      this.pagination.rows = paginator.count;
+      this.pagination.total = paginator.total;
+      this.pagination.first = (paginator.current_page - 1) * paginator.per_page;
+      this.pagination.show = true;
+
       this.completeLoading();
     }).catch((response) => {
       this.showError('Something bad happened, you can\'t load list of cases', response);
@@ -119,6 +129,10 @@ export class CasesListComponent {
 
   openImporter (): void {
     this.importer.showImporter();
+  }
+
+  onPageChanged(event): void {
+    console.log(event);
   }
 
   private showError (message: string, response: Response = null): void {

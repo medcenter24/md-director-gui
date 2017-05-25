@@ -4,7 +4,7 @@
  * @author Alexander Zagovorichev <zagovorichev@gmail.com>
  */
 
-import { Injectable, Injector } from '@angular/core';
+import { Injectable } from '@angular/core';
 
 import {
   InMemoryDbService,

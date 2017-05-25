@@ -33,6 +33,15 @@
                 (create)="onCreate()"
                 (edit)="onEdit($event)"
         ></ng2-smart-table>
+
+        <p-paginator
+                *ngIf="pagination.show"
+                [rows]="pagination.rows"
+                [totalRecords]="pagination.total"
+                [rowsPerPageOptions]="pagination.rowsPerPage"
+                (onPageChange)="onPageChanged($event)"
+        ></p-paginator>
+
       </ba-card>
     </div>
   </div>
