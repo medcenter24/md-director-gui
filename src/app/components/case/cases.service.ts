@@ -20,15 +20,16 @@ import { Diagnostic } from '../diagnostic/diagnostic';
 @Injectable()
 export class CasesService {
 
-  private casesUrl = 'director/cases';  // URL to web api
+  //private casesUrl = 'director/cases';  // URL to web api
+  private casesUrl = 'http://api.mydoctors24.com:8000/director/cases';  // URL to the laravel web api
 
   constructor(private http: Http) { }
 
-  getCases(): Promise<CaseAccident[]> {
+  getCases(): Promise<any> {
 
     return this.http.get(this.casesUrl)
         .toPromise()
-        .then(response => response.json().data as CaseAccident[])
+        .then(response => response.json())
         .catch(this.handleError);
   }
 
