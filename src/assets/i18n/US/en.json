@@ -13,6 +13,9 @@
     "share_on_google_plus": "Share on Google Plus"
   },
   "general": {
+    "sign_in": "Sign in",
+    "authorisation_failed": "Authorisation Failed",
+    "auth_validation_failed": "Username or password is incorrect",
     "importer": "Importer",
     "import": "Import",
     "export": "Export",
