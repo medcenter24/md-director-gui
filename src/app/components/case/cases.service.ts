@@ -71,7 +71,7 @@ export class CasesService {
   }
 
   getImportUrl (): string {
-    return `${this.casesUrl}/import`;
+    return `${this.casesUrl}/importer`;
   }
 
   private handleError(error: any): Promise<any> {
