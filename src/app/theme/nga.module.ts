@@ -56,6 +56,7 @@ import {
   EmailValidator,
   EqualPasswordsValidator
 } from './validators';
+import { AuthenticationService } from '../components/auth/authentication.service';
 
 const NGA_COMPONENTS = [
   BaAmChart,
@@ -125,6 +126,7 @@ export class NgaModule {
     return <ModuleWithProviders> {
       ngModule: NgaModule,
       providers: [
+        AuthenticationService,
         BaThemeConfigProvider,
         BaThemeConfig,
         ...NGA_VALIDATORS,

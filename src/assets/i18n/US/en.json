@@ -13,7 +13,10 @@
     "share_on_google_plus": "Share on Google Plus"
   },
   "general": {
+    "profile": "Profile",
+    "settings": "Settings",
     "sign_in": "Sign in",
+    "sign_out": "Sign out",
     "authorisation_failed": "Authorisation Failed",
     "auth_validation_failed": "Username or password is incorrect",
     "importer": "Importer",
