@@ -39,6 +39,9 @@ export class CasesListComponent {
   errorResponse: Response = null;
 
   settings = {
+    pager: {
+      display: false
+    },
     mode: 'external',
     hideSubHeader: false,
     actions: {
@@ -84,7 +87,7 @@ export class CasesListComponent {
   }
 
   ngOnInit (): void {
-    this.reloadDatatable();
+    this.reloadDatatable({});
   }
 
   startLoading (): void {
@@ -108,9 +111,9 @@ export class CasesListComponent {
     this.router.navigate([ 'pages/cases/new' ]);
   }
 
-  reloadDatatable(): void {
+  reloadDatatable(params): void {
     this.startLoading();
-    this.service.getCases().then((response) => {
+    this.service.getCases(params).then((response) => {
       let paginator = response.meta.pagination;
       let accidents = response.data as CaseAccident[];
       this.source.load(accidents);
@@ -132,7 +135,7 @@ export class CasesListComponent {
   }
 
   onPageChanged(event): void {
-    console.log(event);
+    this.reloadDatatable(event);
   }
 
   private showError (message: string, response: Response = null): void {

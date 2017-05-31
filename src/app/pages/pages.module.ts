@@ -4,8 +4,9 @@ import { CommonModule }  from '@angular/common';
 import { routing }       from './pages.routing';
 import { NgaModule } from '../theme/nga.module';
 import { AppTranslationModule } from '../app.translation.module';
-
+import { AUTH_PROVIDERS } from 'angular2-jwt';
 import { Pages } from './pages.component';
+import { AuthGuard } from '../components/auth/auth.guard';
 
 @NgModule({
   imports: [
@@ -14,7 +15,11 @@ import { Pages } from './pages.component';
     NgaModule,
     routing,
   ],
-  declarations: [ Pages ]
+  declarations: [ Pages ],
+  providers: [ // expose our Services and Providers into Angular's dependency injection
+    AuthGuard,
+    ...AUTH_PROVIDERS
+  ],
 })
 export class PagesModule {
 }

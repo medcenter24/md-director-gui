@@ -25,9 +25,9 @@ export class CasesService {
 
   constructor(private http: Http) { }
 
-  getCases(): Promise<any> {
+  getCases(params): Promise<any> {
 
-    return this.http.get(this.casesUrl)
+    return this.http.get(this.casesUrl, {params: params})
         .toPromise()
         .then(response => response.json())
         .catch(this.handleError);
