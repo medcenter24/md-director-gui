@@ -10,7 +10,9 @@
 >
 
     <p-fileUpload name="files[]" url="{{ url }}" multiple="multiple"
-                  [accept]="selectedFormat" maxFileSize="1000000"
+                  [accept]="selectedFormat"
+                  maxFileSize="1000000"
+                  withCredentials="true"
                   chooseLabel="{{ 'general.choose' | translate }}"
                   uploadLabel="{{ 'general.import' | translate}}"
                   cancelLabel="{{ 'general.cancel' | translate}}"
