@@ -53,6 +53,7 @@ import { DiagnosticService } from '../../components/diagnostic/diagnostic.servic
 import { DiagnosticsSelectorComponent } from '../../components/diagnostic/components/selector/selector.component';
 import { SelectDiagnosticsComponent } from '../../components/diagnostic/components/select/select.component';
 import { ImporterComponent } from '../../components/importer/importer.component';
+import { AuthenticationService } from '../../components/auth/authentication.service';
 
 @NgModule({
   imports: [
@@ -113,7 +114,8 @@ import { ImporterComponent } from '../../components/importer/importer.component'
     HospitalsService,
     CitiesService,
     MediaService,
-    DiagnosticService
+    DiagnosticService,
+    AuthenticationService
   ]
 })
 export class CasesModule {
