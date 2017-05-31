@@ -41,8 +41,7 @@ export class Login {
       this.authenticationService.login(this.email.value, this.password.value)
         .subscribe(result => {
           this.loadingBar.complete();
-          // this.router.navigate(['/']);
-          // window.location.href = '/pages/cases';
+          this.router.navigate(['/']);
           this.submitted = false;
         }, error => {
           this.showError = true;
