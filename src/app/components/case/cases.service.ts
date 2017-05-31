@@ -5,29 +5,30 @@
  */
 
 import { Injectable }    from '@angular/core';
-import { Http } from '@angular/http';
+import { Headers, Http, RequestOptions } from '@angular/http';
 
 import 'rxjs/add/operator/toPromise';
 
-import { CaseAccident } from './case';
 import { Service } from '../service/service';
-import { Doctor } from '../doctors/doctor';
-import { Hospital } from '../hospital/hospital';
 import { DoctorAccident } from '../doctorAccident/doctorAccident';
 import { HospitalAccident } from '../hospitalAccident/hospitalAccident';
 import { Diagnostic } from '../diagnostic/diagnostic';
+import { AuthenticationService } from '../auth/authentication.service';
 
 @Injectable()
 export class CasesService {
 
   //private casesUrl = 'director/cases';  // URL to web api
   private casesUrl = 'http://api.mydoctors24.com:8000/director/cases';  // URL to the laravel web api
+  private headers: Headers;
 
-  constructor(private http: Http) { }
+  constructor(private http: Http, private authenticationService: AuthenticationService) {
+    this.headers = new Headers({ 'Authorization': 'Bearer ' + this.authenticationService.token });
+  }
 
   getCases(params): Promise<any> {
 
-    return this.http.get(this.casesUrl, {params: params})
+    return this.http.get(this.casesUrl, {params: params, headers: this.headers})
         .toPromise()
         .then(response => response.json())
         .catch(this.handleError);
