@@ -10,6 +10,7 @@ import { SlimLoadingBarService } from 'ng2-slim-loading-bar';
 import { TranslateService } from '@ngx-translate/core';
 import { GlobalState } from '../../global.state';
 import { Logger } from 'angular2-logger/core';
+import { AuthenticationService } from '../auth/authentication.service';
 @Component({
   selector: 'importer',
   templateUrl: './importer.html'
@@ -28,8 +29,9 @@ export class ImporterComponent {
   private translateErrorLoad: string;
 
   constructor (private loadingBar: SlimLoadingBarService, private translate: TranslateService,
-               private _logger: Logger, private _state: GlobalState) {
-  }
+               private _logger: Logger, private _state: GlobalState,
+               private authenticationService: AuthenticationService
+  ) { }
 
   ngOnInit() {
     this.translate.get('general.file_uploaded').subscribe(res => {
@@ -44,7 +46,11 @@ export class ImporterComponent {
     this.display = true;
   }
 
-  onBeforeUpload(): void {
+  onBeforeSend(event): void {
+    event.xhr.setRequestHeader("Authorization", "Bearer " + this.authenticationService.token);
+  }
+
+  onBeforeUpload(event): void {
     this.msgs = [];
     this._state.notifyDataChanged('growl', []);
     this.loadingBar.start();

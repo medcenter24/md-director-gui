@@ -20,6 +20,7 @@
                   (onError)="handleError($event)"
                   (onClear)="onClear($event)"
                   (onBeforeUpload)="onBeforeUpload($event)"
+                  (onBeforeSend)="onBeforeSend($event)"
     >
         <ng-template pTemplate="content">
             <ul *ngIf="uploadedFiles.length">
