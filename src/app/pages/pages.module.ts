@@ -4,9 +4,14 @@ import { CommonModule }  from '@angular/common';
 import { routing }       from './pages.routing';
 import { NgaModule } from '../theme/nga.module';
 import { AppTranslationModule } from '../app.translation.module';
-import { AUTH_PROVIDERS } from 'angular2-jwt';
+import { provideAuth, AuthHttp, AuthConfig } from 'angular2-jwt';
 import { Pages } from './pages.component';
 import { AuthGuard } from '../components/auth/auth.guard';
+import { Http, RequestOptions } from '@angular/http';
+
+export function authHttpServiceFactory(http: Http, options: RequestOptions) {
+  return new AuthHttp( new AuthConfig({}), http, options);
+}
 
 @NgModule({
   imports: [
@@ -18,7 +23,11 @@ import { AuthGuard } from '../components/auth/auth.guard';
   declarations: [ Pages ],
   providers: [ // expose our Services and Providers into Angular's dependency injection
     AuthGuard,
-    ...AUTH_PROVIDERS
+    {
+      provide: AuthHttp,
+      useFactory: authHttpServiceFactory,
+      deps: [ Http, RequestOptions ]
+    }
   ],
 })
 export class PagesModule {
