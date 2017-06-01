@@ -32,6 +32,7 @@ export class ImporterComponent {
   private translateErrorLoad: string;
   private transDeleteQuestion: string;
   private transDeleteConfirmation: string;
+  private transReport: string;
 
   private deleterCounter: number = 0;
   private importerCounter: number = 0;
@@ -55,6 +56,9 @@ export class ImporterComponent {
     });
     this.translate.get('general.delete_confirmation').subscribe(res => {
       this.transDeleteConfirmation = res;
+    });
+    this.translate.get('general.report').subscribe(res => {
+      this.transReport = res;
     });
 
     this.loadImportQueue();
@@ -126,6 +130,7 @@ export class ImporterComponent {
       message: this.transDeleteQuestion,
       header: this.transDeleteConfirmation,
       icon: 'fa fa-trash',
+      acceptVisible: true,
       accept: () => {
         let files = [];
 
@@ -140,8 +145,19 @@ export class ImporterComponent {
     });
   }
 
+  report (file): void {
+    let result = this.importedFiles.filter(val => val.id*1 === file.id*1)[0];
+
+    this.confirmationService.confirm({
+      message: result.response,
+      header: this.transReport,
+      icon: result.success ? 'fa fa-check-circle-o' : 'fa fa-exclamation-triangle',
+      acceptVisible: false
+    });
+  }
+
   isImported(id: number) : boolean {
-    let is = this.importedFiles.filter(val => val.id === id)
+    let is = this.importedFiles.filter(val => val.id*1 === id);
     return !!is.length;
   }
 
@@ -152,14 +168,22 @@ export class ImporterComponent {
       this.loadingBar.start();
       files.map(id => {
         this.importerService.importFile(this.url, id).then(resp => {
-          this.selectedFiles = this.selectedFiles.filter(val => val !== id);
-          this.uploadedFiles = this.uploadedFiles.filter(val => val.id*1 !== id*1);
-
-          $('.row-file-' + id).addClass('success');
-          this.importedFiles.push({id: id, response: resp});
+          this.selectedFiles = this.selectedFiles.filter(val => val*1 !== id*1);
+          $('.row-file-' + id).addClass('is-success');
+          this.importedFiles.push({
+            id: id*1,
+            success: true,
+            response: resp.accidentId
+          });
+          this.loadingBar.complete();
         }).catch(err => {
+          this.selectedFiles = this.selectedFiles.filter(val => val*1 !== id*1);
           $('.row-file-' + id).addClass('error');
-          this.importedFiles.push({id: id, response: err});
+          this.importedFiles.push({
+            id: id*1,
+            success: false,
+            response: err.json().message
+          });
           this._logger.error(err);
           this.loadingBar.complete();
         });
@@ -174,7 +198,7 @@ export class ImporterComponent {
       this.loadingBar.start();
       files.map(id => {
         this.importerService.deleteFile(this.url, id).then(() => {
-          this.selectedFiles = this.selectedFiles.filter(val => val !== id);
+          this.selectedFiles = this.selectedFiles.filter(val => val*1 !== id*1);
           this.uploadedFiles = this.uploadedFiles.filter(val => val.id*1 !== id*1);
 
           $('.row-file-' + id).remove();

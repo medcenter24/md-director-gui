@@ -36,13 +36,13 @@
                 <tbody>
                     <tr *ngFor="let file of uploadedFiles" class="row-file-{{ file.id }}">
                         <td>
-                            <p-checkbox name="checked" value="{{ file.id }}" [(ngModel)]="selectedFiles"></p-checkbox>
+                            <p-checkbox name="checked" [disabled]="isImported(file.id)" value="{{ file.id }}" [(ngModel)]="selectedFiles"></p-checkbox>
                         </td>
                         <td>
                             {{file.name}}
                         </td>
                         <td>
-                            <button pButton type="button" (click)="importFile(file)" icon="fa-download" label="{{ 'general.import' | translate }}"></button>
+                            <button *ngIf="!isImported(file.id)" pButton type="button" (click)="importFile(file)" icon="fa-download" label="{{ 'general.import' | translate }}"></button>
                             <button pButton type="button" (click)="deleteFile(file)" class="ui-button-danger" icon="fa-trash" label="{{ 'general.delete' | translate }}"></button>
                             <button pButton type="button" (click)="report(file)" [disabled]="!isImported(file.id)" class="ui-button-secondary btn-report" icon="fa-trash" label="{{ 'general.report' | translate }}"></button>
                         </td>
@@ -64,6 +64,6 @@
 <p-confirmDialog width="425" #cd>
     <p-footer>
         <button type="button" pButton icon="fa-close" label="{{ 'general.cancel' | translate }}" (click)="cd.reject()"></button>
-        <button type="button" pButton icon="fa-check" label="{{ 'general.accept' | translate }}" (click)="cd.accept()"></button>
+        <button *ngIf="cd.acceptVisible" type="button" pButton icon="fa-check" label="{{ 'general.accept' | translate }}" (click)="cd.accept()"></button>
     </p-footer>
 </p-confirmDialog>
