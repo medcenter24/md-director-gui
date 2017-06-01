@@ -5,12 +5,13 @@
  */
 
 import { Component, Input } from '@angular/core';
-import { Message } from 'primeng/primeng';
+import { ConfirmationService, Message } from 'primeng/primeng';
 import { SlimLoadingBarService } from 'ng2-slim-loading-bar';
 import { TranslateService } from '@ngx-translate/core';
 import { GlobalState } from '../../global.state';
 import { Logger } from 'angular2-logger/core';
 import { AuthenticationService } from '../auth/authentication.service';
+import { ImporterService } from './importer.service';
 @Component({
   selector: 'importer',
   templateUrl: './importer.html'
@@ -23,14 +24,23 @@ export class ImporterComponent {
   msgs: Message[] = [];
   uploadedFiles: any[] = [];
   selectedFormat: string = '.docx';
+  selectedFiles: any[] = [];
+  importedFiles: any[] = [];
 
   // preload translations for the component
   private translateLoaded: string;
   private translateErrorLoad: string;
+  private transDeleteQuestion: string;
+  private transDeleteConfirmation: string;
+
+  private deleterCounter: number = 0;
+  private importerCounter: number = 0;
 
   constructor (private loadingBar: SlimLoadingBarService, private translate: TranslateService,
                private _logger: Logger, private _state: GlobalState,
-               private authenticationService: AuthenticationService
+               private authenticationService: AuthenticationService,
+               private importerService: ImporterService,
+               private confirmationService: ConfirmationService
   ) { }
 
   ngOnInit() {
@@ -39,6 +49,25 @@ export class ImporterComponent {
     });
     this.translate.get('general.upload_error').subscribe(res => {
       this.translateErrorLoad = res;
+    });
+    this.translate.get('general.delete_question').subscribe(res => {
+      this.transDeleteQuestion = res;
+    });
+    this.translate.get('general.delete_confirmation').subscribe(res => {
+      this.transDeleteConfirmation = res;
+    });
+
+    this.loadImportQueue();
+  }
+
+  private loadImportQueue(): void {
+    this.loadingBar.start();
+    this.importerService.getQueue(this.url).then(uploads => {
+      this.uploadedFiles = uploads.data;
+      this.loadingBar.complete();
+    }).catch((err) => {
+      this.loadingBar.complete();
+      this._logger.error(err);
     });
   }
 
@@ -58,17 +87,17 @@ export class ImporterComponent {
 
   handleUpload(event): void {
     for(let file of event.files) {
-      this.uploadedFiles.push(file);
       this.msgs.push({severity: 'info', summary: this.translateLoaded, detail: file.name});
     }
     this._state.notifyDataChanged('growl', this.msgs);
     this.loadingBar.complete();
+
+    this.loadImportQueue();
   }
 
   onClear (): void {
     this.msgs = [];
     this._state.notifyDataChanged('growl', []);
-    this.uploadedFiles = [];
   }
 
   handleError (event): void {
@@ -80,7 +109,83 @@ export class ImporterComponent {
     this.loadingBar.complete();
   }
 
-  removeFile (i): void {
-    console.log(i)
+  importFile (file): void {
+    let files = [];
+
+    if (file) {
+      files.push(file.id);
+    } else {
+      files = this.selectedFiles;
+    }
+
+    this.importer(files);
+  }
+
+  deleteFile (file): void {
+    this.confirmationService.confirm({
+      message: this.transDeleteQuestion,
+      header: this.transDeleteConfirmation,
+      icon: 'fa fa-trash',
+      accept: () => {
+        let files = [];
+
+        if (file) {
+          files.push(file.id);
+        } else {
+          files = this.selectedFiles;
+        }
+
+        this.deleter(files);
+      }
+    });
+  }
+
+  isImported(id: number) : boolean {
+    let is = this.importedFiles.filter(val => val.id === id)
+    return !!is.length;
+  }
+
+  private importer(files: Array<any>) : void {
+    this.importerCounter = files.length;
+
+    if (this.importerCounter){
+      this.loadingBar.start();
+      files.map(id => {
+        this.importerService.importFile(this.url, id).then(resp => {
+          this.selectedFiles = this.selectedFiles.filter(val => val !== id);
+          this.uploadedFiles = this.uploadedFiles.filter(val => val.id*1 !== id*1);
+
+          $('.row-file-' + id).addClass('success');
+          this.importedFiles.push({id: id, response: resp});
+        }).catch(err => {
+          $('.row-file-' + id).addClass('error');
+          this.importedFiles.push({id: id, response: err});
+          this._logger.error(err);
+          this.loadingBar.complete();
+        });
+      });
+    }
+  }
+
+  private deleter(files: Array<any>) : void {
+    this.deleterCounter = files.length;
+
+    if (this.deleterCounter){
+      this.loadingBar.start();
+      files.map(id => {
+        this.importerService.deleteFile(this.url, id).then(() => {
+          this.selectedFiles = this.selectedFiles.filter(val => val !== id);
+          this.uploadedFiles = this.uploadedFiles.filter(val => val.id*1 !== id*1);
+
+          $('.row-file-' + id).remove();
+          if (--this.deleterCounter <= 0) {
+            this.loadingBar.complete();
+          }
+        }).catch(err => {
+          this._logger.error(err);
+          this.loadingBar.complete();
+        });
+      });
+    }
   }
 }

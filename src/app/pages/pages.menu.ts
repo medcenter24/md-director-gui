@@ -159,38 +159,8 @@ export const PAGES_MENU = [
         path: '',
         data: {
           menu: {
-            title: 'general.menu.pages',
-            icon: 'ion-document',
-            selected: false,
-            expanded: false,
-            order: 650,
-          }
-        },
-        children: [
-          {
-            path: ['/login'],
-            data: {
-              menu: {
-                title: 'general.menu.login'
-              }
-            }
-          },
-          {
-            path: ['/register'],
-            data: {
-              menu: {
-                title: 'general.menu.register'
-              }
-            }
-          }
-        ]
-      },
-      {
-        path: '',
-        data: {
-          menu: {
             title: 'general.menu.doctor',
-            url: 'https://myDoctors24.com/doctor',
+            url: 'https://doctor.myDoctors24.com',
             icon: 'ion-android-exit',
             order: 800,
             target: '_blank'
