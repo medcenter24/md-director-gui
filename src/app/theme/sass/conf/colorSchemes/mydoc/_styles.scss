@@ -48,11 +48,24 @@ a.al-sidebar-list-link i {
 }
 
 .ui-dialog .ui-fileupload .ui-fileupload-content {
-  max-height: 450px;
+  max-height: 400px;
   overflow: auto;
 }
 
 .ui-paginator {
   padding-top: 10px !important;
   border: none !important;
+}
+
+.importer {
+  .error {
+    .btn-report {
+      border-color: $danger;
+    }
+  }
+  .success {
+    .btn-report {
+      border-color: $success;
+    }
+  }
 }

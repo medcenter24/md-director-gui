@@ -30,7 +30,8 @@ import { AccidentTypesService } from '../../components/accident/components/type/
 import {
   SelectButtonModule, CalendarModule, MultiSelectModule, AutoCompleteModule,
   SpinnerModule, ButtonModule, TooltipModule, InputTextareaModule, InputTextModule,
-  PanelModule, FileUploadModule, InplaceModule, ToolbarModule, DialogModule, PaginatorModule
+  PanelModule, FileUploadModule, InplaceModule, ToolbarModule, DialogModule, PaginatorModule, CheckboxModule,
+  ConfirmDialogModule, ConfirmationService
 } from 'primeng/primeng';
 import { AssistantsService } from '../../components/assistant/assistant.service';
 import { AssistantSelectComponent } from '../../components/assistant/components/select/select.component';
@@ -54,6 +55,7 @@ import { DiagnosticsSelectorComponent } from '../../components/diagnostic/compon
 import { SelectDiagnosticsComponent } from '../../components/diagnostic/components/select/select.component';
 import { ImporterComponent } from '../../components/importer/importer.component';
 import { AuthenticationService } from '../../components/auth/authentication.service';
+import { ImporterService } from '../../components/importer/importer.service';
 
 @NgModule({
   imports: [
@@ -80,7 +82,9 @@ import { AuthenticationService } from '../../components/auth/authentication.serv
     InplaceModule,
     ToolbarModule,
     DialogModule,
-    PaginatorModule
+    PaginatorModule,
+    CheckboxModule,
+    ConfirmDialogModule
   ],
   declarations: [
     Cases,
@@ -115,7 +119,9 @@ import { AuthenticationService } from '../../components/auth/authentication.serv
     CitiesService,
     MediaService,
     DiagnosticService,
-    AuthenticationService
+    AuthenticationService,
+    ImporterService,
+    ConfirmationService
   ]
 })
 export class CasesModule {
