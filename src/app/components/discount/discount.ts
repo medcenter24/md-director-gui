@@ -1,13 +1,13 @@
 /*
- * Copyright (c) 2017.
+ * Copyright (c) 2017
  *
- * @author Alexander Zagovorichev <zagovorichev@gmail.com>
+ *  @author Alexander Zagovorichev <zagovorichev@gmail.com>
  */
-
 export class Discount {
     constructor(
-        id: number = 0,
-        amount: number = 0,
-        type: string = '' // euro, %
+        public id: number = 0,
+        public title: string = '',
+        public description: string = '',
+        public operation: string = ''
     ) {}
 }

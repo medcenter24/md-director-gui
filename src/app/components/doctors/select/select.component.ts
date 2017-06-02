@@ -28,6 +28,7 @@ export class DoctorSelectComponent {
     this.doctorsService.getDoctors().then(doctors => {
       this.doctors = doctors;
       if (this.doctorId) {
+        this.doctorId *= 1;
         this.doctor = this.doctors.find(doc => doc.id === this.doctorId);
       }
       this.loadingBar.complete();

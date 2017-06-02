@@ -8,12 +8,13 @@ import { Injectable } from '@angular/core';
 import { Http, Headers, Response } from '@angular/http';
 import { Observable } from 'rxjs';
 import 'rxjs/add/operator/map';
+import { environment } from '../../../environments/environment';
 
 @Injectable()
 export class AuthenticationService {
 
   public token: string;
-  private authUrl = 'http://api.mydoctors24.com:8000/authenticate';  // URL to web api
+  private authUrl = environment.apiHost + '/authenticate';  // URL to web api
 
   constructor (private http: Http) {
     // set token if saved in local storage

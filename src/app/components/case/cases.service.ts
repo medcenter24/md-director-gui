@@ -5,73 +5,66 @@
  */
 
 import { Injectable }    from '@angular/core';
-import { Headers, Http, RequestOptions } from '@angular/http';
-
 import 'rxjs/add/operator/toPromise';
-
 import { Service } from '../service/service';
 import { DoctorAccident } from '../doctorAccident/doctorAccident';
 import { HospitalAccident } from '../hospitalAccident/hospitalAccident';
 import { Diagnostic } from '../diagnostic/diagnostic';
-import { AuthenticationService } from '../auth/authentication.service';
+import { HttpService } from '../http/http.service';
 
 @Injectable()
-export class CasesService {
+export class CasesService extends HttpService {
 
-  //private casesUrl = 'director/cases';  // URL to web api
-  private casesUrl = 'http://api.mydoctors24.com:8000/director/cases';  // URL to the laravel web api
-  private headers: Headers;
-
-  constructor(private http: Http, private authenticationService: AuthenticationService) {
-    this.headers = new Headers({ 'Authorization': 'Bearer ' + this.authenticationService.token });
+  protected getPrefix(): string {
+    return 'director/cases';
   }
 
   getCases(params): Promise<any> {
 
-    return this.http.get(this.casesUrl, {params: params, headers: this.headers})
+    return this.http.get(this.getUrl(), {params: params, headers: this.getAuthHeaders()})
         .toPromise()
         .then(response => response.json())
         .catch(this.handleError);
   }
 
   getCaseServices(caseId: number): Promise<Service[]> {
-    const url = `${this.casesUrl}/${caseId}/services`;
+    const url = `${this.getUrl()}/${caseId}/services`;
 
-    return this.http.get(url)
+    return this.http.get(url, {headers: this.getAuthHeaders()})
       .toPromise()
       .then(response => response.json().data as Service[])
       .catch(this.handleError);
   }
 
   getCaseDiagnostics(caseId: number): Promise<Diagnostic[]> {
-    const url = `${this.casesUrl}/${caseId}/cases`;
+    const url = `${this.getUrl()}/${caseId}/diagnostics`;
 
-    return this.http.get(url)
+    return this.http.get(url, {headers: this.getAuthHeaders()})
       .toPromise()
       .then(response => response.json().data as Diagnostic[])
       .catch(this.handleError);
   }
 
   getDoctorCase (caseId: number): Promise<DoctorAccident> {
-    const url = `${this.casesUrl}/${caseId}/doctorcase`;
+    const url = `${this.getUrl()}/${caseId}/doctorcase`;
 
-    return this.http.get(url)
+    return this.http.get(url, {headers: this.getAuthHeaders()})
       .toPromise()
       .then(response => response.json().data as DoctorAccident)
       .catch(this.handleError);
   }
 
   getHospitalCase (caseId: number): Promise<HospitalAccident> {
-    const url = `${this.casesUrl}/${caseId}/hospitalcase`;
+    const url = `${this.getUrl()}/${caseId}/hospitalcase`;
 
-    return this.http.get(url)
+    return this.http.get(url, {headers: this.getAuthHeaders()})
       .toPromise()
       .then(response => response.json().data as HospitalAccident)
       .catch(this.handleError);
   }
 
   getImportUrl (): string {
-    return `${this.casesUrl}/importer`;
+    return `${this.getUrl()}/importer`;
   }
 
   private handleError(error: any): Promise<any> {

@@ -22,11 +22,11 @@ export class SelectCaseTypeComponent {
 
   ngOnInit () {
     this.caseTypes = [];
-    this.caseTypes.push({label: 'Doctor Case', value: 'App/Doctor'});
-    this.caseTypes.push({label: 'Hospital Case', value: 'App/Hospital'});
+    this.caseTypes.push({label: 'Doctor Case', value: 'App\\DoctorAccident'});
+    this.caseTypes.push({label: 'Hospital Case', value: 'App\\HospitalAccident'});
 
     if (!this.selectedCaseTypeId) {
-      this.selectedCaseTypeId = 'App/Doctor';
+      this.selectedCaseTypeId = 'App\\DoctorAccident';
       this.onChanged({value: this.selectedCaseTypeId})
     }
   }
