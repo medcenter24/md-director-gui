@@ -5,40 +5,38 @@
  */
 
 import { Injectable }    from '@angular/core';
-import { Headers, Http } from '@angular/http';
 
 import 'rxjs/add/operator/toPromise';
 
 import { Service } from './service';
+import { HttpService } from '../http/http.service';
 
 @Injectable()
-export class ServicesService {
-
-  private headers = new Headers({'Content-Type': 'application/json'});
-  private servicesUrl = 'director/services';  // URL to web api
-
-  constructor(private http: Http) { }
+export class ServicesService extends HttpService {
+  
+  protected getPrefix(): string {
+    return 'director/services';
+  }
 
   getServices(): Promise<Service[]> {
 
-    return this.http.get(this.servicesUrl)
+    return this.http.get(this.getUrl(), {headers: this.getAuthHeaders()})
         .toPromise()
         .then(response => response.json().data as Service[])
         .catch(this.handleError);
   }
 
-
   getService(id: number): Promise<Service> {
-    const url = `${this.servicesUrl}/${id}`;
-    return this.http.get(url)
+    const url = `${this.getUrl()}/${id}`;
+    return this.http.get(url, {headers: this.getAuthHeaders()})
         .toPromise()
         .then(response => response.json().data as Service)
         .catch(this.handleError);
   }
 
   delete(id: number): Promise<void> {
-    const url = `${this.servicesUrl}/${id}`;
-    return this.http.delete(url, {headers: this.headers})
+    const url = `${this.getUrl()}/${id}`;
+    return this.http.delete(url, {headers: this.getAuthHeaders()})
         .toPromise()
         .then(() => null)
         .catch(this.handleError);
@@ -46,16 +44,16 @@ export class ServicesService {
 
   create(service: Service): Promise<Service> {
     return this.http
-        .post(this.servicesUrl, JSON.stringify(service), {headers: this.headers})
+        .post(this.getUrl(), JSON.stringify(service), {headers: this.getAuthHeaders()})
         .toPromise()
         .then(res => res.json().data)
         .catch(this.handleError);
   }
 
   update(service: Service): Promise<Service> {
-    const url = `${this.servicesUrl}/${service.id}`;
+    const url = `${this.getUrl()}/${service.id}`;
     return this.http
-        .put(url, JSON.stringify(service), {headers: this.headers})
+        .put(url, JSON.stringify(service), {headers: this.getAuthHeaders()})
         .toPromise()
         .then(() => service)
         .catch(this.handleError);

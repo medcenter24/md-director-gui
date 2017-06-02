@@ -5,19 +5,18 @@
  */
 
 import {Injectable} from '@angular/core';
-import {Headers, Http} from "@angular/http";
 import {AccidentType} from "./type";
+import { HttpService } from '../../../http/http.service';
 
 @Injectable()
-export class AccidentTypesService {
+export class AccidentTypesService extends HttpService {
 
-  private headers = new Headers({'Content-Type': 'application/json'});
-  private typesUrl = 'director/types';  // URL to web api
-
-  constructor(private http: Http) { }
-
+  protected getPrefix(): string {
+    return 'director/types';
+  }
+  
   getTypes(): Promise<AccidentType[]> {
-    return this.http.get(this.typesUrl)
+    return this.http.get(this.getUrl(), {headers: this.getAuthHeaders()})
         .toPromise()
         .then(response => response.json().data as AccidentType[])
         .catch(this.handleError);
@@ -25,16 +24,16 @@ export class AccidentTypesService {
 
 
   getType(id: number): Promise<AccidentType> {
-    const url = `${this.typesUrl}/${id}`;
-    return this.http.get(url)
+    const url = `${this.getUrl()}/${id}`;
+    return this.http.get(url, {headers: this.getAuthHeaders()})
         .toPromise()
         .then(response => response.json().data as AccidentType)
         .catch(this.handleError);
   }
 
   delete(id: number): Promise<void> {
-    const url = `${this.typesUrl}/${id}`;
-    return this.http.delete(url, {headers: this.headers})
+    const url = `${this.getUrl()}/${id}`;
+    return this.http.delete(url, {headers: this.getAuthHeaders()})
         .toPromise()
         .then(() => null)
         .catch(this.handleError);
@@ -42,16 +41,16 @@ export class AccidentTypesService {
 
   create(type: AccidentType): Promise<AccidentType> {
     return this.http
-        .post(this.typesUrl, JSON.stringify(type), {headers: this.headers})
+        .post(this.getUrl(), JSON.stringify(type), {headers: this.getAuthHeaders()})
         .toPromise()
         .then(res => res.json().data)
         .catch(this.handleError);
   }
 
   update(type: AccidentType): Promise<AccidentType> {
-    const url = `${this.typesUrl}/${type.id}`;
+    const url = `${this.getUrl()}/${type.id}`;
     return this.http
-        .put(url, JSON.stringify(type), {headers: this.headers})
+        .put(url, JSON.stringify(type), {headers: this.getAuthHeaders()})
         .toPromise()
         .then(() => type)
         .catch(this.handleError);

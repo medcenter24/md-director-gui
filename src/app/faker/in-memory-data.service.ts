@@ -38,8 +38,6 @@ import { Accident } from '../components/accident/accident';
 import { AccidentsDb } from './accidents.db';
 import { CasesDb } from './cases.db';
 import { CaseAccident } from '../components/case/case';
-import { AccidentDiscount } from '../components/accident/components/discount/discount';
-import { AccidentDiscountsDb } from './accidentDiscounts.db';
 import { URLSearchParams } from '@angular/http';
 import { Logger } from 'angular2-logger/core';
 import { CaseServicesDb } from './CaseServicesDb.db';
@@ -49,6 +47,8 @@ import { HospitalAccident } from '../components/hospitalAccident/hospitalAcciden
 import { HospitalAccidentDb } from './hospitalAccident.db';
 import { CaseDiagnosticsDb } from './CaseDiagnosticsDb.db';
 import { CaseImportDb } from './CaseImport.db';
+import { Discount } from '../components/discount/discount';
+import { DiscountsDb } from './discounts.db';
 
 class UrlStructure implements ParsedUrl {
   base: string;
@@ -194,7 +194,7 @@ export class InMemoryDataService implements InMemoryDbService {
     let hospitals: Hospital[] = HospitalsDb;
     let types: AccidentType[] = AccidentTypesDb;
     let checkpoints: AccidentCheckpoint[] = AccidentCheckpointsDb;
-    let discounts: AccidentDiscount[] = AccidentDiscountsDb;
+    let discounts: Discount[] = DiscountsDb;
     let statuses: AccidentStatus[] = AccidentStatusesDb;
     let assistants: Assistant[] = AssistantsDb;
     let patients: Patient[] = PatientsDb;

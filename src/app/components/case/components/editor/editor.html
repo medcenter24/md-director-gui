@@ -35,10 +35,23 @@
                     <div class="row offset-bottom20">
                         <div class="col-sm-5">
                             <b class="text-muted">{{ 'general.choose_case' | translate }}</b>
-                            <br><select-case-type [selectedCaseTypeId]="accident.caseable_type" (selected)="onCaseTypeSelected($event)"></select-case-type>
+                            <br>
+                            <select-case-type
+                                    *ngIf="!accident.id"
+                                    [selectedCaseTypeId]="accident.caseable_type"
+                                    (selected)="onCaseTypeSelected($event)"
+                            ></select-case-type>
+
+                            <h4 *ngIf="accident.id && accident.caseable_type === 'App\\DoctorAccident'" class="text-info">
+                                {{ 'general.doctor_case' | translate }}
+                            </h4>
+                            <h4 *ngIf="accident.id && accident.caseable_type === 'App\\HospitalAccident'" class="text-warning">
+                                {{ 'general.hospital_case' | translate }}
+                            </h4>
+
                         </div>
                         <div class="col-sm-7">
-                            <div *ngIf="accident.caseable_type === 'App/Doctor'">
+                            <div *ngIf="accident.caseable_type === 'App\\DoctorAccident'">
                                 <div class="row">
                                     <div class="col-sm-6">
                                         <b class="text-muted">{{ 'general.doctor_case' | translate }}</b>
@@ -57,7 +70,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div *ngIf="accident.caseable_type === 'App/Hospital'">
+                            <div *ngIf="accident.caseable_type === 'App\\HospitalAccident'">
                                 <b class="text-muted">{{ 'general.hospital_case' | translate }}</b>
                                 <br>
                                 <select-hospital
@@ -94,10 +107,10 @@
                                 <div class="col-sm-12 col-md-6 col-lg-3">
                                     <b class="text-muted">{{ 'general.discount_type' | translate }}</b>
                                     <br>
-                                    <select-accident-discount-type
+                                    <select-discount-type
                                             [selectedDiscountId]="accident.discount_type_id"
                                             (selected)="onDiscountTypeSelected($event)"
-                                    ></select-accident-discount-type>
+                                    ></select-discount-type>
                                 </div>
                                 <div class="col-sm-12 col-md-6 col-lg-3">
                                     <b class="text-muted">{{ 'general.discount_value' | translate }}</b><br>

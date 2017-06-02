@@ -12,7 +12,6 @@ import { Message } from 'primeng/primeng';
 import { SlimLoadingBarService } from 'ng2-slim-loading-bar';
 import { TranslateService } from '@ngx-translate/core';
 import { AccidentType } from '../../../accident/components/type/type';
-import { AccidentDiscount } from '../../../accident/components/discount/discount';
 import { Patient } from '../../../patient/patient';
 import { Logger } from 'angular2-logger/core';
 import { GlobalState } from '../../../../global.state';
@@ -21,6 +20,7 @@ import { PatientsService } from '../../../patient/patients.service';
 import { DoctorAccident } from '../../../doctorAccident/doctorAccident';
 import { HospitalAccident } from '../../../hospitalAccident/hospitalAccident';
 import { CasesService } from '../../cases.service';
+import { Discount } from '../../../discount/discount';
 
 @Component({
   selector: 'case-editor',
@@ -40,7 +40,7 @@ export class CaseEditorComponent {
   appliedTime: Date;
   maxDate: Date;
   discountValue: number = 0;
-  discountType: AccidentDiscount;
+  discountType: Discount;
   phone: string;
   doctorAccident: DoctorAccident;
   hospitalAccident: HospitalAccident;
@@ -97,6 +97,7 @@ export class CaseEditorComponent {
   }
 
   onAccidentTypeSelected(accidentType: AccidentType): void {
+    console.log(accidentType)
     this.accident.accident_type_id = accidentType.id;
   }
 
@@ -123,7 +124,7 @@ export class CaseEditorComponent {
     this.recalculatePrice();
   }
 
-  onDiscountTypeSelected(discountType: AccidentDiscount): void {
+  onDiscountTypeSelected(discountType: Discount): void {
     this.discountType = discountType;
     this.recalculatePrice();
   }
