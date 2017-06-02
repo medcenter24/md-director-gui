@@ -185,6 +185,9 @@ export class CaseEditorComponent {
         complete();
       });
 
+    /*
+    TODO Not Implemented yet, doctor case has priority
+
     this.caseService.getHospitalCase(this.accident.id)
       .then((hospitalAccident: HospitalAccident) => {
         this.hospitalAccident = hospitalAccident;
@@ -192,6 +195,6 @@ export class CaseEditorComponent {
       }).catch((err) => {
         this._logger.error(err);
         complete();
-      });
+      });*/
   }
 }
