@@ -1,34 +1,33 @@
 /*
- * Copyright (c) 2017.
- *
- * @author Alexander Zagovorichev <zagovorichev@gmail.com>
+ * Copyright (c) 2017
+ *  
+ *  @author Alexander Zagovorichev <zagovorichev@gmail.com>
  */
 
 import {Injectable} from '@angular/core';
-import {Headers, Http} from "@angular/http";
-import {Doctor} from "./doctor";
+import { Discount } from './discount';
 import { HttpService } from '../http/http.service';
 
 @Injectable()
-export class DoctorsService extends HttpService {
+export class DiscountService extends HttpService{
 
-  protected getPrefix(): string {
-    return 'director/doctors';
+  protected getPrefix() {
+    return 'director/discounts';
   }
-  
-  getDoctors(): Promise<Doctor[]> {
 
+  getDiscounts(): Promise<Discount[]> {
     return this.http.get(this.getUrl(), {headers: this.getAuthHeaders()})
         .toPromise()
-        .then(response => response.json().data as Doctor[])
+        .then(response => response.json().data as Discount[])
         .catch(this.handleError);
   }
 
-  getDoctor(id: number): Promise<Doctor> {
+
+  getDiscount(id: number): Promise<Discount> {
     const url = `${this.getUrl()}/${id}`;
     return this.http.get(url, {headers: this.getAuthHeaders()})
         .toPromise()
-        .then(response => response.json().data as Doctor)
+        .then(response => response.json().data as Discount)
         .catch(this.handleError);
   }
 
@@ -40,20 +39,20 @@ export class DoctorsService extends HttpService {
         .catch(this.handleError);
   }
 
-  create(doctor: Doctor): Promise<Doctor> {
+  create(discount: Discount): Promise<Discount> {
     return this.http
-        .post(this.getUrl(), JSON.stringify(doctor), {headers: this.getAuthHeaders()})
+        .post(this.getUrl(), JSON.stringify(discount), {headers: this.getAuthHeaders()})
         .toPromise()
         .then(res => res.json().data)
         .catch(this.handleError);
   }
 
-  update(doctor: Doctor): Promise<Doctor> {
-    const url = `${this.getUrl()}/${doctor.id}`;
+  update(discount: Discount): Promise<Discount> {
+    const url = `${this.getUrl()}/${discount.id}`;
     return this.http
-        .put(url, JSON.stringify(doctor), {headers: this.getAuthHeaders()})
+        .put(url, JSON.stringify(discount), {headers: this.getAuthHeaders()})
         .toPromise()
-        .then(() => doctor)
+        .then(() => discount)
         .catch(this.handleError);
   }
 

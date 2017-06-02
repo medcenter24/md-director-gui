@@ -5,32 +5,32 @@
  */
 
 import { Component, Output, EventEmitter, Input } from '@angular/core';
-import { AccidentDiscount } from '../../discount';
-import { AccidentDiscountsService } from '../../discount.service';
+import { DiscountService } from '../../discount.service';
 import { SlimLoadingBarService } from 'ng2-slim-loading-bar';
 import { Logger } from 'angular2-logger/core';
+import { Discount } from '../../discount';
 
 @Component({
-  selector: 'select-accident-discount-type',
+  selector: 'select-discount-type',
   templateUrl: './select.html'
 })
-export class SelectAccidentDiscountComponent {
+export class SelectDiscountComponent {
 
   @Input() selectedDiscountId: number = 0;
-  @Output() selected: EventEmitter<AccidentDiscount> = new EventEmitter<AccidentDiscount>();
+  @Output() selected: EventEmitter<Discount> = new EventEmitter<Discount>();
 
   private dataItems: Array<any> = [];
-  private selectedDiscount: AccidentDiscount = new AccidentDiscount();
-  private loadedDiscounts: AccidentDiscount[] = [];
+  private selectedDiscount: Discount = new Discount();
+  private loadedDiscounts: Discount[] = [];
 
   constructor (
-    private accidentDiscountsService: AccidentDiscountsService,
+    private discountsService: DiscountService,
     private _logger: Logger,
     private loadingBar: SlimLoadingBarService) { }
 
   ngOnInit () {
     this.loadingBar.start();
-    this.accidentDiscountsService.getDiscounts().then(types => {
+    this.discountsService.getDiscounts().then(types => {
       this.loadedDiscounts = types;
       if (!this.selectedDiscountId) {
         this.selectedDiscountId = 1;

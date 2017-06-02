@@ -28,12 +28,9 @@ export class AssistantSelectComponent {
     this.loadingBar.start();
     this.assistantsService.getAssistants().then(assistants => {
       this.assistants = assistants;
+      this.assistantId *= 1;
+      this.assistant = this.assistants.find(_assistant => _assistant.id === this.assistantId);
       this.loadingBar.complete();
-
-      this.assistant = this.assistants.find(_assistant => {
-        return _assistant.id === this.assistantId;
-      })
-
     }).catch((err) => {
       this.loadingBar.complete();
       this._logger.error(err);

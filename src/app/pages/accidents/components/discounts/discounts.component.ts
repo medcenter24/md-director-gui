@@ -7,8 +7,8 @@
 import { Component, ViewChild } from '@angular/core';
 import { ModalComponent } from 'ng2-bs3-modal/ng2-bs3-modal';
 import { LocalDataSource } from 'ng2-smart-table';
-import { AccidentDiscountsService } from '../../../../components/accident/components/discount/discount.service';
 import { SlimLoadingBarService } from 'ng2-slim-loading-bar';
+import { DiscountService } from '../../../../components/discount/discount.service';
 
 @Component({
   selector: 'basic-table',
@@ -65,7 +65,7 @@ export class AccidentDiscounts {
 
   source: LocalDataSource = new LocalDataSource();
 
-  constructor (protected service: AccidentDiscountsService, private loadingBar: SlimLoadingBarService) {
+  constructor (protected service: DiscountService, private loadingBar: SlimLoadingBarService) {
   }
 
   ngOnInit (): void {

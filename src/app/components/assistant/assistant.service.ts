@@ -5,20 +5,20 @@
  */
 
 import {Injectable} from '@angular/core';
-import {Headers, Http} from "@angular/http";
 import {Assistant} from "./assistant";
+import { HttpService } from '../http/http.service';
 
 @Injectable()
-export class AssistantsService {
+export class AssistantsService extends HttpService{
 
-  private headers = new Headers({'Content-Type': 'application/json'});
-  private assistantsUrl = 'director/assistants';  // URL to web api
 
-  constructor(private http: Http) { }
-
+  protected getPrefix(): string {
+    return 'director/assistants';
+  }
+  
   getAssistants(): Promise<Assistant[]> {
 
-    return this.http.get(this.assistantsUrl)
+    return this.http.get(this.getUrl(), {headers: this.getAuthHeaders()})
         .toPromise()
         .then(response => response.json().data as Assistant[])
         .catch(this.handleError);
@@ -26,16 +26,16 @@ export class AssistantsService {
 
 
   getAssistant(id: number): Promise<Assistant> {
-    const url = `${this.assistantsUrl}/${id}`;
-    return this.http.get(url)
+    const url = `${this.getUrl()}/${id}`;
+    return this.http.get(url, {headers: this.getAuthHeaders()})
         .toPromise()
         .then(response => response.json().data as Assistant)
         .catch(this.handleError);
   }
 
   delete(id: number): Promise<void> {
-    const url = `${this.assistantsUrl}/${id}`;
-    return this.http.delete(url, {headers: this.headers})
+    const url = `${this.getUrl()}/${id}`;
+    return this.http.delete(url, {headers: this.getAuthHeaders()})
         .toPromise()
         .then(() => null)
         .catch(this.handleError);
@@ -43,16 +43,16 @@ export class AssistantsService {
 
   create(hospital: Assistant): Promise<Assistant> {
     return this.http
-        .post(this.assistantsUrl, JSON.stringify(hospital), {headers: this.headers})
+        .post(this.getUrl(), JSON.stringify(hospital), {headers: this.getAuthHeaders()})
         .toPromise()
         .then(res => res.json().data)
         .catch(this.handleError);
   }
 
   update(hospital: Assistant): Promise<Assistant> {
-    const url = `${this.assistantsUrl}/${hospital.id}`;
+    const url = `${this.getUrl()}/${hospital.id}`;
     return this.http
-        .put(url, JSON.stringify(hospital), {headers: this.headers})
+        .put(url, JSON.stringify(hospital), {headers: this.getAuthHeaders()})
         .toPromise()
         .then(() => hospital)
         .catch(this.handleError);

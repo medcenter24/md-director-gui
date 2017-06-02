@@ -36,8 +36,6 @@ import {
 import { AssistantsService } from '../../components/assistant/assistant.service';
 import { AssistantSelectComponent } from '../../components/assistant/components/select/select.component';
 import { AppTranslationModule } from '../../app.translation.module';
-import { SelectAccidentDiscountComponent } from '../../components/accident/components/discount/components/select/select.component';
-import { AccidentDiscountsService } from '../../components/accident/components/discount/discount.service';
 import { SelectAccidentComponent } from '../../components/accident/components/select/select.component';
 import { AccidentCardComponent } from '../../components/accident/components/card/accidentCard.component';
 import { PatientsService } from '../../components/patient/patients.service';
@@ -56,6 +54,8 @@ import { SelectDiagnosticsComponent } from '../../components/diagnostic/componen
 import { ImporterComponent } from '../../components/importer/importer.component';
 import { AuthenticationService } from '../../components/auth/authentication.service';
 import { ImporterService } from '../../components/importer/importer.service';
+import { SelectDiscountComponent } from '../../components/discount/components/select/select.component';
+import { DiscountService } from '../../components/discount/discount.service';
 
 @NgModule({
   imports: [
@@ -94,7 +94,7 @@ import { ImporterService } from '../../components/importer/importer.service';
     ServicesSelectorComponent,
     SelectAccidentTypeComponent,
     AssistantSelectComponent,
-    SelectAccidentDiscountComponent,
+    SelectDiscountComponent,
     SelectAccidentComponent,
     AccidentCardComponent,
     DoctorSelectComponent,
@@ -112,7 +112,7 @@ import { ImporterService } from '../../components/importer/importer.service';
     ServicesService,
     AccidentTypesService,
     AssistantsService,
-    AccidentDiscountsService,
+    DiscountService,
     PatientsService,
     DoctorsService,
     HospitalsService,
