@@ -118,7 +118,7 @@ export class CasesListComponent {
       let accidents = response.data as CaseAccident[];
       this.source.load(accidents);
 
-      this.pagination.rows = paginator.count;
+      this.pagination.rows = paginator.per_page;
       this.pagination.total = paginator.total;
       this.pagination.first = (paginator.current_page - 1) * paginator.per_page;
       this.pagination.show = true;
