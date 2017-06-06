@@ -97,7 +97,6 @@ export class CaseEditorComponent {
   }
 
   onAccidentTypeSelected(accidentType: AccidentType): void {
-    console.log(accidentType)
     this.accident.accident_type_id = accidentType.id;
   }
 
@@ -136,16 +135,16 @@ export class CaseEditorComponent {
   private recalculatePrice(): void {
     this.totalIncome = 0;
     if (this.totalAmount && this.discountType && this.discountValue) {
-      if (this.discountType.title === '%') {
+      if (this.discountType.operation === '%') {
         // *
         this.totalIncome = this.totalAmount - this.discountValue * this.totalAmount / 100;
-        this.totalIncome = +this.totalIncome.toFixed(2);
         this.totalIncomeFormula = this.totalAmount + ' - ' + this.discountValue + ' * ' + this.totalAmount + ' / 100';
-      } else if (this.discountType.title === 'EUR') {
+      } else if (this.discountType.operation === 'EUR') {
         // -
         this.totalIncome = this.totalAmount - this.discountValue;
         this.totalIncomeFormula = this.totalAmount + ' - ' + this.discountValue;
       } else {
+        this._logger.warn('Undefined discount type: ' + this.discountType.operation);
         this.totalIncome = this.totalAmount;
         this.totalIncomeFormula = this.translate.instant('general.without_discount');
       }
@@ -153,6 +152,8 @@ export class CaseEditorComponent {
       this.totalIncome = this.totalAmount;
       this.totalIncomeFormula = this.translate.instant('general.without_discount');
     }
+
+    this.totalIncome = +this.totalIncome.toFixed(2);
   }
 
   private loadPatient(): void {

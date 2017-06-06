@@ -32,20 +32,22 @@ export class AccidentCardComponent {
   ) { }
 
   ngOnInit () {
-    this.loadingBar.start();
-    this.accidentService.getAccident(this.selectedAccidentId).then(accident => {
-      this.accident = accident;
-      this.loadPatient();
-      this.loadingBar.complete();
-    }).catch((err) => {
-      this.loadingBar.complete();
-      this._logger.error(err);
-    });
+    if (+this.selectedAccidentId) {
+      this.loadingBar.start();
+      this.accidentService.getAccident(+this.selectedAccidentId).then(accident => {
+        this.accident = accident;
+        this.loadPatient();
+        this.loadingBar.complete();
+      }).catch((err) => {
+        this.loadingBar.complete();
+        this._logger.error(err);
+      });
+    }
   }
 
   private loadPatient(): void {
     this.loadingBar.start();
-    this.patientService.getPatient(this.accident.patient_id).then((patient: Patient) => {
+    this.patientService.getPatient(+this.accident.patient_id).then((patient: Patient) => {
       this.patient = patient;
       this.loadingBar.complete();
     }).catch((err) => {

@@ -42,10 +42,10 @@
                                     (selected)="onCaseTypeSelected($event)"
                             ></select-case-type>
 
-                            <h4 *ngIf="accident.id && accident.caseable_type === 'App\\DoctorAccident'" class="text-info">
+                            <h4 *ngIf="accident.id && accident.caseable_type === 'App\\DoctorAccident'" class="text-danger">
                                 {{ 'general.doctor_case' | translate }}
                             </h4>
-                            <h4 *ngIf="accident.id && accident.caseable_type === 'App\\HospitalAccident'" class="text-warning">
+                            <h4 *ngIf="accident.id && accident.caseable_type === 'App\\HospitalAccident'" class="text-danger">
                                 {{ 'general.hospital_case' | translate }}
                             </h4>
 
@@ -191,6 +191,7 @@
                                                 name="appliedTime"
                                                 [(ngModel)]="appliedTime"
                                                 [maxDate]="maxDate"
+                                                dateFormat="dd.mm.yy"
                                                 [showTime]="true"
                                                 [hourFormat]="24"
                                                 [required]="true"
