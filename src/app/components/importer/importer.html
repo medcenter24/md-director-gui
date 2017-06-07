@@ -43,7 +43,7 @@
                         </td>
                         <td>
                             <button *ngIf="!isImported(file.id)" pButton type="button" (click)="importFile(file)" icon="fa-download" label="{{ 'general.import' | translate }}"></button>
-                            <button pButton type="button" (click)="deleteFile(file)" class="ui-button-danger" icon="fa-trash" label="{{ 'general.delete' | translate }}"></button>
+                            <button pButton type="button" (click)="deleteFile(file)" [class]=" (isImported(file.id) ? 'ui-button-secondary' : 'ui-button-danger') + ' ui-button ui-widget ui-state-default ui-corner-all ui-button-text-icon-left'" icon="fa-trash" label="{{ 'general.delete' | translate }}"></button>
                             <button pButton type="button" (click)="report(file)" [disabled]="!isImported(file.id)" class="ui-button-secondary btn-report" icon="fa-trash" label="{{ 'general.report' | translate }}"></button>
                         </td>
                     </tr>

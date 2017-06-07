@@ -126,23 +126,27 @@ export class ImporterComponent {
   }
 
   deleteFile (file): void {
-    this.confirmationService.confirm({
-      message: this.transDeleteQuestion,
-      header: this.transDeleteConfirmation,
-      icon: 'fa fa-trash',
-      acceptVisible: true,
-      accept: () => {
-        let files = [];
+    if (this.isImported(file.id)) {
+      this.deleteFileFromGui(file.id);
+    } else {
+      this.confirmationService.confirm({
+        message: this.transDeleteQuestion,
+        header: this.transDeleteConfirmation,
+        icon: 'fa fa-trash',
+        acceptVisible: true,
+        accept: () => {
+          let files = [];
 
-        if (file) {
-          files.push(file.id);
-        } else {
-          files = this.selectedFiles;
+          if (file) {
+            files.push(file.id);
+          } else {
+            files = this.selectedFiles;
+          }
+
+          this.deleter(files);
         }
-
-        this.deleter(files);
-      }
-    });
+      });
+    }
   }
 
   report (file): void {
@@ -198,10 +202,7 @@ export class ImporterComponent {
       this.loadingBar.start();
       files.map(id => {
         this.importerService.deleteFile(this.url, id).then(() => {
-          this.selectedFiles = this.selectedFiles.filter(val => val*1 !== id*1);
-          this.uploadedFiles = this.uploadedFiles.filter(val => val.id*1 !== id*1);
-
-          $('.row-file-' + id).remove();
+          this.deleteFileFromGui(id);
           if (--this.deleterCounter <= 0) {
             this.loadingBar.complete();
           }
@@ -212,4 +213,12 @@ export class ImporterComponent {
       });
     }
   }
+
+  private deleteFileFromGui(id: number) : void {
+    this.selectedFiles = this.selectedFiles.filter(val => +val !== +id);
+    this.uploadedFiles = this.uploadedFiles.filter(val => +val.id !== +id);
+
+    $('.row-file-' + id).remove();
+  }
+
 }
