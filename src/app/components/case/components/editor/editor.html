@@ -124,13 +124,13 @@
                                     <b class="text-muted">{{ 'general.total_score' | translate }}</b>
                                     <div class="row">
                                         <div class="col-sm-12">
-                                            <div class="well well-lg bg-warning">{{ 'general.total_amount' | translate }}: {{ totalAmount }}</div>
+                                            <div class="well well-lg bg-warning">{{ 'general.total_amount' | translate }}: {{ totalAmount | number }}</div>
                                         </div>
                                     </div>
                                     <div class="row">
                                         <div class="col-sm-12">
                                             <div class="well bg-success" pTooltip="{{ 'general.formula' | translate }}: {{ totalIncomeFormula }}">
-                                                <b>{{ 'general.total_income' | translate }}</b>: {{ totalIncome }}
+                                                <b>{{ 'general.total_income' | translate }}</b>: {{ totalIncome | number }}
                                                 <b class="pull-right badge badge-default">?</b>
                                             </div>
                                         </div>
