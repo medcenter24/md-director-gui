@@ -43,7 +43,7 @@ export class SelectDiscountComponent {
         };
       });
 
-      let discountType = this.loadedDiscounts.find(discoType => discoType.id === this.selectedDiscountId);
+      let discountType = this.loadedDiscounts.find(discoType => +discoType.id === +this.selectedDiscountId);
       this.selected.emit(discountType);
       this.loadingBar.complete();
     }).catch((err) => {

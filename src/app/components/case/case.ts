@@ -4,6 +4,9 @@
  * @author Alexander Zagovorichev <zagovorichev@gmail.com>
  */
 
+/**
+ * For the list of the accidents
+ */
 export class CaseAccident {
 
     constructor (
