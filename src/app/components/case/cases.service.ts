@@ -11,12 +11,22 @@ import { DoctorAccident } from '../doctorAccident/doctorAccident';
 import { HospitalAccident } from '../hospitalAccident/hospitalAccident';
 import { Diagnostic } from '../diagnostic/diagnostic';
 import { HttpService } from '../http/http.service';
+import { CaseAccident } from './case';
+import { ExtendCaseAccident } from './extendCaseAccident';
 
 @Injectable()
 export class CasesService extends HttpService {
 
   protected getPrefix(): string {
     return 'director/cases';
+  }
+
+  getExtendedCase(id: number): Promise<ExtendCaseAccident> {
+    const url = `${this.getUrl()}/${id}`;
+    return this.http.get(url, {headers: this.getAuthHeaders()})
+      .toPromise()
+      .then(response => response.json().data as ExtendCaseAccident)
+      .catch(this.handleError);
   }
 
   getCases(params): Promise<any> {

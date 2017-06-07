@@ -5,7 +5,7 @@
  */
 
 import { Component, Output, EventEmitter, ViewChild } from '@angular/core';
-import { ActivatedRoute, Params } from '@angular/router';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Accident } from '../../../accident/accident';
 import { AccidentsService } from '../../../accident/accidents.service';
 import { Message } from 'primeng/primeng';
@@ -50,10 +50,12 @@ export class CaseEditorComponent {
 
   totalIncomeFormula: string = '';
 
-  constructor (private route: ActivatedRoute, private accidentsService: AccidentsService,
+  constructor (private route: ActivatedRoute,
                private loadingBar: SlimLoadingBarService, private translate: TranslateService,
                private _logger: Logger, private _state: GlobalState, private patientService: PatientsService,
-               private caseService: CasesService
+               private accidentsService: AccidentsService,
+               private caseService: CasesService,
+               private router: Router
   ) {
   }
 
@@ -64,23 +66,47 @@ export class CaseEditorComponent {
     this.maxDate = new Date();
     this.appliedTime = new Date();
 
+    this.accident = new Accident;
+
+    this._state.notifyDataChanged('menu.activeLink', {title: 'general.menu.cases'});
+
     this.route.params
-      // (+) converts string 'id' to a number
       .subscribe((params: Params) => {
-        this.loadingBar.start();
-        this.accidentsService.getAccident(+params[ 'id' ]).then((accident: Accident) => {
-          this._state.notifyDataChanged('menu.activeLink', {title: 'general.menu.cases'});
-          this.accident = accident ? accident : new Accident();
-          this.appliedTime = new Date(this.accident.created_at);
-          this.discountValue = +this.accident.discount_value.toFixed(2);
-          this.loadPatient();
-          this.loadCaseable();
-          this.recalculatePrice();
-          this.loadingBar.complete();
-        }).catch((err) => {
-          this._logger.error(err);
-          this.loadingBar.complete();
-        });
+        if (+params[ 'id' ]) {
+          this.loadingBar.start();
+
+          this.accidentsService.getAccident(+params[ 'id' ]).then((accident: Accident) => {
+            this._state.notifyDataChanged('menu.activeLink', {title: 'general.menu.cases'});
+            this.accident = accident ? accident : new Accident();
+            this.appliedTime = new Date(this.accident.created_at);
+            this.discountValue = 0; // +this.accident.discount_value;
+            this.loadPatient();
+            this.loadCaseable();
+            this.recalculatePrice();
+            this.loadingBar.complete();
+          }).catch((err) => {
+            this.loadingBar.complete();
+            if (err.status === 404) {
+              this.router.navigate([ 'pages/cases' ]);
+            } else {
+              this._logger.error(err);
+            }
+          });
+
+          /*
+          If I need to improve performance of this form, it will be good start point
+          for now it is a waste of the time
+          this.caseService.getExtendedCase(+params[ 'id' ])
+            .then((caseAccident: ExtendCaseAccident) => {
+              this.accident = caseAccident.accident;
+              this.discountType = caseAccident.discount;
+              this.discountValue = this.accident.discount_value;
+            })
+            .catch(err => {
+              this._logger.error(err);
+              this.loadingBar.complete();
+            });*/
+        }
       });
   }
 
@@ -159,15 +185,19 @@ export class CaseEditorComponent {
   }
 
   private loadPatient(): void {
-    this.loadingBar.start();
-    this.patientService.getPatient(this.accident.patient_id).then((patient: Patient) => {
-      this.patient = patient;
-      this.phone = this.patient.phones;
-      this.loadingBar.complete();
-    }).catch((err) => {
-      this._logger.error(err);
-      this.loadingBar.complete();
-    });
+    if (this.accident.patient_id) {
+      this.loadingBar.start();
+      this.patientService.getPatient(this.accident.patient_id).then((patient: Patient) => {
+        this.patient = patient;
+        this.phone = this.patient.phones;
+        this.loadingBar.complete();
+      }).catch((err) => {
+        this._logger.error(err);
+        this.loadingBar.complete();
+      });
+    } else {
+      this._logger.debug('Accident does not contain patients');
+    }
   }
 
   private loadCaseable(): void {
