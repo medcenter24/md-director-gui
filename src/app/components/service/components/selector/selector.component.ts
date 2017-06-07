@@ -71,7 +71,11 @@ export class ServicesSelectorComponent {
 
   recalculatePrice (): void {
     this.sumPrices = 0;
-    this.caseServices.forEach(service => this.sumPrices += service.price*1);
+    this.caseServices.forEach(service => {
+      let price: number = +service.price;
+      this.sumPrices += price;
+    });
+    this.sumPrices.toFixed(2);
     this.priceChanged.emit(this.sumPrices);
   }
 }
