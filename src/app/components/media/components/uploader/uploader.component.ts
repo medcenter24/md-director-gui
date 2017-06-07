@@ -11,6 +11,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { Logger } from 'angular2-logger/core';
 import { GlobalState } from '../../../../global.state';
 import { MediaService } from '../../media.service';
+import { AuthenticationService } from '../../../auth/authentication.service';
 @Component({
   selector: 'file-uploader',
   templateUrl: './uploader.html'
@@ -25,8 +26,11 @@ export class FileUploaderComponent {
   private translateErrorLoad: string;
 
   constructor (private uploadService: MediaService,
-               private loadingBar: SlimLoadingBarService, private translate: TranslateService,
-               private _logger: Logger, private _state: GlobalState) {
+               private loadingBar: SlimLoadingBarService,
+               private translate: TranslateService,
+               private _logger: Logger, private _state: GlobalState,
+               private authenticationService: AuthenticationService
+  ) {
   }
 
   ngOnInit() {
@@ -36,12 +40,29 @@ export class FileUploaderComponent {
     this.translate.get('general.upload_error').subscribe(res => {
       this.translateErrorLoad = res;
     });
+
+    this.loadUploadedFiles();
+  }
+
+  private loadUploadedFiles(): void {
+    this.loadingBar.start();
+    this.uploadService.getUploaded().then(uploads => {
+      this.uploadedFiles = uploads.data;
+      this.loadingBar.complete();
+    }).catch((err) => {
+      this.loadingBar.complete();
+      this._logger.error(err);
+    });
   }
 
   onBeforeUpload(): void {
     this.msgs = [];
     this._state.notifyDataChanged('growl', []);
     this.loadingBar.start();
+  }
+
+  onBeforeSend(event): void {
+    event.xhr.setRequestHeader("Authorization", "Bearer " + this.authenticationService.token);
   }
 
   handleUpload(event): void {
