@@ -7,10 +7,31 @@
               (onError)="handleError($event)"
               (onClear)="onClear($event)"
               (onBeforeUpload)="onBeforeUpload($event)"
+              (onBeforeSend)="onBeforeSend($event)"
 >
     <ng-template pTemplate="content">
-        <ul *ngIf="uploadedFiles.length">
-            <li *ngFor="let file of uploadedFiles">{{file.name}} - {{file.size}} bytes</li>
-        </ul>
+        <h3 translate *ngIf="uploadedFiles.length">general.uploaded_files</h3>
+        <table class="table table-striped table-bordered" *ngIf="uploadedFiles.length">
+            <thead class="table-inverse">
+            <tr>
+                <th>{{ uploadedFiles.length }}</th>
+                <th translate>general.file_name</th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let file of uploadedFiles" class="row-file-{{ file.id }}">
+                <td>
+                    <p-checkbox name="checked" [disabled]="isImported(file.id)" value="{{ file.id }}" [(ngModel)]="selectedFiles"></p-checkbox>
+                </td>
+                <td>
+                    {{file.name}}
+                </td>
+                <td>
+                    <button pButton type="button" (click)="deleteFile(file)" class="ui-button-danger" icon="fa-trash" label="{{ 'general.delete' | translate }}"></button>
+                </td>
+            </tr>
+            </tbody>
+        </table>
     </ng-template>
 </p-fileUpload>

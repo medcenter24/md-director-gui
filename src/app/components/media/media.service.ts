@@ -7,17 +7,25 @@
 import {Injectable} from '@angular/core';
 import {Headers, Http} from "@angular/http";
 import { Media } from './media';
+import { HttpService } from '../http/http.service';
 
 @Injectable()
-export class MediaService {
+export class MediaService extends HttpService {
 
-  private headers = new Headers({'Content-Type': 'application/json'});
-  private mediaUrl = 'director/media';  // URL to web api
-
-  constructor(private http: Http) { }
+  protected getPrefix(): string {
+    return 'director/media';
+  }
 
   getUploadUrl(): string {
-    return this.mediaUrl;
+    return this.getUrl();
+  }
+
+  getUploaded(): Promise<any> {
+
+    return this.http.get(this.getUrl(), {headers: this.getAuthHeaders()})
+      .toPromise()
+      .then(response => response.json())
+      .catch(this.handleError);
   }
 
   private handleError(error: any): Promise<any> {
