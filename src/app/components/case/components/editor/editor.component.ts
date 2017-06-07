@@ -72,7 +72,7 @@ export class CaseEditorComponent {
           this._state.notifyDataChanged('menu.activeLink', {title: 'general.menu.cases'});
           this.accident = accident ? accident : new Accident();
           this.appliedTime = new Date(this.accident.created_at);
-          this.discountValue = this.accident.discount_value;
+          this.discountValue = +this.accident.discount_value.toFixed(2);
           this.loadPatient();
           this.loadCaseable();
           this.recalculatePrice();
@@ -118,8 +118,8 @@ export class CaseEditorComponent {
     this.accident.ref_num = event.target.value;
   }
 
-  onServicesSelectorPriceChanged(servicesPrice): void {
-    this.totalAmount = servicesPrice;
+  onServicesSelectorPriceChanged(servicesPrice: number): void {
+    this.totalAmount = +servicesPrice.toFixed(2);
     this.recalculatePrice();
   }
 
@@ -129,6 +129,7 @@ export class CaseEditorComponent {
   }
 
   onDiscountValueChanged(): void {
+    this.discountValue = +this.discountValue.toFixed(2);
     this.recalculatePrice();
   }
 
@@ -154,6 +155,7 @@ export class CaseEditorComponent {
     }
 
     this.totalIncome = +this.totalIncome.toFixed(2);
+    this.totalAmount = +this.totalAmount.toFixed(2);
   }
 
   private loadPatient(): void {
