@@ -140,16 +140,16 @@
 
                             <div class="row offset-bottom20">
                                 <div class="col-sm-6">
-                                    <div class="row offset-bottom20">
+                                    <div class="row offset-bottom20" *ngIf="patient">
                                         <div class="col-sm-6">
                                             <b class="text-muted">{{ 'general.patient_name' | translate }}</b>
                                             <br>
-                                            <input *ngIf="patient" type="text" pInputText [value]="patient.name" placeholder="{{ 'general.patient_name' | translate }}"/>
+                                            <input type="text" pInputText [value]="patient.name" placeholder="{{ 'general.patient_name' | translate }}"/>
                                         </div>
                                         <div class="col-sm-6">
                                             <b class="text-muted">{{ 'general.patient_phone' | translate }}</b>
                                             <br>
-                                            <input *ngIf="patient" type="text" pInputText [value]="patient.phones" placeholder="{{ 'general.patient_phone' | translate }}"/>
+                                            <input type="text" pInputText [value]="patient.phones" placeholder="{{ 'general.patient_phone' | translate }}"/>
                                         </div>
                                     </div>
                                     <div class="row">
@@ -211,15 +211,6 @@
                                 <div class="row">
                                     <div class="col-sm-12">
                                         <diagnostics-selector [caseId]="accident.id"></diagnostics-selector>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                <div class="row offset-bottom20">
-                                    <div class="col-sm-9">
-                                        <b class="text-muted">{{ 'general.commentary' | translate }}</b>
-                                        <br><textarea class="form-control" pInputTextarea autoResize="autoResize"></textarea>
                                     </div>
                                 </div>
                             </div>
