@@ -5,6 +5,7 @@
   -->
 
 <p-autoComplete
+        *ngIf="isLoaded"
         [(ngModel)]="city"
         [suggestions]="filteredCities"
         [dropdown]="true"

@@ -1,13 +1,17 @@
-<p-fileUpload name="files[]" url="{{ uploadService.getUploadUrl() }}" multiple="multiple"
-              accept="image/*" maxFileSize="1000000"
-              chooseLabel="{{ 'general.choose' | translate }}"
-              uploadLabel="{{ 'general.upload' | translate}}"
-              cancelLabel="{{ 'general.cancel' | translate}}"
-              (onUpload)="handleUpload($event)"
-              (onError)="handleError($event)"
-              (onClear)="onClear($event)"
-              (onBeforeUpload)="onBeforeUpload($event)"
-              (onBeforeSend)="onBeforeSend($event)"
+<p-fileUpload
+        *ngIf="isLoaded"
+        name="files[]"
+        url="{{ uploadService.getUrl() }}"
+        multiple="multiple"
+        accept="image/*" maxFileSize="1000000"
+        chooseLabel="{{ 'general.choose' | translate }}"
+        uploadLabel="{{ 'general.upload' | translate}}"
+        cancelLabel="{{ 'general.cancel' | translate}}"
+        (onUpload)="handleUpload($event)"
+        (onError)="handleError($event)"
+        (onClear)="onClear($event)"
+        (onBeforeUpload)="onBeforeUpload($event)"
+        (onBeforeSend)="onBeforeSend($event)"
 >
     <ng-template pTemplate="content">
         <h3 translate *ngIf="uploadedFiles.length">general.uploaded_files</h3>
@@ -17,18 +21,22 @@
                 <th>{{ uploadedFiles.length }}</th>
                 <th translate>general.file_name</th>
                 <th></th>
+                <th></th>
             </tr>
             </thead>
             <tbody>
             <tr *ngFor="let file of uploadedFiles" class="row-file-{{ file.id }}">
                 <td>
-                    <p-checkbox name="checked" [disabled]="isImported(file.id)" value="{{ file.id }}" [(ngModel)]="selectedFiles"></p-checkbox>
+                    <!-- todo thumber [file]="file"></thumber-->
                 </td>
                 <td>
-                    {{file.name}}
+                    {{ file.name }}
                 </td>
                 <td>
                     <button pButton type="button" (click)="deleteFile(file)" class="ui-button-danger" icon="fa-trash" label="{{ 'general.delete' | translate }}"></button>
+                </td>
+                <td>
+                    <button pButton type="button" (click)="downloadFile(file)" class="ui-button-secondary" icon="fa-download" label="{{ 'general.download' | translate }}"></button>
                 </td>
             </tr>
             </tbody>

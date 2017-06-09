@@ -1,4 +1,5 @@
 <p-autoComplete
+        *ngIf="isLoaded"
         [(ngModel)]="assistant"
         [suggestions]="filteredAssistants"
         [dropdown]="true"

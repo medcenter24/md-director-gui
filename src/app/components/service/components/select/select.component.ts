@@ -22,6 +22,7 @@ export class SelectServicesComponent {
 
   @Input() chosenServices: Array<Service> = [];
 
+  isLoaded: boolean = false;
   dataServices: SelectItem[] = [];
   selectedServices: Array<string> = [];
   services: Array<Service> = [];
@@ -50,6 +51,7 @@ export class SelectServicesComponent {
       }
       this.loadingBar.complete();
       this.loaded.emit();
+      this.isLoaded = true;
     }).catch((err) => {
       this.loadingBar.complete();
       this._logger.error(err);

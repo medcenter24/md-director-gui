@@ -16,15 +16,19 @@ export class MediaService extends HttpService {
     return 'director/media';
   }
 
-  getUploadUrl(): string {
-    return this.getUrl();
-  }
-
   getUploaded(): Promise<any> {
 
     return this.http.get(this.getUrl(), {headers: this.getAuthHeaders()})
       .toPromise()
       .then(response => response.json())
+      .catch(this.handleError);
+  }
+
+  deleteFile(id: number): Promise<void> {
+    let url = `${this.getUrl()}/${id}`;
+    return this.http.delete(url, {headers: this.getAuthHeaders()})
+      .toPromise()
+      .then(() => null)
       .catch(this.handleError);
   }
 

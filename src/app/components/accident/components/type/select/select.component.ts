@@ -21,6 +21,7 @@ export class SelectAccidentTypeComponent {
 
   @Output() selected: EventEmitter<AccidentType> = new EventEmitter<AccidentType>();
 
+  isLoaded: boolean = false;
   private dataItems: Array<any> = [];
   private selectedType: AccidentType = new AccidentType();
   private loadedTypes: AccidentType[] = [];
@@ -58,6 +59,7 @@ export class SelectAccidentTypeComponent {
         };
       });
       this.loadingBar.complete();
+      this.isLoaded = true;
     }).catch((err) => {
       this.loadingBar.complete();
       this._logger.error(err);
