@@ -17,6 +17,7 @@ export class CitySelectComponent {
 
   @Input() cityId: number = 0;
 
+  isLoaded: boolean = false;
   cities: Array<City> = [];
   city: City;
   filteredCities: Array<City> = [];
@@ -32,6 +33,7 @@ export class CitySelectComponent {
         this.city = this.cities.find(city => city.id === this.cityId);
       }
       this.loadingBar.complete();
+      this.isLoaded = true;
     }).catch((err) => {
       this.loadingBar.complete();
       this._logger.error(err);

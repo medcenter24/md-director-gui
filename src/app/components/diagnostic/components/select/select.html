@@ -5,6 +5,7 @@
   -->
 
 <p-multiSelect
+        *ngIf="isLoaded"
         [(ngModel)]="selectedDiagnostics"
         [defaultLabel]="'general.select_diagnostics' | translate"
         [options]="dataDiagnostics"

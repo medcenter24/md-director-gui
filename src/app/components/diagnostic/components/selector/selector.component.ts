@@ -22,6 +22,7 @@ export class DiagnosticsSelectorComponent {
   @ViewChild('selectDiagnostics')
     private selectDiagnosticsComponent: SelectDiagnosticsComponent;
 
+  isLoaded: boolean = false;
   caseDiagnostics: Array<Diagnostic> = [];
 
   constructor (
@@ -32,6 +33,7 @@ export class DiagnosticsSelectorComponent {
   }
 
   ngOnInit () {
+    this.isLoaded = true;
   }
 
   onDelete (diagnostic: Diagnostic): void {

@@ -22,6 +22,7 @@ export class SelectDiagnosticsComponent {
 
   @Input() chosenDiagnostics: Array<Diagnostic> = [];
 
+  isLoaded: boolean = false;
   dataDiagnostics: SelectItem[] = [];
   selectedDiagnostics: Array<string> = [];
   diagnostics: Array<Diagnostic> = [];
@@ -50,6 +51,7 @@ export class SelectDiagnosticsComponent {
       }
       this.loadingBar.complete();
       this.loaded.emit();
+      this.isLoaded = true;
     }).catch((err) => {
       this.loadingBar.complete();
       this._logger.error(err);

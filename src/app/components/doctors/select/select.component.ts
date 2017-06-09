@@ -20,11 +20,13 @@ export class DoctorSelectComponent {
   doctors: Array<Doctor> = [];
   doctor: Doctor;
   filteredDoctors: Array<Doctor> = [];
+  isLoaded: boolean = false;
 
   constructor (private doctorsService: DoctorsService, private loadingBar: SlimLoadingBarService, private _logger: Logger) {}
 
   ngOnInit () {
     this.loadingBar.start();
+    this.isLoaded = false;
     this.doctorsService.getDoctors().then(doctors => {
       this.doctors = doctors;
       if (this.doctorId) {
@@ -32,6 +34,7 @@ export class DoctorSelectComponent {
         this.doctor = this.doctors.find(doc => doc.id === this.doctorId);
       }
       this.loadingBar.complete();
+      this.isLoaded = true;
     }).catch((err) => {
       this.loadingBar.complete();
       this._logger.error(err);

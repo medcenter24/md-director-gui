@@ -19,6 +19,7 @@ export class SelectDiscountComponent {
   @Input() selectedDiscountId: number = 0;
   @Output() selected: EventEmitter<Discount> = new EventEmitter<Discount>();
 
+  isLoaded: boolean = false;
   private dataItems: Array<any> = [];
   private selectedDiscount: Discount = new Discount();
   private loadedDiscounts: Discount[] = [];
@@ -46,6 +47,7 @@ export class SelectDiscountComponent {
       let discountType = this.loadedDiscounts.find(discoType => +discoType.id === +this.selectedDiscountId);
       this.selected.emit(discountType);
       this.loadingBar.complete();
+      this.isLoaded = true;
     }).catch((err) => {
       this.loadingBar.complete();
       this._logger.error(err);

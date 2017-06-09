@@ -4,4 +4,8 @@
   ~  @author Alexander Zagovorichev <zagovorichev@gmail.com>
   -->
 
-<p-selectButton [options]="dataItems" [(ngModel)]="selectedTypeId" (onChange)="onChanged($event)"></p-selectButton>
+<p-selectButton
+        *ngIf="isLoaded"
+        [options]="dataItems"
+        [(ngModel)]="selectedTypeId"
+        (onChange)="onChanged($event)"></p-selectButton>

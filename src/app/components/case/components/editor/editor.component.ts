@@ -33,6 +33,9 @@ export class CaseEditorComponent {
   @ViewChild('parentSelector')
     private parentSelector: SelectAccidentComponent;
 
+  isLoaded: boolean = false;
+  blocked: boolean = false;
+
   msgs: Message[] = [];
 
   accident: Accident;
@@ -84,6 +87,7 @@ export class CaseEditorComponent {
             this.loadCaseable();
             this.recalculatePrice();
             this.loadingBar.complete();
+            this.isLoaded = true;
           }).catch((err) => {
             this.loadingBar.complete();
             if (err.status === 404) {
@@ -106,6 +110,8 @@ export class CaseEditorComponent {
               this._logger.error(err);
               this.loadingBar.complete();
             });*/
+        } else {
+          this.isLoaded = true;
         }
       });
   }
@@ -115,7 +121,11 @@ export class CaseEditorComponent {
     this.msgs.push({severity: 'error', summary: this.translate.instant('general.not_saved') + '!', detail: 'Save method still has not been implemented!'});
     this._state.notifyDataChanged('growl', this.msgs);
     this.loadingBar.start();
-    setTimeout(() => this.loadingBar.complete(), 3000)
+    this.blocked = true;
+    setTimeout(() => {
+      this.blocked = false;
+      this.loadingBar.complete();
+      }, 3000)
   }
 
   onCaseTypeSelected(type): void {

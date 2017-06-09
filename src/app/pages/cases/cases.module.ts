@@ -31,7 +31,7 @@ import {
   SelectButtonModule, CalendarModule, MultiSelectModule, AutoCompleteModule,
   SpinnerModule, ButtonModule, TooltipModule, InputTextareaModule, InputTextModule,
   PanelModule, FileUploadModule, InplaceModule, ToolbarModule, DialogModule, PaginatorModule, CheckboxModule,
-  ConfirmDialogModule, ConfirmationService
+  ConfirmDialogModule, ConfirmationService, BlockUIModule
 } from 'primeng/primeng';
 import { AssistantsService } from '../../components/assistant/assistant.service';
 import { AssistantSelectComponent } from '../../components/assistant/components/select/select.component';
@@ -84,7 +84,8 @@ import { DiscountService } from '../../components/discount/discount.service';
     DialogModule,
     PaginatorModule,
     CheckboxModule,
-    ConfirmDialogModule
+    ConfirmDialogModule,
+    BlockUIModule
   ],
   declarations: [
     Cases,

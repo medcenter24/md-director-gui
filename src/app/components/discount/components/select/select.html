@@ -5,6 +5,7 @@
   -->
 
 <p-selectButton
+        *ngIf="isLoaded"
         [options]="dataItems"
         [(ngModel)]="selectedDiscountId"
         (onChange)="onSelected($event)"
