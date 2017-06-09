@@ -19,8 +19,8 @@ export class SelectAccidentComponent {
   @Input() selectedAccidentId: number = 0;
   @Output() selected: EventEmitter<Accident> = new EventEmitter<Accident>();
 
+  isLoaded: boolean = false;
   public accident: Accident = null;
-
   private accidents: Array<Accident> = [];
   private filteredAccidents: Array<Accident> = [];
 
@@ -39,6 +39,7 @@ export class SelectAccidentComponent {
       }
 
       this.loadingBar.complete();
+      this.isLoaded = true;
     }).catch((err) => {
       this.loadingBar.complete();
       this._logger.error(err);

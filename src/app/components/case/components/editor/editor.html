@@ -3,8 +3,9 @@
   ~
   ~ @author Alexander Zagovorichev <zagovorichev@gmail.com>
   -->
+<p-blockUI [blocked]="blocked"></p-blockUI>
 
-<div *ngIf="accident" class="case-editor">
+<div *ngIf="accident && isLoaded" class="case-editor">
     <div class="row">
         <div class="col-sm-12 form-block">
             <ba-card baCardClass="with-scroll">
@@ -54,7 +55,7 @@
                             <div *ngIf="accident.caseable_type === 'App\\DoctorAccident'">
                                 <div class="row">
                                     <div class="col-sm-6">
-                                        <b class="text-muted">{{ 'general.doctor_case' | translate }}</b>
+                                        <b class="text-muted">{{ 'general.doctor' | translate }}</b>
                                         <br>
                                         <select-doctor
                                                 *ngIf="doctorAccident"

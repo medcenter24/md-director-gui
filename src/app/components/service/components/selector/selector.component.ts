@@ -23,6 +23,7 @@ export class ServicesSelectorComponent {
   @ViewChild('selectServices')
     private selectServicesComponent: SelectServicesComponent;
 
+  isLoaded: boolean = false;
   caseServices: Array<Service> = [];
   private sumPrices: number = 0;
 
@@ -34,6 +35,7 @@ export class ServicesSelectorComponent {
   }
 
   ngOnInit () {
+    this.isLoaded = true;
   }
 
   onDelete (service: Service): void {
@@ -72,8 +74,7 @@ export class ServicesSelectorComponent {
   recalculatePrice (): void {
     this.sumPrices = 0;
     this.caseServices.forEach(service => {
-      let price: number = +service.price;
-      this.sumPrices += price;
+      this.sumPrices += +service.price;
     });
     this.sumPrices.toFixed(2);
     this.priceChanged.emit(this.sumPrices);

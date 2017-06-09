@@ -18,6 +18,7 @@ export class AssistantSelectComponent {
   @Input() assistantId: number;
   @Output() change: EventEmitter<number> = new EventEmitter<number>();
 
+  isLoaded: boolean = false;
   assistant: Assistant;
   assistants: Array<Assistant> = [];
   filteredAssistants: Array<Assistant> = [];
@@ -31,6 +32,7 @@ export class AssistantSelectComponent {
       this.assistantId *= 1;
       this.assistant = this.assistants.find(_assistant => _assistant.id === this.assistantId);
       this.loadingBar.complete();
+      this.isLoaded = true;
     }).catch((err) => {
       this.loadingBar.complete();
       this._logger.error(err);

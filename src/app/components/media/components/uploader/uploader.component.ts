@@ -4,8 +4,8 @@
  *  @author Alexander Zagovorichev <zagovorichev@gmail.com>
  */
 
-import { Component } from '@angular/core';
-import { Growl, Message } from 'primeng/primeng';
+import { Component, ElementRef, ViewChild } from '@angular/core';
+import { FileUpload, Message } from 'primeng/primeng';
 import { SlimLoadingBarService } from 'ng2-slim-loading-bar';
 import { TranslateService } from '@ngx-translate/core';
 import { Logger } from 'angular2-logger/core';
@@ -18,18 +18,24 @@ import { AuthenticationService } from '../../../auth/authentication.service';
 })
 export class FileUploaderComponent {
 
+  isLoaded: boolean = false;
   msgs: Message[];
   uploadedFiles: any[] = [];
+  selectedFiles: any[] = [];
 
   // preload translations for the component
   private translateLoaded: string;
   private translateErrorLoad: string;
+  private transDeleteQuestion: string;
+  private transDeleteConfirmation: string;
+  private deleterCounter: number = 0;
 
-  constructor (private uploadService: MediaService,
-               private loadingBar: SlimLoadingBarService,
-               private translate: TranslateService,
-               private _logger: Logger, private _state: GlobalState,
-               private authenticationService: AuthenticationService
+  constructor (
+    private uploadService: MediaService,
+    private loadingBar: SlimLoadingBarService,
+    private translate: TranslateService,
+    private _logger: Logger, private _state: GlobalState,
+    private authenticationService: AuthenticationService
   ) {
   }
 
@@ -41,6 +47,13 @@ export class FileUploaderComponent {
       this.translateErrorLoad = res;
     });
 
+    this.translate.get('general.delete_question').subscribe(res => {
+      this.transDeleteQuestion = res;
+    });
+    this.translate.get('general.delete_confirmation').subscribe(res => {
+      this.transDeleteConfirmation = res;
+    });
+
     this.loadUploadedFiles();
   }
 
@@ -49,6 +62,7 @@ export class FileUploaderComponent {
     this.uploadService.getUploaded().then(uploads => {
       this.uploadedFiles = uploads.data;
       this.loadingBar.complete();
+      this.isLoaded = true;
     }).catch((err) => {
       this.loadingBar.complete();
       this._logger.error(err);
@@ -72,6 +86,8 @@ export class FileUploaderComponent {
     }
     this._state.notifyDataChanged('growl', this.msgs);
     this.loadingBar.complete();
+
+    this.loadUploadedFiles();
   }
 
   handleError (event): void {
@@ -87,5 +103,49 @@ export class FileUploaderComponent {
     this.msgs = [];
     this._state.notifyDataChanged('growl', []);
     this.uploadedFiles = [];
+  }
+
+  downloadFile(file): void {
+    console.log('run download')
+  }
+
+  deleteFile(file): void {
+      let files = [];
+
+      if (file) {
+        files.push(file.id);
+      } else {
+        files = this.selectedFiles;
+      }
+
+      this.deleter(files);
+  }
+
+  private deleter(files: Array<any>) : void {
+    this.deleterCounter = files.length;
+
+    if (this.deleterCounter){
+      this.loadingBar.start();
+      files.map(id => {
+        this.uploadService.deleteFile(id).then(() => {
+          this.deleteFileFromGui(id);
+          if (--this.deleterCounter <= 0) {
+            this.loadingBar.complete();
+          }
+        }).catch(err => {
+          this._logger.error(err);
+          if (--this.deleterCounter <= 0) {
+            this.loadingBar.complete();
+          }
+        });
+      });
+    }
+  }
+
+  private deleteFileFromGui(id: number) : void {
+    this.selectedFiles = this.selectedFiles.filter(val => +val !== +id);
+    this.uploadedFiles = this.uploadedFiles.filter(val => +val.id !== +id);
+
+    $('.row-file-' + id).remove();
   }
 }

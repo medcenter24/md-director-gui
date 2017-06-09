@@ -5,6 +5,7 @@
   -->
 
 <p-autoComplete
+        *ngIf="isLoaded"
         [(ngModel)]="doctor"
         [suggestions]="filteredDoctors"
         [dropdown]="true"
