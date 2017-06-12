@@ -4,7 +4,7 @@
  *  @author Alexander Zagovorichev <zagovorichev@gmail.com>
  */
 
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { SlimLoadingBarService } from 'ng2-slim-loading-bar';
 import { Logger } from 'angular2-logger/core';
 import { Doctor } from '../doctor';
@@ -16,6 +16,7 @@ import { DoctorsService } from '../doctors.service';
 export class DoctorSelectComponent {
 
   @Input() doctorId: number = 0;
+  @Output() selected: EventEmitter<Doctor> = new EventEmitter<Doctor>();
 
   doctors: Array<Doctor> = [];
   doctor: Doctor;
@@ -58,5 +59,17 @@ export class DoctorSelectComponent {
     setTimeout(() => {
       this.filteredDoctors = this.doctors;
     }, 100)
+  }
+
+  onSelect (): void {
+    this.doctorId = this.doctor ? this.doctor.id : 0;
+    this.selected.emit(this.doctor);
+  }
+
+  onBlur():void {
+    if (typeof this.doctor !== 'object') {
+      this.doctor = null;
+    }
+    this.onSelect();
   }
 }

@@ -4,7 +4,7 @@
  *  @author Alexander Zagovorichev <zagovorichev@gmail.com>
  */
 
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { SlimLoadingBarService } from 'ng2-slim-loading-bar';
 import { Logger } from 'angular2-logger/core';
 import { City } from '../../city';
@@ -16,6 +16,7 @@ import { CitiesService } from '../../cities.service';
 export class CitySelectComponent {
 
   @Input() cityId: number = 0;
+  @Output() selected: EventEmitter<City> = new EventEmitter<City>();
 
   isLoaded: boolean = false;
   cities: Array<City> = [];
@@ -57,5 +58,17 @@ export class CitySelectComponent {
     setTimeout(() => {
       this.filteredCities = this.cities;
     }, 100)
+  }
+
+  onSelect (): void {
+    this.cityId = this.city ? this.city.id : 0;
+    this.selected.emit(this.city);
+  }
+
+  onBlur():void {
+    if (typeof this.city !== 'object') {
+      this.city = null;
+    }
+    this.onSelect();
   }
 }
