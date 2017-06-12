@@ -21,6 +21,9 @@ import { DoctorAccident } from '../../../doctorAccident/doctorAccident';
 import { HospitalAccident } from '../../../hospitalAccident/hospitalAccident';
 import { CasesService } from '../../cases.service';
 import { Discount } from '../../../discount/discount';
+import { Service } from '../../../service/service';
+import { Diagnostic } from '../../../diagnostic/diagnostic';
+import { UploadFile } from '../../../upload/uploadFile';
 
 @Component({
   selector: 'case-editor',
@@ -35,6 +38,7 @@ export class CaseEditorComponent {
 
   isLoaded: boolean = false;
   blocked: boolean = false;
+  waitLoading: number = 0;
 
   msgs: Message[] = [];
 
@@ -47,6 +51,9 @@ export class CaseEditorComponent {
   phone: string;
   doctorAccident: DoctorAccident;
   hospitalAccident: HospitalAccident;
+  services: Service[] = [];
+  diagnostics: Diagnostic[] = [];
+  uploads: UploadFile[] = [];
 
   totalAmount: number = 0;
   totalIncome: number = 0;
@@ -55,7 +62,8 @@ export class CaseEditorComponent {
 
   constructor (private route: ActivatedRoute,
                private loadingBar: SlimLoadingBarService, private translate: TranslateService,
-               private _logger: Logger, private _state: GlobalState, private patientService: PatientsService,
+               private _logger: Logger, private _state: GlobalState,
+               private patientService: PatientsService,
                private accidentsService: AccidentsService,
                private caseService: CasesService,
                private router: Router
@@ -76,8 +84,7 @@ export class CaseEditorComponent {
     this.route.params
       .subscribe((params: Params) => {
         if (+params[ 'id' ]) {
-          this.loadingBar.start();
-
+          this.startLoader();
           this.accidentsService.getAccident(+params[ 'id' ]).then((accident: Accident) => {
             this._state.notifyDataChanged('menu.activeLink', {title: 'general.menu.cases'});
             this.accident = accident ? accident : new Accident();
@@ -86,42 +93,88 @@ export class CaseEditorComponent {
             this.loadPatient();
             this.loadCaseable();
             this.recalculatePrice();
-            this.loadingBar.complete();
-            this.isLoaded = true;
+            this.loadUploads();
+            this.stopLoader();
           }).catch((err) => {
             this.loadingBar.complete();
             if (err.status === 404) {
+              this.msgs = [];
+              this.msgs.push({severity: 'error', summary: this.translate.instant('general.error'), detail: '404 Not Found'});
+              this._state.notifyDataChanged('growl', this.msgs);
               this.router.navigate([ 'pages/cases' ]);
             } else {
               this._logger.error(err);
             }
           });
-
-          /*
-          If I need to improve performance of this form, it will be good start point
-          for now it is a waste of the time
-          this.caseService.getExtendedCase(+params[ 'id' ])
-            .then((caseAccident: ExtendCaseAccident) => {
-              this.accident = caseAccident.accident;
-              this.discountType = caseAccident.discount;
-              this.discountValue = this.accident.discount_value;
-            })
-            .catch(err => {
-              this._logger.error(err);
-              this.loadingBar.complete();
-            });*/
         } else {
           this.isLoaded = true;
         }
       });
   }
 
+  startLoader(): void {
+    this.waitLoading++;
+    if (!this.blocked) {
+      this.isLoaded = false;
+      this.blocked = true;
+      this.loadingBar.start();
+    }
+  }
+
+  stopLoader(): void {
+    if (--this.waitLoading <= 0) {
+      this.isLoaded = true;
+      this.blocked = false;
+      this.loadingBar.complete();
+    }
+  }
+
   onSave(): void {
+    let data = {
+      accident: this.accident,
+      doctorAccident: this.doctorAccident,
+      patient: this.patient,
+      discount: {
+        type: this.discountType,
+        value: this.discountValue
+      },
+      services: this.services,
+      diagnostics: this.diagnostics,
+      uploads: this.uploads
+    };
+
     this.msgs = [];
     this.msgs.push({severity: 'error', summary: this.translate.instant('general.not_saved') + '!', detail: 'Save method still has not been implemented!'});
     this._state.notifyDataChanged('growl', this.msgs);
-    this.loadingBar.start();
+
+    this.loadingBar.start();0
     this.blocked = true;
+
+    this.caseService.saveCase(data).then((accident: Accident) => {
+
+      // todo saved
+      // if response 204 - created - move to the new case
+      // else do nothing (show status - done)
+
+
+      this.loadingBar.complete();
+      this.blocked = false;
+
+      this.isLoaded = true;
+    }).catch((err) => {
+      this.loadingBar.complete();
+      this.blocked = false;
+
+      if (err.status === 404) {
+        this.msgs = [];
+        this.msgs.push({severity: 'error', summary: this.translate.instant('general.error'), detail: '404 Not Found'});
+        this._state.notifyDataChanged('growl', this.msgs);
+        this.router.navigate([ 'pages/cases' ]);
+      } else {
+        this._logger.error(err);
+      }
+    });
+
     setTimeout(() => {
       this.blocked = false;
       this.loadingBar.complete();
@@ -159,6 +212,14 @@ export class CaseEditorComponent {
     this.recalculatePrice();
   }
 
+  onServicesChanged(services: Service[]): void {
+    this.services = services;
+  }
+
+  onDiagnosticsChanged(diagnostics: Diagnostic[]): void {
+    this.diagnostics = diagnostics;
+  }
+
   onDiscountTypeSelected(discountType: Discount): void {
     this.discountType = discountType;
     this.recalculatePrice();
@@ -167,6 +228,20 @@ export class CaseEditorComponent {
   onDiscountValueChanged(): void {
     this.discountValue = +this.discountValue.toFixed(2);
     this.recalculatePrice();
+  }
+
+  onDoctorChanged(doc): void {
+    this.doctorAccident.doctor_id = doc ? doc.id : 0;
+  }
+
+  onCityChanged(city): void {
+    let cityId = city ? city.id : 0;
+    this.doctorAccident.city_id = cityId;
+    this.accident.city_id = cityId;
+  }
+
+  onUploadsChanged(uploads: UploadFile[]): void {
+    this.uploads = uploads;
   }
 
   private recalculatePrice(): void {
@@ -196,36 +271,41 @@ export class CaseEditorComponent {
 
   private loadPatient(): void {
     if (this.accident.patient_id) {
-      this.loadingBar.start();
+      this.startLoader();
       this.patientService.getPatient(this.accident.patient_id).then((patient: Patient) => {
         this.patient = patient;
         this.phone = this.patient.phones;
-        this.loadingBar.complete();
+        this.stopLoader();
       }).catch((err) => {
         this._logger.error(err);
-        this.loadingBar.complete();
+        this.stopLoader();
       });
     } else {
       this._logger.debug('Accident does not contain patients');
     }
   }
 
-  private loadCaseable(): void {
-    let components = 2;
-    let complete = () => {
-      if (--components <= 0 ) {
-        this.loadingBar.complete();
-      }
-    };
+  private loadUploads(): void {
+    this.startLoader();
+    this.caseService.getUploads(this.accident.id)
+      .then((uploads: UploadFile[]) => {
+        this.uploads = uploads;
+        this.stopLoader();
+      }).catch(err => {
+        this._logger.error(err);
+        this.stopLoader();
+      });
+  }
 
-    this.loadingBar.start();
+  private loadCaseable(): void {
+    this.startLoader();
     this.caseService.getDoctorCase(this.accident.id)
       .then((doctorAccident: DoctorAccident) => {
         this.doctorAccident = doctorAccident;
-        complete();
+        this.stopLoader();
       }).catch(err => {
         this._logger.error(err);
-        complete();
+        this.stopLoader();
       });
 
     /*

@@ -11,6 +11,8 @@
         [dropdown]="true"
         (completeMethod)="filterDoctors($event)"
         (onDropdownClick)="handleDropdownClick($event)"
+        (onSelect)="onSelect($event)"
+        (onBlur)="onBlur($event)"
         placeholder="{{ 'general.select_doctor' | translate}}"
         field="name"
 ></p-autoComplete>

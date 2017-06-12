@@ -13,6 +13,7 @@ import { Diagnostic } from '../diagnostic/diagnostic';
 import { HttpService } from '../http/http.service';
 import { CaseAccident } from './case';
 import { ExtendCaseAccident } from './extendCaseAccident';
+import { UploadFile } from '../upload/uploadFile';
 
 @Injectable()
 export class CasesService extends HttpService {
@@ -26,6 +27,15 @@ export class CasesService extends HttpService {
     return this.http.get(url, {headers: this.getAuthHeaders()})
       .toPromise()
       .then(response => response.json().data as ExtendCaseAccident)
+      .catch(this.handleError);
+  }
+
+  getUploads(id): Promise<UploadFile[]> {
+    const url = `${this.getUrl()}/${id}/uploads`;
+
+    return this.http.get(url, {headers: this.getAuthHeaders()})
+      .toPromise()
+      .then(response => response.json().data as UploadFile[])
       .catch(this.handleError);
   }
 
@@ -75,6 +85,17 @@ export class CasesService extends HttpService {
 
   getImportUrl (): string {
     return `${this.getUrl()}/importer`;
+  }
+
+  saveCase (data): Promise<any> {
+    let caseId = data.accident.id;
+    let query = caseId ? this.http.put(`${this.getUrl()}/${caseId}`, data, {headers: this.getAuthHeaders()})
+      : this.http.post(this.getUrl(), data, {headers: this.getAuthHeaders()});
+
+    return query
+      .toPromise()
+      .then(response => response.json().data as HospitalAccident)
+      .catch(this.handleError);
   }
 
   private handleError(error: any): Promise<any> {

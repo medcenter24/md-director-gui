@@ -60,6 +60,7 @@
                                         <select-doctor
                                                 *ngIf="doctorAccident"
                                                 [doctorId]="doctorAccident.doctor_id"
+                                                (selected)="onDoctorChanged($event)"
                                         ></select-doctor>
                                     </div>
                                     <div class="col-sm-6">
@@ -67,6 +68,7 @@
                                         <br><select-city
                                                 *ngIf="doctorAccident"
                                                 [cityId]="doctorAccident.city_id"
+                                                (selected)="onCityChanged($event)"
                                             ></select-city>
                                     </div>
                                 </div>
@@ -89,6 +91,7 @@
                             <services-selector
                                     [caseId]="accident.id"
                                     (priceChanged)="onServicesSelectorPriceChanged($event)"
+                                    (changedServices)="onServicesChanged($event)"
                             ></services-selector>
                         </div>
                     </div>
@@ -211,7 +214,10 @@
                             <div class="form-group offset-bottom20">
                                 <div class="row">
                                     <div class="col-sm-12">
-                                        <diagnostics-selector [caseId]="accident.id"></diagnostics-selector>
+                                        <diagnostics-selector
+                                                [caseId]="accident.id"
+                                                (changed)="onDiagnosticsChanged($event)"
+                                        ></diagnostics-selector>
                                     </div>
                                 </div>
                             </div>
@@ -220,7 +226,10 @@
                                 <div class="col-sm-9">
                                     <b class="text-muted">{{ 'general.accident_files' | translate }}</b>
                                     <br>
-                                    <file-uploader></file-uploader>
+                                    <file-uploader
+                                        [uploads]="uploads"
+                                        (changed)="onUploadsChanged($event)"
+                                    ></file-uploader>
                                 </div>
                             </div>
 
