@@ -14,8 +14,8 @@ import { routing }       from './cases.routing';
 
 import { Ng2SmartTableModule } from 'ng2-smart-table';
 import { Ng2Bs3ModalModule } from 'ng2-bs3-modal/ng2-bs3-modal';
-import { InMemoryWebApiModule } from 'angular-in-memory-web-api';
-import { InMemoryDataService } from '../../faker/in-memory-data.service';
+// import { InMemoryWebApiModule } from 'angular-in-memory-web-api';
+// import { InMemoryDataService } from '../../faker/in-memory-data.service';
 
 import { CasesService } from '../../components/case/cases.service';
 import { CaseEditorComponent } from '../../components/case/components/editor/editor.component';
@@ -46,8 +46,6 @@ import { HospitalSelectComponent } from '../../components/hospital/components/se
 import { SelectCaseTypeComponent } from '../../components/case/components/type/select.component';
 import { CitySelectComponent } from '../../components/city/components/select/select.component';
 import { CitiesService } from '../../components/city/cities.service';
-import { FileUploaderComponent } from '../../components/media/components/uploader/uploader.component';
-import { MediaService } from '../../components/media/media.service';
 import { DiagnosticService } from '../../components/diagnostic/diagnostic.service';
 import { DiagnosticsSelectorComponent } from '../../components/diagnostic/components/selector/selector.component';
 import { SelectDiagnosticsComponent } from '../../components/diagnostic/components/select/select.component';
@@ -56,6 +54,8 @@ import { AuthenticationService } from '../../components/auth/authentication.serv
 import { ImporterService } from '../../components/importer/importer.service';
 import { SelectDiscountComponent } from '../../components/discount/components/select/select.component';
 import { DiscountService } from '../../components/discount/discount.service';
+import { FileUploaderComponent } from '../../components/upload/components/uploader/uploader.component';
+import { UploadService } from '../../components/upload/upload.service';
 
 @NgModule({
   imports: [
@@ -118,11 +118,11 @@ import { DiscountService } from '../../components/discount/discount.service';
     DoctorsService,
     HospitalsService,
     CitiesService,
-    MediaService,
     DiagnosticService,
     AuthenticationService,
     ImporterService,
-    ConfirmationService
+    ConfirmationService,
+    UploadService
   ]
 })
 export class CasesModule {

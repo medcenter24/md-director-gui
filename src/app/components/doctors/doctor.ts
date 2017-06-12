@@ -11,5 +11,5 @@ export class Doctor {
         public name: string = '',
         public description: string = '',
         public ref_key: string = ''
-    ) {}
+    ) { }
 }

@@ -4,7 +4,7 @@
  *  @author Alexander Zagovorichev <zagovorichev@gmail.com>
  */
 
-import { Component, Input, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Input, Output, ViewChild } from '@angular/core';
 import { SelectDiagnosticsComponent } from '../select/select.component';
 import { Diagnostic } from '../../diagnostic';
 import { CasesService } from '../../../case/cases.service';
@@ -18,6 +18,7 @@ import { Logger } from 'angular2-logger/core';
 export class DiagnosticsSelectorComponent {
 
   @Input() caseId: number = 0;
+  @Output() changed: EventEmitter<Diagnostic[]> = new EventEmitter<Diagnostic[]>();
 
   @ViewChild('selectDiagnostics')
     private selectDiagnosticsComponent: SelectDiagnosticsComponent;
@@ -42,6 +43,7 @@ export class DiagnosticsSelectorComponent {
         return el.id !== diagnostic.id;
       });
       this.selectDiagnosticsComponent.reloadChosenDiagnostics(this.caseDiagnostics);
+      this.changed.emit(this.caseDiagnostics);
     }
   }
 
@@ -51,6 +53,7 @@ export class DiagnosticsSelectorComponent {
       this.casesService.getCaseDiagnostics(this.caseId).then(diagnostics => {
         this.caseDiagnostics = diagnostics;
         this.selectDiagnosticsComponent.reloadChosenDiagnostics(this.caseDiagnostics);
+        this.changed.emit(this.caseDiagnostics);
         this.loadingBar.complete();
       }).catch((err) => {
         this.loadingBar.complete();

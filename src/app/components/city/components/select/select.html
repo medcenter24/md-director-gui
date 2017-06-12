@@ -11,6 +11,8 @@
         [dropdown]="true"
         (completeMethod)="filterCities($event)"
         (onDropdownClick)="handleDropdownClick($event)"
+        (onSelect)="onSelect($event)"
+        (onBlur)="onBlur($event)"
         placeholder="{{ 'general.select_city' | translate}}"
         field="title"
 ></p-autoComplete>

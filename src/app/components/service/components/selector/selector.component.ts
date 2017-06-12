@@ -19,6 +19,7 @@ export class ServicesSelectorComponent {
 
   @Input() caseId: number = 0;
   @Output() priceChanged: EventEmitter<number> = new EventEmitter<number>();
+  @Output() changedServices: EventEmitter<Service[]> = new EventEmitter<Service[]>();
 
   @ViewChild('selectServices')
     private selectServicesComponent: SelectServicesComponent;
@@ -45,6 +46,7 @@ export class ServicesSelectorComponent {
       });
       this.recalculatePrice();
       this.selectServicesComponent.reloadChosenServices(this.caseServices);
+      this.changedServices.emit(this.caseServices);
     }
   }
 
@@ -54,6 +56,7 @@ export class ServicesSelectorComponent {
       this.casesService.getCaseServices(this.caseId).then(services => {
         this.caseServices = services;
         this.selectServicesComponent.reloadChosenServices(this.caseServices);
+        this.changedServices.emit(this.caseServices);
         this.recalculatePrice();
         this.loadingBar.complete();
       }).catch((err) => {
