@@ -11,18 +11,16 @@ import { TranslateService } from '@ngx-translate/core';
 import { Logger } from 'angular2-logger/core';
 import { GlobalState } from '../../../../global.state';
 import { AuthenticationService } from '../../../auth/authentication.service';
-import { UploadFile } from '../../uploadFile';
-import { UploadService } from '../../upload.service';
 @Component({
   selector: 'file-uploader',
   templateUrl: './uploader.html'
 })
 export class FileUploaderComponent {
 
-  @Input() uploads: UploadFile[] = [];
-  @Output() changed: EventEmitter<UploadFile[]> = new EventEmitter<UploadFile[]>();
+  @Input() uploads: any[] = [];
+  @Input() url: string = '';
+  @Output() changed: EventEmitter<any[]> = new EventEmitter<any[]>();
 
-  isLoaded: boolean = false;
   msgs: Message[];
 
   // preload translations for the component
@@ -37,7 +35,6 @@ export class FileUploaderComponent {
     private translate: TranslateService,
     private _logger: Logger, private _state: GlobalState,
     private authenticationService: AuthenticationService,
-    private uploadService: UploadService
   ) {
   }
 
@@ -113,7 +110,9 @@ export class FileUploaderComponent {
     if (this.deleterCounter){
       this.loadingBar.start();
       files.map(id => {
-        this.uploadService.deleteFile(id).then(() => {
+        console.log('delete id with event')
+        this.deleteFileFromGui(id);
+        /*this.uploadService.deleteFile(id).then(() => {
           this.deleteFileFromGui(id);
           if (--this.deleterCounter <= 0) {
             this.loadingBar.complete();
@@ -123,7 +122,7 @@ export class FileUploaderComponent {
           if (--this.deleterCounter <= 0) {
             this.loadingBar.complete();
           }
-        });
+        });*/
       });
     }
   }

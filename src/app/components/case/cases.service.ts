@@ -11,9 +11,8 @@ import { DoctorAccident } from '../doctorAccident/doctorAccident';
 import { HospitalAccident } from '../hospitalAccident/hospitalAccident';
 import { Diagnostic } from '../diagnostic/diagnostic';
 import { HttpService } from '../http/http.service';
-import { CaseAccident } from './case';
 import { ExtendCaseAccident } from './extendCaseAccident';
-import { UploadFile } from '../upload/uploadFile';
+import { Document } from '../document/document';
 
 @Injectable()
 export class CasesService extends HttpService {
@@ -30,12 +29,16 @@ export class CasesService extends HttpService {
       .catch(this.handleError);
   }
 
-  getUploads(id): Promise<UploadFile[]> {
-    const url = `${this.getUrl()}/${id}/uploads`;
+  getDocumentsUrl(id): string {
+    return `${this.getUrl()}/${id}/documents`
+  }
+
+  getDocuments(id): Promise<Document[]> {
+    const url = this.getDocumentsUrl(id);
 
     return this.http.get(url, {headers: this.getAuthHeaders()})
       .toPromise()
-      .then(response => response.json().data as UploadFile[])
+      .then(response => response.json().data as Document[])
       .catch(this.handleError);
   }
 
