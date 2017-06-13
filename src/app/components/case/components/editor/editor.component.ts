@@ -23,7 +23,7 @@ import { CasesService } from '../../cases.service';
 import { Discount } from '../../../discount/discount';
 import { Service } from '../../../service/service';
 import { Diagnostic } from '../../../diagnostic/diagnostic';
-import { UploadFile } from '../../../upload/uploadFile';
+import { Document } from '../../../document/document';
 
 @Component({
   selector: 'case-editor',
@@ -53,7 +53,7 @@ export class CaseEditorComponent {
   hospitalAccident: HospitalAccident;
   services: Service[] = [];
   diagnostics: Diagnostic[] = [];
-  uploads: UploadFile[] = [];
+  documents: Document[] = [];
 
   totalAmount: number = 0;
   totalIncome: number = 0;
@@ -93,7 +93,7 @@ export class CaseEditorComponent {
             this.loadPatient();
             this.loadCaseable();
             this.recalculatePrice();
-            this.loadUploads();
+            this.loadDocuments();
             this.stopLoader();
           }).catch((err) => {
             this.loadingBar.complete();
@@ -140,14 +140,14 @@ export class CaseEditorComponent {
       },
       services: this.services,
       diagnostics: this.diagnostics,
-      uploads: this.uploads
+      uploads: this.documents
     };
 
     this.msgs = [];
     this.msgs.push({severity: 'error', summary: this.translate.instant('general.not_saved') + '!', detail: 'Save method still has not been implemented!'});
     this._state.notifyDataChanged('growl', this.msgs);
 
-    this.loadingBar.start();0
+    this.loadingBar.start();
     this.blocked = true;
 
     this.caseService.saveCase(data).then((accident: Accident) => {
@@ -240,8 +240,8 @@ export class CaseEditorComponent {
     this.accident.city_id = cityId;
   }
 
-  onUploadsChanged(uploads: UploadFile[]): void {
-    this.uploads = uploads;
+  onDocumentsChanged(documents: Document[]): void {
+    this.documents = documents;
   }
 
   private recalculatePrice(): void {
@@ -285,11 +285,11 @@ export class CaseEditorComponent {
     }
   }
 
-  private loadUploads(): void {
+  private loadDocuments(): void {
     this.startLoader();
-    this.caseService.getUploads(this.accident.id)
-      .then((uploads: UploadFile[]) => {
-        this.uploads = uploads;
+    this.caseService.getDocuments(this.accident.id)
+      .then((documents: Document[]) => {
+        this.documents = documents;
         this.stopLoader();
       }).catch(err => {
         this._logger.error(err);

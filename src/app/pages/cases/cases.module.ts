@@ -4,13 +4,13 @@
  * @author Alexander Zagovorichev <zagovorichev@gmail.com>
  */
 
-import { NgModule }      from '@angular/core';
-import { CommonModule }  from '@angular/common';
+import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { NgaModule } from '../../theme/nga.module';
 
 import { Cases } from './cases.component';
-import { routing }       from './cases.routing';
+import { routing } from './cases.routing';
 
 import { Ng2SmartTableModule } from 'ng2-smart-table';
 import { Ng2Bs3ModalModule } from 'ng2-bs3-modal/ng2-bs3-modal';
@@ -55,7 +55,6 @@ import { ImporterService } from '../../components/importer/importer.service';
 import { SelectDiscountComponent } from '../../components/discount/components/select/select.component';
 import { DiscountService } from '../../components/discount/discount.service';
 import { FileUploaderComponent } from '../../components/upload/components/uploader/uploader.component';
-import { UploadService } from '../../components/upload/upload.service';
 
 @NgModule({
   imports: [
@@ -121,8 +120,7 @@ import { UploadService } from '../../components/upload/upload.service';
     DiagnosticService,
     AuthenticationService,
     ImporterService,
-    ConfirmationService,
-    UploadService
+    ConfirmationService
   ]
 })
 export class CasesModule {

@@ -224,11 +224,12 @@
 
                             <div class="row">
                                 <div class="col-sm-9">
-                                    <b class="text-muted">{{ 'general.accident_files' | translate }}</b>
+                                    <b class="text-muted">{{ 'general.documents' | translate }}</b>
                                     <br>
                                     <file-uploader
-                                        [uploads]="uploads"
-                                        (changed)="onUploadsChanged($event)"
+                                            [uploads]="documents"
+                                            [url]="caseService.getDocumentsUrl(accident.id)"
+                                            (changed)="onDocumentsChanged($event)"
                                     ></file-uploader>
                                 </div>
                             </div>
