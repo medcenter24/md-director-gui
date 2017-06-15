@@ -13,6 +13,10 @@
     "share_on_google_plus": "Share on Google Plus"
   },
   "general": {
+    "category_title": "Category Title",
+    "new_category": "New Category",
+    "category_editor": "Category Editor",
+    "diagnostics": "Diagnostics",
     "submit": "Submit",
     "user": "User",
     "create": "Create",
