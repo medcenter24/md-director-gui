@@ -75,7 +75,7 @@ export class UserEditorComponent {
     }
 
     private loadUser(id: number): void {
-        if (id) {
+        if (+id) {
             this.loadingBar.start();
             this.service.getUser(id).then((user) => {
                 this.user = user;
@@ -83,6 +83,8 @@ export class UserEditorComponent {
             }).catch(() => {
                 this.loadingBar.complete();
             });
+        } else {
+            this.setEmptyUser();
         }
     }
 }

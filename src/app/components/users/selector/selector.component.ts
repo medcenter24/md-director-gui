@@ -18,7 +18,7 @@ import * as _ from 'lodash';
 @Component({
   selector: 'user-selector',
   template: `
-      <label for="users">User</label>
+      <label for="users" translate>general.user</label>
       <select id="users" class="form-control" name="user" [(ngModel)]="user" (ngModelChange)="onChange($event)">
           <option [ngValue]="_user" *ngFor="let _user of users">{{ _user.name }}</option>
       </select>
@@ -49,7 +49,7 @@ export class UserSelectorComponent {
   changeUser (id): User {
     let changed = false;
     _.forEach(this.users, (cat) => {
-      if (id === cat.id) {
+      if (cat && id === cat.id) {
         this.user = cat;
         changed = true;
       }
@@ -64,9 +64,13 @@ export class UserSelectorComponent {
 
   reload (user: User): User {
     this.loading.emit();
-    this.service.getUsers().then((data) => {
-      this.users = data;
-      if (!user && this.users.length) {
+    this.service.getUsers().then((data: User[]) => {
+      this.users = [];
+      this.users.push(new User(0,'','',''));
+      data.map(_user => {
+        this.users.push(_user);
+      });
+      if ((!user || !user.id) && this.users.length) {
         this.user = this.users[ 0 ];
       } else {
         this.user = this.changeUser(user.id);
@@ -77,15 +81,15 @@ export class UserSelectorComponent {
   }
 
   reloadWithUserId (id: number): void {
-    this.loading.emit();
-    this.service.getUsers().then((data) => {
-      this.users = data;
-      this.user = this.changeUser(id);
-      this.loaded.emit();
-    });
+    let user = this.users.filter(_user => +_user.id === +id);
+    this.reload(user[0]);
   }
 
   onChange (): void {
+    if (!this.user) {
+      this.user = new User(0, '', '', '');
+    }
+
     this.userChanged.emit(this.user.id);
   }
 }

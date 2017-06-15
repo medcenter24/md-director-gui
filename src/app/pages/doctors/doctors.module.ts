@@ -31,8 +31,8 @@ import { DiagnosticCategoryEditorComponent } from '../../components/diagnostic/c
 import { DiagnosticCategorySelectorComponent } from '../../components/diagnostic/category/components/selector/selector.component';
 import { DiagnosticService } from '../../components/diagnostic/diagnostic.service';
 import { DiagnosticCategoryService } from '../../components/diagnostic/category/category.service';
-import { InMemoryWebApiModule } from 'angular-in-memory-web-api';
-import { InMemoryDataService } from '../../faker/in-memory-data.service';
+// import { InMemoryWebApiModule } from 'angular-in-memory-web-api';
+// import { InMemoryDataService } from '../../faker/in-memory-data.service';
 import { AppTranslationModule } from '../../app.translation.module';
 
 @NgModule({
@@ -44,7 +44,7 @@ import { AppTranslationModule } from '../../app.translation.module';
     AppTranslationModule,
     Ng2SmartTableModule,
     Ng2Bs3ModalModule,
-    InMemoryWebApiModule.forRoot(InMemoryDataService, {apiBase: 'director/', passThruUnknownUrl: true}),
+    // InMemoryWebApiModule.forRoot(InMemoryDataService, {apiBase: 'director/', passThruUnknownUrl: true}),
   ],
   declarations: [
     Doctors,
