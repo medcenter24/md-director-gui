@@ -4,7 +4,7 @@
   ~ @author Alexander Zagovorichev <zagovorichev@gmail.com>
   -->
 
-<ba-card title="User Editor" baCardClass="with-scroll" class="edit-form-container">
+<ba-card title="general.user_editor" baCardClass="with-scroll" class="edit-form-container">
     <div class="row">
         <div class="col-sm-10">
             <user-selector
@@ -15,22 +15,23 @@
             ></user-selector>
         </div>
         <div class="col-sm-2 text-center">
-            <label for="add-user-btn">New User</label><br>
-            <i class="ion-ios-plus-outline create-new-btn" id="add-user-btn" title="Add new user" (click)="onUserCreated()"></i>
+            <label for="add-user-btn" translate>general.new_user</label><br>
+            <i class="ion-ios-plus-outline create-new-btn" id="add-user-btn" title="{{ 'general.add_new_user' }}" (click)="onUserCreated()"></i>
         </div>
     </div>
     <form (ngSubmit)="onSubmit()" #diagnosticForm="ngForm" class="edit-form">
         <div class="row">
             <div class="col-sm-6">
                 <div class="form-group{{ userName.valid || userName.pristine ? '' : ' has-error'}}">
-                    <label for="inputName" class="label{{ userName.valid || userName.pristine ? '' : ' label-error' }}">
-                        {{ userName.valid || userName.pristine ? 'Name' : 'Name is required' }}
-                    </label>
-                    <input type="text" class="form-control" id="inputName"
+                    <label *ngIf="!userName.valid && !userName.pristine" class="label label-error">general.name_required</label>
+                    <label *ngIf="userName.valid || userName.pristine" class="label" translate>general.name</label>
+
+                    <input type="text" class="form-control"
                            required
-                           [(ngModel)]="user.name" name="userName"
+                           [(ngModel)]="user.name"
+                           name="userName"
                            #userName="ngModel"
-                           placeholder="User Name" maxlength="70"
+                           placeholder="{{ 'general.user_name' | translate }}" maxlength="70"
                     >
                 </div>
             </div>
@@ -51,18 +52,18 @@
         <div class="row">
             <div class="col-sm-6">
                 <div class="form-group{{ email.valid || email.pristine ? '' : ' has-error'}}">
-                    <label for="email" class="label{{ email.valid || email.pristine ? '' : ' label-error' }}">
-                        {{ email.valid || email.pristine ? 'Email' : 'Email is required' }}
-                    </label>
+                    <label *ngIf="email.valid || email.pristine" class="label" translate>general.email</label>
+                    <label *ngIf="!email.valid && !email.pristine"class="label label-error" translate>general.email_required</label>
                     <input type="text" class="form-control" id="email"
                            required
                            [(ngModel)]="user.email" name="email"
                            #email="ngModel"
-                           placeholder="Users Email" maxlength="200"
+                           placeholder="{{ 'general.email' | translate }}" maxlength="200"
                     >
                 </div>
             </div>
         </div>
-        <button type="submit" class="btn btn-primary">{{ user.id ? 'Submit' : 'Create' }}</button>
+        <button *ngIf="user.id" type="submit" class="btn btn-primary" translate>general.save</button>
+        <button *ngIf="!user.id" type="submit" class="btn btn-primary" translate>general.create</button>
     </form>
 </ba-card>

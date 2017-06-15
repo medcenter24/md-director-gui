@@ -11,6 +11,7 @@ import { ModalComponent } from 'ng2-bs3-modal/components/modal';
 import { DoctorsService } from '../../../../components/doctors/doctors.service';
 import { DoctorEditorComponent } from '../../../../components/doctors/editor/editor.component';
 import { SlimLoadingBarService } from 'ng2-slim-loading-bar';
+import { Logger } from 'angular2-logger/core';
 
 @Component({
   selector: 'basic-tables',
@@ -88,7 +89,11 @@ export class Stuff {
   deleteProcess: boolean = false;
   errorMessage: string = '';
 
-  constructor (protected service: DoctorsService, private loadingBar: SlimLoadingBarService) {
+  constructor (
+    protected service: DoctorsService,
+    private loadingBar: SlimLoadingBarService,
+    private _logger: Logger
+  ) {
   }
 
   ngOnInit (): void {
@@ -99,13 +104,16 @@ export class Stuff {
     }).catch((error) => {
       this.showError('Something bad happened, you can\'t load list of doctors');
       this.loadingBar.complete();
+      this._logger.error(error);
     });
   }
 
   onTableSave (event): void {
     this.loadingBar.start();
-    this.service.update(event.newData).then(() => {
+    this.service.update(event.newData).then(response => {
       event.confirm.resolve();
+      this.doctorEditorHidden = true;
+      this.userEditorHidden = true;
       this.loadingBar.complete();
     }).catch((reason) => {
       if (event && event.confirm) {
@@ -113,20 +121,24 @@ export class Stuff {
       }
       this.showError('Something bad happened, you can\'t save doctors\' data');
       this.loadingBar.complete();
+      this._logger.error(reason);
     });
   }
 
   onTableCreate (event): void {
     this.loadingBar.start();
-    this.service.create(event.newData).then(() => {
-      event.confirm.resolve();
+    this.service.create(event.newData).then(response => {
+      event.confirm.resolve(response);
+      this.doctorEditorHidden = true;
+      this.userEditorHidden = true;
       this.loadingBar.complete();
-    }).catch((reason) => {
+    }).catch(reason => {
       if (event && event.confirm) {
         event.confirm.reject();
       }
       this.showError('Something bad happened, you can\'t create doctor');
       this.loadingBar.complete();
+      this._logger.error(reason);
     });
   }
 
@@ -149,11 +161,15 @@ export class Stuff {
       this.deleteDialogEvent = null;
       this.deleteDialog.close();
       this.deleteProcess = false;
+      this.doctorEditorHidden = true;
+      this.userEditorHidden = true;
       this.loadingBar.complete();
     }).catch(() => {
       this.deleteDialogEvent.confirm.reject();
       this.deleteDialogEvent = null;
       this.deleteProcess = false;
+      this.doctorEditorHidden = true;
+      this.userEditorHidden = true;
       this.loadingBar.complete();
     });
   }
@@ -172,7 +188,7 @@ export class Stuff {
 
   onToggleUserEditor (userId: number): void {
     this.userEditorHidden = !this.userEditorHidden;
-    this.editableUserId = userId;
+    this.editableUserId = +userId;
   }
 
   onUserEdited (): void {
