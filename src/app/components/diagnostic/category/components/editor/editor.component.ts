@@ -9,6 +9,7 @@ import { DiagnosticCategory } from '../../category';
 import { DiagnosticCategorySelectorComponent } from '../selector/selector.component';
 import { DiagnosticCategoryService } from '../../category.service';
 import { SlimLoadingBarService } from 'ng2-slim-loading-bar';
+import { Logger } from 'angular2-logger/core';
 
 @Component({
   selector: 'diagnostic-category-editor',
@@ -25,10 +26,14 @@ export class DiagnosticCategoryEditorComponent {
 
   @Output() changedCategories: EventEmitter<null> = new EventEmitter<null>();
 
-  @ViewChild(DiagnosticCategory)
+  @ViewChild(DiagnosticCategorySelectorComponent)
   private categorySelectorComponent: DiagnosticCategorySelectorComponent;
 
-  constructor (private service: DiagnosticCategoryService, private loadingBar: SlimLoadingBarService) {
+  constructor (
+    private service: DiagnosticCategoryService,
+    private loadingBar: SlimLoadingBarService,
+    private _logger: Logger
+  ) {
   };
 
   ngOnInit (): void {
@@ -42,16 +47,17 @@ export class DiagnosticCategoryEditorComponent {
         this.loadingBar.complete();
         this.category = this.categorySelectorComponent.reloadCategories(category);
         this.changedCategories.emit();
-      }).catch(() => {
+      }).catch(error => {
         this.loadingBar.complete();
+        this._logger.error(error)
       });
     } else {
       this.service.create(this.category.title).then((category: DiagnosticCategory) => {
         this.category = this.categorySelectorComponent.reloadCategories(category);
         this.changedCategories.emit();
         this.loadingBar.complete();
-      }).catch(() => {
-        console.log('error');
+      }).catch(error => {
+        this._logger.error(error);
         this.loadingBar.complete();
       });
     }
@@ -83,7 +89,8 @@ export class DiagnosticCategoryEditorComponent {
       this.service.getCategory(id).then((category) => {
         this.category = category;
         this.loadingBar.complete();
-      }).catch(() => {
+      }).catch(error => {
+        this._logger.error(error);
         this.loadingBar.complete();
       });
     }

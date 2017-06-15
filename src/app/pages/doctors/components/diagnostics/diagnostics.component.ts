@@ -16,7 +16,6 @@ import { SlimLoadingBarService } from 'ng2-slim-loading-bar';
 @Component({
   selector: 'basic-tables',
   encapsulation: ViewEncapsulation.None,
-
   templateUrl: './diagnostics.html',
 })
 export class Diagnostics {
