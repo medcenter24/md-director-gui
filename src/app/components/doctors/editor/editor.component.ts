@@ -79,6 +79,7 @@ export class DoctorEditorComponent {
             this.loadingBar.start();
             this.service.getDoctor(id).then((doctor: Doctor) => {
                 this.doctor = doctor;
+                this.reloadUsers();
                 this.loadingBar.complete();
             }).catch(() => {
                 this.loadingBar.complete();

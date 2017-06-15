@@ -44,7 +44,7 @@ export class DoctorsService extends HttpService {
     return this.http
         .post(this.getUrl(), JSON.stringify(doctor), {headers: this.getAuthHeaders()})
         .toPromise()
-        .then(res => res.json().data)
+        .then(res => res.json() as Doctor)
         .catch(this.handleError);
   }
 
