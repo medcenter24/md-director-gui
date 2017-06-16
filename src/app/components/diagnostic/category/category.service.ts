@@ -57,7 +57,7 @@ export class DiagnosticCategoryService extends HttpService {
         return this.http
             .put(url, JSON.stringify(category), {headers: this.getAuthHeaders()})
             .toPromise()
-            .then(res => res.json() as DiagnosticCategory)
+            .then(res => res.json().data as DiagnosticCategory)
             .catch(this.handleError);
     }
 
