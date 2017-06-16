@@ -5,7 +5,6 @@
  */
 
 import {Injectable} from '@angular/core';
-import {Headers, Http} from "@angular/http";
 import {Doctor} from "./doctor";
 import { HttpService } from '../http/http.service';
 
