@@ -39,17 +39,17 @@ export class FileUploaderComponent {
   }
 
   ngOnInit() {
-    this.translate.get('general.file_uploaded').subscribe(res => {
+    this.translate.get('File Uploaded').subscribe(res => {
       this.translateLoaded = res;
     });
-    this.translate.get('general.upload_error').subscribe(res => {
+    this.translate.get('Upload Error').subscribe(res => {
       this.translateErrorLoad = res;
     });
 
-    this.translate.get('general.delete_question').subscribe(res => {
+    this.translate.get('Delete Question').subscribe(res => {
       this.transDeleteQuestion = res;
     });
-    this.translate.get('general.delete_confirmation').subscribe(res => {
+    this.translate.get('Delete_confirmation').subscribe(res => {
       this.transDeleteConfirmation = res;
     });
   }

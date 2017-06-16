@@ -62,8 +62,8 @@ export class Diagnostics {
         title: 'Description',
         type: 'string'
       },
-      comment: {
-        title: 'Commentary',
+      disease_code: {
+        title: 'Disease Code',
         type: 'string'
       }
     }

@@ -14,20 +14,20 @@
                 <div class="form-group offset-bottom20">
                     <div class="row">
                         <div class="col-sm-6">
-                            <h3 *ngIf="accident.id">{{ 'general.editing_case' | translate}} {{ 'general.pp' | translate }}{{ accident.id }}</h3>
-                            <h3 *ngIf="!accident.id">{{ 'general.creating_new_case' | translate }}</h3>
+                            <h3 *ngIf="accident.id">{{ 'Case Editing' | translate}} {{ 'pp' | translate }}{{ accident.id }}</h3>
+                            <h3 *ngIf="!accident.id">{{ 'New case creating' | translate }}</h3>
                         </div>
                         <div class="col-sm-6">
-                            <b class="text-muted offset-right10 pull-left">{{ 'general.referral_number' | translate }}</b>
+                            <b class="text-muted offset-right10 pull-left" translate>Referral Number</b>
                             <p-inplace closable="true" class="pull-left">
                                 <span pInplaceDisplay>
                                     {{ accident.ref_num }}
                                 </span>
                                 <span pInplaceContent>
-                                    <input type="text" value="{{ accident.ref_num }}" (change)="onReferralChanged($event)" pInputText placeholder="{{ 'general.referral_number' | translate }}">
+                                    <input type="text" value="{{ accident.ref_num }}" (change)="onReferralChanged($event)" pInputText placeholder="{{ 'Referral Number' | translate }}">
                                 </span>
                             </p-inplace>
-                            <b pTooltip="{{ 'general.referral_rule' | translate }}" class="pull-left badge badge-default">?</b>
+                            <b pTooltip="{{ 'If you leave it empty then it will be generated automatically' | translate }}" class="pull-left badge badge-default">?</b>
                         </div>
                     </div>
                 </div>
@@ -35,7 +35,7 @@
                 <div class="form-group offset-bottom20">
                     <div class="row offset-bottom20">
                         <div class="col-sm-5">
-                            <b class="text-muted">{{ 'general.choose_case' | translate }}</b>
+                            <b class="text-muted">{{ 'Choose Case' | translate }}</b>
                             <br>
                             <select-case-type
                                     *ngIf="!accident.id"
@@ -43,19 +43,18 @@
                                     (selected)="onCaseTypeSelected($event)"
                             ></select-case-type>
 
-                            <h4 *ngIf="accident.id && accident.caseable_type === 'App\\DoctorAccident'" class="text-danger">
-                                {{ 'general.doctor_case' | translate }}
+                            <h4 *ngIf="accident.id && accident.caseable_type === 'App\\DoctorAccident'" class="text-danger" translate>
+                                Doctor Case
                             </h4>
-                            <h4 *ngIf="accident.id && accident.caseable_type === 'App\\HospitalAccident'" class="text-danger">
-                                {{ 'general.hospital_case' | translate }}
+                            <h4 *ngIf="accident.id && accident.caseable_type === 'App\\HospitalAccident'" class="text-danger" translate>
+                                Hospital Case
                             </h4>
-
                         </div>
                         <div class="col-sm-7">
                             <div *ngIf="accident.caseable_type === 'App\\DoctorAccident'">
                                 <div class="row">
                                     <div class="col-sm-6">
-                                        <b class="text-muted">{{ 'general.doctor' | translate }}</b>
+                                        <b class="text-muted" translate>Doctor</b>
                                         <br>
                                         <select-doctor
                                                 *ngIf="doctorAccident"
@@ -64,7 +63,7 @@
                                         ></select-doctor>
                                     </div>
                                     <div class="col-sm-6">
-                                        <b class="text-muted">{{ 'general.city' | translate }}</b>
+                                        <b class="text-muted" translate>City</b>
                                         <br><select-city
                                                 *ngIf="doctorAccident"
                                                 [cityId]="doctorAccident.city_id"
@@ -74,7 +73,7 @@
                                 </div>
                             </div>
                             <div *ngIf="accident.caseable_type === 'App\\HospitalAccident'">
-                                <b class="text-muted">{{ 'general.hospital_case' | translate }}</b>
+                                <b class="text-muted" translate>Hospital_case</b>
                                 <br>
                                 <select-hospital
                                         *ngIf="hospitalAccident"
@@ -102,14 +101,14 @@
                         <div class="col-sm-12">
                             <div class="row">
                                 <div class="col-sm-12 col-md-6 col-lg-3">
-                                    <b class="text-muted">{{ 'general.assistant' | translate }}</b>
+                                    <b class="text-muted" translate>Assistant</b>
                                     <br><select-assistant
                                             [assistantId]="accident.assistant_id"
                                             (change)="onAssistantChanged($event)"
                                         ></select-assistant>
                                 </div>
                                 <div class="col-sm-12 col-md-6 col-lg-3">
-                                    <b class="text-muted">{{ 'general.discount_type' | translate }}</b>
+                                    <b class="text-muted" translate>Discount Type</b>
                                     <br>
                                     <select-discount-type
                                             [selectedDiscountId]="accident.discount_type_id"
@@ -117,7 +116,7 @@
                                     ></select-discount-type>
                                 </div>
                                 <div class="col-sm-12 col-md-6 col-lg-3">
-                                    <b class="text-muted">{{ 'general.discount_value' | translate }}</b><br>
+                                    <b class="text-muted" translate>Discount Value</b><br>
                                     <p-spinner size="30"
                                                [min]="0"
                                                [(ngModel)]="discountValue"
@@ -125,16 +124,16 @@
                                                (onChange)="onDiscountValueChanged()"></p-spinner>
                                 </div>
                                 <div class="col-sm-12 col-md-6 col-lg-3">
-                                    <b class="text-muted">{{ 'general.total_score' | translate }}</b>
+                                    <b class="text-muted" translate>Total Score</b>
                                     <div class="row">
                                         <div class="col-sm-12">
-                                            <div class="well well-lg bg-warning">{{ 'general.total_amount' | translate }}: {{ totalAmount | number }}</div>
+                                            <div class="well well-lg bg-warning" translate>Total Amount: {{ totalAmount | number }}</div>
                                         </div>
                                     </div>
                                     <div class="row">
                                         <div class="col-sm-12">
-                                            <div class="well bg-success" pTooltip="{{ 'general.formula' | translate }}: {{ totalIncomeFormula }}">
-                                                <b>{{ 'general.total_income' | translate }}</b>: {{ totalIncome | number }}
+                                            <div class="well bg-success" pTooltip="{{ 'Formula' | translate }}: {{ totalIncomeFormula }}">
+                                                <b translate>Total Income</b>: {{ totalIncome | number }}
                                                 <b class="pull-right badge badge-default">?</b>
                                             </div>
                                         </div>
@@ -146,26 +145,26 @@
                                 <div class="col-sm-6">
                                     <div class="row offset-bottom20" *ngIf="patient">
                                         <div class="col-sm-6">
-                                            <b class="text-muted">{{ 'general.patient_name' | translate }}</b>
+                                            <b class="text-muted" translate>Patient Name</b>
                                             <br>
-                                            <input type="text" pInputText [value]="patient.name" placeholder="{{ 'general.patient_name' | translate }}"/>
+                                            <input type="text" pInputText [value]="patient.name" placeholder="{{ 'Patient Name' | translate }}"/>
                                         </div>
                                         <div class="col-sm-6">
-                                            <b class="text-muted">{{ 'general.patient_phone' | translate }}</b>
+                                            <b class="text-muted" translate>Patient Phone</b>
                                             <br>
-                                            <input type="text" pInputText [value]="patient.phones" placeholder="{{ 'general.patient_phone' | translate }}"/>
+                                            <input type="text" pInputText [value]="patient.phones" placeholder="{{ 'Patient Phone' | translate }}"/>
                                         </div>
                                     </div>
                                     <div class="row">
                                         <div class="col-sm-12">
-                                            <b class="text-muted">{{ 'general.symptoms' | translate }}</b>
+                                            <b class="text-muted" translate>Symptoms</b>
                                             <br>
-                                            <textarea rows="5" cols="70" pInputTextarea autoResize="autoResize" placeholder="{{ 'general.symptoms' | translate }}">{{ accident.symptoms }}</textarea>
+                                            <textarea rows="5" cols="70" pInputTextarea autoResize="autoResize" placeholder="{{ 'Symptoms' | translate }}">{{ accident.symptoms }}</textarea>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col-sm-6">
-                                    <b class="text-muted">{{ 'general.repeated_appointment' | translate }}</b>
+                                    <b class="text-muted" translate>Repeated Appointment</b>
                                     <div class="row offset-bottom10">
                                         <div class="col-sm-12">
                                             <select-accident
@@ -190,7 +189,7 @@
                             <div class="form-group offset-bottom20">
                                 <div class="row">
                                     <div class="col-sm-6">
-                                        <b class="text-muted offset-right10">{{ 'general.applied_time' | translate }}</b>
+                                        <b class="text-muted offset-right10" translate>Applied Time</b>
                                         <p-calendar
                                                 name="appliedTime"
                                                 [(ngModel)]="appliedTime"
@@ -202,7 +201,7 @@
                                         ></p-calendar>
                                     </div>
                                     <div class="col-sm-6">
-                                        <b class="text-muted offset-right10">{{ 'general.accident_type' | translate }}</b>
+                                        <b class="text-muted offset-right10" translate>Accident Type</b>
                                         <select-accident-type
                                                 [selectedTypeId]="accident.accident_type_id"
                                                 (selected)="onAccidentTypeSelected($event)"
@@ -224,7 +223,7 @@
 
                             <div class="row">
                                 <div class="col-sm-9">
-                                    <b class="text-muted">{{ 'general.documents' | translate }}</b>
+                                    <b class="text-muted" translate>Documents</b>
                                     <br>
                                     <file-uploader
                                             [uploads]="documents"
@@ -239,7 +238,7 @@
                 </div>
 
                 <button pButton type="button" class="ui-button-success" (click)="onSave($event)"
-                        [disabled]="!accidentForm.form.valid" label="{{ 'general.save' | translate }}"></button>
+                        [disabled]="!accidentForm.form.valid" label="{{ 'Save' | translate }}"></button>
             </form>
             </ba-card>
         </div>
