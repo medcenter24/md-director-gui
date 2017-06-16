@@ -4,30 +4,30 @@
   ~ @author Alexander Zagovorichev <zagovorichev@gmail.com>
   -->
 
-<ba-card *ngIf="diagnostic" title="Diagnostic Form #{{ diagnostic.id }}" baCardClass="with-scroll" class="edit-form-container">
+<ba-card *ngIf="diagnostic" title="general.diagnostic_editor" baCardClass="with-scroll" class="edit-form-container">
     <form (ngSubmit)="onSubmit()" #diagnosticForm="ngForm">
         <div class="row">
             <div class="col-sm-6">
                 <div class="form-group">
-                    <label for="inputTitle">Title</label>
+                    <label for="inputTitle" translate>Title</label>
                     <input type="text" class="form-control" id="inputTitle"
                            required
                            [(ngModel)]="diagnostic.title" name="title"
                            #title="ngModel"
-                           placeholder="Diagnose Title" maxlength="70"
+                           placeholder="{{ 'general.title' | translate }}" maxlength="70"
                     >
-                    <div [hidden]="title.valid || title.pristine" class="alert alert-danger">
+                    <div [hidden]="title.valid || title.pristine" class="alert alert-danger" translate>
                         Title is required
                     </div>
                 </div>
             </div>
             <div class="col-sm-6">
                 <div class="form-group">
-                    <label for="inputComment">Commentary</label>
+                    <label for="inputComment" translate>Disease Code</label>
                     <input type="text" class="form-control" id="inputComment"
-                           [(ngModel)]="diagnostic.comment" name="comment"
+                           [(ngModel)]="diagnostic.disease_code" name="disease_code"
                            #comment="ngModel"
-                           placeholder="use only with SARS" maxlength="70"
+                           placeholder="{{ 'general.disease_code' }}" maxlength="70"
                     >
                 </div>
             </div>
@@ -35,14 +35,14 @@
         <div class="row">
             <div class="col-sm-6">
                 <div class="form-group">
-                    <label for="inputDescription">Description</label>
-                    <textarea class="form-control" id="inputDescription" placeholder="Diagnose Description"
+                    <label for="inputDescription" translate>Description</label>
+                    <textarea class="form-control" id="inputDescription" placeholder="{{ 'Diagnostic description' | translate }}"
                               [(ngModel)]="diagnostic.description" name="description"
                               #description="ngModel"
                               maxlength="255"
                               [innerHTML]="diagnostic ? diagnostic.description : ''"
                     ></textarea>
-                    <div [hidden]="description.valid || description.pristine" class="alert alert-danger">
+                    <div [hidden]="description.valid || description.pristine" class="alert alert-danger" translate>
                         Description is required
                     </div>
                 </div>
@@ -56,10 +56,12 @@
                             (loading)="onSelectorLoading"
                     ></diagnostic-category-selector>
                     <a (click)="toggleEditor(diagnostic.diagnostic_category_id)"
-                       class="editor-toggle">{{ showEditor ? 'Close categories editor' : 'Open categories editor' }}</a>
+                       *ngIf="showEditor" class="editor-toggle" translate>Close categories editor</a>
+                    <a (click)="toggleEditor(diagnostic.diagnostic_category_id)"
+                       *ngIf="!showEditor" class="editor-toggle" translate>Open categories editor</a>
                 </div>
             </div>
         </div>
-        <button type="submit" class="btn btn-primary">Submit</button>
+        <button type="submit" class="btn btn-primary" translate>Submit</button>
     </form>
 </ba-card>
