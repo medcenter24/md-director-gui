@@ -6,14 +6,14 @@
 
 <p-panel *ngIf="accident">
     <p-header>
-        {{ 'general.parent_accident' | translate }}
+        {{ 'Parent Accident' | translate }}
         <a (click)="closePanel()" class="pull-right fa fa-window-close"></a>
     </p-header>
-    <h5>{{ accident.title }} <small><a target="_blank" [routerLink]="['/pages/cases', accident.id]">{{ 'general.pp' | translate }}{{ accident.ref_num }} &rarr;</a></small></h5>
+    <h5>{{ accident.title }} <small><a target="_blank" [routerLink]="['/pages/cases', accident.id]">{{ 'pp' | translate }}{{ accident.ref_num }} &rarr;</a></small></h5>
     <hr>
     <div *ngIf="patient">
         <div class="lead offset-bottom20">{{ patient.name }}</div>
-        <p><b>{{ "general.last_appointment" | translate }}:</b> {{ accident.created_at }}</p>
-        <p><b class="label">{{ "general.birthday" | translate }}:</b> {{ patient.birthday }}</p>
+        <p><b translate>Last Appointment:</b> {{ accident.created_at }}</p>
+        <p><b class="label" translate>Birthday:</b> {{ patient.birthday }}</p>
     </div>
 </p-panel>

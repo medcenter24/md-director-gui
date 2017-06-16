@@ -6,7 +6,7 @@ export const PAGES_MENU = [
         path: 'dashboard',
         data: {
           menu: {
-            title: 'general.menu.dashboard',
+            title: 'Dashboard',
             icon: 'ion-android-home',
             selected: false,
             expanded: false,
@@ -18,7 +18,7 @@ export const PAGES_MENU = [
         path: 'cases',
         data: {
           menu: {
-            title: 'general.menu.cases',
+            title: 'Cases',
             icon: 'fa fa-ambulance',
             selected: false,
             expanded: false,
@@ -30,7 +30,7 @@ export const PAGES_MENU = [
         path: 'companions',
         data: {
           menu: {
-            title: 'general.menu.address_book',
+            title: 'Address Book',
             icon: 'fa fa-address-book-o'
           }
         },
@@ -38,14 +38,14 @@ export const PAGES_MENU = [
           path: 'patients',
           data: {
             menu: {
-              title: 'general.menu.patients'
+              title: 'Patients'
             }
           }
         }, {
             path: 'assistants',
             data: {
               menu: {
-                title: 'general.menu.assistants'
+                title: 'Assistants'
               }
             }
         }]
@@ -54,7 +54,7 @@ export const PAGES_MENU = [
         path: 'accidents',
         data: {
           menu: {
-            title: 'general.menu.accidents',
+            title: 'Accidents',
             icon: 'fa fa-info-circle'
           }
         },
@@ -63,7 +63,7 @@ export const PAGES_MENU = [
             path: 'checkpoints',
             data: {
               menu: {
-                title: 'general.menu.checkpoints'
+                title: 'Checkpoints'
               }
             }
           },
@@ -71,7 +71,7 @@ export const PAGES_MENU = [
             path: 'statuses',
             data: {
               menu: {
-                title: 'general.menu.statuses'
+                title: 'Statuses'
               }
             }
           },
@@ -79,7 +79,7 @@ export const PAGES_MENU = [
             path: 'types',
             data: {
               menu: {
-                title: 'general.menu.types'
+                title: 'Types'
               }
             }
           },
@@ -87,7 +87,7 @@ export const PAGES_MENU = [
             path: 'discounts',
             data: {
               menu: {
-                title: 'general.menu.discounts'
+                title: 'Discounts'
               }
             }
           }
@@ -97,7 +97,7 @@ export const PAGES_MENU = [
         path: 'geo',
         data: {
           menu: {
-            title: 'general.menu.geo',
+            title: 'Geo',
             icon: 'ion-android-pin'
           }
         },
@@ -106,7 +106,7 @@ export const PAGES_MENU = [
             path: 'cities',
             data: {
               menu: {
-                title: 'general.menu.cities'
+                title: 'Cities'
               }
             }
           },
@@ -114,7 +114,7 @@ export const PAGES_MENU = [
             path: 'hospitals',
             data: {
               menu: {
-                title: 'general.menu.hospitals'
+                title: 'Hospitals'
               }
             }
           }
@@ -124,7 +124,7 @@ export const PAGES_MENU = [
         path: 'doctors',
         data: {
           menu: {
-            title: 'general.menu.doctors',
+            title: 'Doctors',
             icon: 'fa fa-user-md'
           }
         },
@@ -133,7 +133,7 @@ export const PAGES_MENU = [
             path: 'stuff',
             data: {
               menu: {
-                title: 'general.menu.stuff'
+                title: 'Stuff'
               }
             }
           },
@@ -141,7 +141,7 @@ export const PAGES_MENU = [
             path: 'diagnostics',
             data: {
               menu: {
-                title: 'general.menu.diagnostics'
+                title: 'Diagnostics'
               }
             }
           },
@@ -149,7 +149,7 @@ export const PAGES_MENU = [
             path: 'services',
             data: {
               menu: {
-                title: 'general.menu.services'
+                title: 'Services'
               }
             }
           }
@@ -159,7 +159,7 @@ export const PAGES_MENU = [
         path: '',
         data: {
           menu: {
-            title: 'general.menu.doctor',
+            title: 'Doctor',
             url: 'https://doctor.myDoctors24.com',
             icon: 'ion-android-exit',
             order: 800,
