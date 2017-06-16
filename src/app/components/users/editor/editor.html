@@ -4,7 +4,7 @@
   ~ @author Alexander Zagovorichev <zagovorichev@gmail.com>
   -->
 
-<ba-card title="general.user_editor" baCardClass="with-scroll" class="edit-form-container">
+<ba-card title="User Editor" baCardClass="with-scroll" class="edit-form-container">
     <div class="row">
         <div class="col-sm-10">
             <user-selector
@@ -15,36 +15,35 @@
             ></user-selector>
         </div>
         <div class="col-sm-2 text-center">
-            <label for="add-user-btn" translate>general.new_user</label><br>
-            <i class="ion-ios-plus-outline create-new-btn" id="add-user-btn" title="{{ 'general.add_new_user' }}" (click)="onUserCreated()"></i>
+            <label for="add-user-btn" translate>New User</label><br>
+            <i class="ion-ios-plus-outline create-new-btn" id="add-user-btn" title="{{ 'Add new user' }}" (click)="onUserCreated()"></i>
         </div>
     </div>
     <form (ngSubmit)="onSubmit()" #diagnosticForm="ngForm" class="edit-form">
         <div class="row">
             <div class="col-sm-6">
                 <div class="form-group{{ userName.valid || userName.pristine ? '' : ' has-error'}}">
-                    <label *ngIf="!userName.valid && !userName.pristine" class="label label-error">general.name_required</label>
-                    <label *ngIf="userName.valid || userName.pristine" class="label" translate>general.name</label>
+                    <label *ngIf="!userName.valid && !userName.pristine" class="label label-error">Name is required</label>
+                    <label *ngIf="userName.valid || userName.pristine" class="label" translate>Name</label>
 
                     <input type="text" class="form-control"
                            required
                            [(ngModel)]="user.name"
                            name="userName"
                            #userName="ngModel"
-                           placeholder="{{ 'general.user_name' | translate }}" maxlength="70"
+                           placeholder="{{ 'User Name' | translate }}" maxlength="70"
                     >
                 </div>
             </div>
             <div class="col-sm-6">
                 <div class="form-group{{ phone.valid || phone.pristine ? '' : ' has-error'}}">
-                    <label for="phone" class="label{{ phone.valid || phone.pristine ? '' : ' label-error' }}">
-                        {{ phone.valid || phone.pristine ? 'Phone' : 'Phone is required' }}
-                    </label>
+                    <label *ngIf="phone.valid || phone.pristine" for="phone" class="label" translate>Phone</label>
+                    <label *ngIf="!phone.valid && !phone.pristine" for="phone" class="label label-error" translate>Phone is required</label>
                     <input type="text" class="form-control" id="phone"
                            required
                            [(ngModel)]="user.phone" name="phone"
                            #phone="ngModel"
-                           placeholder="Users Phone" maxlength="70"
+                           placeholder="{{ 'Users Phone' | translate }}" maxlength="70"
                     >
                 </div>
             </div>
@@ -52,18 +51,18 @@
         <div class="row">
             <div class="col-sm-6">
                 <div class="form-group{{ email.valid || email.pristine ? '' : ' has-error'}}">
-                    <label *ngIf="email.valid || email.pristine" class="label" translate>general.email</label>
-                    <label *ngIf="!email.valid && !email.pristine"class="label label-error" translate>general.email_required</label>
+                    <label *ngIf="email.valid || email.pristine" class="label" translate>Email</label>
+                    <label *ngIf="!email.valid && !email.pristine"class="label label-error" translate>Email is required</label>
                     <input type="text" class="form-control" id="email"
                            required
                            [(ngModel)]="user.email" name="email"
                            #email="ngModel"
-                           placeholder="{{ 'general.email' | translate }}" maxlength="200"
+                           placeholder="{{ 'Email' | translate }}" maxlength="200"
                     >
                 </div>
             </div>
         </div>
-        <button *ngIf="user.id" type="submit" class="btn btn-primary" translate>general.save</button>
-        <button *ngIf="!user.id" type="submit" class="btn btn-primary" translate>general.create</button>
+        <button *ngIf="user.id" type="submit" class="btn btn-primary" translate>Save</button>
+        <button *ngIf="!user.id" type="submit" class="btn btn-primary" translate>Create</button>
     </form>
 </ba-card>

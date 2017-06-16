@@ -1,7 +1,7 @@
 <p-multiSelect
         *ngIf="isLoaded"
         [(ngModel)]="selectedServices"
-        [defaultLabel]="'general.select_services' | translate"
+        [defaultLabel]="'Select Services' | translate"
         [options]="dataServices"
         (onChange)="onChanged($event)"
         [maxSelectedLabels]="5"

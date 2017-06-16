@@ -4,7 +4,7 @@
   ~ @author Alexander Zagovorichev <zagovorichev@gmail.com>
   -->
 
-<ba-card *ngIf="category" title="general.category_editor" baCardClass="with-scroll" class="edit-form-container">
+<ba-card *ngIf="category" title="Category Editor" baCardClass="with-scroll" class="edit-form-container">
     <div class="row">
         <div class="col-sm-10">
             <diagnostic-category-selector
@@ -15,7 +15,7 @@
             ></diagnostic-category-selector>
         </div>
         <div class="col-sm-2 text-center">
-            <label for="add-category-btn" translate>general.new_category</label><br>
+            <label for="add-category-btn" translate>New Category</label><br>
             <i class="ion-ios-plus-outline create-new-btn" id="add-category-btn" (click)="onCreateCategory()"></i>
         </div>
     </div>
@@ -23,18 +23,18 @@
         <div class="row">
             <div class="col-sm-6">
                 <div class="form-group{{ title.valid || title.pristine ? '' : ' has-error'}}">
-                    <label *ngIf="title.valid || title.pristine" for="inputTitle" class="label" translate>general.title</label>
-                    <label *ngIf="!title.valid && !title.pristine" for="inputTitle" class="label label-error" translate>general.title_required</label>
+                    <label *ngIf="title.valid || title.pristine" for="inputTitle" class="label" translate>Title</label>
+                    <label *ngIf="!title.valid && !title.pristine" for="inputTitle" class="label label-error" translate>Title is required</label>
                     <input type="text" class="form-control" id="inputTitle"
                            required
                            [(ngModel)]="category.title" name="title"
                            #title="ngModel"
-                           placeholder="{{ 'general.category_title' | translate }}" maxlength="70"
+                           placeholder="{{ 'Category Title' | translate }}" maxlength="70"
                     >
                 </div>
             </div>
         </div>
-        <button type="submit" class="btn btn-primary" *ngIf="category.id" translate>general.submit</button>
-        <button type="submit" class="btn btn-primary" *ngIf="!category.id" translate>general.create</button>
+        <button type="submit" class="btn btn-primary" *ngIf="category.id" translate>Submit</button>
+        <button type="submit" class="btn btn-primary" *ngIf="!category.id" translate>Create</button>
     </form>
 </ba-card>

@@ -4,30 +4,30 @@
   ~ @author Alexander Zagovorichev <zagovorichev@gmail.com>
   -->
 
-<ba-card *ngIf="doctor" title="general.doctor_editor" baCardClass="with-scroll" class="edit-form-container">
+<ba-card *ngIf="doctor" title="Doctor Editor" baCardClass="with-scroll" class="edit-form-container">
     <form (ngSubmit)="onSubmit()" #diagnosticForm="ngForm">
         <div class="row">
             <div class="col-sm-6">
                 <div class="form-group{{ doctorName.valid || doctorName.pristine ? '' : ' has-error'}}">
-                    <label for="inputName" class="label" *ngIf="doctorName.valid || doctorName.pristine" translate>general.name</label>
-                    <label for="inputName" class="label label-error" *ngIf="!doctorName.valid && !doctorName.pristine" translate>general.name_is_required</label>
+                    <label for="inputName" class="label" *ngIf="doctorName.valid || doctorName.pristine" translate>Name</label>
+                    <label for="inputName" class="label label-error" *ngIf="!doctorName.valid && !doctorName.pristine" translate>Name is required</label>
                     <input type="text" class="form-control" id="inputName"
                            required
                            [(ngModel)]="doctor.name" name="doctorName"
                            #doctorName="ngModel"
-                           placeholder="{{ 'general.doctor_name' | translate }}" maxlength="70"
+                           placeholder="{{ 'Doctor Name' | translate }}" maxlength="70"
                     >
                 </div>
             </div>
             <div class="col-sm-6">
                 <div class="form-group{{ refKey.valid || refKey.pristine ? '' : ' has-error'}}">
-                    <label class="label label-error" *ngIf="!refKey.valid && !refKey.pristine" translate>general.referral_key_required</label>
-                    <label class="label" *ngIf="refKey.valid || refKey.pristine" translate>general.referral_key</label>
+                    <label class="label label-error" *ngIf="!refKey.valid && !refKey.pristine" translate>Referral key required</label>
+                    <label class="label" *ngIf="refKey.valid || refKey.pristine" translate>Referral Key</label>
                     <input type="text" class="form-control"
                            required
                            [(ngModel)]="doctor.ref_key" name="doctorRefKey"
                            #refKey="ngModel"
-                           placeholder="{{ 'general.doctor_ref_key' | translate }}"
+                           placeholder="{{ 'Doctor referral key' | translate }}"
                            maxlength="3"
                     >
                 </div>
@@ -36,14 +36,14 @@
         <div class="row">
             <div class="col-sm-6">
                 <div class="form-group">
-                    <label translate>general.description</label>
+                    <label translate>Description</label>
                     <textarea name="description" class="form-control"
                               [(ngModel)]="doctor.description"
                               #description="ngModel"
                               maxlength="255"
                               [innerHTML]="doctor.description"
                     ></textarea>
-                    <div *ngIf="!description.valid && !description.pristine" class="alert alert-danger" translate>general.description_required</div>
+                    <div *ngIf="!description.valid && !description.pristine" class="alert alert-danger" translate>Description Required</div>
                 </div>
             </div>
             <div class="col-sm-6">
@@ -55,13 +55,13 @@
                             (loading)="onSelectorLoading()"
                     ></user-selector>
                     <a (click)="toggleEditor(doctor.user_id)"
-                       class="editor-toggle" *ngIf="showUserEditor" translate>general.close_user_editor</a>
+                       class="editor-toggle" *ngIf="showUserEditor" translate>Close user editor</a>
                     <a (click)="toggleEditor(doctor.user_id)"
-                       class="editor-toggle" *ngIf="!showUserEditor" translate>general.open_user_editor</a>
+                       class="editor-toggle" *ngIf="!showUserEditor" translate>Open user editor</a>
                 </div>
             </div>
         </div>
-        <button type="submit" class="btn btn-primary" *ngIf="doctor.id" translate>general.submit</button>
-        <button type="submit" class="btn btn-primary" *ngIf="!doctor.id" translate>general.create</button>
+        <button type="submit" class="btn btn-primary" *ngIf="doctor.id" translate>Submit</button>
+        <button type="submit" class="btn btn-primary" *ngIf="!doctor.id" translate>Create</button>
     </form>
 </ba-card>

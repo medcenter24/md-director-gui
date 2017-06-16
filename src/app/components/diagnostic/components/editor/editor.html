@@ -4,7 +4,7 @@
   ~ @author Alexander Zagovorichev <zagovorichev@gmail.com>
   -->
 
-<ba-card *ngIf="diagnostic" title="general.diagnostic_editor" baCardClass="with-scroll" class="edit-form-container">
+<ba-card *ngIf="diagnostic" title="Diagnostic Editor" baCardClass="with-scroll" class="edit-form-container">
     <form (ngSubmit)="onSubmit()" #diagnosticForm="ngForm">
         <div class="row">
             <div class="col-sm-6">
@@ -14,7 +14,7 @@
                            required
                            [(ngModel)]="diagnostic.title" name="title"
                            #title="ngModel"
-                           placeholder="{{ 'general.title' | translate }}" maxlength="70"
+                           placeholder="{{ 'Title' | translate }}" maxlength="70"
                     >
                     <div [hidden]="title.valid || title.pristine" class="alert alert-danger" translate>
                         Title is required
@@ -27,7 +27,7 @@
                     <input type="text" class="form-control" id="inputComment"
                            [(ngModel)]="diagnostic.disease_code" name="disease_code"
                            #comment="ngModel"
-                           placeholder="{{ 'general.disease_code' }}" maxlength="70"
+                           placeholder="{{ 'Disease Code' }}" maxlength="70"
                     >
                 </div>
             </div>

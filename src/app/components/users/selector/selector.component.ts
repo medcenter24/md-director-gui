@@ -18,7 +18,7 @@ import * as _ from 'lodash';
 @Component({
   selector: 'user-selector',
   template: `
-      <label for="users" translate>general.user</label>
+      <label for="users" translate>User</label>
       <select id="users" class="form-control" name="user" [(ngModel)]="user" (ngModelChange)="onChange($event)">
           <option [ngValue]="_user" *ngFor="let _user of users">{{ _user.name }}</option>
       </select>

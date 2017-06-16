@@ -71,7 +71,7 @@ export class CaseEditorComponent {
   }
 
   ngOnInit () {
-    this.translate.get('general.without_discount').subscribe(res => {
+    this.translate.get('Without discount').subscribe(res => {
       this.totalIncomeFormula = res;
     });
     this.maxDate = new Date();
@@ -79,14 +79,14 @@ export class CaseEditorComponent {
 
     this.accident = new Accident;
 
-    this._state.notifyDataChanged('menu.activeLink', {title: 'general.menu.cases'});
+    this._state.notifyDataChanged('menu.activeLink', {title: 'Cases'});
 
     this.route.params
       .subscribe((params: Params) => {
         if (+params[ 'id' ]) {
           this.startLoader();
           this.accidentsService.getAccident(+params[ 'id' ]).then((accident: Accident) => {
-            this._state.notifyDataChanged('menu.activeLink', {title: 'general.menu.cases'});
+            this._state.notifyDataChanged('menu.activeLink', {title: 'Cases'});
             this.accident = accident ? accident : new Accident();
             this.appliedTime = new Date(this.accident.created_at);
             this.discountValue = 0; // +this.accident.discount_value;
@@ -99,7 +99,7 @@ export class CaseEditorComponent {
             this.loadingBar.complete();
             if (err.status === 404) {
               this.msgs = [];
-              this.msgs.push({severity: 'error', summary: this.translate.instant('general.error'), detail: '404 Not Found'});
+              this.msgs.push({severity: 'error', summary: this.translate.instant('Error'), detail: '404 Not Found'});
               this._state.notifyDataChanged('growl', this.msgs);
               this.router.navigate([ 'pages/cases' ]);
             } else {
@@ -144,7 +144,7 @@ export class CaseEditorComponent {
     };
 
     this.msgs = [];
-    this.msgs.push({severity: 'error', summary: this.translate.instant('general.not_saved') + '!', detail: 'Save method still has not been implemented!'});
+    this.msgs.push({severity: 'error', summary: this.translate.instant('Not saved') + '!', detail: this.translate.instant('Save method still has not been implemented!')});
     this._state.notifyDataChanged('growl', this.msgs);
 
     this.loadingBar.start();
@@ -167,7 +167,7 @@ export class CaseEditorComponent {
 
       if (err.status === 404) {
         this.msgs = [];
-        this.msgs.push({severity: 'error', summary: this.translate.instant('general.error'), detail: '404 Not Found'});
+        this.msgs.push({severity: 'error', summary: this.translate.instant('Error'), detail: this.translate.instant('404 Not Found')});
         this._state.notifyDataChanged('growl', this.msgs);
         this.router.navigate([ 'pages/cases' ]);
       } else {
@@ -258,11 +258,11 @@ export class CaseEditorComponent {
       } else {
         this._logger.warn('Undefined discount type: ' + this.discountType.operation);
         this.totalIncome = this.totalAmount;
-        this.totalIncomeFormula = this.translate.instant('general.without_discount');
+        this.totalIncomeFormula = this.translate.instant('Without discount');
       }
     } else {
       this.totalIncome = this.totalAmount;
-      this.totalIncomeFormula = this.translate.instant('general.without_discount');
+      this.totalIncomeFormula = this.translate.instant('Without discount');
     }
 
     this.totalIncome = +this.totalIncome.toFixed(2);
