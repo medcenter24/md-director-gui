@@ -45,19 +45,19 @@ export class ImporterComponent {
   ) { }
 
   ngOnInit() {
-    this.translate.get('general.file_uploaded').subscribe(res => {
+    this.translate.get('File Uploaded').subscribe(res => {
       this.translateLoaded = res;
     });
-    this.translate.get('general.upload_error').subscribe(res => {
+    this.translate.get('Upload Error').subscribe(res => {
       this.translateErrorLoad = res;
     });
-    this.translate.get('general.delete_question').subscribe(res => {
+    this.translate.get('Do you want to delete this record(s)?').subscribe(res => {
       this.transDeleteQuestion = res;
     });
-    this.translate.get('general.delete_confirmation').subscribe(res => {
+    this.translate.get('Delete confirmation').subscribe(res => {
       this.transDeleteConfirmation = res;
     });
-    this.translate.get('general.report').subscribe(res => {
+    this.translate.get('Report').subscribe(res => {
       this.transReport = res;
     });
 

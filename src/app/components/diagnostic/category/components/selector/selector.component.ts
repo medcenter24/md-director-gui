@@ -8,6 +8,8 @@ import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { DiagnosticCategory } from '../../category';
 import { DiagnosticCategoryService } from '../../category.service';
 import * as _ from 'lodash';
+import { SlimLoadingBarService } from 'ng2-slim-loading-bar';
+import { Logger } from 'angular2-logger/core';
 
 @Component({
   selector: 'diagnostic-category-selector',
@@ -25,7 +27,7 @@ export class DiagnosticCategorySelectorComponent {
 
   @Input()
   set categoryId (id: number) {
-    this.category = this.changeCategory(id);
+    this.category = this.changeCategory(+id);
   }
 
   @Output() categoryChanged: EventEmitter<number> = new EventEmitter<number>();
@@ -34,8 +36,11 @@ export class DiagnosticCategorySelectorComponent {
 
   categories: DiagnosticCategory[] = [];
 
-  constructor (private service: DiagnosticCategoryService) {
-  }
+  constructor (
+    private service: DiagnosticCategoryService,
+    private loadingBar: SlimLoadingBarService,
+    private _logger: Logger
+  ) { }
 
   ngOnInit (): void {
     this.reloadCategories(this.category);
@@ -44,7 +49,7 @@ export class DiagnosticCategorySelectorComponent {
   changeCategory (id): DiagnosticCategory {
     let changed = false;
     _.forEach(this.categories, (cat) => {
-      if (id === cat.id) {
+      if (+id === +cat.id) {
         this.category = cat;
         changed = true;
       }
@@ -59,14 +64,19 @@ export class DiagnosticCategorySelectorComponent {
 
   reloadCategories (category: DiagnosticCategory): DiagnosticCategory {
     this.loading.emit();
+    this.loadingBar.start();
     this.service.getCategories().then((data) => {
       this.categories = data;
       if (!category && this.categories.length) {
         this.category = this.categories[ 0 ];
       } else {
-        this.category = this.changeCategory(category.id);
+        this.category = this.changeCategory(+category.id);
       }
       this.loaded.emit();
+      this.loadingBar.complete();
+    }).catch(error => {
+      this._logger.error(error);
+      this.loadingBar.complete();
     });
     return category;
   }
@@ -77,6 +87,9 @@ export class DiagnosticCategorySelectorComponent {
       this.categories = data;
       this.category = this.changeCategory(id);
       this.loaded.emit();
+    }).catch(error => {
+      this._logger.error(error);
+      this.loadingBar.complete();
     });
   }
 
