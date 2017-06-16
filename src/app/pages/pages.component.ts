@@ -16,7 +16,7 @@ import { PAGES_MENU } from './pages.menu';
       </div>
     </div>
     <footer class="al-footer clearfix">
-      <div class="al-footer-right" translate>general.created_for <i class="fa fa-heartbeat"></i></div>
+      <div class="al-footer-right" translate>Created for <i class="fa fa-heartbeat"></i></div>
       <div class="al-footer-main clearfix">
         <div class="al-copy">&copy; <a href="https://mydoctors24.com">MyDoctors24.com</a> 2017</div>
         <ul class="al-share clearfix">

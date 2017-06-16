@@ -21,7 +21,7 @@ export class DiagnosticCategoryEditorComponent {
 
   @Input()
   set categoryId (id: number) {
-    this.loadCategory(id);
+    this.loadCategory(+id);
   }
 
   @Output() changedCategories: EventEmitter<null> = new EventEmitter<null>();
@@ -84,7 +84,7 @@ export class DiagnosticCategoryEditorComponent {
   }
 
   private loadCategory (id: number): void {
-    if (id) {
+    if (+id) {
       this.loadingBar.start();
       this.service.getCategory(id).then((category) => {
         this.category = category;

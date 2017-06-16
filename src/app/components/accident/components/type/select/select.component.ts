@@ -37,11 +37,11 @@ export class SelectAccidentTypeComponent {
 
   ngOnInit () {
 
-    this.translate.get('general.insurance').subscribe(res => {
+    this.translate.get('Insurance').subscribe(res => {
       this.transInsurance = res;
     });
 
-    this.translate.get('general.non-insurance').subscribe(res => {
+    this.translate.get('Non Insurance').subscribe(res => {
       this.transNonInsurance = res;
     });
 
