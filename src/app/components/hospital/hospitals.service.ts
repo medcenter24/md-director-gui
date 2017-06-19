@@ -23,7 +23,6 @@ export class HospitalsService extends HttpService {
         .catch(this.handleError);
   }
 
-
   getHospital(id: number): Promise<Hospital> {
     const url = `${this.getUrl()}/${id}`;
     return this.http.get(url, {headers: this.getAuthHeaders()})
@@ -44,7 +43,7 @@ export class HospitalsService extends HttpService {
     return this.http
         .post(this.getUrl(), JSON.stringify(hospital), {headers: this.getAuthHeaders()})
         .toPromise()
-        .then(res => res.json().data as Hospital)
+        .then(res => res.json() as Hospital)
         .catch(this.handleError);
   }
 

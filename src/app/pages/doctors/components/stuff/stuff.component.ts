@@ -110,7 +110,7 @@ export class Stuff {
 
   onTableSave (event): void {
     this.loadingBar.start();
-    this.service.update(event.newData).then(response => {
+    this.service.update(event.newData).then(() => {
       event.confirm.resolve();
       this.doctorEditorHidden = true;
       this.userEditorHidden = true;
