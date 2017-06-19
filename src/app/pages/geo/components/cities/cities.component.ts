@@ -9,6 +9,7 @@ import { LocalDataSource } from 'ng2-smart-table';
 import {ModalComponent} from "ng2-bs3-modal/components/modal";
 import {CitiesService} from "../../../../components/city/cities.service";
 import { SlimLoadingBarService } from 'ng2-slim-loading-bar';
+import { Logger } from 'angular2-logger/core';
 
 @Component({
   selector: 'basic-tables',
@@ -52,7 +53,11 @@ export class Cities {
 
   source: LocalDataSource = new LocalDataSource();
 
-  constructor(protected service: CitiesService, private loadingBar: SlimLoadingBarService) { }
+  constructor(
+    protected service: CitiesService,
+    private loadingBar: SlimLoadingBarService,
+    private _logger: Logger
+  ) { }
 
   ngOnInit(): void {
     this.loadingBar.start();
@@ -112,8 +117,8 @@ export class Cities {
 
   onTableCreate(event): void {
     this.loadingBar.start();
-    this.service.create(event.newData).then(() => {
-      event.confirm.resolve();
+    this.service.create(event.newData).then((response) => {
+      event.confirm.resolve(response);
       this.loadingBar.complete();
     }).catch((reason) => {
       event.confirm.reject();

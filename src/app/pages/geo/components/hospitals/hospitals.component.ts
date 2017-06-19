@@ -121,8 +121,8 @@ export class Hospitals {
 
   onTableCreate(event): void {
     this.loadingBar.start();
-    this.service.create(event.newData).then(() => {
-      event.confirm.resolve();
+    this.service.create(event.newData).then(response => {
+      event.confirm.resolve(response);
       this.loadingBar.complete();
     }).catch((reason) => {
       event.confirm.reject();

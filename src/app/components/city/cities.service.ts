@@ -5,9 +5,9 @@
  */
 
 import { Injectable } from '@angular/core';
-import { Headers, Http } from '@angular/http';
 import { City } from './city';
 import { HttpService } from '../http/http.service';
+import 'rxjs/add/operator/toPromise';
 
 @Injectable()
 export class CitiesService extends HttpService {
@@ -16,7 +16,8 @@ export class CitiesService extends HttpService {
     return 'director/cities';
   }
   
-  getCities (): Promise<City[]> {
+  getCities(): Promise<City[]> {
+
     return this.http.get(this.getUrl(), {headers: this.getAuthHeaders()})
       .toPromise()
       .then(response => response.json().data as City[])
@@ -43,7 +44,7 @@ export class CitiesService extends HttpService {
     return this.http
       .post(this.getUrl(), JSON.stringify(city), {headers: this.getAuthHeaders()})
       .toPromise()
-      .then(res => res.json().data)
+      .then(res => res.json())
       .catch(this.handleError);
   }
 
