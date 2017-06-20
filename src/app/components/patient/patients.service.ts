@@ -21,7 +21,7 @@ export class PatientsService extends HttpService {
   
   getPatients(): Promise<Patient[]> {
 
-    return this.http.get(this.getUrl())
+    return this.http.get(this.getUrl(), { headers: this.getAuthHeaders() })
         .toPromise()
         .then(response => response.json().data as Patient[])
         .catch(this.handleError);
@@ -29,7 +29,7 @@ export class PatientsService extends HttpService {
 
   getPatient(id: number): Promise<Patient> {
     const url = `${this.getUrl()}/${id}`;
-    return this.http.get(url, {headers: this.getAuthHeaders()})
+    return this.http.get(url, { headers: this.getAuthHeaders() })
         .toPromise()
         .then(response => response.json().data as Patient)
         .catch(this.handleError);
@@ -37,7 +37,7 @@ export class PatientsService extends HttpService {
 
   delete(id: number): Promise<void> {
     const url = `${this.getUrl()}/${id}`;
-    return this.http.delete(url, {headers: this.getAuthHeaders()})
+    return this.http.delete(url, { headers: this.getAuthHeaders() })
         .toPromise()
         .then(() => null)
         .catch(this.handleError);
@@ -45,16 +45,16 @@ export class PatientsService extends HttpService {
 
   create(patient: Patient): Promise<Patient> {
     return this.http
-        .post(this.getUrl(), JSON.stringify(patient), {headers: this.getAuthHeaders()})
+        .post(this.getUrl(), JSON.stringify(patient), { headers: this.getAuthHeaders() })
         .toPromise()
-        .then(res => res.json().data)
+        .then(res => res.json() as Patient)
         .catch(this.handleError);
   }
 
   update(patient: Patient): Promise<Patient> {
     const url = `${this.getUrl()}/${patient.id}`;
     return this.http
-        .put(url, JSON.stringify(patient), {headers: this.getAuthHeaders()})
+        .put(url, JSON.stringify(patient), { headers: this.getAuthHeaders() })
         .toPromise()
         .then(() => patient)
         .catch(this.handleError);

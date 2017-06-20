@@ -9,25 +9,25 @@
         <div class="row">
             <div class="col-sm-6">
                 <div class="form-group">
-                    <label for="inputTitle">Title</label>
+                    <label for="inputTitle" translate>Title</label>
                     <input type="text" class="form-control" id="inputTitle"
                            required
                            [(ngModel)]="assistant.title" name="title"
                            #title="ngModel"
-                           placeholder="Assistant Title" maxlength="70"
+                           placeholder="{{ 'Assistant Title' | translate }}" maxlength="70"
                     >
-                    <div [hidden]="title.valid || title.pristine" class="alert alert-danger">
+                    <div [hidden]="title.valid || title.pristine" class="alert alert-danger" translate>
                         Title is required
                     </div>
                 </div>
             </div>
             <div class="col-sm-6">
                 <div class="form-group">
-                    <label for="inputComment">Commentary</label>
+                    <label for="inputComment" translate>Commentary</label>
                     <input type="text" class="form-control" id="inputComment"
                            [(ngModel)]="assistant.comment" name="comment"
                            #comment="ngModel"
-                           placeholder="Something about assistant" maxlength="70"
+                           placeholder="{{ 'Something about assistant' | translate }}" maxlength="70"
                     >
                 </div>
             </div>
@@ -35,45 +35,33 @@
         <div class="row">
             <div class="col-sm-6">
                 <div class="form-group">
-                    <label for="inputEmail">E-Mail</label>
-                    <input type="text" class="form-control" id="inputEmail" placeholder="E-Mail"
+                    <label for="inputEmail" translate>E-Mail</label>
+                    <input type="text" class="form-control" id="inputEmail" placeholder="{{ 'Email' | translate }}"
                               [(ngModel)]="assistant.email" name="email"
                               #email="ngModel"
                               maxlength="255"
                               [innerHTML]="assistant.email"
                     >
-                    <div [hidden]="email.valid || email.pristine" class="alert alert-danger">
+                    <div [hidden]="email.valid || email.pristine" class="alert alert-danger" translate>
                         Description is required
                     </div>
                 </div>
             </div>
             <div class="col-sm-6">
                 <div class="form-group">
-                    <label for="inputRefKey">Ref. Key</label>
-                    <input class="form-control" id="inputRefKey" placeholder="Referral key"
+                    <label for="inputRefKey" translate>Ref. Key</label>
+                    <input class="form-control" id="inputRefKey" placeholder="{{ 'Referral key' | translate }}"
                               [(ngModel)]="assistant.ref_key" name="ref_key"
                               #ref="ngModel"
                               maxlength="255"
                               [innerHTML]="assistant.ref_key"
                     >
-                    <div [hidden]="ref.valid || ref.pristine" class="alert alert-danger">
+                    <div [hidden]="ref.valid || ref.pristine" class="alert alert-danger" translate>
                         Referral key is required
                     </div>
                 </div>
             </div>
         </div>
-        <div class="row">
-            <div class="col-sm-6"></div>
-            <div class="col-sm-6">
-                <ba-picture-uploader
-                        [picture]="assistant.picture"
-                        [defaultPicture]="defaultPicture"
-                        [uploaderOptions]="uploaderOptions"
-                        (onUpload)="startUpload($event)"
-                        (onUploadCompleted)="endUpload($event)"
-                ></ba-picture-uploader>
-            </div>
-        </div>
-        <button type="submit" class="btn btn-primary">Submit</button>
+        <button type="submit" class="btn btn-primary" translate>Submit</button>
     </form>
 </ba-card>
