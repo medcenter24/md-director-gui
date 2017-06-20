@@ -5,19 +5,18 @@
  */
 
 import {Injectable} from '@angular/core';
-import {Headers, Http} from "@angular/http";
 import {AccidentCheckpoint} from "./checkpoint";
+import {HttpService} from "../../../http/http.service";
 
 @Injectable()
-export class AccidentCheckpointsService {
+export class AccidentCheckpointsService extends HttpService {
 
-  private headers = new Headers({'Content-Type': 'application/json'});
-  private checkpointsUrl = 'director/checkpoints';  // URL to web api
-
-  constructor(private http: Http) { }
+  protected getPrefix(): string {
+    return 'director/checkpoints';
+  }
 
   getCheckpoints(): Promise<AccidentCheckpoint[]> {
-    return this.http.get(this.checkpointsUrl)
+    return this.http.get(this.getUrl(), { headers: this.getAuthHeaders() })
         .toPromise()
         .then(response => response.json().data as AccidentCheckpoint[])
         .catch(this.handleError);
@@ -25,16 +24,16 @@ export class AccidentCheckpointsService {
 
 
   getCheckpoint(id: number): Promise<AccidentCheckpoint> {
-    const url = `${this.checkpointsUrl}/${id}`;
-    return this.http.get(url)
+    const url = `${this.getUrl()}/${id}`;
+    return this.http.get(url, { headers: this.getAuthHeaders() })
         .toPromise()
         .then(response => response.json().data as AccidentCheckpoint)
         .catch(this.handleError);
   }
 
   delete(id: number): Promise<void> {
-    const url = `${this.checkpointsUrl}/${id}`;
-    return this.http.delete(url, {headers: this.headers})
+    const url = `${this.getUrl()}/${id}`;
+    return this.http.delete(url, { headers: this.getAuthHeaders() })
         .toPromise()
         .then(() => null)
         .catch(this.handleError);
@@ -42,16 +41,16 @@ export class AccidentCheckpointsService {
 
   create(checkpoint: AccidentCheckpoint): Promise<AccidentCheckpoint> {
     return this.http
-        .post(this.checkpointsUrl, JSON.stringify(checkpoint), {headers: this.headers})
+        .post(this.getUrl(), JSON.stringify(checkpoint), { headers: this.getAuthHeaders() })
         .toPromise()
-        .then(res => res.json().data)
+        .then(res => res.json() as AccidentCheckpoint)
         .catch(this.handleError);
   }
 
   update(checkpoint: AccidentCheckpoint): Promise<AccidentCheckpoint> {
-    const url = `${this.checkpointsUrl}/${checkpoint.id}`;
+    const url = `${this.getUrl()}/${checkpoint.id}`;
     return this.http
-        .put(url, JSON.stringify(checkpoint), {headers: this.headers})
+        .put(url, JSON.stringify(checkpoint), { headers: this.getAuthHeaders() })
         .toPromise()
         .then(() => checkpoint)
         .catch(this.handleError);

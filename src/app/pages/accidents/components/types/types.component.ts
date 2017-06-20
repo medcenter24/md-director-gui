@@ -119,8 +119,8 @@ export class AccidentTypes {
 
   onTableCreate(event): void {
     this.loadingBar.start();
-    this.service.create(event.newData).then(() => {
-      event.confirm.resolve();
+    this.service.create(event.newData).then(accidentType => {
+      event.confirm.resolve(accidentType);
       this.loadingBar.complete();
     }).catch((reason) => {
       event.confirm.reject();

@@ -23,6 +23,7 @@ import { AccidentStatuses } from './components/statuses/statuses.component';
 import { Accidents } from './accidents.component';
 import { AppTranslationModule } from '../../app.translation.module';
 import { DiscountService } from '../../components/discount/discount.service';
+import { AccidentDiscounts } from './components/discounts/discounts.component';
 
 @NgModule({
   imports: [
@@ -40,13 +41,14 @@ import { DiscountService } from '../../components/discount/discount.service';
     AccidentStatuses,
     AccidentCheckpoints,
     AccidentTypes,
+    AccidentDiscounts,
   ],
   providers: [
     AccidentStatusesService,
     AccidentCheckpointsService,
     AccidentTypesService,
     AccidentsService,
-    DiscountService
+    DiscountService,
   ]
 })
 export class AccidentsModule {
