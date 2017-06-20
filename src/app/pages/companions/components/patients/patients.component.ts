@@ -11,6 +11,7 @@ import {ModalComponent} from "ng2-bs3-modal/components/modal";
 import {Response} from "@angular/http";
 import {PatientsService} from "../../../../components/patient/patients.service";
 import { SlimLoadingBarService } from 'ng2-slim-loading-bar';
+import {Patient} from "../../../../components/patient/patient";
 
 @Component({
   selector: 'basic-tables',
@@ -130,8 +131,8 @@ export class Patients {
 
   onTableCreate(event): void {
     this.loadingBar.start();
-    this.service.create(event.newData).then(() => {
-      event.confirm.resolve();
+    this.service.create(event.newData).then((patient: Patient) => {
+      event.confirm.resolve(patient);
       this.loadingBar.complete();
     }).catch((reason) => {
       event.confirm.reject();

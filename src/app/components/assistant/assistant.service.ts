@@ -4,13 +4,12 @@
  * @author Alexander Zagovorichev <zagovorichev@gmail.com>
  */
 
-import {Injectable} from '@angular/core';
-import {Assistant} from "./assistant";
+import { Injectable } from '@angular/core';
+import { Assistant } from './assistant';
 import { HttpService } from '../http/http.service';
 
 @Injectable()
 export class AssistantsService extends HttpService{
-
 
   protected getPrefix(): string {
     return 'director/assistants';
@@ -18,7 +17,7 @@ export class AssistantsService extends HttpService{
   
   getAssistants(): Promise<Assistant[]> {
 
-    return this.http.get(this.getUrl(), {headers: this.getAuthHeaders()})
+    return this.http.get(this.getUrl(), { headers: this.getAuthHeaders() })
         .toPromise()
         .then(response => response.json().data as Assistant[])
         .catch(this.handleError);
@@ -27,7 +26,7 @@ export class AssistantsService extends HttpService{
 
   getAssistant(id: number): Promise<Assistant> {
     const url = `${this.getUrl()}/${id}`;
-    return this.http.get(url, {headers: this.getAuthHeaders()})
+    return this.http.get(url, { headers: this.getAuthHeaders() })
         .toPromise()
         .then(response => response.json().data as Assistant)
         .catch(this.handleError);
@@ -35,7 +34,7 @@ export class AssistantsService extends HttpService{
 
   delete(id: number): Promise<void> {
     const url = `${this.getUrl()}/${id}`;
-    return this.http.delete(url, {headers: this.getAuthHeaders()})
+    return this.http.delete(url, { headers: this.getAuthHeaders() })
         .toPromise()
         .then(() => null)
         .catch(this.handleError);
@@ -43,9 +42,9 @@ export class AssistantsService extends HttpService{
 
   create(hospital: Assistant): Promise<Assistant> {
     return this.http
-        .post(this.getUrl(), JSON.stringify(hospital), {headers: this.getAuthHeaders()})
+        .post(this.getUrl(), JSON.stringify(hospital), { headers: this.getAuthHeaders() })
         .toPromise()
-        .then(res => res.json().data)
+        .then(res => res.json() as Assistant)
         .catch(this.handleError);
   }
 
