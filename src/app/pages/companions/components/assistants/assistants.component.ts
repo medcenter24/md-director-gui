@@ -132,8 +132,8 @@ export class Assistants {
 
   onTableCreate(event): void {
     this.loadingBar.start();
-    this.service.create(event.newData).then(() => {
-      event.confirm.resolve();
+    this.service.create(event.newData).then((assistant: Assistant) => {
+      event.confirm.resolve(assistant);
       this.loadingBar.complete();
     }).catch((reason) => {
       event.confirm.reject();
