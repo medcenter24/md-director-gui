@@ -8,6 +8,7 @@ import { Injectable } from '@angular/core';
 import { Headers, Http } from '@angular/http';
 import { AuthenticationService } from '../auth/authentication.service';
 import { environment } from '../../../environments/environment';
+import 'rxjs/add/operator/toPromise';
 
 @Injectable()
 export abstract class HttpService {

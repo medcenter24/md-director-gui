@@ -9,7 +9,7 @@ import { Discount } from './discount';
 import { HttpService } from '../http/http.service';
 
 @Injectable()
-export class DiscountService extends HttpService{
+export class DiscountService extends HttpService {
 
   protected getPrefix() {
     return 'director/discounts';
@@ -21,7 +21,6 @@ export class DiscountService extends HttpService{
         .then(response => response.json().data as Discount[])
         .catch(this.handleError);
   }
-
 
   getDiscount(id: number): Promise<Discount> {
     const url = `${this.getUrl()}/${id}`;
@@ -43,7 +42,7 @@ export class DiscountService extends HttpService{
     return this.http
         .post(this.getUrl(), JSON.stringify(discount), {headers: this.getAuthHeaders()})
         .toPromise()
-        .then(res => res.json().data)
+        .then(res => res.json())
         .catch(this.handleError);
   }
 
