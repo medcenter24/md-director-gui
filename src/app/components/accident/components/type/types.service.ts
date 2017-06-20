@@ -22,7 +22,6 @@ export class AccidentTypesService extends HttpService {
         .catch(this.handleError);
   }
 
-
   getType(id: number): Promise<AccidentType> {
     const url = `${this.getUrl()}/${id}`;
     return this.http.get(url, {headers: this.getAuthHeaders()})
@@ -43,7 +42,7 @@ export class AccidentTypesService extends HttpService {
     return this.http
         .post(this.getUrl(), JSON.stringify(type), {headers: this.getAuthHeaders()})
         .toPromise()
-        .then(res => res.json().data)
+        .then(res => res.json() as AccidentType)
         .catch(this.handleError);
   }
 

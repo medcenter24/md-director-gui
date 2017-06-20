@@ -11,6 +11,7 @@ import { ModalComponent } from 'ng2-bs3-modal/components/modal';
 import { SlimLoadingBarService } from 'ng2-slim-loading-bar';
 import { Response } from '@angular/http';
 import { AccidentCheckpointsService } from '../../../../components/accident/components/checkpoint/checkpoints.service';
+import {AccidentCheckpoint} from "../../../../components/accident/components/checkpoint/checkpoint";
 
 @Component({
   selector: 'basic-tables',
@@ -120,8 +121,8 @@ export class AccidentCheckpoints {
 
   onTableCreate (event): void {
     this.loadingBar.start();
-    this.service.create(event.newData).then(() => {
-      event.confirm.resolve();
+    this.service.create(event.newData).then((checkpoint: AccidentCheckpoint) => {
+      event.confirm.resolve(checkpoint);
       this.loadingBar.complete();
     }).catch((reason) => {
       event.confirm.reject();

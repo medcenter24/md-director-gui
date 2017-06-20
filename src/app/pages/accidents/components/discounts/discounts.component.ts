@@ -121,8 +121,8 @@ export class AccidentDiscounts {
 
   onTableCreate (event): void {
     this.loadingBar.start();
-    this.service.create(event.newData).then(() => {
-      event.confirm.resolve();
+    this.service.create(event.newData).then(discount => {
+      event.confirm.resolve(discount);
       this.loadingBar.complete();
     }).catch((reason) => {
       event.confirm.reject();

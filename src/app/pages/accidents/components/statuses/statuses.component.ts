@@ -11,6 +11,7 @@ import { ModalComponent } from 'ng2-bs3-modal/components/modal';
 import { Response } from '@angular/http';
 import { AccidentStatusesService } from '../../../../components/accident/components/status/statuses.service';
 import { SlimLoadingBarService } from 'ng2-slim-loading-bar';
+import {AccidentStatus} from "../../../../components/accident/components/status/status";
 
 @Component({
   selector: 'basic-tables',
@@ -55,8 +56,8 @@ export class AccidentStatuses {
         title: 'Title',
         type: 'string'
       },
-      description: {
-        title: 'Description',
+      type: {
+        title: 'Type',
         type: 'string'
       },
     }
@@ -120,8 +121,8 @@ export class AccidentStatuses {
 
   onTableCreate (event): void {
     this.loadingBar.start();
-    this.service.create(event.newData).then(() => {
-      event.confirm.resolve();
+    this.service.create(event.newData).then((accidentStatus: AccidentStatus) => {
+      event.confirm.resolve(accidentStatus);
       this.loadingBar.complete();
     }).catch((reason) => {
       event.confirm.reject();

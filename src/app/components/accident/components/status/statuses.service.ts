@@ -5,36 +5,34 @@
  */
 
 import {Injectable} from '@angular/core';
-import {Headers, Http} from "@angular/http";
 import {AccidentStatus} from "./status";
+import {HttpService} from "../../../http/http.service";
 
 @Injectable()
-export class AccidentStatusesService {
+export class AccidentStatusesService extends HttpService {
 
-  private headers = new Headers({'Content-Type': 'application/json'});
-  private statusesUrl = 'director/statuses';  // URL to web api
-
-  constructor(private http: Http) { }
+  protected getPrefix(): string {
+    return 'director/statuses';
+  }
 
   getStatuses(): Promise<AccidentStatus[]> {
-    return this.http.get(this.statusesUrl)
+    return this.http.get(this.getUrl(), { headers: this.getAuthHeaders() })
         .toPromise()
         .then(response => response.json().data as AccidentStatus[])
         .catch(this.handleError);
   }
 
-
   getStatuse(id: number): Promise<AccidentStatus> {
-    const url = `${this.statusesUrl}/${id}`;
-    return this.http.get(url)
+    const url = `${this.getUrl()}/${id}`;
+    return this.http.get(url, { headers: this.getAuthHeaders() })
         .toPromise()
         .then(response => response.json().data as AccidentStatus)
         .catch(this.handleError);
   }
 
   delete(id: number): Promise<void> {
-    const url = `${this.statusesUrl}/${id}`;
-    return this.http.delete(url, {headers: this.headers})
+    const url = `${this.getUrl()}/${id}`;
+    return this.http.delete(url, { headers: this.getAuthHeaders() })
         .toPromise()
         .then(() => null)
         .catch(this.handleError);
@@ -42,16 +40,16 @@ export class AccidentStatusesService {
 
   create(statuse: AccidentStatus): Promise<AccidentStatus> {
     return this.http
-        .post(this.statusesUrl, JSON.stringify(statuse), {headers: this.headers})
+        .post(this.getUrl(), JSON.stringify(statuse), { headers: this.getAuthHeaders() })
         .toPromise()
-        .then(res => res.json().data)
+        .then(res => res.json() as AccidentStatus)
         .catch(this.handleError);
   }
 
   update(statuse: AccidentStatus): Promise<AccidentStatus> {
-    const url = `${this.statusesUrl}/${statuse.id}`;
+    const url = `${this.getUrl()}/${statuse.id}`;
     return this.http
-        .put(url, JSON.stringify(statuse), {headers: this.headers})
+        .put(url, JSON.stringify(statuse), { headers: this.getAuthHeaders() })
         .toPromise()
         .then(() => statuse)
         .catch(this.handleError);
