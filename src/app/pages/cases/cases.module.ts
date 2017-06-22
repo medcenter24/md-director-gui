@@ -55,6 +55,7 @@ import { ImporterService } from '../../components/importer/importer.service';
 import { SelectDiscountComponent } from '../../components/discount/components/select/select.component';
 import { DiscountService } from '../../components/discount/discount.service';
 import { FileUploaderComponent } from '../../components/upload/components/uploader/uploader.component';
+import {DocumentsService} from "../../components/document/documents.service";
 
 @NgModule({
   imports: [
@@ -84,7 +85,7 @@ import { FileUploaderComponent } from '../../components/upload/components/upload
     PaginatorModule,
     CheckboxModule,
     ConfirmDialogModule,
-    BlockUIModule
+    BlockUIModule,
   ],
   declarations: [
     Cases,
@@ -104,7 +105,7 @@ import { FileUploaderComponent } from '../../components/upload/components/upload
     FileUploaderComponent,
     DiagnosticsSelectorComponent,
     SelectDiagnosticsComponent,
-    ImporterComponent
+    ImporterComponent,
   ],
   providers: [
     CasesService,
@@ -120,7 +121,8 @@ import { FileUploaderComponent } from '../../components/upload/components/upload
     DiagnosticService,
     AuthenticationService,
     ImporterService,
-    ConfirmationService
+    ConfirmationService,
+    DocumentsService,
   ]
 })
 export class CasesModule {
