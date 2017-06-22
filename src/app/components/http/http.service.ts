@@ -19,7 +19,7 @@ export abstract class HttpService {
     this.headers = new Headers({ 'Authorization': 'Bearer ' + this.authenticationService.token });
   }
 
-  public getUrl(path: string = null): string {
+  public getUrl(path: string|number = null): string {
     return environment.apiHost + '/' + this.getPrefix() + (path ? '/' + path : '');
   }
 

@@ -11,9 +11,10 @@ import { TranslateService } from '@ngx-translate/core';
 import { Logger } from 'angular2-logger/core';
 import { GlobalState } from '../../../../global.state';
 import { AuthenticationService } from '../../../auth/authentication.service';
+import {DocumentsService} from "../../../document/documents.service";
 @Component({
   selector: 'file-uploader',
-  templateUrl: './uploader.html'
+  templateUrl: './uploader.html',
 })
 export class FileUploaderComponent {
 
@@ -26,8 +27,6 @@ export class FileUploaderComponent {
   // preload translations for the component
   private translateLoaded: string;
   private translateErrorLoad: string;
-  private transDeleteQuestion: string;
-  private transDeleteConfirmation: string;
   private deleterCounter: number = 0;
 
   constructor (
@@ -35,6 +34,7 @@ export class FileUploaderComponent {
     private translate: TranslateService,
     private _logger: Logger, private _state: GlobalState,
     private authenticationService: AuthenticationService,
+    private documentsService: DocumentsService,
   ) {
   }
 
@@ -45,13 +45,6 @@ export class FileUploaderComponent {
     this.translate.get('Upload Error').subscribe(res => {
       this.translateErrorLoad = res;
     });
-
-    this.translate.get('Delete Question').subscribe(res => {
-      this.transDeleteQuestion = res;
-    });
-    this.translate.get('Delete_confirmation').subscribe(res => {
-      this.transDeleteConfirmation = res;
-    });
   }
 
   onBeforeUpload(): void {
@@ -61,13 +54,14 @@ export class FileUploaderComponent {
   }
 
   onBeforeSend(event): void {
-    event.xhr.setRequestHeader("Authorization", "Bearer " + this.authenticationService.token);
+    event.xhr.setRequestHeader('Authorization', 'Bearer ' + this.authenticationService.token);
   }
 
   handleUpload(event): void {
-    for(let file of event.files) {
+    for ( const file of event.files ) {
       this.uploads.push(file);
-      this.msgs.push({severity: 'info', summary: this.translateLoaded, detail: file.name});
+      this.msgs.push({ severity: 'info', summary: this.translateLoaded, detail: file.name });
+      console.log(this.uploads);
     }
     this._state.notifyDataChanged('growl', this.msgs);
     this.changed.emit(this.uploads);
@@ -75,11 +69,12 @@ export class FileUploaderComponent {
   }
 
   handleError (event): void {
-    for(let file of event.files) {
+    for ( const file of event.files ) {
       this.msgs.push({severity: 'error', summary: this.translateErrorLoad, detail: file.name});
     }
     this._state.notifyDataChanged('growl', this.msgs);
-    this._logger.error('Error: Upload to ' + event.xhr.responseURL + ' [' + event.xhr.status + ': ' + event.xhr.statusText + ']');
+    this._logger.error('Error: Upload to ' + event.xhr.responseURL
+      + ' [' + event.xhr.status + ': ' + event.xhr.statusText + ']');
     this.loadingBar.complete();
   }
 
@@ -91,11 +86,11 @@ export class FileUploaderComponent {
   }
 
   downloadFile(file): void {
-    console.log('run download')
+    console.log('run download');
   }
 
   deleteFile(file): void {
-      let files = [];
+      const files = [];
 
       if (file) {
         files.push(file.id);
@@ -104,15 +99,13 @@ export class FileUploaderComponent {
       this.deleter(files);
   }
 
-  private deleter(files: Array<any>) : void {
+  private deleter(files: Array<any>): void {
     this.deleterCounter = files.length;
 
     if (this.deleterCounter){
       this.loadingBar.start();
       files.map(id => {
-        console.log('delete id with event')
-        this.deleteFileFromGui(id);
-        /*this.uploadService.deleteFile(id).then(() => {
+        this.documentsService.deleteDocument(id).then(() => {
           this.deleteFileFromGui(id);
           if (--this.deleterCounter <= 0) {
             this.loadingBar.complete();
@@ -122,7 +115,7 @@ export class FileUploaderComponent {
           if (--this.deleterCounter <= 0) {
             this.loadingBar.complete();
           }
-        });*/
+        });
       });
     }
   }
