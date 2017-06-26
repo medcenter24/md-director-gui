@@ -13,18 +13,18 @@
         (onBeforeSend)="onBeforeSend($event)"
 >
     <ng-template pTemplate="content">
-        <h3 *ngIf="uploads.length" translate>Uploaded Files</h3>
-        <table class="table table-striped table-bordered" *ngIf="uploads.length">
+        <h3 *ngIf="documents.length" translate>Uploaded Files</h3>
+        <table class="table table-striped table-bordered" *ngIf="documents.length">
             <thead class="table-inverse">
             <tr>
-                <th>{{ uploads.length }}</th>
+                <th>{{ documents.length }}</th>
                 <th translate>File Name</th>
                 <th></th>
                 <th></th>
             </tr>
             </thead>
             <tbody>
-            <tr *ngFor="let file of uploads" class="row-file-{{ file.id }}">
+            <tr *ngFor="let file of documents" class="row-file-{{ file.id }}">
                 <td>
                     <!-- todo thumber [file]="file"></thumber-->
                 </td>

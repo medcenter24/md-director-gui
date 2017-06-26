@@ -5,12 +5,12 @@
  */
 
 export class Patient {
-    constructor(
-        public id: number,
-        public name: string,
-        public address: string,
-        public phones: string,
-        public birthday: string,
-        public comment: string,
-    ) {}
+
+  constructor(public id: number = 0,
+              public name: string = '',
+              public address: string = '',
+              public phones: string = '',
+              public birthday: string = '',
+              public comment: string = '') {
+  }
 }

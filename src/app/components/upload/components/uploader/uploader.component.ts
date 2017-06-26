@@ -4,25 +4,26 @@
  *  @author Alexander Zagovorichev <zagovorichev@gmail.com>
  */
 
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Message } from 'primeng/primeng';
 import { SlimLoadingBarService } from 'ng2-slim-loading-bar';
 import { TranslateService } from '@ngx-translate/core';
 import { Logger } from 'angular2-logger/core';
 import { GlobalState } from '../../../../global.state';
 import { AuthenticationService } from '../../../auth/authentication.service';
-import {DocumentsService} from "../../../document/documents.service";
+import { DocumentsService } from '../../../document/documents.service';
+import { Document } from '../../../document/document';
 @Component({
-  selector: 'file-uploader',
+  selector: 'nga-file-uploader',
   templateUrl: './uploader.html',
 })
-export class FileUploaderComponent {
+export class FileUploaderComponent implements OnInit {
 
-  @Input() uploads: any[] = [];
+  @Input() documents: Document[] = [];
   @Input() url: string = '';
   @Output() changed: EventEmitter<any[]> = new EventEmitter<any[]>();
 
-  msgs: Message[];
+  msgs: Array<Message> = [];
 
   // preload translations for the component
   private translateLoaded: string;
@@ -49,7 +50,7 @@ export class FileUploaderComponent {
 
   onBeforeUpload(): void {
     this.msgs = [];
-    this._state.notifyDataChanged('growl', []);
+    this._state.notifyDataChanged('growl', this.msgs);
     this.loadingBar.start();
   }
 
@@ -58,19 +59,20 @@ export class FileUploaderComponent {
   }
 
   handleUpload(event): void {
-    for ( const file of event.files ) {
-      this.uploads.push(file);
-      this.msgs.push({ severity: 'info', summary: this.translateLoaded, detail: file.name });
-      console.log(this.uploads);
+    this.msgs = [];
+    const loadedFiles = JSON.parse(event.xhr.response).data as Document[];
+    for ( const file of loadedFiles ) {
+      this.documents.push(file);
+      this.msgs.push({ severity: 'info', summary: this.translateLoaded, detail: file.title });
     }
     this._state.notifyDataChanged('growl', this.msgs);
-    this.changed.emit(this.uploads);
+    this.changed.emit(this.documents);
     this.loadingBar.complete();
   }
 
   handleError (event): void {
     for ( const file of event.files ) {
-      this.msgs.push({severity: 'error', summary: this.translateErrorLoad, detail: file.name});
+      this.msgs.push({ severity: 'error', summary: this.translateErrorLoad, detail: file.name });
     }
     this._state.notifyDataChanged('growl', this.msgs);
     this._logger.error('Error: Upload to ' + event.xhr.responseURL
@@ -81,8 +83,9 @@ export class FileUploaderComponent {
   onClear(): void {
     this.msgs = [];
     this._state.notifyDataChanged('growl', []);
-    this.uploads = [];
-    this.changed.emit(this.uploads);
+    // this will clean all data
+    // this.documents = [];
+    // this.changed.emit(this.documents);
   }
 
   downloadFile(file): void {
@@ -102,7 +105,7 @@ export class FileUploaderComponent {
   private deleter(files: Array<any>): void {
     this.deleterCounter = files.length;
 
-    if (this.deleterCounter){
+    if (this.deleterCounter) {
       this.loadingBar.start();
       files.map(id => {
         this.documentsService.deleteDocument(id).then(() => {
@@ -120,9 +123,9 @@ export class FileUploaderComponent {
     }
   }
 
-  private deleteFileFromGui(id: number) : void {
-    this.uploads = this.uploads.filter(val => +val.id !== +id);
-    this.changed.emit(this.uploads);
+  private deleteFileFromGui(id: number): void {
+    this.documents = this.documents.filter(val => +val.id !== +id);
+    this.changed.emit(this.documents);
     $('.row-file-' + id).remove();
   }
 }

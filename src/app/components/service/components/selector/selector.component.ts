@@ -4,7 +4,7 @@
  *  @author Alexander Zagovorichev <zagovorichev@gmail.com>
  */
 
-import { Component, EventEmitter, Input, Output, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { SelectServicesComponent } from '../select/select.component';
 import { Service } from '../../service';
 import { CasesService } from '../../../case/cases.service';
@@ -12,10 +12,10 @@ import { SlimLoadingBarService } from 'ng2-slim-loading-bar';
 import { Logger } from 'angular2-logger/core';
 
 @Component({
-  selector: 'services-selector',
-  templateUrl: 'selector.html'
+  selector: 'nga-services-selector',
+  templateUrl: 'selector.html',
 })
-export class ServicesSelectorComponent {
+export class ServicesSelectorComponent implements OnInit {
 
   @Input() caseId: number = 0;
   @Output() priceChanged: EventEmitter<number> = new EventEmitter<number>();
@@ -31,7 +31,7 @@ export class ServicesSelectorComponent {
   constructor (
     private casesService: CasesService,
     private loadingBar: SlimLoadingBarService,
-    private _logger: Logger
+    private _logger: Logger,
   ) {
   }
 
@@ -48,6 +48,11 @@ export class ServicesSelectorComponent {
       this.selectServicesComponent.reloadChosenServices(this.caseServices);
       this.changedServices.emit(this.caseServices);
     }
+  }
+
+  onServicesChanged(): void {
+    this.recalculatePrice();
+    this.changedServices.emit(this.caseServices);
   }
 
   onSelectServicesLoaded(): void {

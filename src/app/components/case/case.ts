@@ -18,6 +18,5 @@ export class CaseAccident {
         public created_at: string = '',
         public checkpoints: string = '',
         public status: string = '',
-        public accident_status: string = ''
     ) {}
 }

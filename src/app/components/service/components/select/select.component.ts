@@ -4,7 +4,7 @@
  *  @author Alexander Zagovorichev <zagovorichev@gmail.com>
  */
 
-import { Component, Output, EventEmitter, Input } from '@angular/core';
+import { Component, Output, EventEmitter, Input, OnInit } from '@angular/core';
 import { ServicesService } from '../../services.service';
 import { SelectItem } from 'primeng/primeng';
 import { Service } from '../../service';
@@ -12,10 +12,10 @@ import { SlimLoadingBarService } from 'ng2-slim-loading-bar';
 import { Logger } from 'angular2-logger/core';
 
 @Component({
-  selector: 'select-services',
-  templateUrl: './select.html'
+  selector: 'nga-select-services',
+  templateUrl: './select.html',
 })
-export class SelectServicesComponent {
+export class SelectServicesComponent implements OnInit {
 
   @Output() loaded: EventEmitter<string> = new EventEmitter<string>();
   @Output() chosenServicesChange: EventEmitter<Service[]> = new EventEmitter<Service[]>();
@@ -30,7 +30,7 @@ export class SelectServicesComponent {
   constructor (
     private servicesService: ServicesService,
     private loadingBar: SlimLoadingBarService,
-    private _logger: Logger
+    private _logger: Logger,
   ) {
   }
 
@@ -41,7 +41,7 @@ export class SelectServicesComponent {
       this.dataServices = services.map(x => {
         return {
           label: '' + x.title,
-          value: '' + x.id
+          value: '' + x.id,
         };
       });
 
@@ -60,7 +60,7 @@ export class SelectServicesComponent {
 
    onChanged(event): void {
      const services = this.services.filter(function (service) {
-       return event.value.indexOf(service.id+'') !== -1;
+       return event.value.indexOf(service.id + '') !== -1;
      });
 
      this.chosenServicesChange.emit(services);

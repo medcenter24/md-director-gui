@@ -4,7 +4,7 @@
  *  @author Alexander Zagovorichev <zagovorichev@gmail.com>
  */
 
-import { Component, EventEmitter, Input, Output, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { SelectDiagnosticsComponent } from '../select/select.component';
 import { Diagnostic } from '../../diagnostic';
 import { CasesService } from '../../../case/cases.service';
@@ -12,10 +12,10 @@ import { SlimLoadingBarService } from 'ng2-slim-loading-bar';
 import { Logger } from 'angular2-logger/core';
 
 @Component({
-  selector: 'diagnostics-selector',
-  templateUrl: 'selector.html'
+  selector: 'nga-diagnostics-selector',
+  templateUrl: 'selector.html',
 })
-export class DiagnosticsSelectorComponent {
+export class DiagnosticsSelectorComponent implements OnInit {
 
   @Input() caseId: number = 0;
   @Output() changed: EventEmitter<Diagnostic[]> = new EventEmitter<Diagnostic[]>();
@@ -29,7 +29,7 @@ export class DiagnosticsSelectorComponent {
   constructor (
     private casesService: CasesService,
     private loadingBar: SlimLoadingBarService,
-    private _logger: Logger
+    private _logger: Logger,
   ) {
   }
 
@@ -45,6 +45,10 @@ export class DiagnosticsSelectorComponent {
       this.selectDiagnosticsComponent.reloadChosenDiagnostics(this.caseDiagnostics);
       this.changed.emit(this.caseDiagnostics);
     }
+  }
+
+  onChange(): void {
+    this.changed.emit(this.caseDiagnostics);
   }
 
   onSelectDiagnosticsLoaded(): void {

@@ -20,49 +20,25 @@ export class DiagnosticCategoryService extends HttpService {
     }
 
     getCategories(): Promise<DiagnosticCategory[]> {
-        return this.http.get(this.getUrl(), {headers: this.getAuthHeaders()})
-            .toPromise()
-            .then(function (response) {
-                return response.json().data as DiagnosticCategory[];
-            })
-            .catch(this.handleError);
+        return this.get()
+          .then(response => response.json().data as DiagnosticCategory[]);
     }
 
     getCategory(id: number): Promise<DiagnosticCategory> {
-        const url = `${this.getUrl()}/${id}`;
-        return this.http.get(url, {headers: this.getAuthHeaders()})
-            .toPromise()
-            .then(response => response.json().data as DiagnosticCategory)
-            .catch(this.handleError);
+        return this.get(id)
+          .then(response => response.json().data as DiagnosticCategory);
     }
 
     delete(id: number): Promise<void> {
-        const url = `${this.getUrl()}/${id}`;
-        return this.http.delete(url, {headers: this.getAuthHeaders()})
-            .toPromise()
-            .then(() => null)
-            .catch(this.handleError);
+        return this.delete(id);
     }
 
     create(title: string): Promise<DiagnosticCategory> {
-        return this.http
-            .post(this.getUrl(), JSON.stringify({title: title}), {headers: this.getAuthHeaders()})
-            .toPromise()
-            .then(res => res.json() as DiagnosticCategory)
-            .catch(this.handleError);
+        return this.store({title: title}).then(res => res.json() as DiagnosticCategory);
     }
 
     update(category: DiagnosticCategory): Promise<DiagnosticCategory> {
-        const url = `${this.getUrl()}/${category.id}`;
-        return this.http
-            .put(url, JSON.stringify(category), {headers: this.getAuthHeaders()})
-            .toPromise()
-            .then(res => res.json().data as DiagnosticCategory)
-            .catch(this.handleError);
-    }
-
-    private handleError(error: any): Promise<any> {
-        return Promise.reject(error.message || error);
+        return this.put(category.id, category).then(res => res.json().data as DiagnosticCategory);
     }
 }
 

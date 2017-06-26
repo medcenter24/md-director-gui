@@ -17,47 +17,22 @@ export class CitiesService extends HttpService {
   }
   
   getCities(): Promise<City[]> {
-
-    return this.http.get(this.getUrl(), {headers: this.getAuthHeaders()})
-      .toPromise()
-      .then(response => response.json().data as City[])
-      .catch(this.handleError);
+    return this.get().then(response => response.json().data as City[]);
   }
 
   getCity (id: number): Promise<City> {
-    const url = `${this.getUrl()}/${id}`;
-    return this.http.get(url, {headers: this.getAuthHeaders()})
-      .toPromise()
-      .then(response => response.json().data as City)
-      .catch(this.handleError);
+    return this.get(id).then(response => response.json().data as City);
   }
 
   delete (id: number): Promise<void> {
-    const url = `${this.getUrl()}/${id}`;
-    return this.http.delete(url, {headers: this.getAuthHeaders()})
-      .toPromise()
-      .then(() => null)
-      .catch(this.handleError);
+    return this.remove(id);
   }
 
   create (city: City): Promise<City> {
-    return this.http
-      .post(this.getUrl(), JSON.stringify(city), {headers: this.getAuthHeaders()})
-      .toPromise()
-      .then(res => res.json())
-      .catch(this.handleError);
+    return this.store(city).then(res => res.json() as City);
   }
 
   update (city: City): Promise<City> {
-    const url = `${this.getUrl()}/${city.id}`;
-    return this.http
-      .put(url, JSON.stringify(city), {headers: this.getAuthHeaders()})
-      .toPromise()
-      .then(() => city)
-      .catch(this.handleError);
-  }
-
-  private handleError (error: any): Promise<any> {
-    return Promise.reject(error.message || error);
+    return this.put(city.id, city);
   }
 }

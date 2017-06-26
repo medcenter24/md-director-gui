@@ -15,13 +15,6 @@ export class DocumentsService extends HttpService {
   }
 
   deleteDocument(id: number): Promise<void> {
-    return this.http.delete(this.getUrl(id), { headers: this.getAuthHeaders() })
-      .toPromise()
-      .then(() => null)
-      .catch(this.handleError);
-  }
-
-  private handleError(error: any): Promise<any> {
-    return Promise.reject(error.message || error);
+    return this.remove(id);
   }
 }
