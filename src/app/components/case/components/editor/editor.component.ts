@@ -4,7 +4,7 @@
  * @author Alexander Zagovorichev <zagovorichev@gmail.com>
  */
 
-import { Component, Output, EventEmitter, ViewChild } from '@angular/core';
+import { Component, Output, EventEmitter, ViewChild, OnInit } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Accident } from '../../../accident/accident';
 import { AccidentsService } from '../../../accident/accidents.service';
@@ -26,10 +26,10 @@ import { Diagnostic } from '../../../diagnostic/diagnostic';
 import { Document } from '../../../document/document';
 
 @Component({
-  selector: 'case-editor',
-  templateUrl: './editor.html'
+  selector: 'nga-case-editor',
+  templateUrl: './editor.html',
 })
-export class CaseEditorComponent {
+export class CaseEditorComponent implements OnInit {
 
   @Output() loaded: EventEmitter<null> = new EventEmitter<null>();
 
@@ -59,16 +59,19 @@ export class CaseEditorComponent {
   totalIncome: number = 0;
 
   totalIncomeFormula: string = '';
+  // for a while until the hospital cases implementation
+  onlyDoctorAccident: boolean = true;
 
   constructor (private route: ActivatedRoute,
-               private loadingBar: SlimLoadingBarService, private translate: TranslateService,
-               private _logger: Logger, private _state: GlobalState,
+               private loadingBar: SlimLoadingBarService,
+               private translate: TranslateService,
+               private _logger: Logger,
+               private _state: GlobalState,
                private patientService: PatientsService,
                private accidentsService: AccidentsService,
                private caseService: CasesService,
-               private router: Router
-  ) {
-  }
+               private router: Router,
+  ) { }
 
   ngOnInit () {
     this.translate.get('Without discount').subscribe(res => {
@@ -76,17 +79,23 @@ export class CaseEditorComponent {
     });
     this.maxDate = new Date();
     this.appliedTime = new Date();
+    this.accident = new Accident();
 
-    this.accident = new Accident;
+    // while configured only doctorAccidents
+    // I need to define accident as a doctor
+    this.doctorAccident = new DoctorAccident();
+    this.accident.caseable_type = 'App\\DoctorAccident';
 
-    this._state.notifyDataChanged('menu.activeLink', {title: 'Cases'});
+    this.patient = new Patient();
 
     this.route.params
       .subscribe((params: Params) => {
+        this._state.notifyDataChanged('menu.activeLink', { title: 'Cases' });
+
         if (+params[ 'id' ]) {
           this.startLoader();
           this.accidentsService.getAccident(+params[ 'id' ]).then((accident: Accident) => {
-            this._state.notifyDataChanged('menu.activeLink', {title: 'Cases'});
+            this._state.notifyDataChanged('menu.activeLink', { title: 'Cases' });
             this.accident = accident ? accident : new Accident();
             this.appliedTime = new Date(this.accident.created_at);
             this.discountValue = 0; // +this.accident.discount_value;
@@ -99,9 +108,10 @@ export class CaseEditorComponent {
             this.loadingBar.complete();
             if (err.status === 404) {
               this.msgs = [];
-              this.msgs.push({severity: 'error', summary: this.translate.instant('Error'), detail: '404 Not Found'});
+              this.msgs.push({ severity: 'error', summary: this.translate.instant('Error'),
+                detail: '404 Not Found' });
               this._state.notifyDataChanged('growl', this.msgs);
-              this.router.navigate([ 'pages/cases' ]);
+              this.router.navigate(['pages/cases']);
             } else {
               this._logger.error(err);
             }
@@ -130,22 +140,16 @@ export class CaseEditorComponent {
   }
 
   onSave(): void {
-    let data = {
+    this.accident.discount_type_id = this.discountType.id;
+    this.accident.discount_value = +this.discountValue;
+    const data = {
       accident: this.accident,
       doctorAccident: this.doctorAccident,
       patient: this.patient,
-      discount: {
-        type: this.discountType,
-        value: this.discountValue
-      },
-      services: this.services,
-      diagnostics: this.diagnostics,
-      uploads: this.documents
+      services: this.services.map(x => x.id),
+      diagnostics: this.diagnostics.map(x => x.id),
+      documents: this.documents.map(x => x.id),
     };
-
-    this.msgs = [];
-    this.msgs.push({severity: 'error', summary: this.translate.instant('Not saved') + '!', detail: this.translate.instant('Save method still has not been implemented!')});
-    this._state.notifyDataChanged('growl', this.msgs);
 
     this.loadingBar.start();
     this.blocked = true;
@@ -155,7 +159,6 @@ export class CaseEditorComponent {
       // todo saved
       // if response 204 - created - move to the new case
       // else do nothing (show status - done)
-
 
       this.loadingBar.complete();
       this.blocked = false;
@@ -167,9 +170,10 @@ export class CaseEditorComponent {
 
       if (err.status === 404) {
         this.msgs = [];
-        this.msgs.push({severity: 'error', summary: this.translate.instant('Error'), detail: this.translate.instant('404 Not Found')});
+        this.msgs.push({ severity: 'error', summary: this.translate.instant('Error'),
+          detail: this.translate.instant('404 Not Found') });
         this._state.notifyDataChanged('growl', this.msgs);
-        this.router.navigate([ 'pages/cases' ]);
+        this.router.navigate(['pages/cases']);
       } else {
         this._logger.error(err);
       }
@@ -178,11 +182,14 @@ export class CaseEditorComponent {
     setTimeout(() => {
       this.blocked = false;
       this.loadingBar.complete();
-      }, 3000)
+      }, 3000);
   }
 
   onCaseTypeSelected(type): void {
     this.accident.caseable_type = type;
+    if (type === 'App\\DoctorAccident' && !this.doctorAccident) {
+      this.doctorAccident = new DoctorAccident();
+    }
   }
 
   onAccidentTypeSelected(accidentType: AccidentType): void {
@@ -235,13 +242,9 @@ export class CaseEditorComponent {
   }
 
   onCityChanged(city): void {
-    let cityId = city ? city.id : 0;
+    const cityId = city ? city.id : 0;
     this.doctorAccident.city_id = cityId;
     this.accident.city_id = cityId;
-  }
-
-  onDocumentsChanged(documents: Document[]): void {
-    this.documents = documents;
   }
 
   private recalculatePrice(): void {
@@ -280,8 +283,6 @@ export class CaseEditorComponent {
         this._logger.error(err);
         this.stopLoader();
       });
-    } else {
-      this._logger.debug('Accident does not contain patients');
     }
   }
 

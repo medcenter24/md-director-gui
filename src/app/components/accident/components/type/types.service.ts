@@ -16,46 +16,24 @@ export class AccidentTypesService extends HttpService {
   }
   
   getTypes(): Promise<AccidentType[]> {
-    return this.http.get(this.getUrl(), {headers: this.getAuthHeaders()})
-        .toPromise()
-        .then(response => response.json().data as AccidentType[])
-        .catch(this.handleError);
+    return this.get()
+      .then(response => response.json().data as AccidentType[]);
   }
 
   getType(id: number): Promise<AccidentType> {
-    const url = `${this.getUrl()}/${id}`;
-    return this.http.get(url, {headers: this.getAuthHeaders()})
-        .toPromise()
-        .then(response => response.json().data as AccidentType)
-        .catch(this.handleError);
+    return this.get(id)
+      .then(response => response.json().data as AccidentType);
   }
 
   delete(id: number): Promise<void> {
-    const url = `${this.getUrl()}/${id}`;
-    return this.http.delete(url, {headers: this.getAuthHeaders()})
-        .toPromise()
-        .then(() => null)
-        .catch(this.handleError);
+    return this.remove(id);
   }
 
   create(type: AccidentType): Promise<AccidentType> {
-    return this.http
-        .post(this.getUrl(), JSON.stringify(type), {headers: this.getAuthHeaders()})
-        .toPromise()
-        .then(res => res.json() as AccidentType)
-        .catch(this.handleError);
+    return this.store(type).then(res => res.json().data as AccidentType);
   }
 
   update(type: AccidentType): Promise<AccidentType> {
-    const url = `${this.getUrl()}/${type.id}`;
-    return this.http
-        .put(url, JSON.stringify(type), {headers: this.getAuthHeaders()})
-        .toPromise()
-        .then(() => type)
-        .catch(this.handleError);
-  }
-
-  private handleError(error: any): Promise<any> {
-    return Promise.reject(error.message || error);
+    return this.put(type.id, type);
   }
 }

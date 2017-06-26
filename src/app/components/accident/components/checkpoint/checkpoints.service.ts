@@ -16,47 +16,25 @@ export class AccidentCheckpointsService extends HttpService {
   }
 
   getCheckpoints(): Promise<AccidentCheckpoint[]> {
-    return this.http.get(this.getUrl(), { headers: this.getAuthHeaders() })
-        .toPromise()
-        .then(response => response.json().data as AccidentCheckpoint[])
-        .catch(this.handleError);
+    return this.get()
+      .then(response => response.json().data as AccidentCheckpoint[]);
   }
 
 
   getCheckpoint(id: number): Promise<AccidentCheckpoint> {
-    const url = `${this.getUrl()}/${id}`;
-    return this.http.get(url, { headers: this.getAuthHeaders() })
-        .toPromise()
-        .then(response => response.json().data as AccidentCheckpoint)
-        .catch(this.handleError);
+    return this.get(id)
+      .then(response => response.json().data as AccidentCheckpoint);
   }
 
   delete(id: number): Promise<void> {
-    const url = `${this.getUrl()}/${id}`;
-    return this.http.delete(url, { headers: this.getAuthHeaders() })
-        .toPromise()
-        .then(() => null)
-        .catch(this.handleError);
+    return this.remove(id);
   }
 
   create(checkpoint: AccidentCheckpoint): Promise<AccidentCheckpoint> {
-    return this.http
-        .post(this.getUrl(), JSON.stringify(checkpoint), { headers: this.getAuthHeaders() })
-        .toPromise()
-        .then(res => res.json() as AccidentCheckpoint)
-        .catch(this.handleError);
+    return this.store(checkpoint).then(res => res.json().data as AccidentCheckpoint);
   }
 
   update(checkpoint: AccidentCheckpoint): Promise<AccidentCheckpoint> {
-    const url = `${this.getUrl()}/${checkpoint.id}`;
-    return this.http
-        .put(url, JSON.stringify(checkpoint), { headers: this.getAuthHeaders() })
-        .toPromise()
-        .then(() => checkpoint)
-        .catch(this.handleError);
-  }
-
-  private handleError(error: any): Promise<any> {
-    return Promise.reject(error.message || error);
+    return this.put(checkpoint.id, checkpoint);
   }
 }

@@ -4,7 +4,7 @@
  *  @author Alexander Zagovorichev <zagovorichev@gmail.com>
  */
 
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { ConfirmationService, Message } from 'primeng/primeng';
 import { SlimLoadingBarService } from 'ng2-slim-loading-bar';
 import { TranslateService } from '@ngx-translate/core';
@@ -13,10 +13,10 @@ import { Logger } from 'angular2-logger/core';
 import { AuthenticationService } from '../auth/authentication.service';
 import { ImporterService } from './importer.service';
 @Component({
-  selector: 'importer',
-  templateUrl: './importer.html'
+  selector: 'nga-importer',
+  templateUrl: './importer.html',
 })
-export class ImporterComponent {
+export class ImporterComponent implements OnInit {
 
   @Input() url: string = '';
 
@@ -41,7 +41,7 @@ export class ImporterComponent {
                private _logger: Logger, private _state: GlobalState,
                private authenticationService: AuthenticationService,
                private importerService: ImporterService,
-               private confirmationService: ConfirmationService
+               private confirmationService: ConfirmationService,
   ) { }
 
   ngOnInit() {
@@ -80,18 +80,18 @@ export class ImporterComponent {
   }
 
   onBeforeSend(event): void {
-    event.xhr.setRequestHeader("Authorization", "Bearer " + this.authenticationService.token);
+    event.xhr.setRequestHeader('Authorization', 'Bearer ' + this.authenticationService.token);
   }
 
-  onBeforeUpload(event): void {
+  onBeforeUpload(): void {
     this.msgs = [];
     this._state.notifyDataChanged('growl', []);
     this.loadingBar.start();
   }
 
   handleUpload(event): void {
-    for(let file of event.files) {
-      this.msgs.push({severity: 'info', summary: this.translateLoaded, detail: file.name});
+    for (const file of event.files) {
+      this.msgs.push({ severity: 'info', summary: this.translateLoaded, detail: file.name });
     }
     this._state.notifyDataChanged('growl', this.msgs);
     this.loadingBar.complete();
@@ -99,17 +99,18 @@ export class ImporterComponent {
     this.loadImportQueue();
   }
 
-  onClear (): void {
+  onClear(): void {
     this.msgs = [];
     this._state.notifyDataChanged('growl', []);
   }
 
-  handleError (event): void {
-    for(let file of event.files) {
-      this.msgs.push({severity: 'error', summary: this.translateErrorLoad, detail: file.name});
+  handleError(event): void {
+    for (const file of event.files) {
+      this.msgs.push({ severity: 'error', summary: this.translateErrorLoad, detail: file.name });
     }
     this._state.notifyDataChanged('growl', this.msgs);
-    this._logger.error('Error: Upload to ' + event.xhr.responseURL + ' [' + event.xhr.status + ': ' + event.xhr.statusText + ']');
+    this._logger.error('Error: Upload to ' + event.xhr.responseURL
+      + ' [' + event.xhr.status + ': ' + event.xhr.statusText + ']');
     this.loadingBar.complete();
   }
 
@@ -144,49 +145,49 @@ export class ImporterComponent {
           }
 
           this.deleter(files);
-        }
+        },
       });
     }
   }
 
   report (file): void {
-    let result = this.importedFiles.filter(val => val.id*1 === file.id*1)[0];
+    const result = this.importedFiles.filter(val => +val.id === +file.id)[0];
 
     this.confirmationService.confirm({
       message: result.response,
       header: this.transReport,
       icon: result.success ? 'fa fa-check-circle-o' : 'fa fa-exclamation-triangle',
-      acceptVisible: false
+      acceptVisible: false,
     });
   }
 
-  isImported(id: number) : boolean {
-    let is = this.importedFiles.filter(val => val.id*1 === id);
+  isImported(id: number): boolean {
+    const is = this.importedFiles.filter(val => +val.id === +id);
     return !!is.length;
   }
 
-  private importer(files: Array<any>) : void {
+  private importer(files: Array<any>): void {
     this.importerCounter = files.length;
 
-    if (this.importerCounter){
+    if (this.importerCounter) {
       this.loadingBar.start();
       files.map(id => {
         this.importerService.importFile(this.url, id).then(resp => {
-          this.selectedFiles = this.selectedFiles.filter(val => val*1 !== id*1);
+          this.selectedFiles = this.selectedFiles.filter(val => +val !== +id);
           $('.row-file-' + id).addClass('is-success');
           this.importedFiles.push({
-            id: id*1,
+            id: +id,
             success: true,
-            response: resp.accidentId
+            response: resp.accidentId,
           });
           this.loadingBar.complete();
         }).catch(err => {
-          this.selectedFiles = this.selectedFiles.filter(val => val*1 !== id*1);
+          this.selectedFiles = this.selectedFiles.filter(val => +val !== +id);
           $('.row-file-' + id).addClass('error');
           this.importedFiles.push({
-            id: id*1,
+            id: +id,
             success: false,
-            response: err.json().message
+            response: err.json().message,
           });
           this._logger.error(err);
           this.loadingBar.complete();
@@ -195,10 +196,10 @@ export class ImporterComponent {
     }
   }
 
-  private deleter(files: Array<any>) : void {
+  private deleter(files: Array<any>): void {
     this.deleterCounter = files.length;
 
-    if (this.deleterCounter){
+    if (this.deleterCounter) {
       this.loadingBar.start();
       files.map(id => {
         this.importerService.deleteFile(this.url, id).then(() => {
@@ -214,7 +215,7 @@ export class ImporterComponent {
     }
   }
 
-  private deleteFileFromGui(id: number) : void {
+  private deleteFileFromGui(id: number): void {
     this.selectedFiles = this.selectedFiles.filter(val => +val !== +id);
     this.uploadedFiles = this.uploadedFiles.filter(val => +val.id !== +id);
 

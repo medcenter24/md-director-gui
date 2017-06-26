@@ -8,6 +8,6 @@ export class ImportedFile {
   constructor (
     public fileName: string = '',
     public status: string = '',
-    public report: string = ''
+    public report: string = '',
   ) {}
 }

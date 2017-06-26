@@ -16,46 +16,22 @@ export class DiscountService extends HttpService {
   }
 
   getDiscounts(): Promise<Discount[]> {
-    return this.http.get(this.getUrl(), {headers: this.getAuthHeaders()})
-        .toPromise()
-        .then(response => response.json().data as Discount[])
-        .catch(this.handleError);
+    return this.get().then(response => response.json().data as Discount[]);
   }
 
   getDiscount(id: number): Promise<Discount> {
-    const url = `${this.getUrl()}/${id}`;
-    return this.http.get(url, {headers: this.getAuthHeaders()})
-        .toPromise()
-        .then(response => response.json().data as Discount)
-        .catch(this.handleError);
+    return this.get(id).then(response => response.json().data as Discount);
   }
 
   delete(id: number): Promise<void> {
-    const url = `${this.getUrl()}/${id}`;
-    return this.http.delete(url, {headers: this.getAuthHeaders()})
-        .toPromise()
-        .then(() => null)
-        .catch(this.handleError);
+    return this.delete(id);
   }
 
   create(discount: Discount): Promise<Discount> {
-    return this.http
-        .post(this.getUrl(), JSON.stringify(discount), {headers: this.getAuthHeaders()})
-        .toPromise()
-        .then(res => res.json())
-        .catch(this.handleError);
+    return this.store(discount).then(res => res.json() as Discount);
   }
 
   update(discount: Discount): Promise<Discount> {
-    const url = `${this.getUrl()}/${discount.id}`;
-    return this.http
-        .put(url, JSON.stringify(discount), {headers: this.getAuthHeaders()})
-        .toPromise()
-        .then(() => discount)
-        .catch(this.handleError);
-  }
-
-  private handleError(error: any): Promise<any> {
-    return Promise.reject(error.message || error);
+    return this.put(discount.id, discount);
   }
 }

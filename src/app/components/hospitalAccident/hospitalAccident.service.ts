@@ -5,26 +5,17 @@
  */
 
 import { Injectable } from '@angular/core';
-import { Http } from '@angular/http';
 import { HospitalAccident } from './hospitalAccident';
+import { HttpService } from '../http/http.service';
 
 @Injectable()
-export class HospitalAccidentService {
+export class HospitalAccidentService extends HttpService {
 
-  private headers = new Headers({'Content-Type': 'application/json'});
-  private url = 'director/hospitalcases';  // URL to web api
-
-  constructor(private http: Http) { }
-
-  getAccident(id: number): Promise<HospitalAccident> {
-    const url = `${this.url}/${id}`;
-    return this.http.get(url)
-      .toPromise()
-      .then(response => response.json().data as HospitalAccident)
-      .catch(this.handleError);
+  protected getPrefix(): string {
+    return 'director/hospitalcases';
   }
 
-  private handleError(error: any): Promise<any> {
-    return Promise.reject(error.message || error);
+  getAccident(id: number): Promise<HospitalAccident> {
+    return this.get(id).then(response => response.json().data as HospitalAccident);
   }
 }

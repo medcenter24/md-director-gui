@@ -15,49 +15,24 @@ export class UsersService extends HttpService {
   protected getPrefix (): string {
     return 'director/users';
   }
-  getUsers(): Promise<User[]> {
 
-    return this.http.get(this.getUrl(), {headers: this.getAuthHeaders()})
-        .toPromise()
-        .then(response => response.json().data as User[])
-        .catch(this.handleError);
+  getUsers(): Promise<User[]> {
+    return this.get().then(response => response.json().data as User[]);
   }
 
-
   getUser(id: number): Promise<User> {
-    const url = `${this.getUrl()}/${id}`;
-    return this.http.get(url, {headers: this.getAuthHeaders()})
-        .toPromise()
-        .then(response => response.json().data as User)
-        .catch(this.handleError);
+    return this.get(id).then(response => response.json().data as User);
   }
 
   delete(id: number): Promise<void> {
-    const url = `${this.getUrl()}/${id}`;
-    return this.http.delete(url, {headers: this.getAuthHeaders()})
-        .toPromise()
-        .then(() => null)
-        .catch(this.handleError);
+    return this.remove(id);
   }
 
   create(user: User): Promise<User> {
-    return this.http
-        .post(this.getUrl(), JSON.stringify(user), {headers: this.getAuthHeaders()})
-        .toPromise()
-        .then(res => res.json() as User)
-        .catch(this.handleError);
+    return this.store(user).then(res => res.json() as User);
   }
 
   update(user: User): Promise<User> {
-    const url = `${this.getUrl()}/${user.id}`;
-    return this.http
-        .put(url, JSON.stringify(user), {headers: this.getAuthHeaders()})
-        .toPromise()
-        .then(() => user)
-        .catch(this.handleError);
-  }
-
-  private handleError(error: any): Promise<any> {
-    return Promise.reject(error.message || error);
+    return this.put(user.id, user);
   }
 }

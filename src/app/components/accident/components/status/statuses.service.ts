@@ -16,46 +16,24 @@ export class AccidentStatusesService extends HttpService {
   }
 
   getStatuses(): Promise<AccidentStatus[]> {
-    return this.http.get(this.getUrl(), { headers: this.getAuthHeaders() })
-        .toPromise()
-        .then(response => response.json().data as AccidentStatus[])
-        .catch(this.handleError);
+    return this.get()
+      .then(response => response.json().data as AccidentStatus[]);
   }
 
-  getStatuse(id: number): Promise<AccidentStatus> {
-    const url = `${this.getUrl()}/${id}`;
-    return this.http.get(url, { headers: this.getAuthHeaders() })
-        .toPromise()
-        .then(response => response.json().data as AccidentStatus)
-        .catch(this.handleError);
+  getStatus(id: number): Promise<AccidentStatus> {
+    return this.get(id)
+      .then(response => response.json().data as AccidentStatus);
   }
 
   delete(id: number): Promise<void> {
-    const url = `${this.getUrl()}/${id}`;
-    return this.http.delete(url, { headers: this.getAuthHeaders() })
-        .toPromise()
-        .then(() => null)
-        .catch(this.handleError);
+    return this.remove(id);
   }
 
-  create(statuse: AccidentStatus): Promise<AccidentStatus> {
-    return this.http
-        .post(this.getUrl(), JSON.stringify(statuse), { headers: this.getAuthHeaders() })
-        .toPromise()
-        .then(res => res.json() as AccidentStatus)
-        .catch(this.handleError);
+  create(status: AccidentStatus): Promise<AccidentStatus> {
+    return this.store(status).then(res => res.json().data as AccidentStatus);
   }
 
-  update(statuse: AccidentStatus): Promise<AccidentStatus> {
-    const url = `${this.getUrl()}/${statuse.id}`;
-    return this.http
-        .put(url, JSON.stringify(statuse), { headers: this.getAuthHeaders() })
-        .toPromise()
-        .then(() => statuse)
-        .catch(this.handleError);
-  }
-
-  private handleError(error: any): Promise<any> {
-    return Promise.reject(error.message || error);
+  update(status: AccidentStatus): Promise<AccidentStatus> {
+    return this.put(status.id, status);
   }
 }
