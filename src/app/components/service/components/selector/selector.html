@@ -2,12 +2,12 @@
     <div class="row offset-bottom20">
         <div class="col-sm-10 ui-grid-col-12">
             <b class="h6 offset-right10" translate>Accident Services</b>
-            <select-services
+            <nga-select-services
                 #selectServices
                 [(chosenServices)]="caseServices"
-                (chosenServicesChange)="recalculatePrice($event)"
+                (chosenServicesChange)="onServicesChanged($event)"
                 (loaded)="onSelectServicesLoaded()"
-            ></select-services>
+            ></nga-select-services>
         </div>
     </div>
     <div class="row" *ngIf="caseServices && caseServices.length">

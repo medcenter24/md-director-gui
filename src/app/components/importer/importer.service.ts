@@ -32,7 +32,7 @@ export class ImporterService {
       .catch(this.handleError);
   }
 
-  importFile(url:string, id: number) : Promise<any> {
+  importFile(url: string, id: number): Promise<any> {
     url = `${url}/${id}`;
     return this.http.put(url, [], {headers: this.headers})
       .toPromise()

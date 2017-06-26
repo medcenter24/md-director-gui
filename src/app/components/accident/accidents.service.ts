@@ -12,51 +12,29 @@ import { HttpService } from '../http/http.service';
 @Injectable()
 export class AccidentsService extends HttpService {
 
-  protected getPrefix () : string {
+  protected getPrefix (): string {
     return 'director/accidents';
   }
 
   getAccidents(): Promise<Accident[]> {
-    return this.http.get(this.getUrl(), {headers: this.getAuthHeaders()})
-        .toPromise()
-        .then(response => response.json().data as Accident[])
-        .catch(this.handleError);
+    return this.get()
+        .then(response => response.json().data as Accident[]);
   }
 
   getAccident(id: number): Promise<Accident> {
-    const url = `${this.getUrl()}/${id}`;
-    return this.http.get(url, {headers: this.getAuthHeaders()})
-        .toPromise()
-        .then(response => response.json().data as Accident)
-        .catch(this.handleError);
+    return this.get(id)
+        .then(response => response.json().data as Accident);
   }
 
   delete(id: number): Promise<void> {
-    const url = `${this.getUrl()}/${id}`;
-    return this.http.delete(url, {headers: this.getAuthHeaders()})
-        .toPromise()
-        .then(() => null)
-        .catch(this.handleError);
+    return this.remove(id);
   }
 
   create(accident: Accident): Promise<Accident> {
-    return this.http
-        .post(this.getUrl(), JSON.stringify(accident), {headers: this.getAuthHeaders()})
-        .toPromise()
-        .then(res => res.json().data)
-        .catch(this.handleError);
+    return this.store(accident).then(res => res.json().data as Accident);
   }
 
   update(accident: Accident): Promise<Accident> {
-    const url = `${this.getUrl()}/${accident.id}`;
-    return this.http
-        .put(url, JSON.stringify(accident), {headers: this.getAuthHeaders()})
-        .toPromise()
-        .then(() => accident)
-        .catch(this.handleError);
-  }
-
-  private handleError(error: any): Promise<any> {
-    return Promise.reject(error.message || error);
+    return this.put(accident.id, accident);
   }
 }

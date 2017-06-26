@@ -8,11 +8,12 @@
     <div class="row offset-bottom20">
         <div class="col-sm-10 ui-grid-col-12">
             <b class="h6 offset-right10" translate>Accident Diagnostics</b>
-            <select-diagnostics
+            <nga-select-diagnostics
                 #selectDiagnostics
                 [(chosenDiagnostics)]="caseDiagnostics"
                 (loaded)="onSelectDiagnosticsLoaded()"
-            ></select-diagnostics>
+                (chosenDiagnosticsChange)="onChange()"
+            ></nga-select-diagnostics>
         </div>
     </div>
     <div class="row" *ngIf="caseDiagnostics && caseDiagnostics.length">

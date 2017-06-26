@@ -38,17 +38,15 @@
                             <b class="text-muted">{{ 'Choose Case' | translate }}</b>
                             <br>
                             <select-case-type
-                                    *ngIf="!accident.id"
+                                    *ngIf="!accident.id && !onlyDoctorAccident"
                                     [selectedCaseTypeId]="accident.caseable_type"
                                     (selected)="onCaseTypeSelected($event)"
                             ></select-case-type>
 
-                            <h4 *ngIf="accident.id && accident.caseable_type === 'App\\DoctorAccident'" class="text-danger" translate>
-                                Doctor Case
-                            </h4>
-                            <h4 *ngIf="accident.id && accident.caseable_type === 'App\\HospitalAccident'" class="text-danger" translate>
-                                Hospital Case
-                            </h4>
+                            <h4 *ngIf="(onlyDoctorAccident || accident.id) && accident.caseable_type === 'App\\DoctorAccident'"
+                                class="text-danger" translate>Doctor Case</h4>
+                            <h4 *ngIf="accident.id && accident.caseable_type === 'App\\HospitalAccident'"
+                                class="text-danger" translate>Hospital Case</h4>
                         </div>
                         <div class="col-sm-7">
                             <div *ngIf="accident.caseable_type === 'App\\DoctorAccident'">
@@ -73,7 +71,7 @@
                                 </div>
                             </div>
                             <div *ngIf="accident.caseable_type === 'App\\HospitalAccident'">
-                                <b class="text-muted" translate>Hospital_case</b>
+                                <b class="text-muted" translate>Hospital Case</b>
                                 <br>
                                 <select-hospital
                                         *ngIf="hospitalAccident"
@@ -87,11 +85,11 @@
                 <div class="form-group offset-bottom20">
                     <div class="row">
                         <div class="col-sm-12">
-                            <services-selector
+                            <nga-services-selector
                                     [caseId]="accident.id"
                                     (priceChanged)="onServicesSelectorPriceChanged($event)"
                                     (changedServices)="onServicesChanged($event)"
-                            ></services-selector>
+                            ></nga-services-selector>
                         </div>
                     </div>
                 </div>
@@ -107,7 +105,7 @@
                                             (change)="onAssistantChanged($event)"
                                         ></select-assistant>
                                 </div>
-                                <div class="col-sm-12 col-md-6 col-lg-3">
+                                <div class="col-sm-12 col-md-6 col-lg-2 center-block">
                                     <b class="text-muted" translate>Discount Type</b>
                                     <br>
                                     <select-discount-type
@@ -123,7 +121,7 @@
                                                name="discountValue"
                                                (onChange)="onDiscountValueChanged()"></p-spinner>
                                 </div>
-                                <div class="col-sm-12 col-md-6 col-lg-3">
+                                <div class="col-sm-12 col-md-6 col-lg-3 offset-lg-1">
                                     <b class="text-muted" translate>Total Score</b>
                                     <div class="row">
                                         <div class="col-sm-12">
@@ -142,17 +140,17 @@
                             </div>
 
                             <div class="row offset-bottom20">
-                                <div class="col-sm-6">
+                                <div class="col-sm-5">
                                     <div class="row offset-bottom20" *ngIf="patient">
                                         <div class="col-sm-6">
                                             <b class="text-muted" translate>Patient Name</b>
                                             <br>
-                                            <input type="text" pInputText [value]="patient.name" placeholder="{{ 'Patient Name' | translate }}"/>
+                                            <input type="text" pInputText name="name" [(ngModel)]="patient.name" placeholder="{{ 'Patient Name' | translate }}"/>
                                         </div>
                                         <div class="col-sm-6">
                                             <b class="text-muted" translate>Patient Phone</b>
                                             <br>
-                                            <input type="text" pInputText [value]="patient.phones" placeholder="{{ 'Patient Phone' | translate }}"/>
+                                            <input type="text" pInputText name="phone" [(ngModel)]="patient.phones" placeholder="{{ 'Patient Phone' | translate }}"/>
                                         </div>
                                     </div>
                                     <div class="row">
@@ -163,7 +161,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-sm-6">
+                                <div class="offset-sm-1 col-sm-6">
                                     <b class="text-muted" translate>Repeated Appointment</b>
                                     <div class="row offset-bottom10">
                                         <div class="col-sm-12">
@@ -213,10 +211,10 @@
                             <div class="form-group offset-bottom20">
                                 <div class="row">
                                     <div class="col-sm-12">
-                                        <diagnostics-selector
+                                        <nga-diagnostics-selector
                                                 [caseId]="accident.id"
                                                 (changed)="onDiagnosticsChanged($event)"
-                                        ></diagnostics-selector>
+                                        ></nga-diagnostics-selector>
                                     </div>
                                 </div>
                             </div>
@@ -225,11 +223,10 @@
                                 <div class="col-sm-9">
                                     <b class="text-muted" translate>Documents</b>
                                     <br>
-                                    <file-uploader
-                                            [uploads]="documents"
+                                    <nga-file-uploader
+                                            [(documents)]="documents"
                                             [url]="caseService.getDocumentsUrl(accident.id)"
-                                            (changed)="onDocumentsChanged($event)"
-                                    ></file-uploader>
+                                    ></nga-file-uploader>
                                 </div>
                             </div>
 

@@ -13,6 +13,7 @@ import { Diagnostic } from '../diagnostic/diagnostic';
 import { HttpService } from '../http/http.service';
 import { ExtendCaseAccident } from './extendCaseAccident';
 import { Document } from '../document/document';
+import {CaseAccident} from "./case";
 
 @Injectable()
 export class CasesService extends HttpService {
@@ -22,68 +23,37 @@ export class CasesService extends HttpService {
   }
 
   getExtendedCase(id: number): Promise<ExtendCaseAccident> {
-    const url = `${this.getUrl()}/${id}`;
-    return this.http.get(url, {headers: this.getAuthHeaders()})
-      .toPromise()
-      .then(response => response.json().data as ExtendCaseAccident)
-      .catch(this.handleError);
+    return this.get()
+      .then(response => response.json().data as ExtendCaseAccident[]);
   }
 
   getDocumentsUrl(id): string {
-    return `${this.getUrl()}/${id}/documents`
+    return `${this.getUrl()}/${id}/documents`;
   }
 
   getDocuments(id): Promise<Document[]> {
-    const url = this.getDocumentsUrl(id);
-
-    return this.http.get(url, {headers: this.getAuthHeaders()})
-      .toPromise()
-      .then(response => response.json().data as Document[])
-      .catch(this.handleError);
+    return this.get(`${id}/documents`)
+      .then(response => response.json().data as Document[]);
   }
 
   getCases(params): Promise<any> {
-
-    return this.http.get(this.getUrl(), {params: params, headers: this.getAuthHeaders()})
-        .toPromise()
-        .then(response => response.json())
-        .catch(this.handleError);
+    return this.get().then(response => response.json() as CaseAccident[]);
   }
 
-  getCaseServices(caseId: number): Promise<Service[]> {
-    const url = `${this.getUrl()}/${caseId}/services`;
-
-    return this.http.get(url, {headers: this.getAuthHeaders()})
-      .toPromise()
-      .then(response => response.json().data as Service[])
-      .catch(this.handleError);
+  getCaseServices(id: number): Promise<Service[]> {
+    return this.get(`${id}/services`).then(response => response.json().data as Service[]);
   }
 
-  getCaseDiagnostics(caseId: number): Promise<Diagnostic[]> {
-    const url = `${this.getUrl()}/${caseId}/diagnostics`;
-
-    return this.http.get(url, {headers: this.getAuthHeaders()})
-      .toPromise()
-      .then(response => response.json().data as Diagnostic[])
-      .catch(this.handleError);
+  getCaseDiagnostics(id: number): Promise<Diagnostic[]> {
+    return this.get(`${id}/diagnostics`).then(response => response.json().data as Diagnostic[]);
   }
 
-  getDoctorCase (caseId: number): Promise<DoctorAccident> {
-    const url = `${this.getUrl()}/${caseId}/doctorcase`;
-
-    return this.http.get(url, {headers: this.getAuthHeaders()})
-      .toPromise()
-      .then(response => response.json().data as DoctorAccident)
-      .catch(this.handleError);
+  getDoctorCase (id: number): Promise<DoctorAccident> {
+    return this.get(`${id}/doctorcase`).then(response => response.json().data as DoctorAccident);
   }
 
-  getHospitalCase (caseId: number): Promise<HospitalAccident> {
-    const url = `${this.getUrl()}/${caseId}/hospitalcase`;
-
-    return this.http.get(url, {headers: this.getAuthHeaders()})
-      .toPromise()
-      .then(response => response.json().data as HospitalAccident)
-      .catch(this.handleError);
+  getHospitalCase (id: number): Promise<HospitalAccident> {
+    return this.get(`${id}/hospitalcase`).then(response => response.json().data as HospitalAccident)
   }
 
   getImportUrl (): string {
@@ -91,17 +61,7 @@ export class CasesService extends HttpService {
   }
 
   saveCase (data): Promise<any> {
-    let caseId = data.accident.id;
-    let query = caseId ? this.http.put(`${this.getUrl()}/${caseId}`, data, {headers: this.getAuthHeaders()})
-      : this.http.post(this.getUrl(), data, {headers: this.getAuthHeaders()});
-
-    return query
-      .toPromise()
-      .then(response => response.json().data as HospitalAccident)
-      .catch(this.handleError);
-  }
-
-  private handleError(error: any): Promise<any> {
-    return Promise.reject(error.message || error);
+    return data.accident.id ? this.put(data.accident.id, data)
+      : this.store(data).then(response => response.json().data as HospitalAccident);
   }
 }

@@ -4,7 +4,7 @@
  *  @author Alexander Zagovorichev <zagovorichev@gmail.com>
  */
 
-import { Component, Output, EventEmitter, Input } from '@angular/core';
+import { Component, Output, EventEmitter, Input, OnInit } from '@angular/core';
 import { DiagnosticService } from '../../diagnostic.service';
 import { SelectItem } from 'primeng/primeng';
 import { Diagnostic } from '../../diagnostic';
@@ -12,10 +12,10 @@ import { SlimLoadingBarService } from 'ng2-slim-loading-bar';
 import { Logger } from 'angular2-logger/core';
 
 @Component({
-  selector: 'select-diagnostics',
-  templateUrl: './select.html'
+  selector: 'nga-select-diagnostics',
+  templateUrl: './select.html',
 })
-export class SelectDiagnosticsComponent {
+export class SelectDiagnosticsComponent implements OnInit {
 
   @Output() loaded: EventEmitter<string> = new EventEmitter<string>();
   @Output() chosenDiagnosticsChange: EventEmitter<Diagnostic[]> = new EventEmitter<Diagnostic[]>();

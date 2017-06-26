@@ -14,7 +14,7 @@ import { Patient } from '../../../patient/patient';
 
 @Component({
   selector: 'accident-card',
-  templateUrl: './accidentCard.html'
+  templateUrl: './accidentCard.html',
 })
 export class AccidentCardComponent {
 
@@ -28,7 +28,7 @@ export class AccidentCardComponent {
     private accidentService: AccidentsService,
     private patientService: PatientsService,
     private loadingBar: SlimLoadingBarService,
-    private _logger: Logger
+    private _logger: Logger,
   ) { }
 
   ngOnInit () {

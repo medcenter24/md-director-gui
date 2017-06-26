@@ -20,47 +20,22 @@ export class PatientsService extends HttpService {
   }
   
   getPatients(): Promise<Patient[]> {
-
-    return this.http.get(this.getUrl(), { headers: this.getAuthHeaders() })
-        .toPromise()
-        .then(response => response.json().data as Patient[])
-        .catch(this.handleError);
+    return this.get().then(response => response.json().data as Patient[]);
   }
 
   getPatient(id: number): Promise<Patient> {
-    const url = `${this.getUrl()}/${id}`;
-    return this.http.get(url, { headers: this.getAuthHeaders() })
-        .toPromise()
-        .then(response => response.json().data as Patient)
-        .catch(this.handleError);
+    return this.get(id).then(response => response.json().data as Patient);
   }
 
   delete(id: number): Promise<void> {
-    const url = `${this.getUrl()}/${id}`;
-    return this.http.delete(url, { headers: this.getAuthHeaders() })
-        .toPromise()
-        .then(() => null)
-        .catch(this.handleError);
+    return this.remove(id);
   }
 
   create(patient: Patient): Promise<Patient> {
-    return this.http
-        .post(this.getUrl(), JSON.stringify(patient), { headers: this.getAuthHeaders() })
-        .toPromise()
-        .then(res => res.json() as Patient)
-        .catch(this.handleError);
+    return this.store(patient).then(res => res.json() as Patient);
   }
 
   update(patient: Patient): Promise<Patient> {
-    const url = `${this.getUrl()}/${patient.id}`;
-    return this.http
-        .put(url, JSON.stringify(patient), { headers: this.getAuthHeaders() })
-        .toPromise()
-        .then(() => patient)
-        .catch(this.handleError);
-  }
-
-  private handleError(error: any): Promise<any> {
-    return Promise.reject(error.message || error);
+    return this.put(patient.id, patient);
   }
 }

@@ -19,47 +19,22 @@ export class ServicesService extends HttpService {
   }
 
   getServices(): Promise<Service[]> {
-
-    return this.http.get(this.getUrl(), {headers: this.getAuthHeaders()})
-        .toPromise()
-        .then(response => response.json().data as Service[])
-        .catch(this.handleError);
+    return this.get().then(response => response.json().data as Service[]);
   }
 
   getService(id: number): Promise<Service> {
-    const url = `${this.getUrl()}/${id}`;
-    return this.http.get(url, {headers: this.getAuthHeaders()})
-        .toPromise()
-        .then(response => response.json().data as Service)
-        .catch(this.handleError);
+    return this.get(id).then(response => response.json().data as Service);
   }
 
   delete(id: number): Promise<void> {
-    const url = `${this.getUrl()}/${id}`;
-    return this.http.delete(url, {headers: this.getAuthHeaders()})
-        .toPromise()
-        .then(() => null)
-        .catch(this.handleError);
+    return this.remove(id);
   }
 
   create(service: Service): Promise<Service> {
-    return this.http
-        .post(this.getUrl(), JSON.stringify(service), {headers: this.getAuthHeaders()})
-        .toPromise()
-        .then(res => res.json().data)
-        .catch(this.handleError);
+    return this.store(service).then(res => res.json().data as Service);
   }
 
   update(service: Service): Promise<Service> {
-    const url = `${this.getUrl()}/${service.id}`;
-    return this.http
-        .put(url, JSON.stringify(service), {headers: this.getAuthHeaders()})
-        .toPromise()
-        .then(() => service)
-        .catch(this.handleError);
-  }
-
-  private handleError(error: any): Promise<any> {
-    return Promise.reject(error.message || error);
+    return this.put(service.id, service);
   }
 }

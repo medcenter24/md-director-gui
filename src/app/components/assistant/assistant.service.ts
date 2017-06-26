@@ -16,48 +16,25 @@ export class AssistantsService extends HttpService{
   }
   
   getAssistants(): Promise<Assistant[]> {
-
-    return this.http.get(this.getUrl(), { headers: this.getAuthHeaders() })
-        .toPromise()
-        .then(response => response.json().data as Assistant[])
-        .catch(this.handleError);
+    return this.get()
+      .then(response => response.json().data as Assistant[]);
   }
 
 
   getAssistant(id: number): Promise<Assistant> {
-    const url = `${this.getUrl()}/${id}`;
-    return this.http.get(url, { headers: this.getAuthHeaders() })
-        .toPromise()
-        .then(response => response.json().data as Assistant)
-        .catch(this.handleError);
+    return this.get(id)
+      .then(response => response.json().data as Assistant);
   }
 
   delete(id: number): Promise<void> {
-    const url = `${this.getUrl()}/${id}`;
-    return this.http.delete(url, { headers: this.getAuthHeaders() })
-        .toPromise()
-        .then(() => null)
-        .catch(this.handleError);
+    return this.remove(id);
   }
 
-  create(hospital: Assistant): Promise<Assistant> {
-    return this.http
-        .post(this.getUrl(), JSON.stringify(hospital), { headers: this.getAuthHeaders() })
-        .toPromise()
-        .then(res => res.json() as Assistant)
-        .catch(this.handleError);
+  create(assistant: Assistant): Promise<Assistant> {
+    return this.store(assistant).then(res => res.json().data as Assistant);
   }
 
-  update(hospital: Assistant): Promise<Assistant> {
-    const url = `${this.getUrl()}/${hospital.id}`;
-    return this.http
-        .put(url, JSON.stringify(hospital), {headers: this.getAuthHeaders()})
-        .toPromise()
-        .then(() => hospital)
-        .catch(this.handleError);
-  }
-
-  private handleError(error: any): Promise<any> {
-    return Promise.reject(error.message || error);
+  update(assistant: Assistant): Promise<Assistant> {
+    return this.put(assistant.id, assistant);
   }
 }

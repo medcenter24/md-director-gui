@@ -15,7 +15,6 @@ export const CasesDb: CaseAccident[] = [
     created_at: '2017-03-23 10:40:11',
     checkpoints: 'guarantee,checkedLDM,paidLDM',
     status: 'new',
-    accident_status: 'new'
   },
   {
     id: 2, // accident id
@@ -26,6 +25,5 @@ export const CasesDb: CaseAccident[] = [
     created_at: '2017-03-23 10:40:11',
     checkpoints: '',
     status: 'new',
-    accident_status: 'new'
-  }
-].map(x => new CaseAccident(x.id, x.assistant_id, x.repeated, x.ref_num, x.case_type, x.created_at, x.checkpoints, x.status, x.accident_status));
+  },
+].map(x => new CaseAccident(x.id, x.assistant_id, x.repeated, x.ref_num, x.case_type, x.created_at, x.checkpoints, x.status));
