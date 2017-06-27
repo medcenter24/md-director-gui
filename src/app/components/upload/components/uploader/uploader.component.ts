@@ -30,13 +30,11 @@ export class FileUploaderComponent implements OnInit {
   private translateErrorLoad: string;
   private deleterCounter: number = 0;
 
-  constructor (
-    private loadingBar: SlimLoadingBarService,
-    private translate: TranslateService,
-    private _logger: Logger, private _state: GlobalState,
-    private authenticationService: AuthenticationService,
-    private documentsService: DocumentsService,
-  ) {
+  constructor(private loadingBar: SlimLoadingBarService,
+              private translate: TranslateService,
+              private _logger: Logger, private _state: GlobalState,
+              private authenticationService: AuthenticationService,
+              private documentsService: DocumentsService) {
   }
 
   ngOnInit() {
@@ -61,7 +59,7 @@ export class FileUploaderComponent implements OnInit {
   handleUpload(event): void {
     this.msgs = [];
     const loadedFiles = JSON.parse(event.xhr.response).data as Document[];
-    for ( const file of loadedFiles ) {
+    for (const file of loadedFiles) {
       this.documents.push(file);
       this.msgs.push({ severity: 'info', summary: this.translateLoaded, detail: file.title });
     }
@@ -70,8 +68,8 @@ export class FileUploaderComponent implements OnInit {
     this.loadingBar.complete();
   }
 
-  handleError (event): void {
-    for ( const file of event.files ) {
+  handleError(event): void {
+    for (const file of event.files) {
       this.msgs.push({ severity: 'error', summary: this.translateErrorLoad, detail: file.name });
     }
     this._state.notifyDataChanged('growl', this.msgs);
@@ -93,13 +91,13 @@ export class FileUploaderComponent implements OnInit {
   }
 
   deleteFile(file): void {
-      const files = [];
+    const files = [];
 
-      if (file) {
-        files.push(file.id);
-      }
+    if (file) {
+      files.push(file.id);
+    }
 
-      this.deleter(files);
+    this.deleter(files);
   }
 
   private deleter(files: Array<any>): void {
