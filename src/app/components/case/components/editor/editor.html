@@ -109,7 +109,7 @@
                                     <b class="text-muted" translate>Discount Type</b>
                                     <br>
                                     <select-discount-type
-                                            [selectedDiscountId]="accident.discount_type_id"
+                                            [selectedDiscountId]="accident.discount_id"
                                             (selected)="onDiscountTypeSelected($event)"
                                     ></select-discount-type>
                                 </div>
@@ -157,7 +157,13 @@
                                         <div class="col-sm-12">
                                             <b class="text-muted" translate>Symptoms</b>
                                             <br>
-                                            <textarea rows="5" cols="70" pInputTextarea autoResize="autoResize" placeholder="{{ 'Symptoms' | translate }}">{{ accident.symptoms }}</textarea>
+                                            <textarea rows="5" cols="70" pInputTextarea
+                                                      autoResize="autoResize"
+                                                      placeholder="{{ 'Symptoms' | translate }}"
+                                                      class="form-control"
+                                                      [(ngModel)]="accident.symptoms"
+                                                      name="symptoms"
+                                            ></textarea>
                                         </div>
                                     </div>
                                 </div>

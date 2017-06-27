@@ -4,7 +4,7 @@
  * @author Alexander Zagovorichev <zagovorichev@gmail.com>
  */
 
-import { Injectable }    from '@angular/core';
+import { Injectable } from '@angular/core';
 import 'rxjs/add/operator/toPromise';
 import { Service } from '../service/service';
 import { DoctorAccident } from '../doctorAccident/doctorAccident';
@@ -13,7 +13,7 @@ import { Diagnostic } from '../diagnostic/diagnostic';
 import { HttpService } from '../http/http.service';
 import { ExtendCaseAccident } from './extendCaseAccident';
 import { Document } from '../document/document';
-import {CaseAccident} from "./case";
+import {CaseAccident} from './case';
 
 @Injectable()
 export class CasesService extends HttpService {
@@ -53,7 +53,7 @@ export class CasesService extends HttpService {
   }
 
   getHospitalCase (id: number): Promise<HospitalAccident> {
-    return this.get(`${id}/hospitalcase`).then(response => response.json().data as HospitalAccident)
+    return this.get(`${id}/hospitalcase`).then(response => response.json().data as HospitalAccident);
   }
 
   getImportUrl (): string {
@@ -61,7 +61,6 @@ export class CasesService extends HttpService {
   }
 
   saveCase (data): Promise<any> {
-    return data.accident.id ? this.put(data.accident.id, data)
-      : this.store(data).then(response => response.json().data as HospitalAccident);
+    return data.accident.id ? this.put(data.accident.id, data) : this.store(data);
   }
 }
