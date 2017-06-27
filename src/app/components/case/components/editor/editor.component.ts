@@ -98,7 +98,7 @@ export class CaseEditorComponent implements OnInit {
             this._state.notifyDataChanged('menu.activeLink', { title: 'Cases' });
             this.accident = accident ? accident : new Accident();
             this.appliedTime = new Date(this.accident.created_at);
-            this.discountValue = 0; // +this.accident.discount_value;
+            this.discountValue = +this.accident.discount_value;
             this.loadPatient();
             this.loadCaseable();
             this.recalculatePrice();
@@ -140,7 +140,7 @@ export class CaseEditorComponent implements OnInit {
   }
 
   onSave(): void {
-    this.accident.discount_type_id = this.discountType.id;
+    this.accident.discount_id = this.discountType.id;
     this.accident.discount_value = +this.discountValue;
     const data = {
       accident: this.accident,
@@ -154,17 +154,15 @@ export class CaseEditorComponent implements OnInit {
     this.loadingBar.start();
     this.blocked = true;
 
-    this.caseService.saveCase(data).then((accident: Accident) => {
-
-      // todo saved
-      // if response 204 - created - move to the new case
-      // else do nothing (show status - done)
-
+    this.caseService.saveCase(data).then(response => {
       this.loadingBar.complete();
       this.blocked = false;
-
       this.isLoaded = true;
-    }).catch((err) => {
+
+      if (response.status === 201) {
+        this.router.navigate(['pages/cases/' + response.json().accident.id]);
+      }
+    }).catch(err => {
       this.loadingBar.complete();
       this.blocked = false;
 
@@ -197,6 +195,7 @@ export class CaseEditorComponent implements OnInit {
   }
 
   onAssistantChanged(assistantId): void {
+    console.log(assistantId)
     this.accident.assistant_id = assistantId;
   }
 
@@ -245,6 +244,10 @@ export class CaseEditorComponent implements OnInit {
     const cityId = city ? city.id : 0;
     this.doctorAccident.city_id = cityId;
     this.accident.city_id = cityId;
+  }
+
+  onSymptomsChanged(event): void {
+    console.log(event);
   }
 
   private recalculatePrice(): void {

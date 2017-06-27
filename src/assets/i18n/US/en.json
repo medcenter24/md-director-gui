@@ -1,4 +1,7 @@
 {
+  "Deleted": "Deleted",
+  "Success": "Success",
+  "Stored": "Stored",
   "New case creating": "New case creating",
   "Delete confirmation": "Delete confirmation",
   "Http error occurred": "Http error occurred",

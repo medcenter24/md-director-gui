@@ -16,43 +16,22 @@ export class HospitalsService extends HttpService {
   }
 
   getHospitals(): Promise<Hospital[]> {
-
-    return this.http.get(this.getUrl(), {headers: this.getAuthHeaders()})
-        .toPromise()
-        .then(response => response.json().data as Hospital[])
-        .catch(this.handleError);
+    return this.get().then(response => response.json().data as Hospital[]);
   }
 
   getHospital(id: number): Promise<Hospital> {
-    const url = `${this.getUrl()}/${id}`;
-    return this.http.get(url, {headers: this.getAuthHeaders()})
-        .toPromise()
-        .then(response => response.json().data as Hospital)
-        .catch(this.handleError);
+    return this.get(id).then(response => response.json().data as Hospital);
   }
 
   delete(id: number): Promise<void> {
-    const url = `${this.getUrl()}/${id}`;
-    return this.http.delete(url, {headers: this.getAuthHeaders()})
-        .toPromise()
-        .then(() => null)
-        .catch(this.handleError);
+    return this.remove(id);
   }
 
   create(hospital: Hospital): Promise<Hospital> {
-    return this.http
-        .post(this.getUrl(), JSON.stringify(hospital), {headers: this.getAuthHeaders()})
-        .toPromise()
-        .then(res => res.json() as Hospital)
-        .catch(this.handleError);
+    return this.store(hospital).then(res => res.json() as Hospital);
   }
 
   update(hospital: Hospital): Promise<Hospital> {
-    const url = `${this.getUrl()}/${hospital.id}`;
-    return this.http
-        .put(url, JSON.stringify(hospital), {headers: this.getAuthHeaders()})
-        .toPromise()
-        .then(() => hospital)
-        .catch(this.handleError);
+    return this.put(hospital.id, hospital);
   }
 }
