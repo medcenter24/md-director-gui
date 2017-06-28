@@ -73,3 +73,14 @@ a.al-sidebar-list-link i {
 .btn:hover {
   transform: none;
 }
+
+.accident-checkbox_list {
+  .accident-checkbox {
+    padding-right: 15px;
+    line-height: 2em;
+    .ui-chkbox-label {
+      font-weight: 700;
+      color: $gray;
+    }
+  }
+}

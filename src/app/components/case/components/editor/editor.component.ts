@@ -24,6 +24,7 @@ import { Discount } from '../../../discount/discount';
 import { Service } from '../../../service/service';
 import { Diagnostic } from '../../../diagnostic/diagnostic';
 import { Document } from '../../../document/document';
+import { AccidentCheckpoint } from '../../../accident/components/checkpoint/checkpoint';
 
 @Component({
   selector: 'nga-case-editor',
@@ -54,6 +55,7 @@ export class CaseEditorComponent implements OnInit {
   services: Service[] = [];
   diagnostics: Diagnostic[] = [];
   documents: Document[] = [];
+  checkpoints: Array<number> = []; // ids of checkpoints
 
   totalAmount: number = 0;
   totalIncome: number = 0;
@@ -103,7 +105,9 @@ export class CaseEditorComponent implements OnInit {
             this.loadCaseable();
             this.recalculatePrice();
             this.loadDocuments();
+            this.loadCheckpoints();
             this.stopLoader();
+            this.blocked = false;
           }).catch((err) => {
             this.loadingBar.complete();
             if (err.status === 404) {
@@ -113,10 +117,14 @@ export class CaseEditorComponent implements OnInit {
               this._state.notifyDataChanged('growl', this.msgs);
               this.router.navigate(['pages/cases']);
             } else {
+              this.blocked = false;
               this._logger.error(err);
             }
           });
         } else {
+          setTimeout(() => {
+            this._state.notifyDataChanged('menu.activeLink', { title: 'Cases' });
+          }, 100);
           this.isLoaded = true;
         }
       });
@@ -149,10 +157,11 @@ export class CaseEditorComponent implements OnInit {
       services: this.services.map(x => x.id),
       diagnostics: this.diagnostics.map(x => x.id),
       documents: this.documents.map(x => x.id),
+      checkpoints: this.checkpoints,
     };
 
     this.loadingBar.start();
-    this.blocked = true;
+    // this.blocked = true;
 
     this.caseService.saveCase(data).then(response => {
       this.loadingBar.complete();
@@ -195,7 +204,6 @@ export class CaseEditorComponent implements OnInit {
   }
 
   onAssistantChanged(assistantId): void {
-    console.log(assistantId)
     this.accident.assistant_id = assistantId;
   }
 
@@ -246,8 +254,8 @@ export class CaseEditorComponent implements OnInit {
     this.accident.city_id = cityId;
   }
 
-  onSymptomsChanged(event): void {
-    console.log(event);
+  onCheckpointChange(checkpoints: number[]): void {
+    this.checkpoints = checkpoints;
   }
 
   private recalculatePrice(): void {
@@ -297,6 +305,17 @@ export class CaseEditorComponent implements OnInit {
         this.stopLoader();
       }).catch(err => {
         this._logger.error(err);
+        this.stopLoader();
+      });
+  }
+
+  private loadCheckpoints(): void {
+    this.startLoader();
+    this.caseService.getCheckpoints(this.accident.id)
+      .then((checkpoints: AccidentCheckpoint[]) => {
+        this.checkpoints = checkpoints.map(x => x.id);
+        this.stopLoader();
+      }).catch(() => {
         this.stopLoader();
       });
   }

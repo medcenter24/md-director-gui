@@ -4,8 +4,7 @@
  *  @author Alexander Zagovorichev <zagovorichev@gmail.com>
  */
 
-import {Injectable} from '@angular/core';
-import {Headers, Http} from "@angular/http";
+import { Injectable } from '@angular/core';
 import { Media } from './media';
 import { HttpService } from '../http/http.service';
 
@@ -17,22 +16,10 @@ export class MediaService extends HttpService {
   }
 
   getUploaded(): Promise<any> {
-
-    return this.http.get(this.getUrl(), {headers: this.getAuthHeaders()})
-      .toPromise()
-      .then(response => response.json())
-      .catch(this.handleError);
+    return this.get().then().then(response => response.json() as Media[]);
   }
 
   deleteFile(id: number): Promise<void> {
-    let url = `${this.getUrl()}/${id}`;
-    return this.http.delete(url, {headers: this.getAuthHeaders()})
-      .toPromise()
-      .then(() => null)
-      .catch(this.handleError);
-  }
-
-  private handleError(error: any): Promise<any> {
-    return Promise.reject(error.message || error);
+    return this.remove(id);
   }
 }
