@@ -10,9 +10,9 @@ export const PAGES_MENU = [
             icon: 'ion-android-home',
             selected: false,
             expanded: false,
-            order: 0
-          }
-        }
+            order: 0,
+          },
+        },
       },
       {
         path: 'cases',
@@ -22,138 +22,138 @@ export const PAGES_MENU = [
             icon: 'fa fa-ambulance',
             selected: false,
             expanded: false,
-            order: 1
-          }
-        }
+            order: 1,
+          },
+        },
       },
       {
         path: 'companions',
         data: {
           menu: {
             title: 'Address Book',
-            icon: 'fa fa-address-book-o'
-          }
+            icon: 'fa fa-address-book-o',
+          },
         },
         children: [{
           path: 'patients',
           data: {
             menu: {
-              title: 'Patients'
-            }
-          }
+              title: 'Patients',
+            },
+          },
         }, {
             path: 'assistants',
             data: {
               menu: {
-                title: 'Assistants'
-              }
-            }
-        }]
+                title: 'Assistants',
+              },
+            },
+        }],
       },
       {
         path: 'accidents',
         data: {
           menu: {
             title: 'Accidents',
-            icon: 'fa fa-info-circle'
-          }
+            icon: 'fa fa-info-circle',
+          },
         },
         children: [
           {
             path: 'checkpoints',
             data: {
               menu: {
-                title: 'Checkpoints'
-              }
-            }
+                title: 'Checkpoints',
+              },
+            },
           },
           {
             path: 'statuses',
             data: {
               menu: {
-                title: 'Statuses'
-              }
-            }
+                title: 'Statuses',
+              },
+            },
           },
           {
             path: 'types',
             data: {
               menu: {
-                title: 'Types'
-              }
-            }
+                title: 'Types',
+              },
+            },
           },
           {
             path: 'discounts',
             data: {
               menu: {
-                title: 'Discounts'
-              }
-            }
-          }
-        ]
+                title: 'Discounts',
+              },
+            },
+          },
+        ],
       },
       {
         path: 'geo',
         data: {
           menu: {
             title: 'Geo',
-            icon: 'ion-android-pin'
-          }
+            icon: 'ion-android-pin',
+          },
         },
         children: [
           {
             path: 'cities',
             data: {
               menu: {
-                title: 'Cities'
-              }
-            }
+                title: 'Cities',
+              },
+            },
           },
           {
             path: 'hospitals',
             data: {
               menu: {
-                title: 'Hospitals'
-              }
-            }
-          }
-        ]
+                title: 'Hospitals',
+              },
+            },
+          },
+        ],
       },
       {
         path: 'doctors',
         data: {
           menu: {
             title: 'Doctors',
-            icon: 'fa fa-user-md'
-          }
+            icon: 'fa fa-user-md',
+          },
         },
         children: [
           {
             path: 'stuff',
             data: {
               menu: {
-                title: 'Stuff'
-              }
-            }
+                title: 'Stuff',
+              },
+            },
           },
           {
             path: 'diagnostics',
             data: {
               menu: {
-                title: 'Diagnostics'
-              }
-            }
+                title: 'Diagnostics',
+              },
+            },
           },
           {
             path: 'services',
             data: {
               menu: {
-                title: 'Services'
-              }
-            }
-          }
-        ]
+                title: 'Services',
+              },
+            },
+          },
+        ],
       },
       {
         path: '',
@@ -163,10 +163,10 @@ export const PAGES_MENU = [
             url: 'https://doctor.myDoctors24.com',
             icon: 'ion-android-exit',
             order: 800,
-            target: '_blank'
-          }
-        }
-      }
-    ]
-  }
+            target: '_blank',
+          },
+        },
+      },
+    ],
+  },
 ];

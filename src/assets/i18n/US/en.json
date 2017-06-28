@@ -1,4 +1,24 @@
 {
+  "None checkpoints are provided": "None checkpoints are provided",
+  "Current Status": "Current Status",
+  "status": {
+    "title": {
+      "new": "new",
+      "assigned": "Assigned",
+      "in_progress": "Opened",
+      "sent": "Returned",
+      "paid": "Paid",
+      "reject": "Rejected",
+      "closed": "Closed"
+    },
+    "type": {
+      "accident": "Accident",
+      "doctor": "Doctor",
+      "hospital": "Hospital"
+    }
+  },
+  "Select Status": "Select Status",
+  "Status": "Status",
   "Deleted": "Deleted",
   "Success": "Success",
   "Stored": "Stored",
