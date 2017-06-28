@@ -56,6 +56,10 @@ import { SelectDiscountComponent } from '../../components/discount/components/se
 import { DiscountService } from '../../components/discount/discount.service';
 import { FileUploaderComponent } from '../../components/upload/components/uploader/uploader.component';
 import {DocumentsService} from "../../components/document/documents.service";
+import {AccidentStatusSelectComponent} from "../../components/accident/components/status/components/select/select.component";
+import {AccidentStatusesService} from "../../components/accident/components/status/statuses.service";
+import {AccidentCheckpointsSelectorComponent} from "../../components/accident/components/checkpoint/components/select/select.component";
+import {AccidentCheckpointsService} from "../../components/accident/components/checkpoint/checkpoints.service";
 
 @NgModule({
   imports: [
@@ -106,6 +110,8 @@ import {DocumentsService} from "../../components/document/documents.service";
     DiagnosticsSelectorComponent,
     SelectDiagnosticsComponent,
     ImporterComponent,
+    AccidentStatusSelectComponent,
+    AccidentCheckpointsSelectorComponent,
   ],
   providers: [
     CasesService,
@@ -123,6 +129,8 @@ import {DocumentsService} from "../../components/document/documents.service";
     ImporterService,
     ConfirmationService,
     DocumentsService,
+    AccidentStatusesService,
+    AccidentCheckpointsService,
   ]
 })
 export class CasesModule {

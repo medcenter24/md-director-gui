@@ -1,0 +1,13 @@
+<!--
+  ~ Copyright (c) 2017
+  ~
+  ~  @author Alexander Zagovorichev <zagovorichev@gmail.com>
+  -->
+
+<div class="accident-checkbox_list">
+<p-checkbox *ngFor="let checkpoint of checkpoints"
+            class="accident-checkbox" [label]="checkpoint.title"
+            (onChange)="onChange()"
+            [value]="checkpoint.id" [(ngModel)]="selectedCheckpoints"></p-checkbox>
+    <span *ngIf="!checkpoints.length" class="text-muted" translate>None checkpoints are provided</span>
+</div>
