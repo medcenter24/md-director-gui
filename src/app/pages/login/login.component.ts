@@ -1,3 +1,9 @@
+/*
+ * Copyright (c) 2017.
+ *
+ * @author Alexander Zagovorichev <zagovorichev@gmail.com>
+ */
+
 import { Component } from '@angular/core';
 import { FormGroup, AbstractControl, FormBuilder, Validators } from '@angular/forms';
 
@@ -21,11 +27,11 @@ export class Login {
   constructor (private fb: FormBuilder,
                private authenticationService: AuthenticationService,
                private router: Router,
-               private loadingBar: SlimLoadingBarService
+               private loadingBar: SlimLoadingBarService,
   ) {
     this.form = fb.group({
-      'email': [ '', Validators.compose([ Validators.required, Validators.minLength(4) ]) ],
-      'password': [ '', Validators.compose([ Validators.required, Validators.minLength(4) ]) ]
+      'email': ['', Validators.compose([Validators.required, Validators.minLength(4)])],
+      'password': ['', Validators.compose([Validators.required, Validators.minLength(4)])],
     });
 
     this.email = this.form.controls[ 'email' ];
