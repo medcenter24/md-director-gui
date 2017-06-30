@@ -4,7 +4,7 @@
  * @author Alexander Zagovorichev <zagovorichev@gmail.com>
  */
 
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormGroup, AbstractControl, FormBuilder, Validators } from '@angular/forms';
 
 import 'style-loader!./login.scss';
@@ -16,7 +16,7 @@ import { SlimLoadingBarService } from 'ng2-slim-loading-bar';
   selector: 'login',
   templateUrl: './login.html',
 })
-export class Login {
+export class Login implements OnInit {
 
   public form: FormGroup;
   public email: AbstractControl;
@@ -33,7 +33,11 @@ export class Login {
       'email': ['', Validators.compose([Validators.required, Validators.minLength(4)])],
       'password': ['', Validators.compose([Validators.required, Validators.minLength(4)])],
     });
+  }
 
+  ngOnInit (): void {
+    this.submitted = false;
+    this.showError = false;
     this.email = this.form.controls[ 'email' ];
     this.password = this.form.controls[ 'password' ];
   }
