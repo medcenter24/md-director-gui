@@ -25,11 +25,11 @@
                     [doctorId]="editableDoctorId"
                     (toggleUserEditor)="onToggleUserEditor($event)"
             ></doctor-editor>
-            <user-editor
+            <nga-user-editor
                     [hidden]="userEditorHidden"
                     [userId]="editableUserId"
                     (changedUser)="onUserEdited()"
-            ></user-editor>
+            ></nga-user-editor>
         </div>
     </div>
 

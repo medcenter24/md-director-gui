@@ -12,6 +12,7 @@ import 'rxjs/add/operator/toPromise';
 import { Logger } from 'angular2-logger/core';
 import { GlobalState } from '../../global.state';
 import { TranslateService } from '@ngx-translate/core';
+import { Router } from "@angular/router";
 
 @Injectable()
 export abstract class HttpService {
@@ -29,6 +30,7 @@ export abstract class HttpService {
     private _logger: Logger,
     private _state: GlobalState,
     private translate: TranslateService,
+    private router: Router,
   ) {
     this.headers = new Headers({ 'Authorization': 'Bearer ' + this.authenticationService.token });
     this.translate.get('Error').subscribe(res => {
@@ -69,7 +71,7 @@ export abstract class HttpService {
   protected get(id: string|number = null): Promise<any> {
     return this.http.get(this.getUrl(id), { headers: this.getAuthHeaders() })
       .toPromise()
-      .catch(error => this.handleError(error, this));
+      .catch(error => this.handleError(error));
   }
 
   /**
@@ -81,7 +83,7 @@ export abstract class HttpService {
     return this.http.delete(this.getUrl(id), { headers: this.getAuthHeaders() })
       .toPromise()
       .then(() => this.success(this.deletedText, this))
-      .catch(error => this.handleError(error, this));
+      .catch(error => this.handleError(error));
   }
 
   /**
@@ -97,7 +99,7 @@ export abstract class HttpService {
         this.success(this.storedText, this);
         return Promise.resolve(response);
       })
-      .catch(error => this.handleError(error, this));
+      .catch(error => this.handleError(error));
   }
 
   /**
@@ -109,22 +111,21 @@ export abstract class HttpService {
   protected put(id, data): Promise<any> {
 
     if (!+id) {
-      return this.handleError(this.httpErrorMessage, this);
+      return this.handleError(this.httpErrorMessage);
     }
 
     return this.http
       .put(this.getUrl(id), JSON.stringify(data), { headers: this.getAuthHeaders() })
       .toPromise()
-      .catch(error => this.handleError(error, this));
+      .catch(error => this.handleError(error));
   }
 
   /**
    * Overlapping errors
    * @param error
-   * @param self
    * @returns {Promise<never>}
    */
-  private handleError(error: any, self: any): Promise<any> {
+  private handleError(error: any): Promise<any> {
     const msgs = [];
     msgs.push({ severity: 'error', summary: this.errorText,
       detail: this.httpErrorMessage });
@@ -132,6 +133,10 @@ export abstract class HttpService {
 
     if (!environment.production) {
       this._logger.error(error);
+    }
+
+    if (error && error.status && error.status === 401) {
+      this.router.navigate(['login']);
     }
 
     return Promise.reject(error.message || error);

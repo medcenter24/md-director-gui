@@ -52,12 +52,24 @@
             <div class="col-sm-6">
                 <div class="form-group{{ email.valid || email.pristine ? '' : ' has-error'}}">
                     <label *ngIf="email.valid || email.pristine" class="label" translate>Email</label>
-                    <label *ngIf="!email.valid && !email.pristine"class="label label-error" translate>Email is required</label>
+                    <label *ngIf="!email.valid && !email.pristine" class="label label-error" translate>Email is required</label>
                     <input type="text" class="form-control" id="email"
                            required
                            [(ngModel)]="user.email" name="email"
                            #email="ngModel"
                            placeholder="{{ 'Email' | translate }}" maxlength="200"
+                    >
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="form-group{{ password.valid || password.pristine ? '' : ' has-error'}}">
+                    <label *ngIf="password.valid || password.pristine" class="label" translate>Password</label>
+                    <label *ngIf="!password.valid && !password.pristine" class="label label-error" translate>Password is required</label>
+                    <input type="password" class="form-control" id="password"
+                           required
+                           [(ngModel)]="user.password" name="email"
+                           #password="ngModel"
+                           placeholder="{{ 'Password' | translate }}" maxlength="50"
                     >
                 </div>
             </div>

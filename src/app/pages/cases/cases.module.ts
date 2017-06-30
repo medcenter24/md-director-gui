@@ -31,7 +31,7 @@ import {
   SelectButtonModule, CalendarModule, MultiSelectModule, AutoCompleteModule,
   SpinnerModule, ButtonModule, TooltipModule, InputTextareaModule, InputTextModule,
   PanelModule, FileUploadModule, InplaceModule, ToolbarModule, DialogModule, PaginatorModule, CheckboxModule,
-  ConfirmDialogModule, ConfirmationService, BlockUIModule
+  ConfirmDialogModule, ConfirmationService, BlockUIModule, PasswordModule
 } from 'primeng/primeng';
 import { AssistantsService } from '../../components/assistant/assistant.service';
 import { AssistantSelectComponent } from '../../components/assistant/components/select/select.component';
@@ -90,6 +90,7 @@ import {AccidentCheckpointsService} from "../../components/accident/components/c
     CheckboxModule,
     ConfirmDialogModule,
     BlockUIModule,
+    PasswordModule,
   ],
   declarations: [
     Cases,
