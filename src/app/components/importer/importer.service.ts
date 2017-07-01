@@ -18,7 +18,7 @@ export class ImporterService {
 
   getQueue(url): Promise<any> {
 
-    return this.http.get(url, {headers: this.headers})
+    return this.http.get(url, { headers: this.headers })
       .toPromise()
       .then(response => response.json())
       .catch(this.handleError);
@@ -26,7 +26,7 @@ export class ImporterService {
 
   deleteFile(url: string, id: number): Promise<void> {
     url = `${url}/${id}`;
-    return this.http.delete(url, {headers: this.headers})
+    return this.http.delete(url, { headers: this.headers })
       .toPromise()
       .then(() => null)
       .catch(this.handleError);
@@ -34,7 +34,7 @@ export class ImporterService {
 
   importFile(url: string, id: number): Promise<any> {
     url = `${url}/${id}`;
-    return this.http.put(url, [], {headers: this.headers})
+    return this.http.put(url, [], { headers: this.headers })
       .toPromise()
       .then((response) => response.json())
       .catch(this.handleError);
