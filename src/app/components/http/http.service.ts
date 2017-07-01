@@ -125,7 +125,7 @@ export abstract class HttpService {
    * @param error
    * @returns {Promise<never>}
    */
-  private handleError(error: any): Promise<any> {
+  protected handleError(error: any): Promise<any> {
     const msgs = [];
     msgs.push({ severity: 'error', summary: this.errorText,
       detail: this.httpErrorMessage });

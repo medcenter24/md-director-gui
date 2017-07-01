@@ -60,6 +60,7 @@ import {AccidentStatusSelectComponent} from "../../components/accident/component
 import {AccidentStatusesService} from "../../components/accident/components/status/statuses.service";
 import {AccidentCheckpointsSelectorComponent} from "../../components/accident/components/checkpoint/components/select/select.component";
 import {AccidentCheckpointsService} from "../../components/accident/components/checkpoint/checkpoints.service";
+import {ExporterService} from "../../components/exporter/exporter.service";
 
 @NgModule({
   imports: [
@@ -132,7 +133,8 @@ import {AccidentCheckpointsService} from "../../components/accident/components/c
     DocumentsService,
     AccidentStatusesService,
     AccidentCheckpointsService,
-  ]
+    ExporterService,
+  ],
 })
 export class CasesModule {
 }
