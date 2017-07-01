@@ -4,7 +4,7 @@
  * @author Alexander Zagovorichev <zagovorichev@gmail.com>
  */
 
-import { Component, ViewEncapsulation, ViewChild } from '@angular/core';
+import { Component, ViewEncapsulation, ViewChild, OnInit } from '@angular/core';
 
 import { LocalDataSource } from 'ng2-smart-table';
 import { Response } from '@angular/http';
@@ -15,13 +15,14 @@ import { CaseAccident } from '../../case';
 import { SlimLoadingBarService } from 'ng2-slim-loading-bar';
 import { ImporterComponent } from '../../../importer/importer.component';
 import { Pagination } from '../../../ui/pagination';
+import { ExporterService } from '../../../exporter/exporter.service';
 
 @Component({
   selector: 'basic-tables',
   encapsulation: ViewEncapsulation.None,
   templateUrl: './list.html',
 })
-export class CasesListComponent {
+export class CasesListComponent implements OnInit {
 
   @ViewChild('errorDialog')
     errorDialog: ModalComponent;
@@ -30,7 +31,7 @@ export class CasesListComponent {
     importer: ImporterComponent;
 
   query: string = '';
-  pagination: Pagination = new Pagination;
+  pagination: Pagination = new Pagination();
 
   deleteDialogEvent: any = null;
   titleForDeletion: string = '';
@@ -40,7 +41,7 @@ export class CasesListComponent {
 
   settings = {
     pager: {
-      display: false
+      display: false,
     },
     mode: 'external',
     hideSubHeader: false,
@@ -49,41 +50,46 @@ export class CasesListComponent {
       edit: true,
       add: true,
       'delete': false,
-      position: 'right'
+      position: 'right',
     },
     add: {
-      addButtonContent: '<i class="ion-ios-plus-outline"></i>'
+      addButtonContent: '<i class="ion-ios-plus-outline"></i>',
     },
     edit: {
-      editButtonContent: '<i class="ion-ios-arrow-right"></i>'
+      editButtonContent: '<i class="ion-ios-arrow-right"></i>',
     },
     columns: {
       ref_num: {
         title: 'Ref. Number',
-        type: 'string'
+        type: 'string',
       },
       case_type: {
         title: 'Case Type',
-        type: 'string'
+        type: 'string',
       },
       created_at: {
         title: 'Created at',
-        type: 'string'
+        type: 'string',
       },
       checkpoints: {
         title: 'Checkpoints',
-        type: 'string'
+        type: 'string',
       },
       status: {
         title: 'Status',
-        type: 'string'
-      }
-    }
+        type: 'string',
+      },
+    },
   };
 
   source: LocalDataSource = new LocalDataSource();
 
-  constructor (protected service: CasesService, public router: Router, private slimLoader: SlimLoadingBarService) {
+  constructor (
+    protected service: CasesService,
+    public router: Router,
+    private slimLoader: SlimLoadingBarService,
+    private exporterService: ExporterService,
+  ) {
   }
 
   ngOnInit (): void {
@@ -104,18 +110,18 @@ export class CasesListComponent {
   }
 
   onEdit (event): void {
-    this.router.navigate([ 'pages/cases/', event.data.id ]);
+    this.router.navigate(['pages/cases/', event.data.id]);
   }
 
   onCreate (): void {
-    this.router.navigate([ 'pages/cases/new' ]);
+    this.router.navigate(['pages/cases/new']);
   }
 
   reloadDatatable(params): void {
     this.startLoading();
-    this.service.getCases(params).then((response) => {
-      let paginator = response.meta.pagination;
-      let accidents = response.data as CaseAccident[];
+    this.service.getCases(params).then(response => {
+      const paginator = response.meta.pagination;
+      const accidents = response.data as CaseAccident[];
       this.source.load(accidents);
 
       this.pagination.rows = paginator.per_page;
@@ -132,6 +138,10 @@ export class CasesListComponent {
 
   openImporter (): void {
     this.importer.showImporter();
+  }
+
+  exportCases(): void {
+    this.exporterService.form1({});
   }
 
   onPageChanged(event): void {
