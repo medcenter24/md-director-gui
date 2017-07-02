@@ -8,8 +8,7 @@ export class Document {
     constructor(
         public id: number = 0,
         public title: string = '',
-        public preview: string = '',
         public owner: string = '',
-        public file_name: string = ''
+        public fileName: string = '',
     ) { }
 }
