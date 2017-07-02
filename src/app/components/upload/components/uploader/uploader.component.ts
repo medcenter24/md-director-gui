@@ -87,7 +87,7 @@ export class FileUploaderComponent implements OnInit {
   }
 
   downloadFile(file): void {
-    console.log('run download');
+    this.documentsService.download(file);
   }
 
   deleteFile(file): void {
