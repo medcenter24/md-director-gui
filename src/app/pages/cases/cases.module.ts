@@ -91,7 +91,6 @@ import {ExporterService} from "../../components/exporter/exporter.service";
     CheckboxModule,
     ConfirmDialogModule,
     BlockUIModule,
-    PasswordModule,
   ],
   declarations: [
     Cases,
