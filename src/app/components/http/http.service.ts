@@ -136,7 +136,9 @@ export abstract class HttpService {
     }
 
     if (error && error.status && error.status === 401) {
-      this.router.navigate(['login']);
+      // won't clean all data so we need browser redirect
+      // this.router.navigate(['login']);
+      window.location.replace('/login');
     }
 
     return Promise.reject(error.message || error);
