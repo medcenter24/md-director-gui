@@ -12,7 +12,8 @@ import 'rxjs/add/operator/toPromise';
 import { Logger } from 'angular2-logger/core';
 import { GlobalState } from '../../global.state';
 import { TranslateService } from '@ngx-translate/core';
-import { Router } from "@angular/router";
+import { Router } from '@angular/router';
+import { Message } from 'primeng/primeng';
 
 @Injectable()
 export abstract class HttpService {
@@ -23,6 +24,7 @@ export abstract class HttpService {
   private successText: string = '';
   private deletedText: string = '';
   private storedText: string = '';
+  private msgs: Message[] = [];
 
   constructor (
     protected http: Http,
@@ -126,10 +128,9 @@ export abstract class HttpService {
    * @returns {Promise<never>}
    */
   protected handleError(error: any): Promise<any> {
-    const msgs = [];
-    msgs.push({ severity: 'error', summary: this.errorText,
+    this.msgs.push({ severity: 'error', summary: this.errorText,
       detail: this.httpErrorMessage });
-    this._state.notifyDataChanged('growl', msgs);
+    this._state.notifyDataChanged('growl', this.msgs);
 
     if (!environment.production) {
       this._logger.error(error);
@@ -145,9 +146,8 @@ export abstract class HttpService {
   }
 
   private success(message: string = '', self: any): void {
-    const msgs = [];
-    msgs.push({ severity: 'success', summary: self.successText,
+    this.msgs.push({ severity: 'success', summary: self.successText,
       detail: message });
-    this._state.notifyDataChanged('growl', msgs);
+    this._state.notifyDataChanged('growl', this.msgs);
   }
 }

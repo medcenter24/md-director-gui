@@ -20,11 +20,12 @@
             </ba-card>
         </div>
         <div class="col-sm-6">
-            <doctor-editor
+            <nga-doctor-editor
                     [hidden]="doctorEditorHidden"
                     [doctorId]="editableDoctorId"
                     (toggleUserEditor)="onToggleUserEditor($event)"
-            ></doctor-editor>
+                    (toggleCitiesEditor)="onToggleCitiesSelector($event)"
+            ></nga-doctor-editor>
             <nga-user-editor
                     [hidden]="userEditorHidden"
                     [userId]="editableUserId"

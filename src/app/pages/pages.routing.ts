@@ -9,7 +9,11 @@ import { AuthGuard } from '../components/auth/auth.guard';
 export const routes: Routes = [
   {
     path: 'login',
-    loadChildren: 'app/pages/login/login.module#LoginModule'
+    loadChildren: 'app/pages/login/login.module#LoginModule',
+  },
+  {
+    path: 'profile',
+    loadChildren: 'app/pages/profile/profile.module#ProfileModule',
   },
   {
     path: 'pages',

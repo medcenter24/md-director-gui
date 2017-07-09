@@ -5,7 +5,7 @@
   -->
 
 <ba-card *ngIf="doctor" title="Doctor Editor" baCardClass="with-scroll" class="edit-form-container">
-    <form (ngSubmit)="onSubmit()" #diagnosticForm="ngForm">
+    <form (ngSubmit)="onSubmit()" #diagnosticForm="ngForm" class="edit-form">
         <div class="row">
             <div class="col-sm-6">
                 <div class="form-group{{ doctorName.valid || doctorName.pristine ? '' : ' has-error'}}">
@@ -36,7 +36,7 @@
         <div class="row">
             <div class="col-sm-6">
                 <div class="form-group">
-                    <label translate>Description</label>
+                    <label class="label" translate>Description</label>
                     <textarea name="description" class="form-control"
                               [(ngModel)]="doctor.description"
                               #description="ngModel"
@@ -48,12 +48,13 @@
             </div>
             <div class="col-sm-6">
                 <div class="form-group">
-                    <user-selector
+                    <label class="label" translate>User</label>
+                    <nga-user-selector
                             [userId]="doctor.user_id"
                             (userChanged)="onUserChanged($event)"
                             (loaded)="onSelectorLoaded()"
                             (loading)="onSelectorLoading()"
-                    ></user-selector>
+                    ></nga-user-selector>
                     <a (click)="toggleEditor(doctor.user_id)"
                        class="editor-toggle" *ngIf="showUserEditor" translate>Close user editor</a>
                     <a (click)="toggleEditor(doctor.user_id)"
@@ -64,4 +65,14 @@
         <button type="submit" class="btn btn-primary" *ngIf="doctor.id" translate>Submit</button>
         <button type="submit" class="btn btn-primary" *ngIf="!doctor.id" translate>Create</button>
     </form>
+
+    <hr>
+    <div class="row edit-form-container">
+        <div class="col-sm-12 edit-form">
+            <label class="label separate" translate>Cities</label>
+            <nga-select-city
+                [isMultiple]="true"
+            ></nga-select-city>
+        </div>
+    </div>
 </ba-card>

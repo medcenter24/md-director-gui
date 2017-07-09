@@ -4,27 +4,20 @@
  * @author Alexander Zagovorichev <zagovorichev@gmail.com>
  */
 
-/*
- * Copyright (c) 2017.
- *
- * @author Alexander Zagovorichev <zagovorichev@gmail.com>
- */
-
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
 import { User } from '../user';
 import { UsersService } from '../users.service';
 import * as _ from 'lodash';
 
 @Component({
-  selector: 'user-selector',
+  selector: 'nga-user-selector',
   template: `
-      <label for="users" translate>User</label>
       <select id="users" class="form-control" name="user" [(ngModel)]="user" (ngModelChange)="onChange($event)">
           <option [ngValue]="_user" *ngFor="let _user of users">{{ _user.name }}</option>
       </select>
-  `
+  `,
 })
-export class UserSelectorComponent {
+export class UserSelectorComponent implements OnInit {
 
   user: User;
 
@@ -66,7 +59,7 @@ export class UserSelectorComponent {
     this.loading.emit();
     this.service.getUsers().then((data: User[]) => {
       this.users = [];
-      this.users.push(new User(0,'','',''));
+      this.users.push(new User(0, '', '', ''));
       data.map(_user => {
         this.users.push(_user);
       });
@@ -81,7 +74,7 @@ export class UserSelectorComponent {
   }
 
   reloadWithUserId (id: number): void {
-    let user = this.users.filter(_user => +_user.id === +id);
+    const user = this.users.filter(_user => +_user.id === +id);
     this.reload(user[0]);
   }
 
