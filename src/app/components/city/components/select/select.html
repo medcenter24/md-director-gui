@@ -13,6 +13,7 @@
         (onDropdownClick)="handleDropdownClick($event)"
         (onSelect)="onSelect($event)"
         (onBlur)="onBlur($event)"
+        [multiple]="isMultiple"
         placeholder="{{ 'Select City' | translate}}"
         field="title"
 ></p-autoComplete>

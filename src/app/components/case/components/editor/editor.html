@@ -5,11 +5,11 @@
   -->
 <p-blockUI [blocked]="blocked"></p-blockUI>
 
-<div *ngIf="accident && isLoaded" class="case-editor">
+<div *ngIf="accident && isLoaded" class="case-editor edit-form-container">
     <div class="row">
         <div class="col-sm-12 form-block">
             <ba-card baCardClass="with-scroll">
-            <form class="form" (ngSubmit)="onSubmit()" #accidentForm="ngForm">
+            <form class="form edit-form" (ngSubmit)="onSubmit()" #accidentForm="ngForm">
 
                 <div class="form-group offset-bottom20">
                     <div class="row">
@@ -18,23 +18,67 @@
                             <h3 *ngIf="!accident.id">{{ 'New case creating' | translate }}</h3>
                         </div>
                         <div class="col-sm-6">
-                            <b class="text-muted offset-right10 pull-left" translate>Referral Number</b>
+                            <label class="label pull-left" translate>Referral Number</label>
                             <p-inplace closable="true" class="pull-left">
                                 <span pInplaceDisplay>
                                     {{ accident.ref_num }}
                                 </span>
                                 <span pInplaceContent>
-                                    <input type="text" value="{{ accident.ref_num }}" (change)="onReferralChanged($event)" pInputText placeholder="{{ 'Referral Number' | translate }}">
+                                    <input type="text" value="{{ accident.ref_num }}" (change)="onReferralChanged($event)"
+                                           pInputText placeholder="{{ 'Referral Number' | translate }}">
                                 </span>
                             </p-inplace>
-                            <b pTooltip="{{ 'If you leave it empty then it will be generated automatically' | translate }}" class="pull-left badge badge-default">?</b>
+                            <b pTooltip="{{ 'If you leave it empty then it will be generated automatically' | translate }}"
+                               tooltipPosition="left" class="pull-left badge badge-default">?</b>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <label class="label required separate" translate>Assistant</label>
+                            <select-assistant
+                                [assistantId]="accident.assistant_id"
+                                (change)="onAssistantChanged($event)"
+                            ></select-assistant>
+                        </div>
+                        <div class="col-sm-4">
+                            <label class="label required separate" translate>Assistant Ref Num</label>
+                            <input type="text" pInputText>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="row offset-bottom20" *ngIf="patient">
+                        <div class="col-sm-4">
+                            <label class="label required separate" translate>Patient Name</label>
+                            <input type="text" pInputText name="name"
+                                   [(ngModel)]="patient.name" (change)="patient.name = patient.name.toUpperCase()"
+                                   placeholder="{{ 'Patient Name' | translate }}"/>
+                        </div>
+                        <div class="col-sm-4">
+                            <label class="label separate" translate>Patient Phone</label>
+                            <input type="text" pInputText name="phone" [(ngModel)]="patient.phones"
+                                   placeholder="{{ 'Patient Phone' | translate }}"/>
+                        </div>
+                        <div class="col-sm-4">
+                            <label class="label separate" translate>Birthday</label>
+                            <p-calendar
+                                    name="patientBirthday"
+                                    [(ngModel)]="patient.birthday"
+                                    [maxDate]="maxDate"
+                                    dateFormat="dd.mm.yy"
+                            ></p-calendar>
                         </div>
                     </div>
                 </div>
 
                 <div class="form-group offset-bottom20">
-                    <div class="row offset-bottom20">
-                        <div class="col-sm-5">
+                    <div class="row">
+                        <div class="col-sm-5" *ngIf="false">
+                            <!-- this block needed only when hospitals will be implemented -->
                             <b class="text-muted">{{ 'Choose Case' | translate }}</b>
                             <br>
                             <select-case-type
@@ -48,25 +92,24 @@
                             <h4 *ngIf="accident.id && accident.caseable_type === 'App\\HospitalAccident'"
                                 class="text-danger" translate>Hospital Case</h4>
                         </div>
-                        <div class="col-sm-7">
+                        <div class="col-sm-12">
                             <div *ngIf="accident.caseable_type === 'App\\DoctorAccident'">
                                 <div class="row">
-                                    <div class="col-sm-6">
-                                        <b class="text-muted" translate>Doctor</b>
-                                        <br>
+                                    <div class="col-sm-4">
+                                        <label class="label required separate" translate>City</label>
+                                        <nga-select-city
+                                                *ngIf="doctorAccident"
+                                                [cityId]="doctorAccident.city_id"
+                                                (selected)="onCityChanged($event)"
+                                        ></nga-select-city>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <label class="label required separate" translate>Doctor</label>
                                         <select-doctor
                                                 *ngIf="doctorAccident"
                                                 [doctorId]="doctorAccident.doctor_id"
                                                 (selected)="onDoctorChanged($event)"
                                         ></select-doctor>
-                                    </div>
-                                    <div class="col-sm-6">
-                                        <b class="text-muted" translate>City</b>
-                                        <br><select-city
-                                                *ngIf="doctorAccident"
-                                                [cityId]="doctorAccident.city_id"
-                                                (selected)="onCityChanged($event)"
-                                            ></select-city>
                                     </div>
                                 </div>
                             </div>
@@ -119,11 +162,7 @@
                         <div class="col-sm-12">
                             <div class="row">
                                 <div class="col-sm-12 col-md-6 col-lg-3">
-                                    <b class="text-muted" translate>Assistant</b>
-                                    <br><select-assistant
-                                            [assistantId]="accident.assistant_id"
-                                            (change)="onAssistantChanged($event)"
-                                        ></select-assistant>
+                                    here will be prices for doctors
                                 </div>
                                 <div class="col-sm-12 col-md-6 col-lg-2 center-block">
                                     <b class="text-muted" translate>Discount Type</b>
@@ -161,18 +200,6 @@
 
                             <div class="row offset-bottom20">
                                 <div class="col-sm-5">
-                                    <div class="row offset-bottom20" *ngIf="patient">
-                                        <div class="col-sm-6">
-                                            <b class="text-muted" translate>Patient Name</b>
-                                            <br>
-                                            <input type="text" pInputText name="name" [(ngModel)]="patient.name" placeholder="{{ 'Patient Name' | translate }}"/>
-                                        </div>
-                                        <div class="col-sm-6">
-                                            <b class="text-muted" translate>Patient Phone</b>
-                                            <br>
-                                            <input type="text" pInputText name="phone" [(ngModel)]="patient.phones" placeholder="{{ 'Patient Phone' | translate }}"/>
-                                        </div>
-                                    </div>
                                     <div class="row">
                                         <div class="col-sm-12">
                                             <b class="text-muted" translate>Symptoms</b>

@@ -9,16 +9,11 @@ import { CommonModule }  from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { NgaModule } from '../../theme/nga.module';
 import { Ng2SmartTableModule } from 'ng2-smart-table';
-
 import { routing }       from './doctors.routing';
 import { Doctors } from './doctors.component';
-
 import { Services } from './components/services/services.component';
-
 import { Stuff } from './components/stuff/stuff.component';
-
 import { Ng2Bs3ModalModule } from 'ng2-bs3-modal/ng2-bs3-modal';
-
 import { DoctorsService } from '../../components/doctors/doctors.service';
 import { UserEditorComponent } from '../../components/users/editor/editor.component';
 import { UserSelectorComponent } from '../../components/users/selector/selector.component';
@@ -31,9 +26,13 @@ import { DiagnosticCategoryEditorComponent } from '../../components/diagnostic/c
 import { DiagnosticCategorySelectorComponent } from '../../components/diagnostic/category/components/selector/selector.component';
 import { DiagnosticService } from '../../components/diagnostic/diagnostic.service';
 import { DiagnosticCategoryService } from '../../components/diagnostic/category/category.service';
+import { AppTranslationModule } from '../../app.translation.module';
+import { AutoCompleteModule, ListboxModule } from 'primeng/primeng';
+import {CitySelectComponent} from "../../components/city/components/select/select.component";
+import {CitiesService} from "../../components/city/cities.service";
+
 // import { InMemoryWebApiModule } from 'angular-in-memory-web-api';
 // import { InMemoryDataService } from '../../faker/in-memory-data.service';
-import { AppTranslationModule } from '../../app.translation.module';
 
 @NgModule({
   imports: [
@@ -44,6 +43,8 @@ import { AppTranslationModule } from '../../app.translation.module';
     AppTranslationModule,
     Ng2SmartTableModule,
     Ng2Bs3ModalModule,
+    AutoCompleteModule,
+    ListboxModule,
     // InMemoryWebApiModule.forRoot(InMemoryDataService, {apiBase: 'director/', passThruUnknownUrl: true}),
   ],
   declarations: [
@@ -57,6 +58,7 @@ import { AppTranslationModule } from '../../app.translation.module';
     DiagnosticEditorComponent,
     DiagnosticCategoryEditorComponent,
     DiagnosticCategorySelectorComponent,
+    CitySelectComponent,
   ],
   providers: [
     DoctorsService,
@@ -64,6 +66,7 @@ import { AppTranslationModule } from '../../app.translation.module';
     UsersService,
     DiagnosticService,
     DiagnosticCategoryService,
+    CitiesService,
   ]
 })
 

@@ -7,6 +7,7 @@
 import {Injectable} from '@angular/core';
 import {Doctor} from "./doctor";
 import { HttpService } from '../http/http.service';
+import {City} from "../city/city";
 
 @Injectable()
 export class DoctorsService extends HttpService {
@@ -33,5 +34,9 @@ export class DoctorsService extends HttpService {
 
   update(doctor: Doctor): Promise<Doctor> {
     return this.put(doctor.id, doctor);
+  }
+
+  getDoctorCities(id: number): Promise<City[]> {
+    return this.get(`${id}/cities`).then(res => res.json() as City[]);
   }
 }
