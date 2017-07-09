@@ -4,18 +4,19 @@
  *  @author Alexander Zagovorichev <zagovorichev@gmail.com>
  */
 
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { SlimLoadingBarService } from 'ng2-slim-loading-bar';
 import { Logger } from 'angular2-logger/core';
 import { City } from '../../city';
 import { CitiesService } from '../../cities.service';
 @Component({
-  selector: 'select-city',
-  templateUrl: './select.html'
+  selector: 'nga-select-city',
+  templateUrl: './select.html',
 })
-export class CitySelectComponent {
+export class CitySelectComponent implements OnInit {
 
   @Input() cityId: number = 0;
+  @Input() isMultiple: boolean = false;
   @Output() selected: EventEmitter<City> = new EventEmitter<City>();
 
   isLoaded: boolean = false;
@@ -23,7 +24,10 @@ export class CitySelectComponent {
   city: City;
   filteredCities: Array<City> = [];
 
-  constructor (private citiesService: CitiesService, private loadingBar: SlimLoadingBarService, private _logger: Logger) {}
+  constructor (
+    private citiesService: CitiesService,
+    private loadingBar: SlimLoadingBarService,
+    private _logger: Logger) {}
 
   ngOnInit () {
     this.loadingBar.start();
@@ -43,9 +47,9 @@ export class CitySelectComponent {
 
   filterCities (event): void {
     this.filteredCities = [];
-    for(let i = 0; i < this.cities.length; i++) {
-      let city = this.cities[i];
-      if(city.title.toLowerCase().indexOf(event.query.toLowerCase()) == 0) {
+    for (let i = 0; i < this.cities.length; i++) {
+      const city = this.cities[i];
+      if (city.title.toLowerCase().indexOf(event.query.toLowerCase()) == 0) {
         this.filteredCities.push(city);
       }
     }
@@ -54,10 +58,10 @@ export class CitySelectComponent {
   handleDropdownClick() {
     this.filteredCities = [];
 
-    //mimic remote call
+    // mimic remote call
     setTimeout(() => {
       this.filteredCities = this.cities;
-    }, 100)
+    }, 100);
   }
 
   onSelect (): void {
@@ -65,7 +69,7 @@ export class CitySelectComponent {
     this.selected.emit(this.city);
   }
 
-  onBlur():void {
+  onBlur(): void {
     if (typeof this.city !== 'object') {
       this.city = null;
     }

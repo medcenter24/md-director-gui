@@ -79,6 +79,14 @@ export class CasesListComponent implements OnInit {
         title: 'Status',
         type: 'string',
       },
+      fee: {
+        title: 'Doctors fee',
+        type: 'number',
+      },
+      price: {
+        title: 'Price',
+        type: 'number',
+      },
     },
   };
 
