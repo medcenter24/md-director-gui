@@ -4,8 +4,8 @@
  * @author Alexander Zagovorichev <zagovorichev@gmail.com>
  */
 
-import { NgModule }      from '@angular/core';
-import { CommonModule }  from '@angular/common';
+import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { NgaModule } from '../../theme/nga.module';
 import { Ng2SmartTableModule } from 'ng2-smart-table';
@@ -28,8 +28,8 @@ import { DiagnosticService } from '../../components/diagnostic/diagnostic.servic
 import { DiagnosticCategoryService } from '../../components/diagnostic/category/category.service';
 import { AppTranslationModule } from '../../app.translation.module';
 import { AutoCompleteModule, ListboxModule } from 'primeng/primeng';
-import {CitySelectComponent} from "../../components/city/components/select/select.component";
-import {CitiesService} from "../../components/city/cities.service";
+import { CitiesModule } from '../../components/city/cities.module';
+import { CitiesService } from '../../components/city/cities.service';
 
 // import { InMemoryWebApiModule } from 'angular-in-memory-web-api';
 // import { InMemoryDataService } from '../../faker/in-memory-data.service';
@@ -45,6 +45,7 @@ import {CitiesService} from "../../components/city/cities.service";
     Ng2Bs3ModalModule,
     AutoCompleteModule,
     ListboxModule,
+    CitiesModule,
     // InMemoryWebApiModule.forRoot(InMemoryDataService, {apiBase: 'director/', passThruUnknownUrl: true}),
   ],
   declarations: [
@@ -58,7 +59,6 @@ import {CitiesService} from "../../components/city/cities.service";
     DiagnosticEditorComponent,
     DiagnosticCategoryEditorComponent,
     DiagnosticCategorySelectorComponent,
-    CitySelectComponent,
   ],
   providers: [
     DoctorsService,
@@ -67,7 +67,7 @@ import {CitiesService} from "../../components/city/cities.service";
     DiagnosticService,
     DiagnosticCategoryService,
     CitiesService,
-  ]
+  ],
 })
 
 export class DoctorsModule {

@@ -1,7 +1,7 @@
-import { NgModule }      from '@angular/core';
-import { CommonModule }  from '@angular/common';
+import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
 
-import { routing }       from './pages.routing';
+import { routing } from './pages.routing';
 import { NgaModule } from '../theme/nga.module';
 import { AppTranslationModule } from '../app.translation.module';
 import { provideAuth, AuthHttp, AuthConfig } from 'angular2-jwt';
@@ -20,14 +20,16 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     NgaModule,
     routing,
   ],
-  declarations: [ Pages ],
+  declarations: [
+    Pages,
+  ],
   providers: [ // expose our Services and Providers into Angular's dependency injection
     AuthGuard,
     {
       provide: AuthHttp,
       useFactory: authHttpServiceFactory,
-      deps: [ Http, RequestOptions ]
-    }
+      deps: [Http, RequestOptions],
+    },
   ],
 })
 export class PagesModule {
