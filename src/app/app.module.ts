@@ -1,3 +1,9 @@
+/*
+ * Copyright (c) 2017.
+ *
+ * @author Alexander Zagovorichev <zagovorichev@gmail.com>
+ */
+
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -6,7 +12,7 @@ import { RouterModule } from '@angular/router';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { InMemoryWebApiModule } from 'angular-in-memory-web-api';
-import { InMemoryDataService }  from './faker/in-memory-data.service';
+import { InMemoryDataService } from './faker/in-memory-data.service';
 
 /*
  * Platform and Environment providers/directives/pipes
@@ -34,7 +40,7 @@ const APP_PROVIDERS = [
 export type StoreType = {
   state: InternalStateType,
   restoreInputValues: () => void,
-  disposeOldHosts: () => void
+  disposeOldHosts: () => void,
 };
 
 /**
@@ -43,7 +49,7 @@ export type StoreType = {
 @NgModule({
   bootstrap: [App],
   declarations: [
-    App
+    App,
   ],
   imports: [ // import Angular's modules
     BrowserModule,
@@ -58,11 +64,11 @@ export type StoreType = {
     PagesModule,
     routing,
     SlimLoadingBarModule.forRoot(),
-    GrowlModule
+    GrowlModule,
   ],
   exports: [InMemoryWebApiModule],
   providers: [ // expose our Services and Providers into Angular's dependency injection
-    APP_PROVIDERS
+    APP_PROVIDERS,
   ],
 })
 
