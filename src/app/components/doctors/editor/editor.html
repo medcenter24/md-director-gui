@@ -72,6 +72,7 @@
             <label class="label separate" translate>Cities</label>
             <nga-select-city
                 [isMultiple]="true"
+                (selected)="onCitySelect($event)"
             ></nga-select-city>
         </div>
     </div>

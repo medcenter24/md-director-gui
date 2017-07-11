@@ -14,8 +14,6 @@ import { routing } from './cases.routing';
 
 import { Ng2SmartTableModule } from 'ng2-smart-table';
 import { Ng2Bs3ModalModule } from 'ng2-bs3-modal/ng2-bs3-modal';
-// import { InMemoryWebApiModule } from 'angular-in-memory-web-api';
-// import { InMemoryDataService } from '../../faker/in-memory-data.service';
 
 import { CasesService } from '../../components/case/cases.service';
 import { CaseEditorComponent } from '../../components/case/components/editor/editor.component';
@@ -44,8 +42,6 @@ import { DoctorsService } from '../../components/doctors/doctors.service';
 import { HospitalsService } from '../../components/hospital/hospitals.service';
 import { HospitalSelectComponent } from '../../components/hospital/components/select/select.component';
 import { SelectCaseTypeComponent } from '../../components/case/components/type/select.component';
-import { CitySelectComponent } from '../../components/city/components/select/select.component';
-import { CitiesService } from '../../components/city/cities.service';
 import { DiagnosticService } from '../../components/diagnostic/diagnostic.service';
 import { DiagnosticsSelectorComponent } from '../../components/diagnostic/components/selector/selector.component';
 import { SelectDiagnosticsComponent } from '../../components/diagnostic/components/select/select.component';
@@ -55,12 +51,17 @@ import { ImporterService } from '../../components/importer/importer.service';
 import { SelectDiscountComponent } from '../../components/discount/components/select/select.component';
 import { DiscountService } from '../../components/discount/discount.service';
 import { FileUploaderComponent } from '../../components/upload/components/uploader/uploader.component';
-import {DocumentsService} from "../../components/document/documents.service";
-import {AccidentStatusSelectComponent} from "../../components/accident/components/status/components/select/select.component";
-import {AccidentStatusesService} from "../../components/accident/components/status/statuses.service";
-import {AccidentCheckpointsSelectorComponent} from "../../components/accident/components/checkpoint/components/select/select.component";
-import {AccidentCheckpointsService} from "../../components/accident/components/checkpoint/checkpoints.service";
-import {ExporterService} from "../../components/exporter/exporter.service";
+import { DocumentsService } from '../../components/document/documents.service';
+import { AccidentStatusSelectComponent } from '../../components/accident/components/status/components/select/select.component';
+import { AccidentStatusesService } from '../../components/accident/components/status/statuses.service';
+import { AccidentCheckpointsSelectorComponent } from '../../components/accident/components/checkpoint/components/select/select.component';
+import { AccidentCheckpointsService } from '../../components/accident/components/checkpoint/checkpoints.service';
+import { ExporterService } from '../../components/exporter/exporter.service';
+import { CitiesService } from '../../components/city/cities.service';
+import { CitiesModule } from '../../components/city/cities.module';
+
+// import { InMemoryWebApiModule } from 'angular-in-memory-web-api';
+// import { InMemoryDataService } from '../../faker/in-memory-data.service';
 
 @NgModule({
   imports: [
@@ -91,6 +92,7 @@ import {ExporterService} from "../../components/exporter/exporter.service";
     CheckboxModule,
     ConfirmDialogModule,
     BlockUIModule,
+    CitiesModule,
   ],
   declarations: [
     Cases,
@@ -106,7 +108,6 @@ import {ExporterService} from "../../components/exporter/exporter.service";
     DoctorSelectComponent,
     HospitalSelectComponent,
     SelectCaseTypeComponent,
-    CitySelectComponent,
     FileUploaderComponent,
     DiagnosticsSelectorComponent,
     SelectDiagnosticsComponent,
@@ -124,7 +125,6 @@ import {ExporterService} from "../../components/exporter/exporter.service";
     PatientsService,
     DoctorsService,
     HospitalsService,
-    CitiesService,
     DiagnosticService,
     AuthenticationService,
     ImporterService,
@@ -133,6 +133,7 @@ import {ExporterService} from "../../components/exporter/exporter.service";
     AccidentStatusesService,
     AccidentCheckpointsService,
     ExporterService,
+    CitiesService,
   ],
 })
 export class CasesModule {

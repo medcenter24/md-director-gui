@@ -39,4 +39,15 @@ export class DoctorsService extends HttpService {
   getDoctorCities(id: number): Promise<City[]> {
     return this.get(`${id}/cities`).then(res => res.json() as City[]);
   }
+
+  setDoctorCities(id: number, cities: City[]): Promise<any> {
+    let els = [];
+    if (cities) {
+      els = cities.map(x => x.id);
+    }
+    return this.http
+      .put(this.getUrl(id) + '/cities', JSON.stringify({ cities: els }), { headers: this.getAuthHeaders() })
+      .toPromise()
+      .catch(error => this.handleError(error));
+  }
 }

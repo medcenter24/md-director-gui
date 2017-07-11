@@ -67,6 +67,10 @@ export class DoctorEditorComponent {
     this.doctor.user_id = userId;
   }
 
+  onCitySelect(cities): void {
+    this.service.setDoctorCities(this.doctor.id, cities);
+  }
+
   toggleEditor(userId: number): void {
     this.showUserEditor = !this.showUserEditor;
     this.toggleUserEditor.emit(userId);
