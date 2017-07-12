@@ -15,9 +15,13 @@ import { DoctorsService } from '../doctors.service';
 })
 export class DoctorSelectComponent implements OnInit {
 
-  @Input() doctorId: number = 0;
+  @Input() set doctorId(docId: number) {
+    this.docId = +docId;
+    this.selectDoctor();
+  }
   @Output() selected: EventEmitter<Doctor> = new EventEmitter<Doctor>();
 
+  docId: number = 0;
   doctors: Array<Doctor> = [];
   doctor: Doctor;
   filteredDoctors: Array<Doctor> = [];
@@ -33,10 +37,7 @@ export class DoctorSelectComponent implements OnInit {
     this.isLoaded = false;
     this.doctorsService.getDoctors().then(doctors => {
       this.doctors = doctors;
-      if (this.doctorId) {
-        this.doctorId *= 1;
-        this.doctor = this.doctors.find(doc => doc.id === this.doctorId);
-      }
+      this.selectDoctor();
       this.loadingBar.complete();
       this.isLoaded = true;
     }).catch((err) => {
@@ -45,11 +46,17 @@ export class DoctorSelectComponent implements OnInit {
     });
   }
 
+  private selectDoctor(): void {
+    if (this.docId) {
+      this.doctor = this.doctors.find(doc => doc.id === +this.docId);
+    }
+  }
+
   filterDoctors (event): void {
     this.filteredDoctors = [];
-    for(let i = 0; i < this.doctors.length; i++) {
-      let doctor = this.doctors[i];
-      if(doctor.name.toLowerCase().indexOf(event.query.toLowerCase()) == 0) {
+    for (let i = 0; i < this.doctors.length; i++) {
+      const doctor = this.doctors[i];
+      if (doctor.name.toLowerCase().indexOf(event.query.toLowerCase()) == 0) {
         this.filteredDoctors.push(doctor);
       }
     }
@@ -58,18 +65,17 @@ export class DoctorSelectComponent implements OnInit {
   handleDropdownClick() {
     this.filteredDoctors = [];
 
-    //mimic remote call
     setTimeout(() => {
       this.filteredDoctors = this.doctors;
-    }, 100)
+    }, 100);
   }
 
   onSelect (): void {
-    this.doctorId = this.doctor ? this.doctor.id : 0;
+    this.docId = this.doctor ? this.doctor.id : 0;
     this.selected.emit(this.doctor);
   }
 
-  onBlur():void {
+  onBlur(): void {
     if (typeof this.doctor !== 'object') {
       this.doctor = null;
     }

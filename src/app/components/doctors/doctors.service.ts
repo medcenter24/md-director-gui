@@ -50,4 +50,8 @@ export class DoctorsService extends HttpService {
       .toPromise()
       .catch(error => this.handleError(error));
   }
+
+  getDoctorsByCity(cityId: number): Promise<Doctor[]> {
+    return this.get(`cities/${cityId}`).then(res => res.json().data as Doctor[]);
+  }
 }
