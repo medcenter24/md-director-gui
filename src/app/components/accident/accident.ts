@@ -20,6 +20,7 @@ export class Accident {
         public discount_id: number = 0,
         public caseable_type: string = 'App/Doctor',
         public ref_num: string = '',
+        public assistant_ref_num: string = '',
         public title: string = '',
         public address: string = '',
         public contacts: string = '',
