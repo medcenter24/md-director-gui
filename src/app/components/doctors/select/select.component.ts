@@ -4,16 +4,16 @@
  *  @author Alexander Zagovorichev <zagovorichev@gmail.com>
  */
 
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { SlimLoadingBarService } from 'ng2-slim-loading-bar';
 import { Logger } from 'angular2-logger/core';
 import { Doctor } from '../doctor';
 import { DoctorsService } from '../doctors.service';
 @Component({
-  selector: 'select-doctor',
-  templateUrl: './select.html'
+  selector: 'nga-select-doctor',
+  templateUrl: './select.html',
 })
-export class DoctorSelectComponent {
+export class DoctorSelectComponent implements OnInit {
 
   @Input() doctorId: number = 0;
   @Output() selected: EventEmitter<Doctor> = new EventEmitter<Doctor>();
@@ -23,7 +23,10 @@ export class DoctorSelectComponent {
   filteredDoctors: Array<Doctor> = [];
   isLoaded: boolean = false;
 
-  constructor (private doctorsService: DoctorsService, private loadingBar: SlimLoadingBarService, private _logger: Logger) {}
+  constructor (
+    private doctorsService: DoctorsService,
+    private loadingBar: SlimLoadingBarService,
+    private _logger: Logger) {}
 
   ngOnInit () {
     this.loadingBar.start();

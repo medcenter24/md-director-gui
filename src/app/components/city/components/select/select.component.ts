@@ -15,13 +15,18 @@ import { CitiesService } from '../../cities.service';
 })
 export class CitySelectComponent implements OnInit {
 
-  @Input() cityId: number = 0;
+  @Input()
+    set selectPreloaded(preloaded: number[]) {
+      this.preloaded = preloaded;
+      this.selectPreloadedCities();
+    }
   @Input() isMultiple: boolean = false;
-  @Output() selected: EventEmitter<City> = new EventEmitter<City>();
+  @Output() selected: EventEmitter<City[]> = new EventEmitter<City[]>();
 
+  preloaded: number[] = [];
   isLoaded: boolean = false;
   cities: Array<City> = [];
-  city: City;
+  city: City[]; // ngModel selected
   filteredCities: Array<City> = [];
 
   constructor (
@@ -33,16 +38,22 @@ export class CitySelectComponent implements OnInit {
     this.loadingBar.start();
     this.citiesService.getCities().then(cities => {
       this.cities = cities;
-      this.cityId *= 1;
-      if (this.cityId) {
-        this.city = this.cities.find(city => city.id === this.cityId);
-      }
+      this.selectPreloadedCities();
       this.loadingBar.complete();
       this.isLoaded = true;
     }).catch((err) => {
       this.loadingBar.complete();
       this._logger.error(err);
     });
+  }
+
+  selectPreloadedCities(): void {
+    this.city = [];
+    if (this.preloaded && this.preloaded.length) {
+      this.city = this.cities.filter((cty: City) => {
+        return this.preloaded.indexOf(cty.id) >= 0;
+      });
+    }
   }
 
   filterCities (event): void {
@@ -65,7 +76,7 @@ export class CitySelectComponent implements OnInit {
   }
 
   onSelect (): void {
-    this.cityId = this.city ? this.city.id : 0;
+    this.preloaded = this.city ? this.city.map(x => x.id) : [];
     this.selected.emit(this.city);
   }
 
