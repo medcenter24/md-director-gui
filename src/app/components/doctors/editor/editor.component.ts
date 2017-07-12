@@ -19,7 +19,7 @@ export class DoctorEditorComponent {
 
   doctor: Doctor = new Doctor();
   showUserEditor: boolean = false;
-  cities: City[];
+  cities: Array<number> = [];
 
   @Input()
   set doctorId(id: number) {
@@ -68,7 +68,10 @@ export class DoctorEditorComponent {
   }
 
   onCitySelect(cities): void {
-    this.service.setDoctorCities(this.doctor.id, cities);
+    this.service.setDoctorCities(this.doctor.id, cities)
+      .then(() => {
+        console.log('saved');
+      });
   }
 
   toggleEditor(userId: number): void {
@@ -88,6 +91,7 @@ export class DoctorEditorComponent {
           this.loadingBar.complete();
           this.doctor = doctor;
           this.reloadUsers();
+          this.reloadDoctorCities();
         }).catch(() => {
         this.loadingBar.complete();
       });
@@ -97,7 +101,7 @@ export class DoctorEditorComponent {
   private reloadDoctorCities(): void {
     this.service.getDoctorCities(this.doctor.id)
       .then((cities: City[]) => {
-        this.cities = cities;
+        this.cities = cities.map(x => x.id);
       });
   }
 }

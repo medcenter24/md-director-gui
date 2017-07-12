@@ -37,7 +37,7 @@ export class DoctorsService extends HttpService {
   }
 
   getDoctorCities(id: number): Promise<City[]> {
-    return this.get(`${id}/cities`).then(res => res.json() as City[]);
+    return this.get(`${id}/cities`).then(res => res.json().data as City[]);
   }
 
   setDoctorCities(id: number, cities: City[]): Promise<any> {
