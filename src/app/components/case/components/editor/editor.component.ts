@@ -25,6 +25,8 @@ import { Service } from '../../../service/service';
 import { Diagnostic } from '../../../diagnostic/diagnostic';
 import { Document } from '../../../document/document';
 import { AccidentCheckpoint } from '../../../accident/components/checkpoint/checkpoint';
+import {DoctorsService} from "../../../doctors/doctors.service";
+import {Doctor} from "../../../doctors/doctor";
 
 @Component({
   selector: 'nga-case-editor',
@@ -72,6 +74,7 @@ export class CaseEditorComponent implements OnInit {
                private patientService: PatientsService,
                private accidentsService: AccidentsService,
                private caseService: CasesService,
+               private doctorService: DoctorsService,
                private router: Router,
   ) { }
 
@@ -252,10 +255,26 @@ export class CaseEditorComponent implements OnInit {
     const cityId = city ? city.id : 0;
     this.doctorAccident.city_id = cityId;
     this.accident.city_id = cityId;
+
+    this.doctorAccident.doctor_id = +this.doctorAccident.doctor_id;
+    // determine which doctor could be used in this city
+    if (!this.doctorAccident.doctor_id && cityId) {
+      this.defineDoctorByCity(cityId);
+    }
   }
 
   onCheckpointChange(checkpoints: number[]): void {
     this.checkpoints = checkpoints;
+  }
+
+  private defineDoctorByCity(cityId: number): void {
+    this.loadingBar.start();
+    this.doctorService.getDoctorsByCity(cityId).then((doctors: Doctor[]) => {
+      if (doctors && doctors.length) {
+        this.doctorAccident.doctor_id = doctors[0].id;
+      }
+      this.loadingBar.complete();
+    });
   }
 
   private recalculatePrice(): void {

@@ -99,7 +99,7 @@
                                         <label class="label required separate" translate>City</label>
                                         <nga-select-city
                                                 *ngIf="doctorAccident"
-                                                [preloaded]="doctorAccident.city_id"
+                                                [selectPreloaded]="[(1*doctorAccident.city_id)]"
                                                 (selected)="onCityChanged($event)"
                                         ></nga-select-city>
                                     </div>
