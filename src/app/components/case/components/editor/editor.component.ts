@@ -85,6 +85,7 @@ export class CaseEditorComponent implements OnInit {
     this.maxDate = new Date();
     this.appliedTime = new Date();
     this.accident = new Accident();
+    this.discountType = new Discount();
 
     // while configured only doctorAccidents
     // I need to define accident as a doctor
