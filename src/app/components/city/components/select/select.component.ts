@@ -21,12 +21,12 @@ export class CitySelectComponent implements OnInit {
       this.selectPreloadedCities();
     }
   @Input() isMultiple: boolean = false;
-  @Output() selected: EventEmitter<City[]> = new EventEmitter<City[]>();
+  @Output() selected: EventEmitter<any> = new EventEmitter<any>();
 
   preloaded: number[] = [];
   isLoaded: boolean = false;
   cities: Array<City> = [];
-  city: City[]; // ngModel selected
+  city: any; // ngModel selected
   filteredCities: Array<City> = [];
 
   constructor (
@@ -54,6 +54,9 @@ export class CitySelectComponent implements OnInit {
         return this.preloaded.indexOf(cty.id) >= 0;
       });
     }
+    if (!this.isMultiple) {
+      this.city = this.city.length ? this.city[0] : null;
+    }
   }
 
   filterCities (event): void {
@@ -76,7 +79,9 @@ export class CitySelectComponent implements OnInit {
   }
 
   onSelect (): void {
-    this.preloaded = this.city ? this.city.map(x => x.id) : [];
+    if (this.isMultiple) {
+      this.preloaded = this.city ? this.city.map(x => x.id) : [];
+    }
     this.selected.emit(this.city);
   }
 

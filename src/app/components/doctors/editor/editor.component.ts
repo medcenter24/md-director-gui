@@ -68,9 +68,10 @@ export class DoctorEditorComponent {
   }
 
   onCitySelect(cities): void {
+    this.loadingBar.start();
     this.service.setDoctorCities(this.doctor.id, cities)
       .then(() => {
-        console.log('saved');
+        this.loadingBar.complete();
       });
   }
 
