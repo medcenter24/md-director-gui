@@ -25,8 +25,8 @@ import { Service } from '../../../service/service';
 import { Diagnostic } from '../../../diagnostic/diagnostic';
 import { Document } from '../../../document/document';
 import { AccidentCheckpoint } from '../../../accident/components/checkpoint/checkpoint';
-import {DoctorsService} from "../../../doctors/doctors.service";
-import {Doctor} from "../../../doctors/doctor";
+import { DoctorsService } from '../../../doctors/doctors.service';
+import { Doctor } from '../../../doctors/doctor';
 
 @Component({
   selector: 'nga-case-editor',

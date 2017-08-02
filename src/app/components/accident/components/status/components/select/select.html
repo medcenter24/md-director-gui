@@ -13,7 +13,7 @@
 <p-autoComplete
         *ngIf="isLoaded"
         [(ngModel)]="status"
-        [suggestions]="filteredCheckpoints"
+        [suggestions]="filteredStatuses"
         [dropdown]="true"
         (completeMethod)="filterStatuses($event)"
         (onDropdownClick)="handleDropdownClick($event)"

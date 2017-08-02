@@ -15,6 +15,7 @@ import { ExtendCaseAccident } from './extendCaseAccident';
 import { Document } from '../document/document';
 import {CaseAccident} from './case';
 import {AccidentCheckpoint} from "../accident/components/checkpoint/checkpoint";
+import {AccidentScenario} from "../accident/components/scenario/scenario";
 
 @Injectable()
 export class CasesService extends HttpService {
@@ -67,5 +68,9 @@ export class CasesService extends HttpService {
 
   saveCase (data): Promise<any> {
     return data.accident.id ? this.put(data.accident.id, data) : this.store(data);
+  }
+
+  getScenario (id: number): Promise <AccidentScenario[]> {
+    return this.get(`${id}/scenario`).then(response => response.json().data as AccidentScenario[]);
   }
 }

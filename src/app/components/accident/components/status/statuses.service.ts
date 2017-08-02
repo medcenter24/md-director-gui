@@ -4,9 +4,9 @@
  * @author Alexander Zagovorichev <zagovorichev@gmail.com>
  */
 
-import {Injectable} from '@angular/core';
-import {AccidentStatus} from './status';
-import {HttpService} from '../../../http/http.service';
+import { Injectable } from '@angular/core';
+import { AccidentStatus } from './status';
+import { HttpService } from '../../../http/http.service';
 
 @Injectable()
 export class AccidentStatusesService extends HttpService {

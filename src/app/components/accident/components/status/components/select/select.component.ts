@@ -32,6 +32,7 @@ export class AccidentStatusSelectComponent implements OnInit {
     this.isLoaded = false;
     this.statusesService.getStatuses().then(statuses => {
       this.statuses = statuses;
+      this.filteredStatuses = statuses;
       if (+this.statusId) {
         this.status = this.statuses.find(doc => +doc.id === +this.statusId);
       }

@@ -29,7 +29,7 @@ import {
   SelectButtonModule, CalendarModule, MultiSelectModule, AutoCompleteModule,
   SpinnerModule, ButtonModule, TooltipModule, InputTextareaModule, InputTextModule,
   PanelModule, FileUploadModule, InplaceModule, ToolbarModule, DialogModule, PaginatorModule, CheckboxModule,
-  ConfirmDialogModule, ConfirmationService, BlockUIModule, PasswordModule
+  ConfirmDialogModule, ConfirmationService, BlockUIModule, PasswordModule, StepsModule, MenuModule
 } from 'primeng/primeng';
 import { AssistantsService } from '../../components/assistant/assistant.service';
 import { AssistantSelectComponent } from '../../components/assistant/components/select/select.component';
@@ -52,13 +52,17 @@ import { SelectDiscountComponent } from '../../components/discount/components/se
 import { DiscountService } from '../../components/discount/discount.service';
 import { FileUploaderComponent } from '../../components/upload/components/uploader/uploader.component';
 import { DocumentsService } from '../../components/document/documents.service';
-import { AccidentStatusSelectComponent } from '../../components/accident/components/status/components/select/select.component';
+import { AccidentStatusSelectComponent } from
+  '../../components/accident/components/status/components/select/select.component';
 import { AccidentStatusesService } from '../../components/accident/components/status/statuses.service';
-import { AccidentCheckpointsSelectorComponent } from '../../components/accident/components/checkpoint/components/select/select.component';
+import { AccidentCheckpointsSelectorComponent } from
+  '../../components/accident/components/checkpoint/components/select/select.component';
 import { AccidentCheckpointsService } from '../../components/accident/components/checkpoint/checkpoints.service';
 import { ExporterService } from '../../components/exporter/exporter.service';
 import { CitiesService } from '../../components/city/cities.service';
 import { CitiesModule } from '../../components/city/cities.module';
+import { AccidentScenarioComponent } from '../../components/accident/components/scenario/components/line/line.component';
+import { AccidentScenarioService } from '../../components/accident/components/scenario/scenario.service';
 
 // import { InMemoryWebApiModule } from 'angular-in-memory-web-api';
 // import { InMemoryDataService } from '../../faker/in-memory-data.service';
@@ -93,6 +97,8 @@ import { CitiesModule } from '../../components/city/cities.module';
     ConfirmDialogModule,
     BlockUIModule,
     CitiesModule,
+    StepsModule,
+    MenuModule,
   ],
   declarations: [
     Cases,
@@ -114,6 +120,7 @@ import { CitiesModule } from '../../components/city/cities.module';
     ImporterComponent,
     AccidentStatusSelectComponent,
     AccidentCheckpointsSelectorComponent,
+    AccidentScenarioComponent,
   ],
   providers: [
     CasesService,
@@ -134,6 +141,7 @@ import { CitiesModule } from '../../components/city/cities.module';
     AccidentCheckpointsService,
     ExporterService,
     CitiesService,
+    AccidentScenarioService,
   ],
 })
 export class CasesModule {
