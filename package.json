@@ -58,6 +58,7 @@
     "angular2-logger": "^0.5.1",
     "animate.css": "3.5.2",
     "bootstrap": "4.0.0-alpha.6",
+    "bourbon": "^4.3.4",
     "chart.js": "1.1.1",
     "chartist": "0.10.1",
     "ckeditor": "4.6.2",
