@@ -28,13 +28,14 @@ import { PagesModule } from './pages/pages.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { SlimLoadingBarModule } from 'ng2-slim-loading-bar';
 import { Logger } from 'angular2-logger/core';
-import { GrowlModule } from 'primeng/primeng';
+import {ConfirmationService, ConfirmDialogModule, GrowlModule} from 'primeng/primeng';
 
 // Application wide providers
 const APP_PROVIDERS = [
   AppState,
   GlobalState,
   Logger,
+  ConfirmationService,
 ];
 
 export type StoreType = {
@@ -65,6 +66,7 @@ export type StoreType = {
     routing,
     SlimLoadingBarModule.forRoot(),
     GrowlModule,
+    ConfirmDialogModule,
   ],
   exports: [InMemoryWebApiModule],
   providers: [ // expose our Services and Providers into Angular's dependency injection

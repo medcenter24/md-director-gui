@@ -66,6 +66,11 @@ export class CaseEditorComponent implements OnInit {
   // for a while until the hospital cases implementation
   onlyDoctorAccident: boolean = true;
 
+  /**
+   * to show on save message, that doctor was changed
+   */
+  doctorBeforeSave: number = 0;
+
   constructor (private route: ActivatedRoute,
                private loadingBar: SlimLoadingBarService,
                private translate: TranslateService,
@@ -164,13 +169,36 @@ export class CaseEditorComponent implements OnInit {
       checkpoints: this.checkpoints,
     };
 
+    if (this.doctorBeforeSave != this.doctorAccident.doctor_id) {
+      this._state.notifyDataChanged('confirmDialog',
+        {
+          header: this.translate.instant('Warning'),
+          message: this.translate.instant('Are you sure that you want to change doctor?' +
+            ' Doctor will lost access to that case.'),
+          accept: () => { this.saveCase(data); },
+          icon: 'fa fa-question-circle',
+        },
+      );
+    } else {
+      this.saveCase(data);
+    }
+
+  }
+
+  private saveCase(data): void {
     this.loadingBar.start();
-    // this.blocked = true;
+    this.blocked = true;
 
     this.caseService.saveCase(data).then(response => {
       this.loadingBar.complete();
       this.blocked = false;
       this.isLoaded = true;
+
+      this.doctorBeforeSave = this.doctorAccident.doctor_id;
+      this.msgs = [];
+      this.msgs.push({ severity: 'success', summary: this.translate.instant('Saved'),
+        detail: this.translate.instant('Successfully saved') });
+      this._state.notifyDataChanged('growl', this.msgs);
 
       if (response.status === 201) {
         this.router.navigate(['pages/cases/' + response.json().accident.id]);
@@ -190,10 +218,6 @@ export class CaseEditorComponent implements OnInit {
       }
     });
 
-    setTimeout(() => {
-      this.blocked = false;
-      this.loadingBar.complete();
-      }, 3000);
   }
 
   onCaseTypeSelected(type): void {
@@ -345,6 +369,7 @@ export class CaseEditorComponent implements OnInit {
     this.caseService.getDoctorCase(this.accident.id)
       .then((doctorAccident: DoctorAccident) => {
         this.doctorAccident = doctorAccident;
+        this.doctorBeforeSave = doctorAccident.doctor_id;
         this.stopLoader();
       }).catch(err => {
         this._logger.error(err);

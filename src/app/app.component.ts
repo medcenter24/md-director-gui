@@ -1,11 +1,11 @@
-import { Component, ViewContainerRef } from '@angular/core';
+import {AfterViewInit, Component, ViewContainerRef} from '@angular/core';
 import * as $ from 'jquery';
 
 import { GlobalState } from './global.state';
 import { BaImageLoaderService, BaThemePreloader, BaThemeSpinner } from './theme/services';
 import { BaThemeConfig } from './theme/theme.config';
 import { layoutPaths } from './theme/theme.constants';
-import { Message } from 'primeng/primeng';
+import {Confirmation, ConfirmationService, Message} from 'primeng/primeng';
 
 /*
  * App Component
@@ -20,10 +20,11 @@ import { Message } from 'primeng/primeng';
       <p-growl [value]="msgs"></p-growl>
       <div class="additional-bg"></div>
       <router-outlet></router-outlet>
+      <p-confirmDialog></p-confirmDialog>
     </main>
   `,
 })
-export class App {
+export class App implements AfterViewInit {
 
   msgs: Message[] = [];
   isMenuCollapsed: boolean = false;
@@ -32,17 +33,21 @@ export class App {
               private _imageLoader: BaImageLoaderService,
               private _spinner: BaThemeSpinner,
               private viewContainerRef: ViewContainerRef,
-              private themeConfig: BaThemeConfig) {
+              private themeConfig: BaThemeConfig,
+              private confirmationService: ConfirmationService,
+  ) {
 
-    themeConfig.config();
+      themeConfig.config();
 
-    this._loadImages();
+      this._loadImages();
 
-    this._state.subscribe('menu.isCollapsed', (isCollapsed) => {
-      this.isMenuCollapsed = isCollapsed;
-    });
+      this._state.subscribe('menu.isCollapsed', (isCollapsed) => {
+        this.isMenuCollapsed = isCollapsed;
+      });
 
-    this._state.subscribe('growl', (msgs: Message[]) => this.msgs = msgs)
+      this._state.subscribe('growl', (msgs: Message[]) => this.msgs = msgs);
+
+      this._state.subscribe('confirmDialog', (config) => this.confirmationService.confirm(config));
   }
 
   public ngAfterViewInit(): void {

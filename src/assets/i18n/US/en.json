@@ -1,4 +1,8 @@
 {
+  "Warning": "Warning",
+  "Are you sure that you want to change doctor? Doctor will lost access to that case.": "Are you sure that you want to change doctor? Doctor will lost access to that case.",
+  "Saved": "Saved",
+  "Successfully saved": "Successfully saved",
   "Cities Selector": "Cities Selector",
   "Loading ...": "Loading ...",
   "Edit list": "Edit list",
