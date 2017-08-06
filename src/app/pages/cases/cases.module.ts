@@ -94,11 +94,11 @@ import { AccidentScenarioService } from '../../components/accident/components/sc
     DialogModule,
     PaginatorModule,
     CheckboxModule,
-    ConfirmDialogModule,
     BlockUIModule,
     CitiesModule,
     StepsModule,
     MenuModule,
+    ConfirmDialogModule,
   ],
   declarations: [
     Cases,
@@ -135,13 +135,13 @@ import { AccidentScenarioService } from '../../components/accident/components/sc
     DiagnosticService,
     AuthenticationService,
     ImporterService,
-    ConfirmationService,
     DocumentsService,
     AccidentStatusesService,
     AccidentCheckpointsService,
     ExporterService,
     CitiesService,
     AccidentScenarioService,
+    ConfirmationService,
   ],
 })
 export class CasesModule {

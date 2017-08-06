@@ -10,6 +10,6 @@ export class Pagination {
       public rows: number = 0,
       public rowsPerPage: Array<number> = [10, 50, 100],
       public total: number = 0,
-      public first: number = 0
+      public first: number = 0,
   ) {}
 }
