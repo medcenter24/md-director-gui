@@ -11,7 +11,8 @@
             <nga-select-diagnostics
                 #selectDiagnostics
                 [(chosenDiagnostics)]="caseDiagnostics"
-                (loaded)="onSelectDiagnosticsLoaded()"
+                (loaded)="onSelectDiagnosticsLoaded($event)"
+                (init)="onSelectDiagnosticsInit($event)"
                 (chosenDiagnosticsChange)="onChange()"
             ></nga-select-diagnostics>
         </div>

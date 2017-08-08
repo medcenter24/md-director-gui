@@ -39,12 +39,8 @@ export class CaseEditorComponent implements OnInit {
   @ViewChild('parentSelector')
     private parentSelector: SelectAccidentComponent;
 
-  isLoaded: boolean = false;
-  blocked: boolean = false;
   waitLoading: number = 0;
-
   msgs: Message[] = [];
-
   accident: Accident;
   patient: Patient;
   appliedTime: Date;
@@ -98,14 +94,17 @@ export class CaseEditorComponent implements OnInit {
     this.accident.caseable_type = 'App\\DoctorAccident';
 
     this.patient = new Patient();
+    // we need it because of redirect after case creation
+    this._state.notifyDataChanged('blocker', false);
 
     this.route.params
       .subscribe((params: Params) => {
         this._state.notifyDataChanged('menu.activeLink', { title: 'Cases' });
 
         if (+params[ 'id' ]) {
-          this.startLoader();
+          this.startLoader('Accident');
           this.accidentsService.getAccident(+params[ 'id' ]).then((accident: Accident) => {
+            this.stopLoader('Accident');
             this._state.notifyDataChanged('menu.activeLink', { title: 'Cases' });
             this.accident = accident ? accident : new Accident();
             this.appliedTime = new Date(this.accident.created_at);
@@ -115,10 +114,8 @@ export class CaseEditorComponent implements OnInit {
             this.recalculatePrice();
             this.loadDocuments();
             this.loadCheckpoints();
-            this.stopLoader();
-            this.blocked = false;
           }).catch((err) => {
-            this.loadingBar.complete();
+            this.stopLoader('Accident');
             if (err.status === 404) {
               this.msgs = [];
               this.msgs.push({ severity: 'error', summary: this.translate.instant('Error'),
@@ -126,7 +123,6 @@ export class CaseEditorComponent implements OnInit {
               this._state.notifyDataChanged('growl', this.msgs);
               this.router.navigate(['pages/cases']);
             } else {
-              this.blocked = false;
               this._logger.error(err);
             }
           });
@@ -134,24 +130,23 @@ export class CaseEditorComponent implements OnInit {
           setTimeout(() => {
             this._state.notifyDataChanged('menu.activeLink', { title: 'Cases' });
           }, 100);
-          this.isLoaded = true;
         }
       });
   }
 
-  startLoader(): void {
-    this.waitLoading++;
-    if (!this.blocked) {
-      this.isLoaded = false;
-      this.blocked = true;
+  startLoader(componentName: string = 'Not provided'): void {
+    this._logger.debug('+' + componentName);
+    if (!this.waitLoading) {
+      this._state.notifyDataChanged('blocker', true);
       this.loadingBar.start();
     }
+    this.waitLoading++;
   }
 
-  stopLoader(): void {
+  stopLoader(componentName: string = 'Not provided'): void {
+    this._logger.debug('-' + componentName);
     if (--this.waitLoading <= 0) {
-      this.isLoaded = true;
-      this.blocked = false;
+      this._state.notifyDataChanged('blocker', false);
       this.loadingBar.complete();
     }
   }
@@ -169,7 +164,7 @@ export class CaseEditorComponent implements OnInit {
       checkpoints: this.checkpoints,
     };
 
-    if (this.doctorBeforeSave != this.doctorAccident.doctor_id) {
+    if (this.doctorBeforeSave && this.doctorBeforeSave != this.doctorAccident.doctor_id) {
       this._state.notifyDataChanged('confirmDialog',
         {
           header: this.translate.instant('Warning'),
@@ -186,14 +181,9 @@ export class CaseEditorComponent implements OnInit {
   }
 
   private saveCase(data): void {
-    this.loadingBar.start();
-    this.blocked = true;
-
+    this.startLoader('saveCase');
     this.caseService.saveCase(data).then(response => {
-      this.loadingBar.complete();
-      this.blocked = false;
-      this.isLoaded = true;
-
+      this.stopLoader('saveCase');
       this.doctorBeforeSave = this.doctorAccident.doctor_id;
       this.msgs = [];
       this.msgs.push({ severity: 'success', summary: this.translate.instant('Saved'),
@@ -204,8 +194,7 @@ export class CaseEditorComponent implements OnInit {
         this.router.navigate(['pages/cases/' + response.json().accident.id]);
       }
     }).catch(err => {
-      this.loadingBar.complete();
-      this.blocked = false;
+      this.stopLoader('saveCase');
 
       if (err.status === 404) {
         this.msgs = [];
@@ -329,51 +318,51 @@ export class CaseEditorComponent implements OnInit {
 
   private loadPatient(): void {
     if (this.accident.patient_id) {
-      this.startLoader();
+      this.startLoader('getPatient');
       this.patientService.getPatient(this.accident.patient_id).then((patient: Patient) => {
         this.patient = patient;
         this.phone = this.patient.phones;
-        this.stopLoader();
+        this.stopLoader('getPatient');
       }).catch((err) => {
         this._logger.error(err);
-        this.stopLoader();
+        this.stopLoader('getPatient');
       });
     }
   }
 
   private loadDocuments(): void {
-    this.startLoader();
+    this.startLoader('getDocuments');
     this.caseService.getDocuments(this.accident.id)
       .then((documents: Document[]) => {
         this.documents = documents;
-        this.stopLoader();
+        this.stopLoader('getDocuments');
       }).catch(err => {
         this._logger.error(err);
-        this.stopLoader();
+        this.stopLoader('getDocuments');
       });
   }
 
   private loadCheckpoints(): void {
-    this.startLoader();
+    this.startLoader('getCheckpoints');
     this.caseService.getCheckpoints(this.accident.id)
       .then((checkpoints: AccidentCheckpoint[]) => {
         this.checkpoints = checkpoints.map(x => x.id);
-        this.stopLoader();
+        this.stopLoader('getCheckpoints');
       }).catch(() => {
-        this.stopLoader();
+        this.stopLoader('getCheckpoints');
       });
   }
 
   private loadCaseable(): void {
-    this.startLoader();
+    this.startLoader('getDoctorCase');
     this.caseService.getDoctorCase(this.accident.id)
       .then((doctorAccident: DoctorAccident) => {
         this.doctorAccident = doctorAccident;
         this.doctorBeforeSave = doctorAccident.doctor_id;
-        this.stopLoader();
+        this.stopLoader('getDoctorCase');
       }).catch(err => {
         this._logger.error(err);
-        this.stopLoader();
+        this.stopLoader('getDoctorCase');
       });
 
     /*

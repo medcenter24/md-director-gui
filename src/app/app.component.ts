@@ -15,6 +15,7 @@ import {Confirmation, ConfirmationService, Message} from 'primeng/primeng';
   selector: 'app',
   styleUrls: ['./app.component.scss'],
   template: `
+    <p-blockUI [blocked]="blocked"></p-blockUI>
     <main [class.menu-collapsed]="isMenuCollapsed" baThemeRun>
       <ng2-slim-loading-bar [height]="'3px'" [color]="'#e85656'"></ng2-slim-loading-bar>
       <p-growl [value]="msgs"></p-growl>
@@ -26,8 +27,11 @@ import {Confirmation, ConfirmationService, Message} from 'primeng/primeng';
 })
 export class App implements AfterViewInit {
 
+  // growl messages
   msgs: Message[] = [];
   isMenuCollapsed: boolean = false;
+  // global window block
+  blocked: boolean = false;
 
   constructor(private _state: GlobalState,
               private _imageLoader: BaImageLoaderService,
@@ -46,8 +50,8 @@ export class App implements AfterViewInit {
       });
 
       this._state.subscribe('growl', (msgs: Message[]) => this.msgs = msgs);
-
       this._state.subscribe('confirmDialog', (config) => this.confirmationService.confirm(config));
+      this._state.subscribe('blocker', (block: boolean) => this.blocked = block);
   }
 
   public ngAfterViewInit(): void {

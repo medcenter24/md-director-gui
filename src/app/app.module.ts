@@ -4,7 +4,7 @@
  * @author Alexander Zagovorichev <zagovorichev@gmail.com>
  */
 
-import { NgModule } from '@angular/core';
+import { isDevMode, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
@@ -28,7 +28,8 @@ import { PagesModule } from './pages/pages.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { SlimLoadingBarModule } from 'ng2-slim-loading-bar';
 import { Logger } from 'angular2-logger/core';
-import {ConfirmationService, ConfirmDialogModule, GrowlModule} from 'primeng/primeng';
+import { BlockUIModule, ConfirmationService, ConfirmDialogModule, GrowlModule } from 'primeng/primeng';
+import { environment } from '../environments/environment';
 
 // Application wide providers
 const APP_PROVIDERS = [
@@ -67,6 +68,7 @@ export type StoreType = {
     SlimLoadingBarModule.forRoot(),
     GrowlModule,
     ConfirmDialogModule,
+    BlockUIModule,
   ],
   exports: [InMemoryWebApiModule],
   providers: [ // expose our Services and Providers into Angular's dependency injection
@@ -76,6 +78,10 @@ export type StoreType = {
 
 export class AppModule {
 
-  constructor(public appState: AppState) {
+  constructor(public appState: AppState, private _logger: Logger) {
+    if (isDevMode()) {
+      console.info('To see debug logs enter: \'logger.level = logger.Level.DEBUG;\' in your browser console');
+    }
+    this._logger.level = environment.logger.level;
   }
 }

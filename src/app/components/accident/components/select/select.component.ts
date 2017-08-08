@@ -4,20 +4,21 @@
  *  @author Alexander Zagovorichev <zagovorichev@gmail.com>
  */
 
-import { Component, Output, EventEmitter, Input } from '@angular/core';
-import { SlimLoadingBarService } from 'ng2-slim-loading-bar';
+import { Component, Output, EventEmitter, Input, OnInit } from '@angular/core';
 import { Logger } from 'angular2-logger/core';
 import { Accident } from '../../accident';
 import { AccidentsService } from '../../accidents.service';
 
 @Component({
-  selector: 'select-accident',
-  templateUrl: './select.html'
+  selector: 'nga-select-accident',
+  templateUrl: './select.html',
 })
-export class SelectAccidentComponent {
+export class SelectAccidentComponent implements OnInit {
 
   @Input() selectedAccidentId: number = 0;
   @Output() selected: EventEmitter<Accident> = new EventEmitter<Accident>();
+  @Output() init: EventEmitter<string> = new EventEmitter<string>();
+  @Output() loaded: EventEmitter<string> = new EventEmitter<string>();
 
   isLoaded: boolean = false;
   public accident: Accident = null;
@@ -26,31 +27,29 @@ export class SelectAccidentComponent {
 
   constructor (
     private accidentService: AccidentsService,
-    private loadingBar: SlimLoadingBarService,
-    private _logger: Logger
+    private _logger: Logger,
   ) { }
 
   ngOnInit () {
-    this.loadingBar.start();
+    this.init.emit('SelectAccidentComponent');
     this.accidentService.getAccidents().then(accidents => {
       this.accidents = accidents;
       if (this.selectedAccidentId) {
         this.accident = this.accidents.find(accident => accident.id === this.selectedAccidentId);
       }
-
-      this.loadingBar.complete();
       this.isLoaded = true;
+      this.loaded.emit('SelectAccidentComponent');
     }).catch((err) => {
-      this.loadingBar.complete();
       this._logger.error(err);
+      this.loaded.emit('SelectAccidentComponent');
     });
   }
 
   filterAccidents (event): void {
     this.filteredAccidents = [];
-    for(let i = 0; i < this.accidents.length; i++) {
-      let assistant = this.accidents[i];
-      if(assistant.title.toLowerCase().indexOf(event.query.toLowerCase()) == 0) {
+    for (let i = 0; i < this.accidents.length; i++) {
+      const assistant = this.accidents[i];
+      if (assistant.title.toLowerCase().indexOf(event.query.toLowerCase()) == 0) {
         this.filteredAccidents.push(assistant);
       }
     }
@@ -58,11 +57,9 @@ export class SelectAccidentComponent {
 
   handleDropdownClick() {
     this.filteredAccidents = [];
-
-    //mimic remote call
     setTimeout(() => {
       this.filteredAccidents = this.accidents;
-    }, 100)
+    }, 100);
   }
 
   onChanged (): void {
