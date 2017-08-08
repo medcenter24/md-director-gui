@@ -182,6 +182,7 @@
             <div *ngIf="accident.id" class="additional-part">
                 <div class="form-group">
                     <nga-accident-scenario
+                            #scenario
                             [accidentId]="accident.id"
                             (init)="startLoader($event)"
                             (loaded)="stopLoader($event)"

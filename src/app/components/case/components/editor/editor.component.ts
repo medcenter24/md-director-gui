@@ -27,6 +27,7 @@ import { Document } from '../../../document/document';
 import { AccidentCheckpoint } from '../../../accident/components/checkpoint/checkpoint';
 import { DoctorsService } from '../../../doctors/doctors.service';
 import { Doctor } from '../../../doctors/doctor';
+import {AccidentScenarioComponent} from "../../../accident/components/scenario/components/line/line.component";
 
 @Component({
   selector: 'nga-case-editor',
@@ -38,6 +39,9 @@ export class CaseEditorComponent implements OnInit {
 
   @ViewChild('parentSelector')
     private parentSelector: SelectAccidentComponent;
+
+  @ViewChild('scenario')
+    private scenarioComponent: AccidentScenarioComponent;
 
   waitLoading: number = 0;
   msgs: Message[] = [];
@@ -192,6 +196,8 @@ export class CaseEditorComponent implements OnInit {
 
       if (response.status === 201) {
         this.router.navigate(['pages/cases/' + response.json().accident.id]);
+      } else {
+        this.scenarioComponent.reload();
       }
     }).catch(err => {
       this.stopLoader('saveCase');
