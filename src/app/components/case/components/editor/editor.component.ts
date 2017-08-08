@@ -137,7 +137,7 @@ export class CaseEditorComponent implements OnInit {
   startLoader(componentName: string = 'Not provided'): void {
     this._logger.debug('+' + componentName);
     if (!this.waitLoading) {
-      this._state.notifyDataChanged('blocker', true);
+      window.setTimeout(() => this._state.notifyDataChanged('blocker', true) );
       this.loadingBar.start();
     }
     this.waitLoading++;

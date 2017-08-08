@@ -33,26 +33,26 @@ export class AccidentCardComponent implements OnInit {
 
   ngOnInit () {
     if (+this.selectedAccidentId) {
-      this.init.emit('AccidentCardComponent');
-      this.accidentService.getAccident(+this.selectedAccidentId).then(accident => {
+      this.init.emit('AccidentCardComponent.getAccident');
+      this.accidentService.getAccident(this.selectedAccidentId).then(accident => {
+        this.loaded.emit('AccidentCardComponent.getAccident');
         this.accident = accident;
         this.loadPatient();
-        this.loaded.emit('AccidentCardComponent');
       }).catch((err) => {
         this._logger.error(err);
-        this.loaded.emit('AccidentCardComponent');
+        this.loaded.emit('AccidentCardComponent.getAccident');
       });
     }
   }
 
   private loadPatient(): void {
-    this.init.emit('AccidentCardComponent');
+    this.init.emit('AccidentCardComponent.getPatient');
     this.patientService.getPatient(+this.accident.patient_id).then((patient: Patient) => {
       this.patient = patient;
-      this.loaded.emit('AccidentCardComponent');
+      this.loaded.emit('AccidentCardComponent.getPatient');
     }).catch((err) => {
       this._logger.error(err);
-      this.loaded.emit('AccidentCardComponent');
+      this.loaded.emit('AccidentCardComponent.getPatient');
     });
   }
 

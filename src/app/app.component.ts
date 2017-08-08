@@ -15,7 +15,9 @@ import {Confirmation, ConfirmationService, Message} from 'primeng/primeng';
   selector: 'app',
   styleUrls: ['./app.component.scss'],
   template: `
-    <p-blockUI [blocked]="blocked"></p-blockUI>
+    <p-blockUI [blocked]="blocked">
+        <i class="fa fa-lock fa-5x" style="position:absolute;top:50%;left:50%"></i>
+    </p-blockUI>
     <main [class.menu-collapsed]="isMenuCollapsed" baThemeRun>
       <ng2-slim-loading-bar [height]="'3px'" [color]="'#e85656'"></ng2-slim-loading-bar>
       <p-growl [value]="msgs"></p-growl>

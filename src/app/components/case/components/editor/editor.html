@@ -140,10 +140,9 @@
                                     ></nga-select-accident>
                                 </div>
                             </div>
-                            <div class="row">
+                            <div class="row" *ngIf="+accident.parent_id">
                                 <div class="col-sm-12">
                                     <nga-accident-card
-                                            *ngIf="accident.parent_id"
                                             [(selectedAccidentId)]="accident.parent_id"
                                             (closed)="onParentDeleted()"
                                             (init)="startLoader($event)"
