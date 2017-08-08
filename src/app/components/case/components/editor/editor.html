@@ -3,14 +3,13 @@
   ~
   ~ @author Alexander Zagovorichev <zagovorichev@gmail.com>
   -->
-<p-blockUI [blocked]="blocked"></p-blockUI>
-
-<div *ngIf="accident && isLoaded" class="case-editor edit-form-container">
+<div *ngIf="accident" class="case-editor edit-form-container">
     <div class="form-block">
         <ba-card baCardClass="with-scroll">
         <form class="form edit-form" (ngSubmit)="onSubmit()" #accidentForm="ngForm">
 
             <div class="main-part">
+
                 <div class="form-group offset-bottom20">
                     <div class="row offset-bottom20">
                         <div class="col-sm-12">
@@ -38,10 +37,12 @@
                         </div>
                         <div class="col-sm-4">
                             <label class="label required separate" translate>Assistant</label>
-                            <select-assistant
+                            <nga-select-assistant
                                 [assistantId]="accident.assistant_id"
                                 (change)="onAssistantChanged($event)"
-                            ></select-assistant>
+                                (init)="startLoader($event)"
+                                (loaded)="stopLoader($event)"
+                            ></nga-select-assistant>
                         </div>
                         <div class="col-sm-4">
                             <label class="label required separate" translate>Assistant Ref Num</label>
@@ -57,13 +58,14 @@
                     <div class="row">
                         <div class="col-sm-5" *ngIf="false">
                             <!-- this block needed only when hospitals will be implemented -->
+
                             <b class="text-muted">{{ 'Choose Case' | translate }}</b>
                             <br>
-                            <select-case-type
+                            <nga-select-case-type
                                     *ngIf="!accident.id && !onlyDoctorAccident"
                                     [selectedCaseTypeId]="accident.caseable_type"
                                     (selected)="onCaseTypeSelected($event)"
-                            ></select-case-type>
+                            ></nga-select-case-type>
 
                             <h4 *ngIf="(onlyDoctorAccident || accident.id) && accident.caseable_type === 'App\\DoctorAccident'"
                                 class="text-danger" translate>Doctor Case</h4>
@@ -79,6 +81,8 @@
                                                 *ngIf="doctorAccident"
                                                 [selectPreloaded]="[(1*doctorAccident.city_id)]"
                                                 (selected)="onCityChanged($event)"
+                                                (init)="startLoader($event)"
+                                                (loaded)="stopLoader($event)"
                                         ></nga-select-city>
                                     </div>
                                     <div class="col-sm-4">
@@ -87,6 +91,8 @@
                                                 *ngIf="doctorAccident"
                                                 [doctorId]="doctorAccident.doctor_id"
                                                 (selected)="onDoctorChanged($event)"
+                                                (init)="startLoader($event)"
+                                                (loaded)="stopLoader($event)"
                                         ></nga-select-doctor>
                                     </div>
                                 </div>
@@ -94,10 +100,12 @@
                             <div *ngIf="accident.caseable_type === 'App\\HospitalAccident'">
                                 <b class="text-muted" translate>Hospital Case</b>
                                 <br>
-                                <select-hospital
+                                <nga-select-hospital
                                         *ngIf="hospitalAccident"
                                         [hospitalId]="hospitalAccident.hospital_id"
-                                ></select-hospital>
+                                        (init)="startLoader($event)"
+                                        (loaded)="stopLoader($event)"
+                                ></nga-select-hospital>
                             </div>
                         </div>
                     </div>
@@ -123,20 +131,24 @@
                             <label class="label separate" translate>Repeated Appointment</label>
                             <div class="row offset-bottom10">
                                 <div class="col-sm-12">
-                                    <select-accident
+                                    <nga-select-accident
                                             #parentSelector
                                             [selectedAccidentId]="accident.parent_id"
                                             (selected)="onAccidentSelected($event)"
-                                    ></select-accident>
+                                            (init)="startLoader($event)"
+                                            (loaded)="stopLoader($event)"
+                                    ></nga-select-accident>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-sm-12">
-                                    <accident-card
+                                    <nga-accident-card
                                             *ngIf="accident.parent_id"
                                             [(selectedAccidentId)]="accident.parent_id"
                                             (closed)="onParentDeleted()"
-                                    ></accident-card>
+                                            (init)="startLoader($event)"
+                                            (loaded)="stopLoader($event)"
+                                    ></nga-accident-card>
                                 </div>
                             </div>
                         </div>
@@ -168,28 +180,24 @@
                     </div>
                 </div>
             </div>
-
             <div *ngIf="accident.id" class="additional-part">
                 <div class="form-group">
                     <nga-accident-scenario
                             [accidentId]="accident.id"
+                            (init)="startLoader($event)"
+                            (loaded)="stopLoader($event)"
                     ></nga-accident-scenario>
                 </div>
                 <div class="form-group offset-bottom20">
                     <div class="row">
-                        <div class="col-sm-6">
-                            <b class="text-muted" translate>Status</b>
-                            <br>
-                            <nga-select-accident-status
-                                    [(statusId)]="accident.accident_status_id"
-                            ></nga-select-accident-status>
-                        </div>
-                        <div class="col-sm-6">
+                        <div class="col-sm-12">
                             <b class="text-muted" translate>Checkpoints</b>
                             <br><br>
                             <nga-checkpoints-selector
                                     [(selectedCheckpoints)]="checkpoints"
                                     (change)="onCheckpointChange($event)"
+                                    (init)="startLoader($event)"
+                                    (loaded)="stopLoader($event)"
                             ></nga-checkpoints-selector>
                         </div>
                     </div>
@@ -202,6 +210,8 @@
                                     [caseId]="accident.id"
                                     (priceChanged)="onServicesSelectorPriceChanged($event)"
                                     (changedServices)="onServicesChanged($event)"
+                                    (init)="startLoader($event)"
+                                    (loaded)="stopLoader($event)"
                             ></nga-services-selector>
                         </div>
                     </div>
@@ -217,10 +227,12 @@
                                 <div class="col-sm-12 col-md-6 col-lg-2 center-block">
                                     <b class="text-muted" translate>Discount Type</b>
                                     <br>
-                                    <select-discount-type
+                                    <nga-select-discount-type
                                             [selectedDiscountId]="accident.discount_id"
                                             (selected)="onDiscountTypeSelected($event)"
-                                    ></select-discount-type>
+                                            (init)="startLoader($event)"
+                                            (loaded)="stopLoader($event)"
+                                    ></nga-select-discount-type>
                                 </div>
                                 <div class="col-sm-12 col-md-6 col-lg-3">
                                     <b class="text-muted" translate>Discount Value</b><br>
@@ -264,10 +276,12 @@
                                     </div>
                                     <div class="col-sm-6">
                                         <b class="text-muted offset-right10" translate>Accident Type</b>
-                                        <select-accident-type
+                                        <nga-select-accident-type
                                                 [selectedTypeId]="accident.accident_type_id"
                                                 (selected)="onAccidentTypeSelected($event)"
-                                        ></select-accident-type>
+                                                (init)="startLoader($event)"
+                                                (loaded)="stopLoader($event)"
+                                        ></nga-select-accident-type>
                                     </div>
                                 </div>
                             </div>
@@ -278,6 +292,8 @@
                                         <nga-diagnostics-selector
                                                 [caseId]="accident.id"
                                                 (changed)="onDiagnosticsChanged($event)"
+                                                (init)="startLoader($event)"
+                                                (loaded)="stopLoader($event)"
                                         ></nga-diagnostics-selector>
                                     </div>
                                 </div>
@@ -290,6 +306,8 @@
                                     <nga-file-uploader
                                             [(documents)]="documents"
                                             [url]="caseService.getDocumentsUrl(accident.id)"
+                                            (init)="startLoader($event)"
+                                            (loaded)="stopLoader($event)"
                                     ></nga-file-uploader>
                                 </div>
                             </div>

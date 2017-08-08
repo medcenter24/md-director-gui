@@ -6,7 +6,8 @@
                 #selectServices
                 [(chosenServices)]="caseServices"
                 (chosenServicesChange)="onServicesChanged($event)"
-                (loaded)="onSelectServicesLoaded()"
+                (loaded)="onSelectServicesLoaded($event)"
+                (init)="onSelectServicesInit($event)"
             ></nga-select-services>
         </div>
     </div>

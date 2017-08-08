@@ -4,30 +4,30 @@
  *  @author Alexander Zagovorichev <zagovorichev@gmail.com>
  */
 
-import { Component, Output, EventEmitter, Input } from '@angular/core';
+import { Component, Output, EventEmitter, Input, OnInit } from '@angular/core';
 import { SelectItem } from 'primeng/primeng';
 
 @Component({
-  selector: 'select-case-type',
-  templateUrl: './select.html'
+  selector: 'nga-select-case-type',
+  templateUrl: './select.html',
 })
-export class SelectCaseTypeComponent {
+export class SelectCaseTypeComponent implements OnInit {
 
   @Input() selectedCaseTypeId: string;
   @Output() selected: EventEmitter<string> = new EventEmitter<string>();
 
-  private caseTypes: Array<SelectItem> = [];
+  caseTypes: Array<SelectItem> = [];
 
   constructor () { }
 
   ngOnInit () {
     this.caseTypes = [];
-    this.caseTypes.push({label: 'Doctor Case', value: 'App\\DoctorAccident'});
-    this.caseTypes.push({label: 'Hospital Case', value: 'App\\HospitalAccident'});
+    this.caseTypes.push({ label: 'Doctor Case', value: 'App\\DoctorAccident' });
+    this.caseTypes.push({ label: 'Hospital Case', value: 'App\\HospitalAccident' });
 
     if (!this.selectedCaseTypeId) {
       this.selectedCaseTypeId = 'App\\DoctorAccident';
-      this.onChanged({value: this.selectedCaseTypeId})
+      this.onChanged({ value: this.selectedCaseTypeId });
     }
   }
 

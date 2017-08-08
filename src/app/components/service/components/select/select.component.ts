@@ -8,7 +8,6 @@ import { Component, Output, EventEmitter, Input, OnInit } from '@angular/core';
 import { ServicesService } from '../../services.service';
 import { SelectItem } from 'primeng/primeng';
 import { Service } from '../../service';
-import { SlimLoadingBarService } from 'ng2-slim-loading-bar';
 import { Logger } from 'angular2-logger/core';
 
 @Component({
@@ -17,9 +16,9 @@ import { Logger } from 'angular2-logger/core';
 })
 export class SelectServicesComponent implements OnInit {
 
+  @Output() init: EventEmitter<string> = new EventEmitter<string>();
   @Output() loaded: EventEmitter<string> = new EventEmitter<string>();
   @Output() chosenServicesChange: EventEmitter<Service[]> = new EventEmitter<Service[]>();
-
   @Input() chosenServices: Array<Service> = [];
 
   isLoaded: boolean = false;
@@ -29,13 +28,11 @@ export class SelectServicesComponent implements OnInit {
 
   constructor (
     private servicesService: ServicesService,
-    private loadingBar: SlimLoadingBarService,
     private _logger: Logger,
-  ) {
-  }
+  ) { }
 
   ngOnInit () {
-    this.loadingBar.start();
+    this.init.emit('SelectServicesComponent');
     this.servicesService.getServices().then(services => {
       this.services = services;
       this.dataServices = services.map(x => {
@@ -49,12 +46,11 @@ export class SelectServicesComponent implements OnInit {
         // to show placeholder
         this.selectedServices = [];
       }
-      this.loadingBar.complete();
-      this.loaded.emit();
+      this.loaded.emit('SelectServicesComponent');
       this.isLoaded = true;
     }).catch((err) => {
-      this.loadingBar.complete();
       this._logger.error(err);
+      this.loaded.emit('SelectServicesComponent');
     });
   }
 

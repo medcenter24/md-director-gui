@@ -4,8 +4,7 @@
  * @author Alexander Zagovorichev <zagovorichev@gmail.com>
  */
 
-import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
-import { SlimLoadingBarService } from 'ng2-slim-loading-bar';
+import { Component, EventEmitter, Input, OnInit, Output, ViewEncapsulation } from '@angular/core';
 import { Logger } from 'angular2-logger/core';
 import { AccidentScenario } from '../../scenario';
 import 'rxjs/add/operator/map';
@@ -20,23 +19,24 @@ import { CasesService } from '../../../../../case/cases.service';
 export class AccidentScenarioComponent implements OnInit {
 
   @Input() accidentId: number = 0;
+  @Output() init: EventEmitter<string> = new EventEmitter<string>();
+  @Output() loaded: EventEmitter<string> = new EventEmitter<string>();
 
   isLoaded: boolean = false;
   steps = [];
 
   constructor (private caseService: CasesService,
-               private loadingBar: SlimLoadingBarService,
                private _logger: Logger) {}
 
   ngOnInit () {
-    this.loadingBar.start();
+    this.init.emit('AccidentScenarioComponent');
     this.caseService.getScenario(this.accidentId).then((scenario: AccidentScenario[]) => {
       this.steps = scenario;
-      this.loadingBar.complete();
       this.isLoaded = true;
+      this.loaded.emit('AccidentScenarioComponent');
     }).catch((err) => {
-      this.loadingBar.complete();
       this._logger.error(err);
+      this.loaded.emit('AccidentScenarioComponent');
     });
   }
 }

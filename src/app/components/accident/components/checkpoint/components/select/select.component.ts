@@ -5,7 +5,6 @@
  */
 
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { SlimLoadingBarService } from 'ng2-slim-loading-bar';
 import { AccidentCheckpoint } from '../../checkpoint';
 import { AccidentCheckpointsService } from '../../checkpoints.service';
 @Component({
@@ -16,22 +15,23 @@ export class AccidentCheckpointsSelectorComponent implements OnInit {
 
   @Input() selectedCheckpoints: Array<number> = [];
   @Output() change: EventEmitter<number[]> = new EventEmitter<number[]>();
+  @Output() init: EventEmitter<string> = new EventEmitter<string>();
+  @Output() loaded: EventEmitter<string> = new EventEmitter<string>();
 
   checkpoints: Array<AccidentCheckpoint> = [];
   isLoaded: boolean = false;
 
-  constructor (private accidentCheckpointsService: AccidentCheckpointsService,
-               private loadingBar: SlimLoadingBarService) {}
+  constructor (private accidentCheckpointsService: AccidentCheckpointsService) {}
 
   ngOnInit () {
-    this.loadingBar.start();
+    this.init.emit('AccidentCheckpointsSelectorComponent');
     this.isLoaded = false;
     this.accidentCheckpointsService.getCheckpoints().then(checkpoints => {
       this.checkpoints = checkpoints;
-      this.loadingBar.complete();
       this.isLoaded = true;
+      this.loaded.emit('AccidentCheckpointsSelectorComponent');
     }).catch(() => {
-      this.loadingBar.complete();
+      this.loaded.emit('AccidentCheckpointsSelectorComponent');
     });
   }
 

@@ -5,7 +5,6 @@
  */
 
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { SlimLoadingBarService } from 'ng2-slim-loading-bar';
 import { Logger } from 'angular2-logger/core';
 import { AccidentStatus } from '../../status';
 import { AccidentStatusesService } from '../../statuses.service';
@@ -17,6 +16,8 @@ export class AccidentStatusSelectComponent implements OnInit {
 
   @Input() statusId: number = 0;
   @Output() selected: EventEmitter<AccidentStatus> = new EventEmitter<AccidentStatus>();
+  @Output() init: EventEmitter<any> = new EventEmitter();
+  @Output() loaded: EventEmitter<any> = new EventEmitter();
 
   statuses: Array<AccidentStatus> = [];
   status: AccidentStatus;
@@ -24,11 +25,10 @@ export class AccidentStatusSelectComponent implements OnInit {
   isLoaded: boolean = false;
 
   constructor (private statusesService: AccidentStatusesService,
-               private loadingBar: SlimLoadingBarService,
                private _logger: Logger) {}
 
   ngOnInit () {
-    this.loadingBar.start();
+    this.init.emit();
     this.isLoaded = false;
     this.statusesService.getStatuses().then(statuses => {
       this.statuses = statuses;
@@ -36,17 +36,17 @@ export class AccidentStatusSelectComponent implements OnInit {
       if (+this.statusId) {
         this.status = this.statuses.find(doc => +doc.id === +this.statusId);
       }
-      this.loadingBar.complete();
       this.isLoaded = true;
+      this.loaded.emit();
     }).catch((err) => {
-      this.loadingBar.complete();
       this._logger.error(err);
+      this.loaded.emit();
     });
   }
 
   filterStatuses(event): void {
     this.filteredStatuses = [];
-    for(let i = 0; i < this.statuses.length; i++) {
+    for (let i = 0; i < this.statuses.length; i++) {
       const status = this.statuses[i];
       if (status.title.toLowerCase().indexOf(event.query.toLowerCase()) === 0) {
         this.filteredStatuses.push(status);
