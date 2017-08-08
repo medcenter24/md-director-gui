@@ -39,4 +39,15 @@ export class AccidentScenarioComponent implements OnInit {
       this.loaded.emit('AccidentScenarioComponent');
     });
   }
+
+  /**
+   * Quick reload for the save method or update
+   */
+  reload(): void {
+    this.caseService.getScenario(this.accidentId).then((scenario: AccidentScenario[]) => {
+      this.steps = scenario;
+    }).catch((err) => {
+      this._logger.error(err);
+    });
+  }
 }

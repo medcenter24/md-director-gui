@@ -76,11 +76,15 @@ a.al-sidebar-list-link i {
 
 .accident-checkbox_list {
   .accident-checkbox {
+    white-space: nowrap;
+    float: left;
     padding-right: 15px;
     line-height: 2em;
-    .ui-chkbox-label {
-      font-weight: 700;
-      color: $gray;
+    .ui-chkbox {
+      .ui-chkbox-label {
+        font-weight: 700;
+        color: $gray;
+      }
     }
   }
 }
