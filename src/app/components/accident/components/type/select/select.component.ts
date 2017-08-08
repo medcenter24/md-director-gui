@@ -4,22 +4,22 @@
  *  @author Alexander Zagovorichev <zagovorichev@gmail.com>
  */
 
-import { Component, Output, EventEmitter, Input } from '@angular/core';
+import { Component, Output, EventEmitter, Input, OnInit } from '@angular/core';
 import { AccidentType } from '../type';
 import { AccidentTypesService } from '../types.service';
-import { SlimLoadingBarService } from 'ng2-slim-loading-bar';
 import { Logger } from 'angular2-logger/core';
 import { TranslateService } from '@ngx-translate/core';
 
 @Component({
-  selector: 'select-accident-type',
-  templateUrl: './select.html'
+  selector: 'nga-select-accident-type',
+  templateUrl: './select.html',
 })
-export class SelectAccidentTypeComponent {
+export class SelectAccidentTypeComponent implements OnInit {
 
   @Input() selectedTypeId: number = 0;
-
   @Output() selected: EventEmitter<AccidentType> = new EventEmitter<AccidentType>();
+  @Output() init: EventEmitter<string> = new EventEmitter<string>();
+  @Output() loaded: EventEmitter<string> = new EventEmitter<string>();
 
   isLoaded: boolean = false;
   private dataItems: Array<any> = [];
@@ -30,9 +30,8 @@ export class SelectAccidentTypeComponent {
 
   constructor (
     private accidentTypesService: AccidentTypesService,
-    private loadingBar: SlimLoadingBarService,
     private translate: TranslateService,
-    private _logger: Logger
+    private _logger: Logger,
   ) { }
 
   ngOnInit () {
@@ -45,24 +44,24 @@ export class SelectAccidentTypeComponent {
       this.transNonInsurance = res;
     });
 
-    this.loadingBar.start();
+    this.init.emit('SelectAccidentTypeComponent');
     this.accidentTypesService.getTypes().then(types => {
       this.loadedTypes = types;
       if (!this.selectedTypeId) {
         this.selectedTypeId = 1;
-        this.onChanged({value: this.selectedTypeId})
+        this.onChanged({value: this.selectedTypeId});
       }
       this.dataItems = types.map(x => {
         return {
           label: x.title === 'insurance' ? this.transInsurance : this.transNonInsurance,
-          value: x.id
+          value: x.id,
         };
       });
-      this.loadingBar.complete();
       this.isLoaded = true;
+      this.loaded.emit('SelectAccidentTypeComponent');
     }).catch((err) => {
-      this.loadingBar.complete();
       this._logger.error(err);
+      this.loaded.emit('SelectAccidentTypeComponent');
     });
   }
 

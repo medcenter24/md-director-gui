@@ -94,7 +94,6 @@ import { AccidentScenarioService } from '../../components/accident/components/sc
     DialogModule,
     PaginatorModule,
     CheckboxModule,
-    BlockUIModule,
     CitiesModule,
     StepsModule,
     MenuModule,

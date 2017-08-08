@@ -5,7 +5,6 @@
  */
 
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { SlimLoadingBarService } from 'ng2-slim-loading-bar';
 import { Logger } from 'angular2-logger/core';
 import { City } from '../../city';
 import { CitiesService } from '../../cities.service';
@@ -22,6 +21,8 @@ export class CitySelectComponent implements OnInit {
     }
   @Input() isMultiple: boolean = false;
   @Output() selected: EventEmitter<any> = new EventEmitter<any>();
+  @Output() init: EventEmitter<string> = new EventEmitter<string>();
+  @Output() loaded: EventEmitter<string> = new EventEmitter<string>();
 
   preloaded: number[] = [];
   isLoaded: boolean = false;
@@ -31,19 +32,18 @@ export class CitySelectComponent implements OnInit {
 
   constructor (
     private citiesService: CitiesService,
-    private loadingBar: SlimLoadingBarService,
     private _logger: Logger) {}
 
   ngOnInit () {
-    this.loadingBar.start();
+    this.init.emit('CitySelectComponent');
     this.citiesService.getCities().then(cities => {
       this.cities = cities;
       this.selectPreloadedCities();
-      this.loadingBar.complete();
       this.isLoaded = true;
+      this.loaded.emit('CitySelectComponent');
     }).catch((err) => {
-      this.loadingBar.complete();
       this._logger.error(err);
+      this.loaded.emit('CitySelectComponent');
     });
   }
 

@@ -5,7 +5,6 @@
  */
 
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { SlimLoadingBarService } from 'ng2-slim-loading-bar';
 import { Logger } from 'angular2-logger/core';
 import { Doctor } from '../doctor';
 import { DoctorsService } from '../doctors.service';
@@ -20,6 +19,8 @@ export class DoctorSelectComponent implements OnInit {
     this.selectDoctor();
   }
   @Output() selected: EventEmitter<Doctor> = new EventEmitter<Doctor>();
+  @Output() init: EventEmitter<string> = new EventEmitter<string>();
+  @Output() loaded: EventEmitter<string> = new EventEmitter<string>();
 
   docId: number = 0;
   doctors: Array<Doctor> = [];
@@ -29,20 +30,19 @@ export class DoctorSelectComponent implements OnInit {
 
   constructor (
     private doctorsService: DoctorsService,
-    private loadingBar: SlimLoadingBarService,
     private _logger: Logger) {}
 
   ngOnInit () {
-    this.loadingBar.start();
+    this.init.emit('DoctorSelectComponent');
     this.isLoaded = false;
     this.doctorsService.getDoctors().then(doctors => {
       this.doctors = doctors;
       this.selectDoctor();
-      this.loadingBar.complete();
       this.isLoaded = true;
+      this.loaded.emit('DoctorSelectComponent');
     }).catch((err) => {
-      this.loadingBar.complete();
       this._logger.error(err);
+      this.loaded.emit('DoctorSelectComponent');
     });
   }
 

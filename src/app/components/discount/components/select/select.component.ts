@@ -4,20 +4,21 @@
  *  @author Alexander Zagovorichev <zagovorichev@gmail.com>
  */
 
-import { Component, Output, EventEmitter, Input } from '@angular/core';
+import { Component, Output, EventEmitter, Input, OnInit } from '@angular/core';
 import { DiscountService } from '../../discount.service';
-import { SlimLoadingBarService } from 'ng2-slim-loading-bar';
 import { Logger } from 'angular2-logger/core';
 import { Discount } from '../../discount';
 
 @Component({
-  selector: 'select-discount-type',
-  templateUrl: './select.html'
+  selector: 'nga-select-discount-type',
+  templateUrl: './select.html',
 })
-export class SelectDiscountComponent {
+export class SelectDiscountComponent implements OnInit {
 
   @Input() selectedDiscountId: number = 0;
   @Output() selected: EventEmitter<Discount> = new EventEmitter<Discount>();
+  @Output() init: EventEmitter<string> = new EventEmitter<string>();
+  @Output() loaded: EventEmitter<string> = new EventEmitter<string>();
 
   isLoaded: boolean = false;
   private dataItems: Array<any> = [];
@@ -26,11 +27,10 @@ export class SelectDiscountComponent {
 
   constructor (
     private discountsService: DiscountService,
-    private _logger: Logger,
-    private loadingBar: SlimLoadingBarService) { }
+    private _logger: Logger) { }
 
   ngOnInit () {
-    this.loadingBar.start();
+    this.init.emit('SelectDiscountComponent');
     this.discountsService.getDiscounts().then(types => {
       this.loadedDiscounts = types;
       if (!this.selectedDiscountId) {
@@ -40,17 +40,17 @@ export class SelectDiscountComponent {
       this.dataItems = types.map(x => {
         return {
           label: x.title,
-          value: x.id
+          value: x.id,
         };
       });
 
-      let discountType = this.loadedDiscounts.find(discoType => +discoType.id === +this.selectedDiscountId);
+      const discountType = this.loadedDiscounts.find(discoType => +discoType.id === +this.selectedDiscountId);
       this.selected.emit(discountType);
-      this.loadingBar.complete();
       this.isLoaded = true;
+      this.loaded.emit('SelectDiscountComponent');
     }).catch((err) => {
-      this.loadingBar.complete();
       this._logger.error(err);
+      this.loaded.emit('SelectDiscountComponent');
     });
   }
 

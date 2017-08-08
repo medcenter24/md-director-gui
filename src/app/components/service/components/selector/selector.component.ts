@@ -8,7 +8,6 @@ import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angu
 import { SelectServicesComponent } from '../select/select.component';
 import { Service } from '../../service';
 import { CasesService } from '../../../case/cases.service';
-import { SlimLoadingBarService } from 'ng2-slim-loading-bar';
 import { Logger } from 'angular2-logger/core';
 
 @Component({
@@ -20,6 +19,8 @@ export class ServicesSelectorComponent implements OnInit {
   @Input() caseId: number = 0;
   @Output() priceChanged: EventEmitter<number> = new EventEmitter<number>();
   @Output() changedServices: EventEmitter<Service[]> = new EventEmitter<Service[]>();
+  @Output() init: EventEmitter<string> = new EventEmitter<string>();
+  @Output() loaded: EventEmitter<string> = new EventEmitter<string>();
 
   @ViewChild('selectServices')
     private selectServicesComponent: SelectServicesComponent;
@@ -30,7 +31,6 @@ export class ServicesSelectorComponent implements OnInit {
 
   constructor (
     private casesService: CasesService,
-    private loadingBar: SlimLoadingBarService,
     private _logger: Logger,
   ) {
   }
@@ -55,20 +55,25 @@ export class ServicesSelectorComponent implements OnInit {
     this.changedServices.emit(this.caseServices);
   }
 
-  onSelectServicesLoaded(): void {
+  onSelectServicesLoaded(name: string): void {
+    this.loaded.emit(name);
     if (this.caseId) {
-      this.loadingBar.start();
+      this.init.emit('ServicesSelectorComponent');
       this.casesService.getCaseServices(this.caseId).then(services => {
         this.caseServices = services;
         this.selectServicesComponent.reloadChosenServices(this.caseServices);
         this.changedServices.emit(this.caseServices);
         this.recalculatePrice();
-        this.loadingBar.complete();
+        this.loaded.emit('ServicesSelectorComponent');
       }).catch((err) => {
-        this.loadingBar.complete();
         this._logger.error(err);
+        this.loaded.emit('ServicesSelectorComponent');
       });
     }
+  }
+
+  onSelectServicesInit(name: string): void {
+    this.init.emit(name);
   }
 
   private hasService (service: Service): boolean {

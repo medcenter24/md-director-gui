@@ -6,7 +6,6 @@
 
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Message } from 'primeng/primeng';
-import { SlimLoadingBarService } from 'ng2-slim-loading-bar';
 import { TranslateService } from '@ngx-translate/core';
 import { Logger } from 'angular2-logger/core';
 import { GlobalState } from '../../../../global.state';
@@ -22,6 +21,8 @@ export class FileUploaderComponent implements OnInit {
   @Input() documents: Document[] = [];
   @Input() url: string = '';
   @Output() changed: EventEmitter<any[]> = new EventEmitter<any[]>();
+  @Output() init: EventEmitter<string> = new EventEmitter<string>();
+  @Output() loaded: EventEmitter<string> = new EventEmitter<string>();
 
   msgs: Array<Message> = [];
 
@@ -30,7 +31,7 @@ export class FileUploaderComponent implements OnInit {
   private translateErrorLoad: string;
   private deleterCounter: number = 0;
 
-  constructor(private loadingBar: SlimLoadingBarService,
+  constructor(
               private translate: TranslateService,
               private _logger: Logger, private _state: GlobalState,
               private authenticationService: AuthenticationService,
@@ -49,7 +50,7 @@ export class FileUploaderComponent implements OnInit {
   onBeforeUpload(): void {
     this.msgs = [];
     this._state.notifyDataChanged('growl', this.msgs);
-    this.loadingBar.start();
+    this.init.emit('FileUploaderComponent');
   }
 
   onBeforeSend(event): void {
@@ -65,7 +66,7 @@ export class FileUploaderComponent implements OnInit {
     }
     this._state.notifyDataChanged('growl', this.msgs);
     this.changed.emit(this.documents);
-    this.loadingBar.complete();
+    this.loaded.emit('FileUploaderComponent');
   }
 
   handleError(event): void {
@@ -75,7 +76,7 @@ export class FileUploaderComponent implements OnInit {
     this._state.notifyDataChanged('growl', this.msgs);
     this._logger.error('Error: Upload to ' + event.xhr.responseURL
       + ' [' + event.xhr.status + ': ' + event.xhr.statusText + ']');
-    this.loadingBar.complete();
+    this.loaded.emit('FileUploaderComponent');
   }
 
   onClear(): void {
@@ -104,17 +105,17 @@ export class FileUploaderComponent implements OnInit {
     this.deleterCounter = files.length;
 
     if (this.deleterCounter) {
-      this.loadingBar.start();
+      this.init.emit('FileUploaderComponent');
       files.map(id => {
         this.documentsService.deleteDocument(id).then(() => {
           this.deleteFileFromGui(id);
           if (--this.deleterCounter <= 0) {
-            this.loadingBar.complete();
+            this.loaded.emit('FileUploaderComponent');
           }
         }).catch(err => {
           this._logger.error(err);
           if (--this.deleterCounter <= 0) {
-            this.loadingBar.complete();
+            this.loaded.emit('FileUploaderComponent');
           }
         });
       });
