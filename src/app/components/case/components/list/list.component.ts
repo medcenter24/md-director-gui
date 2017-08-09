@@ -153,6 +153,7 @@ export class CasesListComponent implements OnInit {
   }
 
   onPageChanged(event): void {
+    console.log(event);
     this.reloadDatatable(event);
   }
 
