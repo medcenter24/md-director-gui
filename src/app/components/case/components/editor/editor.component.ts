@@ -27,7 +27,7 @@ import { Document } from '../../../document/document';
 import { AccidentCheckpoint } from '../../../accident/components/checkpoint/checkpoint';
 import { DoctorsService } from '../../../doctors/doctors.service';
 import { Doctor } from '../../../doctors/doctor';
-import {AccidentScenarioComponent} from "../../../accident/components/scenario/components/line/line.component";
+import { AccidentScenarioComponent } from '../../../accident/components/scenario/components/line/line.component';
 
 @Component({
   selector: 'nga-case-editor',
@@ -111,6 +111,7 @@ export class CaseEditorComponent implements OnInit {
             this.stopLoader('Accident');
             this._state.notifyDataChanged('menu.activeLink', { title: 'Cases' });
             this.accident = accident ? accident : new Accident();
+
             this.appliedTime = new Date(this.accident.created_at);
             this.discountValue = +this.accident.discount_value;
             this.loadPatient();
@@ -181,7 +182,68 @@ export class CaseEditorComponent implements OnInit {
     } else {
       this.saveCase(data);
     }
+  }
 
+  onClose(): void {
+    this._state.notifyDataChanged('confirmDialog',
+      {
+        header: this.translate.instant('Warning'),
+        message: this.translate.instant('Are you sure that you want to close case?' +
+          ' Every one will lost access to this case.'),
+        accept: () => {
+          this.caseService.closeCase(this.accident.id).then(() => {
+            this.msgs = [];
+            this.msgs.push({ severity: 'success', summary: this.translate.instant('Success'),
+              detail: 'Case closed.' });
+            this._state.notifyDataChanged('growl', this.msgs);
+            this.scenarioComponent.reload();
+          }).catch(err => {
+            this.stopLoader('deleteCase');
+
+            if (err.status === 404) {
+              this.msgs = [];
+              this.msgs.push({ severity: 'error', summary: this.translate.instant('Error'),
+                detail: this.translate.instant('404 Not Found') });
+              this._state.notifyDataChanged('growl', this.msgs);
+              this.router.navigate(['pages/cases']);
+            } else {
+              this._logger.error(err);
+            }
+          });
+        },
+        icon: 'fa fa-warning',
+      },
+    );
+  }
+
+  onDelete(): void {
+    this._state.notifyDataChanged('confirmDialog',
+      {
+        header: this.translate.instant('Warning'),
+        message: this.translate.instant('Are you sure that you want to DELETE case?' +
+          ' After that this case won\'t be restored.'),
+        accept: () => {
+          this.startLoader('deleteCase');
+          this.caseService.deleteCase(this.accident.id).then(() => {
+            this.stopLoader('deleteCase');
+            this.router.navigate(['pages/cases/']);
+          }).catch(err => {
+            this.stopLoader('deleteCase');
+
+            if (err.status === 404) {
+              this.msgs = [];
+              this.msgs.push({ severity: 'error', summary: this.translate.instant('Error'),
+                detail: this.translate.instant('404 Not Found') });
+              this._state.notifyDataChanged('growl', this.msgs);
+              this.router.navigate(['pages/cases']);
+            } else {
+              this._logger.error(err);
+            }
+          });
+        },
+        icon: 'fa fa-window-close-o red',
+      },
+    );
   }
 
   private saveCase(data): void {
@@ -208,11 +270,17 @@ export class CaseEditorComponent implements OnInit {
           detail: this.translate.instant('404 Not Found') });
         this._state.notifyDataChanged('growl', this.msgs);
         this.router.navigate(['pages/cases']);
+      } else if (err.status == 403) {
+        this.msgs = [];
+        this.msgs.push({
+          severity: 'error', summary: this.translate.instant('Error'),
+          detail: this.translate.instant('This case was closed'),
+        });
+        this._state.notifyDataChanged('growl', this.msgs);
       } else {
         this._logger.error(err);
       }
     });
-
   }
 
   onCaseTypeSelected(type): void {

@@ -112,7 +112,7 @@ export abstract class HttpService {
    */
   protected put(id, data): Promise<any> {
 
-    if (!+id) {
+    if (!id) {
       return this.handleError(this.httpErrorMessage);
     }
 
