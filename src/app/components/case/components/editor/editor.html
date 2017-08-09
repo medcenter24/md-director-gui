@@ -318,6 +318,13 @@
             </div>
             <button pButton type="button" class="ui-button-success" (click)="onSave($event)"
                     [disabled]="!accidentForm.form.valid" label="{{ 'Save' | translate }}"></button>
+
+            <button pButton type="button" class="ui-button-secondary pull-right"
+                    label="{{ 'Close' | translate }}" *ngIf="accident.id"
+                    (click)="onClose($event)"></button>
+            <button pButton type="button" class="ui-button-danger pull-right offset-right10"
+                    label="{{ 'Delete' | translate }}" *ngIf="accident.id"
+                    (click)="onDelete($event)"></button>
         </form>
         </ba-card>
     </div>
