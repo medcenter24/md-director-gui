@@ -70,6 +70,14 @@ export class CasesService extends HttpService {
     return data.accident.id ? this.put(data.accident.id, data) : this.store(data);
   }
 
+  closeCase (id: number): Promise<any> {
+    return this.put(`${id}/close`, {});
+  }
+
+  deleteCase (id: number): Promise<any> {
+    return this.remove(id);
+  }
+
   getScenario (id: number): Promise <AccidentScenario[]> {
     return this.get(`${id}/scenario`).then(response => response.json().data as AccidentScenario[]);
   }

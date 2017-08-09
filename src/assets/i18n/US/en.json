@@ -1,6 +1,10 @@
 {
+  "This case was closed": "This case was closed",
+  "Are you sure that you want to DELETE case? After that this case won't be restored.":  "Are you sure that you want to DELETE the case?<br><br>After that this case won't be able to be restored.",
+  "Are you sure that you want to close case? Every one will lost access to this case.": "Are you sure that you want to close case?<br><br>Every one will lose access to this case.",
+  "Close": "Close",
   "Warning": "Warning",
-  "Are you sure that you want to change doctor? Doctor will lost access to that case.": "Are you sure that you want to change doctor? Doctor will lost access to that case.",
+  "Are you sure that you want to change doctor? Doctor will lost access to that case.": "Are you sure that you want to change doctor?<br><br>Doctor will lose access to that case.",
   "Saved": "Saved",
   "Successfully saved": "Successfully saved",
   "Cities Selector": "Cities Selector",
