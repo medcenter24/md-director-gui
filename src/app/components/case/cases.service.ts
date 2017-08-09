@@ -39,7 +39,7 @@ export class CasesService extends HttpService {
   }
 
   getCases(params): Promise<any> {
-    return this.get().then(response => response.json() as CaseAccident[]);
+    return this.get(null, params).then(response => response.json() as CaseAccident[]);
   }
 
   getCaseServices(id: number): Promise<Service[]> {
