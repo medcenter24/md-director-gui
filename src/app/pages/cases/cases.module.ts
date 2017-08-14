@@ -29,7 +29,7 @@ import {
   SelectButtonModule, CalendarModule, MultiSelectModule, AutoCompleteModule,
   SpinnerModule, ButtonModule, TooltipModule, InputTextareaModule, InputTextModule,
   PanelModule, FileUploadModule, InplaceModule, ToolbarModule, DialogModule, PaginatorModule, CheckboxModule,
-  ConfirmDialogModule, ConfirmationService, BlockUIModule, PasswordModule, StepsModule, MenuModule
+  ConfirmDialogModule, ConfirmationService, BlockUIModule, PasswordModule, StepsModule, MenuModule,
 } from 'primeng/primeng';
 import { AssistantsService } from '../../components/assistant/assistant.service';
 import { AssistantSelectComponent } from '../../components/assistant/components/select/select.component';
@@ -61,7 +61,8 @@ import { AccidentCheckpointsService } from '../../components/accident/components
 import { ExporterService } from '../../components/exporter/exporter.service';
 import { CitiesService } from '../../components/city/cities.service';
 import { CitiesModule } from '../../components/city/cities.module';
-import { AccidentScenarioComponent } from '../../components/accident/components/scenario/components/line/line.component';
+import { AccidentScenarioComponent } from
+  '../../components/accident/components/scenario/components/line/line.component';
 import { AccidentScenarioService } from '../../components/accident/components/scenario/scenario.service';
 
 // import { InMemoryWebApiModule } from 'angular-in-memory-web-api';
