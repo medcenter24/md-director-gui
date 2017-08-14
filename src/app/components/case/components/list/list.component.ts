@@ -16,6 +16,7 @@ import { SlimLoadingBarService } from 'ng2-slim-loading-bar';
 import { ImporterComponent } from '../../../importer/importer.component';
 import { Pagination } from '../../../ui/pagination';
 import { ExporterService } from '../../../exporter/exporter.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'basic-tables',
@@ -78,6 +79,9 @@ export class CasesListComponent implements OnInit {
       status: {
         title: 'Status',
         type: 'string',
+        valuePrepareFunction: (cell) => {
+          return this.translate.instant(cell.toString());
+        },
       },
       fee: {
         title: 'Doctors fee',
@@ -97,6 +101,7 @@ export class CasesListComponent implements OnInit {
     public router: Router,
     private slimLoader: SlimLoadingBarService,
     private exporterService: ExporterService,
+    private translate: TranslateService,
   ) {
   }
 
@@ -153,7 +158,6 @@ export class CasesListComponent implements OnInit {
   }
 
   onPageChanged(event): void {
-    console.log(event);
     this.reloadDatatable(event);
   }
 
