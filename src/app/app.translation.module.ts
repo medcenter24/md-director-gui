@@ -46,6 +46,10 @@ export class AppTranslationModule {
   constructor (private translate: TranslateService) {
     translate.addLangs(['en', 'ru']);
     translate.setDefaultLang('en');
-    translate.use('en');
+    let lang = localStorage.getItem('lang');
+    if (!lang || !lang.length) {
+      lang = 'en';
+    }
+    translate.use(lang);
   }
 }
