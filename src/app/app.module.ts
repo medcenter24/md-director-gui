@@ -14,11 +14,6 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { InMemoryWebApiModule } from 'angular-in-memory-web-api';
 import { InMemoryDataService } from './faker/in-memory-data.service';
 
-/*
- * Platform and Environment providers/directives/pipes
- */
-import { routing } from './app.routing';
-
 // App is our top level component
 import { App } from './app.component';
 import { AppState, InternalStateType } from './app.service';
@@ -30,6 +25,12 @@ import { SlimLoadingBarModule } from 'ng2-slim-loading-bar';
 import { Logger } from 'angular2-logger/core';
 import { BlockUIModule, ConfirmationService, ConfirmDialogModule, GrowlModule } from 'primeng/primeng';
 import { environment } from '../environments/environment';
+
+
+/*
+ * Platform and Environment providers/directives/pipes
+ */
+import { routing } from './app.routing';
 
 // Application wide providers
 const APP_PROVIDERS = [
@@ -57,7 +58,7 @@ export type StoreType = {
     BrowserModule,
     BrowserAnimationsModule,
     HttpModule,
-    InMemoryWebApiModule.forRoot(InMemoryDataService, {apiBase: 'director/', passThruUnknownUrl: true}),
+    InMemoryWebApiModule.forRoot(InMemoryDataService, { apiBase: 'director/', passThruUnknownUrl: true }),
     RouterModule,
     FormsModule,
     ReactiveFormsModule,
