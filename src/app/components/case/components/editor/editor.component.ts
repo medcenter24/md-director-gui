@@ -4,7 +4,7 @@
  * @author Alexander Zagovorichev <zagovorichev@gmail.com>
  */
 
-import {Component, Output, EventEmitter, ViewChild, OnInit } from '@angular/core';
+import { Component, Output, EventEmitter, ViewChild, OnInit } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Accident } from '../../../accident/accident';
 import { AccidentsService } from '../../../accident/accidents.service';
@@ -153,7 +153,6 @@ export class CaseEditorComponent implements OnInit {
     this._logger.debug('-' + componentName);
     if (--this.waitLoading <= 0) {
       this.setFixedIncome(this.isIncomeFixed());
-      console.log(this.accident.fixed_income, this.isIncomeFixed());
       this.totalIncome = this.accident.income;
       this.recalculatePrice();
       this._state.notifyDataChanged('blocker', false);
