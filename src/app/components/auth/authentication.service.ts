@@ -46,6 +46,10 @@ export class AuthenticationService {
         this.loadingBar.stop();
         // login successful if there's a jwt token in the response
         const token = response.json() && response.json().token;
+        const lang = response.json() && response.json().lang;
+        // store language
+        localStorage.setItem('lang', lang);
+
         return this.setToken(token);
       });
   }
