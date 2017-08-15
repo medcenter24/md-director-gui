@@ -152,11 +152,13 @@ export class CaseEditorComponent implements OnInit {
   stopLoader(componentName: string = 'Not provided'): void {
     this._logger.debug('-' + componentName);
     if (--this.waitLoading <= 0) {
-      this.setFixedIncome(this.isIncomeFixed());
-      this.totalIncome = this.accident.income;
-      this.recalculatePrice();
       this._state.notifyDataChanged('blocker', false);
       this.loadingBar.complete();
+      if (this.accident.id) {
+        this.setFixedIncome(this.isIncomeFixed());
+        this.totalIncome = this.accident.income;
+        this.recalculatePrice();
+      }
     }
   }
 
