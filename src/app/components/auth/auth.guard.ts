@@ -14,7 +14,8 @@ export class AuthGuard implements CanActivate {
   constructor(private router: Router) {}
 
   canActivate() {
-    if(localStorage.getItem('currentUser') && tokenNotExpired('currentUser', JSON.parse(localStorage.getItem('currentUser')).token)) {
+    if ( localStorage.getItem('token')
+      && tokenNotExpired('token', localStorage.getItem('token')) ) {
       return true;
     }
 

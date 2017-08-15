@@ -8,7 +8,7 @@ import { Injectable } from '@angular/core';
 
 import {
   InMemoryDbService,
-  ParsedUrl
+  ParsedUrl,
 } from 'angular-in-memory-web-api';
 import { DoctorsDb } from './doctors.db';
 import { ServicesDb } from './services.db';
@@ -75,8 +75,8 @@ class MapItem {
   }
 
   test (path: string): boolean {
-    let reg = new RegExp(this.regex, 'i');
-    let res = reg.test(path);
+    const reg = new RegExp(this.regex, 'i');
+    const res = reg.test(path);
 
     if (res) {
       this.match = reg.exec(path);
@@ -101,7 +101,7 @@ class MapItem {
 @Injectable()
 export class InMemoryDataService implements InMemoryDbService {
 
-  private url: UrlStructure = new UrlStructure;
+  private url: UrlStructure = new UrlStructure();
 
   /**
    * Provide map for the unusual routes
@@ -120,17 +120,18 @@ export class InMemoryDataService implements InMemoryDbService {
 
   protected parseUrl (url: string): ParsedUrl {
     try {
-      let loc = this.getLocation(url);
-      let path = loc.pathname;
+      const loc = this.getLocation(url);
+      const path = loc.pathname;
       let mapped;
 
-      let pathSegments = path.split('/');
+      const pathSegments = path.split('/');
       // default in memory data provider
       this.url.base = pathSegments[ 1 ];
       this.url.query = loc.search && new URLSearchParams(loc.search.substr(1));
 
       // check mapper for full much
-      if (mapped = this.getFromMapper(path)) {
+      mapped = this.getFromMapper(path);
+      if (mapped) {
         this.url.id = mapped.getId();
         this.url.collectionName = mapped.getCollectionName();
       } else {
@@ -138,13 +139,13 @@ export class InMemoryDataService implements InMemoryDbService {
         this.url.id = pathSegments[ 3 ];
       }
     } catch (err) {
-      let msg = 'unable to parse url \'' + url + '\'; error: ' + err;
+      const msg = 'unable to parse url \'' + url + '\'; error: ' + err;
       this._logger.error(err);
       throw new Error(msg);
     }
 
     return this.url;
-  };
+  }
 
   private getFromMapper (path: string): MapItem | undefined {
     return this.mapper.find((map: MapItem) => {
@@ -155,29 +156,29 @@ export class InMemoryDataService implements InMemoryDbService {
   private getLocation (href) {
     if (!href.startsWith('http')) {
       // get the document iff running in browser
-      let doc = (typeof document === 'undefined') ? undefined : document;
+      const doc = (typeof document === 'undefined') ? undefined : document;
       // add host info to url before parsing.  Use a fake host when not in browser.
-      let base = doc ? doc.location.protocol + '//' + doc.location.host : 'http://fake';
+      const base = doc ? doc.location.protocol + '//' + doc.location.host : 'http://fake';
       href = href.startsWith('/') ? base + href : base + '/' + href;
     }
-    let uri = this.parseUri(href);
+    const uri = this.parseUri(href);
     return {
       host: uri.host,
       protocol: uri.protocol,
       port: uri.port,
       pathname: uri.path,
-      search: uri.query ? '?' + uri.query : ''
+      search: uri.query ? '?' + uri.query : '',
     };
   }
 
   private parseUri (str): any {
     // tslint:disable-next-line:max-line-length
-    var URL_REGEX = /^(?:(?![^:@]+:[^:@\/]*@)([^:\/?#.]+):)?(?:\/\/)?((?:(([^:@]*)(?::([^:@]*))?)?@)?([^:\/?#]*)(?::(\d*))?)(((\/(?:[^?#](?![^?#\/]*\.[^?#\/.]+(?:[?#]|$)))*\/?)?([^?#\/]*))(?:\?([^#]*))?(?:#(.*))?)/;
-    var key = [ 'source', 'protocol', 'authority', 'userInfo', 'user', 'password', 'host', 'port',
-      'relative', 'path', 'directory', 'file', 'query', 'anchor' ];
-    var m = URL_REGEX.exec(str);
-    var uri = {};
-    var i = 14;
+    const URL_REGEX = /^(?:(?![^:@]+:[^:@\/]*@)([^:\/?#.]+):)?(?:\/\/)?((?:(([^:@]*)(?::([^:@]*))?)?@)?([^:\/?#]*)(?::(\d*))?)(((\/(?:[^?#](?![^?#\/]*\.[^?#\/.]+(?:[?#]|$)))*\/?)?([^?#\/]*))(?:\?([^#]*))?(?:#(.*))?)/;
+    const key = ['source', 'protocol', 'authority', 'userInfo', 'user', 'password', 'host', 'port',
+      'relative', 'path', 'directory', 'file', 'query', 'anchor'];
+    const m = URL_REGEX.exec(str);
+    const uri = {};
+    let i = 14;
     while (i--) {
       uri[ key[ i ] ] = m[ i ] || '';
     }
@@ -185,26 +186,26 @@ export class InMemoryDataService implements InMemoryDbService {
   }
 
   createDb () {
-    let diagnostics: Diagnostic[] = DiagnosticsDb;
-    let categories: DiagnosticCategory[] = DiagnosticCategoriesDb;
-    let services: Service[] = ServicesDb;
-    let doctors: Doctor[] = DoctorsDb;
-    let users: User[] = UsersDb;
-    let cities: City[] = CitiesDb;
-    let hospitals: Hospital[] = HospitalsDb;
-    let types: AccidentType[] = AccidentTypesDb;
-    let checkpoints: AccidentCheckpoint[] = AccidentCheckpointsDb;
-    let discounts: Discount[] = DiscountsDb;
-    let statuses: AccidentStatus[] = AccidentStatusesDb;
-    let assistants: Assistant[] = AssistantsDb;
-    let patients: Patient[] = PatientsDb;
-    let accidents: Accident[] = AccidentsDb;
-    let cases: CaseAccident[] = CasesDb;
-    let caseServices: Service[] = CaseServicesDb;
-    let caseDiagnostics: Diagnostic[] = CaseDiagnosticsDb;
-    let doctorCase: DoctorAccident[] = DoctorAccidentDb;
-    let hospitalCase: HospitalAccident[] = HospitalAccidentDb;
-    let caseImport: Array<any> = CaseImportDb;
+    const diagnostics: Diagnostic[] = DiagnosticsDb;
+    const categories: DiagnosticCategory[] = DiagnosticCategoriesDb;
+    const services: Service[] = ServicesDb;
+    const doctors: Doctor[] = DoctorsDb;
+    const users: User[] = UsersDb;
+    const cities: City[] = CitiesDb;
+    const hospitals: Hospital[] = HospitalsDb;
+    const types: AccidentType[] = AccidentTypesDb;
+    const checkpoints: AccidentCheckpoint[] = AccidentCheckpointsDb;
+    const discounts: Discount[] = DiscountsDb;
+    const statuses: AccidentStatus[] = AccidentStatusesDb;
+    const assistants: Assistant[] = AssistantsDb;
+    const patients: Patient[] = PatientsDb;
+    const accidents: Accident[] = AccidentsDb;
+    const cases: CaseAccident[] = CasesDb;
+    const caseServices: Service[] = CaseServicesDb;
+    const caseDiagnostics: Diagnostic[] = CaseDiagnosticsDb;
+    const doctorCase: DoctorAccident[] = DoctorAccidentDb;
+    const hospitalCase: HospitalAccident[] = HospitalAccidentDb;
+    const caseImport: Array<any> = CaseImportDb;
 
     return {
       services,
@@ -226,7 +227,7 @@ export class InMemoryDataService implements InMemoryDbService {
       doctorCase,
       hospitalCase,
       caseDiagnostics,
-      caseImport
+      caseImport,
     };
   }
 }
