@@ -2,7 +2,7 @@
     <ol class="cd-multi-steps text-center custom-icons">
         <!-- possible statuses: visited <a>, current <em>, '' <>-->
         <li *ngFor="let step of steps" [ngClass]="step.status">
-            <em>{{ step.title }}</em>
+            <em>{{ step.title | translate }}</em>
         </li>
     </ol>
 </nav>

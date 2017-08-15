@@ -4,11 +4,11 @@
  * @author Alexander Zagovorichev <zagovorichev@gmail.com>
  */
 
-import { Component, Output, EventEmitter, ViewChild, OnInit } from '@angular/core';
+import {Component, Output, EventEmitter, ViewChild, OnInit } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Accident } from '../../../accident/accident';
 import { AccidentsService } from '../../../accident/accidents.service';
-import { Message } from 'primeng/primeng';
+import { Message, ToggleButton } from 'primeng/primeng';
 import { SlimLoadingBarService } from 'ng2-slim-loading-bar';
 import { TranslateService } from '@ngx-translate/core';
 import { AccidentType } from '../../../accident/components/type/type';
@@ -43,6 +43,9 @@ export class CaseEditorComponent implements OnInit {
   @ViewChild('scenario')
     private scenarioComponent: AccidentScenarioComponent;
 
+  @ViewChild('incomeAutoupdate')
+    private incomeAutoupdate: ToggleButton;
+
   waitLoading: number = 0;
   msgs: Message[] = [];
   accident: Accident;
@@ -51,14 +54,13 @@ export class CaseEditorComponent implements OnInit {
   maxDate: Date;
   discountValue: number = 0;
   discountType: Discount;
-  phone: string;
+  birthday: Date;
   doctorAccident: DoctorAccident;
   hospitalAccident: HospitalAccident;
   services: Service[] = [];
   diagnostics: Diagnostic[] = [];
   documents: Document[] = [];
   checkpoints: Array<number> = []; // ids of checkpoints
-
   totalAmount: number = 0;
   totalIncome: number = 0;
 
@@ -111,7 +113,6 @@ export class CaseEditorComponent implements OnInit {
             this.stopLoader('Accident');
             this._state.notifyDataChanged('menu.activeLink', { title: 'Cases' });
             this.accident = accident ? accident : new Accident();
-
             this.appliedTime = new Date(this.accident.created_at);
             this.discountValue = +this.accident.discount_value;
             this.loadPatient();
@@ -151,6 +152,10 @@ export class CaseEditorComponent implements OnInit {
   stopLoader(componentName: string = 'Not provided'): void {
     this._logger.debug('-' + componentName);
     if (--this.waitLoading <= 0) {
+      this.setFixedIncome(this.isIncomeFixed());
+      console.log(this.accident.fixed_income, this.isIncomeFixed());
+      this.totalIncome = this.accident.income;
+      this.recalculatePrice();
       this._state.notifyDataChanged('blocker', false);
       this.loadingBar.complete();
     }
@@ -159,6 +164,8 @@ export class CaseEditorComponent implements OnInit {
   onSave(): void {
     this.accident.discount_id = this.discountType.id;
     this.accident.discount_value = +this.discountValue;
+    this.patient.birthday = this.birthday.toString();
+    this.accident.income = this.totalIncome;
     const data = {
       accident: this.accident,
       doctorAccident: this.doctorAccident,
@@ -312,6 +319,32 @@ export class CaseEditorComponent implements OnInit {
     this.accident.ref_num = event.target.value;
   }
 
+  onIncomeAutoupdateChanged(event): void {
+    this.setFixedIncome(!event.checked);
+    this.recalculatePrice();
+  }
+
+  onDoctorFeeChanged(event): void {
+    this.accident.caseable_cost = this.getFixedFloat(event.target.value);
+    this.recalculatePrice();
+  }
+
+  onTotalIncomeChanged(event): void {
+    this.totalIncome = this.getFixedFloat(event.target.value);
+    this.setFixedIncome(true);
+    this.recalculatePrice();
+  }
+
+  private getFixedFloat(num): number {
+    num = num ? num.replace( /^\D+/g, '') : 0;
+    if (!num) {
+      num = 0;
+    } else {
+      num = parseFloat(num.replace(',', '.'));
+    }
+    return Number(num) === num && num % 1 !== 0 ? num.toFixed(2) : num;
+  }
+
   onServicesSelectorPriceChanged(servicesPrice: number): void {
     this.totalAmount = +servicesPrice.toFixed(2);
     this.recalculatePrice();
@@ -365,25 +398,41 @@ export class CaseEditorComponent implements OnInit {
     });
   }
 
+  private setFixedIncome(val: boolean): void {
+    this.accident.fixed_income = val ? 1 : 0;
+    this.incomeAutoupdate.checked = !val;
+  }
+
+  private isIncomeFixed(): boolean {
+    return +this.accident.fixed_income !== 0;
+  }
+
   private recalculatePrice(): void {
+    // do nothing if everything is fixed
+    if (this.isIncomeFixed()) {
+      this.totalIncomeFormula = this.translate.instant('Income is fixed allowed changes by hand');
+      return;
+    }
+
     this.totalIncome = 0;
     if (this.totalAmount && this.discountType && this.discountValue) {
       if (this.discountType.operation === '%') {
         // *
-        this.totalIncome = this.totalAmount - this.discountValue * this.totalAmount / 100;
-        this.totalIncomeFormula = this.totalAmount + ' - ' + this.discountValue + ' * ' + this.totalAmount + ' / 100';
+        this.totalIncome = this.totalAmount - this.discountValue * this.totalAmount / 100 - this.accident.caseable_cost;
+        this.totalIncomeFormula = this.totalAmount + ' - ' + this.discountValue + ' * ' + this.totalAmount
+          + ' / 100 - ' + this.accident.caseable_cost;
       } else if (this.discountType.operation === 'EUR') {
         // -
-        this.totalIncome = this.totalAmount - this.discountValue;
-        this.totalIncomeFormula = this.totalAmount + ' - ' + this.discountValue;
+        this.totalIncome = this.totalAmount - this.discountValue - this.accident.caseable_cost;
+        this.totalIncomeFormula = this.totalAmount + ' - ' + this.discountValue + ' - ' + this.accident.caseable_cost;
       } else {
         this._logger.warn('Undefined discount type: ' + this.discountType.operation);
         this.totalIncome = this.totalAmount;
         this.totalIncomeFormula = this.translate.instant('Without discount');
       }
     } else {
-      this.totalIncome = this.totalAmount;
-      this.totalIncomeFormula = this.translate.instant('Without discount');
+      this.totalIncome = this.totalAmount - this.accident.caseable_cost;
+      this.totalIncomeFormula = this.totalAmount + ' - ' + this.accident.caseable_cost;
     }
 
     this.totalIncome = +this.totalIncome.toFixed(2);
@@ -395,7 +444,7 @@ export class CaseEditorComponent implements OnInit {
       this.startLoader('getPatient');
       this.patientService.getPatient(this.accident.patient_id).then((patient: Patient) => {
         this.patient = patient;
-        this.phone = this.patient.phones;
+        this.birthday = new Date(this.patient.birthday);
         this.stopLoader('getPatient');
       }).catch((err) => {
         this._logger.error(err);
