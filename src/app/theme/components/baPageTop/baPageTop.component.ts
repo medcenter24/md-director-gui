@@ -10,12 +10,12 @@ import { AuthenticationService } from '../../../components/auth/authentication.s
 })
 export class BaPageTop {
 
-  public isScrolled:boolean = false;
-  public isMenuCollapsed:boolean = false;
+  public isScrolled: boolean = false;
+  public isMenuCollapsed: boolean = false;
 
   constructor(
-    private _state:GlobalState,
-    private authenticationService: AuthenticationService
+    private _state: GlobalState,
+    private authenticationService: AuthenticationService,
   ) {
     this._state.subscribe('menu.isCollapsed', (isCollapsed) => {
       this.isMenuCollapsed = isCollapsed;
