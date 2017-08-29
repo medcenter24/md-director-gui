@@ -5,5 +5,21 @@
   -->
 
 <div class="profile-container">
-
+    <ba-card baCardClass="with-scroll">
+        <div class="row mb-2">
+            <div class="col-4">
+                <p-dropdown [options]="languages" [(ngModel)]="lang" (onChange)="onLangChanged($event)"></p-dropdown>
+            </div>
+        </div>
+        <div class="row mb-2">
+            <div class="col-4">
+                <input type="text" class="form-control" placeholder="{{ 'Name' | translate }}">
+            </div>
+        </div>
+        <div class="row mb-2">
+            <div class="col-4">
+                <input type="text" class="form-control" placeholder="{{ 'Surname' | translate }}">
+            </div>
+        </div>
+    </ba-card>
 </div>

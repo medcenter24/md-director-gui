@@ -17,13 +17,13 @@ import { AppTranslationModule } from '../../app.translation.module';
     NgaModule,
     routing,
     MessagesModule,
-    AppTranslationModule
+    AppTranslationModule,
   ],
   declarations: [
-    Login
+    Login,
   ],
   providers: [
-    AuthenticationService
+    AuthenticationService,
   ]
 })
 export class LoginModule {}
