@@ -156,6 +156,15 @@ export const PAGES_MENU = [
         ],
       },
       {
+        path: 'profile',
+        data: {
+          menu: {
+            title: 'Profile',
+            icon: 'fa fa-user',
+          },
+        },
+      },
+      {
         path: '',
         data: {
           menu: {
