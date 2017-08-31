@@ -11,5 +11,6 @@ export class User {
         public email: string = '',
         public phone: string = '',
         public password: string = '', /* just for send and update not for get */
+        public lang: string = '',
     ) {}
 }
