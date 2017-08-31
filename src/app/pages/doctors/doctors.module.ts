@@ -22,8 +22,10 @@ import { DoctorEditorComponent } from '../../components/doctors/editor/editor.co
 import { ServicesService } from '../../components/service/services.service';
 import { Diagnostics } from './components/diagnostics/diagnostics.component';
 import { DiagnosticEditorComponent } from '../../components/diagnostic/components/editor/editor.component';
-import { DiagnosticCategoryEditorComponent } from '../../components/diagnostic/category/components/editor/editor.component';
-import { DiagnosticCategorySelectorComponent } from '../../components/diagnostic/category/components/selector/selector.component';
+import { DiagnosticCategoryEditorComponent }
+  from '../../components/diagnostic/category/components/editor/editor.component';
+import { DiagnosticCategorySelectorComponent }
+  from '../../components/diagnostic/category/components/selector/selector.component';
 import { DiagnosticService } from '../../components/diagnostic/diagnostic.service';
 import { DiagnosticCategoryService } from '../../components/diagnostic/category/category.service';
 import { AppTranslationModule } from '../../app.translation.module';

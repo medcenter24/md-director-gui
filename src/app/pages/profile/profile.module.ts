@@ -13,6 +13,8 @@ import { MessagesModule, DropdownModule } from 'primeng/primeng';
 import { AppTranslationModule } from '../../app.translation.module';
 import { ProfileComponent } from './profile.component';
 import { FormsModule } from '@angular/forms';
+import { UsersService } from '../../components/users/users.service';
+import { LoggedUserService } from '../../components/auth/loggedUser.service';
 
 @NgModule({
   imports: [
@@ -28,6 +30,8 @@ import { FormsModule } from '@angular/forms';
     ProfileComponent,
   ],
   providers: [
+    UsersService,
+    LoggedUserService,
   ],
 })
 export class ProfileModule {}
