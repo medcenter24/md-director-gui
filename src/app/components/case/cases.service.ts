@@ -13,9 +13,9 @@ import { Diagnostic } from '../diagnostic/diagnostic';
 import { HttpService } from '../http/http.service';
 import { ExtendCaseAccident } from './extendCaseAccident';
 import { Document } from '../document/document';
-import {CaseAccident} from './case';
-import {AccidentCheckpoint} from "../accident/components/checkpoint/checkpoint";
-import {AccidentScenario} from "../accident/components/scenario/scenario";
+import { CaseAccident } from './case';
+import { AccidentCheckpoint } from '../accident/components/checkpoint/checkpoint';
+import { AccidentScenario } from '../accident/components/scenario/scenario';
 
 @Injectable()
 export class CasesService extends HttpService {

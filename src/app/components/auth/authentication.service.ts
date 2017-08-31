@@ -12,7 +12,6 @@ import { environment } from '../../../environments/environment';
 import { AuthHttp, JwtHelper } from 'angular2-jwt';
 import { SlimLoadingBarService } from 'ng2-slim-loading-bar';
 import { TranslateService } from '@ngx-translate/core';
-import { Logger } from 'angular2-logger/core';
 import { GlobalState } from '../../global.state';
 import { Message } from 'primeng/primeng';
 
@@ -31,7 +30,6 @@ export class AuthenticationService {
     private authHttp: AuthHttp,
     private loadingBar: SlimLoadingBarService,
     private translate: TranslateService,
-    private _logger: Logger,
     private _state: GlobalState,
   ) {
     // set token if saved in local storage
@@ -72,7 +70,7 @@ export class AuthenticationService {
           this.msgs = [];
           this.msgs.push({ severity: 'error', summary: this.translate.instant('Error'), detail: err });
           this._state.notifyDataChanged('growl', this.msgs);
-        }
+        },
       );
   }
 

@@ -1,3 +1,9 @@
+/*
+ * Copyright (c) 2017.
+ *
+ * @author Alexander Zagovorichev <zagovorichev@gmail.com>
+ */
+
 import { NgModule } from '@angular/core';
 import { Http, HttpModule } from '@angular/http';
 
@@ -8,6 +14,7 @@ import {
 } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { Logger } from 'angular2-logger/core';
+import { GlobalState } from './global.state';
 
 export function createTranslateLoader (http: Http) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -43,7 +50,11 @@ const translationOptions = {
 })
 export class AppTranslationModule {
 
-  constructor (private translate: TranslateService) {
+  constructor (
+    private translate: TranslateService,
+    private _state: GlobalState,
+  ) {
+
     translate.addLangs(['en', 'ru']);
     translate.setDefaultLang('en');
     let lang = localStorage.getItem('lang');
@@ -51,5 +62,10 @@ export class AppTranslationModule {
       lang = 'en';
     }
     translate.use(lang);
+
+    this._state.subscribe('lang', (_lang: string) => {
+      localStorage.setItem('lang', _lang);
+      this.translate.use(_lang);
+    });
   }
 }
