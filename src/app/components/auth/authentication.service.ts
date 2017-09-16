@@ -32,9 +32,11 @@ export class AuthenticationService {
     private translate: TranslateService,
     private _state: GlobalState,
   ) {
-    // set token if saved in local storage
-    const token = localStorage.getItem('token');
-    this.setToken(token);
+    if (localStorage.getItem('token')) {
+      // set token if saved in local storage
+      const token = localStorage.getItem('token');
+      this.setToken(token);
+    }
   }
 
   login (username: string, password: string): Observable<boolean> {
