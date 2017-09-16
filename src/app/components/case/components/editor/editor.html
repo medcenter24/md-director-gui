@@ -159,7 +159,7 @@
                         <div class="col-sm-4">
                             <label class="label required separate" translate>Patient Name</label>
                             <input type="text" pInputText name="name"
-                                   [(ngModel)]="patient.name" (change)="patient.name = patient.name.toUpperCase()"
+                                   [(ngModel)]="patient.name" (keyup)="formattedPatientName($event)"
                                    placeholder="{{ 'Patient Name' | translate }}"/>
                         </div>
                         <div class="col-sm-4">

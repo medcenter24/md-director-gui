@@ -5,7 +5,7 @@ import { GlobalState } from './global.state';
 import { BaImageLoaderService, BaThemePreloader, BaThemeSpinner } from './theme/services';
 import { BaThemeConfig } from './theme/theme.config';
 import { layoutPaths } from './theme/theme.constants';
-import {Confirmation, ConfirmationService, Message} from 'primeng/primeng';
+import { Confirmation, ConfirmationService, Message } from 'primeng/primeng';
 
 /*
  * App Component

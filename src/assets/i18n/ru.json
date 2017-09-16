@@ -1,10 +1,11 @@
 {
+  "Here will be statistics, to do board, calendar with all of the doctors I mean cases of the doctors": "Здесь будет статистика (заявки всего, заявки по регионам) и календарь посещений докторами больных",
   "Surname": "Фамилия",
   "Fixed amount": "Зафиксированное значение",
   "Auto update": "Автообновление",
   "Income is fixed allowed changes by hand": "Доход зафиксирован, возможно обновление вручную",
   "Fix income": "Фиксировать доход",
-  "sent": "Отправлен",
+  "sent": "Обработан",
   "new": "Новый",
   "paid": "Оплачен",
   "reject": "Отменен",

@@ -165,7 +165,7 @@ export class CaseEditorComponent implements OnInit {
   onSave(): void {
     this.accident.discount_id = this.discountType.id;
     this.accident.discount_value = +this.discountValue;
-    this.patient.birthday = this.birthday.toString();
+    this.patient.birthday = this.birthday ? this.birthday.toString() : '';
     this.accident.income = this.totalIncome;
     const data = {
       accident: this.accident,
@@ -346,6 +346,11 @@ export class CaseEditorComponent implements OnInit {
     return Number(num) === num && num % 1 !== 0 ? num.toFixed(2) : num;
   }
 
+  formattedPatientName(): void {
+    this.patient.name = this.patient.name.toUpperCase();
+    this.patient.name = this.patient.name.replace(/[^A-Z\s]/, '');
+  }
+
   onServicesSelectorPriceChanged(servicesPrice: number): void {
     this.totalAmount = +servicesPrice.toFixed(2);
     this.recalculatePrice();
@@ -445,7 +450,9 @@ export class CaseEditorComponent implements OnInit {
       this.startLoader('getPatient');
       this.patientService.getPatient(this.accident.patient_id).then((patient: Patient) => {
         this.patient = patient;
-        this.birthday = new Date(this.patient.birthday);
+        if (this.patient.birthday) {
+          this.birthday = new Date(this.patient.birthday);
+        }
         this.stopLoader('getPatient');
       }).catch((err) => {
         this._logger.error(err);
