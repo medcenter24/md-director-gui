@@ -1,12 +1,11 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Routes } from '@angular/router';
 
 import { BaMenuService } from '../theme';
-import { MENU } from '../app.menu';
+import { PAGES_MENU } from './pages.menu';
 
 @Component({
   selector: 'pages',
-  styles: [],
   template: `
     <ba-sidebar></ba-sidebar>
     <ba-page-top></ba-page-top>
@@ -17,26 +16,26 @@ import { MENU } from '../app.menu';
       </div>
     </div>
     <footer class="al-footer clearfix">
-      <div class="al-footer-right">Created with <i class="ion-heart"></i></div>
+      <div class="al-footer-right" translate>Created for <i class="fa fa-heartbeat"></i></div>
       <div class="al-footer-main clearfix">
-        <div class="al-copy">&copy; <a href="http://akveo.com">Akveo</a> 2016</div>
+        <div class="al-copy">&copy; <a href="https://mydoctors24.com">MyDoctors24.com</a> 2017</div>
         <ul class="al-share clearfix">
           <li><i class="socicon socicon-facebook"></i></li>
           <li><i class="socicon socicon-twitter"></i></li>
           <li><i class="socicon socicon-google"></i></li>
-          <li><i class="socicon socicon-github"></i></li>
+          <li><i class="socicon socicon-youtube"></i></li>
         </ul>
       </div>
     </footer>
     <ba-back-top position="200"></ba-back-top>
     `
 })
-export class Pages {
+export class Pages implements OnInit {
 
-  constructor(private _menuService: BaMenuService,) {
+  constructor(private _menuService: BaMenuService) {
   }
 
   ngOnInit() {
-    this._menuService.updateMenuByRoutes(<Routes>MENU);
+    this._menuService.updateMenuByRoutes(<Routes>PAGES_MENU);
   }
 }

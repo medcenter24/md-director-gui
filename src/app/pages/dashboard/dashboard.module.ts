@@ -21,13 +21,15 @@ import { PieChartService } from './pieChart/pieChart.service';
 import { TodoService } from './todo/todo.service';
 import { TrafficChartService } from './trafficChart/trafficChart.service';
 import { UsersMapService } from './usersMap/usersMap.service';
+import { AppTranslationModule } from '../../app.translation.module';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     NgaModule,
-    routing
+    routing,
+    AppTranslationModule,
   ],
   declarations: [
     PopularApp,

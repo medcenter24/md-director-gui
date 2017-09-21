@@ -1,0 +1,31 @@
+<!--
+  ~ Copyright (c) 2017
+  ~
+  ~  @author Alexander Zagovorichev <zagovorichev@gmail.com>
+  -->
+<br>
+<div *ngIf="status && status.type">
+    <span translate>Current Status</span>
+    <span class="h6">{{ 'status.type.' + status.type | translate }}
+        &rarr; {{ 'status.title.' + status.title | translate }}</span>
+</div>
+<br>
+<p-autoComplete
+        *ngIf="isLoaded"
+        [(ngModel)]="status"
+        [suggestions]="filteredStatuses"
+        [dropdown]="true"
+        (completeMethod)="filterStatuses($event)"
+        (onDropdownClick)="handleDropdownClick($event)"
+        (onSelect)="onSelect($event)"
+        (onBlur)="onBlur($event)"
+        placeholder="{{ 'Select Status' | translate}}"
+        field="title"
+>
+    <ng-template let-el pTemplate="item">
+        <div class="ui-helper-clearfix">
+            <h6>{{ 'status.title.' + el.title | translate }}
+                <small translate>{{ 'status.type.' + el.type }}</small></h6>
+        </div>
+    </ng-template>
+</p-autoComplete>

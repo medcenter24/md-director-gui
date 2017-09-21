@@ -1,0 +1,19 @@
+<!--
+  ~ Copyright (c) 2017
+  ~
+  ~  @author Alexander Zagovorichev <zagovorichev@gmail.com>
+  -->
+
+<p-panel *ngIf="accident">
+    <p-header>
+        {{ 'Parent Accident' | translate }}
+        <a (click)="closePanel()" class="pull-right fa fa-window-close"></a>
+    </p-header>
+    <h5>{{ accident.title }} <small><a target="_blank" [routerLink]="['/pages/cases', accident.id]">{{ 'pp' | translate }}{{ accident.ref_num }} &rarr;</a></small></h5>
+    <hr>
+    <div *ngIf="patient">
+        <div class="lead offset-bottom20">{{ patient.name }}</div>
+        <p><b translate>Last Appointment</b>: {{ accident.created_at | date }}</p>
+        <p><b class="label" translate>Birthday</b>: {{ patient.birthday | date }}</p>
+    </div>
+</p-panel>

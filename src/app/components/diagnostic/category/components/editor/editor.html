@@ -1,0 +1,40 @@
+<!--
+  ~ Copyright (c) 2017.
+  ~
+  ~ @author Alexander Zagovorichev <zagovorichev@gmail.com>
+  -->
+
+<ba-card *ngIf="category" title="Category Editor" baCardClass="with-scroll" class="edit-form-container">
+    <div class="row">
+        <div class="col-sm-10">
+            <diagnostic-category-selector
+                    [categoryId]="category.id"
+                    (categoryChanged)="onCategoryChange($event)"
+                    (loaded)="onSelectorLoaded()"
+                    (loading)="onSelectorLoading()"
+            ></diagnostic-category-selector>
+        </div>
+        <div class="col-sm-2 text-center">
+            <label for="add-category-btn" translate>New Category</label><br>
+            <i class="ion-ios-plus-outline create-new-btn" id="add-category-btn" (click)="onCreateCategory()"></i>
+        </div>
+    </div>
+    <form (ngSubmit)="onSubmit()" #diagnosticForm="ngForm" class="edit-form">
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="form-group{{ title.valid || title.pristine ? '' : ' has-error'}}">
+                    <label *ngIf="title.valid || title.pristine" for="inputTitle" class="label" translate>Title</label>
+                    <label *ngIf="!title.valid && !title.pristine" for="inputTitle" class="label label-error" translate>Title is required</label>
+                    <input type="text" class="form-control" id="inputTitle"
+                           required
+                           [(ngModel)]="category.title" name="title"
+                           #title="ngModel"
+                           placeholder="{{ 'Category Title' | translate }}" maxlength="70"
+                    >
+                </div>
+            </div>
+        </div>
+        <button type="submit" class="btn btn-primary" *ngIf="category.id" translate>Submit</button>
+        <button type="submit" class="btn btn-primary" *ngIf="!category.id" translate>Create</button>
+    </form>
+</ba-card>

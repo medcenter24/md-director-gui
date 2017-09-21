@@ -1,0 +1,370 @@
+<!--
+  ~ Copyright (c) 2017.
+  ~
+  ~ @author Alexander Zagovorichev <zagovorichev@gmail.com>
+  -->
+<div *ngIf="accident" class="case-editor edit-form-container">
+    <div class="form-block">
+        <ba-card baCardClass="with-scroll">
+        <form class="form edit-form" (ngSubmit)="onSubmit()" #accidentForm="ngForm">
+
+            <div class="main-part">
+
+                <div class="form-group offset-bottom20">
+                    <div class="row offset-bottom20">
+                        <div class="col-sm-12">
+                            <h2 *ngIf="accident.id">{{ 'Case Editing' | translate}} {{ 'pp' | translate }}{{ accident.id }}</h2>
+                            <h2 *ngIf="!accident.id">{{ 'New case creating' | translate }}</h2>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <label class="label separate" translate>Referral Number</label>
+                            <b pTooltip="{{ 'If you leave it empty then it will be generated automatically' | translate }}"
+                               class="badge badge-default pull-left">?</b>
+                            <p-inplace closable="true" class="pull-left">
+                                <span pInplaceDisplay>
+                                    {{ accident.ref_num }}
+                                </span>
+                                <span pInplaceContent>
+                                    <input type="text" value="{{ accident.ref_num }}" (change)="onReferralChanged($event)"
+                                           pInputText placeholder="{{ 'Referral Number' | translate }}">
+                                </span>
+                            </p-inplace>
+                        </div>
+                        <div class="col-sm-4">
+                            <label class="label required separate" translate>Assistant</label>
+                            <nga-select-assistant
+                                [assistantId]="accident.assistant_id"
+                                (change)="onAssistantChanged($event)"
+                                (init)="startLoader($event)"
+                                (loaded)="stopLoader($event)"
+                            ></nga-select-assistant>
+                        </div>
+                        <div class="col-sm-4">
+                            <label class="label required separate" translate>Assistant Ref Num</label>
+                            <input type="text" pInputText
+                                   [(value)]="accident.assistant_ref_num"
+                                   (change)="accident.assistant_ref_num=$event.target.value"
+                                   placeholder="{{ 'Assistant Ref Num' | translate }}">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group offset-bottom20">
+                    <div class="row">
+                        <div class="col-sm-5" *ngIf="false">
+                            <!-- this block needed only when hospitals will be implemented -->
+
+                            <b class="text-muted">{{ 'Choose Case' | translate }}</b>
+                            <br>
+                            <nga-select-case-type
+                                    *ngIf="!accident.id && !onlyDoctorAccident"
+                                    [selectedCaseTypeId]="accident.caseable_type"
+                                    (selected)="onCaseTypeSelected($event)"
+                            ></nga-select-case-type>
+
+                            <h4 *ngIf="(onlyDoctorAccident || accident.id) && accident.caseable_type === 'App\\DoctorAccident'"
+                                class="text-danger" translate>Doctor Case</h4>
+                            <h4 *ngIf="accident.id && accident.caseable_type === 'App\\HospitalAccident'"
+                                class="text-danger" translate>Hospital Case</h4>
+                        </div>
+                        <div class="col-sm-12">
+                            <div *ngIf="accident.caseable_type === 'App\\DoctorAccident'">
+                                <div class="row">
+                                    <div class="col-sm-4">
+                                        <label class="label required separate" translate>City</label>
+                                        <nga-select-city
+                                                *ngIf="doctorAccident"
+                                                [selectPreloaded]="[(1*doctorAccident.city_id)]"
+                                                (selected)="onCityChanged($event)"
+                                                (init)="startLoader($event)"
+                                                (loaded)="stopLoader($event)"
+                                        ></nga-select-city>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <label class="label required separate" translate>Doctor</label>
+                                        <nga-select-doctor
+                                                *ngIf="doctorAccident"
+                                                [doctorId]="doctorAccident.doctor_id"
+                                                (selected)="onDoctorChanged($event)"
+                                                (init)="startLoader($event)"
+                                                (loaded)="stopLoader($event)"
+                                        ></nga-select-doctor>
+                                    </div>
+                                </div>
+                            </div>
+                            <div *ngIf="accident.caseable_type === 'App\\HospitalAccident'">
+                                <b class="text-muted" translate>Hospital Case</b>
+                                <br>
+                                <nga-select-hospital
+                                        *ngIf="hospitalAccident"
+                                        [hospitalId]="hospitalAccident.hospital_id"
+                                        (init)="startLoader($event)"
+                                        (loaded)="stopLoader($event)"
+                                ></nga-select-hospital>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="row offset-bottom20">
+                        <div class="col-sm-6">
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <label class="label separate" translate>Symptoms</label>
+                                    <textarea rows="5" cols="70" pInputTextarea
+                                              autoResize="autoResize"
+                                              placeholder="{{ 'Symptoms' | translate }}"
+                                              class="form-control"
+                                              [(ngModel)]="accident.symptoms"
+                                              name="symptoms"
+                                    ></textarea>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <label class="label separate" translate>Repeated Appointment</label>
+                            <div class="row offset-bottom10">
+                                <div class="col-sm-12">
+                                    <nga-select-accident
+                                            #parentSelector
+                                            [selectedAccidentId]="accident.parent_id"
+                                            (selected)="onAccidentSelected($event)"
+                                            (init)="startLoader($event)"
+                                            (loaded)="stopLoader($event)"
+                                    ></nga-select-accident>
+                                </div>
+                            </div>
+                            <div class="row" *ngIf="+accident.parent_id">
+                                <div class="col-sm-12">
+                                    <nga-accident-card
+                                            [(selectedAccidentId)]="accident.parent_id"
+                                            (closed)="onParentDeleted()"
+                                            (init)="startLoader($event)"
+                                            (loaded)="stopLoader($event)"
+                                    ></nga-accident-card>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="row offset-bottom20" *ngIf="patient">
+                        <div class="col-sm-4">
+                            <label class="label required separate" translate>Patient Name</label>
+                            <input type="text" pInputText name="name"
+                                   [(ngModel)]="patient.name" (keyup)="formattedPatientName($event)"
+                                   placeholder="{{ 'Patient Name' | translate }}"/>
+                        </div>
+                        <div class="col-sm-4">
+                            <label class="label separate" translate>Patient Phone</label>
+                            <input type="text" pInputText name="phone" [(ngModel)]="patient.phones"
+                                   placeholder="{{ 'Patient Phone' | translate }}"/>
+                        </div>
+                        <div class="col-sm-4">
+                            <label class="label separate" translate>Birthday</label>
+                            <p-calendar
+                                    name="patientBirthday"
+                                    [(ngModel)]="birthday"
+                                    [maxDate]="maxDate"
+                                    dateFormat="dd.mm.yy"
+                            ></p-calendar>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div *ngIf="accident.id" class="additional-part">
+                <div class="form-group">
+                    <nga-accident-scenario
+                            #scenario
+                            [accidentId]="accident.id"
+                            (init)="startLoader($event)"
+                            (loaded)="stopLoader($event)"
+                    ></nga-accident-scenario>
+                </div>
+                <div class="form-group offset-bottom20">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <b class="text-muted" translate>Checkpoints</b>
+                            <br><br>
+                            <nga-checkpoints-selector
+                                    [(selectedCheckpoints)]="checkpoints"
+                                    (change)="onCheckpointChange($event)"
+                                    (init)="startLoader($event)"
+                                    (loaded)="stopLoader($event)"
+                            ></nga-checkpoints-selector>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group offset-bottom20">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <nga-services-selector
+                                    [caseId]="accident.id"
+                                    (priceChanged)="onServicesSelectorPriceChanged($event)"
+                                    (changedServices)="onServicesChanged($event)"
+                                    (init)="startLoader($event)"
+                                    (loaded)="stopLoader($event)"
+                            ></nga-services-selector>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="row">
+                                <div class="col-sm-12 col-md-6 col-lg-3">
+                                    <b class="text-muted" translate>Doctors fee</b>
+                                    <div class="row">
+                                        <div class="col-sm-12">
+                                            <div class="well well-lg">
+                                                <p-inplace closable="closable">
+                                                    <span class="h2" pInplaceDisplay>
+                                                        {{ accident.caseable_cost }}
+                                                    </span>
+                                                    <span pInplaceContent>
+                                                        <input type="text" value="{{ accident.caseable_cost }}"
+                                                               (keydown)="onDoctorFeeChanged($event)"
+                                                               (change)="onDoctorFeeChanged($event)"
+                                                               pInputText>
+                                                    </span>
+                                                </p-inplace>
+                                                <div class="mt-2">{{ 'Paid to the doctor' | translate }}</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-12 col-md-6 col-lg-2 center-block">
+                                    <b class="text-muted" translate>Discount Type</b>
+                                    <br>
+                                    <nga-select-discount-type
+                                            [selectedDiscountId]="accident.discount_id"
+                                            (selected)="onDiscountTypeSelected($event)"
+                                            (init)="startLoader($event)"
+                                            (loaded)="stopLoader($event)"
+                                    ></nga-select-discount-type>
+                                </div>
+                                <div class="col-sm-12 col-md-6 col-lg-3">
+                                    <b class="text-muted" translate>Discount Value</b><br>
+                                    <p-spinner size="30"
+                                               [min]="0"
+                                               [(ngModel)]="discountValue"
+                                               name="discountValue"
+                                               (onChange)="onDiscountValueChanged()"></p-spinner>
+                                </div>
+                                <div class="col-sm-12 col-md-6 col-lg-3 offset-lg-1">
+                                    <b translate class="text-muted">Total Income</b>
+                                    <div class="row">
+                                        <div class="col-sm-12">
+                                            <div class="well bg-success">
+                                                <div class="row">
+                                                    <div class="col-sm-12 total-income">
+                                                        <p-inplace closable="closable">
+                                                            <span class="h2" pInplaceDisplay>
+                                                                {{ totalIncome }}
+                                                            </span>
+                                                            <span pInplaceContent>
+                                                                <input type="text" value="{{ totalIncome }}"
+                                                                       (change)="onTotalIncomeChanged($event)"
+                                                                       pInputText>
+                                                            </span>
+                                                        </p-inplace>
+                                                        <b class="pull-right badge badge-default"
+                                                           tooltipPosition="left"
+                                                           pTooltip="{{ 'Formula' | translate }}: {{ totalIncomeFormula }}">?</b>
+                                                    </div>
+                                                </div>
+                                                <div class="row mt-1">
+                                                    <div class="col-sm-12">
+                                                        <p-toggleButton
+                                                                #incomeAutoupdate
+                                                                onLabel="{{ 'Auto update' | translate }}"
+                                                                offLabel="{{ 'Fixed amount' | translate }}"
+                                                                onIcon="fa-check-square" offIcon="fa-square"
+                                                                (onChange)="onIncomeAutoupdateChanged($event)"
+                                                        ></p-toggleButton>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group offset-bottom20">
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <b class="text-muted offset-right10" translate>Applied Time</b>
+                                        <p-calendar
+                                                name="appliedTime"
+                                                [(ngModel)]="appliedTime"
+                                                [maxDate]="maxDate"
+                                                dateFormat="dd.mm.yy"
+                                                [showTime]="true"
+                                                [hourFormat]="24"
+                                                [required]="true"
+                                        ></p-calendar>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <b class="text-muted offset-right10" translate>Accident Type</b>
+                                        <nga-select-accident-type
+                                                [selectedTypeId]="accident.accident_type_id"
+                                                (selected)="onAccidentTypeSelected($event)"
+                                                (init)="startLoader($event)"
+                                                (loaded)="stopLoader($event)"
+                                        ></nga-select-accident-type>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group offset-bottom20">
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <nga-diagnostics-selector
+                                                [caseId]="accident.id"
+                                                (changed)="onDiagnosticsChanged($event)"
+                                                (init)="startLoader($event)"
+                                                (loaded)="stopLoader($event)"
+                                        ></nga-diagnostics-selector>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-sm-9">
+                                    <b class="text-muted" translate>Documents</b>
+                                    <br>
+                                    <nga-file-uploader
+                                            [(documents)]="documents"
+                                            [url]="caseService.getDocumentsUrl(accident.id)"
+                                            (init)="startLoader($event)"
+                                            (loaded)="stopLoader($event)"
+                                    ></nga-file-uploader>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <button pButton type="button" class="ui-button-success" (click)="onSave($event)"
+                    [disabled]="!accidentForm.form.valid" label="{{ 'Save' | translate }}"></button>
+
+            <button pButton type="button" class="ui-button-secondary pull-right"
+                    label="{{ 'Close' | translate }}" *ngIf="accident.id"
+                    (click)="onClose($event)"></button>
+            <button pButton type="button" class="ui-button-danger pull-right offset-right10"
+                    label="{{ 'Delete' | translate }}" *ngIf="accident.id"
+                    (click)="onDelete($event)"></button>
+        </form>
+        </ba-card>
+    </div>
+</div>

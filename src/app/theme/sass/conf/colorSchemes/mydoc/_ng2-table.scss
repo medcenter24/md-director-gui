@@ -1,0 +1,73 @@
+/*!
+ * Copyright (c) 2017.
+ *
+ * @author Alexander Zagovorichev <zagovorichev@gmail.com>
+ */
+@import "variables";
+
+ng2-smart-table {
+  tr {
+    cursor: pointer;
+  }
+
+  th, td {
+    border: 1px solid $border-light !important;
+    font-size: $font-size-base !important;
+    line-height: $line-height-base;
+    vertical-align: middle;
+  }
+
+  color: $default-text;
+
+  input {
+    line-height: 1.5 !important;
+  }
+
+  tbody {
+    tr:hover {
+      background: rgba(0, 0, 0, 0.03);
+    }
+  }
+
+  a.ng2-smart-sort-link {
+    font-size: 14px !important;
+    color: $default-text;
+    font-weight: $font-bolder;
+    &.sort {
+      font-weight: $font-bolder !important;
+
+      &::after {
+        border-bottom-color: $default-text !important;
+      }
+    }
+  }
+
+  .ng2-smart-actions {
+    width: 70px;
+    text-align: center;
+    .actions {
+      float: none;
+      text-align: center;
+    }
+  }
+
+  a.ng2-smart-action {
+    font-size: $font-size-base;
+    color: $default-text;
+    padding: 0 5px;
+    display: inline-block;
+
+    &.ng2-smart-action-add-add {
+      font-size: $font-size-lg;
+      text-align: center;
+      display: flex;
+      align-content: center;
+      justify-content: center;
+    }
+  }
+}
+
+nav.ng2-smart-pagination-nav {
+  display: flex;
+  justify-content: center;
+}
