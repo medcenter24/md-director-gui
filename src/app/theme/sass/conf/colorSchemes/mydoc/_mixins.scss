@@ -1,0 +1,14 @@
+/*!
+ * Copyright (c) 2017.
+ *
+ * @author Alexander Zagovorichev <zagovorichev@gmail.com>
+ */
+
+@mixin body-bg() {
+  background-color: $body-bg;
+}
+
+@mixin additional-bg() {
+  //display: block; // additional background layer, hidden by default
+}
+

@@ -1,0 +1,44 @@
+/*!
+ * Copyright (c) 2017.
+ *
+ * @author Alexander Zagovorichev <zagovorichev@gmail.com>
+ */
+
+.edit-form-container {
+  .create-new-btn {
+    cursor: pointer;
+    font-size: 25px;
+  }
+
+  .edit-form {
+    margin-top: 10px;
+
+    .label {
+      line-height: 20px;
+      font-weight: 400;
+      font-size: 15px;
+      color: rgba(0, 0, 0, .55);
+
+      &.required::after {
+        content: '*';
+        color: #0084bf;
+        margin-left: 2px;
+      }
+
+      &.separate {
+        width: 100%;
+      }
+    }
+
+    .label-error {
+      color: $danger-dark;
+    }
+  }
+
+  .editor-toggle {
+    cursor: pointer;
+    float: right;
+    margin-top: 10px;
+  }
+
+}

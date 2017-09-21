@@ -1,0 +1,68 @@
+<p-dialog
+        header="{{ 'Importer' | translate }}"
+        [(visible)]="display"
+        [resizable]="false"
+        [draggable]="false"
+        [responsive]="true"
+        width="800"
+        height="600"
+        modal="true"
+        class="importer"
+>
+
+    <p-fileUpload name="files[]" url="{{ url }}" multiple="multiple"
+                  [accept]="selectedFormat"
+                  maxFileSize="1000000"
+                  withCredentials="true"
+                  chooseLabel="{{ 'Choose' | translate }}"
+                  uploadLabel="{{ 'Upload' | translate}}"
+                  cancelLabel="{{ 'Cancel' | translate}}"
+                  (onUpload)="handleUpload($event)"
+                  (onError)="handleError($event)"
+                  (onClear)="handleClear($event)"
+                  (onBeforeUpload)="handleBeforeUpload($event)"
+                  (onBeforeSend)="handleBeforeSend($event)">
+        <ng-template pTemplate="content">
+            <h3 translate *ngIf="uploadedFiles.length">Uploaded Files</h3>
+            <table class="table table-striped table-bordered" *ngIf="uploadedFiles.length">
+                <thead class="table-inverse">
+                <tr>
+                    <th>{{ uploadedFiles.length }}</th>
+                    <th translate>File Name</th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let file of uploadedFiles" class="row-file-{{ file.id }}">
+                        <td>
+                            <p-checkbox name="checked" [disabled]="isImported(file.id)" value="{{ file.id }}" [(ngModel)]="selectedFiles"></p-checkbox>
+                        </td>
+                        <td>
+                            {{file.name}}
+                        </td>
+                        <td>
+                            <button *ngIf="!isImported(file.id)" pButton type="button" (click)="importFile(file)" icon="fa-download" label="{{ 'Import' | translate }}"></button>
+                            <button pButton type="button" (click)="deleteFile(file)" [class]=" (isImported(file.id) ? 'ui-button-secondary' : 'ui-button-danger') + ' ui-button ui-widget ui-state-default ui-corner-all ui-button-text-icon-left'" icon="fa-trash" label="{{ 'Delete' | translate }}"></button>
+                            <button pButton type="button" (click)="report(file)" [disabled]="!isImported(file.id)" class="ui-button-secondary btn-report" icon="fa-trash" label="{{ 'Report' | translate }}"></button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </ng-template>
+    </p-fileUpload>
+
+    <p-footer *ngIf="selectedFiles.length">
+        <div class="ui-dialog-buttonpane ui-helper-clearfix">
+            <button pButton [disabled]="true" class="ui-button-secondary" label="{{ selectedFiles.length }}"></button>
+            <button pButton (click)="importFile()" type="button" icon="fa-download" label="{{ 'Import' | translate }}"></button>
+            <button pButton (click)="deleteFile()" class="ui-button-danger" type="button" icon="fa-trash" label="{{ 'Delete' | translate }}"></button>
+        </div>
+    </p-footer>
+</p-dialog>
+
+<p-confirmDialog width="425" #cd>
+    <p-footer>
+        <button type="button" pButton icon="fa-close" label="{{ 'Cancel' | translate }}" (click)="cd.reject()"></button>
+        <button *ngIf="cd.acceptVisible" type="button" pButton icon="fa-check" label="{{ 'Accept' | translate }}" (click)="cd.accept()"></button>
+    </p-footer>
+</p-confirmDialog>

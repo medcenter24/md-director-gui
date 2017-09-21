@@ -1,0 +1,57 @@
+<div class="widgets">
+    <div class="row">
+        <div class="col-sm-6">
+            <ba-card title="Diagnostics" baCardClass="with-scroll">
+                <ng2-smart-table
+                        [settings]="settings"
+                        [source]="source"
+                        (deleteConfirm)="onDeleteConfirm($event)"
+                        (userRowSelect)="onUserSelectRow($event)"
+                        (createConfirm)="onTableCreate($event)"
+                        (editConfirm)="onTableSave($event)"
+                ></ng2-smart-table>
+            </ba-card>
+        </div>
+        <div class="col-sm-6">
+            <diagnostic-editor
+                    [hidden]="!selectedDiagnostic"
+                    [diagnostic]="currentDiagnostic"
+                    (diagnosticSaved)="onUpdateDiagnostic($event)"
+                    (openCategoryEditor)="openCategoryEditor($event)"
+            ></diagnostic-editor>
+            <diagnostic-category-editor
+                    [hidden]="!editCategories"
+                    [categoryId]="categoryId"
+                    (changedCategories)="onCategoryChanged()"
+            ></diagnostic-category-editor>
+        </div>
+    </div>
+
+</div>
+
+<modal #deleteDialog>
+    <modal-header [show-close]="true">
+        <h5 class="modal-title" translate>Confirmation</h5>
+    </modal-header>
+    <modal-body>
+        {{ 'Are you sure that you want to delete' }} &laquo;<b>{{ titleForDeletion }}</b>&raquo;?
+    </modal-body>
+    <modal-footer>
+        <button type="button" class="btn btn-default" data-dismiss="modal"
+                (click)="onDeleteDialogCancel()" translate>Cancel</button>
+        <button type="button" class="btn btn-primary" (click)="onDeleteDialogOk()" [disabled]="deleteProcess" translate>Accept</button>
+    </modal-footer>
+</modal>
+
+<modal #errorDialog>
+    <modal-header [show-close]="true">
+        <h4 class="modal-title" translate>Error</h4>
+    </modal-header>
+    <modal-body>
+        {{ errorMessage }}
+    </modal-body>
+    <modal-footer>
+        <button type="button" class="btn btn-danger" data-dismiss="modal"
+                (click)="onDeleteDialogCancel()" translate>Accept</button>
+    </modal-footer>
+</modal>

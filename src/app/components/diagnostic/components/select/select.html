@@ -1,0 +1,14 @@
+<!--
+  ~ Copyright (c) 2017
+  ~
+  ~  @author Alexander Zagovorichev <zagovorichev@gmail.com>
+  -->
+
+<p-multiSelect
+        *ngIf="isLoaded"
+        [(ngModel)]="selectedDiagnostics"
+        [defaultLabel]="'Select Diagnostics' | translate"
+        [options]="dataDiagnostics"
+        (onChange)="onChanged($event)"
+        [maxSelectedLabels]="5"
+></p-multiSelect>

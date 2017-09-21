@@ -1,0 +1,52 @@
+<!--
+  ~ Copyright (c) 2017.
+  ~
+  ~ @author Alexander Zagovorichev <zagovorichev@gmail.com>
+  -->
+
+<div class="widgets">
+  <div class="row offset-bottom20">
+    <div class="col-sm-12 col-lg-10">
+      <p-toolbar>
+        <div class="ui-toolbar-group-left">
+          <button pButton type="button" label="{{ 'Import' | translate }}" icon="fa-upload" (click)="openImporter()"></button>
+          <button pButton type="button" label="{{ 'Export' | translate }}" icon="fa-download" (click)="exportCases()"></button>
+
+          <i class="fa fa-bars"></i>
+        </div>
+
+        <div class="ui-toolbar-group-right">
+          <!--button pButton type="button" icon="fa-search"></button-->
+          <i class="fa fa-bars"></i>
+          <button pButton type="button" icon="fa-refresh" ng-click="reloadDatatable()"></button>
+          <!--button pButton type="button" icon="fa-trash"></button-->
+        </div>
+      </p-toolbar>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-12 col-lg-10">
+      <ba-card baCardClass="with-scroll">
+        <ng2-smart-table
+                [settings]="settings"
+                [source]="source"
+                (create)="handleCreate()"
+                (edit)="handleEdit($event)"
+        ></ng2-smart-table>
+
+        <p-paginator
+                *ngIf="pagination.show"
+                [rows]="pagination.rows"
+                [totalRecords]="pagination.total"
+                [rowsPerPageOptions]="pagination.rowsPerPage"
+                (onPageChange)="handlePageChanged($event)"
+        ></p-paginator>
+
+      </ba-card>
+    </div>
+  </div>
+</div>
+
+<nga-importer #importer
+  [url]="service.getImportUrl()"
+></nga-importer>
