@@ -47,13 +47,13 @@ export class FileUploaderComponent implements OnInit {
     });
   }
 
-  onBeforeUpload(): void {
+  handleBeforeUpload(event): void {
     this.msgs = [];
     this._state.notifyDataChanged('growl', this.msgs);
     this.init.emit('FileUploaderComponent');
   }
 
-  onBeforeSend(event): void {
+  handleBeforeSend(event): void {
     event.xhr.setRequestHeader('Authorization', 'Bearer ' + this.authenticationService.token);
   }
 
@@ -79,7 +79,7 @@ export class FileUploaderComponent implements OnInit {
     this.loaded.emit('FileUploaderComponent');
   }
 
-  onClear(): void {
+  handleClear(event): void {
     this.msgs = [];
     this._state.notifyDataChanged('growl', []);
     // this will clean all data

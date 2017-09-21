@@ -79,14 +79,19 @@ export class ImporterComponent implements OnInit {
     this.display = true;
   }
 
-  onBeforeSend(event): void {
+  handleBeforeSend(event): void {
     event.xhr.setRequestHeader('Authorization', 'Bearer ' + this.authenticationService.token);
   }
 
-  onBeforeUpload(): void {
+  handleBeforeUpload(event): void {
     this.msgs = [];
     this._state.notifyDataChanged('growl', []);
     this.loadingBar.start();
+  }
+
+  handleClear(event): void {
+    this.msgs = [];
+    this._state.notifyDataChanged('growl', []);
   }
 
   handleUpload(event): void {
@@ -97,11 +102,6 @@ export class ImporterComponent implements OnInit {
     this.loadingBar.complete();
 
     this.loadImportQueue();
-  }
-
-  onClear(): void {
-    this.msgs = [];
-    this._state.notifyDataChanged('growl', []);
   }
 
   handleError(event): void {

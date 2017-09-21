@@ -113,7 +113,7 @@ export class Stuff implements OnInit {
     });
   }
 
-  onTableSave (event): void {
+  handleTableSave (event): void {
     this.loadingBar.start();
     this.service.update(event.newData).then(() => {
       event.confirm.resolve();
@@ -130,7 +130,7 @@ export class Stuff implements OnInit {
     });
   }
 
-  onTableCreate (event): void {
+  handleTableCreate (event): void {
     this.loadingBar.start();
     this.service.create(event.newData).then(response => {
       event.confirm.resolve(response);
@@ -151,13 +151,13 @@ export class Stuff implements OnInit {
     this.errorDialog.open('sm');
   }
 
-  onDeleteConfirm (event): void {
+  handleDeleteConfirm (event): void {
     this.deleteDialogEvent = event;
     this.titleForDeletion = event.data.name;
     this.deleteDialog.open('sm');
   }
 
-  onDeleteDialogOk (): void {
+  handleDeleteDialogOk (): void {
     this.deleteProcess = true;
     this.loadingBar.start();
     this.service.delete(this.deleteDialogEvent.data.id).then(() => {
@@ -178,25 +178,25 @@ export class Stuff implements OnInit {
     });
   }
 
-  onDeleteDialogCancel (): void {
+  handleDeleteDialogCancel (event): void {
     if (this.deleteDialogEvent && this.deleteDialogEvent.confirm) {
       this.deleteDialogEvent.confirm.reject();
     }
     this.deleteDialogEvent = null;
   }
 
-  onUserSelectRow (event): void {
+  handleUserSelectRow (event): void {
     this.doctorEditorHidden = false;
     this.userEditorHidden = true;
     this.editableDoctorId = event.data.id;
   }
 
-  onToggleUserEditor (userId: number): void {
+  handleToggleUserEditor (userId: number): void {
     this.userEditorHidden = !this.userEditorHidden;
     this.editableUserId = +userId;
   }
 
-  onUserEdited (): void {
+  handleUserEdited (): void {
     this.doctorEditorComponent.reloadUsers();
   }
 }

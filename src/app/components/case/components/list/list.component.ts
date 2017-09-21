@@ -95,14 +95,16 @@ export class CasesListComponent implements OnInit {
   };
 
   source: LocalDataSource = new LocalDataSource();
+  service: CasesService;
 
   constructor (
-    protected service: CasesService,
+    protected _service: CasesService,
     public router: Router,
     private slimLoader: SlimLoadingBarService,
     private exporterService: ExporterService,
     private translate: TranslateService,
   ) {
+    this.service = _service;
   }
 
   ngOnInit (): void {
@@ -122,11 +124,11 @@ export class CasesListComponent implements OnInit {
     this.slimLoader.complete();
   }
 
-  onEdit (event): void {
+  handleEdit (event): void {
     this.router.navigate(['pages/cases/', event.data.id]);
   }
 
-  onCreate (): void {
+  handleCreate (): void {
     this.router.navigate(['pages/cases/new']);
   }
 
@@ -157,7 +159,7 @@ export class CasesListComponent implements OnInit {
     this.exporterService.form1({});
   }
 
-  onPageChanged(event): void {
+  handlePageChanged(event): void {
     this.reloadDatatable(event);
   }
 

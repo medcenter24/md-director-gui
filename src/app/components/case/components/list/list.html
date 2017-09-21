@@ -18,7 +18,7 @@
         <div class="ui-toolbar-group-right">
           <!--button pButton type="button" icon="fa-search"></button-->
           <i class="fa fa-bars"></i>
-          <button pButton type="button" icon="fa-refresh" (click)="reloadDatatable()"></button>
+          <button pButton type="button" icon="fa-refresh" ng-click="reloadDatatable()"></button>
           <!--button pButton type="button" icon="fa-trash"></button-->
         </div>
       </p-toolbar>
@@ -30,8 +30,8 @@
         <ng2-smart-table
                 [settings]="settings"
                 [source]="source"
-                (create)="onCreate()"
-                (edit)="onEdit($event)"
+                (create)="handleCreate()"
+                (edit)="handleEdit($event)"
         ></ng2-smart-table>
 
         <p-paginator
@@ -39,7 +39,7 @@
                 [rows]="pagination.rows"
                 [totalRecords]="pagination.total"
                 [rowsPerPageOptions]="pagination.rowsPerPage"
-                (onPageChange)="onPageChanged($event)"
+                (onPageChange)="handlePageChanged($event)"
         ></p-paginator>
 
       </ba-card>
@@ -50,28 +50,3 @@
 <nga-importer #importer
   [url]="service.getImportUrl()"
 ></nga-importer>
-
-<modal #errorDialog>
-  <modal-header [show-close]="true">
-    <h4 class="modal-title">Error</h4>
-  </modal-header>
-  <modal-body>
-    <div class="row">
-      <div class="col-sm-12">
-        {{ errorMessage }}
-      </div>
-    </div>
-    <div class="row" *ngIf="errorResponse">
-      <div class="col-sm-12 text-right">
-        <code>
-          <b>{{ errorResponse.status }}</b>
-          {{ errorResponse.statusText }}
-        </code>
-      </div>
-    </div>
-  </modal-body>
-  <modal-footer>
-    <button type="button" class="btn btn-danger" data-dismiss="modal"
-            (click)="onDeleteDialogCancel()">Ok</button>
-  </modal-footer>
-</modal>
