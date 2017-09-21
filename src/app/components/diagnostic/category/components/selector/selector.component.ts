@@ -16,8 +16,8 @@ import { Logger } from 'angular2-logger/core';
   template: `
       <label for="categories">Category</label>
       <select id="categories" class="form-control" name="category" [(ngModel)]="category"
-              (ngModelChange)="onChange($event)">
-          <option [ngValue]="_category" *ngFor="let _category of categories">{{ _category.title }}</option>
+              (ngModelChange)="modelChanged($event)">
+          <option *ngFor="let cat of categories" [ngValue]="cat">{{ cat.title }}</option>
       </select>
   `
 })
@@ -93,8 +93,8 @@ export class DiagnosticCategorySelectorComponent {
     });
   }
 
-  onChange (): void {
-    this.categoryChanged.emit(this.category.id);
+  modelChanged (category): void {
+    this.categoryChanged.emit(category.id);
   }
 
 }

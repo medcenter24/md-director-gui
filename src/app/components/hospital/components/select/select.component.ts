@@ -50,7 +50,7 @@ export class HospitalSelectComponent implements OnInit {
     }
   }
 
-  handleDropdownClick() {
+  handleDropdownClick(event) {
     this.filteredHospitals = [];
 
     setTimeout(() => {

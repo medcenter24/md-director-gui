@@ -12,10 +12,10 @@
                 <ng2-smart-table
                         [settings]="settings"
                         [source]="source"
-                        (deleteConfirm)="onDeleteConfirm($event)"
-                        (userRowSelect)="onUserSelectRow($event)"
-                        (createConfirm)="onTableCreate($event)"
-                        (editConfirm)="onTableSave($event)"
+                        (deleteConfirm)="handleDeleteConfirm($event)"
+                        (userRowSelect)="handleUserSelectRow($event)"
+                        (createConfirm)="handleTableCreate($event)"
+                        (editConfirm)="handleTableSave($event)"
                 ></ng2-smart-table>
             </ba-card>
         </div>
@@ -23,13 +23,12 @@
             <nga-doctor-editor
                     [hidden]="doctorEditorHidden"
                     [doctorId]="editableDoctorId"
-                    (toggleUserEditor)="onToggleUserEditor($event)"
-                    (toggleCitiesEditor)="onToggleCitiesSelector($event)"
+                    (toggleUserEditor)="handleToggleUserEditor($event)"
             ></nga-doctor-editor>
             <nga-user-editor
                     [hidden]="userEditorHidden"
                     [userId]="editableUserId"
-                    (changedUser)="onUserEdited()"
+                    (changedUser)="handleUserEdited()"
             ></nga-user-editor>
         </div>
     </div>
@@ -45,8 +44,8 @@
     </modal-body>
     <modal-footer>
         <button type="button" class="btn btn-default" data-dismiss="modal"
-                (click)="onDeleteDialogCancel()" translate>Cancel</button>
-        <button type="button" class="btn btn-primary" (click)="onDeleteDialogOk()" [disabled]="deleteProcess" translate>Accept</button>
+                ng-click="handleDeleteDialogCancel()" translate>Cancel</button>
+        <button type="button" class="btn btn-primary" ng-click="handleDeleteDialogOk()" [disabled]="deleteProcess" translate>Accept</button>
     </modal-footer>
 </modal>
 
@@ -59,7 +58,7 @@
     </modal-body>
     <modal-footer>
         <button type="button" class="btn btn-danger" data-dismiss="modal"
-                (click)="onDeleteDialogCancel()" translate>Accept</button>
+                ng-click="handleDeleteDialogCancel($event)" translate>Accept</button>
     </modal-footer>
 </modal>
 

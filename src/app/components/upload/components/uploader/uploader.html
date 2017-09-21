@@ -8,9 +8,9 @@
         cancelLabel="{{ 'Cancel' | translate}}"
         (onUpload)="handleUpload($event)"
         (onError)="handleError($event)"
-        (onClear)="onClear($event)"
-        (onBeforeUpload)="onBeforeUpload($event)"
-        (onBeforeSend)="onBeforeSend($event)"
+        (onClear)="handleClear($event)"
+        (onBeforeUpload)="handleBeforeUpload($event)"
+        (onBeforeSend)="handleBeforeSend($event)"
 >
     <ng-template pTemplate="content">
         <h3 *ngIf="documents.length" translate>Uploaded Files</h3>
@@ -32,10 +32,10 @@
                     {{ file.title }}
                 </td>
                 <td>
-                    <button pButton type="button" (click)="deleteFile(file)" class="ui-button-danger" icon="fa-trash" label="{{ 'Delete' | translate }}"></button>
+                    <button pButton type="button" ng-click="deleteFile(file)" class="ui-button-danger" icon="fa-trash" label="{{ 'Delete' | translate }}"></button>
                 </td>
                 <td>
-                    <button pButton type="button" (click)="downloadFile(file)" class="ui-button-secondary" icon="fa-download" label="{{ 'Download' | translate }}"></button>
+                    <button pButton type="button" ng-click="downloadFile(file)" class="ui-button-secondary" icon="fa-download" label="{{ 'Download' | translate }}"></button>
                 </td>
             </tr>
             </tbody>

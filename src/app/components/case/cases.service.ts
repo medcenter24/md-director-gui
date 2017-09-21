@@ -24,7 +24,7 @@ export class CasesService extends HttpService {
     return 'director/cases';
   }
 
-  getExtendedCase(id: number): Promise<ExtendCaseAccident> {
+  getExtendedCase(id: number): Promise<ExtendCaseAccident[]> {
     return this.get()
       .then(response => response.json().data as ExtendCaseAccident[]);
   }

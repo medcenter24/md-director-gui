@@ -12,7 +12,7 @@ import * as _ from 'lodash';
 @Component({
   selector: 'nga-user-selector',
   template: `
-      <select id="users" class="form-control" name="user" [(ngModel)]="user" (ngModelChange)="onChange($event)">
+      <select id="users" class="form-control" name="user" [(ngModel)]="user" (ngModelChange)="modelChanged($event)">
           <option [ngValue]="_user" *ngFor="let _user of users">{{ _user.name }}</option>
       </select>
   `,
@@ -78,11 +78,11 @@ export class UserSelectorComponent implements OnInit {
     this.reload(user[0]);
   }
 
-  onChange (): void {
-    if (!this.user) {
-      this.user = new User(0, '', '', '');
+  modelChanged (user): void {
+    if (!user) {
+      user = new User(0, '', '', '');
     }
 
-    this.userChanged.emit(this.user.id);
+    this.userChanged.emit(user.id);
   }
 }

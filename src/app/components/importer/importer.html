@@ -19,10 +19,9 @@
                   cancelLabel="{{ 'Cancel' | translate}}"
                   (onUpload)="handleUpload($event)"
                   (onError)="handleError($event)"
-                  (onClear)="onClear($event)"
-                  (onBeforeUpload)="onBeforeUpload($event)"
-                  (onBeforeSend)="onBeforeSend($event)"
-    >
+                  (onClear)="handleClear($event)"
+                  (onBeforeUpload)="handleBeforeUpload($event)"
+                  (onBeforeSend)="handleBeforeSend($event)">
         <ng-template pTemplate="content">
             <h3 translate *ngIf="uploadedFiles.length">Uploaded Files</h3>
             <table class="table table-striped table-bordered" *ngIf="uploadedFiles.length">
