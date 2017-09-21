@@ -1,0 +1,70 @@
+<!--
+  ~ Copyright (c) 2017.
+  ~
+  ~ @author Alexander Zagovorichev <zagovorichev@gmail.com>
+  -->
+
+<div class="widgets">
+
+  <div class="row">
+    <div class="col-sm-6">
+      <ba-card baCardClass="with-scroll">
+        <ng2-smart-table
+          [settings]="settings"
+          [source]="source"
+          (userRowSelect)="onUserSelectRow($event)"
+          (deleteConfirm)="onDeleteConfirm($event)"
+          (createConfirm)="onTableCreate($event)"
+          (editConfirm)="onTableSave($event)"
+        ></ng2-smart-table>
+      </ba-card>
+    </div>
+    <div class="col-sm-6">
+      <assistant-editor
+        [hidden]="!isAssistant"
+        [assistant]="currentAssistant"
+        (assistantSaved)="onUpdateAssistant($event)"
+      ></assistant-editor>
+    </div>
+  </div>
+
+</div>
+
+<modal #deleteDialog>
+  <modal-header [show-close]="true">
+    <h5 class="modal-title">Confirmation</h5>
+  </modal-header>
+  <modal-body>
+    Are you sure wants to delete &laquo;<b>{{ titleForDeletion }}</b>&raquo;?
+  </modal-body>
+  <modal-footer>
+    <button type="button" class="btn btn-default" data-dismiss="modal"
+            (click)="onDeleteDialogCancel()">Cancel</button>
+    <button type="button" class="btn btn-primary" (click)="onDeleteDialogOk()" [disabled]="deleteProcess">Ok</button>
+  </modal-footer>
+</modal>
+
+<modal #errorDialog>
+  <modal-header [show-close]="true">
+    <h4 class="modal-title">Error</h4>
+  </modal-header>
+  <modal-body>
+    <div class="row">
+      <div class="col-sm-12">
+        {{ errorMessage }}
+      </div>
+    </div>
+    <div class="row" *ngIf="errorResponse">
+      <div class="col-sm-12 text-right">
+        <code>
+          <b>{{ errorResponse.status }}</b>
+          {{ errorResponse.statusText }}
+        </code>
+      </div>
+    </div>
+  </modal-body>
+  <modal-footer>
+    <button type="button" class="btn btn-danger" data-dismiss="modal"
+            (click)="onDeleteDialogCancel()">Ok</button>
+  </modal-footer>
+</modal>

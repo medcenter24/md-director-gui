@@ -1,0 +1,44 @@
+<p-fileUpload
+        name="files[]"
+        [url]="url"
+        multiple="multiple"
+        accept="image/*" maxFileSize="1000000"
+        chooseLabel="{{ 'Choose' | translate }}"
+        uploadLabel="{{ 'Upload' | translate}}"
+        cancelLabel="{{ 'Cancel' | translate}}"
+        (onUpload)="handleUpload($event)"
+        (onError)="handleError($event)"
+        (onClear)="handleClear($event)"
+        (onBeforeUpload)="handleBeforeUpload($event)"
+        (onBeforeSend)="handleBeforeSend($event)"
+>
+    <ng-template pTemplate="content">
+        <h3 *ngIf="documents.length" translate>Uploaded Files</h3>
+        <table class="table table-striped table-bordered" *ngIf="documents.length">
+            <thead class="table-inverse">
+            <tr>
+                <th>{{ documents.length }}</th>
+                <th translate>File Name</th>
+                <th></th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let file of documents" class="row-file-{{ file.id }}">
+                <td>
+                    <!-- todo thumber [file]="file"></thumber-->
+                </td>
+                <td>
+                    {{ file.title }}
+                </td>
+                <td>
+                    <button pButton type="button" ng-click="deleteFile(file)" class="ui-button-danger" icon="fa-trash" label="{{ 'Delete' | translate }}"></button>
+                </td>
+                <td>
+                    <button pButton type="button" ng-click="downloadFile(file)" class="ui-button-secondary" icon="fa-download" label="{{ 'Download' | translate }}"></button>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </ng-template>
+</p-fileUpload>

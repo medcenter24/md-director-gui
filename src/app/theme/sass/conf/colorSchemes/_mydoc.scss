@@ -1,0 +1,19 @@
+/*!
+ * Copyright (c) 2017.
+ *
+ * @author Alexander Zagovorichev <zagovorichev@gmail.com>
+ */
+
+@import 'mydoc/variables';
+@import 'mydoc/styles';
+@import 'mydoc/table';
+@import 'mydoc/mixins';
+@import 'mydoc/ng2-table';
+@import 'mydoc/edit-form';
+@import 'mydoc/uploader';
+@import 'mydoc/form';
+
+/** Primeng https://www.primefaces.org */
+@import "~primeng/resources/primeng.css";
+@import "~primeng/resources/themes/omega/theme.css";
+@import "~ng2-slim-loading-bar/style.css";
