@@ -22,7 +22,6 @@ import { AccidentsService } from '../../components/accident/accidents.service';
 import { SelectServicesComponent } from '../../components/service/components/select/select.component';
 import { ServicesService } from '../../components/service/services.service';
 import { ServicesSelectorComponent } from '../../components/service/components/selector/selector.component';
-import { SelectModule } from 'ng2-select';
 import { SelectAccidentTypeComponent } from '../../components/accident/components/type/select/select.component';
 import { AccidentTypesService } from '../../components/accident/components/type/types.service';
 import {
@@ -82,7 +81,6 @@ import { AccidentScenarioService } from '../../components/accident/components/sc
     SpinnerModule,
     Ng2Bs3ModalModule,
     // InMemoryWebApiModule.forRoot(InMemoryDataService, {apiBase: 'director/', passThruUnknownUrl: true}),
-    SelectModule,
     ButtonModule,
     TooltipModule,
     AppTranslationModule,
