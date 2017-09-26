@@ -6,7 +6,10 @@
 import { Level } from 'angular2-logger/core';
 export const environment = {
   production: false,
-  apiHost: 'http://127.0.0.1:8000/api',
+  // laravel serve
+  // apiHost: 'http://127.0.0.1:8000/api',
+  // laravel nginx
+  apiHost: 'http://mydoctors24.api.loc',
   logger: {
     level: Level.DEBUG,
   },

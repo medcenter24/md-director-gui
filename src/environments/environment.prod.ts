@@ -7,7 +7,10 @@
 import { Level } from 'angular2-logger/core';
 export const environment = {
   production: true,
-  apiHost: 'http://medical.company.dhv24.com/api',
+  // prod
+  apiHost: 'http://api.medical.company.dhv24.com',
+  // test preprod nginx
+  // apiHost: 'http://mydoctors24.api.loc',
   logger: {
     level: Level.WARN,
   },
