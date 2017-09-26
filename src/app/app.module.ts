@@ -22,7 +22,7 @@ import { NgaModule } from './theme/nga.module';
 import { PagesModule } from './pages/pages.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { SlimLoadingBarModule } from 'ng2-slim-loading-bar';
-import { Logger } from 'angular2-logger/core';
+import { Logger, Options } from 'angular2-logger/core';
 import { BlockUIModule, ConfirmationService, ConfirmDialogModule, GrowlModule } from 'primeng/primeng';
 import { environment } from '../environments/environment';
 
@@ -37,6 +37,7 @@ const APP_PROVIDERS = [
   AppState,
   GlobalState,
   Logger,
+  Options,
   ConfirmationService,
 ];
 
