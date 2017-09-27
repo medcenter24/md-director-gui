@@ -60,7 +60,7 @@ export class CaseEditorComponent implements OnInit {
   services: Service[] = [];
   diagnostics: Diagnostic[] = [];
   documents: Document[] = [];
-  checkpoints: Array<number> = []; // ids of checkpoints
+  checkpoints: number[] = []; // ids of checkpoints
   totalAmount: number = 0;
   totalIncome: number = 0;
 
@@ -141,7 +141,7 @@ export class CaseEditorComponent implements OnInit {
   }
 
   startLoader(componentName: string = 'Not provided'): void {
-    this._logger.debug('+' + componentName);
+    this._logger.debug(`+${componentName}`);
     if (!this.waitLoading) {
       window.setTimeout(() => this._state.notifyDataChanged('blocker', true) );
       this.loadingBar.start();
@@ -150,7 +150,7 @@ export class CaseEditorComponent implements OnInit {
   }
 
   stopLoader(componentName: string = 'Not provided'): void {
-    this._logger.debug('-' + componentName);
+    this._logger.debug(`-${componentName}`);
     if (--this.waitLoading <= 0) {
       this._state.notifyDataChanged('blocker', false);
       this.loadingBar.complete();
@@ -165,7 +165,8 @@ export class CaseEditorComponent implements OnInit {
   onSave(): void {
     this.accident.discount_id = this.discountType.id;
     this.accident.discount_value = +this.discountValue;
-    this.patient.birthday = this.birthday ? this.birthday.toString() : '';
+    this.patient.birthday =
+      this.birthday ? `${this.birthday.getFullYear()}-${this.birthday.getMonth()}-${this.birthday.getDay()}` : '';
     this.accident.income = this.totalIncome;
     const data = {
       accident: this.accident,
@@ -177,7 +178,7 @@ export class CaseEditorComponent implements OnInit {
       checkpoints: this.checkpoints,
     };
 
-    if (this.doctorBeforeSave && this.doctorBeforeSave != this.doctorAccident.doctor_id) {
+    if (this.doctorBeforeSave && this.doctorBeforeSave !== this.doctorAccident.doctor_id) {
       this._state.notifyDataChanged('confirmDialog',
         {
           header: this.translate.instant('Warning'),
@@ -265,7 +266,7 @@ export class CaseEditorComponent implements OnInit {
       this._state.notifyDataChanged('growl', this.msgs);
 
       if (response.status === 201) {
-        this.router.navigate(['pages/cases/' + response.json().accident.id]);
+        this.router.navigate([`pages/cases/${response.json().accident.id}`]);
       } else {
         this.scenarioComponent.reload();
       }
@@ -278,7 +279,7 @@ export class CaseEditorComponent implements OnInit {
           detail: this.translate.instant('404 Not Found') });
         this._state.notifyDataChanged('growl', this.msgs);
         this.router.navigate(['pages/cases']);
-      } else if (err.status == 403) {
+      } else if (err.status === 403) {
         this.msgs = [];
         this.msgs.push({
           severity: 'error', summary: this.translate.instant('Error'),
@@ -425,20 +426,20 @@ export class CaseEditorComponent implements OnInit {
       if (this.discountType.operation === '%') {
         // *
         this.totalIncome = this.totalAmount - this.discountValue * this.totalAmount / 100 - this.accident.caseable_cost;
-        this.totalIncomeFormula = this.totalAmount + ' - ' + this.discountValue + ' * ' + this.totalAmount
-          + ' / 100 - ' + this.accident.caseable_cost;
+        this.totalIncomeFormula = `${this.totalAmount} - ${this.discountValue} * ${this.totalAmount}
+          / 100 - ${this.accident.caseable_cost}`;
       } else if (this.discountType.operation === 'EUR') {
         // -
         this.totalIncome = this.totalAmount - this.discountValue - this.accident.caseable_cost;
-        this.totalIncomeFormula = this.totalAmount + ' - ' + this.discountValue + ' - ' + this.accident.caseable_cost;
+        this.totalIncomeFormula = `${this.totalAmount} - ${this.discountValue} - ${this.accident.caseable_cost}`;
       } else {
-        this._logger.warn('Undefined discount type: ' + this.discountType.operation);
+        this._logger.warn(`Undefined discount type: ${this.discountType.operation}`);
         this.totalIncome = this.totalAmount;
         this.totalIncomeFormula = this.translate.instant('Without discount');
       }
     } else {
       this.totalIncome = this.totalAmount - this.accident.caseable_cost;
-      this.totalIncomeFormula = this.totalAmount + ' - ' + this.accident.caseable_cost;
+      this.totalIncomeFormula = `this.totalAmount - ${this.accident.caseable_cost}`;
     }
 
     this.totalIncome = +this.totalIncome.toFixed(2);
