@@ -26,9 +26,9 @@ export class CitySelectComponent implements OnInit {
 
   preloaded: number[] = [];
   isLoaded: boolean = false;
-  cities: Array<City> = [];
+  cities: City[] = [];
   city: any; // ngModel selected
-  filteredCities: Array<City> = [];
+  filteredCities: City[] = [];
 
   constructor (
     private citiesService: CitiesService,
@@ -61,21 +61,11 @@ export class CitySelectComponent implements OnInit {
 
   filterCities (event): void {
     this.filteredCities = [];
-    for (let i = 0; i < this.cities.length; i++) {
-      const city = this.cities[i];
-      if (city.title.toLowerCase().indexOf(event.query.toLowerCase()) == 0) {
+    for (const city of this.cities) {
+      if (city.title.toLowerCase().indexOf(event.query.toLowerCase()) === 0) {
         this.filteredCities.push(city);
       }
     }
-  }
-
-  handleDropdownClick() {
-    this.filteredCities = [];
-
-    // mimic remote call
-    setTimeout(() => {
-      this.filteredCities = this.cities;
-    }, 100);
   }
 
   onSelect (): void {

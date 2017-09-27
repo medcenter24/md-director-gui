@@ -19,7 +19,7 @@ import { ExporterService } from '../../../exporter/exporter.service';
 import { TranslateService } from '@ngx-translate/core';
 
 @Component({
-  selector: 'basic-tables',
+  selector: 'nga-cases-list',
   encapsulation: ViewEncapsulation.None,
   templateUrl: './list.html',
 })
