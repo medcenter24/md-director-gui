@@ -1,3 +1,9 @@
+/*
+ *  Copyright (c) 2017.
+ *
+ *  @author Alexander Zagovorichev <zagovorichev@gmail.com>
+ */
+
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
 
@@ -7,7 +13,7 @@ export class GlobalState {
   private _data = new Subject<Object>();
   private _dataStream$ = this._data.asObservable();
 
-  private _subscriptions: Map<string, Array<Function>> = new Map<string, Array<Function>>();
+  private _subscriptions: Map<string, Function[]> = new Map<string, Function[]>();
 
   constructor() {
     this._dataStream$.subscribe((data) => this._onEvent(data));
@@ -20,7 +26,7 @@ export class GlobalState {
       this._data[event] = value;
 
       this._data.next({
-        event: event,
+        event,
         data: this._data[event],
       });
     }

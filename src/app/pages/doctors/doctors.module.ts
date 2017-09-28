@@ -10,8 +10,8 @@ import { FormsModule } from '@angular/forms';
 import { NgaModule } from '../../theme/nga.module';
 import { Ng2SmartTableModule } from 'ng2-smart-table';
 import { routing }       from './doctors.routing';
-import { Doctors } from './doctors.component';
-import { Services } from './components/services/services.component';
+import { DoctorsComponent } from './doctors.component';
+import { DoctorServicesComponent } from './components/services/services.component';
 import { StuffComponent } from './components/stuff/stuff.component';
 import { Ng2Bs3ModalModule } from 'ng2-bs3-modal/ng2-bs3-modal';
 import { DoctorsService } from '../../components/doctors/doctors.service';
@@ -20,7 +20,7 @@ import { UserSelectorComponent } from '../../components/users/selector/selector.
 import { UsersService } from '../../components/users/users.service';
 import { DoctorEditorComponent } from '../../components/doctors/editor/editor.component';
 import { ServicesService } from '../../components/service/services.service';
-import { Diagnostics } from './components/diagnostics/diagnostics.component';
+import { DiagnosticsComponent } from './components/diagnostics/diagnostics.component';
 import { DiagnosticEditorComponent } from '../../components/diagnostic/components/editor/editor.component';
 import { DiagnosticCategoryEditorComponent }
   from '../../components/diagnostic/category/components/editor/editor.component';
@@ -47,13 +47,13 @@ import { CitiesService } from '../../components/city/cities.service';
     CitiesModule,
   ],
   declarations: [
-    Doctors,
+    DoctorsComponent,
     StuffComponent,
-    Services,
+    DoctorServicesComponent,
     UserEditorComponent,
     UserSelectorComponent,
     DoctorEditorComponent,
-    Diagnostics,
+    DiagnosticsComponent,
     DiagnosticEditorComponent,
     DiagnosticCategoryEditorComponent,
     DiagnosticCategorySelectorComponent,

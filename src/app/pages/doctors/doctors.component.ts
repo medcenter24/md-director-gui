@@ -4,14 +4,14 @@
  * @author Alexander Zagovorichev <zagovorichev@gmail.com>
  */
 
-import {Component} from '@angular/core';
+import { Component } from '@angular/core';
 
 @Component({
-  selector: 'forms',
+  selector: 'nga-doctors',
   styles: [],
-  template: `<router-outlet></router-outlet>`
+  template: `<router-outlet></router-outlet>`,
 })
-export class Doctors {
+export class DoctorsComponent {
 
   constructor() {
   }

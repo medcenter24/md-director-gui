@@ -9,7 +9,7 @@ import { Assistant } from './assistant';
 import { HttpService } from '../http/http.service';
 
 @Injectable()
-export class AssistantsService extends HttpService{
+export class AssistantsService extends HttpService {
 
   protected getPrefix(): string {
     return 'director/assistants';

@@ -1,8 +1,9 @@
 <div class="widgets">
     <div class="row">
-        <div class="col-sm-6">
+        <div class="col-sm-{{ selectedDiagnostic ? '6' : '12' }}">
             <ba-card title="Diagnostics" baCardClass="with-scroll">
                 <ng2-smart-table
+                        *ngIf="settings.columns"
                         [settings]="settings"
                         [source]="source"
                         (deleteConfirm)="onDeleteConfirm($event)"
@@ -12,13 +13,13 @@
                 ></ng2-smart-table>
             </ba-card>
         </div>
-        <div class="col-sm-6">
-            <diagnostic-editor
-                    [hidden]="!selectedDiagnostic"
+        <div class="col-sm-6" [hidden]="!selectedDiagnostic">
+            <nga-diagnostic-editor
                     [diagnostic]="currentDiagnostic"
                     (diagnosticSaved)="onUpdateDiagnostic($event)"
                     (openCategoryEditor)="openCategoryEditor($event)"
-            ></diagnostic-editor>
+                    (close)="closeDiagnosticEditor()"
+            ></nga-diagnostic-editor>
             <diagnostic-category-editor
                     [hidden]="!editCategories"
                     [categoryId]="categoryId"
