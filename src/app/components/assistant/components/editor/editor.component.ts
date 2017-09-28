@@ -10,7 +10,7 @@ import { AssistantsService } from '../../assistant.service';
 import { SlimLoadingBarService } from 'ng2-slim-loading-bar';
 
 @Component({
-    selector: 'assistant-editor',
+    selector: 'nga-assistant-editor',
     templateUrl: './editor.html',
 })
 export class AssistantEditorComponent {
