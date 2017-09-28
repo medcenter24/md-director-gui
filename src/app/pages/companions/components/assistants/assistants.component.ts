@@ -4,21 +4,20 @@
  * @author Alexander Zagovorichev <zagovorichev@gmail.com>
  */
 
-import {Component, ViewEncapsulation, ViewChild} from '@angular/core';
-
+import { Component, ViewEncapsulation, ViewChild, OnInit } from '@angular/core';
 import { LocalDataSource } from 'ng2-smart-table';
-import {ModalComponent} from "ng2-bs3-modal/components/modal";
-import {Response} from "@angular/http";
-import {Assistant} from "../../../../components/assistant/assistant";
-import {AssistantsService} from "../../../../components/assistant/assistant.service";
+import { ModalComponent } from 'ng2-bs3-modal/components/modal';
+import { Response } from '@angular/http';
+import { Assistant } from '../../../../components/assistant/assistant';
+import { AssistantsService } from '../../../../components/assistant/assistant.service';
 import { SlimLoadingBarService } from 'ng2-slim-loading-bar';
 
 @Component({
-  selector: 'basic-tables',
+  selector: 'nga-assistants',
   encapsulation: ViewEncapsulation.None,
   templateUrl: './assistants.html',
 })
-export class Assistants {
+export class AssistantsComponent implements OnInit {
 
   @ViewChild('deleteDialog')
     private deleteDialog: ModalComponent;
@@ -42,36 +41,36 @@ export class Assistants {
       addButtonContent: '<i class="ion-ios-plus-outline"></i>',
       createButtonContent: '<i class="ion-checkmark"></i>',
       cancelButtonContent: '<i class="ion-close"></i>',
-      confirmCreate: true
+      confirmCreate: true,
     },
     edit: {
       editButtonContent: '<i class="ion-edit"></i>',
       saveButtonContent: '<i class="ion-checkmark"></i>',
       cancelButtonContent: '<i class="ion-close"></i>',
-      confirmSave: true
+      confirmSave: true,
     },
     delete: {
       deleteButtonContent: '<i class="ion-trash-a"></i>',
-      confirmDelete: true
+      confirmDelete: true,
     },
     columns: {
       title: {
         title: 'Title',
-        type: 'string'
+        type: 'string',
       },
       email: {
         title: 'E-Mail',
-        type: 'string'
+        type: 'string',
       },
       comment: {
         title: 'Commentary',
-        type: 'string'
+        type: 'string',
       },
       ref_key: {
         title: 'Ref. Key',
-        type: 'string'
-      }
-    }
+        type: 'string',
+      },
+    },
   };
 
   source: LocalDataSource = new LocalDataSource();

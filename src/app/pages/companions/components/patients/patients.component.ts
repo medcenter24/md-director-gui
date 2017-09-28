@@ -4,21 +4,20 @@
  * @author Alexander Zagovorichev <zagovorichev@gmail.com>
  */
 
-import {Component, ViewEncapsulation, ViewChild} from '@angular/core';
-
+import { Component, ViewEncapsulation, ViewChild, OnInit } from '@angular/core';
 import { LocalDataSource } from 'ng2-smart-table';
-import {ModalComponent} from "ng2-bs3-modal/components/modal";
-import {Response} from "@angular/http";
-import {PatientsService} from "../../../../components/patient/patients.service";
+import { ModalComponent } from 'ng2-bs3-modal/components/modal';
+import { Response } from '@angular/http';
+import { PatientsService } from '../../../../components/patient/patients.service';
 import { SlimLoadingBarService } from 'ng2-slim-loading-bar';
-import {Patient} from "../../../../components/patient/patient";
+import { Patient } from '../../../../components/patient/patient';
 
 @Component({
-  selector: 'basic-tables',
+  selector: 'nga-patients',
   encapsulation: ViewEncapsulation.None,
   templateUrl: './patients.html',
 })
-export class Patients {
+export class PatientsComponent implements OnInit {
   query: string = '';
 
   deleteDialogEvent: any = null;
@@ -32,40 +31,40 @@ export class Patients {
       addButtonContent: '<i class="ion-ios-plus-outline"></i>',
       createButtonContent: '<i class="ion-checkmark"></i>',
       cancelButtonContent: '<i class="ion-close"></i>',
-      confirmCreate: true
+      confirmCreate: true,
     },
     edit: {
       editButtonContent: '<i class="ion-edit"></i>',
       saveButtonContent: '<i class="ion-checkmark"></i>',
       cancelButtonContent: '<i class="ion-close"></i>',
-      confirmSave: true
+      confirmSave: true,
     },
     delete: {
       deleteButtonContent: '<i class="ion-trash-a"></i>',
-      confirmDelete: true
+      confirmDelete: true,
     },
     columns: {
       name: {
         title: 'Name',
-        type: 'string'
+        type: 'string',
       },
       address: {
         title: 'Address',
-        type: 'string'
+        type: 'string',
       },
       phones: {
         title: 'Phones',
-        type: 'string'
+        type: 'string',
       },
       birthday: {
         title: 'Birthday',
-        type: 'string'
+        type: 'string',
       },
       comment: {
         title: 'Commentary',
-        type: 'string'
+        type: 'string',
       },
-    }
+    },
   };
 
   source: LocalDataSource = new LocalDataSource();
