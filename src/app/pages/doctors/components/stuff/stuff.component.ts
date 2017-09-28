@@ -15,11 +15,11 @@ import { Logger } from 'angular2-logger/core';
 import { City } from '../../../../components/city/city';
 
 @Component({
-  selector: 'basic-tables',
+  selector: 'nga-stuff-component',
   encapsulation: ViewEncapsulation.None,
   templateUrl: './stuff.html',
 })
-export class Stuff implements OnInit {
+export class StuffComponent implements OnInit {
 
   @ViewChild('deleteDialog')
   private deleteDialog: ModalComponent;
@@ -183,6 +183,12 @@ export class Stuff implements OnInit {
       this.deleteDialogEvent.confirm.reject();
     }
     this.deleteDialogEvent = null;
+  }
+
+  closeDoctorEditor (): void {
+    this.doctorEditorHidden = true;
+    this.userEditorHidden = true;
+    this.editableDoctorId = 0;
   }
 
   handleUserSelectRow (event): void {

@@ -80,7 +80,11 @@ export class CasesListComponent implements OnInit {
         title: 'Status',
         type: 'string',
         valuePrepareFunction: (cell) => {
-          return this.translate.instant(cell.toString());
+          let val = cell.toString();
+          if (val.length) {
+            val = this.translate.instant(val);
+          }
+          return val;
         },
       },
       fee: {

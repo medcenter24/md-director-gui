@@ -4,13 +4,13 @@
  * @author Alexander Zagovorichev <zagovorichev@gmail.com>
  */
 
-import { Routes, RouterModule }  from '@angular/router';
+import { Routes, RouterModule } from '@angular/router';
 import { ModuleWithProviders } from '@angular/core';
 
 import { Doctors } from './doctors.component';
 import { Diagnostics } from './components/diagnostics/diagnostics.component';
 import { Services } from './components/services/services.component';
-import { Stuff } from './components/stuff/stuff.component';
+import { StuffComponent } from './components/stuff/stuff.component';
 
 // noinspection TypeScriptValidateTypes
 const routes: Routes = [
@@ -20,9 +20,9 @@ const routes: Routes = [
     children: [
       { path: 'diagnostics', component: Diagnostics },
       { path: 'services', component: Services },
-      { path: 'stuff', component: Stuff },
-    ]
-  }
+      { path: 'stuff', component: StuffComponent },
+    ],
+  },
 ];
 
 export const routing: ModuleWithProviders = RouterModule.forChild(routes);

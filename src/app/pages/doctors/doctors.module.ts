@@ -12,7 +12,7 @@ import { Ng2SmartTableModule } from 'ng2-smart-table';
 import { routing }       from './doctors.routing';
 import { Doctors } from './doctors.component';
 import { Services } from './components/services/services.component';
-import { Stuff } from './components/stuff/stuff.component';
+import { StuffComponent } from './components/stuff/stuff.component';
 import { Ng2Bs3ModalModule } from 'ng2-bs3-modal/ng2-bs3-modal';
 import { DoctorsService } from '../../components/doctors/doctors.service';
 import { UserEditorComponent } from '../../components/users/editor/editor.component';
@@ -33,9 +33,6 @@ import { AutoCompleteModule, ListboxModule } from 'primeng/primeng';
 import { CitiesModule } from '../../components/city/cities.module';
 import { CitiesService } from '../../components/city/cities.service';
 
-// import { InMemoryWebApiModule } from 'angular-in-memory-web-api';
-// import { InMemoryDataService } from '../../faker/in-memory-data.service';
-
 @NgModule({
   imports: [
     CommonModule,
@@ -48,11 +45,10 @@ import { CitiesService } from '../../components/city/cities.service';
     AutoCompleteModule,
     ListboxModule,
     CitiesModule,
-    // InMemoryWebApiModule.forRoot(InMemoryDataService, {apiBase: 'director/', passThruUnknownUrl: true}),
   ],
   declarations: [
     Doctors,
-    Stuff,
+    StuffComponent,
     Services,
     UserEditorComponent,
     UserSelectorComponent,
