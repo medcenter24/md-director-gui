@@ -4,7 +4,7 @@
   ~ @author Alexander Zagovorichev <zagovorichev@gmail.com>
   -->
 
-<ba-card *ngIf="diagnostic" title="Diagnostic Editor" baCardClass="with-scroll" class="edit-form-container">
+<ba-card *ngIf="diagnostic" title="Diagnostic Editor" baCardClass="with-scroll" class="edit-form-container" [closeable]="true" (close)="closeEditor()">
     <form (ngSubmit)="onSubmit()" #diagnosticForm="ngForm">
         <div class="row">
             <div class="col-sm-6">
@@ -27,7 +27,7 @@
                     <input type="text" class="form-control" id="inputComment"
                            [(ngModel)]="diagnostic.disease_code" name="disease_code"
                            #comment="ngModel"
-                           placeholder="{{ 'Disease Code' }}" maxlength="70"
+                           placeholder="{{ 'Disease Code' | translate }}" maxlength="70"
                     >
                 </div>
             </div>

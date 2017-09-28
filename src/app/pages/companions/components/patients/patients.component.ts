@@ -11,140 +11,163 @@ import { Response } from '@angular/http';
 import { PatientsService } from '../../../../components/patient/patients.service';
 import { SlimLoadingBarService } from 'ng2-slim-loading-bar';
 import { Patient } from '../../../../components/patient/patient';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
-  selector: 'nga-patients',
-  encapsulation: ViewEncapsulation.None,
-  templateUrl: './patients.html',
+    selector: 'nga-patients',
+    encapsulation: ViewEncapsulation.None,
+    templateUrl: './patients.html',
 })
 export class PatientsComponent implements OnInit {
-  query: string = '';
 
-  deleteDialogEvent: any = null;
-  titleForDeletion: string = '';
-  deleteProcess: boolean = false;
-  errorMessage: string = '';
-  errorResponse: Response = null;
+    query: string = '';
 
-  settings = {
-    add: {
-      addButtonContent: '<i class="ion-ios-plus-outline"></i>',
-      createButtonContent: '<i class="ion-checkmark"></i>',
-      cancelButtonContent: '<i class="ion-close"></i>',
-      confirmCreate: true,
-    },
-    edit: {
-      editButtonContent: '<i class="ion-edit"></i>',
-      saveButtonContent: '<i class="ion-checkmark"></i>',
-      cancelButtonContent: '<i class="ion-close"></i>',
-      confirmSave: true,
-    },
-    delete: {
-      deleteButtonContent: '<i class="ion-trash-a"></i>',
-      confirmDelete: true,
-    },
-    columns: {
-      name: {
-        title: 'Name',
-        type: 'string',
-      },
-      address: {
-        title: 'Address',
-        type: 'string',
-      },
-      phones: {
-        title: 'Phones',
-        type: 'string',
-      },
-      birthday: {
-        title: 'Birthday',
-        type: 'string',
-      },
-      comment: {
-        title: 'Commentary',
-        type: 'string',
-      },
-    },
-  };
+    deleteDialogEvent: any = null;
+    titleForDeletion: string = '';
+    deleteProcess: boolean = false;
+    errorMessage: string = '';
+    errorResponse: Response = null;
 
-  source: LocalDataSource = new LocalDataSource();
+    settings = {
+        actions: null,
+        add: {
+            addButtonContent: '<i class="ion-ios-plus-outline"></i>',
+            createButtonContent: '<i class="ion-checkmark"></i>',
+            cancelButtonContent: '<i class="ion-close"></i>',
+            confirmCreate: true,
+        },
+        edit: {
+            editButtonContent: '<i class="ion-edit"></i>',
+            saveButtonContent: '<i class="ion-checkmark"></i>',
+            cancelButtonContent: '<i class="ion-close"></i>',
+            confirmSave: true,
+        },
+        'delete': {
+            deleteButtonContent: '<i class="ion-trash-a"></i>',
+            confirmDelete: true,
+        },
+        columns: null,
+        noDataMessage: 'No data found',
+    };
 
-  @ViewChild('deleteDialog')
-  private deleteDialog: ModalComponent;
+    source: LocalDataSource = new LocalDataSource();
 
-  @ViewChild('errorDialog')
-  private errorDialog: ModalComponent;
+    @ViewChild('deleteDialog')
+    private deleteDialog: ModalComponent;
 
-  constructor(protected service: PatientsService, private loadingBar: SlimLoadingBarService) { }
+    @ViewChild('errorDialog')
+    private errorDialog: ModalComponent;
 
-  ngOnInit(): void {
-    this.loadingBar.start();
-    this.service.getPatients().then((data) => {
-      this.source.load(data);
-      this.loadingBar.complete();
-    }).catch((response) => {
-      this.showError('Something bad happened, you can\'t load list of patients', response);
-      this.loadingBar.complete();
-    });
-  }
-
-  onDeleteDialogOk(): void {
-    this.deleteProcess = true;
-    this.loadingBar.start();
-    this.service.delete(this.deleteDialogEvent.data.id).then(() => {
-      this.deleteDialogEvent.confirm.resolve();
-      this.deleteDialogEvent = null;
-      this.deleteDialog.close();
-      this.deleteProcess = false;
-      this.loadingBar.complete();
-    }).catch(() => {
-      this.deleteDialogEvent.confirm.reject();
-      this.deleteDialogEvent = null;
-      this.deleteProcess = false;
-      this.loadingBar.complete();
-    });
-  }
-
-  onDeleteDialogCancel(): void {
-    this.deleteDialogEvent.confirm.reject();
-    this.deleteDialogEvent = null;
-  }
-
-  onDeleteConfirm(event): void {
-    this.deleteDialogEvent = event;
-    this.titleForDeletion = event.data.name;
-    this.deleteDialog.open('sm');
-  }
-
-  onTableSave(event): void {
-    this.loadingBar.start();
-    this.service.update(event.newData).then(() => {
-      event.confirm.resolve();
-      this.loadingBar.complete();
-    }).catch((reason) => {
-      event.confirm.reject();
-      this.showError('Something bad happened, you can\'t save patients\' data');
-      this.loadingBar.complete();
-    });
-  }
-
-  onTableCreate(event): void {
-    this.loadingBar.start();
-    this.service.create(event.newData).then((patient: Patient) => {
-      event.confirm.resolve(patient);
-      this.loadingBar.complete();
-    }).catch((reason) => {
-      event.confirm.reject();
-      this.showError('Something bad happened, you can\'t add patient');
-      this.loadingBar.complete();
-    });
-  }
-
-  private showError(message: string, response: Response = null): void {
-    this.errorMessage = message;
-    if (response) {
-      this.errorResponse = response;
+    constructor(protected service: PatientsService,
+                private loadingBar: SlimLoadingBarService,
+                private translate: TranslateService) {
     }
-    this.errorDialog.open('sm');
-  }
+
+    ngOnInit(): void {
+        this.translate.get('Yes').subscribe(() => {
+            this.loadColumns();
+        });
+
+        this.loadingBar.start();
+        this.service.getPatients().then((data) => {
+            this.source.load(data);
+            this.loadingBar.complete();
+        }).catch((response) => {
+            this.showError('Something bad happened, you can\'t load list of patients', response);
+            this.loadingBar.complete();
+        });
+    }
+
+    loadColumns(): void {
+        this.settings.columns = {
+            name: {
+                title: this.translate.instant('Name'),
+                type: 'string',
+            },
+            address: {
+                title: this.translate.instant('Address'),
+                type: 'string',
+            },
+            phones: {
+                title: this.translate.instant('Phone'),
+                type: 'string',
+            },
+            birthday: {
+                title: this.translate.instant('Birthday'),
+                type: 'string',
+            },
+            comment: {
+                title: this.translate.instant('Commentary'),
+                type: 'string',
+            },
+        };
+        this.settings.actions = {
+            columnTitle: this.translate.instant('Action'),
+            edit: true,
+            add: true,
+            'delete': true,
+            position: 'left',
+        };
+        this.settings.noDataMessage = this.translate.instant('No data found');
+    }
+
+    onDeleteDialogOk(): void {
+        this.deleteProcess = true;
+        this.loadingBar.start();
+        this.service.delete(this.deleteDialogEvent.data.id).then(() => {
+            this.deleteDialogEvent.confirm.resolve();
+            this.deleteDialogEvent = null;
+            this.deleteDialog.close();
+            this.deleteProcess = false;
+            this.loadingBar.complete();
+        }).catch(() => {
+            this.deleteDialogEvent.confirm.reject();
+            this.deleteDialogEvent = null;
+            this.deleteProcess = false;
+            this.loadingBar.complete();
+        });
+    }
+
+    onDeleteDialogCancel(): void {
+        this.deleteDialogEvent.confirm.reject();
+        this.deleteDialogEvent = null;
+    }
+
+    onDeleteConfirm(event): void {
+        this.deleteDialogEvent = event;
+        this.titleForDeletion = event.data.name;
+        this.deleteDialog.open('sm');
+    }
+
+    onTableSave(event): void {
+        this.loadingBar.start();
+        this.service.update(event.newData).then(() => {
+            event.confirm.resolve();
+            this.loadingBar.complete();
+        }).catch((reason) => {
+            event.confirm.reject();
+            this.showError('Something bad happened, you can\'t save patients\' data');
+            this.loadingBar.complete();
+        });
+    }
+
+    onTableCreate(event): void {
+        this.loadingBar.start();
+        this.service.create(event.newData).then((patient: Patient) => {
+            event.confirm.resolve(patient);
+            this.loadingBar.complete();
+        }).catch((reason) => {
+            event.confirm.reject();
+            this.showError('Something bad happened, you can\'t add patient');
+            this.loadingBar.complete();
+        });
+    }
+
+    private showError(message: string, response: Response = null): void {
+        this.errorMessage = message;
+        if (response) {
+            this.errorResponse = response;
+        }
+        this.errorDialog.open('sm');
+    }
 }
