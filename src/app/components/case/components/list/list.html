@@ -28,6 +28,7 @@
     <div class="col-sm-12 col-lg-10">
       <ba-card baCardClass="with-scroll">
         <ng2-smart-table
+                *ngIf="settings.columns"
                 [settings]="settings"
                 [source]="source"
                 (create)="handleCreate()"

@@ -4,7 +4,7 @@
   ~ @author Alexander Zagovorichev <zagovorichev@gmail.com>
   -->
 
-<ba-card *ngIf="assistant" title="Assistant #{{ assistant.id }}" baCardClass="with-scroll" class="edit-form-container">
+<ba-card *ngIf="assistant" title="Assistant" baCardClass="with-scroll" class="edit-form-container" [closeable]="true" (close)="closeEditor()">
     <form (ngSubmit)="onSubmit()" #diagnosticForm="ngForm">
         <div class="row">
             <div class="col-sm-6">
@@ -36,7 +36,7 @@
             <div class="col-sm-6">
                 <div class="form-group">
                     <label for="inputEmail" translate>E-Mail</label>
-                    <input type="text" class="form-control" id="inputEmail" placeholder="{{ 'Email' | translate }}"
+                    <input type="text" class="form-control" id="inputEmail" placeholder="{{ 'E-Mail' | translate }}"
                               [(ngModel)]="assistant.email" name="email"
                               #email="ngModel"
                               maxlength="255"

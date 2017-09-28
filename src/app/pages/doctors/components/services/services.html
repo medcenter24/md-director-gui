@@ -1,8 +1,9 @@
 <div class="widgets">
   <div class="row">
-    <div class="col-sm-6">
+    <div class="col-sm-12">
       <ba-card baCardClass="with-scroll">
         <ng2-smart-table
+                *ngIf="settings.columns"
                 [settings]="settings"
                 [source]="source"
                 (deleteConfirm)="onDeleteConfirm($event)"

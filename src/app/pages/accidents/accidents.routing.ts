@@ -4,27 +4,27 @@
  * @author Alexander Zagovorichev <zagovorichev@gmail.com>
  */
 
-import { Routes, RouterModule }  from '@angular/router';
+import { Routes, RouterModule } from '@angular/router';
 import { ModuleWithProviders } from '@angular/core';
 
-import { Accidents } from './accidents.component';
-import { AccidentCheckpoints } from './components/checkpoints/checkpoints.component';
-import { AccidentStatuses } from './components/statuses/statuses.component';
-import { AccidentTypes } from './components/types/types.component';
-import { AccidentDiscounts } from './components/discounts/discounts.component';
+import { AccidentsComponent } from './accidents.component';
+import { AccidentCheckpointsComponent } from './components/checkpoints/checkpoints.component';
+import { AccidentStatusesComponent } from './components/statuses/statuses.component';
+import { AccidentTypesComponent } from './components/types/types.component';
+import { AccidentDiscountsComponent } from './components/discounts/discounts.component';
 
 // noinspection TypeScriptValidateTypes
 const routes: Routes = [
   {
     path: '',
-    component: Accidents,
+    component: AccidentsComponent,
     children: [
-      { path: 'checkpoints', component: AccidentCheckpoints },
-      { path: 'statuses', component: AccidentStatuses },
-      { path: 'types', component: AccidentTypes },
-      { path: 'discounts', component: AccidentDiscounts },
-    ]
-  }
+      { path: 'checkpoints', component: AccidentCheckpointsComponent },
+      { path: 'statuses', component: AccidentStatusesComponent },
+      { path: 'types', component: AccidentTypesComponent },
+      { path: 'discounts', component: AccidentDiscountsComponent },
+    ],
+  },
 ];
 
 export const routing: ModuleWithProviders = RouterModule.forChild(routes);

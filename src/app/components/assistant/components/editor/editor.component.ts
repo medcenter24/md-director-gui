@@ -18,6 +18,7 @@ export class AssistantEditorComponent {
     @Input() assistant: Assistant;
     @Output() assistantSaved: EventEmitter<Assistant> = new EventEmitter<Assistant>();
     @Output() loaded: EventEmitter<null> = new EventEmitter<null>();
+    @Output() close: EventEmitter<null> = new EventEmitter<null>();
 
     constructor (private service: AssistantsService, private loadingBar: SlimLoadingBarService) { }
 
@@ -29,5 +30,9 @@ export class AssistantEditorComponent {
         }).catch(() => {
             this.loadingBar.complete();
         });
+    }
+
+    closeEditor(): void {
+        this.close.emit();
     }
 }

@@ -7,9 +7,10 @@
 <div class="widgets">
 
     <div class="row">
-        <div class="col-sm-6">
+        <div class="col-sm-{{ doctorEditorHidden ? '12' : '6' }}">
             <ba-card title="Doctors" baCardClass="with-scroll">
                 <ng2-smart-table
+                        *ngIf="settings.columns"
                         [settings]="settings"
                         [source]="source"
                         (deleteConfirm)="handleDeleteConfirm($event)"
@@ -19,9 +20,8 @@
                 ></ng2-smart-table>
             </ba-card>
         </div>
-        <div class="col-sm-6">
+        <div class="col-sm-6" [hidden]="doctorEditorHidden">
             <nga-doctor-editor
-                    [hidden]="doctorEditorHidden"
                     [doctorId]="editableDoctorId"
                     (toggleUserEditor)="handleToggleUserEditor($event)"
                     (close)="closeDoctorEditor()"
@@ -45,8 +45,8 @@
     </modal-body>
     <modal-footer>
         <button type="button" class="btn btn-default" data-dismiss="modal"
-                ng-click="handleDeleteDialogCancel()" translate>Cancel</button>
-        <button type="button" class="btn btn-primary" ng-click="handleDeleteDialogOk()" [disabled]="deleteProcess" translate>Accept</button>
+                (click)="handleDeleteDialogCancel()" translate>Cancel</button>
+        <button type="button" class="btn btn-primary" (click)="handleDeleteDialogOk()" [disabled]="deleteProcess" translate>Accept</button>
     </modal-footer>
 </modal>
 
@@ -59,7 +59,7 @@
     </modal-body>
     <modal-footer>
         <button type="button" class="btn btn-danger" data-dismiss="modal"
-                ng-click="handleDeleteDialogCancel($event)" translate>Accept</button>
+                (click)="handleDeleteDialogCancel($event)" translate>Accept</button>
     </modal-footer>
 </modal>
 

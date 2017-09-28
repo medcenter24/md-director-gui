@@ -7,9 +7,10 @@
 <div class="widgets">
 
   <div class="row">
-    <div class="col-sm-6">
+    <div class="col-sm-{{ isAssistant ? '6' : '12' }}">
       <ba-card baCardClass="with-scroll">
         <ng2-smart-table
+          *ngIf="settings.columns"
           [settings]="settings"
           [source]="source"
           (userRowSelect)="onUserSelectRow($event)"
@@ -19,11 +20,11 @@
         ></ng2-smart-table>
       </ba-card>
     </div>
-    <div class="col-sm-6">
+    <div class="col-sm-6" [hidden]="!isAssistant">
       <nga-assistant-editor
-        [hidden]="!isAssistant"
         [assistant]="currentAssistant"
         (assistantSaved)="onUpdateAssistant($event)"
+        (close)="closeAssistantEditor()"
       ></nga-assistant-editor>
     </div>
   </div>
