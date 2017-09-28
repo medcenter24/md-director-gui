@@ -9,7 +9,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { NgaModule } from '../../theme/nga.module';
 
-import { Cases } from './cases.component';
+import { CasesComponent } from './cases.component';
 import { routing } from './cases.routing';
 
 import { Ng2SmartTableModule } from 'ng2-smart-table';
@@ -100,7 +100,7 @@ import { AccidentScenarioService } from '../../components/accident/components/sc
     ToggleButtonModule,
   ],
   declarations: [
-    Cases,
+    CasesComponent,
     CaseEditorComponent,
     CasesListComponent,
     SelectServicesComponent,

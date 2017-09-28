@@ -7,9 +7,9 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'forms',
+  selector: 'nga-cases-component',
   template: `<router-outlet></router-outlet>`,
 })
-export class Cases {
+export class CasesComponent {
   constructor () {}
 }

@@ -6,7 +6,7 @@
 
 import { Routes, RouterModule }  from '@angular/router';
 
-import { Cases } from './cases.component';
+import { CasesComponent } from './cases.component';
 import { ModuleWithProviders } from '@angular/core';
 import { CaseEditorComponent } from '../../components/case/components/editor/editor.component';
 import { CasesListComponent } from '../../components/case/components/list/list.component';
@@ -15,7 +15,7 @@ import { CasesListComponent } from '../../components/case/components/list/list.c
 export const routes: Routes = [
   {
     path: '',
-    component: Cases,
+    component: CasesComponent,
     children: [
       { path: '', component: CasesListComponent },
       { path: 'new', component: CaseEditorComponent },

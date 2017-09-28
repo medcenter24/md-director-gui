@@ -26,7 +26,7 @@ export class MyDocMissingTranslationHandler implements MissingTranslationHandler
   }
 
   handle (params: MissingTranslationHandlerParams) {
-    const error = 'Hasn\'t had translation: "' + params.key + '"';
+    const error = `Hasn\'t had translation: "${params.key}"`;
     this._logger.warn(error);
     return error;
   }
@@ -41,7 +41,10 @@ const translationOptions = {
 };
 
 @NgModule({
-  imports: [TranslateModule.forRoot(translationOptions), HttpModule],
+  imports: [
+    TranslateModule.forRoot(translationOptions),
+    HttpModule,
+  ],
   exports: [TranslateModule],
   providers: [
     TranslateService,

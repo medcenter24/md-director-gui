@@ -24,6 +24,7 @@
                     [hidden]="doctorEditorHidden"
                     [doctorId]="editableDoctorId"
                     (toggleUserEditor)="handleToggleUserEditor($event)"
+                    (close)="closeDoctorEditor()"
             ></nga-doctor-editor>
             <nga-user-editor
                     [hidden]="userEditorHidden"

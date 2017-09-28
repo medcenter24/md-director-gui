@@ -19,7 +19,7 @@ export class DoctorEditorComponent {
 
   doctor: Doctor = new Doctor();
   showUserEditor: boolean = false;
-  cities: Array<number> = [];
+  cities: number[] = [];
 
   @Input()
   set doctorId(id: number) {
@@ -28,9 +28,10 @@ export class DoctorEditorComponent {
 
   @Output() doctorChanged: EventEmitter<Doctor> = new EventEmitter<Doctor>();
   @Output() toggleUserEditor: EventEmitter<number> = new EventEmitter<number>();
+  @Output() close: EventEmitter<boolean> = new EventEmitter();
 
   @ViewChild(UserSelectorComponent)
-  private userSelectorComponent: UserSelectorComponent;
+    private userSelectorComponent: UserSelectorComponent;
 
   constructor(private service: DoctorsService,
               private loadingBar: SlimLoadingBarService) {
@@ -78,6 +79,10 @@ export class DoctorEditorComponent {
   toggleEditor(userId: number): void {
     this.showUserEditor = !this.showUserEditor;
     this.toggleUserEditor.emit(userId);
+  }
+
+  closeEditor(): void {
+    this.close.emit(true);
   }
 
   reloadUsers(): void {
