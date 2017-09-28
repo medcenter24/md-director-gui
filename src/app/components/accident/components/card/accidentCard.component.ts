@@ -22,7 +22,7 @@ export class AccidentCardComponent implements OnInit {
   @Output() init: EventEmitter<string> = new EventEmitter<string>();
   @Output() loaded: EventEmitter<string> = new EventEmitter<string>();
 
-  public accident: Accident;
+  accident: Accident;
   private patient: Patient;
 
   constructor (

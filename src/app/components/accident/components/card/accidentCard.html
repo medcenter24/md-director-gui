@@ -9,7 +9,7 @@
         {{ 'Parent Accident' | translate }}
         <a (click)="closePanel()" class="pull-right fa fa-window-close"></a>
     </p-header>
-    <h5>{{ accident.title }} <small><a target="_blank" [routerLink]="['/pages/cases', accident.id]">{{ 'pp' | translate }}{{ accident.ref_num }} &rarr;</a></small></h5>
+    <h5>{{ accident.title }} <small><a target="_blank" [routerLink]="['/pages/cases', accident.id]">{{ 'pp' | translate }} {{ accident.ref_num }} &rarr;</a></small></h5>
     <hr>
     <div *ngIf="patient">
         <div class="lead offset-bottom20">{{ patient.name }}</div>

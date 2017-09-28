@@ -4,7 +4,7 @@
   ~ @author Alexander Zagovorichev <zagovorichev@gmail.com>
   -->
 
-<ba-card *ngIf="doctor" title="Doctor Editor" baCardClass="with-scroll" class="edit-form-container">
+<ba-card *ngIf="doctor" title="Doctor Editor" baCardClass="with-scroll" class="edit-form-container" [closeable]="true" (close)="closeEditor()">
     <form (ngSubmit)="onSubmit()" #diagnosticForm="ngForm" class="edit-form">
         <div class="row">
             <div class="col-sm-6">
@@ -62,7 +62,7 @@
                 </div>
             </div>
         </div>
-        <button type="submit" class="btn btn-primary" *ngIf="doctor.id" translate>Submit</button>
+        <button type="submit" class="btn btn-primary" *ngIf="doctor.id" translate>Save</button>
         <button type="submit" class="btn btn-primary" *ngIf="!doctor.id" translate>Create</button>
     </form>
 

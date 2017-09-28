@@ -1,4 +1,5 @@
 {
+  "Phone is required": "Укажите телефон",
   "Here will be statistics, to do board, calendar with all of the doctors I mean cases of the doctors": "Здесь будет статистика (заявки всего, заявки по регионам) и календарь посещений докторами больных",
   "Surname": "Фамилия",
   "Fixed amount": "Зафиксированное значение",
@@ -92,7 +93,7 @@
   "Are you sure that you want to delete": "Вы уверены, что хотите удалить",
   "Doctor Editor": "Редактирование врача",
   "Name": "Имя",
-  "Open user editor": "Радактировать пользователя",
+  "Open user editor": "Редактировать пользователя",
   "Close user editor": "Закрыть редактирование пользователя",
   "Referral Key is required": "Укажите реф. ключ",
   "Referral Key": "Реф. ключ",
