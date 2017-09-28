@@ -7,10 +7,10 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'forms',
-  template: `<router-outlet></router-outlet>`
+  selector: 'nga-companions',
+  template: `<router-outlet></router-outlet>`,
 })
-export class Companions {
+export class CompanionsComponent {
 
   constructor () {
   }
