@@ -46,7 +46,9 @@
     <modal-footer>
         <button type="button" class="btn btn-default" data-dismiss="modal"
                 (click)="handleDeleteDialogCancel()" translate>Cancel</button>
-        <button type="button" class="btn btn-primary" (click)="handleDeleteDialogOk()" [disabled]="deleteProcess" translate>Accept</button>
+        <button type="button" class="btn btn-primary"
+                (click)="clickDeleteDialogOk()"
+                [disabled]="deleteProcess" translate>Accept</button>
     </modal-footer>
 </modal>
 
@@ -59,7 +61,7 @@
     </modal-body>
     <modal-footer>
         <button type="button" class="btn btn-danger" data-dismiss="modal"
-                (click)="handleDeleteDialogCancel($event)" translate>Accept</button>
+                (click)="handleDeleteDialogCancel()" translate>Accept</button>
     </modal-footer>
 </modal>
 
