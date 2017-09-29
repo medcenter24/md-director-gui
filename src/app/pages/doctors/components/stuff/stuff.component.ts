@@ -170,7 +170,7 @@ export class StuffComponent implements OnInit {
         this.deleteDialog.open('sm');
     }
 
-    handleDeleteDialogOk(): void {
+    clickDeleteDialogOk(): void {
         this.deleteProcess = true;
         this.loadingBar.start();
         this.service.delete(this.deleteDialogEvent.data.id).then(() => {
@@ -191,7 +191,7 @@ export class StuffComponent implements OnInit {
         });
     }
 
-    handleDeleteDialogCancel(event): void {
+    handleDeleteDialogCancel(): void {
         if (this.deleteDialogEvent && this.deleteDialogEvent.confirm) {
             this.deleteDialogEvent.confirm.reject();
         }
