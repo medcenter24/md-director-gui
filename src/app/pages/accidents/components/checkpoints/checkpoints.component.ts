@@ -82,10 +82,16 @@ export class AccidentCheckpointsComponent implements OnInit {
             title: {
                 title: this.translate.instant('Title'),
                 type: 'string',
+                editor: {
+                    type: 'textarea',
+                },
             },
             description: {
                 title: this.translate.instant('Description'),
                 type: 'string',
+                editor: {
+                    type: 'textarea',
+                },
             },
         };
         this.settings.actions = {

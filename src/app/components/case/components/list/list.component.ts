@@ -16,6 +16,7 @@ import { ImporterComponent } from '../../../importer/importer.component';
 import { Pagination } from '../../../ui/pagination';
 import { ExporterService } from '../../../exporter/exporter.service';
 import { TranslateService } from '@ngx-translate/core';
+import { DateHelper } from '../../../../helpers/date.helper';
 
 @Component({
     selector: 'nga-cases-list',
@@ -69,7 +70,9 @@ export class CasesListComponent implements OnInit {
                 public router: Router,
                 private slimLoader: SlimLoadingBarService,
                 private exporterService: ExporterService,
-                private translate: TranslateService) {
+                private translate: TranslateService,
+                private dateHelper: DateHelper,
+                ) {
         this.service = _service;
     }
 
@@ -83,21 +86,39 @@ export class CasesListComponent implements OnInit {
 
     loadColumns(): void {
         this.settings.columns = {
+            patient_name: {
+                title: this.translate.instant('Patient Name'),
+                type: 'string',
+            },
             ref_num: {
                 title: this.translate.instant('Ref. Number'),
                 type: 'string',
             },
-            case_type: {
-                title: this.translate.instant('Case Type'),
+            assistant_ref_num: {
+                title: this.translate.instant('Assistant Ref Num'),
                 type: 'string',
             },
+            /*case_type: {
+                title: this.translate.instant('Case Type'),
+                type: 'string',
+                valuePrepareFunction: (cell) => {
+                    let val = cell.toString();
+                    if (val === 'App\\DoctorAccident') {
+                        val = this.translate.instant('Doctor Case');
+                    }
+                    return val;
+                },
+            },*/
             created_at: {
                 title: this.translate.instant('Created at'),
                 type: 'string',
-            },
-            checkpoints: {
-                title: this.translate.instant('Checkpoints'),
-                type: 'string',
+                valuePrepareFunction: (cell) => {
+                    let val = cell.toString();
+                    if (val.length) {
+                        val = this.dateHelper.toEuropeFormatWithTime(val);
+                    }
+                    return val;
+                },
             },
             status: {
                 title: this.translate.instant('Status'),
@@ -109,6 +130,10 @@ export class CasesListComponent implements OnInit {
                     }
                     return val;
                 },
+            },
+            checkpoints: {
+                title: this.translate.instant('Checkpoints'),
+                type: 'string',
             },
             fee: {
                 title: this.translate.instant('Doctors fee'),

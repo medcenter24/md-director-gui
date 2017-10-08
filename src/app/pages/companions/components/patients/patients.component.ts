@@ -12,6 +12,7 @@ import { PatientsService } from '../../../../components/patient/patients.service
 import { SlimLoadingBarService } from 'ng2-slim-loading-bar';
 import { Patient } from '../../../../components/patient/patient';
 import { TranslateService } from '@ngx-translate/core';
+import { DateHelper } from '../../../../helpers/date.helper';
 
 @Component({
     selector: 'nga-patients',
@@ -60,7 +61,9 @@ export class PatientsComponent implements OnInit {
 
     constructor(protected service: PatientsService,
                 private loadingBar: SlimLoadingBarService,
-                private translate: TranslateService) {
+                private translate: TranslateService,
+                private dateHelper: DateHelper,
+                ) {
     }
 
     ngOnInit(): void {
@@ -83,10 +86,16 @@ export class PatientsComponent implements OnInit {
             name: {
                 title: this.translate.instant('Name'),
                 type: 'string',
+                editor: {
+                    type: 'textarea',
+                },
             },
             address: {
                 title: this.translate.instant('Address'),
                 type: 'string',
+                editor: {
+                    type: 'textarea',
+                },
             },
             phones: {
                 title: this.translate.instant('Phone'),
@@ -95,10 +104,20 @@ export class PatientsComponent implements OnInit {
             birthday: {
                 title: this.translate.instant('Birthday'),
                 type: 'string',
+                valuePrepareFunction: (cell) => {
+                    let val = cell.toString();
+                    if (val.length) {
+                        val = this.dateHelper.toEuropeFormat(val);
+                    }
+                    return val;
+                },
             },
             comment: {
                 title: this.translate.instant('Commentary'),
                 type: 'string',
+                editor: {
+                    type: 'textarea',
+                },
             },
         };
         this.settings.actions = {

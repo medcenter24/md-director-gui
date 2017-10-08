@@ -18,6 +18,7 @@ import { AssistantsService } from '../../components/assistant/assistant.service'
 import { PatientsService } from '../../components/patient/patients.service';
 import { PatientsComponent } from './components/patients/patients.component';
 import { AssistantsComponent } from './components/assistants/assistants.component';
+import { DateHelper } from '../../helpers/date.helper';
 
 @NgModule({
   imports: [
@@ -38,6 +39,7 @@ import { AssistantsComponent } from './components/assistants/assistants.componen
   providers: [
     AssistantsService,
     PatientsService,
+    DateHelper,
   ],
 })
 
