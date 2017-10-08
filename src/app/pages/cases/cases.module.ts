@@ -63,9 +63,7 @@ import { CitiesModule } from '../../components/city/cities.module';
 import { AccidentScenarioComponent } from
   '../../components/accident/components/scenario/components/line/line.component';
 import { AccidentScenarioService } from '../../components/accident/components/scenario/scenario.service';
-
-// import { InMemoryWebApiModule } from 'angular-in-memory-web-api';
-// import { InMemoryDataService } from '../../faker/in-memory-data.service';
+import { DateHelper } from '../../helpers/date.helper';
 
 @NgModule({
   imports: [
@@ -141,6 +139,7 @@ import { AccidentScenarioService } from '../../components/accident/components/sc
     CitiesService,
     AccidentScenarioService,
     ConfirmationService,
+    DateHelper,
   ],
 })
 export class CasesModule {

@@ -78,10 +78,16 @@ export class HospitalsComponent implements OnInit {
             title: {
                 title: this.translate.instant('Title'),
                 type: 'string',
+                editor: {
+                    type: 'textarea',
+                },
             },
             address: {
                 title: this.translate.instant('Address'),
                 type: 'string',
+                editor: {
+                    type: 'textarea',
+                },
             },
             ref_key: {
                 title: this.translate.instant('Ref. Key'),

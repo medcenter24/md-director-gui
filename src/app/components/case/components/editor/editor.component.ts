@@ -28,6 +28,7 @@ import { AccidentCheckpoint } from '../../../accident/components/checkpoint/chec
 import { DoctorsService } from '../../../doctors/doctors.service';
 import { Doctor } from '../../../doctors/doctor';
 import { AccidentScenarioComponent } from '../../../accident/components/scenario/components/line/line.component';
+import { DateHelper } from '../../../../helpers/date.helper';
 
 @Component({
   selector: 'nga-case-editor',
@@ -83,6 +84,7 @@ export class CaseEditorComponent implements OnInit {
                private caseService: CasesService,
                private doctorService: DoctorsService,
                private router: Router,
+               private dateHelper: DateHelper,
   ) { }
 
   ngOnInit () {
@@ -165,8 +167,7 @@ export class CaseEditorComponent implements OnInit {
   onSave(): void {
     this.accident.discount_id = this.discountType.id;
     this.accident.discount_value = +this.discountValue;
-    this.patient.birthday =
-      this.birthday ? `${this.birthday.getFullYear()}-${this.birthday.getMonth()}-${this.birthday.getDay()}` : '';
+    this.patient.birthday = this.dateHelper.getUnixDate(this.birthday);
     this.accident.income = this.totalIncome;
     const data = {
       accident: this.accident,
