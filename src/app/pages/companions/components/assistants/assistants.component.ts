@@ -86,6 +86,9 @@ export class AssistantsComponent implements OnInit {
             title: {
                 title: this.translate.instant('Title'),
                 type: 'string',
+                editor: {
+                    type: 'textarea',
+                },
             },
             email: {
                 title: this.translate.instant('E-Mail'),
@@ -94,6 +97,9 @@ export class AssistantsComponent implements OnInit {
             comment: {
                 title: this.translate.instant('Commentary'),
                 type: 'string',
+                editor: {
+                    type: 'textarea',
+                },
             },
             ref_key: {
                 title: this.translate.instant('Ref. Key'),
