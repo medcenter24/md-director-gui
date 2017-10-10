@@ -156,18 +156,18 @@
 
                 <div class="form-group">
                     <div class="row offset-bottom20" *ngIf="patient">
-                        <div class="col-sm-4">
+                        <div class="col-sm-3">
                             <label class="label required separate" translate>Patient Name</label>
                             <input type="text" pInputText name="name"
                                    [(ngModel)]="patient.name" (keyup)="formattedPatientName($event)"
                                    placeholder="{{ 'Patient Name' | translate }}"/>
                         </div>
-                        <div class="col-sm-4">
+                        <div class="col-sm-3">
                             <label class="label separate" translate>Patient Phone</label>
                             <input type="text" pInputText name="phone" [(ngModel)]="patient.phones"
                                    placeholder="{{ 'Patient Phone' | translate }}"/>
                         </div>
-                        <div class="col-sm-4">
+                        <div class="col-sm-3">
                             <label class="label separate" translate>Birthday</label>
                             <p-calendar
                                     name="patientBirthday"
@@ -175,6 +175,15 @@
                                     [maxDate]="maxDate"
                                     dateFormat="dd.mm.yy"
                             ></p-calendar>
+                        </div>
+                        <div class="col-sm-3">
+                             <textarea rows="2" cols="50" pInputTextarea
+                                       autoResize="autoResize"
+                                       placeholder="{{ 'Contacts' | translate }}"
+                                       class="form-control"
+                                       [(ngModel)]="accident.contacts"
+                                       name="contacts"
+                             ></textarea>
                         </div>
                     </div>
                 </div>

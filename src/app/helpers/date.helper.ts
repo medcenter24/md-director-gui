@@ -34,8 +34,12 @@ export class DateHelper {
     }
 
     getUnixDate(d: Date): string {
-        const parsed = this.parseDate(d);
-        return d ? `${parsed.year}-${parsed.month}-${parsed.day}` : '';
+        let res = '';
+        if (d) {
+            const parsed = this.parseDate(d);
+            res = `${parsed.year}-${parsed.month}-${parsed.day}`;
+        }
+        return res;
     }
 
     private parseDate(d: Date): {day: number, month: number, year: number} {

@@ -48,6 +48,13 @@
             </div>
             <div class="col-sm-6">
                 <div class="form-group">
+                    <label class="label" translate>Medical board number</label>
+                    <input type="text" class="form-control"
+                            required name="doctorMedicalBoardNum"
+                            [(ngModel)]="doctor.medical_board_num"
+                           placeholder="{{ 'Medical board number' | translate }}"
+                    >
+
                     <label class="label" translate>User</label>
                     <nga-user-selector
                             [userId]="doctor.user_id"
