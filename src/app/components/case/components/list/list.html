@@ -11,8 +11,8 @@
         <div class="ui-toolbar-group-left">
           <button pButton type="button" label="{{ 'Import' | translate }}" icon="fa-upload" (click)="openImporter()"></button>
           <button pButton type="button" label="{{ 'Export' | translate }}" icon="fa-download" (click)="exportCases()"></button>
-
           <i class="fa fa-bars"></i>
+          <button pButton type="button" label="{{ 'Create new case' | translate }}" icon="fa-plus" (click)="handleCreate()"></button>
         </div>
 
         <div class="ui-toolbar-group-right">
@@ -31,8 +31,7 @@
                 *ngIf="settings.columns"
                 [settings]="settings"
                 [source]="source"
-                (create)="handleCreate()"
-                (edit)="handleEdit($event)"
+                (userRowSelect)="handleEdit($event)"
         ></ng2-smart-table>
 
         <p-paginator

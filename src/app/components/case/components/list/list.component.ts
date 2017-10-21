@@ -46,13 +46,7 @@ export class CasesListComponent implements OnInit {
         },
         mode: 'external',
         hideSubHeader: false,
-        actions: {
-            columnTitle: '',
-            edit: true,
-            add: true,
-            'delete': false,
-            position: 'right',
-        },
+        actions: false,
         add: {
             addButtonContent: '<i class="ion-ios-plus-outline"></i>',
         },
