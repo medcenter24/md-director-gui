@@ -49,6 +49,15 @@ ng2-smart-table {
     }
   }
 
+  .ng2-smart-titles {
+    background-color: $black;
+    th {
+      * {
+        color: $white;
+      }
+    }
+  }
+
   .ng2-smart-actions {
     text-align: center;
     .actions {
