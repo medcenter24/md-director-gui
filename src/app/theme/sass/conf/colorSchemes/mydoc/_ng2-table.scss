@@ -85,4 +85,7 @@ ng2-smart-table {
 nav.ng2-smart-pagination-nav {
   display: flex;
   justify-content: center;
+  .page-link {
+    height: 100%;
+  }
 }

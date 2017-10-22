@@ -16,9 +16,14 @@ import { PAGES_MENU } from './pages.menu';
       </div>
     </div>
     <footer class="al-footer clearfix">
-      <div class="al-footer-right" translate>Created for <i class="fa fa-heartbeat"></i></div>
+      <div class="al-footer-right">
+          <img src="/assets/img/medical/medical_120.png" width="120"
+               height="120" alt="{{ 'Medical Company' | translate }}">
+          <div class="copyright">
+              &copy; 2017 MyDoctors24
+          </div>
+      </div>
       <div class="al-footer-main clearfix">
-        <div class="al-copy">&copy; <a href="https://mydoctors24.com">MyDoctors24.com</a> 2017</div>
         <ul class="al-share clearfix">
           <li><i class="socicon socicon-facebook"></i></li>
           <li><i class="socicon socicon-twitter"></i></li>
