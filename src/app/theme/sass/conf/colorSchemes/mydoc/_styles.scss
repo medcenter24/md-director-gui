@@ -108,14 +108,16 @@ a.al-sidebar-list-link i {
     bottom: 10px;
 
     .copyright {
-      font-weight: 700;
-      color: $gray;
+      font-weight: 300;
+      color: $gray-light;
       display: table-cell;
-      vertical-align: bottom;
-      padding: 0 20px 15px 30px;
+      vertical-align: middle;
+      padding-right: 20px;
+      padding-top: 40px;
     }
     img {
       display: table-cell;
+      margin-right: 80px;
     }
   }
 }
