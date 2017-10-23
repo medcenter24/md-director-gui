@@ -92,17 +92,6 @@ export class CasesListComponent implements OnInit {
                 title: this.translate.instant('Assistant Ref Num'),
                 type: 'string',
             },
-            /*case_type: {
-                title: this.translate.instant('Case Type'),
-                type: 'string',
-                valuePrepareFunction: (cell) => {
-                    let val = cell.toString();
-                    if (val === 'App\\DoctorAccident') {
-                        val = this.translate.instant('Doctor Case');
-                    }
-                    return val;
-                },
-            },*/
             created_at: {
                 title: this.translate.instant('Created at'),
                 type: 'string',
@@ -136,6 +125,17 @@ export class CasesListComponent implements OnInit {
             price: {
                 title: this.translate.instant('Price'),
                 type: 'number',
+            },
+            case_type: {
+                title: this.translate.instant('Case Type'),
+                type: 'string',
+                valuePrepareFunction: (cell) => {
+                    let val = cell.toString();
+                    if (val === 'App\\DoctorAccident') {
+                        val = this.translate.instant('Doctor Case');
+                    }
+                    return val;
+                },
             },
         };
         this.settings.noDataMessage = this.translate.instant('No data found');
