@@ -2,6 +2,8 @@
 
 .auth-main {
   display: flex;
+  flex-direction: column;
+  justify-content: center;
   align-items: center;
   width: 100%;
   height: 100%;
@@ -9,9 +11,6 @@
 }
 
 .auth-footer {
-  position: absolute;
-  bottom: 0;
-  right: 0;
   color: $gray-light;
   font-weight: bolder;
   padding-right: 40px;
