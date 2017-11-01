@@ -34,7 +34,7 @@ export abstract class HttpService {
     private translate: TranslateService,
     private router: Router,
   ) {
-    this.headers = new Headers({ 'Authorization': 'Bearer ' + this.authenticationService.token });
+    this.headers = new Headers({ 'Authorization': `Bearer ${this.authenticationService.token}` });
     this.translate.get('Error').subscribe(res => {
       this.errorText = res;
     });
@@ -52,8 +52,12 @@ export abstract class HttpService {
     });
   }
 
-  public getUrl(path: string|number = null): string {
-    return environment.apiHost + '/' + this.getPrefix() + (path ? '/' + path : '');
+  getUrl(path: string|number = null): string {
+    let url = `${environment.apiHost}/${this.getPrefix()}`;
+      if (path) {
+          url += `/${path}`;
+      }
+    return url;
   }
 
   protected getAuthHeaders(): Headers {
@@ -73,7 +77,7 @@ export abstract class HttpService {
    * @returns {Promise<any|T>}
    */
   protected get(id: string|number = null, params: string = '', body: any = null): Promise<any> {
-    return this.http.get(this.getUrl(id), { headers: this.getAuthHeaders(), params: params, body: body })
+    return this.http.get(this.getUrl(id), { headers: this.getAuthHeaders(), params, body })
       .toPromise()
       .catch(error => this.handleError(error));
   }
@@ -130,9 +134,6 @@ export abstract class HttpService {
    * @returns {Promise<never>}
    */
   protected handleError(error: any): Promise<any> {
-    this.msgs.push({ severity: 'error', summary: this.errorText,
-      detail: this.httpErrorMessage });
-    this._state.notifyDataChanged('growl', this.msgs);
 
     if (!environment.production) {
       this._logger.error(error);
@@ -140,11 +141,19 @@ export abstract class HttpService {
 
     if (error && error.status && error.status === 401) {
       // won't clean all data so we need browser redirect
-      // this.router.navigate(['login']);
-      window.location.replace('/login');
+      // but I'm trying to clean them by hand
+      this.authenticationService.logout();
+      this.router.navigate(['login']);
+      // window.location.replace('/login');
+    } else if (error && error.status && error.status === 422) {
+      this._state.notifyDataChanged('apiError', error);
+    } else {
+      this.msgs.push({ severity: 'error', summary: this.errorText,
+          detail: this.httpErrorMessage });
+      this._state.notifyDataChanged('growl', this.msgs);
     }
 
-    return Promise.reject(error.message || error);
+    return Promise.reject(error);
   }
 
   private success(message: string = '', self: any): void {

@@ -10,6 +10,7 @@ import { ModalComponent } from 'ng2-bs3-modal/components/modal';
 import { CitiesService } from '../../../../components/city/cities.service';
 import { SlimLoadingBarService } from 'ng2-slim-loading-bar';
 import { TranslateService } from '@ngx-translate/core';
+import * as _ from 'lodash';
 
 @Component({
     selector: 'nga-cities',
@@ -69,7 +70,7 @@ export class CitiesComponent implements OnInit {
             this.source.load(data);
             this.loadingBar.complete();
         }).catch((error) => {
-            this.showError('Something bad happened, you can\'t load list of cities');
+            this.showError(error);
             this.loadingBar.complete();
         });
     }
@@ -124,9 +125,9 @@ export class CitiesComponent implements OnInit {
         this.service.update(event.newData).then(() => {
             event.confirm.resolve();
             this.loadingBar.complete();
-        }).catch((reason) => {
+        }).catch((error) => {
             event.confirm.reject();
-            this.showError('Something bad happened, you can\'t save city');
+            this.showError(error);
             this.loadingBar.complete();
         });
     }
@@ -138,13 +139,24 @@ export class CitiesComponent implements OnInit {
             this.loadingBar.complete();
         }).catch((reason) => {
             event.confirm.reject();
-            this.showError('Something bad happened, you can\'t add city');
+            this.showError(reason);
             this.loadingBar.complete();
         });
     }
 
-    private showError(message: string): void {
-        this.errorMessage = message;
-        this.errorDialog.open('sm');
+    errors = [];
+    hasError: boolean = false;
+    private showError(error): void {
+        this.errors = [];
+        this.hasError = false;
+        const errors = error.json().errors;
+        for (const title in errors) {
+            if (errors.hasOwnProperty(title) && errors[title]) {
+                this.errors.push({ title, errors: errors[title] });
+                this.hasError = true;
+            }
+        }
+        const size = this.hasError ? 'md' : 'sm';
+        this.errorDialog.open(size);
     }
 }

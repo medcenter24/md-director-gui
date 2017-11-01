@@ -8,12 +8,14 @@
 }
 
 button.close {
+  position: absolute;
+  right: 20px;
   padding-bottom: 2px;
   color: #000;
   text-shadow: 0 1px 0 #fff;
-  opacity: .2;
+  opacity: 0.2;
 
   &:hover {
-    opacity: .5;
+    opacity: 0.5;
   }
 }
