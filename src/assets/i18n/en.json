@@ -1,4 +1,9 @@
 {
+  "The title may not be greater than 150 characters.": "The title may not be greater than 150 characters.",
+  "The title field is required.": "The title field is required.",
+  "title": "Title",
+  "Please, fix these issues": "Please, fix these issues",
+  "Unsupported error, tell your administrator about it": "Unsupported error, tell your administrator about it",
   "Director": "Director",
   "Create new case": "Create new case",
   "Medical Company": "Medical Company",

@@ -15,7 +15,7 @@ import { InMemoryWebApiModule } from 'angular-in-memory-web-api';
 import { InMemoryDataService } from './faker/in-memory-data.service';
 
 // App is our top level component
-import { App } from './app.component';
+import { AppComponent } from './app.component';
 import { AppState, InternalStateType } from './app.service';
 import { GlobalState } from './global.state';
 import { NgaModule } from './theme/nga.module';
@@ -31,6 +31,7 @@ import { environment } from '../environments/environment';
  * Platform and Environment providers/directives/pipes
  */
 import { routing } from './app.routing';
+import { ApiErrorModule } from './components/ui/apiError/apiError.module';
 
 // Application wide providers
 const APP_PROVIDERS = [
@@ -51,9 +52,9 @@ export type StoreType = {
  * `AppModule` is the main entry point into Angular2's bootstraping process
  */
 @NgModule({
-  bootstrap: [App],
+  bootstrap: [AppComponent],
   declarations: [
-    App,
+    AppComponent,
   ],
   imports: [ // import Angular's modules
     BrowserModule,
@@ -71,8 +72,9 @@ export type StoreType = {
     GrowlModule,
     ConfirmDialogModule,
     BlockUIModule,
+    ApiErrorModule,
   ],
-  exports: [InMemoryWebApiModule],
+  exports: [InMemoryWebApiModule, ApiErrorModule],
   providers: [ // expose our Services and Providers into Angular's dependency injection
     APP_PROVIDERS,
   ],
