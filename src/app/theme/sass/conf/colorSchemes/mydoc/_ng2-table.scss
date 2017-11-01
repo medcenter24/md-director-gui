@@ -61,6 +61,8 @@ ng2-smart-table {
 
   .ng2-smart-actions {
     text-align: center;
+    white-space: nowrap;
+    width: 80px;
     .actions {
       float: none;
       text-align: center;

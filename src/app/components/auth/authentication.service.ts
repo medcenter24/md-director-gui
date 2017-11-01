@@ -18,9 +18,9 @@ import { Message } from 'primeng/primeng';
 @Injectable()
 export class AuthenticationService {
 
-  public token: string;
-  private authUrl = environment.apiHost + '/authenticate';  // URL to web api
-  private refreshUrl = environment.apiHost + '/token';
+  token: string;
+  private authUrl = `${environment.apiHost}/authenticate`;  // URL to web api
+  private refreshUrl = `${environment.apiHost}/token`;
   private refreshTimer;
   private jwtHelper: JwtHelper = new JwtHelper();
   msgs: Message[] = [];
@@ -41,7 +41,7 @@ export class AuthenticationService {
 
   login (username: string, password: string): Observable<boolean> {
     this.loadingBar.start();
-    return this.http.post(this.authUrl, JSON.stringify({ email: username, password: password }))
+    return this.http.post(this.authUrl, JSON.stringify({ email: username, password }))
       .map((response: Response) => {
         this.loadingBar.stop();
         // login successful if there's a jwt token in the response
