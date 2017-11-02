@@ -10,11 +10,6 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { RouterModule } from '@angular/router';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-
-import { InMemoryWebApiModule } from 'angular-in-memory-web-api';
-import { InMemoryDataService } from './faker/in-memory-data.service';
-
-// App is our top level component
 import { AppComponent } from './app.component';
 import { AppState, InternalStateType } from './app.service';
 import { GlobalState } from './global.state';
@@ -25,13 +20,8 @@ import { SlimLoadingBarModule } from 'ng2-slim-loading-bar';
 import { Logger, Options } from 'angular2-logger/core';
 import { BlockUIModule, ConfirmationService, ConfirmDialogModule, GrowlModule } from 'primeng/primeng';
 import { environment } from '../environments/environment';
-
-
-/*
- * Platform and Environment providers/directives/pipes
- */
 import { routing } from './app.routing';
-import { ApiErrorModule } from './components/ui/apiError/apiError.module';
+import { ApiErrorService } from './components/ui/apiError.service';
 
 // Application wide providers
 const APP_PROVIDERS = [
@@ -40,6 +30,7 @@ const APP_PROVIDERS = [
   Logger,
   Options,
   ConfirmationService,
+  ApiErrorService,
 ];
 
 export type StoreType = {
@@ -60,7 +51,6 @@ export type StoreType = {
     BrowserModule,
     BrowserAnimationsModule,
     HttpModule,
-    InMemoryWebApiModule.forRoot(InMemoryDataService, { apiBase: 'director/', passThruUnknownUrl: true }),
     RouterModule,
     FormsModule,
     ReactiveFormsModule,
@@ -72,9 +62,8 @@ export type StoreType = {
     GrowlModule,
     ConfirmDialogModule,
     BlockUIModule,
-    ApiErrorModule,
   ],
-  exports: [InMemoryWebApiModule, ApiErrorModule],
+  exports: [],
   providers: [ // expose our Services and Providers into Angular's dependency injection
     APP_PROVIDERS,
   ],

@@ -1,4 +1,10 @@
 {
+  "The operation field is required.": "Укажите тип скидки",
+  "operation":  "Операция",
+  "The type field is required.": "Укажите тип статуса (к какому сценарию относится)",
+  "type": "Тип",
+  "The ref key field is required.": "Укажите Реф. Номер",
+  "ref_key": "Реф. №",
   "The title may not be greater than 150 characters.": "Название не может быть более 150 символов",
   "The title field is required.": "Название не указано.",
   "title": "Название",

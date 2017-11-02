@@ -22,9 +22,6 @@ export class AccidentTypesComponent implements OnInit {
     @ViewChild('deleteDialog')
     private deleteDialog: ModalComponent;
 
-    @ViewChild('errorDialog')
-    private errorDialog: ModalComponent;
-
     query: string = '';
 
     deleteDialogEvent: any = null;
@@ -72,7 +69,6 @@ export class AccidentTypesComponent implements OnInit {
             this.source.load(data);
             this.loadingBar.complete();
         }).catch((response) => {
-            this.showError('Something bad happened, you can\'t load list of accident types', response);
             this.loadingBar.complete();
         });
     }
@@ -133,7 +129,6 @@ export class AccidentTypesComponent implements OnInit {
             this.loadingBar.complete();
         }).catch((reason) => {
             event.confirm.reject();
-            this.showError('Something bad happened, you can\'t save accident type');
             this.loadingBar.complete();
         });
     }
@@ -145,16 +140,7 @@ export class AccidentTypesComponent implements OnInit {
             this.loadingBar.complete();
         }).catch((reason) => {
             event.confirm.reject();
-            this.showError('Something bad happened, you can\'t add accident type');
             this.loadingBar.complete();
         });
-    }
-
-    private showError(message: string, response: Response = null): void {
-        this.errorMessage = message;
-        if (response) {
-            this.errorResponse = response;
-        }
-        this.errorDialog.open('sm');
     }
 }

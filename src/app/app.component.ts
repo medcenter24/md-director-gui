@@ -6,13 +6,12 @@
 
 import { AfterViewInit, Component, ViewContainerRef } from '@angular/core';
 import * as $ from 'jquery';
-
 import { GlobalState } from './global.state';
 import { BaImageLoaderService, BaThemePreloader, BaThemeSpinner } from './theme/services';
 import { BaThemeConfig } from './theme/theme.config';
 import { layoutPaths } from './theme/theme.constants';
 import { Confirmation, ConfirmationService, Message } from 'primeng/primeng';
-import { ApiErrorService } from './components/ui/apiError/apiError.service';
+import { ApiErrorService } from './components/ui/apiError.service';
 
 /*
  * App Component
@@ -31,7 +30,6 @@ import { ApiErrorService } from './components/ui/apiError/apiError.service';
       <div class="additional-bg"></div>
       <router-outlet></router-outlet>
       <p-confirmDialog></p-confirmDialog>
-      <!--nga-api-error></nga-api-error-->
     </main>
   `,
 })

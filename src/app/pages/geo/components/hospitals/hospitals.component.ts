@@ -21,9 +21,6 @@ export class HospitalsComponent implements OnInit {
     @ViewChild('deleteDialog')
     private deleteDialog: ModalComponent;
 
-    @ViewChild('errorDialog')
-    private errorDialog: ModalComponent;
-
     query: string = '';
 
     settings = {
@@ -68,7 +65,6 @@ export class HospitalsComponent implements OnInit {
             this.source.load(data);
             this.loadingBar.complete();
         }).catch((error) => {
-            this.showError('Something bad happened, you can\'t load list of hospitals');
             this.loadingBar.complete();
         });
     }
@@ -139,7 +135,6 @@ export class HospitalsComponent implements OnInit {
             this.loadingBar.complete();
         }).catch((reason) => {
             event.confirm.reject();
-            this.showError('Something bad happened, you can\'t save hospital');
             this.loadingBar.complete();
         });
     }
@@ -151,13 +146,7 @@ export class HospitalsComponent implements OnInit {
             this.loadingBar.complete();
         }).catch((reason) => {
             event.confirm.reject();
-            this.showError('Something bad happened, you can\'t add hospital');
             this.loadingBar.complete();
         });
-    }
-
-    private showError(message: string): void {
-        this.errorMessage = message;
-        this.errorDialog.open('sm');
     }
 }

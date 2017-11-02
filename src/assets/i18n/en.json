@@ -1,4 +1,10 @@
 {
+  "The operation field is required.": "The operation field is required.",
+  "operation":  "Operation",
+  "The type field is required.": "The type field is required (which scenario it is related to)",
+  "type": "Type",
+  "The ref key field is required.":  "The Ref key field is required.",
+  "ref_key": "Ref. Key",
   "The title may not be greater than 150 characters.": "The title may not be greater than 150 characters.",
   "The title field is required.": "The title field is required.",
   "title": "Title",
