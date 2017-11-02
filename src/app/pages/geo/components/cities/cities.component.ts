@@ -22,9 +22,6 @@ export class CitiesComponent implements OnInit {
     @ViewChild('deleteDialog')
     private deleteDialog: ModalComponent;
 
-    @ViewChild('errorDialog')
-    private errorDialog: ModalComponent;
-
     query: string = '';
 
     settings = {
@@ -69,8 +66,7 @@ export class CitiesComponent implements OnInit {
         this.service.getCities().then((data) => {
             this.source.load(data);
             this.loadingBar.complete();
-        }).catch((error) => {
-            this.showError(error);
+        }).catch(() => {
             this.loadingBar.complete();
         });
     }
@@ -125,9 +121,8 @@ export class CitiesComponent implements OnInit {
         this.service.update(event.newData).then(() => {
             event.confirm.resolve();
             this.loadingBar.complete();
-        }).catch((error) => {
+        }).catch(() => {
             event.confirm.reject();
-            this.showError(error);
             this.loadingBar.complete();
         });
     }
@@ -139,24 +134,7 @@ export class CitiesComponent implements OnInit {
             this.loadingBar.complete();
         }).catch((reason) => {
             event.confirm.reject();
-            this.showError(reason);
             this.loadingBar.complete();
         });
-    }
-
-    errors = [];
-    hasError: boolean = false;
-    private showError(error): void {
-        this.errors = [];
-        this.hasError = false;
-        const errors = error.json().errors;
-        for (const title in errors) {
-            if (errors.hasOwnProperty(title) && errors[title]) {
-                this.errors.push({ title, errors: errors[title] });
-                this.hasError = true;
-            }
-        }
-        const size = this.hasError ? 'md' : 'sm';
-        this.errorDialog.open(size);
     }
 }

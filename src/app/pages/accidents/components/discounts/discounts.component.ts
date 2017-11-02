@@ -20,9 +20,6 @@ export class AccidentDiscountsComponent implements OnInit {
     @ViewChild('deleteDialog')
     private deleteDialog: ModalComponent;
 
-    @ViewChild('errorDialog')
-    private errorDialog: ModalComponent;
-
     query: string = '';
 
     deleteDialogEvent: any = null;
@@ -69,7 +66,6 @@ export class AccidentDiscountsComponent implements OnInit {
             this.source.load(data);
             this.loadingBar.complete();
         }).catch((response) => {
-            this.showError('Something bad happened, you can\'t load list of accident discounts', response);
             this.loadingBar.complete();
         });
     }
@@ -134,7 +130,6 @@ export class AccidentDiscountsComponent implements OnInit {
             this.loadingBar.complete();
         }).catch((reason) => {
             event.confirm.reject();
-            this.showError('Something bad happened, you can\'t save accident discounts');
             this.loadingBar.complete();
         });
     }
@@ -146,17 +141,7 @@ export class AccidentDiscountsComponent implements OnInit {
             this.loadingBar.complete();
         }).catch((reason) => {
             event.confirm.reject();
-            this.showError('Something bad happened, you can\'t add accident discounts');
             this.loadingBar.complete();
         });
     }
-
-    private showError(message: string, response: Response = null): void {
-        this.errorMessage = message;
-        if (response) {
-            this.errorResponse = response;
-        }
-        this.errorDialog.open('sm');
-    }
-
 }

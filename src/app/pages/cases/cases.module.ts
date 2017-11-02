@@ -78,7 +78,6 @@ import { DateHelper } from '../../helpers/date.helper';
     AutoCompleteModule,
     SpinnerModule,
     Ng2Bs3ModalModule,
-    // InMemoryWebApiModule.forRoot(InMemoryDataService, {apiBase: 'director/', passThruUnknownUrl: true}),
     ButtonModule,
     TooltipModule,
     AppTranslationModule,
