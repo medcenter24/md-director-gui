@@ -26,9 +26,6 @@ export class DiagnosticsComponent implements OnInit {
     @ViewChild('deleteDialog')
     private deleteDialog: ModalComponent;
 
-    @ViewChild('errorDialog')
-    private errorDialog: ModalComponent;
-
     selectedDiagnostic: boolean = false;
     editCategories: boolean = false;
     currentDiagnostic: Diagnostic;
@@ -78,7 +75,6 @@ export class DiagnosticsComponent implements OnInit {
             this.source.load(data);
             this.loadingBar.complete();
         }).catch(() => {
-            this.showError('Something bad happened, you can\'t load list of diagnostics');
             this.loadingBar.complete();
         });
     }
@@ -145,9 +141,8 @@ export class DiagnosticsComponent implements OnInit {
         this.service.update(event.newData).then(() => {
             event.confirm.resolve();
             this.loadingBar.complete();
-        }).catch((reason) => {
+        }).catch(() => {
             event.confirm.reject();
-            this.showError('Something bad happened, you can\'t save diagnostic');
             this.loadingBar.complete();
         });
     }
@@ -157,16 +152,10 @@ export class DiagnosticsComponent implements OnInit {
         this.service.create(event.newData).then(() => {
             event.confirm.resolve();
             this.loadingBar.complete();
-        }).catch((reason) => {
+        }).catch(() => {
             event.confirm.reject();
-            this.showError('Something bad happened, you can\'t add diagnostic');
             this.loadingBar.complete();
         });
-    }
-
-    private showError(message: string): void {
-        this.errorMessage = message;
-        this.errorDialog.open('sm');
     }
 
     onUserSelectRow(event): void {

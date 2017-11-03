@@ -24,9 +24,6 @@ export class StuffComponent implements OnInit {
     @ViewChild('deleteDialog')
     private deleteDialog: ModalComponent;
 
-    @ViewChild('errorDialog')
-    private errorDialog: ModalComponent;
-
     @ViewChild(DoctorEditorComponent)
     private doctorEditorComponent: DoctorEditorComponent;
 
@@ -96,7 +93,6 @@ export class StuffComponent implements OnInit {
             this.source.load(data);
             this.loadingBar.complete();
         }).catch(() => {
-            this.showError('Something bad happened, you can\'t load list of doctors');
             this.loadingBar.complete();
         });
     }
@@ -137,7 +133,6 @@ export class StuffComponent implements OnInit {
             if (event && event.confirm) {
                 event.confirm.reject();
             }
-            this.showError('Something bad happened, you can\'t save doctors\' data');
             this.loadingBar.complete();
             this._logger.error(reason);
         });
@@ -154,14 +149,8 @@ export class StuffComponent implements OnInit {
             if (event && event.confirm) {
                 event.confirm.reject();
             }
-            this.showError('Something bad happened, you can\'t create doctor');
             this.loadingBar.complete();
         });
-    }
-
-    private showError(message: string): void {
-        this.errorMessage = message;
-        this.errorDialog.open('sm');
     }
 
     handleDeleteConfirm(event): void {

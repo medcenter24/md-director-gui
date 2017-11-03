@@ -20,9 +20,9 @@ export class ApiErrorService {
         // to be sure that I have translations
         this.translate.get('Yes').subscribe(() => {
 
-            let msg = '<div class="api-error-msg"><h5>';
+            let msg = '<div class="api-error-msg"><div class="lead">';
             msg += this.translate.instant('Please, fix these issues');
-            msg += '</h5><ul>'
+            msg += '</div><ul>';
 
             const errors = error.json().errors;
             for (const title in errors) {
@@ -30,10 +30,10 @@ export class ApiErrorService {
                     const translatedTitle = this.translate.instant(title);
                     let translatedErrors = '';
                     errors[title].forEach((val) => {
-                        translatedErrors += `<li>${this.translate.instant(val)}</li>`
+                        translatedErrors += `<li>${this.translate.instant(val)}</li>`;
                     });
-                    msg += `<div class="error-item">
-                                <h6>${translatedTitle}</h6>
+                    msg += `<div class="error-item offset-bottom10">
+                                <h5 class="text-muted">${translatedTitle}</h5>
                                 ${translatedErrors}
                             </div>`;
                 }
@@ -41,6 +41,7 @@ export class ApiErrorService {
             msg += '</ul></div>';
 
             this._state.notifyDataChanged('confirmDialog', {
+                header: this.translate.instant('Error'),
                 message: msg,
                 acceptVisible: false,
             });

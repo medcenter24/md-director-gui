@@ -21,9 +21,6 @@ export class DoctorServicesComponent implements OnInit {
     @ViewChild('deleteDialog')
     private deleteDialog: ModalComponent;
 
-    @ViewChild('errorDialog')
-    private errorDialog: ModalComponent;
-
     query: string = '';
 
     settings = {
@@ -70,7 +67,6 @@ export class DoctorServicesComponent implements OnInit {
             this.source.load(data);
             this.loadingBar.complete();
         }).catch((error) => {
-            this.showError('Something bad happened, you can\'t load list of services');
             this.loadingBar.complete();
         });
     }
@@ -105,9 +101,8 @@ export class DoctorServicesComponent implements OnInit {
         this.service.update(event.newData).then(() => {
             event.confirm.resolve();
             this.loadingBar.complete();
-        }).catch((reason) => {
+        }).catch(() => {
             event.confirm.reject();
-            this.showError('Something bad happened, you can\'t save service');
             this.loadingBar.complete();
         });
     }
@@ -117,18 +112,12 @@ export class DoctorServicesComponent implements OnInit {
         this.service.create(event.newData).then(() => {
             event.confirm.resolve();
             this.loadingBar.complete();
-        }).catch((reason) => {
+        }).catch(() => {
             if (event && event.confirm) {
                 event.confirm.reject();
             }
-            this.showError('Something bad happened, you can\'t create service');
             this.loadingBar.complete();
         });
-    }
-
-    private showError(message: string): void {
-        this.errorMessage = message;
-        this.errorDialog.open('sm');
     }
 
     onDeleteConfirm(event): void {

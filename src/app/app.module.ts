@@ -22,6 +22,7 @@ import { BlockUIModule, ConfirmationService, ConfirmDialogModule, GrowlModule } 
 import { environment } from '../environments/environment';
 import { routing } from './app.routing';
 import { ApiErrorService } from './components/ui/apiError.service';
+import { AppTranslationModule } from './app.translation.module';
 
 // Application wide providers
 const APP_PROVIDERS = [
@@ -62,6 +63,7 @@ export type StoreType = {
     GrowlModule,
     ConfirmDialogModule,
     BlockUIModule,
+    AppTranslationModule,
   ],
   exports: [],
   providers: [ // expose our Services and Providers into Angular's dependency injection

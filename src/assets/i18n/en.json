@@ -1,4 +1,13 @@
 {
+  "Confirm": "Confirm",
+  "price": "Price",
+  "The price field is required.": "The price field is required.",
+  "The description field is required.": "The description field is required.",
+  "The email field is required.": "The email field is required.",
+  "email": "E-Mail",
+  "The name field is required.": "The name field is required.",
+  "description": "Description",
+  "name": "Name",
   "The operation field is required.": "The operation field is required.",
   "operation":  "Operation",
   "The type field is required.": "The type field is required (which scenario it is related to)",
@@ -104,11 +113,9 @@
   "Title is required": "Title is required",
   "Disease Code": "Disease Code",
   "Description": "Description",
-
   "Description is required": "Description is required",
   "Open categories editor": "Open categories editor",
   "Close categories editor": "Close categories editor",
-
   "Diagnostic Editor": "Diagnostic Editor",
   "Category Title": "Category Title",
   "New Category": "New Category",
