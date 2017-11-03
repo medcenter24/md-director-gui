@@ -1,8 +1,9 @@
 <div class="widgets">
   <div class="row">
-    <div class="col-sm-6">
+    <div class="col-sm-12">
       <ba-card baCardClass="with-scroll">
         <ng2-smart-table
+                *ngIf="settings.columns"
                 [settings]="settings"
                 [source]="source"
                 (deleteConfirm)="onDeleteConfirm($event)"
@@ -26,18 +27,5 @@
     <button type="button" class="btn btn-default" data-dismiss="modal"
             (click)="onDeleteDialogCancel()" translate>Cancel</button>
     <button type="button" class="btn btn-primary" (click)="onDeleteDialogOk()" [disabled]="deleteProcess" translate>Accept</button>
-  </modal-footer>
-</modal>
-
-<modal #errorDialog>
-  <modal-header [show-close]="true">
-    <h4 class="modal-title" translate>Error</h4>
-  </modal-header>
-  <modal-body>
-    {{ errorMessage }}
-  </modal-body>
-  <modal-footer>
-    <button type="button" class="btn btn-danger" data-dismiss="modal"
-            (click)="onDeleteDialogCancel()" translate>Accept</button>
   </modal-footer>
 </modal>

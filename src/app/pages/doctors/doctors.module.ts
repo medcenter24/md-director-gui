@@ -10,9 +10,9 @@ import { FormsModule } from '@angular/forms';
 import { NgaModule } from '../../theme/nga.module';
 import { Ng2SmartTableModule } from 'ng2-smart-table';
 import { routing }       from './doctors.routing';
-import { Doctors } from './doctors.component';
-import { Services } from './components/services/services.component';
-import { Stuff } from './components/stuff/stuff.component';
+import { DoctorsComponent } from './doctors.component';
+import { DoctorServicesComponent } from './components/services/services.component';
+import { StuffComponent } from './components/stuff/stuff.component';
 import { Ng2Bs3ModalModule } from 'ng2-bs3-modal/ng2-bs3-modal';
 import { DoctorsService } from '../../components/doctors/doctors.service';
 import { UserEditorComponent } from '../../components/users/editor/editor.component';
@@ -20,7 +20,7 @@ import { UserSelectorComponent } from '../../components/users/selector/selector.
 import { UsersService } from '../../components/users/users.service';
 import { DoctorEditorComponent } from '../../components/doctors/editor/editor.component';
 import { ServicesService } from '../../components/service/services.service';
-import { Diagnostics } from './components/diagnostics/diagnostics.component';
+import { DiagnosticsComponent } from './components/diagnostics/diagnostics.component';
 import { DiagnosticEditorComponent } from '../../components/diagnostic/components/editor/editor.component';
 import { DiagnosticCategoryEditorComponent }
   from '../../components/diagnostic/category/components/editor/editor.component';
@@ -32,9 +32,6 @@ import { AppTranslationModule } from '../../app.translation.module';
 import { AutoCompleteModule, ListboxModule } from 'primeng/primeng';
 import { CitiesModule } from '../../components/city/cities.module';
 import { CitiesService } from '../../components/city/cities.service';
-
-// import { InMemoryWebApiModule } from 'angular-in-memory-web-api';
-// import { InMemoryDataService } from '../../faker/in-memory-data.service';
 
 @NgModule({
   imports: [
@@ -48,16 +45,15 @@ import { CitiesService } from '../../components/city/cities.service';
     AutoCompleteModule,
     ListboxModule,
     CitiesModule,
-    // InMemoryWebApiModule.forRoot(InMemoryDataService, {apiBase: 'director/', passThruUnknownUrl: true}),
   ],
   declarations: [
-    Doctors,
-    Stuff,
-    Services,
+    DoctorsComponent,
+    StuffComponent,
+    DoctorServicesComponent,
     UserEditorComponent,
     UserSelectorComponent,
     DoctorEditorComponent,
-    Diagnostics,
+    DiagnosticsComponent,
     DiagnosticEditorComponent,
     DiagnosticCategoryEditorComponent,
     DiagnosticCategorySelectorComponent,

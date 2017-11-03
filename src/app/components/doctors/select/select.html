@@ -10,7 +10,6 @@
         [suggestions]="filteredDoctors"
         [dropdown]="true"
         (completeMethod)="filterDoctors($event)"
-        (onDropdownClick)="handleDropdownClick($event)"
         (onSelect)="onSelect($event)"
         (onBlur)="onBlur($event)"
         placeholder="{{ 'Select Doctor' | translate}}"

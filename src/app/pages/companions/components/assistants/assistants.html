@@ -7,9 +7,10 @@
 <div class="widgets">
 
   <div class="row">
-    <div class="col-sm-6">
+    <div class="col-sm-{{ isAssistant ? '6' : '12' }}">
       <ba-card baCardClass="with-scroll">
         <ng2-smart-table
+          *ngIf="settings.columns"
           [settings]="settings"
           [source]="source"
           (userRowSelect)="onUserSelectRow($event)"
@@ -19,12 +20,12 @@
         ></ng2-smart-table>
       </ba-card>
     </div>
-    <div class="col-sm-6">
-      <assistant-editor
-        [hidden]="!isAssistant"
+    <div class="col-sm-6" [hidden]="!isAssistant">
+      <nga-assistant-editor
         [assistant]="currentAssistant"
         (assistantSaved)="onUpdateAssistant($event)"
-      ></assistant-editor>
+        (close)="closeAssistantEditor()"
+      ></nga-assistant-editor>
     </div>
   </div>
 
@@ -41,30 +42,5 @@
     <button type="button" class="btn btn-default" data-dismiss="modal"
             (click)="onDeleteDialogCancel()">Cancel</button>
     <button type="button" class="btn btn-primary" (click)="onDeleteDialogOk()" [disabled]="deleteProcess">Ok</button>
-  </modal-footer>
-</modal>
-
-<modal #errorDialog>
-  <modal-header [show-close]="true">
-    <h4 class="modal-title">Error</h4>
-  </modal-header>
-  <modal-body>
-    <div class="row">
-      <div class="col-sm-12">
-        {{ errorMessage }}
-      </div>
-    </div>
-    <div class="row" *ngIf="errorResponse">
-      <div class="col-sm-12 text-right">
-        <code>
-          <b>{{ errorResponse.status }}</b>
-          {{ errorResponse.statusText }}
-        </code>
-      </div>
-    </div>
-  </modal-body>
-  <modal-footer>
-    <button type="button" class="btn btn-danger" data-dismiss="modal"
-            (click)="onDeleteDialogCancel()">Ok</button>
   </modal-footer>
 </modal>

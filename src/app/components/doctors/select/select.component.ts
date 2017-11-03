@@ -23,9 +23,9 @@ export class DoctorSelectComponent implements OnInit {
   @Output() loaded: EventEmitter<string> = new EventEmitter<string>();
 
   docId: number = 0;
-  doctors: Array<Doctor> = [];
+  doctors: Doctor[] = [];
   doctor: Doctor;
-  filteredDoctors: Array<Doctor> = [];
+  filteredDoctors: Doctor[] = [];
   isLoaded: boolean = false;
 
   constructor (
@@ -54,20 +54,11 @@ export class DoctorSelectComponent implements OnInit {
 
   filterDoctors (event): void {
     this.filteredDoctors = [];
-    for (let i = 0; i < this.doctors.length; i++) {
-      const doctor = this.doctors[i];
-      if (doctor.name.toLowerCase().indexOf(event.query.toLowerCase()) == 0) {
+    for (const doctor of this.doctors) {
+      if (doctor.name.toLowerCase().indexOf(event.query.toLowerCase()) === 0) {
         this.filteredDoctors.push(doctor);
       }
     }
-  }
-
-  handleDropdownClick() {
-    this.filteredDoctors = [];
-
-    setTimeout(() => {
-      this.filteredDoctors = this.doctors;
-    }, 100);
   }
 
   onSelect (): void {

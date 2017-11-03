@@ -10,12 +10,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { RouterModule } from '@angular/router';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-
-import { InMemoryWebApiModule } from 'angular-in-memory-web-api';
-import { InMemoryDataService } from './faker/in-memory-data.service';
-
-// App is our top level component
-import { App } from './app.component';
+import { AppComponent } from './app.component';
 import { AppState, InternalStateType } from './app.service';
 import { GlobalState } from './global.state';
 import { NgaModule } from './theme/nga.module';
@@ -25,12 +20,9 @@ import { SlimLoadingBarModule } from 'ng2-slim-loading-bar';
 import { Logger, Options } from 'angular2-logger/core';
 import { BlockUIModule, ConfirmationService, ConfirmDialogModule, GrowlModule } from 'primeng/primeng';
 import { environment } from '../environments/environment';
-
-
-/*
- * Platform and Environment providers/directives/pipes
- */
 import { routing } from './app.routing';
+import { ApiErrorService } from './components/ui/apiError.service';
+import { AppTranslationModule } from './app.translation.module';
 
 // Application wide providers
 const APP_PROVIDERS = [
@@ -39,6 +31,7 @@ const APP_PROVIDERS = [
   Logger,
   Options,
   ConfirmationService,
+  ApiErrorService,
 ];
 
 export type StoreType = {
@@ -51,15 +44,14 @@ export type StoreType = {
  * `AppModule` is the main entry point into Angular2's bootstraping process
  */
 @NgModule({
-  bootstrap: [App],
+  bootstrap: [AppComponent],
   declarations: [
-    App,
+    AppComponent,
   ],
   imports: [ // import Angular's modules
     BrowserModule,
     BrowserAnimationsModule,
     HttpModule,
-    InMemoryWebApiModule.forRoot(InMemoryDataService, { apiBase: 'director/', passThruUnknownUrl: true }),
     RouterModule,
     FormsModule,
     ReactiveFormsModule,
@@ -71,8 +63,9 @@ export type StoreType = {
     GrowlModule,
     ConfirmDialogModule,
     BlockUIModule,
+    AppTranslationModule,
   ],
-  exports: [InMemoryWebApiModule],
+  exports: [],
   providers: [ // expose our Services and Providers into Angular's dependency injection
     APP_PROVIDERS,
   ],

@@ -18,8 +18,8 @@ export class AuthGuard implements CanActivate {
     ) {}
 
   canActivate() {
-    if ( localStorage.getItem('token')
-      && tokenNotExpired('token', localStorage.getItem('token')) ) {
+    if ( this.authService.getToken()
+      && tokenNotExpired('token', this.authService.getToken()) ) {
       return true;
     }
 

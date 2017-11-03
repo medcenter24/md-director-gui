@@ -4,7 +4,6 @@
         [suggestions]="filteredAssistants"
         [dropdown]="true"
         (completeMethod)="filterAssistants($event)"
-        (onDropdownClick)="handleDropdownClick($event)"
         (onSelect)="onChanged($event)"
         placeholder="{{ 'Select Assistant' | translate}}"
         field="title"

@@ -21,8 +21,8 @@ export class AssistantSelectComponent implements OnInit {
 
   isLoaded: boolean = false;
   assistant: Assistant;
-  assistants: Array<Assistant> = [];
-  filteredAssistants: Array<Assistant> = [];
+  assistants: Assistant[] = [];
+  filteredAssistants: Assistant[] = [];
 
   constructor (
     private assistantsService: AssistantsService,
@@ -44,20 +44,11 @@ export class AssistantSelectComponent implements OnInit {
 
   filterAssistants (event): void {
     this.filteredAssistants = [];
-    for (let i = 0; i < this.assistants.length; i++) {
-      const assistant = this.assistants[i];
-      if (assistant.title.toLowerCase().indexOf(event.query.toLowerCase()) == 0) {
+    for (const assistant of this.assistants) {
+      if (assistant.title.toLowerCase().indexOf(event.query.toLowerCase()) === 0) {
         this.filteredAssistants.push(assistant);
       }
     }
-  }
-
-  handleDropdownClick() {
-    this.filteredAssistants = [];
-
-    setTimeout(() => {
-      this.filteredAssistants = this.assistants;
-    }, 100);
   }
 
   onChanged(event): void {
