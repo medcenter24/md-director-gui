@@ -9,7 +9,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { NgaModule } from '../../theme/nga.module';
 
-import { Cases } from './cases.component';
+import { CasesComponent } from './cases.component';
 import { routing } from './cases.routing';
 
 import { Ng2SmartTableModule } from 'ng2-smart-table';
@@ -63,9 +63,7 @@ import { CitiesModule } from '../../components/city/cities.module';
 import { AccidentScenarioComponent } from
   '../../components/accident/components/scenario/components/line/line.component';
 import { AccidentScenarioService } from '../../components/accident/components/scenario/scenario.service';
-
-// import { InMemoryWebApiModule } from 'angular-in-memory-web-api';
-// import { InMemoryDataService } from '../../faker/in-memory-data.service';
+import { DateHelper } from '../../helpers/date.helper';
 
 @NgModule({
   imports: [
@@ -80,7 +78,6 @@ import { AccidentScenarioService } from '../../components/accident/components/sc
     AutoCompleteModule,
     SpinnerModule,
     Ng2Bs3ModalModule,
-    // InMemoryWebApiModule.forRoot(InMemoryDataService, {apiBase: 'director/', passThruUnknownUrl: true}),
     ButtonModule,
     TooltipModule,
     AppTranslationModule,
@@ -100,7 +97,7 @@ import { AccidentScenarioService } from '../../components/accident/components/sc
     ToggleButtonModule,
   ],
   declarations: [
-    Cases,
+    CasesComponent,
     CaseEditorComponent,
     CasesListComponent,
     SelectServicesComponent,
@@ -141,6 +138,7 @@ import { AccidentScenarioService } from '../../components/accident/components/sc
     CitiesService,
     AccidentScenarioService,
     ConfirmationService,
+    DateHelper,
   ],
 })
 export class CasesModule {

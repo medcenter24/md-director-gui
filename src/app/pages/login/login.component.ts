@@ -18,11 +18,11 @@ import { SlimLoadingBarService } from 'ng2-slim-loading-bar';
 })
 export class Login implements OnInit {
 
-  public form: FormGroup;
-  public email: AbstractControl;
-  public password: AbstractControl;
-  public submitted: boolean = false;
-  public showError: boolean = false;
+  form: FormGroup;
+  email: AbstractControl;
+  password: AbstractControl;
+  submitted: boolean = false;
+  showError: boolean = false;
 
   constructor (private fb: FormBuilder,
                private authenticationService: AuthenticationService,
@@ -42,18 +42,18 @@ export class Login implements OnInit {
     this.password = this.form.controls[ 'password' ];
   }
 
-  public onSubmit (values: Object): void {
+  onSubmit (): void {
     this.loadingBar.start();
     this.submitted = true;
     this.showError = false;
     if (this.form.valid) {
       // your code goes here
       this.authenticationService.login(this.email.value, this.password.value)
-        .subscribe(result => {
+        .subscribe(() => {
           this.loadingBar.complete();
           this.router.navigate(['/']);
           this.submitted = false;
-        }, error => {
+        }, () => {
           this.showError = true;
           this.loadingBar.complete();
           this.submitted = false;

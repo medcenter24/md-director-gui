@@ -4,7 +4,7 @@
  * @author Alexander Zagovorichev <zagovorichev@gmail.com>
  */
 
-import { Injectable }    from '@angular/core';
+import { Injectable } from '@angular/core';
 
 import 'rxjs/add/operator/toPromise';
 

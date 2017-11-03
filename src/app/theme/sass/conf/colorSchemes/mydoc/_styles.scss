@@ -96,6 +96,35 @@ a.al-sidebar-list-link i {
 .total-income {
   .ui-inplace-display:hover {
     border: none;
-    background: #5cb85c ;
+    background: #5cb85c;
+  }
+}
+
+.al-footer {
+  .al-footer-right {
+    display: table;
+    position: absolute;
+    right: 0;
+    bottom: 10px;
+
+    .copyright {
+      font-weight: 300;
+      color: $gray-light;
+      display: table-cell;
+      vertical-align: middle;
+      padding-right: 20px;
+      padding-top: 40px;
+    }
+    img {
+      display: table-cell;
+      margin-right: 80px;
+    }
+  }
+}
+
+.toolbar-widget {
+  .ui-widget-header {
+    background: $white;
+    padding: 15px;
   }
 }

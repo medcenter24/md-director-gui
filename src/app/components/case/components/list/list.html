@@ -6,32 +6,30 @@
 
 <div class="widgets">
   <div class="row offset-bottom20">
-    <div class="col-sm-12 col-lg-10">
-      <p-toolbar>
+    <div class="col-sm-12">
+      <p-toolbar class="toolbar-widget">
         <div class="ui-toolbar-group-left">
+          <button pButton type="button" label="{{ 'Create new case' | translate }}" icon="fa-plus" (click)="handleCreate()"></button>
+          <i class="fa fa-bars"></i>
           <button pButton type="button" label="{{ 'Import' | translate }}" icon="fa-upload" (click)="openImporter()"></button>
           <button pButton type="button" label="{{ 'Export' | translate }}" icon="fa-download" (click)="exportCases()"></button>
-
-          <i class="fa fa-bars"></i>
         </div>
-
         <div class="ui-toolbar-group-right">
-          <!--button pButton type="button" icon="fa-search"></button-->
           <i class="fa fa-bars"></i>
-          <button pButton type="button" icon="fa-refresh" ng-click="reloadDatatable()"></button>
-          <!--button pButton type="button" icon="fa-trash"></button-->
+          <!--button pButton type="button" icon="fa-search"></button-->
+          <button pButton type="button" icon="fa-refresh" (click)="reloadDatatable({})"></button>
         </div>
       </p-toolbar>
     </div>
   </div>
   <div class="row">
-    <div class="col-sm-12 col-lg-10">
+    <div class="col-sm-12">
       <ba-card baCardClass="with-scroll">
         <ng2-smart-table
+                *ngIf="settings.columns"
                 [settings]="settings"
                 [source]="source"
-                (create)="handleCreate()"
-                (edit)="handleEdit($event)"
+                (userRowSelect)="handleEdit($event)"
         ></ng2-smart-table>
 
         <p-paginator

@@ -125,6 +125,6 @@ export class FileUploaderComponent implements OnInit {
   private deleteFileFromGui(id: number): void {
     this.documents = this.documents.filter(val => +val.id !== +id);
     this.changed.emit(this.documents);
-    $('.row-file-' + id).remove();
+    $(`.row-file-${id}`).remove();
   }
 }
