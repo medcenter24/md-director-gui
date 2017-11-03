@@ -34,7 +34,10 @@ export abstract class HttpService {
     private translate: TranslateService,
     private router: Router,
   ) {
-    this.headers = new Headers({ 'Authorization': `Bearer ${this.authenticationService.token}` });
+    if (this.authenticationService.token) {
+
+    }
+    this.headers = new Headers({ 'Authorization': `Bearer ${this.authenticationService.getToken()}` });
     this.translate.get('Error').subscribe(res => {
       this.errorText = res;
     });

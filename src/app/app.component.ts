@@ -20,18 +20,7 @@ import { ApiErrorService } from './components/ui/apiError.service';
 @Component({
   selector: 'nga-app',
   styleUrls: ['./app.component.scss'],
-  template: `
-    <p-blockUI [blocked]="blocked">
-        <i class="fa fa-lock fa-5x" style="position:absolute;top:50%;left:50%"></i>
-    </p-blockUI>
-    <main [class.menu-collapsed]="isMenuCollapsed" baThemeRun>
-      <ng2-slim-loading-bar [height]="'3px'" [color]="'#e85656'"></ng2-slim-loading-bar>
-      <p-growl [value]="msgs"></p-growl>
-      <div class="additional-bg"></div>
-      <router-outlet></router-outlet>
-      <p-confirmDialog></p-confirmDialog>
-    </main>
-  `,
+  templateUrl: './app.html',
 })
 export class AppComponent implements AfterViewInit {
 
@@ -61,7 +50,9 @@ export class AppComponent implements AfterViewInit {
       this._state.subscribe('growl', (msgs: Message[]) => this.msgs = msgs);
       this._state.subscribe('confirmDialog', (config) => this.confirmationService.confirm(config));
       this._state.subscribe('blocker', (block: boolean) => this.blocked = block);
-      this._state.subscribe('apiError', (error) => this.apiErrorService.show(error));
+      this._state.subscribe('apiError', (error) => {
+          this.apiErrorService.show(error);
+      });
   }
 
   ngAfterViewInit(): void {
