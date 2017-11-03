@@ -12,8 +12,9 @@
 @import 'mydoc/edit-form';
 @import 'mydoc/uploader';
 @import 'mydoc/form';
+@import 'mydoc/api-error';
 
 /** Primeng https://www.primefaces.org */
-@import "~primeng/resources/primeng.css";
-@import "~primeng/resources/themes/omega/theme.css";
-@import "~ng2-slim-loading-bar/style.css";
+@import '~primeng/resources/primeng.css';
+@import '~primeng/resources/themes/omega/theme.css';
+@import '~ng2-slim-loading-bar/style.css';

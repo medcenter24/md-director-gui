@@ -21,9 +21,9 @@ export class SelectAccidentComponent implements OnInit {
   @Output() loaded: EventEmitter<string> = new EventEmitter<string>();
 
   isLoaded: boolean = false;
-  public accident: Accident = null;
-  private accidents: Array<Accident> = [];
-  private filteredAccidents: Array<Accident> = [];
+  accident: Accident = null;
+  private accidents: Accident[] = [];
+  private filteredAccidents: Accident[] = [];
 
   constructor (
     private accidentService: AccidentsService,
@@ -47,19 +47,11 @@ export class SelectAccidentComponent implements OnInit {
 
   filterAccidents (event): void {
     this.filteredAccidents = [];
-    for (let i = 0; i < this.accidents.length; i++) {
-      const assistant = this.accidents[i];
-      if (assistant.title.toLowerCase().indexOf(event.query.toLowerCase()) == 0) {
-        this.filteredAccidents.push(assistant);
+    for (const accident of this.accidents) {
+      if (accident.title.toLowerCase().indexOf(event.query.toLowerCase()) === 0) {
+        this.filteredAccidents.push(accident);
       }
     }
-  }
-
-  handleDropdownClick() {
-    this.filteredAccidents = [];
-    setTimeout(() => {
-      this.filteredAccidents = this.accidents;
-    }, 100);
   }
 
   onChanged (): void {

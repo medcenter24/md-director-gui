@@ -3,24 +3,31 @@
  *
  * @author Alexander Zagovorichev <zagovorichev@gmail.com>
  */
-@import "variables";
+@import 'variables';
 
 ng2-smart-table {
+  color: $default-text;
+  font-size: $font-size-sm;
+  line-height: $line-height-xs;
+
   tr {
     cursor: pointer;
   }
 
   th, td {
-    border: 1px solid $border-light !important;
-    font-size: $font-size-base !important;
-    line-height: $line-height-base;
-    vertical-align: middle;
+    border: 1px solid $border-light;
+    padding: 0;
+    line-height: $line-height-xs;
   }
 
-  color: $default-text;
-
   input {
-    line-height: 1.5 !important;
+    line-height: $line-height-xs;
+  }
+
+  thead {
+    tr:last-child {
+      border-bottom: 2px solid $border;
+    }
   }
 
   tbody {
@@ -30,21 +37,32 @@ ng2-smart-table {
   }
 
   a.ng2-smart-sort-link {
-    font-size: 14px !important;
+    font-size: $font-size-sm;
     color: $default-text;
-    font-weight: $font-bolder;
+    font-weight: $font-bold;
     &.sort {
-      font-weight: $font-bolder !important;
+      font-weight: $font-bold;
 
-      &::after {
-        border-bottom-color: $default-text !important;
+      &::after,
+      &.desc::after, &.asc::after {
+        border-bottom: 4px solid rgba(255, 255, 255, 0.9);
+      }
+    }
+  }
+
+  .ng2-smart-titles {
+    background-color: $black;
+    th {
+      * {
+        color: $white;
       }
     }
   }
 
   .ng2-smart-actions {
-    width: 70px;
     text-align: center;
+    white-space: nowrap;
+    width: 80px;
     .actions {
       float: none;
       text-align: center;
@@ -70,4 +88,7 @@ ng2-smart-table {
 nav.ng2-smart-pagination-nav {
   display: flex;
   justify-content: center;
+  .page-link {
+    height: 100%;
+  }
 }

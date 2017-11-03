@@ -1,33 +1,28 @@
-import {AfterViewInit, Component, ViewContainerRef} from '@angular/core';
-import * as $ from 'jquery';
+/*
+ *  Copyright (c) 2017.
+ *
+ *  @author Alexander Zagovorichev <zagovorichev@gmail.com>
+ */
 
+import { AfterViewInit, Component, ViewContainerRef } from '@angular/core';
+import * as $ from 'jquery';
 import { GlobalState } from './global.state';
 import { BaImageLoaderService, BaThemePreloader, BaThemeSpinner } from './theme/services';
 import { BaThemeConfig } from './theme/theme.config';
 import { layoutPaths } from './theme/theme.constants';
 import { Confirmation, ConfirmationService, Message } from 'primeng/primeng';
+import { ApiErrorService } from './components/ui/apiError.service';
 
 /*
  * App Component
  * Top Level Component
  */
 @Component({
-  selector: 'app',
+  selector: 'nga-app',
   styleUrls: ['./app.component.scss'],
-  template: `
-    <p-blockUI [blocked]="blocked">
-        <i class="fa fa-lock fa-5x" style="position:absolute;top:50%;left:50%"></i>
-    </p-blockUI>
-    <main [class.menu-collapsed]="isMenuCollapsed" baThemeRun>
-      <ng2-slim-loading-bar [height]="'3px'" [color]="'#e85656'"></ng2-slim-loading-bar>
-      <p-growl [value]="msgs"></p-growl>
-      <div class="additional-bg"></div>
-      <router-outlet></router-outlet>
-      <p-confirmDialog></p-confirmDialog>
-    </main>
-  `,
+  templateUrl: './app.html',
 })
-export class App implements AfterViewInit {
+export class AppComponent implements AfterViewInit {
 
   // growl messages
   msgs: Message[] = [];
@@ -41,6 +36,7 @@ export class App implements AfterViewInit {
               private viewContainerRef: ViewContainerRef,
               private themeConfig: BaThemeConfig,
               private confirmationService: ConfirmationService,
+              private apiErrorService: ApiErrorService,
   ) {
 
       themeConfig.config();
@@ -54,9 +50,12 @@ export class App implements AfterViewInit {
       this._state.subscribe('growl', (msgs: Message[]) => this.msgs = msgs);
       this._state.subscribe('confirmDialog', (config) => this.confirmationService.confirm(config));
       this._state.subscribe('blocker', (block: boolean) => this.blocked = block);
+      this._state.subscribe('apiError', (error) => {
+          this.apiErrorService.show(error);
+      });
   }
 
-  public ngAfterViewInit(): void {
+  ngAfterViewInit(): void {
     // hide spinner once all loaders are completed
     BaThemePreloader.load().then((values) => {
       this._spinner.hide();
@@ -65,7 +64,7 @@ export class App implements AfterViewInit {
 
   private _loadImages(): void {
     // register some loaders
-    BaThemePreloader.registerLoader(this._imageLoader.load('/assets/img/sky-bg.jpg'));
+    // BaThemePreloader.registerLoader(this._imageLoader.load('/assets/img/sky-bg.jpg'));
   }
 
 }

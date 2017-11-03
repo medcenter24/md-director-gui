@@ -4,25 +4,25 @@
  * @author Alexander Zagovorichev <zagovorichev@gmail.com>
  */
 
-import { Routes, RouterModule }  from '@angular/router';
+import { Routes, RouterModule } from '@angular/router';
 import { ModuleWithProviders } from '@angular/core';
 
-import { Doctors } from './doctors.component';
-import { Diagnostics } from './components/diagnostics/diagnostics.component';
-import { Services } from './components/services/services.component';
-import { Stuff } from './components/stuff/stuff.component';
+import { DoctorsComponent } from './doctors.component';
+import { DiagnosticsComponent } from './components/diagnostics/diagnostics.component';
+import { DoctorServicesComponent } from './components/services/services.component';
+import { StuffComponent } from './components/stuff/stuff.component';
 
 // noinspection TypeScriptValidateTypes
 const routes: Routes = [
-  {
-    path: '',
-    component: Doctors,
-    children: [
-      { path: 'diagnostics', component: Diagnostics },
-      { path: 'services', component: Services },
-      { path: 'stuff', component: Stuff },
-    ]
-  }
+    {
+        path: '',
+        component: DoctorsComponent,
+        children: [
+            { path: 'diagnostics', component: DiagnosticsComponent },
+            { path: 'services', component: DoctorServicesComponent },
+            { path: 'stuff', component: StuffComponent },
+        ],
+    },
 ];
 
 export const routing: ModuleWithProviders = RouterModule.forChild(routes);

@@ -32,10 +32,10 @@
                     {{ file.title }}
                 </td>
                 <td>
-                    <button pButton type="button" ng-click="deleteFile(file)" class="ui-button-danger" icon="fa-trash" label="{{ 'Delete' | translate }}"></button>
+                    <button pButton type="button" (click)="deleteFile(file)" class="ui-button-danger" icon="fa-trash" label="{{ 'Delete' | translate }}"></button>
                 </td>
                 <td>
-                    <button pButton type="button" ng-click="downloadFile(file)" class="ui-button-secondary" icon="fa-download" label="{{ 'Download' | translate }}"></button>
+                    <button pButton type="button" (click)="downloadFile(file)" class="ui-button-secondary" icon="fa-download" label="{{ 'Download' | translate }}"></button>
                 </td>
             </tr>
             </tbody>

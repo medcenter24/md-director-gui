@@ -10,7 +10,6 @@
         [dropdown]="true"
         [suggestions]="filteredAccidents"
         (completeMethod)="filterAccidents($event)"
-        (onDropdownClick)="handleDropdownClick($event)"
         (onSelect)="onChanged()"
         placeholder="{{ 'Select Accident' | translate }}"
         field="ref_num"
