@@ -56,9 +56,6 @@ export class PatientsComponent implements OnInit {
     @ViewChild('deleteDialog')
     private deleteDialog: ModalComponent;
 
-    @ViewChild('errorDialog')
-    private errorDialog: ModalComponent;
-
     constructor(protected service: PatientsService,
                 private loadingBar: SlimLoadingBarService,
                 private translate: TranslateService,
@@ -75,8 +72,7 @@ export class PatientsComponent implements OnInit {
         this.service.getPatients().then((data) => {
             this.source.load(data);
             this.loadingBar.complete();
-        }).catch((response) => {
-            this.showError('Something bad happened, you can\'t load list of patients', response);
+        }).catch(() => {
             this.loadingBar.complete();
         });
     }
@@ -163,9 +159,8 @@ export class PatientsComponent implements OnInit {
         this.service.update(event.newData).then(() => {
             event.confirm.resolve();
             this.loadingBar.complete();
-        }).catch((reason) => {
+        }).catch(() => {
             event.confirm.reject();
-            this.showError('Something bad happened, you can\'t save patients\' data');
             this.loadingBar.complete();
         });
     }
@@ -175,18 +170,9 @@ export class PatientsComponent implements OnInit {
         this.service.create(event.newData).then((patient: Patient) => {
             event.confirm.resolve(patient);
             this.loadingBar.complete();
-        }).catch((reason) => {
+        }).catch(() => {
             event.confirm.reject();
-            this.showError('Something bad happened, you can\'t add patient');
             this.loadingBar.complete();
         });
-    }
-
-    private showError(message: string, response: Response = null): void {
-        this.errorMessage = message;
-        if (response) {
-            this.errorResponse = response;
-        }
-        this.errorDialog.open('sm');
     }
 }

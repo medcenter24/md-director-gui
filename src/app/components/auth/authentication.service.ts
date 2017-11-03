@@ -76,6 +76,13 @@ export class AuthenticationService {
       );
   }
 
+  getToken(): string {
+    if (!this.token) {
+        this.token = localStorage.getItem('token');
+    }
+    return this.token;
+  }
+
   private runRefreshTokenTimer(): void {
     const now: number = new Date().valueOf();
     const jwtExp = this.jwtHelper.decodeToken(this.token).exp;

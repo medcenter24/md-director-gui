@@ -1,4 +1,13 @@
 {
+  "Confirm": "Подтвердить",
+  "price": "Цена",
+  "The price field is required.": "Цена не указана",
+  "The description field is required.": "Введите описание.",
+  "The email field is required.": "Укажите E-Mail",
+  "email": "E-Mail",
+  "The name field is required.": "Имя не указано.",
+  "description": "Описание",
+  "name": "Имя",
   "The operation field is required.": "Укажите тип скидки",
   "operation":  "Операция",
   "The type field is required.": "Укажите тип статуса (к какому сценарию относится)",
