@@ -30,5 +30,6 @@ export class Accident {
         public symptoms: string = '',
         public created_at: string = '',
         public closed_at: string = '',
+        public handling_time: string = '',
     ) {}
 }
