@@ -22,13 +22,8 @@ export class DateHelper {
         if (strDate) {
             res = this.toEuropeFormat(strDate);
             const d = new Date(strDate);
-            let hour = d.getHours().toString();
-            let minute = d.getMinutes().toString();
-            let sec = d.getSeconds().toString();
-            hour = hour.length <= 1 ? `0${hour}` : `${hour}`;
-            minute = minute.length <= 1 ? `0${minute}` : `${minute}`;
-            sec = sec.length <= 1 ? `0${sec}` : `${sec}`;
-            res = `${res} ${hour}:${minute}:${sec}`;
+            const t = this.getTime(d);
+            res = `${res} ${t}`;
         }
         return res;
     }
@@ -38,6 +33,30 @@ export class DateHelper {
         if (d) {
             const parsed = this.parseDate(d);
             res = `${parsed.year}-${parsed.month}-${parsed.day}`;
+        }
+        return res;
+    }
+
+    getTime(d: Date): string {
+        let res = '';
+        if (d) {
+            let hour = d.getHours().toString();
+            let minute = d.getMinutes().toString();
+            let sec = d.getSeconds().toString();
+            hour = hour.length <= 1 ? `0${hour}` : `${hour}`;
+            minute = minute.length <= 1 ? `0${minute}` : `${minute}`;
+            sec = sec.length <= 1 ? `0${sec}` : `${sec}`;
+            res = `${hour}:${minute}:${sec}`
+        }
+        return res;
+    }
+
+    getUnixDateWithTime(d: Date): string {
+        let res = '';
+        if (d) {
+            res = this.getUnixDate(d);
+            const time = this.getTime(d);
+            res = `${res} ${time}`;
         }
         return res;
     }

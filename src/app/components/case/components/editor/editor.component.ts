@@ -64,6 +64,8 @@ export class CaseEditorComponent implements OnInit {
   checkpoints: number[] = []; // ids of checkpoints
   totalAmount: number = 0;
   totalIncome: number = 0;
+  currentYear: number = +(new Date()).getFullYear();
+  handlingTime: Date;
 
   totalIncomeFormula: string = '';
   // for a while until the hospital cases implementation
@@ -117,6 +119,9 @@ export class CaseEditorComponent implements OnInit {
             this.accident = accident ? accident : new Accident();
             this.appliedTime = new Date(this.accident.created_at);
             this.discountValue = +this.accident.discount_value;
+            if (this.accident.handling_time) {
+              this.handlingTime = new Date(this.accident.handling_time);
+            }
             this.loadPatient();
             this.loadCaseable();
             this.recalculatePrice();
@@ -168,6 +173,7 @@ export class CaseEditorComponent implements OnInit {
     this.accident.discount_id = this.discountType.id;
     this.accident.discount_value = +this.discountValue;
     this.patient.birthday = this.dateHelper.getUnixDate(this.birthday);
+    this.accident.handling_time = this.dateHelper.getUnixDateWithTime(this.handlingTime);
     this.accident.income = this.totalIncome;
     const data = {
       accident: this.accident,
