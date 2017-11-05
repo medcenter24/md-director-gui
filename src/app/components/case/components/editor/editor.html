@@ -95,6 +95,17 @@
                                                 (loaded)="stopLoader($event)"
                                         ></nga-select-doctor>
                                     </div>
+                                    <div class="col-sm-4">
+                                        <label class="label required separate" translate>Handling time</label>
+                                        <p-calendar
+                                                name="handlingTime"
+                                                [(ngModel)]="handlingTime"
+                                                [maxDate]="maxDate"
+                                                [showIcon]="true"
+                                                [showTime]="true"
+                                                dateFormat="dd.mm.yy"
+                                        ></p-calendar>
+                                    </div>
                                 </div>
                             </div>
                             <div *ngIf="accident.caseable_type === 'App\\HospitalAccident'">
@@ -173,10 +184,15 @@
                                     name="patientBirthday"
                                     [(ngModel)]="birthday"
                                     [maxDate]="maxDate"
+                                    [showIcon]="true"
+                                    [monthNavigator]="true"
+                                    [yearNavigator]="true"
+                                    yearRange="{{ currentYear - 100 }}:{{ currentYear }}"
                                     dateFormat="dd.mm.yy"
                             ></p-calendar>
                         </div>
                         <div class="col-sm-3">
+                            <label class="label separate" translate>Contacts</label>
                              <textarea rows="2" cols="50" pInputTextarea
                                        autoResize="autoResize"
                                        placeholder="{{ 'Contacts' | translate }}"

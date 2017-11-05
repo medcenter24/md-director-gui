@@ -20,5 +20,6 @@ export class CaseAccident {
         public createdAt: string = '',
         public checkpoints: string = '',
         public status: string = '',
+        public handlingTime: string = '',
     ) {}
 }
