@@ -29,6 +29,8 @@ export class Accident {
         public contacts: string = '',
         public symptoms: string = '',
         public created_at: string = '',
+        public updated_at: string = '',
+        public deleted_at: string = '',
         public closed_at: string = '',
         public handling_time: string = '',
     ) {}

@@ -66,7 +66,10 @@ export class CaseEditorComponent implements OnInit {
   totalIncome: number = 0;
   currentYear: number = +(new Date()).getFullYear();
   handlingTime: Date;
-
+  createdTime: string = '';
+  updatedTime: string = '';
+  deletedTime: string = '';
+  closedTime: string = '';
   totalIncomeFormula: string = '';
   // for a while until the hospital cases implementation
   onlyDoctorAccident: boolean = true;
@@ -121,6 +124,18 @@ export class CaseEditorComponent implements OnInit {
             this.discountValue = +this.accident.discount_value;
             if (this.accident.handling_time) {
               this.handlingTime = new Date(this.accident.handling_time);
+            }
+            if (this.accident.created_at) {
+              this.createdTime = this.dateHelper.toEuropeFormatWithTime(this.accident.created_at);
+            }
+            if (this.accident.updated_at) {
+              this.updatedTime = this.dateHelper.toEuropeFormatWithTime(this.accident.updated_at);
+            }
+            if (this.accident.deleted_at) {
+              this.deletedTime = this.dateHelper.toEuropeFormatWithTime(this.accident.deleted_at);
+            }
+            if (this.accident.closed_at) {
+              this.closedTime = this.dateHelper.toEuropeFormatWithTime(this.accident.closed_at);
             }
             this.loadPatient();
             this.loadCaseable();

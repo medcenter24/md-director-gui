@@ -6,9 +6,26 @@
 
 <div class="profile-container">
     <ba-card baCardClass="with-scroll" *ngIf="loggedUser">
-        <div class="row mb-2">
+        <div class="row form">
             <div class="col-4">
-                <p-dropdown [options]="languages" [(ngModel)]="loggedUser.lang" (onChange)="onLangChanged($event)"></p-dropdown>
+                <div class="form-group">
+                    <label class="label separate" translate>Language</label>
+                    <p-dropdown [options]="languages" [(ngModel)]="loggedUser.lang" (onChange)="onLangChanged($event)"></p-dropdown>
+                </div>
+            </div>
+            <div class="col-4">
+                <div class="form-group">
+                    <label class="label separate" translate>Company Name</label>
+                    <input type="text" class="form-control form-control-static" pInputText placeholder="{{ 'Company Name' | translate }}">
+                </div>
+                <div class="form-group">
+                    <label class="label separate" translate>Company Logo</label>
+                    <input type="text" class="form-control form-control-static" pInputText placeholder="{{ 'Company Logo' | translate }}">
+                </div>
+                <div class="form-group">
+                    <label class="label separate" translate>Company Signature</label>
+                    <input type="text" class="form-control form-control-static" pInputText placeholder="{{ 'Company Signature' | translate }}">
+                </div>
             </div>
         </div>
         <div class="row mb-2">
