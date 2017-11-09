@@ -46,7 +46,7 @@ export class DateHelper {
             hour = hour.length <= 1 ? `0${hour}` : `${hour}`;
             minute = minute.length <= 1 ? `0${minute}` : `${minute}`;
             sec = sec.length <= 1 ? `0${sec}` : `${sec}`;
-            res = `${hour}:${minute}:${sec}`
+            res = `${hour}:${minute}:${sec}`;
         }
         return res;
     }
