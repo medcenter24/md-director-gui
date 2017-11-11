@@ -188,6 +188,7 @@ export class CaseEditorComponent implements OnInit {
     this.accident.discount_id = this.discountType.id;
     this.accident.discount_value = +this.discountValue;
     this.patient.birthday = this.dateHelper.getUnixDate(this.birthday);
+    this.patient.name = this.patient.name.trim();
     this.accident.handling_time = this.dateHelper.getUnixDateWithTime(this.handlingTime);
     this.accident.income = this.totalIncome;
     const data = {
@@ -369,9 +370,11 @@ export class CaseEditorComponent implements OnInit {
     return Number(num) === num && num % 1 !== 0 ? num.toFixed(2) : num;
   }
 
-  formattedPatientName(): void {
-    this.patient.name = this.patient.name.toUpperCase();
-    this.patient.name = this.patient.name.replace(/[^A-Z\s]/, '');
+  formattedPatientName(event): void {
+    event.target.value = event.target.value.toUpperCase();
+    event.target.value = event.target.value.replace(/[^A-Z\s]/g, '');
+    event.target.value = event.target.value.replace(/\s+/g, ' ');
+    this.patient.name = event.target.value;
   }
 
   onServicesSelectorPriceChanged(servicesPrice: number): void {
