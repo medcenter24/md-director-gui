@@ -22,7 +22,7 @@ export class SelectAccidentTypeComponent implements OnInit {
   @Output() loaded: EventEmitter<string> = new EventEmitter<string>();
 
   isLoaded: boolean = false;
-  private dataItems: Array<any> = [];
+  private dataItems = [];
   private selectedType: AccidentType = new AccidentType();
   private loadedTypes: AccidentType[] = [];
   private transInsurance: string = '';
@@ -49,7 +49,7 @@ export class SelectAccidentTypeComponent implements OnInit {
       this.loadedTypes = types;
       if (!this.selectedTypeId) {
         this.selectedTypeId = 1;
-        this.onChanged({value: this.selectedTypeId});
+        this.onChanged({ value: this.selectedTypeId });
       }
       this.dataItems = types.map(x => {
         return {

@@ -19,12 +19,12 @@ export class SelectDiagnosticsComponent implements OnInit {
   @Output() loaded: EventEmitter<string> = new EventEmitter<string>();
   @Output() init: EventEmitter<string> = new EventEmitter<string>();
   @Output() chosenDiagnosticsChange: EventEmitter<Diagnostic[]> = new EventEmitter<Diagnostic[]>();
-  @Input() chosenDiagnostics: Array<Diagnostic> = [];
+  @Input() chosenDiagnostics: Diagnostic[] = [];
 
   isLoaded: boolean = false;
   dataDiagnostics: SelectItem[] = [];
-  selectedDiagnostics: Array<string> = [];
-  diagnostics: Array<Diagnostic> = [];
+  selectedDiagnostics: string[] = [];
+  diagnostics: Diagnostic[] = [];
 
   constructor (
     private diagnosticsService: DiagnosticService,
@@ -37,8 +37,8 @@ export class SelectDiagnosticsComponent implements OnInit {
       this.diagnostics = diagnostics;
       this.dataDiagnostics = diagnostics.map(x => {
         return {
-          label: '' + x.title,
-          value: '' + x.id,
+          label: `${x.title}`,
+          value: `${x.id}`,
         };
       });
 
@@ -56,15 +56,15 @@ export class SelectDiagnosticsComponent implements OnInit {
 
    onChanged(event): void {
      const diagnostics = this.diagnostics.filter(function (diagnostic) {
-       const id = '' + diagnostic.id;
+       const id = `${diagnostic.id}`;
        return event.value.indexOf(id) !== -1;
      });
 
      this.chosenDiagnosticsChange.emit(diagnostics);
    }
 
-   reloadChosenDiagnostics(diagnostics: Array<Diagnostic>): void {
+   reloadChosenDiagnostics(diagnostics: Diagnostic[]): void {
      this.chosenDiagnostics = diagnostics;
-     this.selectedDiagnostics = this.chosenDiagnostics.length ? this.chosenDiagnostics.map(x => x.id + '') : [];
+     this.selectedDiagnostics = this.chosenDiagnostics.length ? this.chosenDiagnostics.map(x => `${x.id}`) : [];
    }
 }

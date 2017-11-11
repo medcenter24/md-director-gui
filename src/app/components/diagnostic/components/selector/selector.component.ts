@@ -25,7 +25,7 @@ export class DiagnosticsSelectorComponent implements OnInit {
     private selectDiagnosticsComponent: SelectDiagnosticsComponent;
 
   isLoaded: boolean = false;
-  caseDiagnostics: Array<Diagnostic> = [];
+  caseDiagnostics: Diagnostic[] = [];
 
   constructor (
     private casesService: CasesService,
