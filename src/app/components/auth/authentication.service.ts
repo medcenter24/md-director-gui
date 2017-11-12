@@ -45,11 +45,10 @@ export class AuthenticationService {
       .map((response: Response) => {
         this.loadingBar.stop();
         // login successful if there's a jwt token in the response
-        const token = response.json() && response.json().token;
+        const token = response.json() && response.json().access_token;
         const lang = response.json() && response.json().lang;
         // store language
         localStorage.setItem('lang', lang);
-
         return this.setToken(token);
       });
   }

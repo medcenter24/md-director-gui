@@ -26,7 +26,7 @@ export class ServicesSelectorComponent implements OnInit {
     private selectServicesComponent: SelectServicesComponent;
 
   isLoaded: boolean = false;
-  caseServices: Array<Service> = [];
+  caseServices: Service[] = [];
   private sumPrices: number = 0;
 
   constructor (

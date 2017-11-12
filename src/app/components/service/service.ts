@@ -5,9 +5,10 @@
  */
 
 export class Service {
-  constructor (public id: number,
-               public title: string,
-               public description: string,
-               public price: number,) {
+  constructor (public id: number = 0,
+               public title: string = '',
+               public description: string = '',
+               public price: number = 0,
+               public type: string = '') {
   }
 }
