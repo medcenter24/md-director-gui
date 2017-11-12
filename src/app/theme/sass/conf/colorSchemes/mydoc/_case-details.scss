@@ -1,0 +1,16 @@
+/*!
+ *  Copyright (c) 2017.
+ *
+ *  @author Alexander Zagovorichev <zagovorichev@gmail.com>
+ */
+@import 'variables';
+
+.case-details {
+  .item {
+    margin-bottom: 15px;
+    font-size: $font-size-sm;
+    .label {
+      font-weight: $font-light;
+    }
+  }
+}

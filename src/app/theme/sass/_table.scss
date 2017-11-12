@@ -1,5 +1,5 @@
 .table {
-  margin-bottom: 0px;
+  margin-bottom: 0;
   & > thead {
     & > tr {
       & > th {
@@ -20,7 +20,7 @@
         padding-top: 1px;
       }
       & > td {
-        padding: 0px 8px;
+        padding: 0 8px;
         line-height: 35px;
         border-top: 1px solid $border-light;
         &:first-child {
@@ -288,9 +288,6 @@ th {
   border: none;
 }
 
-.table-striped > tbody > tr > td {
-  border: none;
-}
 .pagination > li > a,
 .pagination > li > span{
   color: $default-text;

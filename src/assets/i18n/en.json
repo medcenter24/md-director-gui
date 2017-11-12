@@ -1,4 +1,11 @@
 {
+  "Created": "Created",
+  "Updated": "Updated",
+  "Company Signature": "Company Signature",
+  "Company Logo": "Company Logo",
+  "Company Name": "Company Name",
+  "Language": "Language",
+  "Handling time":  "Handling Time",
   "Confirm": "Confirm",
   "price": "Price",
   "The price field is required.": "The price field is required.",

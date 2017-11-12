@@ -64,7 +64,12 @@ export class CaseEditorComponent implements OnInit {
   checkpoints: number[] = []; // ids of checkpoints
   totalAmount: number = 0;
   totalIncome: number = 0;
-
+  currentYear: number = +(new Date()).getFullYear();
+  handlingTime: Date;
+  createdTime: string = '';
+  updatedTime: string = '';
+  deletedTime: string = '';
+  closedTime: string = '';
   totalIncomeFormula: string = '';
   // for a while until the hospital cases implementation
   onlyDoctorAccident: boolean = true;
@@ -117,6 +122,21 @@ export class CaseEditorComponent implements OnInit {
             this.accident = accident ? accident : new Accident();
             this.appliedTime = new Date(this.accident.created_at);
             this.discountValue = +this.accident.discount_value;
+            if (this.accident.handling_time) {
+              this.handlingTime = new Date(this.accident.handling_time);
+            }
+            if (this.accident.created_at) {
+              this.createdTime = this.dateHelper.toEuropeFormatWithTime(this.accident.created_at);
+            }
+            if (this.accident.updated_at) {
+              this.updatedTime = this.dateHelper.toEuropeFormatWithTime(this.accident.updated_at);
+            }
+            if (this.accident.deleted_at) {
+              this.deletedTime = this.dateHelper.toEuropeFormatWithTime(this.accident.deleted_at);
+            }
+            if (this.accident.closed_at) {
+              this.closedTime = this.dateHelper.toEuropeFormatWithTime(this.accident.closed_at);
+            }
             this.loadPatient();
             this.loadCaseable();
             this.recalculatePrice();
@@ -168,6 +188,8 @@ export class CaseEditorComponent implements OnInit {
     this.accident.discount_id = this.discountType.id;
     this.accident.discount_value = +this.discountValue;
     this.patient.birthday = this.dateHelper.getUnixDate(this.birthday);
+    this.patient.name = this.patient.name.trim();
+    this.accident.handling_time = this.dateHelper.getUnixDateWithTime(this.handlingTime);
     this.accident.income = this.totalIncome;
     const data = {
       accident: this.accident,
@@ -348,9 +370,11 @@ export class CaseEditorComponent implements OnInit {
     return Number(num) === num && num % 1 !== 0 ? num.toFixed(2) : num;
   }
 
-  formattedPatientName(): void {
-    this.patient.name = this.patient.name.toUpperCase();
-    this.patient.name = this.patient.name.replace(/[^A-Z\s]/, '');
+  formattedPatientName(event): void {
+    event.target.value = event.target.value.toUpperCase();
+    event.target.value = event.target.value.replace(/[^A-Z\s]/g, '');
+    event.target.value = event.target.value.replace(/\s+/g, ' ');
+    this.patient.name = event.target.value;
   }
 
   onServicesSelectorPriceChanged(servicesPrice: number): void {
