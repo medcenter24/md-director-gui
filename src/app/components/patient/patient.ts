@@ -4,8 +4,6 @@
  * @author Alexander Zagovorichev <zagovorichev@gmail.com>
  */
 
-import { DateHelper } from '../../helpers/date.helper';
-
 export class Patient {
 
     constructor(public id: number = 0,

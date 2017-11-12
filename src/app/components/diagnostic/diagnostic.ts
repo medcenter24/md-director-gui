@@ -10,6 +10,7 @@ export class Diagnostic {
         public title: string = '',
         public description: string = '',
         public diagnostic_category_id: number = 0,
-        public disease_code: string = ''
+        public disease_code: string = '',
+        public type: string = ''
     ) {}
 }
