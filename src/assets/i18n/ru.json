@@ -1,4 +1,11 @@
 {
+  "Downloaded By": "Загрузил",
+  "doctor": "Доктор",
+  "accident": "Дело",
+  "user": "Пользователь",
+  "patient": "Пациент",
+  "passport": "Паспорт",
+  "insurance": "Страховка",
   "Created": "Создано",
   "Updated": "Обновлено",
   "Company Signature": "Подпись компании",

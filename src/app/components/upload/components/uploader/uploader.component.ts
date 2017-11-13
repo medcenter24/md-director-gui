@@ -24,7 +24,7 @@ export class FileUploaderComponent implements OnInit {
   @Output() init: EventEmitter<string> = new EventEmitter<string>();
   @Output() loaded: EventEmitter<string> = new EventEmitter<string>();
 
-  msgs: Array<Message> = [];
+  msgs: Message[] = [];
 
   // preload translations for the component
   private translateLoaded: string;
@@ -54,7 +54,7 @@ export class FileUploaderComponent implements OnInit {
   }
 
   handleBeforeSend(event): void {
-    event.xhr.setRequestHeader('Authorization', 'Bearer ' + this.authenticationService.token);
+    event.xhr.setRequestHeader('Authorization', `Bearer ${this.authenticationService.token}`);
   }
 
   handleUpload(event): void {
@@ -74,8 +74,8 @@ export class FileUploaderComponent implements OnInit {
       this.msgs.push({ severity: 'error', summary: this.translateErrorLoad, detail: file.name });
     }
     this._state.notifyDataChanged('growl', this.msgs);
-    this._logger.error('Error: Upload to ' + event.xhr.responseURL
-      + ' [' + event.xhr.status + ': ' + event.xhr.statusText + ']');
+    this._logger.error(`Error: Upload to ${event.xhr.responseURL}
+      [${event.xhr.status}: ${event.xhr.statusText}]`);
     this.loaded.emit('FileUploaderComponent');
   }
 
@@ -101,7 +101,7 @@ export class FileUploaderComponent implements OnInit {
     this.deleter(files);
   }
 
-  private deleter(files: Array<any>): void {
+  private deleter(files: any[]): void {
     this.deleterCounter = files.length;
 
     if (this.deleterCounter) {
