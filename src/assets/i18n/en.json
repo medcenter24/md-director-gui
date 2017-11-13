@@ -1,4 +1,11 @@
 {
+  "Downloaded By": "Downloaded By",
+  "doctor": "Doctor",
+  "accident": "Accident",
+  "user": "User",
+  "patient": "Patient",
+  "passport": "Passport",
+  "insurance": "Insurance",
   "Created": "Created",
   "Updated": "Updated",
   "Company Signature": "Company Signature",
