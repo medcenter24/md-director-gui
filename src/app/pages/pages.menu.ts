@@ -153,6 +153,14 @@ export const PAGES_MENU = [
               },
             },
           },
+          {
+            path: 'surveys',
+            data: {
+              menu: {
+                title: 'Surveys',
+              },
+            },
+          },
         ],
       },
       {

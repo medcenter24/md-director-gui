@@ -64,6 +64,9 @@ import { AccidentScenarioComponent } from
   '../../components/accident/components/scenario/components/line/line.component';
 import { AccidentScenarioService } from '../../components/accident/components/scenario/scenario.service';
 import { DateHelper } from '../../helpers/date.helper';
+import { SelectSurveysComponent } from '../../components/survey/components/select/select.component';
+import { SurveysSelectorComponent } from '../../components/survey/components/selector/selector.component';
+import { SurveyService } from '../../components/survey/survey.service';
 
 @NgModule({
   imports: [
@@ -112,7 +115,9 @@ import { DateHelper } from '../../helpers/date.helper';
     SelectCaseTypeComponent,
     FileUploaderComponent,
     DiagnosticsSelectorComponent,
+    SurveysSelectorComponent,
     SelectDiagnosticsComponent,
+    SelectSurveysComponent,
     ImporterComponent,
     AccidentStatusSelectComponent,
     AccidentCheckpointsSelectorComponent,
@@ -129,6 +134,7 @@ import { DateHelper } from '../../helpers/date.helper';
     DoctorsService,
     HospitalsService,
     DiagnosticService,
+    SurveyService,
     AuthenticationService,
     ImporterService,
     DocumentsService,
