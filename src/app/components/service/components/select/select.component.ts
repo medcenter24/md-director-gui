@@ -19,12 +19,12 @@ export class SelectServicesComponent implements OnInit {
   @Output() init: EventEmitter<string> = new EventEmitter<string>();
   @Output() loaded: EventEmitter<string> = new EventEmitter<string>();
   @Output() chosenServicesChange: EventEmitter<Service[]> = new EventEmitter<Service[]>();
-  @Input() chosenServices: Array<Service> = [];
+  @Input() chosenServices: Service[] = [];
 
   isLoaded: boolean = false;
   dataServices: SelectItem[] = [];
-  selectedServices: Array<string> = [];
-  services: Array<Service> = [];
+  selectedServices: string[] = [];
+  services: Service[] = [];
 
   constructor (
     private servicesService: ServicesService,
@@ -37,8 +37,8 @@ export class SelectServicesComponent implements OnInit {
       this.services = services;
       this.dataServices = services.map(x => {
         return {
-          label: '' + x.title,
-          value: '' + x.id,
+          label: `${x.title}`,
+          value: `${x.id}`,
         };
       });
 
@@ -56,14 +56,14 @@ export class SelectServicesComponent implements OnInit {
 
    onChanged(event): void {
      const services = this.services.filter(function (service) {
-       return event.value.indexOf(service.id + '') !== -1;
+       return event.value.indexOf(`${service.id}`) !== -1;
      });
 
      this.chosenServicesChange.emit(services);
    }
 
-   reloadChosenServices(services: Array<Service>): void {
+   reloadChosenServices(services: Service[]): void {
      this.chosenServices = services;
-     this.selectedServices = this.chosenServices.length ? this.chosenServices.map(x => x.id + '') : [];
+     this.selectedServices = this.chosenServices.length ? this.chosenServices.map(x => `${x.id}`) : [];
    }
 }
