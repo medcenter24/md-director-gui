@@ -29,6 +29,7 @@ import { DoctorsService } from '../../../doctors/doctors.service';
 import { Doctor } from '../../../doctors/doctor';
 import { AccidentScenarioComponent } from '../../../accident/components/scenario/components/line/line.component';
 import { DateHelper } from '../../../../helpers/date.helper';
+import { Survey } from '../../../survey/survey';
 
 @Component({
   selector: 'nga-case-editor',
@@ -60,6 +61,7 @@ export class CaseEditorComponent implements OnInit {
   hospitalAccident: HospitalAccident;
   services: Service[] = [];
   diagnostics: Diagnostic[] = [];
+  surveys: Survey[] = [];
   documents: Document[] = [];
   checkpoints: number[] = []; // ids of checkpoints
   totalAmount: number = 0;
@@ -197,6 +199,7 @@ export class CaseEditorComponent implements OnInit {
       patient: this.patient,
       services: this.services.map(x => x.id),
       diagnostics: this.diagnostics.map(x => x.id),
+      surveys: this.surveys.map(x => x.id),
       documents: this.documents.map(x => x.id),
       checkpoints: this.checkpoints,
     };
@@ -388,6 +391,10 @@ export class CaseEditorComponent implements OnInit {
 
   onDiagnosticsChanged(diagnostics: Diagnostic[]): void {
     this.diagnostics = diagnostics;
+  }
+
+  onSurveysChanged(surveys: Survey[]): void {
+    this.surveys = surveys;
   }
 
   onDiscountTypeSelected(discountType: Discount): void {
