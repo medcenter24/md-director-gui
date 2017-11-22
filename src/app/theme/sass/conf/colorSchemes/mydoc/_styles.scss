@@ -123,3 +123,32 @@ a.al-sidebar-list-link i {
     padding: 15px;
   }
 }
+
+.linked {
+  color: #2399e5;
+  &:hover {
+    color: #1f89ce;
+    cursor: pointer;
+  }
+}
+
+.label, .form-group .label {
+  line-height: 20px;
+  font-weight: 400;
+  font-size: 13px;
+  color: rgba(0, 0, 0, 0.55);
+
+  &.required::after {
+    content: '*';
+    color: #0084bf;
+    margin-left: 2px;
+  }
+
+  &.separate {
+    width: 100%;
+  }
+}
+
+.label-error {
+  color: $danger-dark;
+}
