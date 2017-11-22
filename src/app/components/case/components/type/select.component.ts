@@ -16,7 +16,7 @@ export class SelectCaseTypeComponent implements OnInit {
   @Input() selectedCaseTypeId: string;
   @Output() selected: EventEmitter<string> = new EventEmitter<string>();
 
-  caseTypes: Array<SelectItem> = [];
+  caseTypes: SelectItem[] = [];
 
   constructor () { }
 

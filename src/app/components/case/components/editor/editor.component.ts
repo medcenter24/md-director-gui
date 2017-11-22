@@ -12,11 +12,9 @@ import { Message, ToggleButton } from 'primeng/primeng';
 import { SlimLoadingBarService } from 'ng2-slim-loading-bar';
 import { TranslateService } from '@ngx-translate/core';
 import { AccidentType } from '../../../accident/components/type/type';
-import { Patient } from '../../../patient/patient';
 import { Logger } from 'angular2-logger/core';
 import { GlobalState } from '../../../../global.state';
 import { SelectAccidentComponent } from '../../../accident/components/select/select.component';
-import { PatientsService } from '../../../patient/patients.service';
 import { DoctorAccident } from '../../../doctorAccident/doctorAccident';
 import { HospitalAccident } from '../../../hospitalAccident/hospitalAccident';
 import { CasesService } from '../../cases.service';
@@ -30,10 +28,12 @@ import { Doctor } from '../../../doctors/doctor';
 import { AccidentScenarioComponent } from '../../../accident/components/scenario/components/line/line.component';
 import { DateHelper } from '../../../../helpers/date.helper';
 import { Survey } from '../../../survey/survey';
+import { PatientEditorComponent } from '../../../patient/components/editor/editor.component';
 
 @Component({
   selector: 'nga-case-editor',
   templateUrl: './editor.html',
+  styleUrls: ['./editor.scss'],
 })
 export class CaseEditorComponent implements OnInit {
 
@@ -48,15 +48,16 @@ export class CaseEditorComponent implements OnInit {
   @ViewChild('incomeAutoupdate')
     private incomeAutoupdate: ToggleButton;
 
+  @ViewChild('editPatientForm')
+    private editPatientForm: PatientEditorComponent;
+
   waitLoading: number = 0;
   msgs: Message[] = [];
   accident: Accident;
-  patient: Patient;
   appliedTime: Date;
   maxDate: Date;
   discountValue: number = 0;
   discountType: Discount;
-  birthday: Date;
   doctorAccident: DoctorAccident;
   hospitalAccident: HospitalAccident;
   services: Service[] = [];
@@ -75,6 +76,7 @@ export class CaseEditorComponent implements OnInit {
   totalIncomeFormula: string = '';
   // for a while until the hospital cases implementation
   onlyDoctorAccident: boolean = true;
+  patientEditFormDisplay: boolean = false;
 
   /**
    * to show on save message, that doctor was changed
@@ -86,7 +88,6 @@ export class CaseEditorComponent implements OnInit {
                private translate: TranslateService,
                private _logger: Logger,
                private _state: GlobalState,
-               private patientService: PatientsService,
                private accidentsService: AccidentsService,
                private caseService: CasesService,
                private doctorService: DoctorsService,
@@ -108,7 +109,6 @@ export class CaseEditorComponent implements OnInit {
     this.doctorAccident = new DoctorAccident();
     this.accident.caseable_type = 'App\\DoctorAccident';
 
-    this.patient = new Patient();
     // we need it because of redirect after case creation
     this._state.notifyDataChanged('blocker', false);
 
@@ -139,7 +139,6 @@ export class CaseEditorComponent implements OnInit {
             if (this.accident.closed_at) {
               this.closedTime = this.dateHelper.toEuropeFormatWithTime(this.accident.closed_at);
             }
-            this.loadPatient();
             this.loadCaseable();
             this.recalculatePrice();
             this.loadDocuments();
@@ -189,14 +188,11 @@ export class CaseEditorComponent implements OnInit {
   onSave(): void {
     this.accident.discount_id = this.discountType.id;
     this.accident.discount_value = +this.discountValue;
-    this.patient.birthday = this.dateHelper.getUnixDate(this.birthday);
-    this.patient.name = this.patient.name.trim();
     this.accident.handling_time = this.dateHelper.getUnixDateWithTime(this.handlingTime);
     this.accident.income = this.totalIncome;
     const data = {
       accident: this.accident,
       doctorAccident: this.doctorAccident,
-      patient: this.patient,
       services: this.services.map(x => x.id),
       diagnostics: this.diagnostics.map(x => x.id),
       surveys: this.surveys.map(x => x.id),
@@ -373,13 +369,6 @@ export class CaseEditorComponent implements OnInit {
     return Number(num) === num && num % 1 !== 0 ? num.toFixed(2) : num;
   }
 
-  formattedPatientName(event): void {
-    event.target.value = event.target.value.toUpperCase();
-    event.target.value = event.target.value.replace(/[^A-Z\s]/g, '');
-    event.target.value = event.target.value.replace(/\s+/g, ' ');
-    this.patient.name = event.target.value;
-  }
-
   onServicesSelectorPriceChanged(servicesPrice: number): void {
     this.totalAmount = +servicesPrice.toFixed(2);
     this.recalculatePrice();
@@ -478,22 +467,6 @@ export class CaseEditorComponent implements OnInit {
     this.totalAmount = +this.totalAmount.toFixed(2);
   }
 
-  private loadPatient(): void {
-    if (this.accident.patient_id) {
-      this.startLoader('getPatient');
-      this.patientService.getPatient(this.accident.patient_id).then((patient: Patient) => {
-        this.patient = patient;
-        if (this.patient.birthday) {
-          this.birthday = new Date(this.patient.birthday);
-        }
-        this.stopLoader('getPatient');
-      }).catch((err) => {
-        this._logger.error(err);
-        this.stopLoader('getPatient');
-      });
-    }
-  }
-
   private loadDocuments(): void {
     this.startLoader('getDocuments');
     this.caseService.getDocuments(this.accident.id)
@@ -540,5 +513,15 @@ export class CaseEditorComponent implements OnInit {
         this._logger.error(err);
         complete();
       });*/
+  }
+
+  openEditPatientForm (): void {
+    this.editPatientForm.setPatient(this.accident.patient_id);
+    this.patientEditFormDisplay = true;
+  }
+
+  onPatientSelected(patientId: number): void {
+    this.accident.patient_id = patientId;
+    this.editPatientForm.setPatient(patientId);
   }
 }
