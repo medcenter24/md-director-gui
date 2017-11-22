@@ -34,6 +34,7 @@ export class SelectServicesComponent implements OnInit {
   ngOnInit () {
     this.init.emit('SelectServicesComponent');
     this.servicesService.getServices().then(services => {
+      this.loaded.emit('SelectServicesComponent');
       this.services = services;
       this.dataServices = services.map(x => {
         return {
@@ -46,7 +47,6 @@ export class SelectServicesComponent implements OnInit {
         // to show placeholder
         this.selectedServices = [];
       }
-      this.loaded.emit('SelectServicesComponent');
       this.isLoaded = true;
     }).catch((err) => {
       this._logger.error(err);

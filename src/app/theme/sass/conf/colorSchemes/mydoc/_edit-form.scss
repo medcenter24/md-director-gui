@@ -12,27 +12,6 @@
 
   .edit-form {
     margin-top: 10px;
-
-    .label {
-      line-height: 20px;
-      font-weight: 400;
-      font-size: 13px;
-      color: rgba(0, 0, 0, .55);
-
-      &.required::after {
-        content: '*';
-        color: #0084bf;
-        margin-left: 2px;
-      }
-
-      &.separate {
-        width: 100%;
-      }
-    }
-
-    .label-error {
-      color: $danger-dark;
-    }
   }
 
   .editor-toggle {
@@ -40,5 +19,4 @@
     float: right;
     margin-top: 10px;
   }
-
 }
