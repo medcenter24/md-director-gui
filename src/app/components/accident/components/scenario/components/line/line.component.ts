@@ -10,33 +10,36 @@ import { AccidentScenario } from '../../scenario';
 import 'rxjs/add/operator/map';
 import 'style-loader!./line.scss';
 import { CasesService } from '../../../../../case/cases.service';
+import { LoadableComponent } from '../../../../../core/components/componentLoader/LoadableComponent';
 
 @Component({
   selector: 'nga-accident-scenario',
   templateUrl: './line.html',
   encapsulation: ViewEncapsulation.None,
 })
-export class AccidentScenarioComponent implements OnInit {
+export class AccidentScenarioComponent extends LoadableComponent implements OnInit {
 
   @Input() accidentId: number = 0;
-  @Output() init: EventEmitter<string> = new EventEmitter<string>();
-  @Output() loaded: EventEmitter<string> = new EventEmitter<string>();
 
   isLoaded: boolean = false;
   steps = [];
 
+  protected componentName: string = 'AccidentScenarioComponent';
+
   constructor (private caseService: CasesService,
-               private _logger: Logger) {}
+               private _logger: Logger) {
+    super();
+  }
 
   ngOnInit () {
-    this.init.emit('AccidentScenarioComponent');
+    this.initComponent();
     this.caseService.getScenario(this.accidentId).then((scenario: AccidentScenario[]) => {
       this.steps = scenario;
       this.isLoaded = true;
-      this.loaded.emit('AccidentScenarioComponent');
+      this.loadedComponent();
     }).catch((err) => {
       this._logger.error(err);
-      this.loaded.emit('AccidentScenarioComponent');
+      this.loadedComponent();
     });
   }
 

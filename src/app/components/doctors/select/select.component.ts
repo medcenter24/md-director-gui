@@ -8,41 +8,43 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Logger } from 'angular2-logger/core';
 import { Doctor } from '../doctor';
 import { DoctorsService } from '../doctors.service';
+import { LoadableComponent } from '../../core/components/componentLoader/LoadableComponent';
 @Component({
   selector: 'nga-select-doctor',
   templateUrl: './select.html',
 })
-export class DoctorSelectComponent implements OnInit {
+export class DoctorSelectComponent extends LoadableComponent implements OnInit {
 
   @Input() set doctorId(docId: number) {
     this.docId = +docId;
     this.selectDoctor();
   }
   @Output() selected: EventEmitter<Doctor> = new EventEmitter<Doctor>();
-  @Output() init: EventEmitter<string> = new EventEmitter<string>();
-  @Output() loaded: EventEmitter<string> = new EventEmitter<string>();
 
   docId: number = 0;
   doctors: Doctor[] = [];
   doctor: Doctor;
   filteredDoctors: Doctor[] = [];
   isLoaded: boolean = false;
+  protected componentName: string = 'DoctorSelectComponent';
 
   constructor (
     private doctorsService: DoctorsService,
-    private _logger: Logger) {}
+    private _logger: Logger) {
+    super();
+  }
 
   ngOnInit () {
-    this.init.emit('DoctorSelectComponent');
+    this.initComponent();
     this.isLoaded = false;
     this.doctorsService.getDoctors().then(doctors => {
       this.doctors = doctors;
       this.selectDoctor();
       this.isLoaded = true;
-      this.loaded.emit('DoctorSelectComponent');
+      this.loadedComponent();
     }).catch((err) => {
       this._logger.error(err);
-      this.loaded.emit('DoctorSelectComponent');
+      this.loadedComponent();
     });
   }
 

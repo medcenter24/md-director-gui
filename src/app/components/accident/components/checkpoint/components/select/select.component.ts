@@ -7,31 +7,33 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { AccidentCheckpoint } from '../../checkpoint';
 import { AccidentCheckpointsService } from '../../checkpoints.service';
+import { LoadableComponent } from '../../../../../core/components/componentLoader/LoadableComponent';
+
 @Component({
   selector: 'nga-checkpoints-selector',
   templateUrl: './select.html',
 })
-export class AccidentCheckpointsSelectorComponent implements OnInit {
+export class AccidentCheckpointsSelectorComponent extends LoadableComponent implements OnInit {
 
-  @Input() selectedCheckpoints: Array<number> = [];
+  @Input() selectedCheckpoints: number[] = [];
   @Output() change: EventEmitter<number[]> = new EventEmitter<number[]>();
-  @Output() init: EventEmitter<string> = new EventEmitter<string>();
-  @Output() loaded: EventEmitter<string> = new EventEmitter<string>();
 
-  checkpoints: Array<AccidentCheckpoint> = [];
+  checkpoints: AccidentCheckpoint[] = [];
   isLoaded: boolean = false;
 
-  constructor (private accidentCheckpointsService: AccidentCheckpointsService) {}
+  protected componentName: string = 'AccidentCheckpointsSelectorComponent';
+
+  constructor (private accidentCheckpointsService: AccidentCheckpointsService) { super(); }
 
   ngOnInit () {
-    this.init.emit('AccidentCheckpointsSelectorComponent');
+    this.initComponent();
     this.isLoaded = false;
     this.accidentCheckpointsService.getCheckpoints().then(checkpoints => {
       this.checkpoints = checkpoints;
       this.isLoaded = true;
-      this.loaded.emit('AccidentCheckpointsSelectorComponent');
+      this.loadedComponent();
     }).catch(() => {
-      this.loaded.emit('AccidentCheckpointsSelectorComponent');
+      this.loadedComponent();
     });
   }
 

@@ -7,7 +7,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { PatientsService } from '../../patients.service';
 import { Patient } from '../../patient';
-import { LoadableComponent } from '../../../core/LoadableComponent';
+import { LoadableComponent } from '../../../core/components/componentLoader/LoadableComponent';
 
 @Component({
     selector: 'nga-patient-selector',
@@ -20,7 +20,7 @@ export class PatientSelectorComponent extends LoadableComponent {
         this.setPatient(patientId);
     }
 
-    protected componentName: 'PatientSelectorComponent';
+    protected componentName: string = 'PatientSelectorComponent';
 
     patient: Patient;
 
@@ -32,12 +32,10 @@ export class PatientSelectorComponent extends LoadableComponent {
 
     setPatient (patientId: number): void {
         this.initComponent();
-        this.init.emit('PatientSelectorComponent');
         this.patientService.getPatient(patientId)
             .then((patient: Patient) => {
                 this.patient = patient;
                 this.loadedComponent();
-                this.loaded.emit('PatientSelectorComponent');
             })
             .catch( () => {
                 this.patient = null;
