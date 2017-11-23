@@ -9,7 +9,7 @@ import { SelectItem } from 'primeng/primeng';
 import { Logger } from 'angular2-logger/core';
 import { Patient } from '../../patient';
 import { PatientsService } from '../../patients.service';
-import { LoadableComponent } from '../../../core/LoadableComponent';
+import { LoadableComponent } from '../../../core/components/componentLoader/LoadableComponent';
 
 @Component({
   selector: 'nga-select-patient',
@@ -17,8 +17,6 @@ import { LoadableComponent } from '../../../core/LoadableComponent';
 })
 export class SelectPatientComponent extends LoadableComponent implements OnInit {
 
-  @Output() init: EventEmitter<string> = new EventEmitter<string>();
-  @Output() loaded: EventEmitter<string> = new EventEmitter<string>();
   @Output() select: EventEmitter<Patient> = new EventEmitter<Patient>();
   @Input() patient: Patient;
 
@@ -39,22 +37,7 @@ export class SelectPatientComponent extends LoadableComponent implements OnInit 
   }
 
   ngOnInit () {
-    this.initComponent();
-    this.patientService.getPatients().then(patients => {
-      this.patients = patients;
-      this.dataPatients = patients.map(x => {
-        return {
-          label: `${x.name}`,
-          value: `${x.id}`,
-        };
-      });
-
-      this.isLoaded = true;
-      this.loadedComponent();
-    }).catch((err) => {
-      this._logger.error(err);
-      this.loadedComponent();
-    });
+    this.reload();
   }
 
   onChanged(event): void {
@@ -70,17 +53,21 @@ export class SelectPatientComponent extends LoadableComponent implements OnInit 
     this.selectedPatient = this.patient ? this.patient : null;
  }
 
-  reload() {
-    this.init.emit('SelectPatientComponent');
-    this.patientService.getPatients()
-      .then( patients => {
-        this.loaded.emit('SelectPatientComponent');
-        this.patients = patients;
-        // this.selectPatient(this.selectedPatientId);
-      })
-      .catch( err => {
-        this._logger.error(err);
-        this.loaded.emit('SelectPatientComponent');
+  reload(): void {
+      this.initComponent();
+      this.patientService.getPatients().then(patients => {
+          this.patients = patients;
+          this.dataPatients = patients.map(x => {
+              return {
+                  label: `${x.name}`,
+                  value: `${x.id}`,
+              };
+          });
+          this.isLoaded = true;
+          this.loadedComponent();
+      }).catch((err) => {
+          this._logger.error(err);
+          this.loadedComponent();
       });
     }
 

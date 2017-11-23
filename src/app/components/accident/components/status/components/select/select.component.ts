@@ -8,27 +8,29 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Logger } from 'angular2-logger/core';
 import { AccidentStatus } from '../../status';
 import { AccidentStatusesService } from '../../statuses.service';
+import { LoadableComponent } from '../../../../../core/components/componentLoader/LoadableComponent';
 @Component({
   selector: 'nga-select-accident-status',
   templateUrl: './select.html',
 })
-export class AccidentStatusSelectComponent implements OnInit {
+export class AccidentStatusSelectComponent extends LoadableComponent implements OnInit {
 
   @Input() statusId: number = 0;
   @Output() selected: EventEmitter<AccidentStatus> = new EventEmitter<AccidentStatus>();
-  @Output() init: EventEmitter<any> = new EventEmitter();
-  @Output() loaded: EventEmitter<any> = new EventEmitter();
 
-  statuses: Array<AccidentStatus> = [];
+  statuses: AccidentStatus[] = [];
   status: AccidentStatus;
-  filteredStatuses: Array<AccidentStatus> = [];
+  filteredStatuses: AccidentStatus[] = [];
   isLoaded: boolean = false;
+  protected componentName: string = 'AccidentStatusSelectComponent';
 
   constructor (private statusesService: AccidentStatusesService,
-               private _logger: Logger) {}
+               private _logger: Logger) {
+    super();
+  }
 
   ngOnInit () {
-    this.init.emit();
+    this.initComponent();
     this.isLoaded = false;
     this.statusesService.getStatuses().then(statuses => {
       this.statuses = statuses;
@@ -37,17 +39,16 @@ export class AccidentStatusSelectComponent implements OnInit {
         this.status = this.statuses.find(doc => +doc.id === +this.statusId);
       }
       this.isLoaded = true;
-      this.loaded.emit();
+      this.loadedComponent();
     }).catch((err) => {
       this._logger.error(err);
-      this.loaded.emit();
+      this.loadedComponent();
     });
   }
 
   filterStatuses(event): void {
     this.filteredStatuses = [];
-    for (let i = 0; i < this.statuses.length; i++) {
-      const status = this.statuses[i];
+    for (const status of this.statuses) {
       if (status.title.toLowerCase().indexOf(event.query.toLowerCase()) === 0) {
         this.filteredStatuses.push(status);
       }

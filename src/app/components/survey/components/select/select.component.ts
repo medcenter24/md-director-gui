@@ -9,15 +9,14 @@ import { SelectItem } from 'primeng/primeng';
 import { Logger } from 'angular2-logger/core';
 import { Survey } from '../../survey';
 import { SurveyService } from '../../survey.service';
+import { LoadableComponent } from '../../../core/components/componentLoader/LoadableComponent';
 
 @Component({
   selector: 'nga-select-surveys',
   templateUrl: './select.html',
 })
-export class SelectSurveysComponent implements OnInit {
+export class SelectSurveysComponent extends LoadableComponent implements OnInit {
 
-  @Output() init: EventEmitter<string> = new EventEmitter<string>();
-  @Output() loaded: EventEmitter<string> = new EventEmitter<string>();
   @Output() chosenSurveysChange: EventEmitter<Survey[]> = new EventEmitter<Survey[]>();
   @Input() chosenSurveys: Survey[] = [];
 
@@ -25,14 +24,17 @@ export class SelectSurveysComponent implements OnInit {
   dataSurveys: SelectItem[] = [];
   selectedSurveys: string[] = [];
   surveys: Survey[] = [];
+  protected componentName: string = 'SelectSurveysComponent';
 
   constructor (
     private surveysService: SurveyService,
     private _logger: Logger,
-  ) { }
+  ) {
+    super();
+  }
 
   ngOnInit () {
-    this.init.emit('SelectSurveysComponent');
+    this.initComponent();
     this.surveysService.getSurveys().then(surveys => {
       this.surveys = surveys;
       this.dataSurveys = surveys.map(x => {
@@ -46,11 +48,11 @@ export class SelectSurveysComponent implements OnInit {
         // to show placeholder
         this.selectedSurveys = [];
       }
-      this.loaded.emit('SelectSurveysComponent');
       this.isLoaded = true;
+      this.loadedComponent();
     }).catch((err) => {
       this._logger.error(err);
-      this.loaded.emit('SelectSurveysComponent');
+      this.loadedComponent();
     });
   }
 

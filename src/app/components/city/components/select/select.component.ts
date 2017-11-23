@@ -8,11 +8,12 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Logger } from 'angular2-logger/core';
 import { City } from '../../city';
 import { CitiesService } from '../../cities.service';
+import { LoadableComponent } from '../../../core/components/componentLoader/LoadableComponent';
 @Component({
   selector: 'nga-select-city',
   templateUrl: './select.html',
 })
-export class CitySelectComponent implements OnInit {
+export class CitySelectComponent extends LoadableComponent implements OnInit {
 
   @Input()
     set selectPreloaded(preloaded: number[]) {
@@ -21,29 +22,30 @@ export class CitySelectComponent implements OnInit {
     }
   @Input() isMultiple: boolean = false;
   @Output() selected: EventEmitter<any> = new EventEmitter<any>();
-  @Output() init: EventEmitter<string> = new EventEmitter<string>();
-  @Output() loaded: EventEmitter<string> = new EventEmitter<string>();
 
   preloaded: number[] = [];
   isLoaded: boolean = false;
   cities: City[] = [];
   city: any; // ngModel selected
   filteredCities: City[] = [];
+  protected componentName: string = 'CitySelectComponent';
 
   constructor (
     private citiesService: CitiesService,
-    private _logger: Logger) {}
+    private _logger: Logger) {
+    super();
+  }
 
   ngOnInit () {
-    this.init.emit('CitySelectComponent');
+    this.initComponent();
     this.citiesService.getCities().then(cities => {
       this.cities = cities;
       this.selectPreloadedCities();
       this.isLoaded = true;
-      this.loaded.emit('CitySelectComponent');
+      this.loadedComponent();
     }).catch((err) => {
       this._logger.error(err);
-      this.loaded.emit('CitySelectComponent');
+      this.loadedComponent();
     });
   }
 

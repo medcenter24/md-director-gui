@@ -12,18 +12,17 @@ import { SlimLoadingBarService } from 'ng2-slim-loading-bar';
 import { GlobalState } from '../../../../global.state';
 import { TranslateService } from '@ngx-translate/core';
 import { Message } from 'primeng/primeng';
+import { LoadableComponent } from '../../../core/components/componentLoader/LoadableComponent';
 
 @Component({
     selector: 'nga-patient-editor',
     templateUrl: './editor.html',
 })
-export class PatientEditorComponent {
+export class PatientEditorComponent extends LoadableComponent {
     @Input() set initPatient(patientId: number) {
         this.setPatient(patientId);
     }
     @Output() changed: EventEmitter<Patient> = new EventEmitter<Patient>();
-    @Output() init: EventEmitter<string> = new EventEmitter<string>();
-    @Output() loaded: EventEmitter<string> = new EventEmitter<string>();
 
     // selected Patient
     patient: Patient;
@@ -31,6 +30,7 @@ export class PatientEditorComponent {
     maxDate: Date = new Date();
     currentYear: number = +(new Date()).getFullYear();
     msgs: Message[] = [];
+    protected componentName: string = 'PatientEditorComponent';
 
     constructor (
         private dateHelper: DateHelper,
@@ -38,21 +38,23 @@ export class PatientEditorComponent {
         private loadingBar: SlimLoadingBarService,
         private _state: GlobalState,
         private translate: TranslateService,
-    ) { }
+    ) {
+        super();
+    }
 
     setPatient (patientId: number): void {
-        this.init.emit('PatientEditorComponent');
+        this.initComponent();
         this.patientService.getPatient(patientId)
             .then((patient: Patient) => {
                 this.patient = patient;
                 if (this.patient.birthday) {
                     this.birthday = new Date(this.patient.birthday);
                 }
-                this.loaded.emit('PatientEditorComponent');
+                this.loadedComponent();
             })
             .catch( () => {
                 this.patient = null;
-                this.loaded.emit('PatientEditorComponent');
+                this.loadedComponent();
             });
     }
 

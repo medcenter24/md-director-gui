@@ -9,28 +9,29 @@ import { SelectDiagnosticsComponent } from '../select/select.component';
 import { Diagnostic } from '../../diagnostic';
 import { CasesService } from '../../../case/cases.service';
 import { Logger } from 'angular2-logger/core';
+import { LoadableComponent } from '../../../core/components/componentLoader/LoadableComponent';
 
 @Component({
   selector: 'nga-diagnostics-selector',
   templateUrl: 'selector.html',
 })
-export class DiagnosticsSelectorComponent implements OnInit {
+export class DiagnosticsSelectorComponent extends LoadableComponent implements OnInit {
 
   @Input() caseId: number = 0;
   @Output() changed: EventEmitter<Diagnostic[]> = new EventEmitter<Diagnostic[]>();
-  @Output() init: EventEmitter<string> = new EventEmitter<string>();
-  @Output() loaded: EventEmitter<string> = new EventEmitter<string>();
 
   @ViewChild('selectDiagnostics')
     private selectDiagnosticsComponent: SelectDiagnosticsComponent;
 
   isLoaded: boolean = false;
   caseDiagnostics: Diagnostic[] = [];
+  protected componentName: string = 'DiagnosticsSelectorComponent';
 
   constructor (
     private casesService: CasesService,
     private _logger: Logger,
   ) {
+    super();
   }
 
   ngOnInit () {
@@ -52,23 +53,23 @@ export class DiagnosticsSelectorComponent implements OnInit {
   }
 
   onSelectDiagnosticsLoaded(name): void {
-    this.loaded.emit(name);
+    this.onLoaded(name);
     if (this.caseId) {
-      this.init.emit('DiagnosticsSelectorComponent');
+      this.initComponent();
       this.casesService.getCaseDiagnostics(this.caseId).then(diagnostics => {
         this.caseDiagnostics = diagnostics;
         this.selectDiagnosticsComponent.reloadChosenDiagnostics(this.caseDiagnostics);
         this.changed.emit(this.caseDiagnostics);
-        this.loaded.emit('DiagnosticsSelectorComponent');
+        this.loadedComponent();
       }).catch((err) => {
         this._logger.error(err);
-        this.loaded.emit('DiagnosticsSelectorComponent');
+        this.loadedComponent();
       });
     }
   }
 
   onSelectDiagnosticsInit(name): void {
-    this.init.emit(name);
+    this.onInit(name);
   }
 
   private hasDiagnostic (diagnostic: Diagnostic): boolean {

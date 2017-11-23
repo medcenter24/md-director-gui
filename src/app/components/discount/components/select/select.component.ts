@@ -8,29 +8,31 @@ import { Component, Output, EventEmitter, Input, OnInit } from '@angular/core';
 import { DiscountService } from '../../discount.service';
 import { Logger } from 'angular2-logger/core';
 import { Discount } from '../../discount';
+import { LoadableComponent } from '../../../core/components/componentLoader/LoadableComponent';
 
 @Component({
   selector: 'nga-select-discount-type',
   templateUrl: './select.html',
 })
-export class SelectDiscountComponent implements OnInit {
+export class SelectDiscountComponent extends LoadableComponent implements OnInit {
 
   @Input() selectedDiscountId: number = 0;
   @Output() selected: EventEmitter<Discount> = new EventEmitter<Discount>();
-  @Output() init: EventEmitter<string> = new EventEmitter<string>();
-  @Output() loaded: EventEmitter<string> = new EventEmitter<string>();
 
   isLoaded: boolean = false;
-  private dataItems: Array<any> = [];
+  private dataItems: any[] = [];
   private selectedDiscount: Discount = new Discount();
   private loadedDiscounts: Discount[] = [];
+  protected componentName: string = 'SelectDiscountComponent';
 
   constructor (
     private discountsService: DiscountService,
-    private _logger: Logger) { }
+    private _logger: Logger) {
+    super();
+  }
 
   ngOnInit () {
-    this.init.emit('SelectDiscountComponent');
+    this.initComponent();
     this.discountsService.getDiscounts().then(types => {
       this.loadedDiscounts = types;
       if (!this.selectedDiscountId) {
@@ -47,10 +49,10 @@ export class SelectDiscountComponent implements OnInit {
       const discountType = this.loadedDiscounts.find(discoType => +discoType.id === +this.selectedDiscountId);
       this.selected.emit(discountType);
       this.isLoaded = true;
-      this.loaded.emit('SelectDiscountComponent');
+      this.loadedComponent();
     }).catch((err) => {
       this._logger.error(err);
-      this.loaded.emit('SelectDiscountComponent');
+      this.loadedComponent();
     });
   }
 
