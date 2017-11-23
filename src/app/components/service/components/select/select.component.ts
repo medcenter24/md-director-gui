@@ -9,15 +9,14 @@ import { ServicesService } from '../../services.service';
 import { SelectItem } from 'primeng/primeng';
 import { Service } from '../../service';
 import { Logger } from 'angular2-logger/core';
+import { LoadableComponent } from '../../../core/components/componentLoader/LoadableComponent';
 
 @Component({
   selector: 'nga-select-services',
   templateUrl: './select.html',
 })
-export class SelectServicesComponent implements OnInit {
+export class SelectServicesComponent extends LoadableComponent implements OnInit {
 
-  @Output() init: EventEmitter<string> = new EventEmitter<string>();
-  @Output() loaded: EventEmitter<string> = new EventEmitter<string>();
   @Output() chosenServicesChange: EventEmitter<Service[]> = new EventEmitter<Service[]>();
   @Input() chosenServices: Service[] = [];
 
@@ -25,16 +24,19 @@ export class SelectServicesComponent implements OnInit {
   dataServices: SelectItem[] = [];
   selectedServices: string[] = [];
   services: Service[] = [];
+  protected componentName: string = 'SelectServicesComponent';
 
   constructor (
     private servicesService: ServicesService,
     private _logger: Logger,
-  ) { }
+  ) {
+    super();
+  }
 
   ngOnInit () {
-    this.init.emit('SelectServicesComponent');
+    this.initComponent();
     this.servicesService.getServices().then(services => {
-      this.loaded.emit('SelectServicesComponent');
+      this.loadedComponent();
       this.services = services;
       this.dataServices = services.map(x => {
         return {
@@ -50,7 +52,7 @@ export class SelectServicesComponent implements OnInit {
       this.isLoaded = true;
     }).catch((err) => {
       this._logger.error(err);
-      this.loaded.emit('SelectServicesComponent');
+      this.loadedComponent();
     });
   }
 

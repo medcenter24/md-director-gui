@@ -29,15 +29,15 @@ import { AccidentScenarioComponent } from '../../../accident/components/scenario
 import { DateHelper } from '../../../../helpers/date.helper';
 import { Survey } from '../../../survey/survey';
 import { PatientEditorComponent } from '../../../patient/components/editor/editor.component';
+import { LoadingComponent } from '../../../core/components/componentLoader/LoadingComponent';
 
 @Component({
   selector: 'nga-case-editor',
   templateUrl: './editor.html',
   styleUrls: ['./editor.scss'],
 })
-export class CaseEditorComponent implements OnInit {
+export class CaseEditorComponent extends LoadingComponent implements OnInit {
 
-  @Output() loaded: EventEmitter<null> = new EventEmitter<null>();
 
   @ViewChild('parentSelector')
     private parentSelector: SelectAccidentComponent;
@@ -51,7 +51,6 @@ export class CaseEditorComponent implements OnInit {
   @ViewChild('editPatientForm')
     private editPatientForm: PatientEditorComponent;
 
-  waitLoading: number = 0;
   msgs: Message[] = [];
   accident: Accident;
   appliedTime: Date;
@@ -83,17 +82,21 @@ export class CaseEditorComponent implements OnInit {
    */
   doctorBeforeSave: number = 0;
 
+  protected componentName: string = 'CaseEditorComponent';
+
   constructor (private route: ActivatedRoute,
-               private loadingBar: SlimLoadingBarService,
+               protected loadingBar: SlimLoadingBarService,
                private translate: TranslateService,
-               private _logger: Logger,
-               private _state: GlobalState,
+               protected _logger: Logger,
+               protected _state: GlobalState,
                private accidentsService: AccidentsService,
                private caseService: CasesService,
                private doctorService: DoctorsService,
                private router: Router,
                private dateHelper: DateHelper,
-  ) { }
+  ) {
+    super();
+  }
 
   ngOnInit () {
     this.translate.get('Without discount').subscribe(res => {
@@ -117,9 +120,9 @@ export class CaseEditorComponent implements OnInit {
         this._state.notifyDataChanged('menu.activeLink', { title: 'Cases' });
 
         if (+params[ 'id' ]) {
-          this.startLoader('Accident');
+          this.startLoader(this.componentName);
           this.accidentsService.getAccident(+params[ 'id' ]).then((accident: Accident) => {
-            this.stopLoader('Accident');
+            this.stopLoader(this.componentName);
             this._state.notifyDataChanged('menu.activeLink', { title: 'Cases' });
             this.accident = accident ? accident : new Accident();
             this.appliedTime = new Date(this.accident.created_at);
@@ -144,7 +147,7 @@ export class CaseEditorComponent implements OnInit {
             this.loadDocuments();
             this.loadCheckpoints();
           }).catch((err) => {
-            this.stopLoader('Accident');
+            this.stopLoader(this.componentName);
             if (err.status === 404) {
               this.msgs = [];
               this.msgs.push({ severity: 'error', summary: this.translate.instant('Error'),
@@ -163,26 +166,12 @@ export class CaseEditorComponent implements OnInit {
       });
   }
 
-  startLoader(componentName: string = 'Not provided'): void {
-    this._logger.debug(`+${componentName}`);
-    if (!this.waitLoading) {
-      window.setTimeout(() => this._state.notifyDataChanged('blocker', true) );
-      this.loadingBar.start();
-    }
-    this.waitLoading++;
-  }
-
-  stopLoader(componentName: string = 'Not provided'): void {
-    this._logger.debug(`-${componentName}`);
-    if (--this.waitLoading <= 0) {
-      this._state.notifyDataChanged('blocker', false);
-      this.loadingBar.complete();
+  protected onComponentsLoadingCompleted(): void {
       if (this.accident.id) {
-        this.setFixedIncome(this.isIncomeFixed());
-        this.totalIncome = this.accident.income;
-        this.recalculatePrice();
+          this.setFixedIncome(this.isIncomeFixed());
+          this.totalIncome = this.accident.income;
+          this.recalculatePrice();
       }
-    }
   }
 
   onSave(): void {

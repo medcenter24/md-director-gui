@@ -12,17 +12,16 @@ import { GlobalState } from '../../../../global.state';
 import { AuthenticationService } from '../../../auth/authentication.service';
 import { DocumentsService } from '../../../document/documents.service';
 import { Document } from '../../../document/document';
+import { LoadableComponent } from '../../../core/components/componentLoader/LoadableComponent';
 @Component({
   selector: 'nga-file-uploader',
   templateUrl: './uploader.html',
 })
-export class FileUploaderComponent implements OnInit {
+export class FileUploaderComponent extends LoadableComponent implements OnInit {
 
   @Input() documents: Document[] = [];
   @Input() url: string = '';
   @Output() changed: EventEmitter<any[]> = new EventEmitter<any[]>();
-  @Output() init: EventEmitter<string> = new EventEmitter<string>();
-  @Output() loaded: EventEmitter<string> = new EventEmitter<string>();
 
   msgs: Message[] = [];
 
@@ -30,12 +29,14 @@ export class FileUploaderComponent implements OnInit {
   private translateLoaded: string;
   private translateErrorLoad: string;
   private deleterCounter: number = 0;
+  protected componentName: string = 'FileUploaderComponent';
 
   constructor(
               private translate: TranslateService,
               private _logger: Logger, private _state: GlobalState,
               private authenticationService: AuthenticationService,
               private documentsService: DocumentsService) {
+    super();
   }
 
   ngOnInit() {
@@ -50,7 +51,7 @@ export class FileUploaderComponent implements OnInit {
   handleBeforeUpload(event): void {
     this.msgs = [];
     this._state.notifyDataChanged('growl', this.msgs);
-    this.init.emit('FileUploaderComponent');
+    this.initComponent();
   }
 
   handleBeforeSend(event): void {
@@ -66,7 +67,7 @@ export class FileUploaderComponent implements OnInit {
     }
     this._state.notifyDataChanged('growl', this.msgs);
     this.changed.emit(this.documents);
-    this.loaded.emit('FileUploaderComponent');
+    this.loadedComponent();
   }
 
   handleError(event): void {
@@ -76,7 +77,7 @@ export class FileUploaderComponent implements OnInit {
     this._state.notifyDataChanged('growl', this.msgs);
     this._logger.error(`Error: Upload to ${event.xhr.responseURL}
       [${event.xhr.status}: ${event.xhr.statusText}]`);
-    this.loaded.emit('FileUploaderComponent');
+    this.loadedComponent();
   }
 
   handleClear(event): void {
@@ -105,17 +106,17 @@ export class FileUploaderComponent implements OnInit {
     this.deleterCounter = files.length;
 
     if (this.deleterCounter) {
-      this.init.emit('FileUploaderComponent');
+      this.initComponent();
       files.map(id => {
         this.documentsService.deleteDocument(id).then(() => {
           this.deleteFileFromGui(id);
           if (--this.deleterCounter <= 0) {
-            this.loaded.emit('FileUploaderComponent');
+            this.loadedComponent();
           }
         }).catch(err => {
           this._logger.error(err);
           if (--this.deleterCounter <= 0) {
-            this.loaded.emit('FileUploaderComponent');
+            this.loadedComponent();
           }
         });
       });
