@@ -172,15 +172,22 @@
                                 <div>
                                     <div class="patient-selector float-left">
                                         <nga-patient-selector
+                                                #patientSelector
                                                 [initPatient]="accident.patient_id"
                                                 (select)="onPatientSelected($event)"
                                                 (init)="startLoader($event)"
                                                 (loaded)="stopLoader($event)"
                                         ></nga-patient-selector>
                                     </div>
+                                    <div class="edit-patient float-left">
+                                        <span class="fa fa-edit lead linked text-success"
+                                              *ngIf="+accident.patient_id"
+                                              (click)="openEditPatientForm(accident.patient_id)"
+                                              title="{{ 'Edit patient data' | translate }}"></span>
+                                    </div>
                                     <div class="add-patient float-left">
                                         <span class="fa fa-user-plus lead linked"
-                                              (click)="openEditPatientForm()"
+                                              (click)="openEditPatientForm(0)"
                                               title="{{ 'Add Patient' | translate }}"></span>
                                     </div>
                                 </div>
@@ -427,7 +434,7 @@
     <nga-patient-editor
             #editPatientForm
             [initPatient]="accident.patient_id"
-            (saved)="onPatientSelected($event)"
+            (changed)="onPatientSelected($event)"
             (init)="startLoader($event)"
             (loaded)="stopLoader($event)"
     ></nga-patient-editor>

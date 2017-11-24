@@ -1,4 +1,7 @@
 {
+  "birthday": "День рождения",
+  "The birthday is not a valid date.": "День рождения указан неверно.",
+  "Edit Patient": "Редактировать данные пациента",
   "Patient Editor": "Редактирование пациента",
   "Add Patient": "Добавить пациента",
   "Name or Phone": "Имя или телефон",

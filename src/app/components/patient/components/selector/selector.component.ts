@@ -4,10 +4,11 @@
  *  @author Alexander Zagovorichev <zagovorichev@gmail.com>
  */
 
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output, ViewChild } from '@angular/core';
 import { PatientsService } from '../../patients.service';
 import { Patient } from '../../patient';
 import { LoadableComponent } from '../../../core/components/componentLoader/LoadableComponent';
+import { SelectPatientComponent } from '../select/select.component';
 
 @Component({
     selector: 'nga-patient-selector',
@@ -15,7 +16,10 @@ import { LoadableComponent } from '../../../core/components/componentLoader/Load
 })
 export class PatientSelectorComponent extends LoadableComponent {
 
-    @Output() select: EventEmitter<number> = new EventEmitter<number>();
+    @ViewChild('patientSelect')
+        patientSelectComponent: SelectPatientComponent;
+
+    @Output() select: EventEmitter<Patient> = new EventEmitter<Patient>();
     @Input() set initPatient(patientId: number) {
         this.setPatient(patientId);
     }
@@ -28,6 +32,11 @@ export class PatientSelectorComponent extends LoadableComponent {
         private patientService: PatientsService,
     ) {
         super();
+    }
+
+    resetPatient (patient: Patient): void {
+        this.patient = patient;
+        this.patientSelectComponent.reloadChosenPatient(patient);
     }
 
     setPatient (patientId: number): void {
@@ -43,7 +52,8 @@ export class PatientSelectorComponent extends LoadableComponent {
             });
     }
 
-    onPatientChanged() {
-        this.select.emit(this.patient.id);
+    onPatientChanged(patient: Patient) {
+        this.patient = patient;
+        this.select.emit(this.patient);
     }
 }

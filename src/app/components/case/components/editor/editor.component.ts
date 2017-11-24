@@ -4,7 +4,7 @@
  * @author Alexander Zagovorichev <zagovorichev@gmail.com>
  */
 
-import { Component, Output, EventEmitter, ViewChild, OnInit } from '@angular/core';
+import { Component, ViewChild, OnInit } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Accident } from '../../../accident/accident';
 import { AccidentsService } from '../../../accident/accidents.service';
@@ -30,6 +30,8 @@ import { DateHelper } from '../../../../helpers/date.helper';
 import { Survey } from '../../../survey/survey';
 import { PatientEditorComponent } from '../../../patient/components/editor/editor.component';
 import { LoadingComponent } from '../../../core/components/componentLoader/LoadingComponent';
+import { Patient } from '../../../patient/patient';
+import { PatientSelectorComponent } from '../../../patient/components/selector/selector.component';
 
 @Component({
   selector: 'nga-case-editor',
@@ -50,6 +52,9 @@ export class CaseEditorComponent extends LoadingComponent implements OnInit {
 
   @ViewChild('editPatientForm')
     private editPatientForm: PatientEditorComponent;
+
+  @ViewChild('patientSelector')
+    private patientSelector: PatientSelectorComponent;
 
   msgs: Message[] = [];
   accident: Accident;
@@ -504,13 +509,14 @@ export class CaseEditorComponent extends LoadingComponent implements OnInit {
       });*/
   }
 
-  openEditPatientForm (): void {
-    this.editPatientForm.setPatient(this.accident.patient_id);
+  openEditPatientForm (patientId: number): void {
+    this.editPatientForm.setPatient(patientId);
     this.patientEditFormDisplay = true;
   }
 
-  onPatientSelected(patientId: number): void {
-    this.accident.patient_id = patientId;
-    this.editPatientForm.setPatient(patientId);
+  onPatientSelected(patient: Patient): void {
+    this.accident.patient_id = patient.id;
+    this.patientSelector.resetPatient(patient);
+    this.editPatientForm.setPatient(patient.id);
   }
 }
