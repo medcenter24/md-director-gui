@@ -41,7 +41,7 @@ export class SelectPatientComponent extends LoadableComponent implements OnInit 
   }
 
   onChanged(event): void {
-    const patients = this.patients.filter(function (patient: Patient) {
+    const patients = this.patients.filter((patient: Patient) => {
       return event.value.indexOf(`${patient.id}`) !== -1;
     });
 
@@ -49,6 +49,13 @@ export class SelectPatientComponent extends LoadableComponent implements OnInit 
   }
 
   reloadChosenPatient(patient: Patient): void {
+    const filtered = this.patients.filter((val: Patient) => {
+      return val.id === patient.id;
+    });
+
+    if (!filtered.length) {
+        this.patients.push(patient);
+    }
     this.patient = patient;
     this.selectedPatient = this.patient ? this.patient : null;
  }
@@ -74,15 +81,16 @@ export class SelectPatientComponent extends LoadableComponent implements OnInit 
   filterPatients (event): void {
     this.filteredPatients = [];
     for (const patient of this.patients) {
-      if (patient.name.toLowerCase().indexOf(event.query.toLowerCase()) === 0) {
+      if (patient.name && patient.name.toLowerCase().indexOf(event.query.toLowerCase()) === 0) {
         this.filteredPatients.push(patient);
-      } else if (patient.phones.toLowerCase().indexOf(event.query.toLowerCase()) === 0) {
+      } else if (patient.phones && patient.phones.toLowerCase().indexOf(event.query.toLowerCase()) === 0) {
         this.filteredPatients.push(patient);
       }
     }
   }
 
-  onSelect(): void {
-      this.select.emit(this.patient);
+  onSelect(event: Patient): void {
+      this.patient = event;
+      this.select.emit(event);
   }
 }
