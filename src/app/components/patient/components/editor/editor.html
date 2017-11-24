@@ -34,6 +34,7 @@
                         [monthNavigator]="true"
                         [yearNavigator]="true"
                         appendTo="body"
+                        (input)="changedPatientBirthday($event)"
                         yearRange="{{ currentYear - 100 }}:{{ currentYear }}"
                         dateFormat="dd.mm.yy"
                         id="patient-editor-birthday"

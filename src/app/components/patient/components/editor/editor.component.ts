@@ -8,7 +8,6 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Patient } from '../../patient';
 import { DateHelper } from '../../../../helpers/date.helper';
 import { PatientsService } from '../../patients.service';
-import { SlimLoadingBarService } from 'ng2-slim-loading-bar';
 import { GlobalState } from '../../../../global.state';
 import { TranslateService } from '@ngx-translate/core';
 import { Message } from 'primeng/primeng';
@@ -25,7 +24,7 @@ export class PatientEditorComponent extends LoadableComponent {
     @Output() changed: EventEmitter<Patient> = new EventEmitter<Patient>();
 
     // selected Patient
-    patient: Patient;
+    patient: Patient = new Patient();
     birthday: Date;
     maxDate: Date = new Date();
     currentYear: number = +(new Date()).getFullYear();
@@ -35,7 +34,6 @@ export class PatientEditorComponent extends LoadableComponent {
     constructor (
         private dateHelper: DateHelper,
         private patientService: PatientsService,
-        private loadingBar: SlimLoadingBarService,
         private _state: GlobalState,
         private translate: TranslateService,
     ) {
@@ -43,40 +41,49 @@ export class PatientEditorComponent extends LoadableComponent {
     }
 
     setPatient (patientId: number): void {
-        this.initComponent();
-        this.patientService.getPatient(patientId)
-            .then((patient: Patient) => {
-                this.patient = patient;
-                if (this.patient.birthday) {
-                    this.birthday = new Date(this.patient.birthday);
-                }
-                this.loadedComponent();
-            })
-            .catch( () => {
-                this.patient = null;
-                this.loadedComponent();
-            });
+        this.patient = new Patient();
+        this.birthday = null;
+        if (patientId) {
+            this.initComponent();
+            this.patientService.getPatient(patientId)
+                .then((patient: Patient) => {
+                    this.patient = patient;
+                    if (this.patient.birthday) {
+                        this.birthday = new Date(this.patient.birthday);
+                    }
+                    this.loadedComponent();
+                })
+                .catch( () => {
+                    this.loadedComponent();
+                });
+        }
     }
 
     save(): void {
-        this.loadingBar.start();
-        this.patient.birthday = this.dateHelper.getUnixDate(this.birthday);
-        this.patient.name = this.patient.name.trim();
-        let savePromise;
-        if (this.patient.id) {
-            savePromise = this.patientService.update(this.patient);
+        this.initComponent();
+        if (this.birthday) {
+            this.patient.birthday = this.dateHelper.getUnixDate(this.birthday);
         } else {
-            savePromise = this.patientService.create(this.patient);
+            this.patient.birthday = '';
         }
-        savePromise.then(() => {
-            this.loadingBar.complete();
+        if (this.patient.name && this.patient.name.length) {
+            this.patient.name = this.patient.name.trim();
+        }
+        let savePromise;
+        savePromise = this.patient.id ? this.patientService.update(this.patient)
+            : this.patientService.create(this.patient);
+        savePromise.then((patient) => {
+            if (patient && patient.id) {
+                this.patient = patient;
+            }
             this.changed.emit(this.patient);
             this.msgs = [];
             this.msgs.push({ severity: 'success', summary: this.translate.instant('Saved'),
                 detail: this.translate.instant('Successfully saved') });
             this._state.notifyDataChanged('growl', this.msgs);
+            this.loadedComponent();
         }).catch(() => {
-            this.loadingBar.complete();
+            this.loadedComponent();
         });
     }
 
@@ -97,5 +104,9 @@ export class PatientEditorComponent extends LoadableComponent {
 
     changedPatientComment(event): void {
         this.patient.comment = event.target.value;
+    }
+
+    changedPatientBirthday(event): void {
+        this.patient.birthday = event.target.value;
     }
 }

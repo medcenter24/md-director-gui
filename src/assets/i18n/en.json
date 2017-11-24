@@ -1,4 +1,7 @@
 {
+  "birthday": "Birthday",
+  "The birthday is not a valid date.": "The birthday is not a valid date.",
+  "Edit patient data": "Edit patient data",
   "Patient Editor": "Patient Editor",
   "Add Patient": "Add Patient",
   "Name or Phone": "Name or Phone",
