@@ -8,43 +8,44 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Logger } from 'angular2-logger/core';
 import { Hospital } from '../../hospital';
 import { HospitalsService } from '../../hospitals.service';
+import { LoadableComponent } from '../../../core/components/componentLoader/LoadableComponent';
 @Component({
   selector: 'nga-select-hospital',
   templateUrl: './select.html',
 })
-export class HospitalSelectComponent implements OnInit {
+export class HospitalSelectComponent extends LoadableComponent implements OnInit {
 
   @Input() hospitalId: number = 0;
-  @Output() init: EventEmitter<string> = new EventEmitter<string>();
-  @Output() loaded: EventEmitter<string> = new EventEmitter<string>();
 
-  hospitals: Array<Hospital> = [];
+  hospitals: Hospital[] = [];
   hospital: Hospital;
-  filteredHospitals: Array<Hospital> = [];
+  filteredHospitals: Hospital[] = [];
+  protected componentName: string = 'HospitalSelectComponent';
 
   constructor (
     private hospitalsService: HospitalsService,
-    private _logger: Logger) {}
+    private _logger: Logger) {
+    super();
+  }
 
   ngOnInit () {
-    this.init.emit('HospitalSelectComponent');
+    this.initComponent();
     this.hospitalsService.getHospitals().then(hospitals => {
       this.hospitals = hospitals;
       if (this.hospitalId) {
         this.hospital = this.hospitals.find(hospital => hospital.id === this.hospitalId);
       }
-      this.loaded.emit('HospitalSelectComponent');
+      this.loadedComponent();
     }).catch((err) => {
       this._logger.error(err);
-      this.loaded.emit('HospitalSelectComponent');
+      this.loadedComponent();
     });
   }
 
   filterHospitals (event): void {
     this.filteredHospitals = [];
-    for (let i = 0; i < this.hospitals.length; i++) {
-      const hospital = this.hospitals[i];
-      if (hospital.title.toLowerCase().indexOf(event.query.toLowerCase()) == 0) {
+    for (const hospital of this.hospitals) {
+      if (hospital.title.toLowerCase().indexOf(event.query.toLowerCase()) === 0) {
         this.filteredHospitals.push(hospital);
       }
     }

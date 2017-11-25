@@ -58,7 +58,6 @@
                         <div class="row">
                             <div class="col-sm-5" *ngIf="false">
                                 <!-- this block needed only when hospitals will be implemented -->
-
                                 <b class="text-muted">{{ 'Choose Case' | translate }}</b>
                                 <br>
                                 <nga-select-case-type
@@ -79,7 +78,7 @@
                                             <label class="label required separate" translate>City</label>
                                             <nga-select-city
                                                     *ngIf="doctorAccident"
-                                                    [selectPreloaded]="[(1*doctorAccident.city_id)]"
+                                                    [selectPreloaded]="[+doctorAccident.city_id]"
                                                     (selected)="onCityChanged($event)"
                                                     (init)="startLoader($event)"
                                                     (loaded)="stopLoader($event)"
@@ -104,6 +103,7 @@
                                                     [showIcon]="true"
                                                     [showTime]="true"
                                                     dateFormat="dd.mm.yy"
+                                                    appendTo="body"
                                             ></p-calendar>
                                         </div>
                                     </div>
@@ -166,45 +166,48 @@
                     </div>
 
                     <div class="form-group">
-                        <div class="row offset-bottom20" *ngIf="patient">
-                            <div class="col-sm-3">
-                                <label class="label required separate" translate>Patient Name</label>
-                                <input type="text" pInputText name="name"
-                                       [(ngModel)]="patient.name"
-                                       (input)="formattedPatientName($event)"
-                                       placeholder="{{ 'Patient Name' | translate }}"/>
+                        <div class="row offset-bottom20 patient-container">
+                            <div class="col-12">
+                                <label class="label separate required">{{ 'patient' | translate }}</label>
+                                <div>
+                                    <div class="patient-selector float-left">
+                                        <nga-patient-selector
+                                                #patientSelector
+                                                [initPatient]="accident.patient_id"
+                                                (select)="onPatientSelected($event)"
+                                                (init)="startLoader($event)"
+                                                (loaded)="stopLoader($event)"
+                                        ></nga-patient-selector>
+                                    </div>
+                                    <div class="edit-patient float-left">
+                                        <span class="fa fa-edit lead linked text-success"
+                                              *ngIf="+accident.patient_id"
+                                              (click)="openEditPatientForm(accident.patient_id)"
+                                              title="{{ 'Edit patient data' | translate }}"></span>
+                                    </div>
+                                    <div class="add-patient float-left">
+                                        <span class="fa fa-user-plus lead linked"
+                                              (click)="openEditPatientForm(0)"
+                                              title="{{ 'Add Patient' | translate }}"></span>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="col-sm-3">
-                                <label class="label separate" translate>Patient Phone</label>
-                                <input type="text" pInputText name="phone" [(ngModel)]="patient.phones"
-                                       placeholder="{{ 'Patient Phone' | translate }}"/>
-                            </div>
-                            <div class="col-sm-3">
-                                <label class="label separate" translate>Birthday</label>
-                                <p-calendar
-                                        name="patientBirthday"
-                                        [(ngModel)]="birthday"
-                                        [maxDate]="maxDate"
-                                        [showIcon]="true"
-                                        [monthNavigator]="true"
-                                        [yearNavigator]="true"
-                                        yearRange="{{ currentYear - 100 }}:{{ currentYear }}"
-                                        dateFormat="dd.mm.yy"
-                                ></p-calendar>
-                            </div>
-                            <div class="col-sm-3">
+                        </div>
+                        <div class="row offset-bottom20">
+                            <div class="col-sm-9">
                                 <label class="label separate" translate>Contacts</label>
-                                 <textarea rows="2" cols="50" pInputTextarea
-                                           autoResize="autoResize"
-                                           placeholder="{{ 'Contacts' | translate }}"
-                                           class="form-control"
-                                           [(ngModel)]="accident.contacts"
-                                           name="contacts"
-                                 ></textarea>
+                                <textarea rows="2" cols="50" pInputTextarea
+                                          autoResize="autoResize"
+                                          placeholder="{{ 'Contacts' | translate }}"
+                                          class="form-control"
+                                          [(ngModel)]="accident.contacts"
+                                          name="contacts"
+                                ></textarea>
                             </div>
                         </div>
                     </div>
                 </div>
+
                 <div *ngIf="accident.id" class="additional-part">
                     <div class="form-group">
                         <nga-accident-scenario
@@ -353,6 +356,19 @@
                                 <div class="form-group offset-bottom20">
                                     <div class="row">
                                         <div class="col-sm-12">
+                                            <nga-surveys-selector
+                                                    [caseId]="accident.id"
+                                                    (changed)="onSurveysChanged($event)"
+                                                    (init)="startLoader($event)"
+                                                    (loaded)="stopLoader($event)"
+                                            ></nga-surveys-selector>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group offset-bottom20">
+                                    <div class="row">
+                                        <div class="col-sm-12">
                                             <nga-diagnostics-selector
                                                     [caseId]="accident.id"
                                                     (changed)="onDiagnosticsChanged($event)"
@@ -364,7 +380,7 @@
                                 </div>
 
                                 <div class="row">
-                                    <div class="col-sm-9">
+                                    <div class="col-sm-12">
                                         <label class="label separated" translate>Documents</label>
                                         <nga-file-uploader
                                                 [(documents)]="documents"
@@ -410,3 +426,16 @@
         </div>
     </div>
 </div>
+
+<p-dialog [(visible)]="patientEditFormDisplay" appendTo="body">
+    <p-header>
+        {{ 'Patient Editor' | translate }}
+    </p-header>
+    <nga-patient-editor
+            #editPatientForm
+            [initPatient]="accident.patient_id"
+            (changed)="onPatientSelected($event)"
+            (init)="startLoader($event)"
+            (loaded)="stopLoader($event)"
+    ></nga-patient-editor>
+</p-dialog>
