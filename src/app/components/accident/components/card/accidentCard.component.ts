@@ -37,7 +37,6 @@ export class AccidentCardComponent extends LoadableComponent implements OnInit {
     if (+this.selectedAccidentId) {
       this.onInit(`${this.componentName}.getAccident`);
       this.accidentService.getAccident(this.selectedAccidentId).then(accident => {
-        this.loaded.emit('AccidentCardComponent.getAccident');
         this.onLoaded(`${this.componentName}.getAccident`);
         this.accident = accident;
         this.loadPatient();
