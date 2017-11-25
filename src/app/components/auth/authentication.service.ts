@@ -14,6 +14,7 @@ import { SlimLoadingBarService } from 'ng2-slim-loading-bar';
 import { TranslateService } from '@ngx-translate/core';
 import { GlobalState } from '../../global.state';
 import { Message } from 'primeng/primeng';
+import { Router } from '@angular/router';
 
 @Injectable()
 export class AuthenticationService {
@@ -31,6 +32,7 @@ export class AuthenticationService {
     private loadingBar: SlimLoadingBarService,
     private translate: TranslateService,
     private _state: GlobalState,
+    private router: Router,
   ) {
     if (localStorage.getItem('token')) {
       // set token if saved in local storage
@@ -64,13 +66,20 @@ export class AuthenticationService {
     this.authHttp.get(this.refreshUrl)
       .subscribe(
         response => {
-          const token = response.json() && response.json().token;
+          const token = response.json() && response.json().access_token;
           return this.setToken(token);
         },
         err => {
-          this.msgs = [];
-          this.msgs.push({ severity: 'error', summary: this.translate.instant('Error'), detail: err });
-          this._state.notifyDataChanged('growl', this.msgs);
+            if (err && err.status && err.status === 401) {
+                // won't clean all data so we need browser redirect
+                // but I'm trying to clean them by hand
+                this.logout();
+                this.router.navigate(['login']);
+            } else {
+                this.msgs = [];
+                this.msgs.push({ severity: 'error', summary: this.translate.instant('Error'), detail: err });
+                this._state.notifyDataChanged('growl', this.msgs);
+            }
         },
       );
   }
