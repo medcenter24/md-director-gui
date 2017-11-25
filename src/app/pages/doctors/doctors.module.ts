@@ -9,7 +9,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { NgaModule } from '../../theme/nga.module';
 import { Ng2SmartTableModule } from 'ng2-smart-table';
-import { routing }       from './doctors.routing';
+import { routing } from './doctors.routing';
 import { DoctorsComponent } from './doctors.component';
 import { DoctorServicesComponent } from './components/services/services.component';
 import { StuffComponent } from './components/stuff/stuff.component';
@@ -32,6 +32,8 @@ import { AppTranslationModule } from '../../app.translation.module';
 import { AutoCompleteModule, ListboxModule } from 'primeng/primeng';
 import { CitiesModule } from '../../components/city/cities.module';
 import { CitiesService } from '../../components/city/cities.service';
+import { SurveysComponent } from './components/surveys/surveys.component';
+import { SurveyService } from '../../components/survey/survey.service';
 
 @NgModule({
   imports: [
@@ -57,6 +59,7 @@ import { CitiesService } from '../../components/city/cities.service';
     DiagnosticEditorComponent,
     DiagnosticCategoryEditorComponent,
     DiagnosticCategorySelectorComponent,
+    SurveysComponent,
   ],
   providers: [
     DoctorsService,
@@ -65,6 +68,7 @@ import { CitiesService } from '../../components/city/cities.service';
     DiagnosticService,
     DiagnosticCategoryService,
     CitiesService,
+    SurveyService,
   ],
 })
 

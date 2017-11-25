@@ -9,17 +9,16 @@ import { AccidentType } from '../type';
 import { AccidentTypesService } from '../types.service';
 import { Logger } from 'angular2-logger/core';
 import { TranslateService } from '@ngx-translate/core';
+import { LoadableComponent } from '../../../../core/components/componentLoader/LoadableComponent';
 
 @Component({
   selector: 'nga-select-accident-type',
   templateUrl: './select.html',
 })
-export class SelectAccidentTypeComponent implements OnInit {
+export class SelectAccidentTypeComponent extends LoadableComponent implements OnInit {
 
   @Input() selectedTypeId: number = 0;
   @Output() selected: EventEmitter<AccidentType> = new EventEmitter<AccidentType>();
-  @Output() init: EventEmitter<string> = new EventEmitter<string>();
-  @Output() loaded: EventEmitter<string> = new EventEmitter<string>();
 
   isLoaded: boolean = false;
   private dataItems = [];
@@ -27,12 +26,15 @@ export class SelectAccidentTypeComponent implements OnInit {
   private loadedTypes: AccidentType[] = [];
   private transInsurance: string = '';
   private transNonInsurance: string = '';
+  protected componentName: string = 'SelectAccidentTypeComponent';
 
   constructor (
     private accidentTypesService: AccidentTypesService,
     private translate: TranslateService,
     private _logger: Logger,
-  ) { }
+  ) {
+    super();
+  }
 
   ngOnInit () {
 
@@ -44,7 +46,7 @@ export class SelectAccidentTypeComponent implements OnInit {
       this.transNonInsurance = res;
     });
 
-    this.init.emit('SelectAccidentTypeComponent');
+    this.initComponent();
     this.accidentTypesService.getTypes().then(types => {
       this.loadedTypes = types;
       if (!this.selectedTypeId) {
@@ -58,10 +60,10 @@ export class SelectAccidentTypeComponent implements OnInit {
         };
       });
       this.isLoaded = true;
-      this.loaded.emit('SelectAccidentTypeComponent');
+      this.loadedComponent();
     }).catch((err) => {
       this._logger.error(err);
-      this.loaded.emit('SelectAccidentTypeComponent');
+      this.loadedComponent();
     });
   }
 

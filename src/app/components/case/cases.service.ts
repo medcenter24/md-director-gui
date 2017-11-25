@@ -16,6 +16,7 @@ import { Document } from '../document/document';
 import { CaseAccident } from './case';
 import { AccidentCheckpoint } from '../accident/components/checkpoint/checkpoint';
 import { AccidentScenario } from '../accident/components/scenario/scenario';
+import { Survey } from '../survey/survey';
 
 @Injectable()
 export class CasesService extends HttpService {
@@ -48,6 +49,10 @@ export class CasesService extends HttpService {
 
   getCaseDiagnostics(id: number): Promise<Diagnostic[]> {
     return this.get(`${id}/diagnostics`).then(response => response.json().data as Diagnostic[]);
+  }
+
+  getCaseSurveys(id: number): Promise<Survey[]> {
+      return this.get(`${id}/surveys`).then(response => response.json().data as Survey[]);
   }
 
   getCheckpoints(id: number): Promise<AccidentCheckpoint[]> {

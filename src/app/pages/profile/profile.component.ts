@@ -12,6 +12,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { UsersService } from '../../components/users/users.service';
 import { User } from '../../components/users/user';
 import { LoggedUserService } from '../../components/auth/loggedUser.service';
+import { AuthenticationService } from '../../components/auth/authentication.service';
 
 @Component({
   selector: 'nga-profile',
@@ -19,7 +20,7 @@ import { LoggedUserService } from '../../components/auth/loggedUser.service';
 })
 export class ProfileComponent implements OnInit {
 
-  languages: Array<any> = [];
+  languages: any[] = [];
   loaded: boolean = false;
   lang: string = 'en';
 
@@ -31,12 +32,13 @@ export class ProfileComponent implements OnInit {
                private translateService: TranslateService,
                private usersService: UsersService,
                private loggedUserService: LoggedUserService,
+               private authService: AuthenticationService,
   ) { }
 
   ngOnInit (): void {
     const langs = this.translateService.getLangs();
     this._state.notifyDataChanged('menu.activeLink', { title: 'Profile' });
-    this.languages = langs.map((v) => { return { label: v, value: v }; });
+    this.languages = langs.map((v) => ({ label: v, value: v }) );
     this.loadingBar.start();
     this.loggedUserService.getUser().then(user => {
       this.loadingBar.complete();
@@ -44,12 +46,16 @@ export class ProfileComponent implements OnInit {
     }).catch(() => this.loadingBar.complete());
   }
 
-  public onLangChanged (event): void {
+  onLangChanged (event): void {
     this.loadingBar.start();
     this.usersService.update(this.loggedUser)
       .then(() => {
         this._state.notifyDataChanged('lang', this.loggedUser.lang);
         this.loadingBar.complete();
       }).catch(() => this.loadingBar.complete());
+  }
+
+  refreshToken(): void {
+    this.authService.refresh();
   }
 }

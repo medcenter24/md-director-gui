@@ -18,7 +18,8 @@
             <thead class="table-inverse">
             <tr>
                 <th>{{ documents.length }}</th>
-                <th translate>File Name</th>
+                <th translate>Type</th>
+                <th translate>Downloaded By</th>
                 <th></th>
                 <th></th>
             </tr>
@@ -26,10 +27,13 @@
             <tbody>
             <tr *ngFor="let file of documents" class="row-file-{{ file.id }}">
                 <td>
-                    <!-- todo thumber [file]="file"></thumber-->
+                    <img src="data:image/jpeg;base64,{{ file.b64thumb }}" width="120" alt="{{ file.title }}">
                 </td>
-                <td>
-                    {{ file.title }}
+                <td translate>
+                    {{ file.type }}
+                </td>
+                <td translate>
+                    {{ file.owner }}
                 </td>
                 <td>
                     <button pButton type="button" (click)="deleteFile(file)" class="ui-button-danger" icon="fa-trash" label="{{ 'Delete' | translate }}"></button>

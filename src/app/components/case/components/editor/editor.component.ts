@@ -4,7 +4,7 @@
  * @author Alexander Zagovorichev <zagovorichev@gmail.com>
  */
 
-import { Component, Output, EventEmitter, ViewChild, OnInit } from '@angular/core';
+import { Component, ViewChild, OnInit } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Accident } from '../../../accident/accident';
 import { AccidentsService } from '../../../accident/accidents.service';
@@ -12,11 +12,9 @@ import { Message, ToggleButton } from 'primeng/primeng';
 import { SlimLoadingBarService } from 'ng2-slim-loading-bar';
 import { TranslateService } from '@ngx-translate/core';
 import { AccidentType } from '../../../accident/components/type/type';
-import { Patient } from '../../../patient/patient';
 import { Logger } from 'angular2-logger/core';
 import { GlobalState } from '../../../../global.state';
 import { SelectAccidentComponent } from '../../../accident/components/select/select.component';
-import { PatientsService } from '../../../patient/patients.service';
 import { DoctorAccident } from '../../../doctorAccident/doctorAccident';
 import { HospitalAccident } from '../../../hospitalAccident/hospitalAccident';
 import { CasesService } from '../../cases.service';
@@ -29,14 +27,19 @@ import { DoctorsService } from '../../../doctors/doctors.service';
 import { Doctor } from '../../../doctors/doctor';
 import { AccidentScenarioComponent } from '../../../accident/components/scenario/components/line/line.component';
 import { DateHelper } from '../../../../helpers/date.helper';
+import { Survey } from '../../../survey/survey';
+import { PatientEditorComponent } from '../../../patient/components/editor/editor.component';
+import { LoadingComponent } from '../../../core/components/componentLoader/LoadingComponent';
+import { Patient } from '../../../patient/patient';
+import { PatientSelectorComponent } from '../../../patient/components/selector/selector.component';
 
 @Component({
   selector: 'nga-case-editor',
   templateUrl: './editor.html',
+  styleUrls: ['./editor.scss'],
 })
-export class CaseEditorComponent implements OnInit {
+export class CaseEditorComponent extends LoadingComponent implements OnInit {
 
-  @Output() loaded: EventEmitter<null> = new EventEmitter<null>();
 
   @ViewChild('parentSelector')
     private parentSelector: SelectAccidentComponent;
@@ -47,19 +50,23 @@ export class CaseEditorComponent implements OnInit {
   @ViewChild('incomeAutoupdate')
     private incomeAutoupdate: ToggleButton;
 
-  waitLoading: number = 0;
+  @ViewChild('editPatientForm')
+    private editPatientForm: PatientEditorComponent;
+
+  @ViewChild('patientSelector')
+    private patientSelector: PatientSelectorComponent;
+
   msgs: Message[] = [];
   accident: Accident;
-  patient: Patient;
   appliedTime: Date;
   maxDate: Date;
   discountValue: number = 0;
   discountType: Discount;
-  birthday: Date;
   doctorAccident: DoctorAccident;
   hospitalAccident: HospitalAccident;
   services: Service[] = [];
   diagnostics: Diagnostic[] = [];
+  surveys: Survey[] = [];
   documents: Document[] = [];
   checkpoints: number[] = []; // ids of checkpoints
   totalAmount: number = 0;
@@ -73,24 +80,28 @@ export class CaseEditorComponent implements OnInit {
   totalIncomeFormula: string = '';
   // for a while until the hospital cases implementation
   onlyDoctorAccident: boolean = true;
+  patientEditFormDisplay: boolean = false;
 
   /**
    * to show on save message, that doctor was changed
    */
   doctorBeforeSave: number = 0;
 
+  protected componentName: string = 'CaseEditorComponent';
+
   constructor (private route: ActivatedRoute,
-               private loadingBar: SlimLoadingBarService,
+               protected loadingBar: SlimLoadingBarService,
                private translate: TranslateService,
-               private _logger: Logger,
-               private _state: GlobalState,
-               private patientService: PatientsService,
+               protected _logger: Logger,
+               protected _state: GlobalState,
                private accidentsService: AccidentsService,
                private caseService: CasesService,
                private doctorService: DoctorsService,
                private router: Router,
                private dateHelper: DateHelper,
-  ) { }
+  ) {
+    super();
+  }
 
   ngOnInit () {
     this.translate.get('Without discount').subscribe(res => {
@@ -106,7 +117,6 @@ export class CaseEditorComponent implements OnInit {
     this.doctorAccident = new DoctorAccident();
     this.accident.caseable_type = 'App\\DoctorAccident';
 
-    this.patient = new Patient();
     // we need it because of redirect after case creation
     this._state.notifyDataChanged('blocker', false);
 
@@ -115,9 +125,9 @@ export class CaseEditorComponent implements OnInit {
         this._state.notifyDataChanged('menu.activeLink', { title: 'Cases' });
 
         if (+params[ 'id' ]) {
-          this.startLoader('Accident');
+          this.startLoader(this.componentName);
           this.accidentsService.getAccident(+params[ 'id' ]).then((accident: Accident) => {
-            this.stopLoader('Accident');
+            this.stopLoader(this.componentName);
             this._state.notifyDataChanged('menu.activeLink', { title: 'Cases' });
             this.accident = accident ? accident : new Accident();
             this.appliedTime = new Date(this.accident.created_at);
@@ -137,13 +147,12 @@ export class CaseEditorComponent implements OnInit {
             if (this.accident.closed_at) {
               this.closedTime = this.dateHelper.toEuropeFormatWithTime(this.accident.closed_at);
             }
-            this.loadPatient();
             this.loadCaseable();
             this.recalculatePrice();
             this.loadDocuments();
             this.loadCheckpoints();
           }).catch((err) => {
-            this.stopLoader('Accident');
+            this.stopLoader(this.componentName);
             if (err.status === 404) {
               this.msgs = [];
               this.msgs.push({ severity: 'error', summary: this.translate.instant('Error'),
@@ -162,41 +171,25 @@ export class CaseEditorComponent implements OnInit {
       });
   }
 
-  startLoader(componentName: string = 'Not provided'): void {
-    this._logger.debug(`+${componentName}`);
-    if (!this.waitLoading) {
-      window.setTimeout(() => this._state.notifyDataChanged('blocker', true) );
-      this.loadingBar.start();
-    }
-    this.waitLoading++;
-  }
-
-  stopLoader(componentName: string = 'Not provided'): void {
-    this._logger.debug(`-${componentName}`);
-    if (--this.waitLoading <= 0) {
-      this._state.notifyDataChanged('blocker', false);
-      this.loadingBar.complete();
+  protected onComponentsLoadingCompleted(): void {
       if (this.accident.id) {
-        this.setFixedIncome(this.isIncomeFixed());
-        this.totalIncome = this.accident.income;
-        this.recalculatePrice();
+          this.setFixedIncome(this.isIncomeFixed());
+          this.totalIncome = this.accident.income;
+          this.recalculatePrice();
       }
-    }
   }
 
   onSave(): void {
     this.accident.discount_id = this.discountType.id;
     this.accident.discount_value = +this.discountValue;
-    this.patient.birthday = this.dateHelper.getUnixDate(this.birthday);
-    this.patient.name = this.patient.name.trim();
     this.accident.handling_time = this.dateHelper.getUnixDateWithTime(this.handlingTime);
     this.accident.income = this.totalIncome;
     const data = {
       accident: this.accident,
       doctorAccident: this.doctorAccident,
-      patient: this.patient,
       services: this.services.map(x => x.id),
       diagnostics: this.diagnostics.map(x => x.id),
+      surveys: this.surveys.map(x => x.id),
       documents: this.documents.map(x => x.id),
       checkpoints: this.checkpoints,
     };
@@ -370,13 +363,6 @@ export class CaseEditorComponent implements OnInit {
     return Number(num) === num && num % 1 !== 0 ? num.toFixed(2) : num;
   }
 
-  formattedPatientName(event): void {
-    event.target.value = event.target.value.toUpperCase();
-    event.target.value = event.target.value.replace(/[^A-Z\s]/g, '');
-    event.target.value = event.target.value.replace(/\s+/g, ' ');
-    this.patient.name = event.target.value;
-  }
-
   onServicesSelectorPriceChanged(servicesPrice: number): void {
     this.totalAmount = +servicesPrice.toFixed(2);
     this.recalculatePrice();
@@ -388,6 +374,10 @@ export class CaseEditorComponent implements OnInit {
 
   onDiagnosticsChanged(diagnostics: Diagnostic[]): void {
     this.diagnostics = diagnostics;
+  }
+
+  onSurveysChanged(surveys: Survey[]): void {
+    this.surveys = surveys;
   }
 
   onDiscountTypeSelected(discountType: Discount): void {
@@ -471,22 +461,6 @@ export class CaseEditorComponent implements OnInit {
     this.totalAmount = +this.totalAmount.toFixed(2);
   }
 
-  private loadPatient(): void {
-    if (this.accident.patient_id) {
-      this.startLoader('getPatient');
-      this.patientService.getPatient(this.accident.patient_id).then((patient: Patient) => {
-        this.patient = patient;
-        if (this.patient.birthday) {
-          this.birthday = new Date(this.patient.birthday);
-        }
-        this.stopLoader('getPatient');
-      }).catch((err) => {
-        this._logger.error(err);
-        this.stopLoader('getPatient');
-      });
-    }
-  }
-
   private loadDocuments(): void {
     this.startLoader('getDocuments');
     this.caseService.getDocuments(this.accident.id)
@@ -533,5 +507,16 @@ export class CaseEditorComponent implements OnInit {
         this._logger.error(err);
         complete();
       });*/
+  }
+
+  openEditPatientForm (patientId: number): void {
+    this.editPatientForm.setPatient(patientId);
+    this.patientEditFormDisplay = true;
+  }
+
+  onPatientSelected(patient: Patient): void {
+    this.accident.patient_id = patient.id;
+    this.patientSelector.resetPatient(patient);
+    this.editPatientForm.setPatient(patient.id);
   }
 }
