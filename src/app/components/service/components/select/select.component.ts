@@ -9,36 +9,39 @@ import { ServicesService } from '../../services.service';
 import { SelectItem } from 'primeng/primeng';
 import { Service } from '../../service';
 import { Logger } from 'angular2-logger/core';
+import { LoadableComponent } from '../../../core/components/componentLoader/LoadableComponent';
 
 @Component({
   selector: 'nga-select-services',
   templateUrl: './select.html',
 })
-export class SelectServicesComponent implements OnInit {
+export class SelectServicesComponent extends LoadableComponent implements OnInit {
 
-  @Output() init: EventEmitter<string> = new EventEmitter<string>();
-  @Output() loaded: EventEmitter<string> = new EventEmitter<string>();
   @Output() chosenServicesChange: EventEmitter<Service[]> = new EventEmitter<Service[]>();
-  @Input() chosenServices: Array<Service> = [];
+  @Input() chosenServices: Service[] = [];
 
   isLoaded: boolean = false;
   dataServices: SelectItem[] = [];
-  selectedServices: Array<string> = [];
-  services: Array<Service> = [];
+  selectedServices: string[] = [];
+  services: Service[] = [];
+  protected componentName: string = 'SelectServicesComponent';
 
   constructor (
     private servicesService: ServicesService,
     private _logger: Logger,
-  ) { }
+  ) {
+    super();
+  }
 
   ngOnInit () {
-    this.init.emit('SelectServicesComponent');
+    this.initComponent();
     this.servicesService.getServices().then(services => {
+      this.loadedComponent();
       this.services = services;
       this.dataServices = services.map(x => {
         return {
-          label: '' + x.title,
-          value: '' + x.id,
+          label: `${x.title}`,
+          value: `${x.id}`,
         };
       });
 
@@ -46,24 +49,23 @@ export class SelectServicesComponent implements OnInit {
         // to show placeholder
         this.selectedServices = [];
       }
-      this.loaded.emit('SelectServicesComponent');
       this.isLoaded = true;
     }).catch((err) => {
       this._logger.error(err);
-      this.loaded.emit('SelectServicesComponent');
+      this.loadedComponent();
     });
   }
 
    onChanged(event): void {
      const services = this.services.filter(function (service) {
-       return event.value.indexOf(service.id + '') !== -1;
+       return event.value.indexOf(`${service.id}`) !== -1;
      });
 
      this.chosenServicesChange.emit(services);
    }
 
-   reloadChosenServices(services: Array<Service>): void {
+   reloadChosenServices(services: Service[]): void {
      this.chosenServices = services;
-     this.selectedServices = this.chosenServices.length ? this.chosenServices.map(x => x.id + '') : [];
+     this.selectedServices = this.chosenServices.length ? this.chosenServices.map(x => `${x.id}`) : [];
    }
 }

@@ -9,15 +9,14 @@ import { DiagnosticService } from '../../diagnostic.service';
 import { SelectItem } from 'primeng/primeng';
 import { Diagnostic } from '../../diagnostic';
 import { Logger } from 'angular2-logger/core';
+import { LoadableComponent } from '../../../core/components/componentLoader/LoadableComponent';
 
 @Component({
   selector: 'nga-select-diagnostics',
   templateUrl: './select.html',
 })
-export class SelectDiagnosticsComponent implements OnInit {
+export class SelectDiagnosticsComponent extends LoadableComponent implements OnInit {
 
-  @Output() loaded: EventEmitter<string> = new EventEmitter<string>();
-  @Output() init: EventEmitter<string> = new EventEmitter<string>();
   @Output() chosenDiagnosticsChange: EventEmitter<Diagnostic[]> = new EventEmitter<Diagnostic[]>();
   @Input() chosenDiagnostics: Diagnostic[] = [];
 
@@ -25,14 +24,17 @@ export class SelectDiagnosticsComponent implements OnInit {
   dataDiagnostics: SelectItem[] = [];
   selectedDiagnostics: string[] = [];
   diagnostics: Diagnostic[] = [];
+  protected componentName: string = 'SelectDiagnosticsComponent';
 
   constructor (
     private diagnosticsService: DiagnosticService,
     private _logger: Logger,
-  ) { }
+  ) {
+    super();
+  }
 
   ngOnInit () {
-    this.init.emit('SelectDiagnosticsComponent');
+    this.initComponent();
     this.diagnosticsService.getDiagnostics().then(diagnostics => {
       this.diagnostics = diagnostics;
       this.dataDiagnostics = diagnostics.map(x => {
@@ -47,10 +49,10 @@ export class SelectDiagnosticsComponent implements OnInit {
         this.selectedDiagnostics = [];
       }
       this.isLoaded = true;
-      this.loaded.emit('SelectDiagnosticsComponent');
+      this.loadedComponent();
     }).catch((err) => {
       this._logger.error(err);
-      this.loaded.emit('SelectDiagnosticsComponent');
+      this.loadedComponent();
     });
   }
 

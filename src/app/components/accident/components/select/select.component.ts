@@ -8,40 +8,42 @@ import { Component, Output, EventEmitter, Input, OnInit } from '@angular/core';
 import { Logger } from 'angular2-logger/core';
 import { Accident } from '../../accident';
 import { AccidentsService } from '../../accidents.service';
+import { LoadableComponent } from '../../../core/components/componentLoader/LoadableComponent';
 
 @Component({
   selector: 'nga-select-accident',
   templateUrl: './select.html',
 })
-export class SelectAccidentComponent implements OnInit {
+export class SelectAccidentComponent extends LoadableComponent implements OnInit {
 
   @Input() selectedAccidentId: number = 0;
   @Output() selected: EventEmitter<Accident> = new EventEmitter<Accident>();
-  @Output() init: EventEmitter<string> = new EventEmitter<string>();
-  @Output() loaded: EventEmitter<string> = new EventEmitter<string>();
 
   isLoaded: boolean = false;
   accident: Accident = null;
   private accidents: Accident[] = [];
   private filteredAccidents: Accident[] = [];
+  protected componentName: string = 'SelectAccidentComponent';
 
   constructor (
     private accidentService: AccidentsService,
     private _logger: Logger,
-  ) { }
+  ) {
+    super();
+  }
 
   ngOnInit () {
-    this.init.emit('SelectAccidentComponent');
+    this.initComponent();
     this.accidentService.getAccidents().then(accidents => {
       this.accidents = accidents;
       if (this.selectedAccidentId) {
         this.accident = this.accidents.find(accident => accident.id === this.selectedAccidentId);
       }
       this.isLoaded = true;
-      this.loaded.emit('SelectAccidentComponent');
+      this.loadedComponent();
     }).catch((err) => {
       this._logger.error(err);
-      this.loaded.emit('SelectAccidentComponent');
+      this.loadedComponent();
     });
   }
 

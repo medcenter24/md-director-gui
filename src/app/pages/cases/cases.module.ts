@@ -64,6 +64,12 @@ import { AccidentScenarioComponent } from
   '../../components/accident/components/scenario/components/line/line.component';
 import { AccidentScenarioService } from '../../components/accident/components/scenario/scenario.service';
 import { DateHelper } from '../../helpers/date.helper';
+import { SelectSurveysComponent } from '../../components/survey/components/select/select.component';
+import { SurveysSelectorComponent } from '../../components/survey/components/selector/selector.component';
+import { SurveyService } from '../../components/survey/survey.service';
+import { PatientSelectorComponent } from '../../components/patient/components/selector/selector.component';
+import { SelectPatientComponent } from '../../components/patient/components/select/select.component';
+import {PatientEditorComponent} from "../../components/patient/components/editor/editor.component";
 
 @NgModule({
   imports: [
@@ -112,11 +118,16 @@ import { DateHelper } from '../../helpers/date.helper';
     SelectCaseTypeComponent,
     FileUploaderComponent,
     DiagnosticsSelectorComponent,
+    SurveysSelectorComponent,
     SelectDiagnosticsComponent,
+    SelectSurveysComponent,
     ImporterComponent,
     AccidentStatusSelectComponent,
     AccidentCheckpointsSelectorComponent,
     AccidentScenarioComponent,
+    PatientSelectorComponent,
+    SelectPatientComponent,
+    PatientEditorComponent,
   ],
   providers: [
     CasesService,
@@ -129,6 +140,7 @@ import { DateHelper } from '../../helpers/date.helper';
     DoctorsService,
     HospitalsService,
     DiagnosticService,
+    SurveyService,
     AuthenticationService,
     ImporterService,
     DocumentsService,

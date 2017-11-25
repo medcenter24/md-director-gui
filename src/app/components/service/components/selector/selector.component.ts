@@ -9,18 +9,17 @@ import { SelectServicesComponent } from '../select/select.component';
 import { Service } from '../../service';
 import { CasesService } from '../../../case/cases.service';
 import { Logger } from 'angular2-logger/core';
+import { LoadableComponent } from '../../../core/components/componentLoader/LoadableComponent';
 
 @Component({
   selector: 'nga-services-selector',
   templateUrl: 'selector.html',
 })
-export class ServicesSelectorComponent implements OnInit {
+export class ServicesSelectorComponent extends LoadableComponent implements OnInit {
 
   @Input() caseId: number = 0;
   @Output() priceChanged: EventEmitter<number> = new EventEmitter<number>();
   @Output() changedServices: EventEmitter<Service[]> = new EventEmitter<Service[]>();
-  @Output() init: EventEmitter<string> = new EventEmitter<string>();
-  @Output() loaded: EventEmitter<string> = new EventEmitter<string>();
 
   @ViewChild('selectServices')
     private selectServicesComponent: SelectServicesComponent;
@@ -28,11 +27,13 @@ export class ServicesSelectorComponent implements OnInit {
   isLoaded: boolean = false;
   caseServices: Service[] = [];
   private sumPrices: number = 0;
+  protected componentName: string = 'ServicesSelectorComponent';
 
   constructor (
     private casesService: CasesService,
     private _logger: Logger,
   ) {
+    super();
   }
 
   ngOnInit () {
@@ -56,24 +57,24 @@ export class ServicesSelectorComponent implements OnInit {
   }
 
   onSelectServicesLoaded(name: string): void {
-    this.loaded.emit(name);
+    this.onLoaded(name);
     if (this.caseId) {
-      this.init.emit('ServicesSelectorComponent');
+      this.initComponent();
       this.casesService.getCaseServices(this.caseId).then(services => {
         this.caseServices = services;
         this.selectServicesComponent.reloadChosenServices(this.caseServices);
         this.changedServices.emit(this.caseServices);
         this.recalculatePrice();
-        this.loaded.emit('ServicesSelectorComponent');
+        this.loadedComponent();
       }).catch((err) => {
         this._logger.error(err);
-        this.loaded.emit('ServicesSelectorComponent');
+        this.loadedComponent();
       });
     }
   }
 
   onSelectServicesInit(name: string): void {
-    this.init.emit(name);
+    this.onInit(name);
   }
 
   private hasService (service: Service): boolean {

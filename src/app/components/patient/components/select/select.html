@@ -1,0 +1,27 @@
+<!--
+  ~  Copyright (c) 2017.
+  ~
+  ~  @author Alexander Zagovorichev <zagovorichev@gmail.com>
+  -->
+
+<p-autoComplete [(ngModel)]="patient"
+                [suggestions]="filteredPatients"
+                (completeMethod)="filterPatients($event)"
+                [size]="30"
+                [minLength]="2"
+                placeholder="{{ 'Name or Phone' | translate }}"
+                [dropdown]="true"
+                (onSelect)="onSelect($event)"
+                field="name"
+>
+    <ng-template let-patient pTemplate="item">
+        <div class="ui-helper-clearfix">
+            <div class="row">
+                <div class="col-12">{{ patient.name }}</div>
+            </div>
+            <div class="row">
+                <div class="col-12 small">{{ patient.phones }}</div>
+            </div>
+        </div>
+    </ng-template>
+</p-autoComplete>
