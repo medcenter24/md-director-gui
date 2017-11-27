@@ -13,6 +13,7 @@ import { UsersService } from '../../components/users/users.service';
 import { User } from '../../components/users/user';
 import { LoggedUserService } from '../../components/auth/loggedUser.service';
 import { AuthenticationService } from '../../components/auth/authentication.service';
+import { NgUploaderOptions } from 'ngx-uploader/src/classes/ng-uploader-options.class';
 
 @Component({
   selector: 'nga-profile',
@@ -25,6 +26,13 @@ export class ProfileComponent implements OnInit {
   lang: string = 'en';
 
   loggedUser: User;
+  defaultPicture = 'assets/img/theme/photo-camera.svg';
+  uploaderOptions: NgUploaderOptions = {
+    // url: 'http://website.com/upload'
+    url: '',
+  };
+  picture: string = '';
+  private loadingControl: string[] = [];
 
   constructor (
                private loadingBar: SlimLoadingBarService,
@@ -57,5 +65,23 @@ export class ProfileComponent implements OnInit {
 
   refreshToken(): void {
     this.authService.refresh();
+  }
+
+  startUpload(): void {
+    this.loadingBar.start();
+  }
+
+  endUpload(event): void {
+    // this.assistant.media_id = event.media_id;
+      console.log(event);
+    this.loadingBar.complete();
+  }
+
+  onLoading(key): void {
+    console.log('loading');
+  }
+
+  onLoaded(key): void {
+    console.log('loaded');
   }
 }
