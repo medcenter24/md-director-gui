@@ -14,13 +14,25 @@
                 </div>
             </div>
             <div class="col-4">
+
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-4">
+                <ba-picture-uploader
+                        [picture]="picture"
+                        [defaultPicture]="defaultPicture"
+                        [uploaderOptions]="uploaderOptions"
+                        (onUpload)="startUpload($event)"
+                        (onUploadCompleted)="endUpload($event)"
+                        class="center"
+                ></ba-picture-uploader>
+            </div>
+            <div class="col-4">
                 <div class="form-group">
                     <label class="label separate" translate>Company Name</label>
                     <input type="text" class="form-control form-control-static" pInputText placeholder="{{ 'Company Name' | translate }}">
-                </div>
-                <div class="form-group">
-                    <label class="label separate" translate>Company Logo</label>
-                    <input type="text" class="form-control form-control-static" pInputText placeholder="{{ 'Company Logo' | translate }}">
                 </div>
                 <div class="form-group">
                     <label class="label separate" translate>Company Signature</label>
@@ -28,6 +40,7 @@
                 </div>
             </div>
         </div>
+
         <hr>
         <button (click)="refreshToken()">Refresh token</button>
         <div class="row mb-2">
