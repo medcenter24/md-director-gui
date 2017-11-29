@@ -5,29 +5,32 @@
   -->
 
 <div class="profile-container">
-    <ba-card baCardClass="with-scroll" *ngIf="loggedUser">
-        <div class="row form">
-            <div class="col-4">
-                <div class="form-group">
-                    <label class="label separate" translate>Language</label>
-                    <p-dropdown [options]="languages" [(ngModel)]="loggedUser.lang" (onChange)="onLangChanged($event)"></p-dropdown>
+    <ba-card baCardClass="with-scroll">
+        <div *ngIf="loggedUser">
+            <div class="row form">
+                <div class="col-4">
+                    <div class="form-group">
+                        <label class="label separate" translate>Language</label>
+                        <p-dropdown [options]="languages" [(ngModel)]="loggedUser.lang" (onChange)="onLangChanged($event)"></p-dropdown>
+                    </div>
                 </div>
-            </div>
-            <div class="col-4">
+                <div class="col-4">
 
+                </div>
             </div>
         </div>
 
         <div class="row">
             <div class="col-4">
-                <ba-picture-uploader
-                        [picture]="picture"
-                        [defaultPicture]="defaultPicture"
-                        [uploaderOptions]="uploaderOptions"
-                        (onUpload)="startUpload($event)"
-                        (onUploadCompleted)="endUpload($event)"
-                        class="center"
-                ></ba-picture-uploader>
+                <div class="company-logo">
+                    <ba-picture-uploader
+                            [picture]="picture"
+                            [defaultPicture]="defaultPicture"
+                            [uploaderOptions]="uploaderOptions"
+                            (onUpload)="startUpload($event)"
+                            (onUploadCompleted)="endUpload($event)"
+                    ></ba-picture-uploader>
+                </div>
             </div>
             <div class="col-4">
                 <div class="form-group">
@@ -42,7 +45,7 @@
         </div>
 
         <hr>
-        <button (click)="refreshToken()">Refresh token</button>
+        <button (click)="refreshToken()" class="btn" translate>Refresh Token</button>
         <div class="row mb-2">
             <div class="col-4">
                 <input type="text" class="form-control" placeholder="{{ 'Name' | translate }}">
