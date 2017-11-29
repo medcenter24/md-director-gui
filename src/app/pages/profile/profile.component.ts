@@ -5,7 +5,6 @@
  */
 
 import { Component, OnInit } from '@angular/core';
-
 import { SlimLoadingBarService } from 'ng2-slim-loading-bar';
 import { GlobalState } from '../../global.state';
 import { TranslateService } from '@ngx-translate/core';
@@ -18,6 +17,7 @@ import { NgUploaderOptions } from 'ngx-uploader/src/classes/ng-uploader-options.
 @Component({
   selector: 'nga-profile',
   templateUrl: './profile.html',
+  styleUrls: ['./profile.scss'],
 })
 export class ProfileComponent implements OnInit {
 
