@@ -15,16 +15,31 @@ import { TranslateService } from '@ngx-translate/core';
 import { GlobalState } from '../../global.state';
 import { Message } from 'primeng/primeng';
 import { Router } from '@angular/router';
+import { LocalStorageHelper } from '../../helpers/local.storage.helper';
+
+/**
+ * I met a lot of issues with tokens, so make it as simple as possible
+ * 1. issue: this service is not unique, so I can't use this.token
+ * 2. issue: auto refresh of the token will be a cause like that:
+ *   when I need to refresh token I could lost data
+ *   - send refresh request (it will update token on the server)
+ *   - send request with old token (it will produce an error that token is not correct)
+ *   - return from server with new token, but error has been already thrown
+ *
+ *   // todo find out how could I push all requests to the queue to avoid requests with incorrect token on update
+ *
+ */
 
 @Injectable()
 export class AuthenticationService {
 
-  token: string;
+  tokenKey: string = 'token';
+  langKey: string = 'lang';
+  msgs: Message[] = [];
   private authUrl = `${environment.apiHost}/authenticate`;  // URL to web api
   private refreshUrl = `${environment.apiHost}/token`;
   private refreshTimer;
   private jwtHelper: JwtHelper = new JwtHelper();
-  msgs: Message[] = [];
 
   constructor (
     private http: Http,
@@ -33,13 +48,8 @@ export class AuthenticationService {
     private translate: TranslateService,
     private _state: GlobalState,
     private router: Router,
-  ) {
-    if (localStorage.getItem('token')) {
-      // set token if saved in local storage
-      const token = localStorage.getItem('token');
-      this.setToken(token);
-    }
-  }
+    private storage: LocalStorageHelper,
+  ) { }
 
   login (username: string, password: string): Observable<boolean> {
     this.loadingBar.start();
@@ -50,16 +60,16 @@ export class AuthenticationService {
         const token = response.json() && response.json().access_token;
         const lang = response.json() && response.json().lang;
         // store language
-        localStorage.setItem('lang', lang);
-        return this.setToken(token);
+        this.storage.setItem(this.langKey, lang);
+        this.storage.setItem(this.tokenKey, token);
+        return true;
       });
   }
 
   logout (): void {
     // clear token remove user from local storage to log user out
-    this.token = null;
-    localStorage.removeItem('token');
-    clearTimeout(this.refreshTimer);
+    this.storage.removeItem(this.tokenKey);
+    this.stopRefreshTokenTimer();
   }
 
   refresh(): void {
@@ -67,7 +77,7 @@ export class AuthenticationService {
       .subscribe(
         response => {
           const token = response.json() && response.json().access_token;
-          return this.setToken(token);
+          this.setToken(token);
         },
         err => {
             if (err && err.status && err.status === 401) {
@@ -85,37 +95,41 @@ export class AuthenticationService {
   }
 
   getToken(): string {
-    if (!this.token) {
-        this.token = localStorage.getItem('token');
-    }
-    return this.token;
+    return this.storage.getItem(this.tokenKey);
   }
 
   private runRefreshTokenTimer(): void {
-    const now: number = new Date().valueOf();
-    const jwtExp = this.jwtHelper.decodeToken(this.token).exp;
-    const exp = new Date(0);
-    exp.setUTCSeconds(jwtExp);
-    let delay = exp.valueOf() - now;
-    if (delay > 5000) {
-      delay -= 5000;
-    }
-    this.refreshTimer = setTimeout(() => {
-      this.refresh();
-    }, delay);
+      const now: number = new Date().valueOf();
+      const jwtExp = this.jwtHelper.decodeToken(this.getToken()).exp;
+      const exp = new Date(0);
+      exp.setUTCSeconds(jwtExp);
+      let delay = exp.valueOf() - now;
+      if (delay > 5000) {
+          delay -= 5000;
+      }
+      this.refreshTimer = setTimeout(() => {
+          this.refresh();
+      }, delay);
   }
 
   private setToken(token: string): boolean {
-    if (token) {
-      // set token property
-      this.token = token;
-      // store username and jwt token in local storage to keep user logged in between page refreshes
-      localStorage.setItem('token', token);
-      this.runRefreshTokenTimer();
-      // return true to indicate successful login
-      return true;
+      if (token) {
+          // set token property
+          // store username and jwt token in local storage to keep user logged in between page refreshes
+          this.storage.setItem(this.tokenKey, token);
+          this.stopRefreshTokenTimer();
+          this.runRefreshTokenTimer();
+          // return true to indicate successful login
+          return true;
+      }
+      // return false to indicate failed login
+      return false;
+  }
+
+  private stopRefreshTokenTimer(): void {
+    if (this.refreshTimer) {
+      clearTimeout(this.refreshTimer);
+      this.refreshTimer = null;
     }
-    // return false to indicate failed login
-    return false;
   }
 }

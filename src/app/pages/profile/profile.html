@@ -6,21 +6,26 @@
 
 <div class="profile-container">
     <ba-card baCardClass="with-scroll">
+
         <div *ngIf="loggedUser">
             <div class="row form">
-                <div class="col-4">
+                <div class="col-12">
                     <div class="form-group">
                         <label class="label separate" translate>Language</label>
                         <p-dropdown [options]="languages" [(ngModel)]="loggedUser.lang" (onChange)="onLangChanged($event)"></p-dropdown>
                     </div>
                 </div>
-                <div class="col-4">
-
-                </div>
             </div>
         </div>
 
-        <div class="row">
+        <div class="row tab-menu" *ngIf="selectedTab">
+            <ul class="list">
+                <li class="item" translate *ngFor="let tab of tabs" [ngClass]="tab.id === selectedTab.id ? 'active' : ''"
+                    (click)="selectedTab = tab">{{ tab.name }}</li>
+            </ul>
+        </div>
+
+        <div class="row" *ngIf="selectedTab && selectedTab.name === 'Company'">
             <div class="col-4">
                 <div class="company-logo">
                     <ba-picture-uploader
@@ -44,16 +49,24 @@
             </div>
         </div>
 
-        <hr>
-        <button (click)="refreshToken()" class="btn" translate>Refresh Token</button>
-        <div class="row mb-2">
-            <div class="col-4">
-                <input type="text" class="form-control" placeholder="{{ 'Name' | translate }}">
+        <div class="row" *ngIf="selectedTab && selectedTab.name === 'Settings'">
+            <div class="col-12">
+                <button (click)="refreshToken()" class="btn" translate>Refresh Token</button>
             </div>
         </div>
-        <div class="row mb-2">
-            <div class="col-4">
-                <input type="text" class="form-control" placeholder="{{ 'Surname' | translate }}">
+
+        <div class="row" *ngIf="selectedTab && selectedTab.name === 'Profile'">
+            <div class="col-12">
+                <div class="row mb-2">
+                    <div class="col-4">
+                        <input type="text" class="form-control" placeholder="{{ 'Name' | translate }}">
+                    </div>
+                </div>
+                <div class="row mb-2">
+                    <div class="col-4">
+                        <input type="text" class="form-control" placeholder="{{ 'Surname' | translate }}">
+                    </div>
+                </div>
             </div>
         </div>
     </ba-card>

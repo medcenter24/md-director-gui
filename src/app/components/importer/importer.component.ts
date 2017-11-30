@@ -80,7 +80,7 @@ export class ImporterComponent implements OnInit {
   }
 
   handleBeforeSend(event): void {
-    event.xhr.setRequestHeader('Authorization', 'Bearer ' + this.authenticationService.token);
+    event.xhr.setRequestHeader('Authorization', `Bearer ${this.authenticationService.getToken()}`);
   }
 
   handleBeforeUpload(event): void {
@@ -109,8 +109,7 @@ export class ImporterComponent implements OnInit {
       this.msgs.push({ severity: 'error', summary: this.translateErrorLoad, detail: file.name });
     }
     this._state.notifyDataChanged('growl', this.msgs);
-    this._logger.error('Error: Upload to ' + event.xhr.responseURL
-      + ' [' + event.xhr.status + ': ' + event.xhr.statusText + ']');
+    this._logger.error(`Error: Upload to ${event.xhr.responseURL} [${event.xhr.status}:${event.xhr.statusText}]`);
     this.loadingBar.complete();
   }
 
@@ -166,7 +165,7 @@ export class ImporterComponent implements OnInit {
     return !!is.length;
   }
 
-  private importer(files: Array<any>): void {
+  private importer(files: any[]): void {
     this.importerCounter = files.length;
 
     if (this.importerCounter) {
@@ -174,7 +173,7 @@ export class ImporterComponent implements OnInit {
       files.map(id => {
         this.importerService.importFile(this.url, id).then(resp => {
           this.selectedFiles = this.selectedFiles.filter(val => +val !== +id);
-          $('.row-file-' + id).addClass('is-success');
+          $(`.row-file-${id}`).addClass('is-success');
           this.importedFiles.push({
             id: +id,
             success: true,
@@ -183,7 +182,7 @@ export class ImporterComponent implements OnInit {
           this.loadingBar.complete();
         }).catch(err => {
           this.selectedFiles = this.selectedFiles.filter(val => +val !== +id);
-          $('.row-file-' + id).addClass('error');
+          $(`.row-file-${id}`).addClass('error');
           this.importedFiles.push({
             id: +id,
             success: false,
@@ -196,7 +195,7 @@ export class ImporterComponent implements OnInit {
     }
   }
 
-  private deleter(files: Array<any>): void {
+  private deleter(files: any[]): void {
     this.deleterCounter = files.length;
 
     if (this.deleterCounter) {
@@ -219,7 +218,7 @@ export class ImporterComponent implements OnInit {
     this.selectedFiles = this.selectedFiles.filter(val => +val !== +id);
     this.uploadedFiles = this.uploadedFiles.filter(val => +val.id !== +id);
 
-    $('.row-file-' + id).remove();
+    $(`.row-file-${id}`).remove();
   }
 
 }

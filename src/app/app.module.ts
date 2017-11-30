@@ -23,6 +23,7 @@ import { environment } from '../environments/environment';
 import { routing } from './app.routing';
 import { ApiErrorService } from './components/ui/apiError.service';
 import { AppTranslationModule } from './app.translation.module';
+import { LocalStorageHelper } from './helpers/local.storage.helper';
 
 // Application wide providers
 const APP_PROVIDERS = [
@@ -32,6 +33,7 @@ const APP_PROVIDERS = [
   Options,
   ConfirmationService,
   ApiErrorService,
+  LocalStorageHelper,
 ];
 
 export type StoreType = {
