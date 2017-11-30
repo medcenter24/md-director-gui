@@ -24,7 +24,8 @@ export class ProfileComponent implements OnInit {
   languages: any[] = [];
   loaded: boolean = false;
   lang: string = 'en';
-
+  selectedTab = null;
+  tabs: any[] = [];
   loggedUser: User;
   defaultPicture = 'assets/img/theme/photo-camera.svg';
   uploaderOptions: NgUploaderOptions = {
@@ -52,6 +53,13 @@ export class ProfileComponent implements OnInit {
       this.loadingBar.complete();
       this.loggedUser = user;
     }).catch(() => this.loadingBar.complete());
+
+    this.tabs = [
+        { id: 1, name: 'Profile' },
+        { id: 2, name: 'Company'},
+        { id: 3, name: 'Settings' },
+    ];
+    this.selectedTab = this.tabs[0];
   }
 
   onLangChanged (event): void {

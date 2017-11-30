@@ -13,7 +13,7 @@ export class ImporterService {
   private headers: Headers;
 
   constructor(private http: Http, private authenticationService: AuthenticationService) {
-    this.headers = new Headers({ 'Authorization': 'Bearer ' + this.authenticationService.token });
+    this.headers = new Headers({ 'Authorization': `Bearer ${this.authenticationService.getToken()}` });
   }
 
   getQueue(url): Promise<any> {

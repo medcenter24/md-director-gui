@@ -55,7 +55,7 @@ export class FileUploaderComponent extends LoadableComponent implements OnInit {
   }
 
   handleBeforeSend(event): void {
-    event.xhr.setRequestHeader('Authorization', `Bearer ${this.authenticationService.token}`);
+    event.xhr.setRequestHeader('Authorization', `Bearer ${this.authenticationService.getToken()}`);
   }
 
   handleUpload(event): void {
@@ -67,16 +67,6 @@ export class FileUploaderComponent extends LoadableComponent implements OnInit {
     }
     this._state.notifyDataChanged('growl', this.msgs);
     this.changed.emit(this.documents);
-    this.loadedComponent();
-  }
-
-  handleError(event): void {
-    for (const file of event.files) {
-      this.msgs.push({ severity: 'error', summary: this.translateErrorLoad, detail: file.name });
-    }
-    this._state.notifyDataChanged('growl', this.msgs);
-    this._logger.error(`Error: Upload to ${event.xhr.responseURL}
-      [${event.xhr.status}: ${event.xhr.statusText}]`);
     this.loadedComponent();
   }
 
