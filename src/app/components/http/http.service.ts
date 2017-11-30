@@ -18,7 +18,6 @@ import { Message } from 'primeng/primeng';
 @Injectable()
 export abstract class HttpService {
 
-  private headers: Headers;
   private errorText: string = '';
   private httpErrorMessage: string = '';
   private successText: string = '';
@@ -34,10 +33,6 @@ export abstract class HttpService {
     private translate: TranslateService,
     private router: Router,
   ) {
-    if (this.authenticationService.token) {
-
-    }
-    this.headers = new Headers({ 'Authorization': `Bearer ${this.authenticationService.getToken()}` });
     this.translate.get('Error').subscribe(res => {
       this.errorText = res;
     });
@@ -64,7 +59,7 @@ export abstract class HttpService {
   }
 
   protected getAuthHeaders(): Headers {
-    return this.headers;
+    return new Headers({ 'Authorization': `Bearer ${this.authenticationService.getToken()}` });
   }
 
   /**
