@@ -12,6 +12,7 @@ import { BaThemeConfig } from './theme/theme.config';
 import { layoutPaths } from './theme/theme.constants';
 import { Confirmation, ConfirmationService, Message } from 'primeng/primeng';
 import { ApiErrorService } from './components/ui/apiError.service';
+import { LocalStorageHelper } from './helpers/local.storage.helper';
 
 /*
  * App Component
@@ -37,6 +38,7 @@ export class AppComponent implements AfterViewInit {
               private themeConfig: BaThemeConfig,
               private confirmationService: ConfirmationService,
               private apiErrorService: ApiErrorService,
+              private storage: LocalStorageHelper,
   ) {
 
       themeConfig.config();
@@ -52,6 +54,9 @@ export class AppComponent implements AfterViewInit {
       this._state.subscribe('blocker', (block: boolean) => this.blocked = block);
       this._state.subscribe('apiError', (error) => {
           this.apiErrorService.show(error);
+      });
+      this._state.subscribe('avatarUri', (uri) => {
+          this.storage.setItem('avatar', uri);
       });
   }
 

@@ -85,7 +85,7 @@ export abstract class HttpService {
    * @param id
    * @returns {Promise<any|T>}
    */
-  protected remove(id: number): Promise<any> {
+  protected remove(id: any): Promise<any> {
     return this.http.delete(this.getUrl(id), { headers: this.getAuthHeaders() })
       .toPromise()
       .then(() => this.success(this.deletedText, this))
