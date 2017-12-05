@@ -8,24 +8,25 @@ import { NgUploaderOptions } from 'ngx-uploader';
 })
 export class BaPictureUploader {
 
-  @Input() defaultPicture:string = '';
-  @Input() picture:string = '';
+  @Input() defaultPicture: string = '';
+  @Input() picture: string = '';
 
-  @Input() uploaderOptions:NgUploaderOptions = { url: '' };
-  @Input() canDelete:boolean = true;
+  @Input() uploaderOptions: NgUploaderOptions = { url: '' };
+  @Input() canDelete: boolean = true;
 
   @Output() onUpload = new EventEmitter<any>();
   @Output() onUploadCompleted = new EventEmitter<any>();
+  @Output() onDelete = new EventEmitter<any>();
 
-  @ViewChild('fileUpload') public _fileUpload:ElementRef;
+  @ViewChild('fileUpload') _fileUpload: ElementRef;
 
-  public uploadInProgress:boolean;
+  uploadInProgress: boolean;
 
   constructor(private renderer: Renderer) {
   }
 
   beforeUpload(uploadingFile): void {
-    let files = this._fileUpload.nativeElement.files;
+    const files = this._fileUpload.nativeElement.files;
 
     if (files.length) {
       const file = files[0];
@@ -39,17 +40,18 @@ export class BaPictureUploader {
     }
   }
 
-  bringFileSelector():boolean {
+  bringFileSelector(): boolean {
     this.renderer.invokeElementMethod(this._fileUpload.nativeElement, 'click');
     return false;
   }
 
   removePicture():boolean {
     this.picture = '';
+    this.onDelete.emit('');
     return false;
   }
 
-  _changePicture(file:File):void {
+  _changePicture(file: File): void {
     const reader = new FileReader();
     reader.addEventListener('load', (event:Event) => {
       this.picture = (<any> event.target).result;

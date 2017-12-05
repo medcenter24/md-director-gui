@@ -27,6 +27,7 @@ import { LocalStorageHelper } from '../../helpers/local.storage.helper';
  *   - return from server with new token, but error has been already thrown
  *
  *   // todo find out how could I push all requests to the queue to avoid requests with incorrect token on update
+ *   to reproduce it -> I can press button refresh token very fast
  *
  */
 
@@ -56,12 +57,7 @@ export class AuthenticationService {
     return this.http.post(this.authUrl, JSON.stringify({ email: username, password }))
       .map((response: Response) => {
         this.loadingBar.stop();
-        // login successful if there's a jwt token in the response
-        const token = response.json() && response.json().access_token;
-        const lang = response.json() && response.json().lang;
-        // store language
-        this.storage.setItem(this.langKey, lang);
-        this.storage.setItem(this.tokenKey, token);
+        this.update(response);
         return true;
       });
   }
@@ -75,9 +71,8 @@ export class AuthenticationService {
   refresh(): void {
     this.authHttp.get(this.refreshUrl)
       .subscribe(
-        response => {
-          const token = response.json() && response.json().access_token;
-          this.setToken(token);
+        (response: Response) => {
+            this.update(response);
         },
         err => {
             if (err && err.status && err.status === 401) {
@@ -92,6 +87,16 @@ export class AuthenticationService {
             }
         },
       );
+  }
+
+  private update(response: Response): void {
+      const token = response.json() && response.json().access_token;
+      const ava = response.json() && response.json().thumb;
+      const lang = response.json() && response.json().lang;
+      // store language
+      this.storage.setItem(this.langKey, lang);
+      this._state.notifyDataChanged('avatarUri', ava);
+      this.setToken(token);
   }
 
   getToken(): string {
