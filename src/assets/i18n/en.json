@@ -1,4 +1,7 @@
 {
+  "Failure": "Failure",
+  "Photo": "Photo",
+  "Token": "Token",
   "Company": "Company",
   "Refresh Token": "Refresh Token",
   "birthday": "Birthday",

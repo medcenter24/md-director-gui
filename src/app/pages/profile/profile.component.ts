@@ -13,6 +13,7 @@ import { User } from '../../components/users/user';
 import { LoggedUserService } from '../../components/auth/loggedUser.service';
 import { AuthenticationService } from '../../components/auth/authentication.service';
 import { NgUploaderOptions } from 'ngx-uploader/src/classes/ng-uploader-options.class';
+import { Message } from 'primeng/primeng';
 
 @Component({
   selector: 'nga-profile',
@@ -27,13 +28,18 @@ export class ProfileComponent implements OnInit {
   selectedTab = null;
   tabs: any[] = [];
   loggedUser: User;
-  defaultPicture = 'assets/img/theme/photo-camera.svg';
+  defaultPicture: string = 'assets/img/theme/photo-camera.svg';
+  defaultCompanyLogo: string = 'assets/img/theme/cardiogram.svg';
+  defaultCompanySign: string = 'assets/img/theme/notebook.svg';
   uploaderOptions: NgUploaderOptions = {
-    // url: 'http://website.com/upload'
     url: '',
+    cors: true,
+    authToken: '',
+    calculateSpeed: true,
   };
   picture: string = '';
-  private loadingControl: string[] = [];
+  msgs: Message[] = [];
+  directorPhotoUri: string = '';
 
   constructor (
                private loadingBar: SlimLoadingBarService,
@@ -52,11 +58,15 @@ export class ProfileComponent implements OnInit {
     this.loggedUserService.getUser().then(user => {
       this.loadingBar.complete();
       this.loggedUser = user;
+      this.directorPhotoUri = user.thumb_200;
+      this.uploaderOptions.url = this.usersService.getUrl(`${this.loggedUser.id}/photo`);
+      // todo add global trigger refresh token and bind all relative things to it
+      this.uploaderOptions.authToken = this.authService.getToken();
     }).catch(() => this.loadingBar.complete());
 
     this.tabs = [
-        { id: 1, name: 'Profile' },
-        { id: 2, name: 'Company'},
+        { id: 1, name: 'Director' },
+        { id: 2, name: 'Company' },
         { id: 3, name: 'Settings' },
     ];
     this.selectedTab = this.tabs[0];
@@ -75,21 +85,93 @@ export class ProfileComponent implements OnInit {
     this.authService.refresh();
   }
 
-  startUpload(): void {
+  saveDirector(): void {
+    this.loadingBar.start();
+    this.usersService.update(this.loggedUser)
+      .then(() => {
+          this.msgs = [];
+          this.msgs.push({ severity: 'success',
+              summary: this.translateService.instant('Success'),
+              detail: this.translateService.instant('Saved') });
+          this._state.notifyDataChanged('growl', this.msgs);
+          this.loadingBar.complete();
+      })
+      .catch(() => {
+          this.msgs = [];
+          this.msgs.push({ severity: 'error',
+              summary: this.translateService.instant('error'),
+              detail: this.translateService.instant('Data not saved') });
+          this._state.notifyDataChanged('growl', this.msgs);
+          this.loadingBar.complete();
+      });
+  }
+
+  directorName(event): void {
+    this.loggedUser.name = event.target.value;
+  }
+
+  directorMail(event): void {
+    this.loggedUser.email = event.target.value;
+  }
+
+  directorPhone(event): void {
+    this.loggedUser.phone = event.target.value;
+  }
+
+  startPhotoUpload(event): void {
     this.loadingBar.start();
   }
 
-  endUpload(event): void {
-    // this.assistant.media_id = event.media_id;
-      console.log(event);
+  endPhotoUpload(event): void {
+    this.msgs.push({ severity: 'success',
+      summary: this.translateService.instant('Success'),
+      detail: this.translateService.instant('Saved') });
+    this._state.notifyDataChanged('growl', this.msgs);
+    const response = JSON.parse(event.response);
+    this._state.notifyDataChanged('avatarUri', response.thumb45);
     this.loadingBar.complete();
   }
 
-  onLoading(key): void {
-    console.log('loading');
+  deletePhoto(): void {
+    this.loadingBar.start();
+    this.usersService.deletePhoto(this.loggedUser.id)
+    .then(() => {
+      this.msgs.push({ severity: 'success',
+        summary: this.translateService.instant('Success'),
+        detail: this.translateService.instant('Saved') });
+      this._state.notifyDataChanged('growl', this.msgs);
+      this.loadingBar.complete();
+    })
+    .catch(() => {
+      this.msgs.push({ severity: 'error',
+        summary: this.translateService.instant('error'),
+        detail: this.translateService.instant('Data not saved') });
+      this._state.notifyDataChanged('growl', this.msgs);
+      this.loadingBar.complete();
+    });
   }
 
-  onLoaded(key): void {
-    console.log('loaded');
+  saveCompany(): void {
+    console.log('save company data');
+  }
+
+  startCompanySignatureUpload(event): void {
+    console.log(event);
+    this.loadingBar.start();
+  }
+
+  endCompanySignatureUpload(event): void {
+      console.log(event);
+      this.loadingBar.start();
+  }
+
+  startCompanyLogoUpload(event): void {
+      console.log(event);
+      this.loadingBar.start();
+  }
+
+  endCompanyLogoUpload(event): void {
+      console.log(event);
+      this.loadingBar.start();
   }
 }

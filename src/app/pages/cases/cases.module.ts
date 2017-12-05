@@ -69,7 +69,7 @@ import { SurveysSelectorComponent } from '../../components/survey/components/sel
 import { SurveyService } from '../../components/survey/survey.service';
 import { PatientSelectorComponent } from '../../components/patient/components/selector/selector.component';
 import { SelectPatientComponent } from '../../components/patient/components/select/select.component';
-import {PatientEditorComponent} from "../../components/patient/components/editor/editor.component";
+import { PatientEditorComponent } from '../../components/patient/components/editor/editor.component';
 
 @NgModule({
   imports: [
