@@ -16,6 +16,7 @@ import { LoadableComponent } from '../../../core/components/componentLoader/Load
 export class AssistantSelectComponent extends LoadableComponent implements OnInit {
 
   @Input() assistantId: number;
+  @Input() required: boolean = false;
   @Output() change: EventEmitter<number> = new EventEmitter<number>();
 
   isLoaded: boolean = false;

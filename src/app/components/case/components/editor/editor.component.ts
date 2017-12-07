@@ -58,8 +58,7 @@ export class CaseEditorComponent extends LoadingComponent implements OnInit {
 
   msgs: Message[] = [];
   accident: Accident;
-  appliedTime: Date;
-  maxDate: Date;
+  appliedTime: string = '';
   discountValue: number = 0;
   discountType: Discount;
   doctorAccident: DoctorAccident;
@@ -71,8 +70,7 @@ export class CaseEditorComponent extends LoadingComponent implements OnInit {
   checkpoints: number[] = []; // ids of checkpoints
   totalAmount: number = 0;
   totalIncome: number = 0;
-  currentYear: number = +(new Date()).getFullYear();
-  handlingTime: Date;
+  handlingTime: string = '';
   createdTime: string = '';
   updatedTime: string = '';
   deletedTime: string = '';
@@ -107,8 +105,6 @@ export class CaseEditorComponent extends LoadingComponent implements OnInit {
     this.translate.get('Without discount').subscribe(res => {
       this.totalIncomeFormula = res;
     });
-    this.maxDate = new Date();
-    this.appliedTime = new Date();
     this.accident = new Accident();
     this.discountType = new Discount();
 
@@ -130,21 +126,20 @@ export class CaseEditorComponent extends LoadingComponent implements OnInit {
             this.stopLoader(this.componentName);
             this._state.notifyDataChanged('menu.activeLink', { title: 'Cases' });
             this.accident = accident ? accident : new Accident();
-            this.appliedTime = new Date(this.accident.created_at);
             this.discountValue = +this.accident.discount_value;
-            if (this.accident.handling_time) {
-              this.handlingTime = new Date(this.accident.handling_time);
+            if (this.accident.handling_time && this.accident.handling_time.length) {
+              this.handlingTime = this.dateHelper.toEuropeFormatWithTime(this.accident.handling_time);
             }
-            if (this.accident.created_at) {
+            if (this.accident.created_at.length) {
               this.createdTime = this.dateHelper.toEuropeFormatWithTime(this.accident.created_at);
             }
-            if (this.accident.updated_at) {
+            if (this.accident.updated_at && this.accident.updated_at.length) {
               this.updatedTime = this.dateHelper.toEuropeFormatWithTime(this.accident.updated_at);
             }
-            if (this.accident.deleted_at) {
+            if (this.accident.deleted_at && this.accident.deleted_at.length) {
               this.deletedTime = this.dateHelper.toEuropeFormatWithTime(this.accident.deleted_at);
             }
-            if (this.accident.closed_at) {
+            if (this.accident.closed_at && this.accident.closed_at.length) {
               this.closedTime = this.dateHelper.toEuropeFormatWithTime(this.accident.closed_at);
             }
             this.loadCaseable();
@@ -182,7 +177,14 @@ export class CaseEditorComponent extends LoadingComponent implements OnInit {
   onSave(): void {
     this.accident.discount_id = this.discountType.id;
     this.accident.discount_value = +this.discountValue;
-    this.accident.handling_time = this.dateHelper.getUnixDateWithTime(this.handlingTime);
+    this.accident.handling_time = this.handlingTime && this.handlingTime.length
+      ? this.dateHelper.getUnixDateWithTime(this.dateHelper.parseDateFromFormat(this.handlingTime))
+      : '';
+
+    this.doctorAccident.visit_time = this.appliedTime && this.appliedTime.length
+      ? this.dateHelper.getUnixDateWithTime(this.dateHelper.parseDateFromFormat(this.appliedTime))
+      : '';
+
     this.accident.income = this.totalIncome;
     const data = {
       accident: this.accident,
@@ -490,6 +492,9 @@ export class CaseEditorComponent extends LoadingComponent implements OnInit {
       .then((doctorAccident: DoctorAccident) => {
         this.doctorAccident = doctorAccident;
         this.doctorBeforeSave = doctorAccident.doctor_id;
+        if (doctorAccident.visit_time) {
+          this.appliedTime = this.dateHelper.toEuropeFormatWithTime(doctorAccident.visit_time);
+        }
         this.stopLoader('getDoctorCase');
       }).catch(err => {
         this._logger.error(err);

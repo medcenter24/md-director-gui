@@ -8,6 +8,6 @@ export class Discount {
         public id: number = 0,
         public title: string = '',
         public description: string = '',
-        public operation: string = ''
+        public operation: string = '',
     ) {}
 }
