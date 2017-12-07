@@ -1,4 +1,7 @@
 {
+  "All required (*) fields should be filled": "All required (*) fields should be filled",
+  "d.m.Y": "d.m.Y",
+  "d.m.Y H:m": "d.m.Y H:min",
   "Failure": "Failure",
   "Photo": "Photo",
   "Token": "Token",
