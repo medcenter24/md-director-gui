@@ -70,6 +70,16 @@ export class FileUploaderComponent extends LoadableComponent implements OnInit {
     this.loadedComponent();
   }
 
+  handleError(event): void {
+      for (const file of event.files) {
+          this.msgs.push({ severity: 'error', summary: this.translateErrorLoad, detail: file.name });
+      }
+      this._state.notifyDataChanged('growl', this.msgs);
+      this._logger.error(`Error: Upload to ${event.xhr.responseURL}
+        [${event.xhr.status}: ${event.xhr.statusText}]`);
+      this.loadedComponent();
+  }
+
   handleClear(event): void {
     this.msgs = [];
     this._state.notifyDataChanged('growl', []);
