@@ -25,9 +25,7 @@ export class PatientEditorComponent extends LoadableComponent {
 
     // selected Patient
     patient: Patient = new Patient();
-    birthday: Date;
-    maxDate: Date = new Date();
-    currentYear: number = +(new Date()).getFullYear();
+    birthday: string = '';
     msgs: Message[] = [];
     protected componentName: string = 'PatientEditorComponent';
 
@@ -49,7 +47,7 @@ export class PatientEditorComponent extends LoadableComponent {
                 .then((patient: Patient) => {
                     this.patient = patient;
                     if (this.patient.birthday) {
-                        this.birthday = new Date(this.patient.birthday);
+                        this.birthday = this.dateHelper.toEuropeFormatWithTime(this.patient.birthday);
                     }
                     this.loadedComponent();
                 })
@@ -62,7 +60,7 @@ export class PatientEditorComponent extends LoadableComponent {
     save(): void {
         this.initComponent();
         if (this.birthday) {
-            this.patient.birthday = this.dateHelper.getUnixDate(this.birthday);
+            this.patient.birthday = this.dateHelper.getUnixDate(new Date(this.birthday));
         } else {
             this.patient.birthday = '';
         }
