@@ -373,7 +373,28 @@
                                         </div>
                                     </div>
                                 </div>
-
+                                <div class="row offset-bottom20">
+                                    <div class="col-sm-6">
+                                        <label class="label separate" translate>Diagnosis</label>
+                                        <textarea rows="5" cols="70" pInputTextarea
+                                                  autoResize="autoResize"
+                                                  placeholder="{{ 'Made a diagnosis' | translate }}"
+                                                  class="form-control"
+                                                  [(ngModel)]="doctorAccident.recommendation"
+                                                  name="recommendation"
+                                        ></textarea>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <label class="label separate" translate>Additional Investigation</label>
+                                        <textarea rows="5" cols="70" pInputTextarea
+                                                  autoResize="autoResize"
+                                                  placeholder="{{ 'Additional Investigation' | translate }}"
+                                                  class="form-control"
+                                                  [(ngModel)]="doctorAccident.investigation"
+                                                  name="investigation"
+                                        ></textarea>
+                                    </div>
+                                </div>
                                 <div class="row">
                                     <div class="col-sm-12">
                                         <label class="label separated" translate>Documents</label>
@@ -385,7 +406,6 @@
                                         ></nga-file-uploader>
                                     </div>
                                 </div>
-
                             </div>
                         </div>
                     </div>
