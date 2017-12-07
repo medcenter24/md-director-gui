@@ -58,7 +58,7 @@ export class CasesListComponent implements OnInit {
 
     source: LocalDataSource = new LocalDataSource();
 
-    constructor(private service: CasesService,
+    constructor(public service: CasesService,
                 public router: Router,
                 private slimLoader: SlimLoadingBarService,
                 private exporterService: ExporterService,
