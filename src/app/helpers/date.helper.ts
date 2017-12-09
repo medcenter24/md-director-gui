@@ -5,7 +5,11 @@
  */
 
 
+import {mixingMultiProvidersWithRegularProvidersError} from "@angular/core/src/di/reflective_errors";
+
 export class DateHelper {
+
+    defaultFormat: 'd.m.Y H:i';
 
     toEuropeFormat(strDate: string): string {
         let res = '';
@@ -58,7 +62,28 @@ export class DateHelper {
             const time = this.getTime(d);
             res = `${res} ${time}`;
         }
+
+        if (res.indexOf('NaN') !== -1) {
+            res = '';
+        }
+
         return res;
+    }
+
+    parseDateFromFormat(val: string, format: string = null): Date {
+        if (!format || !format.length) {
+            format = this.defaultFormat;
+        }
+
+        let date = new Date();
+        switch (format) {
+            case this.defaultFormat:
+                const dateString = val.match(/^(\d{2})\.(\d{2})\.(\d{4})\s(\d{2}):(\d{2})/);
+                date = new Date(+dateString[3], +dateString[2] - 1, +dateString[1], +dateString[4], +dateString[5]);
+                break;
+        }
+
+        return date;
     }
 
     private parseDate(d: Date): {day: number, month: number, year: number} {

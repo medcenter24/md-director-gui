@@ -1,0 +1,33 @@
+/*!
+ *  Copyright (c) 2017.
+ *
+ *  @author Alexander Zagovorichev <zagovorichev@gmail.com>
+ */
+.profile-container {
+  .company-images-loader {
+    display: flex;
+    justify-content: left;
+  }
+
+  .tab-menu {
+    .list {
+      display: flex;
+      flex-direction: row;
+      list-style: none;
+      font-size: 18px;
+      font-weight: 400;
+      .item {
+        display: block;
+        margin: 10px;
+        border-bottom: 2px solid rgba(0, 0, 0, 0.1);
+        &:hover, &:focus {
+          border-bottom: 2px solid rgba(0, 0, 0, 0.4);
+          cursor: pointer;
+        }
+        &.active {
+          border-bottom: 2px solid rgba(99, 187, 178, 1);
+        }
+      }
+    }
+  }
+}

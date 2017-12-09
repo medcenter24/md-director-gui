@@ -9,7 +9,6 @@
             <form class="form edit-form" (ngSubmit)="onSubmit()" #accidentForm="ngForm">
 
                 <div class="main-part">
-
                     <div class="form-group offset-bottom20">
                         <div class="row offset-bottom20">
                             <div class="col-sm-12">
@@ -42,6 +41,7 @@
                                     (change)="onAssistantChanged($event)"
                                     (init)="startLoader($event)"
                                     (loaded)="stopLoader($event)"
+                                    [required]="true"
                                 ></nga-select-assistant>
                             </div>
                             <div class="col-sm-4">
@@ -96,15 +96,12 @@
                                         </div>
                                         <div class="col-sm-4">
                                             <label class="label required separate" translate>Handling time</label>
-                                            <p-calendar
+                                            <p-inputMask
                                                     name="handlingTime"
+                                                    mask="99.99.9999 99:99"
                                                     [(ngModel)]="handlingTime"
-                                                    [maxDate]="maxDate"
-                                                    [showIcon]="true"
-                                                    [showTime]="true"
-                                                    dateFormat="dd.mm.yy"
-                                                    appendTo="body"
-                                            ></p-calendar>
+                                                    [placeholder]="'d.m.Y H:m' | translate"
+                                                    slotChar="dd.mm.yyyy hh:ii"></p-inputMask>
                                         </div>
                                     </div>
                                 </div>
@@ -330,16 +327,14 @@
                                 <div class="form-group offset-bottom20">
                                     <div class="row">
                                         <div class="col-sm-6">
-                                            <label class="label separated offset-right10" translate>Applied Time</label>
-                                            <p-calendar
+                                            <label class="label separated required offset-right10" translate>Applied Time</label>
+                                            <p-inputMask
                                                     name="appliedTime"
+                                                    mask="99.99.9999 99:99"
                                                     [(ngModel)]="appliedTime"
-                                                    [maxDate]="maxDate"
-                                                    dateFormat="dd.mm.yy"
-                                                    [showTime]="true"
-                                                    [hourFormat]="24"
+                                                    [placeholder]="'d.m.Y H:m' | translate"
                                                     [required]="true"
-                                            ></p-calendar>
+                                                    slotChar="dd.mm.yyyy hh:ii"></p-inputMask>
                                         </div>
                                         <div class="col-sm-6">
                                             <label class="label separated offset-right10" translate>Accident Type</label>
@@ -378,7 +373,28 @@
                                         </div>
                                     </div>
                                 </div>
-
+                                <div class="row offset-bottom20">
+                                    <div class="col-sm-6">
+                                        <label class="label separate" translate>Diagnosis</label>
+                                        <textarea rows="5" cols="70" pInputTextarea
+                                                  autoResize="autoResize"
+                                                  placeholder="{{ 'Made a diagnosis' | translate }}"
+                                                  class="form-control"
+                                                  [(ngModel)]="doctorAccident.recommendation"
+                                                  name="recommendation"
+                                        ></textarea>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <label class="label separate" translate>Additional Investigation</label>
+                                        <textarea rows="5" cols="70" pInputTextarea
+                                                  autoResize="autoResize"
+                                                  placeholder="{{ 'Additional Investigation' | translate }}"
+                                                  class="form-control"
+                                                  [(ngModel)]="doctorAccident.investigation"
+                                                  name="investigation"
+                                        ></textarea>
+                                    </div>
+                                </div>
                                 <div class="row">
                                     <div class="col-sm-12">
                                         <label class="label separated" translate>Documents</label>
@@ -390,14 +406,14 @@
                                         ></nga-file-uploader>
                                     </div>
                                 </div>
-
                             </div>
                         </div>
                     </div>
                 </div>
-                <button pButton type="button" class="ui-button-success" (click)="onSave($event)"
+                <button pButton type="button" class="ui-button-success pull-left offset-right20" (click)="onSave($event)"
                         [disabled]="!accidentForm.form.valid" label="{{ 'Save' | translate }}"></button>
-
+                <b pTooltip="{{ 'All required (*) fields should be filled' | translate }}"
+                   class="badge badge-default pull-left">?</b>
                 <button pButton type="button" class="ui-button-secondary pull-right"
                         label="{{ 'Close' | translate }}" *ngIf="accident.id"
                         (click)="onClose($event)"></button>
