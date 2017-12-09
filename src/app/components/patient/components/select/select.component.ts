@@ -56,8 +56,8 @@ export class SelectPatientComponent extends LoadableComponent implements OnInit 
     if (!filtered.length) {
         this.patients.push(patient);
     }
+    this.selectedPatient = patient ? patient : null;
     this.patient = patient;
-    this.selectedPatient = this.patient ? this.patient : null;
  }
 
   reload(): void {

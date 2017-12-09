@@ -35,4 +35,8 @@ export class UsersService extends HttpService {
   update(user: User): Promise<User> {
     return this.put(user.id, user);
   }
+
+  deletePhoto(userId: number): Promise<void> {
+      return this.remove(`${userId}/photo`);
+  }
 }

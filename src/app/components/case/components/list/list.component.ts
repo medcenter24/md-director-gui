@@ -38,7 +38,6 @@ export class CasesListComponent implements OnInit {
     titleForDeletion: string = '';
     deleteProcess: boolean = false;
     errorMessage: string = '';
-    errorResponse: Response = null;
 
     settings = {
         pager: {
@@ -58,16 +57,14 @@ export class CasesListComponent implements OnInit {
     };
 
     source: LocalDataSource = new LocalDataSource();
-    service: CasesService;
 
-    constructor(protected _service: CasesService,
+    constructor(public service: CasesService,
                 public router: Router,
                 private slimLoader: SlimLoadingBarService,
                 private exporterService: ExporterService,
                 private translate: TranslateService,
                 private dateHelper: DateHelper,
                 ) {
-        this.service = _service;
     }
 
     ngOnInit(): void {
@@ -176,7 +173,6 @@ export class CasesListComponent implements OnInit {
 
             this.completeLoading();
         }).catch((response) => {
-            this.showError('Something bad happened, you can\'t load list of cases', response);
             this.errorLoading();
         });
     }
@@ -191,13 +187,5 @@ export class CasesListComponent implements OnInit {
 
     handlePageChanged(event): void {
         this.reloadDatatable(event);
-    }
-
-    private showError(message: string, response: Response = null): void {
-        this.errorMessage = message;
-        if (response) {
-            this.errorResponse = response;
-        }
-        this.errorDialog.open('sm');
     }
 }

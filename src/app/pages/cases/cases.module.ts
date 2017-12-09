@@ -25,10 +25,10 @@ import { ServicesSelectorComponent } from '../../components/service/components/s
 import { SelectAccidentTypeComponent } from '../../components/accident/components/type/select/select.component';
 import { AccidentTypesService } from '../../components/accident/components/type/types.service';
 import {
-  SelectButtonModule, CalendarModule, MultiSelectModule, AutoCompleteModule,
-  SpinnerModule, ButtonModule, TooltipModule, InputTextareaModule, InputTextModule,
-  PanelModule, FileUploadModule, InplaceModule, ToolbarModule, DialogModule, PaginatorModule, CheckboxModule,
-  ConfirmDialogModule, ConfirmationService, StepsModule, MenuModule, ToggleButtonModule,
+    SelectButtonModule, MultiSelectModule, AutoCompleteModule,
+    SpinnerModule, ButtonModule, TooltipModule, InputTextareaModule, InputTextModule,
+    PanelModule, FileUploadModule, InplaceModule, ToolbarModule, DialogModule, PaginatorModule, CheckboxModule,
+    ConfirmDialogModule, ConfirmationService, StepsModule, MenuModule, ToggleButtonModule, InputMaskModule,
 } from 'primeng/primeng';
 import { AssistantsService } from '../../components/assistant/assistant.service';
 import { AssistantSelectComponent } from '../../components/assistant/components/select/select.component';
@@ -69,7 +69,7 @@ import { SurveysSelectorComponent } from '../../components/survey/components/sel
 import { SurveyService } from '../../components/survey/survey.service';
 import { PatientSelectorComponent } from '../../components/patient/components/selector/selector.component';
 import { SelectPatientComponent } from '../../components/patient/components/select/select.component';
-import {PatientEditorComponent} from "../../components/patient/components/editor/editor.component";
+import { PatientEditorComponent } from '../../components/patient/components/editor/editor.component';
 
 @NgModule({
   imports: [
@@ -79,7 +79,6 @@ import {PatientEditorComponent} from "../../components/patient/components/editor
     routing,
     Ng2SmartTableModule,
     SelectButtonModule,
-    CalendarModule,
     MultiSelectModule,
     AutoCompleteModule,
     SpinnerModule,
@@ -101,6 +100,7 @@ import {PatientEditorComponent} from "../../components/patient/components/editor
     MenuModule,
     ConfirmDialogModule,
     ToggleButtonModule,
+    InputMaskModule,
   ],
   declarations: [
     CasesComponent,

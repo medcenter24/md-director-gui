@@ -9,12 +9,13 @@ import { CommonModule } from '@angular/common';
 import { NgaModule } from '../../theme/nga.module';
 
 import { routing } from './profile.routing';
-import { MessagesModule, DropdownModule } from 'primeng/primeng';
+import { MessagesModule, DropdownModule, ButtonModule, InputTextModule } from 'primeng/primeng';
 import { AppTranslationModule } from '../../app.translation.module';
 import { ProfileComponent } from './profile.component';
 import { FormsModule } from '@angular/forms';
 import { UsersService } from '../../components/users/users.service';
 import { LoggedUserService } from '../../components/auth/loggedUser.service';
+import { MediaService } from '../../components/media/media.service';
 
 @NgModule({
   imports: [
@@ -25,6 +26,8 @@ import { LoggedUserService } from '../../components/auth/loggedUser.service';
     MessagesModule,
     AppTranslationModule,
     DropdownModule,
+    ButtonModule,
+    InputTextModule,
   ],
   declarations: [
     ProfileComponent,
@@ -32,6 +35,7 @@ import { LoggedUserService } from '../../components/auth/loggedUser.service';
   providers: [
     UsersService,
     LoggedUserService,
+    MediaService,
   ],
 })
 export class ProfileModule {}

@@ -26,19 +26,12 @@
     <div class="row offset-bottom20">
         <div class="col-6">
              <span class="ui-float-label">
-                <p-calendar
-                        name="patientBirthday"
-                        [(ngModel)]="birthday"
-                        [maxDate]="maxDate"
-                        [showIcon]="true"
-                        [monthNavigator]="true"
-                        [yearNavigator]="true"
-                        appendTo="body"
-                        (input)="changedPatientBirthday($event)"
-                        yearRange="{{ currentYear - 100 }}:{{ currentYear }}"
-                        dateFormat="dd.mm.yy"
-                        id="patient-editor-birthday"
-                ></p-calendar>
+             <p-inputMask
+                     id="patient-editor-birthday"
+                     name="patientBirthday"
+                     mask="99.99.9999"
+                     [(ngModel)]="birthday"
+                     slotChar="dd.mm.yyyy hh:ii"></p-inputMask>
                 <label for="patient-editor-birthday">{{ 'Birthday' | translate }}</label>
             </span>
         </div>

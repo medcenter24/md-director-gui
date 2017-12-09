@@ -22,9 +22,9 @@
     display: none;
     position: absolute;
     font-size: 32px;
-    background: $default;
+    background: $white;
     cursor: pointer;
-    color: $primary;
+    color: $gray-light;
     top: -11px;
     right: -11px;
     height: 26px;
@@ -41,7 +41,7 @@
     width: 202px;
     background: rgba(0, 0, 0, 0.7);
     transition: all 200ms ease-in-out;
-    color: $default-text;
+    color: $white;
     text-decoration: none;
     position: absolute;
     bottom: -1px;
