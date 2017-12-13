@@ -14,6 +14,7 @@ import { LoggedUserService } from '../../components/auth/loggedUser.service';
 import { AuthenticationService } from '../../components/auth/authentication.service';
 import { NgUploaderOptions } from 'ngx-uploader/src/classes/ng-uploader-options.class';
 import { Message } from 'primeng/primeng';
+import { Company } from '../../components/company/company';
 
 @Component({
   selector: 'nga-profile',
@@ -29,8 +30,6 @@ export class ProfileComponent implements OnInit {
   tabs: any[] = [];
   loggedUser: User;
   defaultPicture: string = 'assets/img/theme/photo-camera.svg';
-  defaultCompanyLogo: string = 'assets/img/theme/cardiogram.svg';
-  defaultCompanySign: string = 'assets/img/theme/notebook.svg';
   uploaderOptions: NgUploaderOptions = {
     url: '',
     cors: true,
@@ -55,7 +54,7 @@ export class ProfileComponent implements OnInit {
     this._state.notifyDataChanged('menu.activeLink', { title: 'Profile' });
     this.languages = langs.map((v) => ({ label: v, value: v }) );
     this.loadingBar.start();
-    this.loggedUserService.getUser().then(user => {
+    this.loggedUserService.getUser().then((user: User) => {
       this.loadingBar.complete();
       this.loggedUser = user;
       this.directorPhotoUri = user.thumb_200;
@@ -63,6 +62,14 @@ export class ProfileComponent implements OnInit {
       // todo add global trigger refresh token and bind all relative things to it
       this.uploaderOptions.authToken = this.authService.getToken();
     }).catch(() => this.loadingBar.complete());
+
+    /*this.companyService
+        .getCompany().then((company: Company) => {
+            console.log(company, 'here');
+        })
+        .catch(() => {
+
+        });*/
 
     this.tabs = [
         { id: 1, name: 'Director' },
