@@ -16,6 +16,7 @@ import { FormsModule } from '@angular/forms';
 import { UsersService } from '../../components/users/users.service';
 import { LoggedUserService } from '../../components/auth/loggedUser.service';
 import { MediaService } from '../../components/media/media.service';
+import {CompanyService} from "../../components/company/company.service";
 
 @NgModule({
   imports: [
@@ -36,6 +37,7 @@ import { MediaService } from '../../components/media/media.service';
     UsersService,
     LoggedUserService,
     MediaService,
+    CompanyService,
   ],
 })
 export class ProfileModule {}
