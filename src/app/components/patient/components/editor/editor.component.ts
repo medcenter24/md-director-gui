@@ -60,7 +60,8 @@ export class PatientEditorComponent extends LoadableComponent {
     save(): void {
         this.initComponent();
         if (this.birthday) {
-            this.patient.birthday = this.dateHelper.getUnixDate(new Date(this.birthday));
+            this.patient.birthday = this.dateHelper
+                .getUnixDate(this.dateHelper.parseDateFromFormat(this.birthday, 'd.m.Y'));
         } else {
             this.patient.birthday = '';
         }
