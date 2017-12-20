@@ -37,4 +37,16 @@ export class PatientsService extends HttpService {
   update(patient: Patient): Promise<Patient> {
     return this.put(patient.id, patient);
   }
+
+  formatPatientName(name: string): string {
+      name = name.toUpperCase();
+      name = this.filterNameCharacters(name);
+      return name;
+  }
+
+  filterNameCharacters(name: string): string {
+    name = name.replace(/[^A-Z\s]/g, '');
+    name = name.replace(/\s+/g, ' ');
+    return name;
+  }
 }

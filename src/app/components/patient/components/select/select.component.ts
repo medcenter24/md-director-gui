@@ -49,14 +49,16 @@ export class SelectPatientComponent extends LoadableComponent implements OnInit 
   }
 
   reloadChosenPatient(patient: Patient): void {
-    const filtered = this.patients.filter((val: Patient) => {
-      return val.id === patient.id;
-    });
+    if (patient && patient.id) {
+      const filtered = this.patients.filter((val: Patient) => {
+        return val.id === patient.id;
+      });
 
-    if (!filtered.length) {
-        this.patients.push(patient);
+      if (!filtered.length) {
+          this.patients.push(patient);
+      }
+      this.selectedPatient = patient ? patient : null;
     }
-    this.selectedPatient = patient ? patient : null;
     this.patient = patient;
  }
 
