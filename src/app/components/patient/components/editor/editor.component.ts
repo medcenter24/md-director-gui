@@ -18,12 +18,11 @@ import { LoadableComponent } from '../../../core/components/componentLoader/Load
     templateUrl: './editor.html',
 })
 export class PatientEditorComponent extends LoadableComponent {
-    @Input() set initPatient(patientId: number) {
-        this.setPatient(patientId);
+    @Input() initPatient(patient: Patient) {
+        this.setPatient(patient);
     }
     @Output() changed: EventEmitter<Patient> = new EventEmitter<Patient>();
 
-    // selected Patient
     patient: Patient = new Patient();
     birthday: string = '';
     msgs: Message[] = [];
@@ -38,23 +37,11 @@ export class PatientEditorComponent extends LoadableComponent {
         super();
     }
 
-    setPatient (patientId: number): void {
-        this.patient = new Patient();
-        this.birthday = null;
-        if (patientId) {
-            this.initComponent();
-            this.patientService.getPatient(patientId)
-                .then((patient: Patient) => {
-                    this.patient = patient;
-                    if (this.patient.birthday) {
-                        this.birthday = this.dateHelper.toEuropeFormatWithTime(this.patient.birthday);
-                    }
-                    this.loadedComponent();
-                })
-                .catch( () => {
-                    this.loadedComponent();
-                });
-        }
+    setPatient (patient: Patient): void {
+        this.patient = patient ? patient : new Patient();
+        this.birthday = this.patient && this.patient.birthday
+            ? this.dateHelper.toEuropeFormatWithTime(this.patient.birthday)
+            : null;
     }
 
     save(): void {
@@ -87,10 +74,7 @@ export class PatientEditorComponent extends LoadableComponent {
     }
 
     changedPatientName(event): void {
-        event.target.value = event.target.value.toUpperCase();
-        event.target.value = event.target.value.replace(/[^A-Z\s]/g, '');
-        event.target.value = event.target.value.replace(/\s+/g, ' ');
-        this.patient.name = event.target.value;
+        this.patient.name = event.target.value = this.patientService.formatPatientName(event.target.value);
     }
 
     changedPatientPhone(event): void {
@@ -103,9 +87,5 @@ export class PatientEditorComponent extends LoadableComponent {
 
     changedPatientComment(event): void {
         this.patient.comment = event.target.value;
-    }
-
-    changedPatientBirthday(event): void {
-        this.patient.birthday = event.target.value;
     }
 }

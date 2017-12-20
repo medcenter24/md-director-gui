@@ -8,11 +8,12 @@
                 [suggestions]="filteredPatients"
                 (completeMethod)="filterPatients($event)"
                 [size]="30"
-                [minLength]="2"
+                [minLength]="1"
                 placeholder="{{ 'Name or Phone' | translate }}"
                 [dropdown]="true"
                 (onSelect)="onSelect($event)"
                 field="name"
+                appendTo="body"
 >
     <ng-template let-patient pTemplate="item">
         <div class="ui-helper-clearfix">
