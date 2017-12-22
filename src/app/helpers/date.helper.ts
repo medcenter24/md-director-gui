@@ -4,9 +4,6 @@
  *  @author Alexander Zagovorichev <zagovorichev@gmail.com>
  */
 
-
-import {mixingMultiProvidersWithRegularProvidersError} from "@angular/core/src/di/reflective_errors";
-
 export class DateHelper {
 
     defaultFormat: 'd.m.Y H:i';
@@ -75,11 +72,20 @@ export class DateHelper {
             format = this.defaultFormat;
         }
 
+        let dateString;
         let date = new Date();
         switch (format) {
             case this.defaultFormat:
-                const dateString = val.match(/^(\d{2})\.(\d{2})\.(\d{4})\s(\d{2}):(\d{2})/);
-                date = new Date(+dateString[3], +dateString[2] - 1, +dateString[1], +dateString[4], +dateString[5]);
+                dateString = val.match(/^(\d{2})\.(\d{2})\.(\d{4})\s(\d{2}):(\d{2})/);
+                date = dateString
+                    ? new Date(+dateString[3], +dateString[2] - 1, +dateString[1], +dateString[4], +dateString[5])
+                    : null;
+                break;
+            case 'd.m.Y':
+                dateString = val.match(/^(\d{2})\.(\d{2})\.(\d{4})/);
+                date = dateString
+                    ? new Date(+dateString[3], +dateString[2] - 1, +dateString[1])
+                    : null;
                 break;
         }
 
