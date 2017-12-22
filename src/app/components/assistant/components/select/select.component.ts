@@ -9,6 +9,7 @@ import { AssistantsService } from '../../assistant.service';
 import { Assistant } from '../../assistant';
 import { Logger } from 'angular2-logger/core';
 import { LoadableComponent } from '../../../core/components/componentLoader/LoadableComponent';
+
 @Component({
   selector: 'nga-select-assistant',
   templateUrl: './select.html',

@@ -11,7 +11,7 @@
             <button type="button" pButton [icon]="apiErr.rejectIcon" *ngIf="apiErr.rejectVisible"
                     label="{{ 'Cancel' | translate }}" (click)="apiErr.reject()"></button>
             <button type="button" pButton [icon]="apiErr.acceptIcon" *ngIf="apiErr.acceptVisible"
-                    label="{{ 'Confirm' | translate }}" (click)="cd.accept()"></button>
+                    label="{{ 'Confirm' | translate }}" (click)="apiErr.accept()"></button>
         </p-footer>
     </p-confirmDialog>
 </main>
