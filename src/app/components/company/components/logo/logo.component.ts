@@ -6,5 +6,7 @@
 
 import { Component } from '@angular/core';
 
-@Component()
-export class CompanySignatureComponent
+@Component({})
+export class CompanySignatureComponent {
+
+}

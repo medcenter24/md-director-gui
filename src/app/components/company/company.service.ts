@@ -15,8 +15,7 @@ export class CompanyService extends HttpService {
         return 'director/companies';
     }
 
-    // for now it is only one company allowed for the installation
-    getCompany(): Promise<Company> {
-        return this.get().then(response => response.json().data as Company);
+    update(company: Company): Promise<Company> {
+        return this.put(company.id, company);
     }
 }

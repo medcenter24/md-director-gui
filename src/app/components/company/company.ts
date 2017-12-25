@@ -10,5 +10,7 @@ export class Company {
         public title: string = '',
         public logo: string = '',
         public signature: string = '',
+        public logo250: string = '',
+        public sign: string = '', // b64 of the signature
     ) {}
 }
