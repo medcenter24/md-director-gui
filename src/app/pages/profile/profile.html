@@ -10,7 +10,7 @@
         <div class="row tab-menu" *ngIf="selectedTab">
             <ul class="list">
                 <li class="item" translate *ngFor="let tab of tabs" [ngClass]="tab.id === selectedTab.id ? 'active' : ''"
-                    (click)="selectedTab = tab">{{ tab.name }}</li>
+                    (click)="selectTab(tab)">{{ tab.name }}</li>
             </ul>
         </div>
 

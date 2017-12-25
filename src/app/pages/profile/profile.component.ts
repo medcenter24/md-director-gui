@@ -15,16 +15,21 @@ import { AuthenticationService } from '../../components/auth/authentication.serv
 import { NgUploaderOptions } from 'ngx-uploader/src/classes/ng-uploader-options.class';
 import { Message } from 'primeng/primeng';
 import { Company } from '../../components/company/company';
+import { LoadingComponent } from '../../components/core/components/componentLoader/LoadingComponent';
+import { Logger } from 'angular2-logger/core';
+import { LocalStorageHelper } from '../../helpers/local.storage.helper';
+import { isNumber, isObject } from 'util';
 
 @Component({
   selector: 'nga-profile',
   templateUrl: './profile.html',
   styleUrls: ['./profile.scss'],
 })
-export class ProfileComponent implements OnInit {
+export class ProfileComponent extends LoadingComponent implements OnInit {
+
+  protected componentName: string = 'ProfileComponent';
 
   languages: any[] = [];
-  loaded: boolean = false;
   lang: string = 'en';
   selectedTab = null;
   tabs: any[] = [];
@@ -39,15 +44,20 @@ export class ProfileComponent implements OnInit {
   picture: string = '';
   msgs: Message[] = [];
   directorPhotoUri: string = '';
+  private profileTabIndexKey: string = 'profileTabIndex';
 
   constructor (
-               private loadingBar: SlimLoadingBarService,
-               private _state: GlobalState,
+               protected loadingBar: SlimLoadingBarService,
+               protected _state: GlobalState,
+               protected _logger: Logger,
                private translateService: TranslateService,
                private usersService: UsersService,
                private loggedUserService: LoggedUserService,
                private authService: AuthenticationService,
-  ) { }
+               private storage: LocalStorageHelper,
+  ) {
+    super();
+  }
 
   ngOnInit (): void {
     const langs = this.translateService.getLangs();
@@ -63,20 +73,28 @@ export class ProfileComponent implements OnInit {
       this.uploaderOptions.authToken = this.authService.getToken();
     }).catch(() => this.loadingBar.complete());
 
-    /*this.companyService
-        .getCompany().then((company: Company) => {
-            console.log(company, 'here');
-        })
-        .catch(() => {
-
-        });*/
-
     this.tabs = [
         { id: 1, name: 'Director' },
         { id: 2, name: 'Company' },
         { id: 3, name: 'Settings' },
     ];
-    this.selectedTab = this.tabs[0];
+
+    this.selectTab(+this.storage.getItem(this.profileTabIndexKey));
+  }
+
+  selectTab(tab: any): void {
+    let id = 0;
+    if (isObject(tab)) {
+        const pos = this.tabs.findIndex(x => x.id === tab.id);
+        if (pos) {
+            id = pos;
+        }
+    } else if (isNumber(tab) && tab >= 0) {
+      this.selectedTab = this.tabs[tab];
+      id = tab;
+    }
+    this.selectedTab = this.tabs[id];
+    this.storage.setItem(this.profileTabIndexKey, `${id}`);
   }
 
   onLangChanged (event): void {
@@ -156,29 +174,5 @@ export class ProfileComponent implements OnInit {
       this._state.notifyDataChanged('growl', this.msgs);
       this.loadingBar.complete();
     });
-  }
-
-  saveCompany(): void {
-    console.log('save company data');
-  }
-
-  startCompanySignatureUpload(event): void {
-    console.log(event);
-    this.loadingBar.start();
-  }
-
-  endCompanySignatureUpload(event): void {
-      console.log(event);
-      this.loadingBar.start();
-  }
-
-  startCompanyLogoUpload(event): void {
-      console.log(event);
-      this.loadingBar.start();
-  }
-
-  endCompanyLogoUpload(event): void {
-      console.log(event);
-      this.loadingBar.start();
   }
 }
