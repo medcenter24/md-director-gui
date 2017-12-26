@@ -86,4 +86,8 @@ export class CasesService extends HttpService {
   getScenario (id: number): Promise <AccidentScenario[]> {
     return this.get(`${id}/scenario`).then(response => response.json().data as AccidentScenario[]);
   }
+
+  getReportHtml (id: number): Promise<string> {
+    return this.get(`${id}/reportHtml`).then(response => response.json().data as string);
+  }
 }
