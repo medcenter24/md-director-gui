@@ -80,6 +80,7 @@ export class CaseEditorComponent extends LoadingComponent implements OnInit {
   onlyDoctorAccident: boolean = true;
   patientEditFormDisplay: boolean = false;
   patient: Patient;
+  reportPreviewVisible: boolean = false;
 
   /**
    * to show on save message, that doctor was changed
@@ -537,5 +538,21 @@ export class CaseEditorComponent extends LoadingComponent implements OnInit {
     this.patient = patient;
     this.editPatientForm.setPatient(patient);
     this.patientSelector.resetPatient(patient);
+  }
+
+  downloadPdfReport(): void {
+    console.log('report pdf');
+  }
+
+  printReport(): void {
+    console.log('print report');
+  }
+
+  previewReport(): void {
+    this.caseService.getReportHtml(this.accident.id)
+        .then((html: string) => {
+            this.reportPreviewVisible = true;
+            console.log(html);
+        }).catch();
   }
 }
