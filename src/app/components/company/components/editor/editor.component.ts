@@ -32,7 +32,7 @@ export class CompanyEditorComponent extends LoadableComponent implements OnInit 
         authToken: '',
         calculateSpeed: true,
     };
-    private uploaderSignOptions: NgUploaderOptions  = {
+    private uploaderSignOptions: NgUploaderOptions = {
         url: '',
         cors: true,
         authToken: '',
@@ -74,18 +74,18 @@ export class CompanyEditorComponent extends LoadableComponent implements OnInit 
     }
 
     startCompanyLogoUpload(event): void {
-        console.log('start loading');
+        this.initComponent();
     }
 
     endCompanyLogoUpload(event): void {
-        console.log('end load');
+        this.loadedComponent();
     }
 
     startCompanySignatureUpload(event): void {
-        console.log('sign start');
+        this.initComponent();
     }
 
     endCompanySignatureUpload(event): void {
-        console.log('sign.end');
+        this.loadedComponent();
     }
 }
