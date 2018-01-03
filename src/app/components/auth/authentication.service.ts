@@ -95,7 +95,7 @@ export class AuthenticationService {
       const lang = response.json() && response.json().lang;
       // store language
       this.storage.setItem(this.langKey, lang);
-      this._state.notifyDataChanged('avatarUri', ava);
+      this._state.notifyDataChanged('avatarB64', ava);
       this.setToken(token);
   }
 
