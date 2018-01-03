@@ -4,10 +4,10 @@
  * @author Alexander Zagovorichev <zagovorichev@gmail.com>
  */
 
-import {Injectable} from '@angular/core';
-import {Doctor} from "./doctor";
+import { Injectable } from '@angular/core';
+import { Doctor } from './doctor';
 import { HttpService } from '../http/http.service';
-import {City} from "../city/city";
+import { City } from '../city/city';
 
 @Injectable()
 export class DoctorsService extends HttpService {
@@ -46,7 +46,7 @@ export class DoctorsService extends HttpService {
       els = cities.map(x => x.id);
     }
     return this.http
-      .put(this.getUrl(id) + '/cities', JSON.stringify({ cities: els }), { headers: this.getAuthHeaders() })
+      .put(`${this.getUrl(id)}/cities`, JSON.stringify({ cities: els }), { headers: this.getAuthHeaders() })
       .toPromise()
       .catch(error => this.handleError(error));
   }

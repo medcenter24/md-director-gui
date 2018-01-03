@@ -13,6 +13,7 @@ import { SelectPatientComponent } from '../select/select.component';
 @Component({
     selector: 'nga-patient-selector',
     templateUrl: 'selector.html',
+    styleUrls: ['selector.scss'],
 })
 export class PatientSelectorComponent extends LoadableComponent {
 
@@ -20,13 +21,14 @@ export class PatientSelectorComponent extends LoadableComponent {
         patientSelectComponent: SelectPatientComponent;
 
     @Output() select: EventEmitter<Patient> = new EventEmitter<Patient>();
-    @Input() set initPatient(patientId: number) {
-        this.setPatient(patientId);
+    @Input() set initPatient(patient: Patient) {
+        this.setPatient(patient);
     }
 
     protected componentName: string = 'PatientSelectorComponent';
 
-    patient: Patient;
+    patient: Patient = new Patient();
+    isPhone: boolean = null;
 
     constructor (
         private patientService: PatientsService,
@@ -35,25 +37,45 @@ export class PatientSelectorComponent extends LoadableComponent {
     }
 
     resetPatient (patient: Patient): void {
+        this.isPhone = null;
         this.patient = patient;
         this.patientSelectComponent.reloadChosenPatient(patient);
     }
 
-    setPatient (patientId: number): void {
-        this.initComponent();
-        this.patientService.getPatient(patientId)
-            .then((patient: Patient) => {
-                this.patient = patient;
-                this.loadedComponent();
-            })
-            .catch( () => {
-                this.patient = null;
-                this.loadedComponent();
-            });
+    setPatient (patient: Patient): void {
+        this.isPhone = null;
+        this.patient = patient;
     }
 
     onPatientChanged(patient: Patient) {
+        this.isPhone = null;
         this.patient = patient;
         this.select.emit(this.patient);
+    }
+
+    changedValue (event): void {
+        if (!this.patient || this.patient.id) {
+            this.patient = new Patient();
+        }
+        if (event.target.value.length === 1) {
+            event.target.value = event.target.value.trim();
+        }
+
+        this.isPhone = null;
+        if (event.target.value.length) {
+            const name = this.patientService.formatPatientName(event.target.value);
+            if (name.length !== event.target.value.length) {
+                this.isPhone = true;
+
+            } else {
+                event.target.value = name;
+                this.patient.name = name;
+                this.isPhone = false;
+            }
+        }
+    }
+
+    getPatient(): Patient {
+        return this.patient;
     }
 }
