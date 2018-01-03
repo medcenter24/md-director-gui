@@ -67,7 +67,7 @@ export class ProfileComponent extends LoadingComponent implements OnInit {
     this.loggedUserService.getUser().then((user: User) => {
       this.loadingBar.complete();
       this.loggedUser = user;
-      this.directorPhotoUri = user.thumb_200;
+      this.directorPhotoUri = `data:image/jpeg;base64,${user.thumb_200}`;
       this.uploaderOptions.url = this.usersService.getUrl(`${this.loggedUser.id}/photo`);
       // todo add global trigger refresh token and bind all relative things to it
       this.uploaderOptions.authToken = this.authService.getToken();
@@ -153,7 +153,7 @@ export class ProfileComponent extends LoadingComponent implements OnInit {
       detail: this.translateService.instant('Saved') });
     this._state.notifyDataChanged('growl', this.msgs);
     const response = JSON.parse(event.response);
-    this._state.notifyDataChanged('avatarUri', response.thumb45);
+    this._state.notifyDataChanged('avatarB64', response.thumb_45);
     this.loadingBar.complete();
   }
 

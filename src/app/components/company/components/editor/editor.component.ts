@@ -54,7 +54,7 @@ export class CompanyEditorComponent extends LoadableComponent implements OnInit 
         this.loggedUserService.getCompany()
             .then((company: Company) => {
                 this.company = company;
-                this.pictureLogo = this.company.logo250;
+                this.pictureLogo = `data:image/jpeg;base64,${this.company.logo250}`;
                 this.pictureSign = `data:image/jpeg;base64,${this.company.sign}`;
                 this.uploaderLogoOptions.url = this.companyService.getUrl(`${this.company.id}/logo`);
                 // todo add global trigger refresh token and bind all relative things to it

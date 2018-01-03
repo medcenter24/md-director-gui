@@ -55,8 +55,8 @@ export class AppComponent implements AfterViewInit {
       this._state.subscribe('apiError', (error) => {
           this.apiErrorService.show(error);
       });
-      this._state.subscribe('avatarUri', (uri) => {
-          this.storage.setItem('avatar', uri);
+      this._state.subscribe('avatarB64', (b64: string) => {
+          this.storage.setItem('avatar', b64);
       });
   }
 
