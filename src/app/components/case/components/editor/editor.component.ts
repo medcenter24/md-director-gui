@@ -4,7 +4,7 @@
  * @author Alexander Zagovorichev <zagovorichev@gmail.com>
  */
 
-import { Component, ViewChild, OnInit } from '@angular/core';
+import { Component, ViewChild, OnInit, ElementRef } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Accident } from '../../../accident/accident';
 import { AccidentsService } from '../../../accident/accidents.service';
@@ -56,6 +56,9 @@ export class CaseEditorComponent extends LoadingComponent implements OnInit {
   @ViewChild('patientSelector')
     private patientSelector: PatientSelectorComponent;
 
+  @ViewChild('previewContainer')
+    previewContainer: ElementRef;
+
   msgs: Message[] = [];
   accident: Accident;
   appliedTime: string = '';
@@ -81,6 +84,7 @@ export class CaseEditorComponent extends LoadingComponent implements OnInit {
   patientEditFormDisplay: boolean = false;
   patient: Patient;
   reportPreviewVisible: boolean = false;
+  reportPreviewHtml: string = '';
 
   /**
    * to show on save message, that doctor was changed
@@ -541,18 +545,26 @@ export class CaseEditorComponent extends LoadingComponent implements OnInit {
   }
 
   downloadPdfReport(): void {
-    console.log('report pdf');
+      this.caseService.downloadPdfReport(this.accident.id);
   }
 
   printReport(): void {
-    console.log('print report');
+    this.loadingBar.start();
+    this.caseService.getReportHtml(this.accident.id)
+        .then(html => {
+          this.loadingBar.complete();
+          const newWin = window.frames['printf'];
+          newWin.document.write(`<body onload="window.print()">${html}</body>`);
+          newWin.document.close();
+        })
+        .catch(() => this.loadingBar.complete());
   }
 
   previewReport(): void {
     this.caseService.getReportHtml(this.accident.id)
         .then((html: string) => {
             this.reportPreviewVisible = true;
-            console.log(html);
+            this.previewContainer.nativeElement.innerHTML = html;
         }).catch();
   }
 }
