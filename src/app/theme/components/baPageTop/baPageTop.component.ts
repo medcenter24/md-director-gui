@@ -24,11 +24,13 @@ export class BaPageTop {
     this._state.subscribe('menu.isCollapsed', (isCollapsed) => {
       this.isMenuCollapsed = isCollapsed;
     });
-    this._state.subscribe('avatarUri', (uri: string) => {
-        this.avatar = uri.length ? uri : `${layoutPaths.images.profile}no-photo.png`;
+    this._state.subscribe('avatarB64', (b64: string) => {
+        this.avatar = b64.length ? `data:image/jpeg;base64,${b64}` : `${layoutPaths.images.profile}no-photo.png`;
     });
     this.avatar = this.storage.getItem('avatar');
-    this.avatar = this.avatar.length ? this.avatar : `${layoutPaths.images.profile}no-photo.png`;
+
+    this.avatar = typeof this.avatar !== 'undefined' && this.avatar !== 'undefined' && this.avatar.length ?
+        `data:image/jpeg;base64,${this.avatar}` : `${layoutPaths.images.profile}no-photo.png`;
   }
 
   toggleMenu() {
