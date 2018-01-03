@@ -7,7 +7,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NgaModule } from '../../theme/nga.module';
-
 import { routing } from './profile.routing';
 import { MessagesModule, DropdownModule, ButtonModule, InputTextModule } from 'primeng/primeng';
 import { AppTranslationModule } from '../../app.translation.module';
@@ -16,26 +15,31 @@ import { FormsModule } from '@angular/forms';
 import { UsersService } from '../../components/users/users.service';
 import { LoggedUserService } from '../../components/auth/loggedUser.service';
 import { MediaService } from '../../components/media/media.service';
+import { CompanyService } from '../../components/company/company.service';
+import { CompanyEditorComponent } from '../../components/company/components/editor/editor.component';
 
 @NgModule({
-  imports: [
-    FormsModule,
-    CommonModule,
-    NgaModule,
-    routing,
-    MessagesModule,
-    AppTranslationModule,
-    DropdownModule,
-    ButtonModule,
-    InputTextModule,
-  ],
-  declarations: [
-    ProfileComponent,
-  ],
-  providers: [
-    UsersService,
-    LoggedUserService,
-    MediaService,
-  ],
+    imports: [
+        FormsModule,
+        CommonModule,
+        NgaModule,
+        routing,
+        MessagesModule,
+        AppTranslationModule,
+        DropdownModule,
+        ButtonModule,
+        InputTextModule,
+    ],
+    declarations: [
+        ProfileComponent,
+        CompanyEditorComponent,
+    ],
+    providers: [
+        UsersService,
+        LoggedUserService,
+        MediaService,
+        CompanyService,
+    ],
 })
-export class ProfileModule {}
+export class ProfileModule {
+}

@@ -4,9 +4,8 @@
  * @author Alexander Zagovorichev <zagovorichev@gmail.com>
  */
 
-import {Injectable} from '@angular/core';
-import {Headers, Http} from "@angular/http";
-import {User} from "./user";
+import { Injectable } from '@angular/core';
+import { User } from './user';
 import { HttpService } from '../http/http.service';
 
 @Injectable()
