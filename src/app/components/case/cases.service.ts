@@ -17,6 +17,8 @@ import { CaseAccident } from './case';
 import { AccidentCheckpoint } from '../accident/components/checkpoint/checkpoint';
 import { AccidentScenario } from '../accident/components/scenario/scenario';
 import { Survey } from '../survey/survey';
+import { RequestOptions, ResponseContentType } from '@angular/http';
+import { saveAs } from 'file-saver';
 
 @Injectable()
 export class CasesService extends HttpService {
@@ -85,5 +87,17 @@ export class CasesService extends HttpService {
 
   getScenario (id: number): Promise <AccidentScenario[]> {
     return this.get(`${id}/scenario`).then(response => response.json().data as AccidentScenario[]);
+  }
+
+  getReportHtml (id: number): Promise<string> {
+    return this.get(`${id}/reportHtml`).then(response => response.json().data as string);
+  }
+
+  downloadPdfReport (id: number): void {
+    const options = new RequestOptions({ responseType: ResponseContentType.Blob, headers: this.getAuthHeaders() });
+    this.http
+      .get(this.getUrl(`${id}/downloadPdf`), options)
+      .map(res => res.blob())
+      .subscribe(data => saveAs(data, `report_case_${id}.pdf`), err => this.handleError(err));
   }
 }

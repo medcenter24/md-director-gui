@@ -12,7 +12,20 @@
                     <div class="form-group offset-bottom20">
                         <div class="row offset-bottom20">
                             <div class="col-sm-12">
-                                <h2 *ngIf="accident.id">{{ 'Case Editing' | translate}} {{ 'pp' | translate }}{{ accident.id }}</h2>
+                                <h2 *ngIf="accident.id">
+                                    {{ 'Case Editing' | translate}} {{ 'pp' | translate }}{{ accident.id }}
+                                    <span class="pull-right">
+                                        <span class="fa fa-file-pdf-o"
+                                              (click)="downloadPdfReport()"
+                                              title="{{ 'Save as PDF' | translate }}"></span>
+                                        <span class="fa fa-print"
+                                              (click)="printReport()"
+                                              title="{{ 'Print a Report' | translate }}"></span>
+                                        <span class="fa fa-window-maximize"
+                                              (click)="previewReport()"
+                                              title="{{ 'Report Preview' | translate }}"></span>
+                                    </span>
+                                </h2>
                                 <h2 *ngIf="!accident.id">{{ 'New case creating' | translate }}</h2>
                             </div>
                         </div>
@@ -444,6 +457,8 @@
             </div>
         </div>
     </div>
+
+    <iframe id="printf" name="printf" style="display: none;"></iframe>
 </div>
 
 <p-dialog [(visible)]="patientEditFormDisplay" appendTo="body">
@@ -457,4 +472,13 @@
             (init)="startLoader($event)"
             (loaded)="stopLoader($event)"
     ></nga-patient-editor>
+</p-dialog>
+
+<p-dialog [(visible)]="reportPreviewVisible"
+          [width]="800"
+          appendTo="body">
+    <p-header>
+        {{ 'Report Preview' | translate }}
+    </p-header>
+    <div #previewContainer></div>
 </p-dialog>
