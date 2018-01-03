@@ -4,7 +4,7 @@
  *  @author Alexander Zagovorichev <zagovorichev@gmail.com>
  */
 
-import {Injectable} from '@angular/core';
+import { Injectable } from '@angular/core';
 import { HttpService } from '../http/http.service';
 import { RequestOptions, ResponseContentType } from '@angular/http';
 import { saveAs } from 'file-saver';
