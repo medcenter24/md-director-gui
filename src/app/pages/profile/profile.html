@@ -10,46 +10,14 @@
         <div class="row tab-menu" *ngIf="selectedTab">
             <ul class="list">
                 <li class="item" translate *ngFor="let tab of tabs" [ngClass]="tab.id === selectedTab.id ? 'active' : ''"
-                    (click)="selectedTab = tab">{{ tab.name }}</li>
+                    (click)="selectTab(tab)">{{ tab.name }}</li>
             </ul>
         </div>
 
         <div class="row">
             <div class="col-10 m-auto">
                 <div *ngIf="selectedTab && selectedTab.name === 'Company'">
-                    <div class="row">
-                        <div class="col-3">
-                            <div class="form-group">
-                                <label class="label separate" translate>Company Name</label>
-                                <input type="text" class="form-control form-control-sm" placeholder="{{ 'Company Name' | translate }}">
-                            </div>
-                        </div>
-                        <div class="col-9 company-images-loader">
-                            <div class="offset-right10">
-                                <label class="label separate" translate>Company Logo</label><br>
-                                <ba-picture-uploader
-                                        [picture]="picture"
-                                        [defaultPicture]="defaultCompanyLogo"
-                                        [uploaderOptions]="uploaderOptions"
-                                        (onUpload)="startCompanyLogoUpload($event)"
-                                        (onUploadCompleted)="endCompanyLogoUpload($event)"
-                                ></ba-picture-uploader>
-                            </div>
-                            <div>
-                                <label class="label separate" translate>Company Signature</label><br>
-                                <ba-picture-uploader
-                                        [picture]="picture"
-                                        [defaultPicture]="defaultCompanySign"
-                                        [uploaderOptions]="uploaderOptions"
-                                        (onUpload)="startCompanySignatureUpload($event)"
-                                        (onUploadCompleted)="endCompanySignatureUpload($event)"
-                                ></ba-picture-uploader>
-                            </div>
-                        </div>
-                    </div>
-                    <button pButton type="button" label="{{ 'Save' | translate }}"
-                            (click)="saveCompany()"
-                            class="ui-button-success"></button>
+                    <nga-company-editor></nga-company-editor>
                 </div>
 
                 <div class="row" *ngIf="selectedTab && selectedTab.name === 'Settings'">

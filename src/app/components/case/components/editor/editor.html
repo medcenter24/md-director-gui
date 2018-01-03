@@ -12,7 +12,20 @@
                     <div class="form-group offset-bottom20">
                         <div class="row offset-bottom20">
                             <div class="col-sm-12">
-                                <h2 *ngIf="accident.id">{{ 'Case Editing' | translate}} {{ 'pp' | translate }}{{ accident.id }}</h2>
+                                <h2 *ngIf="accident.id">
+                                    {{ 'Case Editing' | translate}} {{ 'pp' | translate }}{{ accident.id }}
+                                    <span class="pull-right">
+                                        <span class="fa fa-file-pdf-o"
+                                              (click)="downloadPdfReport()"
+                                              title="{{ 'Save as PDF' | translate }}"></span>
+                                        <span class="fa fa-print"
+                                              (click)="printReport()"
+                                              title="{{ 'Print a Report' | translate }}"></span>
+                                        <span class="fa fa-window-maximize"
+                                              (click)="previewReport()"
+                                              title="{{ 'Report Preview' | translate }}"></span>
+                                    </span>
+                                </h2>
                                 <h2 *ngIf="!accident.id">{{ 'New case creating' | translate }}</h2>
                             </div>
                         </div>
@@ -41,7 +54,6 @@
                                     (change)="onAssistantChanged($event)"
                                     (init)="startLoader($event)"
                                     (loaded)="stopLoader($event)"
-                                    [required]="true"
                                 ></nga-select-assistant>
                             </div>
                             <div class="col-sm-4">
@@ -166,36 +178,41 @@
                         <div class="row offset-bottom20 patient-container">
                             <div class="col-12">
                                 <label class="label separate required">{{ 'patient' | translate }}</label>
-                                <div>
-                                    <div class="patient-selector float-left">
-                                        <nga-patient-selector
-                                                #patientSelector
-                                                [initPatient]="accident.patient_id"
-                                                (select)="onPatientSelected($event)"
-                                                (init)="startLoader($event)"
-                                                (loaded)="stopLoader($event)"
-                                        ></nga-patient-selector>
+                                <div class="row">
+                                    <div class="col-6">
+                                        <div class="patient-selector float-left">
+                                            <nga-patient-selector
+                                                    #patientSelector
+                                                    [initPatient]="patient"
+                                                    (select)="onPatientSelected($event)"
+                                                    (init)="startLoader($event)"
+                                                    (loaded)="stopLoader($event)"
+                                            ></nga-patient-selector>
+                                        </div>
                                     </div>
-                                    <div class="edit-patient float-left">
-                                        <span class="fa fa-edit lead linked text-success"
-                                              *ngIf="+accident.patient_id"
-                                              (click)="openEditPatientForm(accident.patient_id)"
-                                              title="{{ 'Edit patient data' | translate }}"></span>
-                                    </div>
-                                    <div class="add-patient float-left">
-                                        <span class="fa fa-user-plus lead linked"
-                                              (click)="openEditPatientForm(0)"
-                                              title="{{ 'Add Patient' | translate }}"></span>
+                                    <div class="col-6">
+                                        <label class="label separated float-left offset-right10" translate>Patient editor</label>
+                                        <div class="edit-patient">
+                                            <span class="fa fa-edit lead linked text-success"
+                                                  *ngIf="patient && patient.id"
+                                                  (click)="openEditPatientForm(patient)"
+                                                  title="{{ 'Edit patient data' | translate }}"></span>
+                                        </div>
+                                        <div class="add-patient">
+                                            <span class="fa fa-user-plus lead linked"
+                                                  (click)="openEditPatientForm( null )"
+                                                  title="{{ 'Add Patient' | translate }}"></span>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <div class="row offset-bottom20">
                             <div class="col-sm-9">
-                                <label class="label separate" translate>Contacts</label>
+                                <label class="label separate" translate>Patient Data</label>
                                 <textarea rows="2" cols="50" pInputTextarea
                                           autoResize="autoResize"
-                                          placeholder="{{ 'Contacts' | translate }}"
+                                          placeholder="{{ 'Patient Data' | translate }}"
                                           class="form-control"
                                           [(ngModel)]="accident.contacts"
                                           name="contacts"
@@ -333,7 +350,6 @@
                                                     mask="99.99.9999 99:99"
                                                     [(ngModel)]="appliedTime"
                                                     [placeholder]="'d.m.Y H:m' | translate"
-                                                    [required]="true"
                                                     slotChar="dd.mm.yyyy hh:ii"></p-inputMask>
                                         </div>
                                         <div class="col-sm-6">
@@ -441,6 +457,8 @@
             </div>
         </div>
     </div>
+
+    <iframe id="printf" name="printf" style="display: none;"></iframe>
 </div>
 
 <p-dialog [(visible)]="patientEditFormDisplay" appendTo="body">
@@ -449,9 +467,18 @@
     </p-header>
     <nga-patient-editor
             #editPatientForm
-            [initPatient]="accident.patient_id"
+            [initPatient]="patient"
             (changed)="onPatientSelected($event)"
             (init)="startLoader($event)"
             (loaded)="stopLoader($event)"
     ></nga-patient-editor>
+</p-dialog>
+
+<p-dialog [(visible)]="reportPreviewVisible"
+          [width]="800"
+          appendTo="body">
+    <p-header>
+        {{ 'Report Preview' | translate }}
+    </p-header>
+    <div #previewContainer></div>
 </p-dialog>

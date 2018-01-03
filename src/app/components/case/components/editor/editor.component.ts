@@ -4,7 +4,7 @@
  * @author Alexander Zagovorichev <zagovorichev@gmail.com>
  */
 
-import { Component, ViewChild, OnInit } from '@angular/core';
+import { Component, ViewChild, OnInit, ElementRef } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Accident } from '../../../accident/accident';
 import { AccidentsService } from '../../../accident/accidents.service';
@@ -32,6 +32,7 @@ import { PatientEditorComponent } from '../../../patient/components/editor/edito
 import { LoadingComponent } from '../../../core/components/componentLoader/LoadingComponent';
 import { Patient } from '../../../patient/patient';
 import { PatientSelectorComponent } from '../../../patient/components/selector/selector.component';
+import { PatientsService } from '../../../patient/patients.service';
 
 @Component({
   selector: 'nga-case-editor',
@@ -39,7 +40,6 @@ import { PatientSelectorComponent } from '../../../patient/components/selector/s
   styleUrls: ['./editor.scss'],
 })
 export class CaseEditorComponent extends LoadingComponent implements OnInit {
-
 
   @ViewChild('parentSelector')
     private parentSelector: SelectAccidentComponent;
@@ -55,6 +55,9 @@ export class CaseEditorComponent extends LoadingComponent implements OnInit {
 
   @ViewChild('patientSelector')
     private patientSelector: PatientSelectorComponent;
+
+  @ViewChild('previewContainer')
+    previewContainer: ElementRef;
 
   msgs: Message[] = [];
   accident: Accident;
@@ -79,6 +82,9 @@ export class CaseEditorComponent extends LoadingComponent implements OnInit {
   // for a while until the hospital cases implementation
   onlyDoctorAccident: boolean = true;
   patientEditFormDisplay: boolean = false;
+  patient: Patient;
+  reportPreviewVisible: boolean = false;
+  reportPreviewHtml: string = '';
 
   /**
    * to show on save message, that doctor was changed
@@ -97,6 +103,7 @@ export class CaseEditorComponent extends LoadingComponent implements OnInit {
                private doctorService: DoctorsService,
                private router: Router,
                private dateHelper: DateHelper,
+               private patientService: PatientsService,
   ) {
     super();
   }
@@ -146,6 +153,7 @@ export class CaseEditorComponent extends LoadingComponent implements OnInit {
             this.recalculatePrice();
             this.loadDocuments();
             this.loadCheckpoints();
+            this.loadPatient();
           }).catch((err) => {
             this.stopLoader(this.componentName);
             if (err.status === 404) {
@@ -194,6 +202,7 @@ export class CaseEditorComponent extends LoadingComponent implements OnInit {
       surveys: this.surveys.map(x => x.id),
       documents: this.documents.map(x => x.id),
       checkpoints: this.checkpoints,
+      patient: this.patientSelector.getPatient(),
     };
 
     if (this.doctorBeforeSave && this.doctorBeforeSave !== this.doctorAccident.doctor_id) {
@@ -486,6 +495,16 @@ export class CaseEditorComponent extends LoadingComponent implements OnInit {
       });
   }
 
+  private loadPatient(): void {
+    this.startLoader('getPatient');
+    this.patientService.getPatient(this.accident.patient_id)
+        .then((patient: Patient) => {
+          this.patient = patient;
+          this.stopLoader('getPatient');
+        })
+        .catch(() => this.stopLoader('getPatient'));
+  }
+
   private loadCaseable(): void {
     this.startLoader('getDoctorCase');
     this.caseService.getDoctorCase(this.accident.id)
@@ -514,14 +533,38 @@ export class CaseEditorComponent extends LoadingComponent implements OnInit {
       });*/
   }
 
-  openEditPatientForm (patientId: number): void {
-    this.editPatientForm.setPatient(patientId);
+  openEditPatientForm (patient: Patient): void {
+    this.editPatientForm.setPatient(patient);
     this.patientEditFormDisplay = true;
   }
 
   onPatientSelected(patient: Patient): void {
-    this.accident.patient_id = patient.id;
+    this.patient = patient;
+    this.editPatientForm.setPatient(patient);
     this.patientSelector.resetPatient(patient);
-    this.editPatientForm.setPatient(patient.id);
+  }
+
+  downloadPdfReport(): void {
+      this.caseService.downloadPdfReport(this.accident.id);
+  }
+
+  printReport(): void {
+    this.loadingBar.start();
+    this.caseService.getReportHtml(this.accident.id)
+        .then(html => {
+          this.loadingBar.complete();
+          const newWin = window.frames['printf'];
+          newWin.document.write(`<body onload="window.print()">${html}</body>`);
+          newWin.document.close();
+        })
+        .catch(() => this.loadingBar.complete());
+  }
+
+  previewReport(): void {
+    this.caseService.getReportHtml(this.accident.id)
+        .then((html: string) => {
+            this.reportPreviewVisible = true;
+            this.previewContainer.nativeElement.innerHTML = html;
+        }).catch();
   }
 }

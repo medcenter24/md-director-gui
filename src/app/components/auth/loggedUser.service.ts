@@ -7,6 +7,7 @@
 import { Injectable } from '@angular/core';
 import { HttpService } from '../http/http.service';
 import { User } from '../users/user';
+import { Company } from '../company/company';
 
 @Injectable()
 export class LoggedUserService extends HttpService {
@@ -18,5 +19,10 @@ export class LoggedUserService extends HttpService {
   getUser(): Promise <User> {
     return this.get()
       .then(response => response.json().data as User);
+  }
+
+  getCompany(): Promise <Company> {
+    return this.get('company')
+        .then(response => response.json().data as Company);
   }
 }
