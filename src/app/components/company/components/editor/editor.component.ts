@@ -20,26 +20,26 @@ export class CompanyEditorComponent extends LoadableComponent implements OnInit 
 
     protected componentName: string = 'CompanyEditorComponent';
 
-    private defaultCompanyLogo: string = 'assets/img/theme/cardiogram.svg';
-    private defaultCompanySign: string = 'assets/img/theme/notebook.svg';
+    defaultCompanyLogo: string = 'assets/img/theme/cardiogram.svg';
+    defaultCompanySign: string = 'assets/img/theme/notebook.svg';
 
-    private pictureSign: string = '';
-    private pictureLogo: string = '';
+    pictureSign: string = '';
+    pictureLogo: string = '';
 
-    private uploaderLogoOptions: NgUploaderOptions = {
+    uploaderLogoOptions: NgUploaderOptions = {
         url: '',
         cors: true,
         authToken: '',
         calculateSpeed: true,
     };
-    private uploaderSignOptions: NgUploaderOptions = {
+    uploaderSignOptions: NgUploaderOptions = {
         url: '',
         cors: true,
         authToken: '',
         calculateSpeed: true,
     };
 
-    private company: Company;
+    company: Company;
 
     constructor(
         private companyService: CompanyService,
