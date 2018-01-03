@@ -457,6 +457,8 @@
             </div>
         </div>
     </div>
+
+    <iframe id="printf" name="printf" style="display: none;"></iframe>
 </div>
 
 <p-dialog [(visible)]="patientEditFormDisplay" appendTo="body">
@@ -478,5 +480,5 @@
     <p-header>
         {{ 'Report Preview' | translate }}
     </p-header>
-    preview
+    <div #previewContainer></div>
 </p-dialog>
