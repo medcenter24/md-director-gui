@@ -54,8 +54,9 @@ export class CompanyEditorComponent extends LoadableComponent implements OnInit 
         this.loggedUserService.getCompany()
             .then((company: Company) => {
                 this.company = company;
-                this.pictureLogo = `data:image/jpeg;base64,${this.company.logo250}`;
-                this.pictureSign = `data:image/jpeg;base64,${this.company.sign}`;
+
+                this.pictureLogo = this.company.logo250.length ? `data:image/jpeg;base64,${this.company.logo250}` : '';
+                this.pictureSign = this.company.sign ? `data:image/jpeg;base64,${this.company.sign}` : '';
                 this.uploaderLogoOptions.url = this.companyService.getUrl(`${this.company.id}/logo`);
                 // todo add global trigger refresh token and bind all relative things to it
                 this.uploaderLogoOptions.authToken = this.authService.getToken();
@@ -87,5 +88,19 @@ export class CompanyEditorComponent extends LoadableComponent implements OnInit 
 
     endCompanySignatureUpload(event): void {
         this.loadedComponent();
+    }
+
+    deleteSignature(): void {
+        this.initComponent();
+        this.companyService.deleteSignature(this.company)
+            .then( () => this.loadedComponent() )
+            .catch( () => this.loadedComponent() );
+    }
+
+    deleteCompanyLogo(): void {
+        this.initComponent();
+        this.companyService.deleteLogo(this.company)
+            .then( () => this.loadedComponent() )
+            .catch( () => this.loadedComponent() );
     }
 }
