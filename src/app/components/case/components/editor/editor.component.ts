@@ -84,7 +84,6 @@ export class CaseEditorComponent extends LoadingComponent implements OnInit {
   patientEditFormDisplay: boolean = false;
   patient: Patient;
   reportPreviewVisible: boolean = false;
-  reportPreviewHtml: string = '';
 
   /**
    * to show on save message, that doctor was changed
