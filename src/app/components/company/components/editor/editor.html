@@ -18,6 +18,7 @@
                         [uploaderOptions]="uploaderLogoOptions"
                         (onUpload)="startCompanyLogoUpload($event)"
                         (onUploadCompleted)="endCompanyLogoUpload($event)"
+                        (onDelete)="deleteCompanyLogo()"
                 ></ba-picture-uploader>
             </div>
             <div class="pull-left">
@@ -28,6 +29,7 @@
                         [uploaderOptions]="uploaderSignOptions"
                         (onUpload)="startCompanySignatureUpload($event)"
                         (onUploadCompleted)="endCompanySignatureUpload($event)"
+                        (onDelete)="deleteSignature()"
                 ></ba-picture-uploader>
             </div>
         </div>
