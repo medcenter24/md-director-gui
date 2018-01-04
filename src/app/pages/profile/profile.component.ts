@@ -67,7 +67,7 @@ export class ProfileComponent extends LoadingComponent implements OnInit {
     this.loggedUserService.getUser().then((user: User) => {
       this.loadingBar.complete();
       this.loggedUser = user;
-      this.directorPhotoUri = `data:image/jpeg;base64,${user.thumb_200}`;
+      this.directorPhotoUri = user.thumb_200 ? `data:image/jpeg;base64,${user.thumb_200}` : '';
       this.uploaderOptions.url = this.usersService.getUrl(`${this.loggedUser.id}/photo`);
       // todo add global trigger refresh token and bind all relative things to it
       this.uploaderOptions.authToken = this.authService.getToken();
