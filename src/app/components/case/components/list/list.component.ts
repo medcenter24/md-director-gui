@@ -6,7 +6,6 @@
 
 import { Component, ViewEncapsulation, ViewChild, OnInit } from '@angular/core';
 import { LocalDataSource } from 'ng2-smart-table';
-import { Response } from '@angular/http';
 import { ModalComponent } from 'ng2-bs3-modal/components/modal';
 import { Router } from '@angular/router';
 import { CasesService } from '../../cases.service';
@@ -22,6 +21,7 @@ import { DateHelper } from '../../../../helpers/date.helper';
     selector: 'nga-cases-list',
     encapsulation: ViewEncapsulation.None,
     templateUrl: './list.html',
+    styleUrls: ['./list.scss'],
 })
 export class CasesListComponent implements OnInit {
 
