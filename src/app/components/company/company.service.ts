@@ -18,4 +18,12 @@ export class CompanyService extends HttpService {
     update(company: Company): Promise<Company> {
         return this.put(company.id, company);
     }
+
+    deleteLogo(company: Company): Promise<any> {
+        return this.remove(`${company.id}/logo`);
+    }
+
+    deleteSignature(company: Company): Promise<any> {
+        return this.remove(`${company.id}/sign`);
+    }
 }
