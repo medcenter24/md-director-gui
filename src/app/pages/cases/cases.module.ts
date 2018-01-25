@@ -25,10 +25,10 @@ import { ServicesSelectorComponent } from '../../components/service/components/s
 import { SelectAccidentTypeComponent } from '../../components/accident/components/type/select/select.component';
 import { AccidentTypesService } from '../../components/accident/components/type/types.service';
 import {
-    SelectButtonModule, MultiSelectModule, AutoCompleteModule,
-    SpinnerModule, ButtonModule, TooltipModule, InputTextareaModule, InputTextModule,
-    PanelModule, FileUploadModule, InplaceModule, ToolbarModule, DialogModule, PaginatorModule, CheckboxModule,
-    ConfirmDialogModule, ConfirmationService, StepsModule, MenuModule, ToggleButtonModule, InputMaskModule,
+  SelectButtonModule, MultiSelectModule, AutoCompleteModule,
+  SpinnerModule, ButtonModule, TooltipModule, InputTextareaModule, InputTextModule,
+  PanelModule, FileUploadModule, InplaceModule, ToolbarModule, DialogModule, PaginatorModule, CheckboxModule,
+  ConfirmDialogModule, ConfirmationService, StepsModule, MenuModule, ToggleButtonModule, InputMaskModule,
 } from 'primeng/primeng';
 import { AssistantsService } from '../../components/assistant/assistant.service';
 import { AssistantSelectComponent } from '../../components/assistant/components/select/select.component';
@@ -73,6 +73,7 @@ import { PatientEditorComponent } from '../../components/patient/components/edit
 import { AccidentActivityComponent } from '../../components/accident/components/activity/activity.component';
 import { AccidentChatComponent } from '../../components/accident/components/chat/chat.component';
 import { AccidentHistoryComponent } from '../../components/accident/components/history/components/history.component';
+import { CommentsComponent } from '../../components/comment/components/comments.component';
 
 @NgModule({
   imports: [
@@ -134,6 +135,7 @@ import { AccidentHistoryComponent } from '../../components/accident/components/h
     AccidentActivityComponent,
     AccidentChatComponent,
     AccidentHistoryComponent,
+    CommentsComponent,
   ],
   providers: [
     CasesService,

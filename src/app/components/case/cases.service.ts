@@ -21,6 +21,7 @@ import { RequestOptions, ResponseContentType } from '@angular/http';
 import { saveAs } from 'file-saver';
 import { Accident } from '../accident/accident';
 import { AccidentHistory } from '../accident/components/history/history';
+import { Commentary } from '../comment/commentary';
 
 @Injectable()
 export class CasesService extends HttpService {
@@ -105,5 +106,13 @@ export class CasesService extends HttpService {
 
   getHistory (accident: Accident): Promise <AccidentHistory[]> {
     return this.get(`${accident.id}/history`).then(response => response.json().data as AccidentHistory[]);
+  }
+
+  getCommentaries (accident: Accident): Promise <Commentary[]> {
+    return this.get(`${accident.id}/comments`).then(response => response.json().data as Commentary[]);
+  }
+
+  createComment (accident: Accident, text: string): Promise <Commentary> {
+    return this.put(`${accident.id}/comments`, { text }).then(response => response.json() as Commentary);
   }
 }
