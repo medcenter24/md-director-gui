@@ -1,0 +1,33 @@
+/*!
+ * Copyright (c) 2018.
+ *
+ * @author Zagovorychev Olexandr <zagovorichev@gmail.com>
+ */
+@import 'variables';
+
+.accident-status_new {
+  color: $white;
+  background-color: #5cb85c;
+  padding: 3px;
+}
+
+.accident-status_in_progress,
+.accident-status_assigned {
+  color: $white;
+  background-color: #1c2b36;
+  padding: 3px;
+}
+
+.accident-status_paid,
+.accident-status_sent,
+.accident-status_reject {
+  color: $white;
+  background-color: $warning;
+  padding: 3px;
+}
+
+.accident-status_closed {
+  color: $white;
+  background-color: $danger;
+  padding: 3px;
+}

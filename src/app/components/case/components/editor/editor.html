@@ -458,6 +458,11 @@
         </div>
     </div>
 
+    <nga-accident-activity
+            *ngIf="accident"
+            [accident]="accident"
+    ></nga-accident-activity>
+
     <iframe id="printf" name="printf" style="display: none;"></iframe>
 </div>
 
