@@ -70,6 +70,9 @@ import { SurveyService } from '../../components/survey/survey.service';
 import { PatientSelectorComponent } from '../../components/patient/components/selector/selector.component';
 import { SelectPatientComponent } from '../../components/patient/components/select/select.component';
 import { PatientEditorComponent } from '../../components/patient/components/editor/editor.component';
+import { AccidentActivityComponent } from '../../components/accident/components/activity/activity.component';
+import { AccidentChatComponent } from '../../components/accident/components/chat/chat.component';
+import { AccidentHistoryComponent } from '../../components/accident/components/history/components/history.component';
 
 @NgModule({
   imports: [
@@ -128,6 +131,9 @@ import { PatientEditorComponent } from '../../components/patient/components/edit
     PatientSelectorComponent,
     SelectPatientComponent,
     PatientEditorComponent,
+    AccidentActivityComponent,
+    AccidentChatComponent,
+    AccidentHistoryComponent,
   ],
   providers: [
     CasesService,
