@@ -459,7 +459,7 @@
     </div>
 
     <nga-accident-activity
-            *ngIf="accident"
+            *ngIf="accident && accident.id"
             [accident]="accident"
     ></nga-accident-activity>
 
