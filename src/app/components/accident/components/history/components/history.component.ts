@@ -11,8 +11,6 @@ import { CasesService } from '../../../../case/cases.service';
 import { AccidentHistory } from '../history';
 import { DateHelper } from '../../../../../helpers/date.helper';
 import { layoutPaths } from '../../../../../theme';
-import {forEach} from "@angular/router/src/utils/collection";
-
 
 @Component({
   selector: 'nga-accident-history',
@@ -27,7 +25,7 @@ export class AccidentHistoryComponent extends LoadableComponent implements OnIni
   history: AccidentHistory[];
   noPhoto: string = '';
 
-  constructor(private caseService: CasesService, public dateHelper: DateHelper) {
+  constructor(private caseService: CasesService, private dateHelper: DateHelper) {
     super();
     this.noPhoto = `${layoutPaths.images.profile}no-photo.png`;
   }
@@ -37,7 +35,7 @@ export class AccidentHistoryComponent extends LoadableComponent implements OnIni
     this.caseService.getHistory(this.accident).then(response => {
       this.loadedComponent();
       response.map((row) => {
-        row.createdFormated = this.dateHelper.toEuropeFormatWithTime(row.created_at)
+        row.createdFormated = this.dateHelper.toEuropeFormatWithTime(row.created_at);
         return row;
       });
       this.history = response;
