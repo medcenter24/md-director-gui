@@ -8,10 +8,19 @@ export class DateHelper {
 
     defaultFormat: 'd.m.Y H:i';
 
+    getDate(strDate: string): Date {
+      const timestamp = Date.parse(strDate);
+      if (!isNaN(timestamp)) {
+        return new Date(timestamp);
+      } else {
+        console.error('Incorrect format of the data (please use system format from the API)', strDate);
+      }
+    }
+
     toEuropeFormat(strDate: string): string {
         let res = '';
         if (strDate) {
-            const d = new Date(strDate);
+            const d = this.getDate(strDate);
             const parsed = this.parseDateAsFormattedString(d);
             res = `${parsed.day}.${parsed.month}.${parsed.year}`;
         }
@@ -22,7 +31,7 @@ export class DateHelper {
         let res = '';
         if (strDate) {
             res = this.toEuropeFormat(strDate);
-            const d = new Date(strDate);
+            const d = this.getDate(strDate);
             const t = this.getTime(d);
             res = `${res} ${t}`;
         }
@@ -60,9 +69,10 @@ export class DateHelper {
             res = `${res} ${time}`;
         }
 
-        if (res.indexOf('NaN') !== -1) {
-            res = '';
-        }
+      if (res.indexOf('NaN') !== -1) {
+        res = '';
+        console.error('Incorrect Date format, needs to be checked', d);
+      }
 
         return res;
     }

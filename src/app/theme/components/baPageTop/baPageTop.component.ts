@@ -3,7 +3,7 @@ import { Component } from '@angular/core';
 import { GlobalState } from '../../../global.state';
 import { AuthenticationService } from '../../../components/auth/authentication.service';
 import { LocalStorageHelper } from '../../../helpers/local.storage.helper';
-import {layoutPaths} from "../../index";
+import { layoutPaths } from '../../index';
 
 @Component({
   selector: 'ba-page-top',
