@@ -64,7 +64,7 @@ export class CitySelectComponent extends LoadableComponent implements OnInit {
   filterCities (event): void {
     this.filteredCities = [];
     for (const city of this.cities) {
-      if (city.title.toLowerCase().indexOf(event.query.toLowerCase()) === 0) {
+      if (city.title.toLowerCase().indexOf(event.query.toLowerCase()) !== -1) {
         this.filteredCities.push(city);
       }
     }
