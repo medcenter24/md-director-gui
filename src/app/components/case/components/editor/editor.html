@@ -458,6 +458,15 @@
         </div>
     </div>
 
+    <div class="row">
+        <div class="col-lg-9">
+            <nga-accident-activity
+                    *ngIf="accident && accident.id"
+                    [accident]="accident"
+            ></nga-accident-activity>
+        </div>
+    </div>
+
     <iframe id="printf" name="printf" style="display: none;"></iframe>
 </div>
 

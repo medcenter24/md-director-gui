@@ -1,0 +1,26 @@
+<div class="case-activity">
+    <h4 translate>Activity</h4>
+
+    <div class="row tab-menu" *ngIf="selectedTab">
+        <ul class="list">
+            <li class="item" translate *ngFor="let tab of tabs" [ngClass]="tab.id === selectedTab.id ? 'active' : ''"
+                (click)="selectTab(tab)">{{ tab.name }}</li>
+        </ul>
+    </div>
+
+    <div class="row">
+        <div class="col-11 m-auto">
+            <div *ngIf="selectedTab && selectedTab.name === 'Comments'">
+                <nga-accident-chat
+                        [accident]="accident"
+                ></nga-accident-chat>
+            </div>
+
+            <div class="row" *ngIf="selectedTab && selectedTab.name === 'History'">
+                <nga-accident-history
+                        [accident]="accident"
+                ></nga-accident-history>
+            </div>
+        </div>
+    </div>
+</div>
