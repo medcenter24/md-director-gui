@@ -83,9 +83,9 @@ export class SelectPatientComponent extends LoadableComponent implements OnInit 
   filterPatients (event): void {
     this.filteredPatients = [];
     for (const patient of this.patients) {
-      if (patient.name && patient.name.toLowerCase().indexOf(event.query.toLowerCase()) === 0) {
+      if (patient.name && patient.name.toLowerCase().indexOf(event.query.toLowerCase()) !== -1) {
         this.filteredPatients.push(patient);
-      } else if (patient.phones && patient.phones.toLowerCase().indexOf(event.query.toLowerCase()) === 0) {
+      } else if (patient.phones && patient.phones.toLowerCase().indexOf(event.query.toLowerCase()) !== -1) {
         this.filteredPatients.push(patient);
       }
     }
