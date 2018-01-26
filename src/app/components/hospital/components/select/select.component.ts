@@ -45,7 +45,7 @@ export class HospitalSelectComponent extends LoadableComponent implements OnInit
   filterHospitals (event): void {
     this.filteredHospitals = [];
     for (const hospital of this.hospitals) {
-      if (hospital.title.toLowerCase().indexOf(event.query.toLowerCase()) === 0) {
+      if (hospital.title.toLowerCase().indexOf(event.query.toLowerCase()) !== -1) {
         this.filteredHospitals.push(hospital);
       }
     }
