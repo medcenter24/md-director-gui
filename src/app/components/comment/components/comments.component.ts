@@ -4,7 +4,7 @@
  * @author Zagovorychev Olexandr <zagovorichev@gmail.com>
  */
 
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { LoadableComponent } from '../../core/components/componentLoader/LoadableComponent';
 import { Commentary } from '../commentary';
 import { layoutPaths } from '../../../theme';
@@ -14,7 +14,7 @@ import { DateHelper } from '../../../helpers/date.helper';
   selector: 'nga-commentaries-component',
   templateUrl: './comments.html',
 })
-export class CommentsComponent extends LoadableComponent implements OnInit {
+export class CommentsComponent extends LoadableComponent {
 
   protected componentName: string = 'CommentsComponent';
 
@@ -30,19 +30,13 @@ export class CommentsComponent extends LoadableComponent implements OnInit {
     this.noPhoto = `${layoutPaths.images.profile}no-photo.png`;
   }
 
-  ngOnInit() {
-    this.comments.map((row) => {
-      row.created_at = this.dateHelper.toEuropeFormatWithTime(row.created_at);
-      return row;
-    });
-  }
-
   addComment() {
     this.message.emit(this.text);
     this.text = '';
   }
 
   applyComment(comment: Commentary) {
+    comment.created_at = this.dateHelper.toEuropeFormatWithTime(comment.created_at);
     this.comments.push(comment);
   }
 }
