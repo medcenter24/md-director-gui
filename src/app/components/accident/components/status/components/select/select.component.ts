@@ -49,7 +49,7 @@ export class AccidentStatusSelectComponent extends LoadableComponent implements 
   filterStatuses(event): void {
     this.filteredStatuses = [];
     for (const status of this.statuses) {
-      if (status.title.toLowerCase().indexOf(event.query.toLowerCase()) === 0) {
+      if (status.title.toLowerCase().indexOf(event.query.toLowerCase()) !== -1) {
         this.filteredStatuses.push(status);
       }
     }

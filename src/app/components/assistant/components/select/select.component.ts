@@ -49,7 +49,7 @@ export class AssistantSelectComponent extends LoadableComponent implements OnIni
   filterAssistants (event): void {
     this.filteredAssistants = [];
     for (const assistant of this.assistants) {
-      if (assistant.title.toLowerCase().indexOf(event.query.toLowerCase()) === 0) {
+      if (assistant.title.toLowerCase().indexOf(event.query.toLowerCase()) !== -1) {
         this.filteredAssistants.push(assistant);
       }
     }
