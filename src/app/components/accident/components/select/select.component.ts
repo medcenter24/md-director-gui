@@ -50,7 +50,7 @@ export class SelectAccidentComponent extends LoadableComponent implements OnInit
   filterAccidents (event): void {
     this.filteredAccidents = [];
     for (const accident of this.accidents) {
-      if (accident.title.toLowerCase().indexOf(event.query.toLowerCase()) === 0) {
+      if (accident.title.toLowerCase().indexOf(event.query.toLowerCase()) !== -1) {
         this.filteredAccidents.push(accident);
       }
     }
