@@ -12,5 +12,6 @@ export class Commentary {
     public user_thumb: string = '',
     public body: string = '',
     public created_at: string = '',
+    public formattedDate: string = '',
   ) {}
 }

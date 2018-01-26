@@ -10,6 +10,7 @@ import { Accident } from '../../accident';
 import { CasesService } from '../../../case/cases.service';
 import { Commentary } from '../../../comment/commentary';
 import { CommentsComponent } from '../../../comment/components/comments.component';
+import { DateHelper } from '../../../../helpers/date.helper';
 
 @Component({
   selector: 'nga-accident-chat',
@@ -26,7 +27,7 @@ export class AccidentChatComponent extends LoadableComponent implements OnInit {
 
   comments: Commentary[] = [];
 
-  constructor(private caseService: CasesService) {
+  constructor(private caseService: CasesService, private dateHelper: DateHelper) {
     super();
   }
 
@@ -34,6 +35,10 @@ export class AccidentChatComponent extends LoadableComponent implements OnInit {
     this.initComponent();
     this.caseService.getCommentaries(this.accident).then(response => {
       this.loadedComponent();
+      response.map((row) => {
+        row.created_at = this.dateHelper.toEuropeFormatWithTime(row.created_at);
+        return row;
+      });
       this.comments = response;
     }).catch(() => this.loadedComponent());
   }
