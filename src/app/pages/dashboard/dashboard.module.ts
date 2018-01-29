@@ -18,7 +18,6 @@ import { PieChartService } from './pieChart/pieChart.service';
 import { TodoService } from './todo/todo.service';
 import { TrafficChartService } from './trafficChart/trafficChart.service';
 import { AppTranslationModule } from '../../app.translation.module';
-import { CalendarModule } from 'angular-calendar';
 
 @NgModule({
   imports: [
@@ -27,7 +26,6 @@ import { CalendarModule } from 'angular-calendar';
     NgaModule,
     routing,
     AppTranslationModule,
-    CalendarModule.forRoot(),
   ],
   declarations: [
     PopularApp,
