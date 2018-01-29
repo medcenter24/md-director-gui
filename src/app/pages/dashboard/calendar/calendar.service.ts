@@ -10,16 +10,29 @@ export class CalendarService {
   getData() {
     const dashboardColors = this._baConfig.get().colors.dashboard;
     return {
+      buttonIcons: {
+        prev: 'left-single-arrow',
+        next: 'right-single-arrow',
+        prevYear: 'left-double-arrow',
+        nextYear: 'right-double-arrow',
+      },
+      buttonText: {
+        today: 'Today',
+        month: 'Month',
+        week: 'Week',
+        day: 'Day',
+      },
       header: {
-        left: 'prev,next currentDate',
+        left: 'prevYear,prev,next,nextYear today',
         center: 'title',
         right: 'month,agendaWeek,agendaDay',
       },
+      locale: 'ru',
       defaultDate: '2016-03-08',
       selectable: true,
       selectHelper: true,
-      editable: true,
-      eventLimit: true,
+      editable: false,
+      eventLimit: false,
       events: [
         {
           title: 'All Day Event',
