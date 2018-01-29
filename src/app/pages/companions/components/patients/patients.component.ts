@@ -27,7 +27,6 @@ export class PatientsComponent implements OnInit {
     titleForDeletion: string = '';
     deleteProcess: boolean = false;
     errorMessage: string = '';
-    errorResponse: Response = null;
 
     settings = {
         actions: null,

@@ -8,7 +8,6 @@ import { BaThemeConfig } from './theme.config';
 import { BaThemeConfigProvider } from './theme.configProvider';
 
 import {
-  BaAmChart,
   BaBackTop,
   BaCard,
   BaChartistChart,
@@ -53,7 +52,6 @@ import {
 import { AuthenticationService } from '../components/auth/authentication.service';
 
 const NGA_COMPONENTS = [
-  BaAmChart,
   BaBackTop,
   BaCard,
   BaChartistChart,
