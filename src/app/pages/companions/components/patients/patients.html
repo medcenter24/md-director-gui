@@ -9,6 +9,13 @@
   <div class="row">
     <div class="col-sm-12">
       <ba-card baCardClass="with-scroll">
+        <p-paginator
+                *ngIf="pagination.show"
+                [rows]="pagination.rows"
+                [totalRecords]="pagination.total"
+                [rowsPerPageOptions]="pagination.rowsPerPage"
+                (onPageChange)="handlePageChanged($event)"
+        ></p-paginator>
         <ng2-smart-table
                 *ngIf="settings.columns"
                 [settings]="settings"

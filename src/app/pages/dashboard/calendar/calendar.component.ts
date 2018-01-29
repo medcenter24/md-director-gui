@@ -1,37 +1,32 @@
-import {Component} from '@angular/core';
-
-import {CalendarService} from './calendar.service';
-import 'style-loader!./calendar.scss';
+import { Component } from '@angular/core';
+import { CalendarService } from './calendar.service';
 
 @Component({
-  selector: 'calendar',
-  templateUrl: './calendar.html'
+  selector: 'nga-calendar',
+  templateUrl: './calendar.html',
+  styleUrls: ['./calendar.scss'],
 })
-export class Calendar {
+export class CalendarComponent {
 
-  public calendarConfiguration:any;
-  private _calendar:Object;
+  calendarConfiguration: any;
+  private _calendar: Object;
 
-  constructor(private _calendarService:CalendarService) {
+  constructor(private _calendarService: CalendarService) {
     this.calendarConfiguration = this._calendarService.getData();
     this.calendarConfiguration.select = (start, end) => this._onSelect(start, end);
   }
 
-  public onCalendarReady(calendar):void {
+  onCalendarReady(calendar): void {
     this._calendar = calendar;
   }
 
-  private _onSelect(start, end):void {
+  private _onSelect(start, end): void {
 
-    if (this._calendar != null) {
-      let title = prompt('Event Title:');
+    if (this._calendar !== null) {
+      const title = prompt('Event Title:');
       let eventData;
       if (title) {
-        eventData = {
-          title: title,
-          start: start,
-          end: end
-        };
+        eventData = { title, start, end };
         jQuery(this._calendar).fullCalendar('renderEvent', eventData, true);
       }
       jQuery(this._calendar).fullCalendar('unselect');
