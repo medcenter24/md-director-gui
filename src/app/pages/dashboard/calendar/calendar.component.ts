@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { CalendarService } from './calendar.service';
+import * as jQuery from 'jquery';
 
 @Component({
   selector: 'nga-calendar',
