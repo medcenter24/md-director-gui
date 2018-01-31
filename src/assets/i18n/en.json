@@ -1,4 +1,10 @@
 {
+  "Select Timezone": "Select Timezone",
+  "Timezone": "Timezone",
+  "Month": "Month",
+  "Week": "Week",
+  "Day": "Day",
+  "Today": "Today",
   "Calendar of visits": "Calendar of visits",
   "To Do List": "To Do List",
   "Feed": "Feed",
