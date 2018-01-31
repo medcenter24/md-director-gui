@@ -14,5 +14,6 @@ export class User {
         public lang: string = '',
         public thumb_200: string = '',
         public thumb_45: string = '',
+        public timezone: string = '',
     ) {}
 }
