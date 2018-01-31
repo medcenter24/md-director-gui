@@ -3,10 +3,10 @@ import 'fullcalendar/dist/fullcalendar.js';
 import * as jQuery from 'jquery';
 
 @Component({
-  selector: 'ba-full-calendar',
-  templateUrl: './baFullCalendar.html'
+  selector: 'nga-full-calendar',
+  templateUrl: './baFullCalendar.html',
 })
-export class BaFullCalendar implements AfterViewInit {
+export class BaFullCalendarComponent implements AfterViewInit {
 
   @Input() baFullCalendarConfiguration: Object;
   @Input() baFullCalendarClass: string;
