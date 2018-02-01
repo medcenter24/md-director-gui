@@ -18,6 +18,7 @@ import { PieChartService } from './pieChart/pieChart.service';
 import { TodoService } from './todo/todo.service';
 import { TrafficChartService } from './trafficChart/trafficChart.service';
 import { AppTranslationModule } from '../../app.translation.module';
+import { StatusColorMapService } from '../../components/accident/components/status/colormap.service';
 
 @NgModule({
   imports: [
@@ -42,6 +43,7 @@ import { AppTranslationModule } from '../../app.translation.module';
     PieChartService,
     TodoService,
     TrafficChartService,
+    StatusColorMapService,
   ],
 })
 export class DashboardModule {}

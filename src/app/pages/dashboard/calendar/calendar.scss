@@ -1,1 +1,18 @@
+@import '~fullcalendar/dist/fullcalendar.css';
 
+.ba-full-calendar {
+  .fc-day.fc-widget-content {
+    .calendar-day-statuses {
+      display: flex;
+      flex-flow: row wrap;
+      align-items: flex-start;
+      margin-top: 25px;
+      .fc-event-count {
+        padding: 3px;
+        margin-left: 5px;
+        border-radius: 3px;
+        margin-bottom: 5px;
+      }
+    }
+  }
+}

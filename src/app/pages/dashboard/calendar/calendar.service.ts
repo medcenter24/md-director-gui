@@ -13,6 +13,7 @@ export class CalendarService extends HttpService {
    * @returns {Promise<any>}
    */
   loadEvents(start, end): Promise<CalendarEvent[]> {
-    return this.get().then(response => response.json().data as CalendarEvent[]);
+    return this.get(null, `start=${start.format('YYYY-MM-DD')}&end=${end.format('YYYY-MM-DD')}`)
+      .then(response => response.json().data as CalendarEvent[]);
   }
 }
