@@ -6,7 +6,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 })
 export class BaCard {
   @Input() closeable: boolean = false;
-  @Input() title: String;
+  @Input() elTitle: String;
   @Input() baCardClass: String;
   @Input() cardType: String;
   @Output() close: EventEmitter<boolean> = new EventEmitter();
