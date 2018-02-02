@@ -175,4 +175,16 @@ export class ProfileComponent extends LoadingComponent implements OnInit {
       this.loadingBar.complete();
     });
   }
+
+  timezoneChanged(tz): void {
+    if (isObject(tz)) {
+      return;
+    }
+    this.loggedUser.timezone = tz;
+    this.loadingBar.start();
+    this.usersService.update(this.loggedUser)
+      .then(() => {
+        this.loadingBar.complete();
+      }).catch(() => this.loadingBar.complete());
+  }
 }
