@@ -4,7 +4,14 @@
  * @author Zagovorychev Olexandr <zagovorichev@gmail.com>
  */
 
+import { Injectable } from '@angular/core';
+import { BaThemeConfigProvider } from '../../../../theme';
+
+@Injectable()
 export class StatusColorMapService {
+
+  constructor (private _baConfig: BaThemeConfigProvider) {}
+
   getStatuses(): string[] {
     return [
       'new',
@@ -22,32 +29,32 @@ export class StatusColorMapService {
     let color;
     switch (status) {
       case 'new':
-        color = '#34495E';
+        color = this._baConfig.get().colors.success;
         break;
       case 'in_progress':
-        color = '#2980B9';
-        break;
-      case 'closed':
-        color = '#BDC3C7';
-        break;
-      case 'sended':
-        color = '#E67E22';
+        color = this._baConfig.get().colors.info;
         break;
       case 'assigned':
-        color = '#3498DB';
+        color = this._baConfig.get().colors.primary;
         break;
-      case 'paid':
-        color = '#D35400';
+      case 'sended':
+        color = this._baConfig.get().colors.dashboard.silverTree;
         break;
       case 'sent':
-        color = '#F39C12';
+        color = this._baConfig.get().colors.warning;
+        break;
+      case 'paid':
+        color = this._baConfig.get().colors.dashboard.gossip;
+        break;
+      case 'closed':
+        color = this._baConfig.get().colors.borderDark;
         break;
       case 'reject':
-        color = '#8E44AD';
+        color = this._baConfig.get().colors.danger;
         break;
       default:
         console.warn(`Undefined status ${status}`);
-        color = '#C0392B';
+        color = this._baConfig.get().colors.danger;
     }
 
     return color;

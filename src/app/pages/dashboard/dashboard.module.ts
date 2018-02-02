@@ -8,7 +8,7 @@ import { routing } from './dashboard.routing';
 
 import { PopularApp } from './popularApp';
 import { PieChart } from './pieChart';
-import { TrafficChart } from './trafficChart';
+import { TrafficChartComponent } from './trafficChart';
 import { Feed } from './feed';
 import { Todo } from './todo';
 import { CalendarComponent } from './calendar';
@@ -31,7 +31,7 @@ import { StatusColorMapService } from '../../components/accident/components/stat
   declarations: [
     PopularApp,
     PieChart,
-    TrafficChart,
+    TrafficChartComponent,
     Feed,
     Todo,
     CalendarComponent,
