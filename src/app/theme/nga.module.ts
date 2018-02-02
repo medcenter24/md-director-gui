@@ -8,13 +8,12 @@ import { BaThemeConfig } from './theme.config';
 import { BaThemeConfigProvider } from './theme.configProvider';
 
 import {
-  BaAmChart,
   BaBackTop,
   BaCard,
   BaChartistChart,
   BaCheckbox,
   BaContentTop,
-  BaFullCalendar,
+  BaFullCalendarComponent,
   BaMenuItem,
   BaMenu,
   BaMsgCenter,
@@ -53,13 +52,12 @@ import {
 import { AuthenticationService } from '../components/auth/authentication.service';
 
 const NGA_COMPONENTS = [
-  BaAmChart,
   BaBackTop,
   BaCard,
   BaChartistChart,
   BaCheckbox,
   BaContentTop,
-  BaFullCalendar,
+  BaFullCalendarComponent,
   BaMenuItem,
   BaMenu,
   BaMsgCenter,

@@ -1,0 +1,16 @@
+<!--
+  ~ Copyright (c) 2018.
+  ~
+  ~ @author Zagovorychev Olexandr <zagovorichev@gmail.com>
+  -->
+
+<p-autoComplete
+        *ngIf="timezones.length"
+        [(ngModel)]="timezone"
+        [suggestions]="filteredTimezones"
+        [dropdown]="true"
+        (completeMethod)="filterTimezones($event)"
+        (onSelect)="onChanged($event)"
+        placeholder="{{ 'Select Timezone' | translate}}"
+        appendTo="body"
+></p-autoComplete>
