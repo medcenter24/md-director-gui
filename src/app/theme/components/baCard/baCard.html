@@ -1,7 +1,7 @@
 <div baCardBlur class="animated fadeIn card {{cardType}} {{baCardClass || ''}}" zoom-in>
-    <div *ngIf="title" class="card-header clearfix">
+    <div *ngIf="elTitle" class="card-header clearfix">
         <h3 class="card-title">
-            {{ title | translate }}
+            {{ elTitle | translate }}
             <small *ngIf="closeable" class="pull-right"
                    (click)="closeCard()"
                    title="{{ 'Close' | translate }}">&times;</small>
