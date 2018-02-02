@@ -72,7 +72,7 @@ export abstract class HttpService {
    * @param id
    * @param params
    * @param body
-   * @returns {Promise<any|T>}
+   * @returns {Promise<any>}
    */
   protected get(id: string|number = null, params: string = '', body: any = null): Promise<any> {
     return this.http.get(this.getUrl(id), { headers: this.getAuthHeaders(), params, body })
