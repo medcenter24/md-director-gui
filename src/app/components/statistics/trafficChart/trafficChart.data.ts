@@ -6,8 +6,8 @@
 
 export class TrafficChartData {
   constructor (
-    public doctorId: number = 0,
-    public doctorName: string = '',
+    public id: number = 0,
+    public name: string = '',
     public casesCount: number = 0,
   ) {}
 }
