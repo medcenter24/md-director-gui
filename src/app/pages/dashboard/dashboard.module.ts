@@ -8,7 +8,6 @@ import { routing } from './dashboard.routing';
 
 import { PopularApp } from './popularApp';
 import { PieChart } from './pieChart';
-import { TrafficChartComponent } from './trafficChart';
 import { Feed } from './feed';
 import { Todo } from './todo';
 import { CalendarComponent } from './calendar';
@@ -16,9 +15,10 @@ import { CalendarService } from './calendar/calendar.service';
 import { FeedService } from './feed/feed.service';
 import { PieChartService } from './pieChart/pieChart.service';
 import { TodoService } from './todo/todo.service';
-import { TrafficChartService } from './trafficChart/trafficChart.service';
 import { AppTranslationModule } from '../../app.translation.module';
 import { StatusColorMapService } from '../../components/accident/components/status/colormap.service';
+import { TrafficChartComponent } from '../../components/statistics/trafficChart';
+import { StatisticsService } from '../../components/statistics/statistics.service';
 
 @NgModule({
   imports: [
@@ -42,8 +42,8 @@ import { StatusColorMapService } from '../../components/accident/components/stat
     FeedService,
     PieChartService,
     TodoService,
-    TrafficChartService,
     StatusColorMapService,
+    StatisticsService,
   ],
 })
 export class DashboardModule {}
