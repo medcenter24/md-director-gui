@@ -74,6 +74,7 @@ import { AccidentActivityComponent } from '../../components/accident/components/
 import { AccidentChatComponent } from '../../components/accident/components/chat/chat.component';
 import { AccidentHistoryComponent } from '../../components/accident/components/history/components/history.component';
 import { CommentsComponent } from '../../components/comment/components/comments.component';
+import { CaseEditorTabStopperService } from '../../components/case/components/editor/tabStopper.service';
 
 @NgModule({
   imports: [
@@ -159,6 +160,7 @@ import { CommentsComponent } from '../../components/comment/components/comments.
     AccidentScenarioService,
     ConfirmationService,
     DateHelper,
+    CaseEditorTabStopperService,
   ],
 })
 export class CasesModule {
