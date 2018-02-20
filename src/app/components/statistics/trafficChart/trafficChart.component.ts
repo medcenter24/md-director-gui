@@ -1,35 +1,40 @@
-import { AfterViewInit, Component } from '@angular/core';
+/*
+ * Copyright (c) 2018.
+ *
+ * @author Zagovorychev Olexandr <zagovorichev@gmail.com>
+ */
 
-import { TrafficChartService } from './trafficChart.service';
+import { Component, Input } from '@angular/core';
+
 import * as Chart from 'chart.js';
 
 import 'style-loader!./trafficChart.scss';
 import { TrafficChartData } from './trafficChart.data';
-import { BaThemeConfigProvider } from '../../../theme/theme.configProvider';
-import { colorHelper } from '../../../theme/theme.constants';
+import { BaThemeConfigProvider, colorHelper } from '../../../theme';
+import { LoadableComponent } from '../../core/components/componentLoader/LoadableComponent';
 
 @Component({
   selector: 'nga-traffic-chart',
   templateUrl: './trafficChart.html',
 })
 
-export class TrafficChartComponent implements AfterViewInit {
+export class TrafficChartComponent extends LoadableComponent {
+
+  protected componentName: string = 'TrafficChartComponent';
 
   doughnutData: Object[];
   total: number = 0;
 
-  constructor (
-    private trafficChartService: TrafficChartService,
-    private _baConfig: BaThemeConfigProvider,
-  ) {
+  @Input() prefix: string = '';
+  @Input() set setData(data: TrafficChartData[] ) {
+    this.doughnutData = this.transformTrafficChartData(data);
+    this._loadDoughnutCharts();
   }
 
-  ngAfterViewInit(): void {
-    this.trafficChartService.loadStatistic().then(
-      trafficData => {
-        this.doughnutData = this.transformTrafficChartData(trafficData);
-        this._loadDoughnutCharts();
-      });
+  constructor (
+    private _baConfig: BaThemeConfigProvider,
+  ) {
+    super();
   }
 
   private transformTrafficChartData(data: TrafficChartData[]): Object[] {
@@ -43,7 +48,7 @@ export class TrafficChartComponent implements AfterViewInit {
         value: row.casesCount,
         color: this.getColor(index),
         highlight: this.getColor(index, 15),
-        label: row.doctorName,
+        label: row.name,
         percentage: ((row.casesCount / this.total) * 100).toFixed(2),
         order: 1,
       });
@@ -77,11 +82,14 @@ export class TrafficChartComponent implements AfterViewInit {
   }
 
   private _loadDoughnutCharts (): void {
-    const el = jQuery('.chart-area').get(0) as HTMLCanvasElement;
-    new Chart(el.getContext('2d')).Doughnut(this.doughnutData, {
-      segmentShowStroke: false,
-      percentageInnerCutout: 64,
-      responsive: true,
-    });
+    const $el = jQuery(`.chart-area_${this.prefix}`);
+    if ($el.length) {
+      const el = $el.get(0) as HTMLCanvasElement;
+      new Chart(el.getContext('2d')).Doughnut(this.doughnutData, {
+        segmentShowStroke: false,
+        percentageInnerCutout: 64,
+        responsive: true,
+      });
+    }
   }
 }
