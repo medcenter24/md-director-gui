@@ -33,6 +33,7 @@ import { LoadingComponent } from '../../../core/components/componentLoader/Loadi
 import { Patient } from '../../../patient/patient';
 import { PatientSelectorComponent } from '../../../patient/components/selector/selector.component';
 import { PatientsService } from '../../../patient/patients.service';
+import { CaseEditorTabStopperService } from './tabStopper.service';
 
 @Component({
   selector: 'nga-case-editor',
@@ -103,6 +104,7 @@ export class CaseEditorComponent extends LoadingComponent implements OnInit {
                private router: Router,
                private dateHelper: DateHelper,
                private patientService: PatientsService,
+               private tabStopper: CaseEditorTabStopperService,
   ) {
     super();
   }
@@ -174,11 +176,12 @@ export class CaseEditorComponent extends LoadingComponent implements OnInit {
   }
 
   protected onComponentsLoadingCompleted(): void {
-      if (this.accident.id) {
-          this.setFixedIncome(this.isIncomeFixed());
-          this.totalIncome = this.accident.income;
-          this.recalculatePrice();
-      }
+    this.tabStopper.init();
+    if (this.accident.id) {
+        this.setFixedIncome(this.isIncomeFixed());
+        this.totalIncome = this.accident.income;
+        this.recalculatePrice();
+    }
   }
 
   onSave(): void {
