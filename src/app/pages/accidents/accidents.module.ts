@@ -11,17 +11,28 @@ import { NgaModule } from '../../theme/nga.module';
 import { Ng2SmartTableModule } from 'ng2-smart-table';
 import { routing } from './accidents.routing';
 import { AccidentCheckpointsComponent } from './components/checkpoints/checkpoints.component';
-import { AccidentTypesComponent } from './components/types/types.component';
 import { AccidentsService } from '../../components/accident/accidents.service';
 import { AccidentTypesService } from '../../components/accident/components/type/types.service';
 import { Ng2Bs3ModalModule } from 'ng2-bs3-modal/ng2-bs3-modal';
 import { AccidentCheckpointsService } from '../../components/accident/components/checkpoint/checkpoints.service';
 import { AccidentStatusesService } from '../../components/accident/components/status/statuses.service';
-import { AccidentStatusesComponent } from './components/statuses/statuses.component';
 import { AccidentsComponent } from './accidents.component';
 import { AppTranslationModule } from '../../app.translation.module';
 import { DiscountService } from '../../components/discount/discount.service';
-import { AccidentDiscountsComponent } from './components/discounts/discounts.component';
+import { AccidentFinanceComponent } from './components/finance/finance.component';
+import { AutoCompleteModule, MultiSelectModule } from 'primeng/primeng';
+import { AssistantsService } from '../../components/assistant/assistant.service';
+import { DoctorsService } from '../../components/doctors/doctors.service';
+import { CitiesService } from '../../components/city/cities.service';
+import { CasesService } from '../../components/case/cases.service';
+import { ServicesService } from '../../components/service/services.service';
+import { CitiesModule } from '../../components/city/cities.module';
+import { AssistantModule } from '../../components/assistant/assistant.module';
+import { DoctorModule } from '../../components/doctors/doctor.module';
+import { ServiceModule } from '../../components/service/service.module';
+import { NumbersHelper } from '../../helpers/numbers.helper';
+import { FinanceModule } from '../../components/finance/finance.module';
+import { DatePeriodModule } from '../../components/datePeriod/datePeriod.module';
 
 @NgModule({
   imports: [
@@ -32,13 +43,19 @@ import { AccidentDiscountsComponent } from './components/discounts/discounts.com
     Ng2SmartTableModule,
     Ng2Bs3ModalModule,
     AppTranslationModule,
+    AutoCompleteModule,
+    MultiSelectModule,
+    CitiesModule,
+    AssistantModule,
+    DoctorModule,
+    ServiceModule,
+    FinanceModule,
+    DatePeriodModule,
   ],
   declarations: [
     AccidentsComponent,
-    AccidentStatusesComponent,
     AccidentCheckpointsComponent,
-    AccidentTypesComponent,
-    AccidentDiscountsComponent,
+    AccidentFinanceComponent,
   ],
   providers: [
     AccidentStatusesService,
@@ -46,6 +63,12 @@ import { AccidentDiscountsComponent } from './components/discounts/discounts.com
     AccidentTypesService,
     AccidentsService,
     DiscountService,
+    AssistantsService,
+    DoctorsService,
+    CitiesService,
+    CasesService,
+    ServicesService,
+    NumbersHelper,
   ],
 })
 export class AccidentsModule {
