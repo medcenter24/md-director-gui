@@ -8,7 +8,7 @@ import { Component, ViewChild, OnInit, ElementRef } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Accident } from '../../../accident/accident';
 import { AccidentsService } from '../../../accident/accidents.service';
-import { Message, ToggleButton } from 'primeng/primeng';
+import { Message } from 'primeng/primeng';
 import { SlimLoadingBarService } from 'ng2-slim-loading-bar';
 import { TranslateService } from '@ngx-translate/core';
 import { AccidentType } from '../../../accident/components/type/type';
@@ -34,6 +34,8 @@ import { Patient } from '../../../patient/patient';
 import { PatientSelectorComponent } from '../../../patient/components/selector/selector.component';
 import { PatientsService } from '../../../patient/patients.service';
 import { CaseEditorTabStopperService } from './tabStopper.service';
+import { CaseFinanceComponent } from '../finance/finance.component';
+import { Assistant } from '../../../assistant/assistant';
 
 @Component({
   selector: 'nga-case-editor',
@@ -48,9 +50,6 @@ export class CaseEditorComponent extends LoadingComponent implements OnInit {
   @ViewChild('scenario')
     private scenarioComponent: AccidentScenarioComponent;
 
-  @ViewChild('incomeAutoupdate')
-    private incomeAutoupdate: ToggleButton;
-
   @ViewChild('editPatientForm')
     private editPatientForm: PatientEditorComponent;
 
@@ -59,6 +58,9 @@ export class CaseEditorComponent extends LoadingComponent implements OnInit {
 
   @ViewChild('previewContainer')
     previewContainer: ElementRef;
+
+  @ViewChild('caseFinance')
+    private caseFinance: CaseFinanceComponent;
 
   msgs: Message[] = [];
   accident: Accident;
@@ -72,14 +74,11 @@ export class CaseEditorComponent extends LoadingComponent implements OnInit {
   surveys: Survey[] = [];
   documents: Document[] = [];
   checkpoints: number[] = []; // ids of checkpoints
-  totalAmount: number = 0;
-  totalIncome: number = 0;
   handlingTime: string = '';
   createdTime: string = '';
   updatedTime: string = '';
   deletedTime: string = '';
   closedTime: string = '';
-  totalIncomeFormula: string = '';
   // for a while until the hospital cases implementation
   onlyDoctorAccident: boolean = true;
   patientEditFormDisplay: boolean = false;
@@ -110,9 +109,6 @@ export class CaseEditorComponent extends LoadingComponent implements OnInit {
   }
 
   ngOnInit () {
-    this.translate.get('Without discount').subscribe(res => {
-      this.totalIncomeFormula = res;
-    });
     this.accident = new Accident();
     this.discountType = new Discount();
 
@@ -151,7 +147,6 @@ export class CaseEditorComponent extends LoadingComponent implements OnInit {
               this.closedTime = this.dateHelper.toEuropeFormatWithTime(this.accident.closed_at);
             }
             this.loadCaseable();
-            this.recalculatePrice();
             this.loadDocuments();
             this.loadCheckpoints();
             this.loadPatient();
@@ -177,11 +172,14 @@ export class CaseEditorComponent extends LoadingComponent implements OnInit {
 
   protected onComponentsLoadingCompleted(): void {
     this.tabStopper.init();
+    /*
     if (this.accident.id) {
+      this.caseFinance.setFixedIncome();
+      this.caseFinance.recalculate();
         this.setFixedIncome(this.isIncomeFixed());
         this.totalIncome = this.accident.income;
         this.recalculatePrice();
-    }
+    }*/
   }
 
   onSave(): void {
@@ -195,7 +193,6 @@ export class CaseEditorComponent extends LoadingComponent implements OnInit {
       ? this.dateHelper.getUnixDateWithTime(this.dateHelper.parseDateFromFormat(this.appliedTime))
       : '';
 
-    this.accident.income = this.totalIncome;
     const data = {
       accident: this.accident,
       doctorAccident: this.doctorAccident,
@@ -332,8 +329,8 @@ export class CaseEditorComponent extends LoadingComponent implements OnInit {
     this.accident.accident_type_id = accidentType.id;
   }
 
-  onAssistantChanged(assistantId): void {
-    this.accident.assistant_id = assistantId;
+  onAssistantChanged(assistant: Assistant): void {
+    this.accident.assistant_id = assistant.id;
   }
 
   onAccidentSelected(accident: Accident): void {
@@ -350,37 +347,6 @@ export class CaseEditorComponent extends LoadingComponent implements OnInit {
     this.accident.ref_num = event.target.value;
   }
 
-  onIncomeAutoupdateChanged(event): void {
-    this.setFixedIncome(!event.checked);
-    this.recalculatePrice();
-  }
-
-  onDoctorFeeChanged(event): void {
-    this.accident.caseable_cost = this.getFixedFloat(event.target.value);
-    this.recalculatePrice();
-  }
-
-  onTotalIncomeChanged(event): void {
-    this.totalIncome = this.getFixedFloat(event.target.value);
-    this.setFixedIncome(true);
-    this.recalculatePrice();
-  }
-
-  private getFixedFloat(num): number {
-    num = num ? num.replace( /^\D+/g, '') : 0;
-    if (!num) {
-      num = 0;
-    } else {
-      num = parseFloat(num.replace(',', '.'));
-    }
-    return Number(num) === num && num % 1 !== 0 ? num.toFixed(2) : num;
-  }
-
-  onServicesSelectorPriceChanged(servicesPrice: number): void {
-    this.totalAmount = +servicesPrice.toFixed(2);
-    this.recalculatePrice();
-  }
-
   onServicesChanged(services: Service[]): void {
     this.services = services;
   }
@@ -391,16 +357,6 @@ export class CaseEditorComponent extends LoadingComponent implements OnInit {
 
   onSurveysChanged(surveys: Survey[]): void {
     this.surveys = surveys;
-  }
-
-  onDiscountTypeSelected(discountType: Discount): void {
-    this.discountType = discountType;
-    this.recalculatePrice();
-  }
-
-  onDiscountValueChanged(): void {
-    this.discountValue = +this.discountValue.toFixed(2);
-    this.recalculatePrice();
   }
 
   onDoctorChanged(doc): void {
@@ -423,6 +379,12 @@ export class CaseEditorComponent extends LoadingComponent implements OnInit {
     this.checkpoints = checkpoints;
   }
 
+  onServicesSelectorPriceChanged(servicesPrice: number): void {
+    console.debug('changed price');
+    /*this.totalAmount = +servicesPrice.toFixed(2);
+    this.recalculatePrice();*/
+  }
+
   private defineDoctorByCity(cityId: number): void {
     this.loadingBar.start();
     this.doctorService.getDoctorsByCity(cityId).then((doctors: Doctor[]) => {
@@ -431,47 +393,6 @@ export class CaseEditorComponent extends LoadingComponent implements OnInit {
       }
       this.loadingBar.complete();
     });
-  }
-
-  private setFixedIncome(val: boolean): void {
-    this.accident.fixed_income = val ? 1 : 0;
-    this.incomeAutoupdate.checked = !val;
-  }
-
-  private isIncomeFixed(): boolean {
-    return +this.accident.fixed_income !== 0;
-  }
-
-  private recalculatePrice(): void {
-    // do nothing if everything is fixed
-    if (this.isIncomeFixed()) {
-      this.totalIncomeFormula = this.translate.instant('Income is fixed allowed changes by hand');
-      return;
-    }
-
-    this.totalIncome = 0;
-    if (this.totalAmount && this.discountType && this.discountValue) {
-      if (this.discountType.operation === '%') {
-        // *
-        this.totalIncome = this.totalAmount - this.discountValue * this.totalAmount / 100 - this.accident.caseable_cost;
-        this.totalIncomeFormula = `${this.totalAmount} - ${this.discountValue} * ${this.totalAmount}
-          / 100 - ${this.accident.caseable_cost}`;
-      } else if (this.discountType.operation === 'EUR') {
-        // -
-        this.totalIncome = this.totalAmount - this.discountValue - this.accident.caseable_cost;
-        this.totalIncomeFormula = `${this.totalAmount} - ${this.discountValue} - ${this.accident.caseable_cost}`;
-      } else {
-        this._logger.warn(`Undefined discount type: ${this.discountType.operation}`);
-        this.totalIncome = this.totalAmount;
-        this.totalIncomeFormula = this.translate.instant('Without discount');
-      }
-    } else {
-      this.totalIncome = this.totalAmount - this.accident.caseable_cost;
-      this.totalIncomeFormula = `this.totalAmount - ${this.accident.caseable_cost}`;
-    }
-
-    this.totalIncome = +this.totalIncome.toFixed(2);
-    this.totalAmount = +this.totalAmount.toFixed(2);
   }
 
   private loadDocuments(): void {

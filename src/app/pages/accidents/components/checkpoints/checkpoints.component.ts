@@ -8,7 +8,6 @@ import { Component, ViewEncapsulation, ViewChild, OnInit } from '@angular/core';
 import { LocalDataSource } from 'ng2-smart-table';
 import { ModalComponent } from 'ng2-bs3-modal/components/modal';
 import { SlimLoadingBarService } from 'ng2-slim-loading-bar';
-import { Response } from '@angular/http';
 import { AccidentCheckpointsService } from '../../../../components/accident/components/checkpoint/checkpoints.service';
 import { AccidentCheckpoint } from '../../../../components/accident/components/checkpoint/checkpoint';
 import { TranslateService } from '@ngx-translate/core';
@@ -28,8 +27,6 @@ export class AccidentCheckpointsComponent implements OnInit {
     deleteDialogEvent: any = null;
     titleForDeletion: string = '';
     deleteProcess: boolean = false;
-    errorMessage: string = '';
-    errorResponse: Response = null;
 
     settings = {
         actions: null,
