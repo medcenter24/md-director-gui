@@ -31,7 +31,6 @@ export class DiagnosticsComponent implements OnInit {
     currentDiagnostic: Diagnostic;
     query: string = '';
     categoryId: number = 0;
-    errorMessage: string = '';
 
     settings = {
         actions: null,
@@ -89,7 +88,7 @@ export class DiagnosticsComponent implements OnInit {
                 title: this.translate.instant('Description'),
                 type: 'string',
             },
-            disease_code: {
+            diseaseCode: {
                 title: this.translate.instant('Disease Code'),
                 type: 'string',
             },

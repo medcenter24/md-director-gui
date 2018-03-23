@@ -68,26 +68,10 @@ export const PAGES_MENU = [
             },
           },
           {
-            path: 'statuses',
+            path: 'finance',
             data: {
               menu: {
-                title: 'Statuses',
-              },
-            },
-          },
-          {
-            path: 'types',
-            data: {
-              menu: {
-                title: 'Types',
-              },
-            },
-          },
-          {
-            path: 'discounts',
-            data: {
-              menu: {
-                title: 'Discounts',
+                title: 'Finance',
               },
             },
           },

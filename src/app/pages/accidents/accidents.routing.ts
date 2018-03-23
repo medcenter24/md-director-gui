@@ -6,12 +6,9 @@
 
 import { Routes, RouterModule } from '@angular/router';
 import { ModuleWithProviders } from '@angular/core';
-
 import { AccidentsComponent } from './accidents.component';
 import { AccidentCheckpointsComponent } from './components/checkpoints/checkpoints.component';
-import { AccidentStatusesComponent } from './components/statuses/statuses.component';
-import { AccidentTypesComponent } from './components/types/types.component';
-import { AccidentDiscountsComponent } from './components/discounts/discounts.component';
+import { AccidentFinanceComponent } from './components/finance/finance.component';
 
 // noinspection TypeScriptValidateTypes
 const routes: Routes = [
@@ -20,9 +17,7 @@ const routes: Routes = [
     component: AccidentsComponent,
     children: [
       { path: 'checkpoints', component: AccidentCheckpointsComponent },
-      { path: 'statuses', component: AccidentStatusesComponent },
-      { path: 'types', component: AccidentTypesComponent },
-      { path: 'discounts', component: AccidentDiscountsComponent },
+      { path: 'finance', component: AccidentFinanceComponent },
     ],
   },
 ];

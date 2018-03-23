@@ -50,7 +50,6 @@ export class DoctorServicesComponent implements OnInit {
     deleteDialogEvent: any = null;
     titleForDeletion: string = '';
     deleteProcess: boolean = false;
-    errorMessage: string = '';
 
     constructor(
         protected service: ServicesService,
@@ -81,9 +80,9 @@ export class DoctorServicesComponent implements OnInit {
                 title: this.translate.instant('Description'),
                 type: 'string',
             },
-            price: {
-                title: this.translate.instant('Price'),
-                type: 'decimal',
+            disease_code: {
+                title: this.translate.instant('Disease Code'),
+                type: 'string',
             },
         };
         this.settings.actions = {

@@ -18,7 +18,7 @@ export class AssistantSelectComponent extends LoadableComponent implements OnIni
 
   @Input() assistantId: number;
   @Input() required: boolean = false;
-  @Output() change: EventEmitter<number> = new EventEmitter<number>();
+  @Output() change: EventEmitter<Assistant> = new EventEmitter<Assistant>();
 
   isLoaded: boolean = false;
   assistant: Assistant;
@@ -56,6 +56,6 @@ export class AssistantSelectComponent extends LoadableComponent implements OnIni
   }
 
   onChanged(event): void {
-    this.change.emit(event.id);
+    this.change.emit(event);
   }
 }

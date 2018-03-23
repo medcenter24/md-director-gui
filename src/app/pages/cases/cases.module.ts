@@ -19,9 +19,6 @@ import { CasesService } from '../../components/case/cases.service';
 import { CaseEditorComponent } from '../../components/case/components/editor/editor.component';
 import { CasesListComponent } from '../../components/case/components/list/list.component';
 import { AccidentsService } from '../../components/accident/accidents.service';
-import { SelectServicesComponent } from '../../components/service/components/select/select.component';
-import { ServicesService } from '../../components/service/services.service';
-import { ServicesSelectorComponent } from '../../components/service/components/selector/selector.component';
 import { SelectAccidentTypeComponent } from '../../components/accident/components/type/select/select.component';
 import { AccidentTypesService } from '../../components/accident/components/type/types.service';
 import {
@@ -31,13 +28,10 @@ import {
   ConfirmDialogModule, ConfirmationService, StepsModule, MenuModule, ToggleButtonModule, InputMaskModule,
 } from 'primeng/primeng';
 import { AssistantsService } from '../../components/assistant/assistant.service';
-import { AssistantSelectComponent } from '../../components/assistant/components/select/select.component';
 import { AppTranslationModule } from '../../app.translation.module';
 import { SelectAccidentComponent } from '../../components/accident/components/select/select.component';
 import { AccidentCardComponent } from '../../components/accident/components/card/accidentCard.component';
 import { PatientsService } from '../../components/patient/patients.service';
-import { DoctorSelectComponent } from '../../components/doctors/select/select.component';
-import { DoctorsService } from '../../components/doctors/doctors.service';
 import { HospitalsService } from '../../components/hospital/hospitals.service';
 import { HospitalSelectComponent } from '../../components/hospital/components/select/select.component';
 import { SelectCaseTypeComponent } from '../../components/case/components/type/select.component';
@@ -75,6 +69,11 @@ import { AccidentChatComponent } from '../../components/accident/components/chat
 import { AccidentHistoryComponent } from '../../components/accident/components/history/components/history.component';
 import { CommentsComponent } from '../../components/comment/components/comments.component';
 import { CaseEditorTabStopperService } from '../../components/case/components/editor/tabStopper.service';
+import { CaseFinanceComponent } from '../../components/case/components/finance/finance.component';
+import { NumbersHelper } from '../../helpers/numbers.helper';
+import { AssistantModule } from '../../components/assistant/assistant.module';
+import { DoctorModule } from '../../components/doctors/doctor.module';
+import { ServiceModule } from '../../components/service/service.module';
 
 @NgModule({
   imports: [
@@ -106,19 +105,18 @@ import { CaseEditorTabStopperService } from '../../components/case/components/ed
     ConfirmDialogModule,
     ToggleButtonModule,
     InputMaskModule,
+    AssistantModule,
+    DoctorModule,
+    ServiceModule,
   ],
   declarations: [
     CasesComponent,
     CaseEditorComponent,
     CasesListComponent,
-    SelectServicesComponent,
-    ServicesSelectorComponent,
     SelectAccidentTypeComponent,
-    AssistantSelectComponent,
     SelectDiscountComponent,
     SelectAccidentComponent,
     AccidentCardComponent,
-    DoctorSelectComponent,
     HospitalSelectComponent,
     SelectCaseTypeComponent,
     FileUploaderComponent,
@@ -137,16 +135,15 @@ import { CaseEditorTabStopperService } from '../../components/case/components/ed
     AccidentChatComponent,
     AccidentHistoryComponent,
     CommentsComponent,
+    CaseFinanceComponent,
   ],
   providers: [
     CasesService,
     AccidentsService,
-    ServicesService,
     AccidentTypesService,
     AssistantsService,
     DiscountService,
     PatientsService,
-    DoctorsService,
     HospitalsService,
     DiagnosticService,
     SurveyService,
@@ -161,6 +158,7 @@ import { CaseEditorTabStopperService } from '../../components/case/components/ed
     ConfirmationService,
     DateHelper,
     CaseEditorTabStopperService,
+    NumbersHelper,
   ],
 })
 export class CasesModule {

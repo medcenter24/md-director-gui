@@ -1,0 +1,60 @@
+<div class="row">
+    <div class="col-sm-12 col-md-6 col-lg-3">
+        <label class="label separate" translate>Doctors fee</label>
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="well well-lg">
+                    <p-inplace closable="closable">
+                        <span class="h2" pInplaceDisplay>
+                            {{ accident.caseable_cost }}
+                        </span>
+                        <span pInplaceContent>
+                            <input type="text" value="{{ accident.caseable_cost }}"
+                                   (keydown)="onDoctorFeeChanged($event)"
+                                   (change)="onDoctorFeeChanged($event)"
+                                   pInputText>
+                        </span>
+                    </p-inplace>
+                    <div class="mt-2">{{ 'Paid to the doctor' | translate }}</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-12 col-md-6 col-lg-3 offset-lg-1">
+        <label translate class="label separate">Total Income</label>
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="well bg-success">
+                    <div class="row">
+                        <div class="col-sm-12 total-income">
+                            <p-inplace closable="closable">
+                                <span class="h2" pInplaceDisplay>
+                                    {{ totalIncome }}
+                                </span>
+                                <span pInplaceContent>
+                                    <input type="text" value="{{ totalIncome }}"
+                                           (change)="onTotalIncomeChanged($event)"
+                                           pInputText>
+                                </span>
+                            </p-inplace>
+                            <b class="pull-right badge badge-default"
+                               tooltipPosition="left"
+                               pTooltip="{{ 'Formula' | translate }}: {{ totalIncomeFormula }}">?</b>
+                        </div>
+                    </div>
+                    <div class="row mt-1">
+                        <div class="col-sm-12">
+                            <p-toggleButton
+                                    #incomeAutoupdate
+                                    onLabel="{{ 'Auto update' | translate }}"
+                                    offLabel="{{ 'Fixed amount' | translate }}"
+                                    onIcon="fa-check-square" offIcon="fa-square"
+                                    (onChange)="onIncomeAutoupdateChanged($event)"
+                            ></p-toggleButton>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
