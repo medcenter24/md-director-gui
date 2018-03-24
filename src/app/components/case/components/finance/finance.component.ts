@@ -36,9 +36,9 @@ export class CaseFinanceComponent extends LoadableComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.translate.get('Without discount').subscribe(res => {
+    /*this.translate.get('Without discount').subscribe(res => {
       this.totalIncomeFormula = res;
-    });
+    });*/
     this.recalculatePrice();
   }
 
@@ -64,35 +64,7 @@ export class CaseFinanceComponent extends LoadableComponent implements OnInit {
    * it doesn't have any sense to implement this on frontend, all calculations go to the backend
    */
   private recalculatePrice(): void {
-    // do nothing if everything is fixed
-/*    if (this.isIncomeFixed()) {
-      this.totalIncomeFormula = this.translate.instant('Income is fixed allowed changes by hand');
-      return;
-    }
-
-    this.totalIncome = 0;
-    if (this.totalAmount && this.discountType && this.discountValue) {
-      if (this.discountType.operation === '%') {
-        // *
-        this.totalIncome = this.totalAmount - this.discountValue * this.totalAmount / 100 - this.accident.caseable_cost;
-        this.totalIncomeFormula = `${this.totalAmount} - ${this.discountValue} * ${this.totalAmount}
-          / 100 - ${this.accident.caseable_cost}`;
-      } else if (this.discountType.operation === 'EUR') {
-        // -
-        this.totalIncome = this.totalAmount - this.discountValue - this.accident.caseable_cost;
-        this.totalIncomeFormula = `${this.totalAmount} - ${this.discountValue} - ${this.accident.caseable_cost}`;
-      } else {
-        this._logger.warn(`Undefined discount type: ${this.discountType.operation}`);
-        this.totalIncome = this.totalAmount;
-        this.totalIncomeFormula = this.translate.instant('Without discount');
-      }
-    } else {
-      this.totalIncome = this.totalAmount - this.accident.caseable_cost;
-      this.totalIncomeFormula = `this.totalAmount - ${this.accident.caseable_cost}`;
-    }
-
-    this.totalIncome = +this.totalIncome.toFixed(2);
-    this.totalAmount = +this.totalAmount.toFixed(2);*/
+    // all finance operations are managed by backend
   }
 
   onIncomeAutoupdateChanged(event): void {
