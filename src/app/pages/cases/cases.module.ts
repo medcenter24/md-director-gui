@@ -41,8 +41,6 @@ import { SelectDiagnosticsComponent } from '../../components/diagnostic/componen
 import { ImporterComponent } from '../../components/importer/importer.component';
 import { AuthenticationService } from '../../components/auth/authentication.service';
 import { ImporterService } from '../../components/importer/importer.service';
-import { SelectDiscountComponent } from '../../components/discount/components/select/select.component';
-import { DiscountService } from '../../components/discount/discount.service';
 import { FileUploaderComponent } from '../../components/upload/components/uploader/uploader.component';
 import { DocumentsService } from '../../components/document/documents.service';
 import { AccidentStatusSelectComponent } from
@@ -114,7 +112,6 @@ import { ServiceModule } from '../../components/service/service.module';
     CaseEditorComponent,
     CasesListComponent,
     SelectAccidentTypeComponent,
-    SelectDiscountComponent,
     SelectAccidentComponent,
     AccidentCardComponent,
     HospitalSelectComponent,
@@ -142,7 +139,6 @@ import { ServiceModule } from '../../components/service/service.module';
     AccidentsService,
     AccidentTypesService,
     AssistantsService,
-    DiscountService,
     PatientsService,
     HospitalsService,
     DiagnosticService,

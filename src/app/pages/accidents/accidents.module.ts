@@ -18,7 +18,6 @@ import { AccidentCheckpointsService } from '../../components/accident/components
 import { AccidentStatusesService } from '../../components/accident/components/status/statuses.service';
 import { AccidentsComponent } from './accidents.component';
 import { AppTranslationModule } from '../../app.translation.module';
-import { DiscountService } from '../../components/discount/discount.service';
 import { AccidentFinanceComponent } from './components/finance/finance.component';
 import { AutoCompleteModule, MultiSelectModule } from 'primeng/primeng';
 import { AssistantsService } from '../../components/assistant/assistant.service';
@@ -62,7 +61,6 @@ import { DatePeriodModule } from '../../components/datePeriod/datePeriod.module'
     AccidentCheckpointsService,
     AccidentTypesService,
     AccidentsService,
-    DiscountService,
     AssistantsService,
     DoctorsService,
     CitiesService,

@@ -18,7 +18,6 @@ import { SelectAccidentComponent } from '../../../accident/components/select/sel
 import { DoctorAccident } from '../../../doctorAccident/doctorAccident';
 import { HospitalAccident } from '../../../hospitalAccident/hospitalAccident';
 import { CasesService } from '../../cases.service';
-import { Discount } from '../../../discount/discount';
 import { Service } from '../../../service/service';
 import { Diagnostic } from '../../../diagnostic/diagnostic';
 import { Document } from '../../../document/document';
@@ -65,8 +64,6 @@ export class CaseEditorComponent extends LoadingComponent implements OnInit {
   msgs: Message[] = [];
   accident: Accident;
   appliedTime: string = '';
-  discountValue: number = 0;
-  discountType: Discount;
   doctorAccident: DoctorAccident;
   hospitalAccident: HospitalAccident;
   services: Service[] = [];
@@ -110,7 +107,6 @@ export class CaseEditorComponent extends LoadingComponent implements OnInit {
 
   ngOnInit () {
     this.accident = new Accident();
-    this.discountType = new Discount();
 
     // while configured only doctorAccidents
     // I need to define accident as a doctor
@@ -130,7 +126,6 @@ export class CaseEditorComponent extends LoadingComponent implements OnInit {
             this.stopLoader(this.componentName);
             this._state.notifyDataChanged('menu.activeLink', { title: 'Cases' });
             this.accident = accident ? accident : new Accident();
-            this.discountValue = +this.accident.discount_value;
             if (this.accident.handling_time && this.accident.handling_time.length) {
               this.handlingTime = this.dateHelper.toEuropeFormatWithTime(this.accident.handling_time);
             }
@@ -183,8 +178,6 @@ export class CaseEditorComponent extends LoadingComponent implements OnInit {
   }
 
   onSave(): void {
-    this.accident.discount_id = this.discountType.id;
-    this.accident.discount_value = +this.discountValue;
     this.accident.handling_time = this.handlingTime && this.handlingTime.length
       ? this.dateHelper.getUnixDateWithTime(this.dateHelper.parseDateFromFormat(this.handlingTime))
       : '';
