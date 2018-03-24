@@ -11,7 +11,7 @@ import { FinanceRule } from './financeRule';
 @Injectable()
 export class FinanceService extends HttpService {
   protected getPrefix (): string {
-    return 'finance';
+    return 'director/finance';
   }
 
   create(financeRule: FinanceRule): Promise<FinanceRule> {
