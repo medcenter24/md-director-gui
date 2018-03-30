@@ -12,25 +12,30 @@
         <div class="col-9 company-images-loader">
             <div class="pull-left offset-right10">
                 <label class="label separate" translate>Company Logo</label><br>
-                <ba-picture-uploader
+                <div
                         [picture]="pictureLogo"
                         [defaultPicture]="defaultCompanyLogo"
-                        [uploaderOptions]="uploaderLogoOptions"
+                        [options]="uploaderLogoOptions"
                         (onUpload)="startCompanyLogoUpload($event)"
                         (onUploadCompleted)="endCompanyLogoUpload($event)"
                         (onDelete)="deleteCompanyLogo()"
-                ></ba-picture-uploader>
+                        (uploadOutput)="onUploadOutput($event)"
+                        [uploadInput]="uploadInput"
+                        [ngClass]="{ 'is-drop-over': dragOver }"
+                        ngFileDrop
+                        class="drop-container"
+                ><h1>Drag &amp; Drop</h1></div>
             </div>
             <div class="pull-left">
                 <label class="label separate" translate>Company Signature</label><br>
-                <ba-picture-uploader
+                <div
                         [picture]="pictureSign"
                         [defaultPicture]="defaultCompanySign"
                         [uploaderOptions]="uploaderSignOptions"
                         (onUpload)="startCompanySignatureUpload($event)"
                         (onUploadCompleted)="endCompanySignatureUpload($event)"
                         (onDelete)="deleteSignature()"
-                ></ba-picture-uploader>
+                ><h1>Drag &amp; Drop</h1></div>
             </div>
         </div>
     </div>

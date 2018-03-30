@@ -15,7 +15,6 @@ import { CitiesComponent } from './components/cities/cities.component';
 import { HospitalsComponent } from './components/hospitals/hospitals.component';
 import { CitiesService } from '../../components/city/cities.service';
 import { HospitalsService } from '../../components/hospital/hospitals.service';
-import { Ng2Bs3ModalModule } from 'ng2-bs3-modal/ng2-bs3-modal';
 import { AppTranslationModule } from '../../app.translation.module';
 
 @NgModule({
@@ -26,7 +25,6 @@ import { AppTranslationModule } from '../../app.translation.module';
     NgaModule,
     routing,
     Ng2SmartTableModule,
-    Ng2Bs3ModalModule,
   ],
   declarations: [
     GeoComponent,

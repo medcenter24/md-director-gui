@@ -6,7 +6,6 @@
 
 import { Component, ViewEncapsulation, ViewChild, OnInit } from '@angular/core';
 import { LocalDataSource } from 'ng2-smart-table';
-import { ModalComponent } from 'ng2-bs3-modal/components/modal';
 import { CitiesService } from '../../../../components/city/cities.service';
 import { SlimLoadingBarService } from 'ng2-slim-loading-bar';
 import { TranslateService } from '@ngx-translate/core';
@@ -18,9 +17,6 @@ import * as _ from 'lodash';
     templateUrl: './cities.html',
 })
 export class CitiesComponent implements OnInit {
-
-    @ViewChild('deleteDialog')
-    private deleteDialog: ModalComponent;
 
     query: string = '';
 
@@ -50,7 +46,6 @@ export class CitiesComponent implements OnInit {
     deleteDialogEvent: any = null;
     titleForDeletion: string = '';
     deleteProcess: boolean = false;
-    errorMessage: string = '';
 
     constructor(protected service: CitiesService,
                 private loadingBar: SlimLoadingBarService,
@@ -87,6 +82,7 @@ export class CitiesComponent implements OnInit {
         };
         this.settings.noDataMessage = this.translate.instant('No data found');
     }
+/*
 
     onDeleteDialogOk(): void {
         this.deleteProcess = true;
@@ -109,11 +105,12 @@ export class CitiesComponent implements OnInit {
         this.deleteDialogEvent.confirm.reject();
         this.deleteDialogEvent = null;
     }
+*/
 
     onDeleteConfirm(event): void {
         this.deleteDialogEvent = event;
         this.titleForDeletion = event.data.title;
-        this.deleteDialog.open('sm');
+        // todo refactor this.deleteDialog.open('sm');
     }
 
     onTableSave(event): void {

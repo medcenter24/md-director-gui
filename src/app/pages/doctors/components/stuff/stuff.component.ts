@@ -6,7 +6,6 @@
 
 import { Component, ViewEncapsulation, ViewChild, OnInit } from '@angular/core';
 import { LocalDataSource } from 'ng2-smart-table';
-import { ModalComponent } from 'ng2-bs3-modal/components/modal';
 import { DoctorsService } from '../../../../components/doctors/doctors.service';
 import { DoctorEditorComponent } from '../../../../components/doctors/editor/editor.component';
 import { SlimLoadingBarService } from 'ng2-slim-loading-bar';
@@ -20,9 +19,6 @@ import { TranslateService } from '@ngx-translate/core';
     templateUrl: './stuff.html',
 })
 export class StuffComponent implements OnInit {
-
-    @ViewChild('deleteDialog')
-    private deleteDialog: ModalComponent;
 
     @ViewChild(DoctorEditorComponent)
     private doctorEditorComponent: DoctorEditorComponent;
@@ -76,7 +72,6 @@ export class StuffComponent implements OnInit {
     deleteDialogEvent: any = null;
     titleForDeletion: string = '';
     deleteProcess: boolean = false;
-    errorMessage: string = '';
 
     constructor(protected service: DoctorsService,
                 private loadingBar: SlimLoadingBarService,
@@ -156,8 +151,9 @@ export class StuffComponent implements OnInit {
     handleDeleteConfirm(event): void {
         this.deleteDialogEvent = event;
         this.titleForDeletion = event.data.name;
-        this.deleteDialog.open('sm');
+        // todo refactoring this.deleteDialog.open('sm');
     }
+/*
 
     clickDeleteDialogOk(): void {
         this.deleteProcess = true;
@@ -186,6 +182,7 @@ export class StuffComponent implements OnInit {
         }
         this.deleteDialogEvent = null;
     }
+*/
 
     closeDoctorEditor(): void {
         this.doctorEditorHidden = true;

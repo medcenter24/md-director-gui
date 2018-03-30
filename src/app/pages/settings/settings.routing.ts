@@ -6,18 +6,20 @@
 
 import { Routes, RouterModule } from '@angular/router';
 import { ModuleWithProviders } from '@angular/core';
-import { AccidentsComponent } from './accidents.component';
 import { AccidentCheckpointsComponent } from './components/checkpoints/checkpoints.component';
 import { AccidentFinanceComponent } from './components/finance/finance.component';
+import { SettingsComponent } from './settings.component';
+import { DatePeriodListComponent } from '../../components/datePeriod/components/list/datePeriodList.component';
 
 // noinspection TypeScriptValidateTypes
 const routes: Routes = [
   {
     path: '',
-    component: AccidentsComponent,
+    component: SettingsComponent,
     children: [
       { path: 'checkpoints', component: AccidentCheckpointsComponent },
       { path: 'finance', component: AccidentFinanceComponent },
+      { path: 'periods', component: DatePeriodListComponent },
     ],
   },
 ];

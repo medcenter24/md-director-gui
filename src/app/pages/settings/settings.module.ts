@@ -9,14 +9,13 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { NgaModule } from '../../theme/nga.module';
 import { Ng2SmartTableModule } from 'ng2-smart-table';
-import { routing } from './accidents.routing';
+import { routing } from './settings.routing';
 import { AccidentCheckpointsComponent } from './components/checkpoints/checkpoints.component';
 import { AccidentsService } from '../../components/accident/accidents.service';
 import { AccidentTypesService } from '../../components/accident/components/type/types.service';
-import { Ng2Bs3ModalModule } from 'ng2-bs3-modal/ng2-bs3-modal';
 import { AccidentCheckpointsService } from '../../components/accident/components/checkpoint/checkpoints.service';
 import { AccidentStatusesService } from '../../components/accident/components/status/statuses.service';
-import { AccidentsComponent } from './accidents.component';
+import { SettingsComponent } from './settings.component';
 import { AppTranslationModule } from '../../app.translation.module';
 import { AccidentFinanceComponent } from './components/finance/finance.component';
 import { AutoCompleteModule, MultiSelectModule } from 'primeng/primeng';
@@ -40,7 +39,6 @@ import { DatePeriodModule } from '../../components/datePeriod/datePeriod.module'
     NgaModule,
     routing,
     Ng2SmartTableModule,
-    Ng2Bs3ModalModule,
     AppTranslationModule,
     AutoCompleteModule,
     MultiSelectModule,
@@ -52,7 +50,7 @@ import { DatePeriodModule } from '../../components/datePeriod/datePeriod.module'
     DatePeriodModule,
   ],
   declarations: [
-    AccidentsComponent,
+    SettingsComponent,
     AccidentCheckpointsComponent,
     AccidentFinanceComponent,
   ],
@@ -69,5 +67,5 @@ import { DatePeriodModule } from '../../components/datePeriod/datePeriod.module'
     NumbersHelper,
   ],
 })
-export class AccidentsModule {
+export class SettingsModule {
 }

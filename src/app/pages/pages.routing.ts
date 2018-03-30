@@ -20,7 +20,7 @@ export const routes: Routes = [
     component: Pages,
     children: [
       { path: '', redirectTo: 'dashboard', pathMatch: 'full', canActivate: [AuthGuard] },
-      { path: 'accidents', loadChildren: 'app/pages/accidents/accidents.module#AccidentsModule',
+      { path: 'settings', loadChildren: 'app/pages/settings/settings.module#SettingsModule',
         canActivate: [AuthGuard] },
       { path: 'geo', loadChildren: 'app/pages/geo/geo.module#GeoModule', canActivate: [AuthGuard] },
       { path: 'doctors', loadChildren: 'app/pages/doctors/doctors.module#DoctorsModule', canActivate: [AuthGuard] },
