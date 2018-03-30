@@ -20,9 +20,15 @@
 
   <div class="channels-info">
     <div>
-      <div class="channels-info-item" *ngFor="let item of doughnutData">
+      <div class="channels-info-item" *ngFor="let item of infoData">
         <div class="legend-color" [ngStyle]="{'background-color': item.color }"></div>
-        <p>{{ item.label }} <small class="text-muted">{{ item.value }}</small><span class="channel-number">{{ item.percentage }}%</span></p>
+        <p>{{ item.label }}<br></p>
+        <div class="mt-1">
+          <small class="text-muted">{{ item.value }}</small>
+          <span class="channel-number">
+              {{ item.percentage }}%
+            </span>
+        </div>
         <div class="progress progress-sm channel-progress">
           <div class="progress-bar" role="progressbar"
                [attr.aria-valuenow]="item.percentage" aria-valuemin="0" aria-valuemax="100" [ngStyle]="{width: item.percentage + '%' }">

@@ -6,7 +6,6 @@
 
 import { Component, ViewEncapsulation, ViewChild, OnInit } from '@angular/core';
 import { LocalDataSource } from 'ng2-smart-table';
-import { ModalComponent } from 'ng2-bs3-modal/components/modal';
 import { ServicesService } from '../../../../components/service/services.service';
 import { SlimLoadingBarService } from 'ng2-slim-loading-bar';
 import { TranslateService } from '@ngx-translate/core';
@@ -17,9 +16,6 @@ import { TranslateService } from '@ngx-translate/core';
     templateUrl: './services.html',
 })
 export class DoctorServicesComponent implements OnInit {
-
-    @ViewChild('deleteDialog')
-    private deleteDialog: ModalComponent;
 
     query: string = '';
 
@@ -122,10 +118,10 @@ export class DoctorServicesComponent implements OnInit {
     onDeleteConfirm(event): void {
         this.deleteDialogEvent = event;
         this.titleForDeletion = event.data.title;
-        this.deleteDialog.open('sm');
+        // todo refactoring this.deleteDialog.open('sm');
     }
 
-    onDeleteDialogOk(): void {
+    /*onDeleteDialogOk(): void {
         this.deleteProcess = true;
         this.loadingBar.start();
         this.service.delete(this.deleteDialogEvent.data.id).then(() => {
@@ -147,5 +143,5 @@ export class DoctorServicesComponent implements OnInit {
             this.deleteDialogEvent.confirm.reject();
         }
         this.deleteDialogEvent = null;
-    }
+    }*/
 }

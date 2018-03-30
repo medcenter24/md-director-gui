@@ -16,20 +16,3 @@
     </div>
 
 </div>
-
-<modal #deleteDialog>
-    <modal-header [show-close]="true">
-        <h5 class="modal-title" translate>Confirmation</h5>
-    </modal-header>
-    <modal-body>
-        {{ 'Are you sure that you want to delete' | translate }} &laquo;<b>{{ titleForDeletion }}</b>&raquo;?
-    </modal-body>
-    <modal-footer>
-        <button type="button" class="btn btn-default" data-dismiss="modal"
-                (click)="onDeleteDialogCancel()" translate>Cancel
-        </button>
-        <button type="button" class="btn btn-primary" (click)="onDeleteDialogOk()" [disabled]="deleteProcess" translate>
-            Accept
-        </button>
-    </modal-footer>
-</modal>

@@ -51,19 +51,19 @@ export const PAGES_MENU = [
         }],
       },
       {
-        path: 'accidents',
+        path: 'settings',
         data: {
           menu: {
-            title: 'Accidents',
+            title: 'Settings',
             icon: 'fa fa-info-circle',
           },
         },
         children: [
           {
-            path: 'checkpoints',
+            path: 'periods',
             data: {
               menu: {
-                title: 'Checkpoints',
+                title: 'Date Periods',
               },
             },
           },
@@ -72,6 +72,14 @@ export const PAGES_MENU = [
             data: {
               menu: {
                 title: 'Finance',
+              },
+            },
+          },
+          {
+            path: 'checkpoints',
+            data: {
+              menu: {
+                title: 'Checkpoints',
               },
             },
           },

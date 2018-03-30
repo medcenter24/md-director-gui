@@ -13,7 +13,6 @@ import { routing } from './doctors.routing';
 import { DoctorsComponent } from './doctors.component';
 import { DoctorServicesComponent } from './components/services/services.component';
 import { StuffComponent } from './components/stuff/stuff.component';
-import { Ng2Bs3ModalModule } from 'ng2-bs3-modal/ng2-bs3-modal';
 import { DoctorsService } from '../../components/doctors/doctors.service';
 import { UserEditorComponent } from '../../components/users/editor/editor.component';
 import { UserSelectorComponent } from '../../components/users/selector/selector.component';
@@ -43,7 +42,6 @@ import { SurveyService } from '../../components/survey/survey.service';
     routing,
     AppTranslationModule,
     Ng2SmartTableModule,
-    Ng2Bs3ModalModule,
     AutoCompleteModule,
     ListboxModule,
     CitiesModule,

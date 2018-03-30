@@ -11,8 +11,6 @@ import { AppTranslationModule } from '../../app.translation.module';
 import { NgaModule } from '../../theme/nga.module';
 import { Ng2SmartTableModule } from 'ng2-smart-table';
 import { routing } from './companions.routing';
-import { Ng2Bs3ModalModule } from 'ng2-bs3-modal/ng2-bs3-modal';
-import { CompanionsComponent } from './companions.component';
 import { AssistantEditorComponent } from '../../components/assistant/components/editor/editor.component';
 import { AssistantsService } from '../../components/assistant/assistant.service';
 import { PatientsService } from '../../components/patient/patients.service';
@@ -28,10 +26,8 @@ import { DateHelper } from '../../helpers/date.helper';
     NgaModule,
     routing,
     Ng2SmartTableModule,
-    Ng2Bs3ModalModule,
   ],
   declarations: [
-    CompanionsComponent,
     AssistantsComponent,
     PatientsComponent,
     AssistantEditorComponent,

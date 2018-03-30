@@ -13,7 +13,6 @@ import { CasesComponent } from './cases.component';
 import { routing } from './cases.routing';
 
 import { Ng2SmartTableModule } from 'ng2-smart-table';
-import { Ng2Bs3ModalModule } from 'ng2-bs3-modal/ng2-bs3-modal';
 
 import { CasesService } from '../../components/case/cases.service';
 import { CaseEditorComponent } from '../../components/case/components/editor/editor.component';
@@ -84,7 +83,6 @@ import { ServiceModule } from '../../components/service/service.module';
     MultiSelectModule,
     AutoCompleteModule,
     SpinnerModule,
-    Ng2Bs3ModalModule,
     ButtonModule,
     TooltipModule,
     AppTranslationModule,

@@ -4,7 +4,7 @@
  * @author Alexander Zagovorichev <zagovorichev@gmail.com>
  */
 
-@import '~bourbon/app/assets/stylesheets/_bourbon'; // http://bourbon.io/
+@import '~bourbon/core/_bourbon'; // http://bourbon.io/
 
 @import './partials/variables'; // colors, fonts etc...
 
@@ -236,7 +236,7 @@ Triangle breadcrumb
 		li::after {
 			/* this is the white separator between two items */
 			z-index: 1;
-			@include transform(translateX(4px));
+			@include prefixer(transform, translateX(4px), webkit moz ms o spec);
 			border-left-color: $color-3;
 			/* reset style */
 			margin: 0;
@@ -363,7 +363,7 @@ Multi steps indicator
 			width: 100%;
 			top: 50%;
 			left: 100%;
-			@include transform(translateY(-50%) translateX(-1px));
+			@include prefixer(transform, translateY(-50%) translateX(-1px), webkit moz ms o spec);
 		}
 
 		li > * {

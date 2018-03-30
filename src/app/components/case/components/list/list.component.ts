@@ -6,7 +6,6 @@
 
 import { Component, ViewEncapsulation, ViewChild, OnInit } from '@angular/core';
 import { LocalDataSource } from 'ng2-smart-table';
-import { ModalComponent } from 'ng2-bs3-modal/components/modal';
 import { Router } from '@angular/router';
 import { CasesService } from '../../cases.service';
 import { CaseAccident } from '../../case';
@@ -25,19 +24,14 @@ import { DateHelper } from '../../../../helpers/date.helper';
 })
 export class CasesListComponent implements OnInit {
 
-    @ViewChild('errorDialog')
-    errorDialog: ModalComponent;
-
     @ViewChild('importer')
     importer: ImporterComponent;
 
     query: string = '';
     pagination: Pagination = new Pagination();
 
-    deleteDialogEvent: any = null;
     titleForDeletion: string = '';
     deleteProcess: boolean = false;
-    errorMessage: string = '';
 
     settings = {
         pager: {
