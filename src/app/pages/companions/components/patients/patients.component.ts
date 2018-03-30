@@ -6,8 +6,6 @@
 
 import { Component, ViewEncapsulation, ViewChild, OnInit } from '@angular/core';
 import { LocalDataSource } from 'ng2-smart-table';
-import { ModalComponent } from 'ng2-bs3-modal/components/modal';
-import { Response } from '@angular/http';
 import { PatientsService } from '../../../../components/patient/patients.service';
 import { SlimLoadingBarService } from 'ng2-slim-loading-bar';
 import { Patient } from '../../../../components/patient/patient';
@@ -26,7 +24,6 @@ export class PatientsComponent implements OnInit {
     deleteDialogEvent: any = null;
     titleForDeletion: string = '';
     deleteProcess: boolean = false;
-    errorMessage: string = '';
 
     settings = {
         actions: null,
@@ -51,9 +48,6 @@ export class PatientsComponent implements OnInit {
     };
 
     source: LocalDataSource = new LocalDataSource();
-
-    @ViewChild('deleteDialog')
-    private deleteDialog: ModalComponent;
 
     constructor(protected service: PatientsService,
                 private loadingBar: SlimLoadingBarService,
@@ -124,7 +118,7 @@ export class PatientsComponent implements OnInit {
         };
         this.settings.noDataMessage = this.translate.instant('No data found');
     }
-
+/*
     onDeleteDialogOk(): void {
         this.deleteProcess = true;
         this.loadingBar.start();
@@ -145,12 +139,12 @@ export class PatientsComponent implements OnInit {
     onDeleteDialogCancel(): void {
         this.deleteDialogEvent.confirm.reject();
         this.deleteDialogEvent = null;
-    }
+    }*/
 
     onDeleteConfirm(event): void {
         this.deleteDialogEvent = event;
         this.titleForDeletion = event.data.name;
-        this.deleteDialog.open('sm');
+        // todo refactor this.deleteDialog.open('sm');
     }
 
     onTableSave(event): void {

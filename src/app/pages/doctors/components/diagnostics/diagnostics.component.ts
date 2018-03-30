@@ -6,7 +6,6 @@
 
 import { Component, ViewEncapsulation, ViewChild, OnInit } from '@angular/core';
 import { LocalDataSource } from 'ng2-smart-table';
-import { ModalComponent } from 'ng2-bs3-modal/components/modal';
 import { DiagnosticEditorComponent } from '../../../../components/diagnostic/components/editor/editor.component';
 import { Diagnostic } from '../../../../components/diagnostic/diagnostic';
 import { DiagnosticService } from '../../../../components/diagnostic/diagnostic.service';
@@ -22,9 +21,6 @@ export class DiagnosticsComponent implements OnInit {
 
     @ViewChild(DiagnosticEditorComponent)
     private diagnosticComponent: DiagnosticEditorComponent;
-
-    @ViewChild('deleteDialog')
-    private deleteDialog: ModalComponent;
 
     selectedDiagnostic: boolean = false;
     editCategories: boolean = false;
@@ -103,7 +99,7 @@ export class DiagnosticsComponent implements OnInit {
         this.settings.noDataMessage = this.translate.instant('No data found');
     }
 
-    onDeleteDialogOk(): void {
+    /*onDeleteDialogOk(): void {
         this.deleteProcess = true;
         this.loadingBar.start();
         this.service.delete(this.deleteDialogEvent.data.id).then(() => {
@@ -122,7 +118,7 @@ export class DiagnosticsComponent implements OnInit {
             this.deleteProcess = false;
             this.loadingBar.complete();
         });
-    }
+    }*/
 
     onDeleteDialogCancel(): void {
         this.deleteDialogEvent.confirm.reject();
@@ -132,7 +128,7 @@ export class DiagnosticsComponent implements OnInit {
     onDeleteConfirm(event): void {
         this.deleteDialogEvent = event;
         this.titleForDeletion = event.data.title;
-        this.deleteDialog.open('sm');
+        // todo refactor this.deleteDialog.open('sm');
     }
 
     onTableSave(event): void {

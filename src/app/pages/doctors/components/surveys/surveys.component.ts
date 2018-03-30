@@ -4,21 +4,17 @@
  *  @author Alexander Zagovorichev <zagovorichev@gmail.com>
  */
 
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { LocalDataSource } from 'ng2-smart-table';
 import { SurveyService } from '../../../../components/survey/survey.service';
 import { SlimLoadingBarService } from 'ng2-slim-loading-bar';
 import { TranslateService } from '@ngx-translate/core';
-import { ModalComponent } from 'ng2-bs3-modal/ng2-bs3-modal';
 
 @Component ({
     selector: 'nga-surveys',
     templateUrl: 'survey.html',
 })
 export class SurveysComponent implements OnInit {
-
-    @ViewChild('deleteDialog')
-        private deleteDialog: ModalComponent;
 
     query: string = '';
 
@@ -49,7 +45,6 @@ export class SurveysComponent implements OnInit {
     deleteDialogEvent: any = null;
     titleForDeletion: string = '';
     deleteProcess: boolean = false;
-    errorMessage: string = '';
 
     constructor(
         protected service: SurveyService,
@@ -118,9 +113,9 @@ export class SurveysComponent implements OnInit {
     onDeleteConfirm(event): void {
         this.deleteDialogEvent = event;
         this.titleForDeletion = event.data.title;
-        this.deleteDialog.open('sm');
+        // todo refactor this.deleteDialog.open('sm');
     }
-
+/*
     onDeleteDialogOk(): void {
         this.deleteProcess = true;
         this.loadingBar.start();
@@ -143,5 +138,5 @@ export class SurveysComponent implements OnInit {
             this.deleteDialogEvent.confirm.reject();
         }
         this.deleteDialogEvent = null;
-    }
+    }*/
 }

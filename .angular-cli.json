@@ -5,11 +5,18 @@
   },
   "apps": [
     {
-      "root": "src",
-      "outDir": "dist",
+      "name": "directors",
+      "root": "src/",
+      "outDir": "dist/",
       "assets": [
         "assets",
-        "favicon.ico"
+        "favicon.ico",
+        "favicon.png",
+        {
+          "glob": "**/*",
+          "input": "../node_modules/leaflet/dist/images",
+          "output": "./assets/img/markers"
+        }
       ],
       "index": "index.html",
       "main": "main.ts",
@@ -19,23 +26,19 @@
       "testTsconfig": "tsconfig.spec.json",
       "prefix": "app",
       "styles": [
+        "../node_modules/bootstrap/dist/css/bootstrap.css",
+        "../node_modules/typeface-exo/index.css",
         "../node_modules/roboto-fontface/css/roboto/sass/roboto-fontface.scss",
-        "../node_modules/normalize.css/normalize.css",
+        "../node_modules/ionicons/dist/scss/ionicons.scss",
         "../node_modules/font-awesome/scss/font-awesome.scss",
-        "../node_modules/ionicons/scss/ionicons.scss",
-        "../node_modules/bootstrap/scss/bootstrap.scss",
-        "../node_modules/leaflet/dist/leaflet.css",
-        "../node_modules/chartist/dist/chartist.css",
-        "../node_modules/fullcalendar/dist/fullcalendar.css",
+        "../node_modules/pace-js/templates/pace-theme-flash.tmpl.css",
         "app/theme/theme.scss",
         "styles.scss"
       ],
       "scripts": [
         "../node_modules/jquery/dist/jquery.js",
-        "../node_modules/easy-pie-chart/dist/jquery.easypiechart.js",
-        "../node_modules/jquery-slimscroll/jquery.slimscroll.js",
-        "../node_modules/tether/dist/js/tether.js",
-        "../node_modules/bootstrap/dist/js/bootstrap.js"
+        "../node_modules/pace-js/pace.min.js",
+        "../node_modules/chart.js/dist/Chart.min.js"
       ],
       "environmentSource": "environments/environment.ts",
       "environments": {

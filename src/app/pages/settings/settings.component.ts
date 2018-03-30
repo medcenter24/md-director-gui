@@ -7,11 +7,11 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'nga-accidents-component',
+  selector: 'nga-settings-component',
   styles: [],
   template: `<router-outlet></router-outlet>`,
 })
-export class AccidentsComponent {
+export class SettingsComponent {
 
   constructor() {
   }

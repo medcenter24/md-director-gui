@@ -28,7 +28,6 @@ import { BaCardBlur } from './components/baCard/baCardBlur.directive';
 
 import {
   BaScrollPosition,
-  BaSlimScroll,
   BaThemeRun,
 } from './directives';
 
@@ -70,7 +69,6 @@ const NGA_COMPONENTS = [
 
 const NGA_DIRECTIVES = [
   BaScrollPosition,
-  BaSlimScroll,
   BaThemeRun,
   BaCardBlur,
 ];

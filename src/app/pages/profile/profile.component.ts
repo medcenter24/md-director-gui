@@ -12,13 +12,13 @@ import { UsersService } from '../../components/users/users.service';
 import { User } from '../../components/users/user';
 import { LoggedUserService } from '../../components/auth/loggedUser.service';
 import { AuthenticationService } from '../../components/auth/authentication.service';
-import { NgUploaderOptions } from 'ngx-uploader/src/classes/ng-uploader-options.class';
 import { Message } from 'primeng/primeng';
 import { Company } from '../../components/company/company';
 import { LoadingComponent } from '../../components/core/components/componentLoader/LoadingComponent';
 import { Logger } from 'angular2-logger/core';
 import { LocalStorageHelper } from '../../helpers/local.storage.helper';
 import { isNumber, isObject } from 'util';
+import { UploaderOptions } from 'ngx-uploader';
 
 @Component({
   selector: 'nga-profile',
@@ -35,12 +35,7 @@ export class ProfileComponent extends LoadingComponent implements OnInit {
   tabs: any[] = [];
   loggedUser: User;
   defaultPicture: string = 'assets/img/theme/photo-camera.svg';
-  uploaderOptions: NgUploaderOptions = {
-    url: '',
-    cors: true,
-    authToken: '',
-    calculateSpeed: true,
-  };
+  uploaderOptions: UploaderOptions;
   picture: string = '';
   msgs: Message[] = [];
   directorPhotoUri: string = '';
@@ -68,9 +63,9 @@ export class ProfileComponent extends LoadingComponent implements OnInit {
       this.loadingBar.complete();
       this.loggedUser = user;
       this.directorPhotoUri = user.thumb_200 ? `data:image/jpeg;base64,${user.thumb_200}` : '';
-      this.uploaderOptions.url = this.usersService.getUrl(`${this.loggedUser.id}/photo`);
+      /*this.uploaderOptions.url = this.usersService.getUrl(`${this.loggedUser.id}/photo`);
       // todo add global trigger refresh token and bind all relative things to it
-      this.uploaderOptions.authToken = this.authService.getToken();
+      this.uploaderOptions.authToken = this.authService.getToken();*/
     }).catch(() => this.loadingBar.complete());
 
     this.tabs = [

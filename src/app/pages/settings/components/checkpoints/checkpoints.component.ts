@@ -4,9 +4,8 @@
  * @author Alexander Zagovorichev <zagovorichev@gmail.com>
  */
 
-import { Component, ViewEncapsulation, ViewChild, OnInit } from '@angular/core';
+import { Component, ViewEncapsulation, OnInit } from '@angular/core';
 import { LocalDataSource } from 'ng2-smart-table';
-import { ModalComponent } from 'ng2-bs3-modal/components/modal';
 import { SlimLoadingBarService } from 'ng2-slim-loading-bar';
 import { AccidentCheckpointsService } from '../../../../components/accident/components/checkpoint/checkpoints.service';
 import { AccidentCheckpoint } from '../../../../components/accident/components/checkpoint/checkpoint';
@@ -19,14 +18,10 @@ import { TranslateService } from '@ngx-translate/core';
 })
 export class AccidentCheckpointsComponent implements OnInit {
 
-    @ViewChild('deleteDialog')
-    private deleteDialog: ModalComponent;
-
     query: string = '';
 
     deleteDialogEvent: any = null;
     titleForDeletion: string = '';
-    deleteProcess: boolean = false;
 
     settings = {
         actions: null,
@@ -96,7 +91,7 @@ export class AccidentCheckpointsComponent implements OnInit {
         };
         this.settings.noDataMessage = this.translate.instant('No data found');
     }
-
+/*
     onDeleteDialogOk(): void {
         this.deleteProcess = true;
         this.loadingBar.start();
@@ -117,12 +112,12 @@ export class AccidentCheckpointsComponent implements OnInit {
     onDeleteDialogCancel(): void {
         this.deleteDialogEvent.confirm.reject();
         this.deleteDialogEvent = null;
-    }
+    }*/
 
     onDeleteConfirm(event): void {
         this.deleteDialogEvent = event;
         this.titleForDeletion = event.data.title;
-        this.deleteDialog.open('sm');
+        // todo refactor this.deleteDialog.open('sm');
     }
 
     onTableSave(event): void {

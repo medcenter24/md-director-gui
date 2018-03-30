@@ -6,8 +6,6 @@
 
 import { Component, ViewEncapsulation, ViewChild, OnInit } from '@angular/core';
 import { LocalDataSource } from 'ng2-smart-table';
-import { ModalComponent } from 'ng2-bs3-modal/components/modal';
-import { Response } from '@angular/http';
 import { Assistant } from '../../../../components/assistant/assistant';
 import { AssistantsService } from '../../../../components/assistant/assistant.service';
 import { SlimLoadingBarService } from 'ng2-slim-loading-bar';
@@ -20,9 +18,6 @@ import { TranslateService } from '@ngx-translate/core';
 })
 export class AssistantsComponent implements OnInit {
 
-    @ViewChild('deleteDialog')
-    private deleteDialog: ModalComponent;
-
     query: string = '';
 
     currentAssistant: Assistant = null;
@@ -31,8 +26,6 @@ export class AssistantsComponent implements OnInit {
     deleteDialogEvent: any = null;
     titleForDeletion: string = '';
     deleteProcess: boolean = false;
-    errorMessage: string = '';
-    errorResponse: Response = null;
 
     settings = {
         actions: null,
@@ -111,7 +104,7 @@ export class AssistantsComponent implements OnInit {
         };
         this.settings.noDataMessage = this.translate.instant('No data found');
     }
-
+/*
     onDeleteDialogOk(): void {
         this.deleteProcess = true;
         this.loadingBar.start();
@@ -133,12 +126,12 @@ export class AssistantsComponent implements OnInit {
     onDeleteDialogCancel(): void {
         this.deleteDialogEvent.confirm.reject();
         this.deleteDialogEvent = null;
-    }
+    }*/
 
     onDeleteConfirm(event): void {
         this.deleteDialogEvent = event;
         this.titleForDeletion = event.data.title;
-        this.deleteDialog.open('sm');
+        // todo refactor this.deleteDialog.open('sm');
     }
 
     onTableSave(event): void {
