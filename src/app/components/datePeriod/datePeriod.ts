@@ -6,6 +6,7 @@
 
 export class DatePeriod {
   constructor(
+    public id: number = 0,
     /**
      * from string - formatted string
      * example:
@@ -15,7 +16,6 @@ export class DatePeriod {
 
     public from: string = '',
     public to: string = '',
-    // day / night / weekend
-    public key: string = '',
+    public title: string = '',
   ) { }
 }

@@ -17,11 +17,11 @@ export class DoctorsService extends HttpService {
   }
   
   getDoctors(): Promise<Doctor[]> {
-    return this.get().then(response => response.json().data as Doctor[]);
+    return this.get().then(response => response.data as Doctor[]);
   }
 
   getDoctor(id: number): Promise<Doctor> {
-    return this.get(id).then(response => response.json().data as Doctor);
+    return this.get(id).then(response => response.data as Doctor);
   }
 
   delete(id: number): Promise<void> {

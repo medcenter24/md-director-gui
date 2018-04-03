@@ -53,7 +53,6 @@ export class DiagnosticsComponent implements OnInit {
     source: LocalDataSource = new LocalDataSource();
     deleteDialogEvent: any = null;
     titleForDeletion: string = '';
-    deleteProcess: boolean = false;
 
     constructor(
         protected service: DiagnosticService,
@@ -156,7 +155,7 @@ export class DiagnosticsComponent implements OnInit {
     onUserSelectRow(event): void {
         this.selectedDiagnostic = true;
         this.currentDiagnostic = event.data;
-        this.categoryId = this.currentDiagnostic.diagnostic_category_id;
+        this.categoryId = this.currentDiagnostic.diagnosticCategoryId;
     }
 
     onUpdateDiagnostic(diagnostic: Diagnostic): void {

@@ -89,7 +89,7 @@
                     <li class="mb-1" *ngIf="hasCondition('doctor')"><span translate>For the doctor</span> <b>{{ rule.doctor.name }}</b></li>
                     <li class="mb-1" *ngIf="hasCondition('assistant')"><span translate>If assistant company is</span> <b>{{ rule.assistant.title }}</b></li>
                     <li class="mb-1" *ngIf="hasCondition('city')"><span translate>In the city</span> <b>{{ rule.city.title }}</b></li>
-                    <li class="mb-1" *ngIf="hasCondition('datePeriod')"><span translate>If case came</span> <b>{{ rule.datePeriod.key + '_when' | translate }}</b></li>
+                    <li class="mb-1" *ngIf="hasCondition('datePeriod')"><span translate>If case came</span> <b>{{rule.datePeriod.title}}</b></li>
                     <li class="mb-1" *ngIf="hasCondition('service')">
                         <b translate>Services provided</b>
                         <ul>

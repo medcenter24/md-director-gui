@@ -16,11 +16,11 @@ export class UsersService extends HttpService {
   }
 
   getUsers(): Promise<User[]> {
-    return this.get().then(response => response.json().data as User[]);
+    return this.get().then(response => response.data as User[]);
   }
 
   getUser(id: number): Promise<User> {
-    return this.get(id).then(response => response.json().data as User);
+    return this.get(id).then(response => response.data as User);
   }
 
   delete(id: number): Promise<void> {

@@ -19,11 +19,11 @@ export class PatientsService extends HttpService {
   }
   
   getPatients(): Promise<Patient[]> {
-    return this.get().then(response => response.json().data as Patient[]);
+    return this.get().then(response => response.data as Patient[]);
   }
 
   getPatient(id: number): Promise<Patient> {
-    return this.get(id).then(response => response.json().data as Patient);
+    return this.get(id).then(response => response.data as Patient);
   }
 
   delete(id: number): Promise<void> {

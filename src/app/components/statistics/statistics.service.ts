@@ -26,11 +26,11 @@ export class StatisticsService extends HttpService {
    */
   loadDoctorsTraffic(year: string = ''): Promise<TrafficChartData[]> {
     return this.get('doctorsTraffic', `year=${year}`)
-      .then(response => response.json().data as TrafficChartData[]);
+      .then(response => response.data as TrafficChartData[]);
   }
 
   loadAssistantsTraffic(year: string = ''): Promise<TrafficChartData[]> {
     return this.get('assistantsTraffic', `year=${year}`)
-      .then(response => response.json().data as TrafficChartData[]);
+      .then(response => response.data as TrafficChartData[]);
   }
 }

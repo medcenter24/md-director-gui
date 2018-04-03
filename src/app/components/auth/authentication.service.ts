@@ -5,7 +5,7 @@
  */
 
 import { Injectable } from '@angular/core';
-import { Http, Response } from '@angular/http';
+import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import 'rxjs/add/operator/map';
 import { environment } from '../../../environments/environment';
@@ -43,7 +43,7 @@ export class AuthenticationService {
   private jwtHelper: JwtHelper = new JwtHelper();
 
   constructor (
-    private http: Http,
+    private http: HttpClient,
     private authHttp: AuthHttp,
     private loadingBar: SlimLoadingBarService,
     private translate: TranslateService,
@@ -71,7 +71,7 @@ export class AuthenticationService {
   refresh(): void {
     this.authHttp.get(this.refreshUrl)
       .subscribe(
-        (response: Response) => {
+        (response: any) => {
             this.update(response);
         },
         err => {
@@ -89,10 +89,10 @@ export class AuthenticationService {
       );
   }
 
-  private update(response: Response): void {
-      const token = response.json() && response.json().access_token;
-      const ava = response.json() && response.json().thumb;
-      const lang = response.json() && response.json().lang;
+  private update(response): void {
+      const token = response && response.access_token;
+      const ava = response && response.thumb;
+      const lang = response && response.lang;
       // store language
       this.storage.setItem(this.langKey, lang);
       this._state.notifyDataChanged('avatarB64', ava);

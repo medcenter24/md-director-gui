@@ -16,6 +16,6 @@ export class HospitalAccidentService extends HttpService {
   }
 
   getAccident(id: number): Promise<HospitalAccident> {
-    return this.get(id).then(response => response.json().data as HospitalAccident);
+    return this.get(id).then(response => response.data as HospitalAccident);
   }
 }

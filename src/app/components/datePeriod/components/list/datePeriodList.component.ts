@@ -4,10 +4,14 @@
  * @author Zagovorychev Olexandr <zagovorichev@gmail.com>
  */
 
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { LoadingComponent } from '../../../core/components/componentLoader/LoadingComponent';
 import { DatePeriod } from '../../datePeriod';
 import { DatePeriodService } from '../../datePeriod.service';
+import { DatatableConfig } from '../../../ui/datatable/datatable.config';
+import { DatatableCol } from '../../../ui/datatable/datatableCol';
+import { DatatableAction } from '../../../ui/datatable/datatable.action';
+import { DatatableComponent } from '../../../ui/datatable/datatable.component';
 
 @Component({
   selector: 'nga-date-period-list',
@@ -16,60 +20,65 @@ import { DatePeriodService } from '../../datePeriod.service';
 export class DatePeriodListComponent extends LoadingComponent implements OnInit {
   protected componentName: string = 'DatePeriodListComponent';
 
+  @ViewChild('periodDatatable')
+    private periodDatatable: DatatableComponent;
+
   displayDialog: boolean;
-
   datePeriod: DatePeriod;
-
-  selectedDatePeriod: DatePeriod;
-
-  newDatePeriod: boolean;
-
-  datePeriods: DatePeriod[];
-
-  cols: any[];
+  datatableConfig: DatatableConfig;
 
   constructor(private datePeriodService: DatePeriodService) {
     super();
+    this.datePeriod = new DatePeriod();
   }
 
   ngOnInit() {
-    this.datePeriodService.getPeriods().then((datePeriods: DatePeriod[]) => this.datePeriods = datePeriods);
-
-    this.cols = [
-      { field: 'vin', header: 'Vin' },
-      { field: 'year', header: 'Year' },
-      { field: 'brand', header: 'Brand' },
-      { field: 'color', header: 'Color' },
-    ];
+    this.datatableConfig = DatatableConfig.factory({
+      dataProvider: (filters: Object) => {
+        return this.datePeriodService.getPeriods(filters);
+      },
+      cols: [
+        new DatatableCol('title', 'Title'),
+        new DatatableCol('from', 'From'),
+        new DatatableCol('to', 'To'),
+      ],
+      controlPanel: true,
+      controlPanelActions: [
+        new DatatableAction('Add', 'fa-plus', () => {
+          this.showDialogToAdd();
+        }),
+        new DatatableAction('Refresh', 'fa-refresh', () => {
+          this.periodDatatable.refresh();
+        }),
+      ],
+      onRowSelect: event => {
+        this.onRowSelect(event);
+      },
+    });
   }
 
   showDialogToAdd() {
-    this.newDatePeriod = true;
     this.datePeriod = new DatePeriod();
     this.displayDialog = true;
   }
 
   save() {
-    const periods = [...this.datePeriods];
-    if (this.newDatePeriod) {
-      periods.push(this.datePeriod);
-    } else {
-      periods[this.datePeriods.indexOf(this.selectedDatePeriod)] = this.datePeriod;
-    }
-    this.datePeriods = periods;
-    this.datePeriod = null;
-    this.displayDialog = false;
+    this.datePeriodService.save(this.datePeriod)
+      .then(() => {
+        this.datePeriod = null;
+        this.displayDialog = false;
+        this.periodDatatable.refresh();
+      });
   }
 
   delete() {
-    const index = this.datePeriods.indexOf(this.selectedDatePeriod);
-    this.datePeriods = this.datePeriods.filter((val, i) => i !== index);
+    // const index = this.datePeriods.indexOf(this.selectedDatePeriod);
+    // this.datePeriods = this.datePeriods.filter((val, i) => i !== index);
     this.datePeriod = null;
     this.displayDialog = false;
   }
 
   onRowSelect(event) {
-    this.newDatePeriod = false;
     this.datePeriod = this.cloneDatePeriod(event.data);
     this.displayDialog = true;
   }
