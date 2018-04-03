@@ -5,7 +5,6 @@
  */
 
 import { Injectable } from '@angular/core';
-import { Headers, Http } from '@angular/http';
 import { AuthenticationService } from '../auth/authentication.service';
 import { environment } from '../../../environments/environment';
 import 'rxjs/add/operator/toPromise';
@@ -14,6 +13,7 @@ import { GlobalState } from '../../global.state';
 import { TranslateService } from '@ngx-translate/core';
 import { Router } from '@angular/router';
 import { Message } from 'primeng/primeng';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 @Injectable()
 export abstract class HttpService {
@@ -26,7 +26,7 @@ export abstract class HttpService {
   private msgs: Message[] = [];
 
   constructor (
-    protected http: Http,
+    protected http: HttpClient,
     private authenticationService: AuthenticationService,
     private _logger: Logger,
     private _state: GlobalState,
@@ -35,18 +35,10 @@ export abstract class HttpService {
   ) {
     this.translate.get('Error').subscribe(res => {
       this.errorText = res;
-    });
-    this.translate.get('Http error occurred').subscribe(res => {
-      this.httpErrorMessage = res;
-    });
-    this.translate.get('Success').subscribe(res => {
-      this.successText = res;
-    });
-    this.translate.get('Deleted').subscribe(res => {
-      this.deletedText = res;
-    });
-    this.translate.get('Stored').subscribe(res => {
-      this.storedText = res;
+      this.httpErrorMessage = this.translate.instant('Http error occurred');
+      this.successText = this.translate.instant('Success');
+      this.deletedText = this.translate.instant('Deleted');
+      this.storedText = this.translate.instant('Stored');
     });
   }
 
@@ -58,8 +50,8 @@ export abstract class HttpService {
     return url;
   }
 
-  protected getAuthHeaders(): Headers {
-    return new Headers({ 'Authorization': `Bearer ${this.authenticationService.getToken()}` });
+  protected getAuthHeaders(): HttpHeaders {
+    return new HttpHeaders({ 'Authorization': `Bearer ${this.authenticationService.getToken()}` });
   }
 
   /**
@@ -68,14 +60,23 @@ export abstract class HttpService {
   protected abstract getPrefix(): string;
 
   /**
+   * Loading filtered list of data resources
+   * @param {Object} filters
+   * @returns {Promise<any>}
+   */
+  protected getList(filters: Object): Promise<any> {
+    return this.get(null, filters);
+  }
+
+  /**
    * Get request
    * @param id
    * @param params
    * @param body
    * @returns {Promise<any>}
    */
-  protected get(id: string|number = null, params: string = '', body: any = null): Promise<any> {
-    return this.http.get(this.getUrl(id), { headers: this.getAuthHeaders(), params, body })
+  protected get(id: string|number = null, params: any = null): Promise<any> {
+    return this.http.get(this.getUrl(id), { headers: this.getAuthHeaders(), params })
       .toPromise()
       .catch(error => this.handleError(error));
   }
@@ -144,6 +145,7 @@ export abstract class HttpService {
       this.router.navigate(['login']);
       // window.location.replace('/login');
     } else if (error && error.status && error.status === 422) {
+      // using dingo/FormRequest style
       this._state.notifyDataChanged('apiError', error);
     } else {
       this.msgs.push({ severity: 'error', summary: this.errorText,

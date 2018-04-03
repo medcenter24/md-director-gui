@@ -16,7 +16,7 @@ export class MediaService extends HttpService {
   }
 
   getUploaded(): Promise<any> {
-    return this.get().then().then(response => response.json() as Media[]);
+    return this.get().then().then(response => response as Media[]);
   }
 
   deleteFile(id: number): Promise<void> {

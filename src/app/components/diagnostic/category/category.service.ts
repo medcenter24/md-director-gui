@@ -4,11 +4,8 @@
  * @author Alexander Zagovorichev <zagovorichev@gmail.com>
  */
 
-import {Injectable}    from '@angular/core';
-import { Headers, Http } from '@angular/http';
-
+import { Injectable } from '@angular/core';
 import 'rxjs/add/operator/toPromise';
-
 import { DiagnosticCategory } from './category';
 import { HttpService } from '../../http/http.service';
 
@@ -21,12 +18,12 @@ export class DiagnosticCategoryService extends HttpService {
 
     getCategories(): Promise<DiagnosticCategory[]> {
         return this.get()
-          .then(response => response.json().data as DiagnosticCategory[]);
+          .then(response => response.data as DiagnosticCategory[]);
     }
 
     getCategory(id: number): Promise<DiagnosticCategory> {
         return this.get(id)
-          .then(response => response.json().data as DiagnosticCategory);
+          .then(response => response.data as DiagnosticCategory);
     }
 
     delete(id: number): Promise<void> {
@@ -34,7 +31,7 @@ export class DiagnosticCategoryService extends HttpService {
     }
 
     create(title: string): Promise<DiagnosticCategory> {
-        return this.store({title: title}).then(res => res.json() as DiagnosticCategory);
+        return this.store({ title }).then(res => res.json() as DiagnosticCategory);
     }
 
     update(category: DiagnosticCategory): Promise<DiagnosticCategory> {

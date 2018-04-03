@@ -58,7 +58,7 @@ export class AccidentFinanceComponent extends LoadingComponent {
       case 'assistant':
         return !!this.rule.assistant;
       case 'datePeriod':
-        return this.rule.datePeriod && this.rule.datePeriod.key !== '';
+        return this.rule.datePeriod && this.rule.datePeriod.title !== '';
       case 'service':
         return !!this.rule.services;
       case 'city':

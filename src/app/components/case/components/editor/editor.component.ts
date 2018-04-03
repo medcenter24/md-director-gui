@@ -285,7 +285,7 @@ export class CaseEditorComponent extends LoadingComponent implements OnInit {
       this._state.notifyDataChanged('growl', this.msgs);
 
       if (response.status === 201) {
-        this.router.navigate([`pages/cases/${response.json().accident.id}`]);
+        this.router.navigate([`pages/cases/${response.accident.id}`]);
       } else {
         this.scenarioComponent.reload();
       }

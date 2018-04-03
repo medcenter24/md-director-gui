@@ -18,11 +18,11 @@ export class LoggedUserService extends HttpService {
 
   getUser(): Promise <User> {
     return this.get()
-      .then(response => response.json().data as User);
+      .then(response => response.data as User);
   }
 
   getCompany(): Promise <Company> {
     return this.get('company')
-        .then(response => response.json().data as Company);
+        .then(response => response.data as Company);
   }
 }

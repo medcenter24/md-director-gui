@@ -1,0 +1,53 @@
+/*
+ * Copyright (c) 2018.
+ *
+ * @author Zagovorychev Olexandr <zagovorichev@gmail.com>
+ */
+
+import { DatatableAction } from './datatable.action';
+import { DatatableCol } from './datatableCol';
+
+export class DatatableConfig {
+
+  constructor (
+    public dataProvider: Function = function (filters: Object) {},
+    public lazy: boolean = true,
+    public paginator: boolean = true,
+    public rows: number = 25,
+    public offset: number = 0,
+    public selectionMode: string = 'single',
+    public controlPanel: boolean = false,
+    public controlPanelActions: DatatableAction[] = null,
+    public cols: DatatableCol[] = null,
+    public onRowSelect: Function = function (event) {},
+    public showTotal: boolean = true,
+  ) { }
+
+  /**
+   * Apply configuration from the object
+   * @param configuration
+   */
+  static factory(configuration: Object) {
+    const config = new DatatableConfig();
+    if (configuration) {
+      config.update('dataProvider', configuration);
+      config.update('lazy', configuration);
+      config.update('paginator', configuration);
+      config.update('rows', configuration);
+      config.update('offset', configuration);
+      config.update('selectionMode', configuration);
+      config.update('controlPanel', configuration);
+      config.update('controlPanelActions', configuration);
+      config.update('cols', configuration);
+      config.update('onRowSelect', configuration);
+      config.update('showTotal', configuration);
+    }
+    return config;
+  }
+
+  update(key: string, fromConf: Object) {
+    if (fromConf.hasOwnProperty(key)) {
+      this[key] = fromConf[key];
+    }
+  }
+}

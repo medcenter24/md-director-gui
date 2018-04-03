@@ -20,7 +20,7 @@ export class ImporterService {
 
     return this.http.get(url, { headers: this.headers })
       .toPromise()
-      .then(response => response.json())
+      .then(response => response)
       .catch(this.handleError);
   }
 
@@ -36,7 +36,7 @@ export class ImporterService {
     url = `${url}/${id}`;
     return this.http.put(url, [], { headers: this.headers })
       .toPromise()
-      .then((response) => response.json())
+      .then((response) => response)
       .catch(this.handleError);
   }
 

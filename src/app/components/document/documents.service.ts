@@ -6,7 +6,7 @@
 
 import { Injectable } from '@angular/core';
 import { HttpService } from '../http/http.service';
-import { RequestOptions, ResponseContentType } from '@angular/http';
+// import { RequestOptions, ResponseContentType } from '@angular/http';
 import { saveAs } from 'file-saver';
 
 @Injectable()
@@ -21,10 +21,10 @@ export class DocumentsService extends HttpService {
   }
 
   download(file): void {
-    const options = new RequestOptions({ responseType: ResponseContentType.Blob, headers: this.getAuthHeaders() });
+    /*const options = new RequestOptions({ responseType: ResponseContentType.Blob, headers: this.getAuthHeaders() });*/
     this.http
-      .get(this.getUrl(file.id), options)
-      .map(res => res.blob())
+      .get(this.getUrl(file.id)/*, options*/)
+      .map(res => res/*.blob()*/)
       .subscribe(data => saveAs(data, file.name), err => this.handleError(err));
   }
 }

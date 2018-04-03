@@ -17,11 +17,11 @@ export class CitiesService extends HttpService {
   }
   
   getCities(): Promise<City[]> {
-    return this.get().then(response => response.json().data as City[]);
+    return this.get().then(response => response.data as City[]);
   }
 
   getCity (id: number): Promise<City> {
-    return this.get(id).then(response => response.json().data as City);
+    return this.get(id).then(response => response.data as City);
   }
 
   delete (id: number): Promise<void> {

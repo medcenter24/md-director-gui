@@ -19,11 +19,11 @@ export class SurveyService extends HttpService {
   }
 
   getSurveys(): Promise<Survey[]> {
-    return this.get().then(response => response.json().data as Survey[]);
+    return this.get().then(response => response.data as Survey[]);
   }
 
   getSurvey(id: number): Promise<Survey> {
-    return this.get(id).then(response => response.json().data as Survey);
+    return this.get(id).then(response => response.data as Survey);
   }
 
   delete(id: number): Promise<void> {
