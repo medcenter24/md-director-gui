@@ -17,6 +17,6 @@ export class AccidentScenarioService extends HttpService {
 
   getDoctorScenario(): Promise<AccidentScenario[]> {
     return this.get(`doctor`)
-      .then(response => response.json().data as AccidentScenario[]);
+      .then(response => response.data as AccidentScenario[]);
   }
 }

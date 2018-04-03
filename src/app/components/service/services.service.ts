@@ -19,11 +19,11 @@ export class ServicesService extends HttpService {
   }
 
   getServices(): Promise<Service[]> {
-    return this.get().then(response => response.json().data as Service[]);
+    return this.get().then(response => response.data as Service[]);
   }
 
   getService(id: number): Promise<Service> {
-    return this.get(id).then(response => response.json().data as Service);
+    return this.get(id).then(response => response.data as Service);
   }
 
   delete(id: number): Promise<void> {

@@ -52,8 +52,8 @@ export class AppComponent implements AfterViewInit {
       this._state.subscribe('growl', (msgs: Message[]) => this.msgs = msgs);
       this._state.subscribe('confirmDialog', (config) => this.confirmationService.confirm(config));
       this._state.subscribe('blocker', (block: boolean) => this.blocked = block);
-      this._state.subscribe('apiError', (error) => {
-          this.apiErrorService.show(error);
+      this._state.subscribe('apiError', (errors: any[]) => {
+          this.apiErrorService.show(errors);
       });
       this._state.subscribe('avatarB64', (b64: string) => {
           this.storage.setItem('avatar', b64);

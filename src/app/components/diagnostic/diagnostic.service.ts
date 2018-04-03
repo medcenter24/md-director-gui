@@ -16,11 +16,11 @@ export class DiagnosticService extends HttpService {
     }
     
     getDiagnostics(): Promise<Diagnostic[]> {
-        return this.get().then(response => response.json().data as Diagnostic[]);
+        return this.get().then(response => response.data as Diagnostic[]);
     }
 
     getDiagnostic(id: number): Promise<Diagnostic> {
-        return this.get(id).then(response => response.json().data as Diagnostic);
+        return this.get(id).then(response => response.data as Diagnostic);
     }
 
     delete(id: number): Promise<void> {

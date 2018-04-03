@@ -17,7 +17,6 @@ import { CaseAccident } from './case';
 import { AccidentCheckpoint } from '../accident/components/checkpoint/checkpoint';
 import { AccidentScenario } from '../accident/components/scenario/scenario';
 import { Survey } from '../survey/survey';
-import { RequestOptions, ResponseContentType } from '@angular/http';
 import { saveAs } from 'file-saver';
 import { Accident } from '../accident/accident';
 import { AccidentHistory } from '../accident/components/history/history';
@@ -32,7 +31,7 @@ export class CasesService extends HttpService {
 
   getExtendedCase(id: number): Promise<ExtendCaseAccident[]> {
     return this.get()
-      .then(response => response.json().data as ExtendCaseAccident[]);
+      .then(response => response.data as ExtendCaseAccident[]);
   }
 
   getDocumentsUrl(id): string {
@@ -41,35 +40,35 @@ export class CasesService extends HttpService {
 
   getDocuments(id): Promise<Document[]> {
     return this.get(`${id}/documents`)
-      .then(response => response.json().data as Document[]);
+      .then(response => response.data as Document[]);
   }
 
   getCases(params): Promise<any> {
-    return this.get(null, params).then(response => response.json() as CaseAccident[]);
+    return this.get(null, params).then(response => response as CaseAccident[]);
   }
 
   getCaseServices(id: number): Promise<Service[]> {
-    return this.get(`${id}/services`).then(response => response.json().data as Service[]);
+    return this.get(`${id}/services`).then(response => response.data as Service[]);
   }
 
   getCaseDiagnostics(id: number): Promise<Diagnostic[]> {
-    return this.get(`${id}/diagnostics`).then(response => response.json().data as Diagnostic[]);
+    return this.get(`${id}/diagnostics`).then(response => response.data as Diagnostic[]);
   }
 
   getCaseSurveys(id: number): Promise<Survey[]> {
-      return this.get(`${id}/surveys`).then(response => response.json().data as Survey[]);
+      return this.get(`${id}/surveys`).then(response => response.data as Survey[]);
   }
 
   getCheckpoints(id: number): Promise<AccidentCheckpoint[]> {
-    return this.get(`${id}/checkpoints`).then(response => response.json().data as AccidentCheckpoint[]);
+    return this.get(`${id}/checkpoints`).then(response => response.data as AccidentCheckpoint[]);
   }
 
   getDoctorCase (id: number): Promise<DoctorAccident> {
-    return this.get(`${id}/doctorcase`).then(response => response.json().data as DoctorAccident);
+    return this.get(`${id}/doctorcase`).then(response => response.data as DoctorAccident);
   }
 
   getHospitalCase (id: number): Promise<HospitalAccident> {
-    return this.get(`${id}/hospitalcase`).then(response => response.json().data as HospitalAccident);
+    return this.get(`${id}/hospitalcase`).then(response => response.data as HospitalAccident);
   }
 
   getImportUrl (): string {
@@ -89,27 +88,27 @@ export class CasesService extends HttpService {
   }
 
   getScenario (id: number): Promise <AccidentScenario[]> {
-    return this.get(`${id}/scenario`).then(response => response.json().data as AccidentScenario[]);
+    return this.get(`${id}/scenario`).then(response => response.data as AccidentScenario[]);
   }
 
   getReportHtml (id: number): Promise<string> {
-    return this.get(`${id}/reportHtml`).then(response => response.json().data as string);
+    return this.get(`${id}/reportHtml`).then(response => response.data as string);
   }
 
   downloadPdfReport (id: number): void {
-    const options = new RequestOptions({ responseType: ResponseContentType.Blob, headers: this.getAuthHeaders() });
+    // const options = new RequestOptions({ responseType: ResponseContentType.Blob, headers: this.getAuthHeaders() });
     this.http
-      .get(this.getUrl(`${id}/downloadPdf`), options)
-      .map(res => res.blob())
+      .get(this.getUrl(`${id}/downloadPdf`), { headers: this.getAuthHeaders(), responseType: 'arraybuffer' })
+      .map(res => res/*res.blob()*/)
       .subscribe(data => saveAs(data, `report_case_${id}.pdf`), err => this.handleError(err));
   }
 
   getHistory (accident: Accident): Promise <AccidentHistory[]> {
-    return this.get(`${accident.id}/history`).then(response => response.json().data as AccidentHistory[]);
+    return this.get(`${accident.id}/history`).then(response => response.data as AccidentHistory[]);
   }
 
   getCommentaries (accident: Accident): Promise <Commentary[]> {
-    return this.get(`${accident.id}/comments`).then(response => response.json().data as Commentary[]);
+    return this.get(`${accident.id}/comments`).then(response => response.data as Commentary[]);
   }
 
   createComment (accident: Accident, text: string): Promise <Commentary> {

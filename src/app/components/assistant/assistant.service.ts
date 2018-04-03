@@ -17,13 +17,13 @@ export class AssistantsService extends HttpService {
   
   getAssistants(): Promise<Assistant[]> {
     return this.get()
-      .then(response => response.json().data as Assistant[]);
+      .then(response => response.data as Assistant[]);
   }
 
 
   getAssistant(id: number): Promise<Assistant> {
     return this.get(id)
-      .then(response => response.json().data as Assistant);
+      .then(response => response.data as Assistant);
   }
 
   delete(id: number): Promise<void> {
@@ -31,7 +31,7 @@ export class AssistantsService extends HttpService {
   }
 
   create(assistant: Assistant): Promise<Assistant> {
-    return this.store(assistant).then(res => res.json().data as Assistant);
+    return this.store(assistant).then(res => res.data as Assistant);
   }
 
   update(assistant: Assistant): Promise<Assistant> {

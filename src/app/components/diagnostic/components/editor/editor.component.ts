@@ -64,11 +64,11 @@ export class DiagnosticEditorComponent implements OnInit {
     }
 
     onSelectCategory(event): void {
-        this.diagnostic.diagnostic_category_id = event;
+        this.diagnostic.diagnosticCategoryId = event;
     }
 
     reloadCategories(): void {
-        this.categorySelectorComponent.reloadCategoriesWithCategoryId(this.diagnostic.diagnostic_category_id);
+        this.categorySelectorComponent.reloadCategoriesWithCategoryId(this.diagnostic.diagnosticCategoryId);
     }
 
     closeEditor(): void {

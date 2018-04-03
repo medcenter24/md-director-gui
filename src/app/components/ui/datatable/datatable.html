@@ -1,0 +1,40 @@
+<p-table
+    #datatable
+    [columns]="config.cols"
+    [value]="data"
+    [lazy]="config.lazy"
+    (onLazyLoad)="loadLazy($event)"
+    [paginator]="config.paginator"
+    [rows]="config.rows"
+    [totalRecords]="totalRecords"
+    [loading]="loading"
+    (onRowSelect)="onRowSelect($event)"
+    [selectionMode]="config.selectionMode"
+    [(selection)]="selectedData"
+>
+    <ng-template pTemplate="header" let-columns>
+        <tr>
+            <th *ngFor="let col of columns">
+                {{col.header}}
+            </th>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-rowData let-columns="columns">
+        <tr [pSelectableRow]="rowData">
+            <td *ngFor="let col of columns">
+                {{rowData[col.field]}}
+            </td>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="summary" let-rowData *ngIf="config.controlPanel">
+        <div class="text-left">
+            <button type="button"
+                    *ngFor="let action of config.controlPanelActions"
+                    pButton
+                    [icon]="action.icon"
+                    (click)="action.run()"
+                    [label]="action.title"></button>
+        </div>
+        <div class="text-center" *ngIf="config.showTotal" translate [translateParams]="{value: total}">There is ? records</div>
+    </ng-template>
+</p-table>
