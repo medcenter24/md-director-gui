@@ -7,7 +7,7 @@ import { PAGES_MENU } from './pages.menu';
   selector: 'nga-pages',
   template: `
       <ba-sidebar></ba-sidebar>
-      <ba-page-top></ba-page-top>
+      <nga-ba-page-top></nga-ba-page-top>
       <div class="al-main">
           <div class="al-content">
               <ba-content-top></ba-content-top>
