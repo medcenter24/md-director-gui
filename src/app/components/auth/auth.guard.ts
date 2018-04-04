@@ -6,8 +6,8 @@
 
 import { Injectable } from '@angular/core';
 import { Router, CanActivate } from '@angular/router';
-import { tokenNotExpired } from 'angular2-jwt';
 import { AuthenticationService } from './authentication.service';
+import { JwtHelperService } from '@auth0/angular-jwt';
 
 @Injectable()
 export class AuthGuard implements CanActivate {
@@ -15,11 +15,12 @@ export class AuthGuard implements CanActivate {
   constructor(
     private router: Router,
     private authService: AuthenticationService,
+    private jwtHelper: JwtHelperService,
     ) {}
 
   canActivate() {
     if ( this.authService.getToken()
-      && tokenNotExpired('token', this.authService.getToken()) ) {
+      && !this.jwtHelper.isTokenExpired() ) {
       return true;
     }
 

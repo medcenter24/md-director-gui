@@ -1,11 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { Routes } from '@angular/router';
-
 import { BaMenuService } from '../theme';
 import { PAGES_MENU } from './pages.menu';
 
 @Component({
-  selector: 'pages',
+  selector: 'nga-pages',
   template: `
       <ba-sidebar></ba-sidebar>
       <ba-page-top></ba-page-top>
@@ -35,7 +34,7 @@ import { PAGES_MENU } from './pages.menu';
       <ba-back-top position="200"></ba-back-top>
   `,
 })
-export class Pages implements OnInit {
+export class PagesComponent implements OnInit {
 
   constructor(private _menuService: BaMenuService) {
   }

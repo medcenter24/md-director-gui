@@ -6,17 +6,16 @@
 
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, AbstractControl, FormBuilder, Validators } from '@angular/forms';
-
 import 'style-loader!./login.scss';
 import { AuthenticationService } from '../../components/auth/authentication.service';
 import { Router } from '@angular/router';
 import { SlimLoadingBarService } from 'ng2-slim-loading-bar';
 
 @Component({
-  selector: 'login',
+  selector: 'nga-login',
   templateUrl: './login.html',
 })
-export class Login implements OnInit {
+export class LoginComponent implements OnInit {
 
   form: FormGroup;
   email: AbstractControl;
