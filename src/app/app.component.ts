@@ -5,6 +5,7 @@
  */
 
 import { AfterViewInit, Component, ViewContainerRef } from '@angular/core';
+// todo check if all these needed
 import * as $ from 'jquery';
 import { GlobalState } from './global.state';
 import { BaImageLoaderService, BaThemePreloader, BaThemeSpinner } from './theme/services';
@@ -13,6 +14,7 @@ import { layoutPaths } from './theme/theme.constants';
 import { Confirmation, ConfirmationService, Message } from 'primeng/primeng';
 import { ApiErrorService } from './components/ui/apiError.service';
 import { LocalStorageHelper } from './helpers/local.storage.helper';
+import { HttpClient } from '@angular/common/http';
 
 /*
  * App Component
@@ -39,6 +41,7 @@ export class AppComponent implements AfterViewInit {
               private confirmationService: ConfirmationService,
               private apiErrorService: ApiErrorService,
               private storage: LocalStorageHelper,
+              public http: HttpClient,
   ) {
 
       themeConfig.config();

@@ -7,7 +7,6 @@
 import { isDevMode, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HttpModule } from '@angular/http';
 import { RouterModule } from '@angular/router';
 import { AppComponent } from './app.component';
 import { AppState, InternalStateType } from './app.service';
@@ -23,6 +22,9 @@ import { routing } from './app.routing';
 import { ApiErrorService } from './components/ui/apiError.service';
 import { AppTranslationModule } from './app.translation.module';
 import { LocalStorageHelper } from './helpers/local.storage.helper';
+import { HttpClientModule } from '@angular/common/http';
+import { JwtModule } from '@auth0/angular-jwt';
+import { AuthGuard } from './components/auth/auth.guard';
 
 // Application wide providers
 const APP_PROVIDERS = [
@@ -33,7 +35,13 @@ const APP_PROVIDERS = [
   ConfirmationService,
   ApiErrorService,
   LocalStorageHelper,
+  AuthGuard,
 ];
+
+export function tokenGetter() {
+  const storage = new LocalStorageHelper();
+  return storage.getItem('token');
+}
 
 export type StoreType = {
   state: InternalStateType,
@@ -52,7 +60,7 @@ export type StoreType = {
   imports: [ // import Angular's modules
     BrowserModule,
     BrowserAnimationsModule,
-    HttpModule,
+    HttpClientModule,
     RouterModule,
     FormsModule,
     ReactiveFormsModule,
@@ -64,6 +72,13 @@ export type StoreType = {
     ConfirmDialogModule,
     BlockUIModule,
     AppTranslationModule,
+    JwtModule.forRoot({
+      config: {
+        tokenGetter,
+        // whitelistedDomains: ['localhost:3001']
+        // blacklistedRoutes: ['localhost:3001/auth/']
+      },
+    }),
   ],
   exports: [],
   providers: [ // expose our Services and Providers into Angular's dependency injection
