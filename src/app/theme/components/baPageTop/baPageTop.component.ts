@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectorRef, Component } from '@angular/core';
 
 import { GlobalState } from '../../../global.state';
 import { AuthenticationService } from '../../../components/auth/authentication.service';
@@ -6,11 +6,11 @@ import { LocalStorageHelper } from '../../../helpers/local.storage.helper';
 import { layoutPaths } from '../../index';
 
 @Component({
-  selector: 'ba-page-top',
+  selector: 'nga-ba-page-top',
   templateUrl: './baPageTop.html',
-  styleUrls: ['./baPageTop.scss']
+  styleUrls: ['./baPageTop.scss'],
 })
-export class BaPageTop {
+export class BaPageTopComponent {
 
   isScrolled: boolean = false;
   isMenuCollapsed: boolean = false;
@@ -20,6 +20,7 @@ export class BaPageTop {
     private _state: GlobalState,
     private authenticationService: AuthenticationService,
     private storage: LocalStorageHelper,
+    private cdRef: ChangeDetectorRef,
   ) {
     this._state.subscribe('menu.isCollapsed', (isCollapsed) => {
       this.isMenuCollapsed = isCollapsed;
@@ -41,6 +42,7 @@ export class BaPageTop {
 
   scrolledChanged(isScrolled) {
     this.isScrolled = isScrolled;
+    this.cdRef.detectChanges();
   }
 
   logout(): void {
