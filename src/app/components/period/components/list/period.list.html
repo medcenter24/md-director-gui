@@ -1,0 +1,41 @@
+<nga-datatable
+        #periodDatatable
+        [config]="datatableConfig"
+></nga-datatable>
+
+<p-dialog header="{{ 'Date Period Details' | translate }}" [(visible)]="displayDialog" [responsive]="true" showEffect="fade" [modal]="true" [width]="300">
+    <div class="ui-g ui-fluid" *ngIf="datePeriod">
+        <div class="ui-g-12">
+            <div class="ui-g-3">
+                <label for="title" translate>Title</label>
+            </div>
+            <div class="ui-g-9">
+                <input pInputText id="title" [(ngModel)]="datePeriod.title" />
+            </div>
+        </div>
+        <div class="ui-g-12">
+            <div class="ui-g-3">
+                <label for="from" translate>From</label>
+            </div>
+            <div class="ui-g-9">
+                <nga-date-dow-dropdown class="pb-1"></nga-date-dow-dropdown>
+                <p-inputMask id="from" [(ngModel)]="datePeriod.from" mask="99:99" placeholder="{{ 'Time' | translate }}"></p-inputMask>
+            </div>
+        </div>
+        <div class="ui-g-12">
+            <div class="ui-g-3">
+                <label for="to" translate>To</label>
+            </div>
+            <div class="ui-g-9">
+                <nga-date-dow-dropdown></nga-date-dow-dropdown>
+                <p-inputMask id="to" [(ngModel)]="datePeriod.to" mask="99:99" placeholder="{{ 'Time' | translate }}"></p-inputMask>
+            </div>
+        </div>
+    </div>
+    <p-footer>
+        <div class="ui-dialog-buttonpane ui-helper-clearfix">
+            <button type="button" *ngIf="datePeriod && datePeriod.id" pButton icon="fa-close" (click)="delete()" label="Delete"></button>
+            <button type="button" pButton icon="fa-check" (click)="save()" label="Save"></button>
+        </div>
+    </p-footer>
+</p-dialog>

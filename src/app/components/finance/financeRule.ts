@@ -4,17 +4,15 @@
  * @author Zagovorychev Olexandr <zagovorichev@gmail.com>
  */
 
-import { User } from '../users/user';
 import { Assistant } from '../assistant/assistant';
 import { City } from '../city/city';
 import { Doctor } from '../doctors/doctor';
 import { Service } from '../service/service';
-import { DatePeriod } from '../datePeriod/datePeriod';
+import { Period } from '../period/period';
 
 export class FinanceRule {
   constructor(
     public id: number = 0,
-    public createdBy: User = null,
     public title: string = '', // if I need to determine context
     public assistant: Assistant = null,
     public city: City = null,
@@ -27,7 +25,7 @@ export class FinanceRule {
      *    from '21:00' to '6:00' # night rule
      *    # everything other - it is a day rule
      */
-    public datePeriod: DatePeriod = new DatePeriod(),
+    public datePeriod: Period = new Period(),
     public priceAmount: number = null,
   ) { }
 }
