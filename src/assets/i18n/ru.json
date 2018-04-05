@@ -1,4 +1,13 @@
 {
+  "Time": "Время",
+  "Day of week": "День недели",
+  "mon": "пн",
+  "tues": "вт",
+  "wed": "ср",
+  "thurs": "чт",
+  "fri": "пт",
+  "sat": "сб",
+  "sun": "вс",
   "from": "с",
   "to": "до",
   "The ? field is required": "Заполните поле \"{{value}}\"",

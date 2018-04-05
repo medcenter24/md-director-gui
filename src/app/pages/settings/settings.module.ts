@@ -30,7 +30,7 @@ import { DoctorModule } from '../../components/doctors/doctor.module';
 import { ServiceModule } from '../../components/service/service.module';
 import { NumbersHelper } from '../../helpers/numbers.helper';
 import { FinanceModule } from '../../components/finance/finance.module';
-import { DatePeriodModule } from '../../components/datePeriod/datePeriod.module';
+import { PeriodListModule } from '../../components/period/components/list';
 
 @NgModule({
   imports: [
@@ -47,7 +47,7 @@ import { DatePeriodModule } from '../../components/datePeriod/datePeriod.module'
     DoctorModule,
     ServiceModule,
     FinanceModule,
-    DatePeriodModule,
+    PeriodListModule,
   ],
   declarations: [
     SettingsComponent,

@@ -15,7 +15,7 @@ import { Assistant } from '../../../../components/assistant/assistant';
 import { City } from '../../../../components/city/city';
 import { FinanceService } from '../../../../components/finance/finance.service';
 import { FinanceRule } from '../../../../components/finance/financeRule';
-import { DatePeriod } from '../../../../components/datePeriod/datePeriod';
+import { Period } from '../../../../components/period/period';
 
 @Component({
   selector: 'nga-accident-finance',
@@ -92,8 +92,8 @@ export class AccidentFinanceComponent extends LoadingComponent {
     this.rule.services = event;
   }
 
-  onDatePeriodChanged(datePeriod: DatePeriod): void {
-    this.rule.datePeriod = datePeriod;
+  onDatePeriodChanged(period: Period): void {
+    this.rule.datePeriod = period;
   }
 
   priceAmountToFixed(event): void {

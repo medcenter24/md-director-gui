@@ -13,6 +13,7 @@ import { AuthenticationService } from '../../../auth/authentication.service';
 import { DocumentsService } from '../../../document/documents.service';
 import { Document } from '../../../document/document';
 import { LoadableComponent } from '../../../core/components/componentLoader/LoadableComponent';
+
 @Component({
   selector: 'nga-file-uploader',
   templateUrl: './uploader.html',

@@ -15,10 +15,7 @@ import { routing } from './cases.routing';
 import { Ng2SmartTableModule } from 'ng2-smart-table';
 
 import { CasesService } from '../../components/case/cases.service';
-import { CaseEditorComponent } from '../../components/case/components/editor/editor.component';
-import { CasesListComponent } from '../../components/case/components/list/list.component';
 import { AccidentsService } from '../../components/accident/accidents.service';
-import { SelectAccidentTypeComponent } from '../../components/accident/components/type/select/select.component';
 import { AccidentTypesService } from '../../components/accident/components/type/types.service';
 import {
   SelectButtonModule, MultiSelectModule, AutoCompleteModule,
@@ -28,49 +25,21 @@ import {
 } from 'primeng/primeng';
 import { AssistantsService } from '../../components/assistant/assistant.service';
 import { AppTranslationModule } from '../../app.translation.module';
-import { SelectAccidentComponent } from '../../components/accident/components/select/select.component';
-import { AccidentCardComponent } from '../../components/accident/components/card/accidentCard.component';
 import { PatientsService } from '../../components/patient/patients.service';
-import { HospitalsService } from '../../components/hospital/hospitals.service';
-import { HospitalSelectComponent } from '../../components/hospital/components/select/select.component';
-import { SelectCaseTypeComponent } from '../../components/case/components/type/select.component';
-import { DiagnosticService } from '../../components/diagnostic/diagnostic.service';
-import { DiagnosticsSelectorComponent } from '../../components/diagnostic/components/selector/selector.component';
-import { SelectDiagnosticsComponent } from '../../components/diagnostic/components/select/select.component';
-import { ImporterComponent } from '../../components/importer/importer.component';
 import { AuthenticationService } from '../../components/auth/authentication.service';
-import { ImporterService } from '../../components/importer/importer.service';
-import { FileUploaderComponent } from '../../components/upload/components/uploader/uploader.component';
 import { DocumentsService } from '../../components/document/documents.service';
 import { AccidentStatusSelectComponent } from
   '../../components/accident/components/status/components/select/select.component';
 import { AccidentStatusesService } from '../../components/accident/components/status/statuses.service';
-import { AccidentCheckpointsSelectorComponent } from
-  '../../components/accident/components/checkpoint/components/select/select.component';
-import { AccidentCheckpointsService } from '../../components/accident/components/checkpoint/checkpoints.service';
-import { ExporterService } from '../../components/exporter/exporter.service';
 import { CitiesService } from '../../components/city/cities.service';
 import { CitiesModule } from '../../components/city/cities.module';
-import { AccidentScenarioComponent } from
-  '../../components/accident/components/scenario/components/line/line.component';
-import { AccidentScenarioService } from '../../components/accident/components/scenario/scenario.service';
 import { DateHelper } from '../../helpers/date.helper';
-import { SelectSurveysComponent } from '../../components/survey/components/select/select.component';
-import { SurveysSelectorComponent } from '../../components/survey/components/selector/selector.component';
-import { SurveyService } from '../../components/survey/survey.service';
-import { PatientSelectorComponent } from '../../components/patient/components/selector/selector.component';
-import { SelectPatientComponent } from '../../components/patient/components/select/select.component';
-import { PatientEditorComponent } from '../../components/patient/components/editor/editor.component';
-import { AccidentActivityComponent } from '../../components/accident/components/activity/activity.component';
-import { AccidentChatComponent } from '../../components/accident/components/chat/chat.component';
-import { AccidentHistoryComponent } from '../../components/accident/components/history/components/history.component';
-import { CommentsComponent } from '../../components/comment/components/comments.component';
-import { CaseEditorTabStopperService } from '../../components/case/components/editor/tabStopper.service';
-import { CaseFinanceComponent } from '../../components/case/components/finance/finance.component';
 import { NumbersHelper } from '../../helpers/numbers.helper';
 import { AssistantModule } from '../../components/assistant/assistant.module';
 import { DoctorModule } from '../../components/doctors/doctor.module';
 import { ServiceModule } from '../../components/service/service.module';
+import { CaseListModule } from '../../components/case/components/list/case.list.module';
+import { CaseEditorModule } from '../../components/case/components/editor/case.editor.module';
 
 @NgModule({
   imports: [
@@ -104,55 +73,28 @@ import { ServiceModule } from '../../components/service/service.module';
     AssistantModule,
     DoctorModule,
     ServiceModule,
+
+    // new impl
+    CaseListModule,
+    CaseEditorModule,
   ],
   declarations: [
     CasesComponent,
-    CaseEditorComponent,
-    CasesListComponent,
-    SelectAccidentTypeComponent,
-    SelectAccidentComponent,
-    AccidentCardComponent,
-    HospitalSelectComponent,
-    SelectCaseTypeComponent,
-    FileUploaderComponent,
-    DiagnosticsSelectorComponent,
-    SurveysSelectorComponent,
-    SelectDiagnosticsComponent,
-    SelectSurveysComponent,
-    ImporterComponent,
     AccidentStatusSelectComponent,
-    AccidentCheckpointsSelectorComponent,
-    AccidentScenarioComponent,
-    PatientSelectorComponent,
-    SelectPatientComponent,
-    PatientEditorComponent,
-    AccidentActivityComponent,
-    AccidentChatComponent,
-    AccidentHistoryComponent,
-    CommentsComponent,
-    CaseFinanceComponent,
   ],
   providers: [
     CasesService,
+    AuthenticationService,
+    DocumentsService,
+    AccidentStatusesService,
+    CitiesService,
+    ConfirmationService,
+    DateHelper,
+    NumbersHelper,
     AccidentsService,
     AccidentTypesService,
     AssistantsService,
     PatientsService,
-    HospitalsService,
-    DiagnosticService,
-    SurveyService,
-    AuthenticationService,
-    ImporterService,
-    DocumentsService,
-    AccidentStatusesService,
-    AccidentCheckpointsService,
-    ExporterService,
-    CitiesService,
-    AccidentScenarioService,
-    ConfirmationService,
-    DateHelper,
-    CaseEditorTabStopperService,
-    NumbersHelper,
   ],
 })
 export class CasesModule {
