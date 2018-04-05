@@ -7,12 +7,12 @@
 <ba-card *ngIf="category" title="Category Editor" baCardClass="with-scroll" class="edit-form-container">
     <div class="row">
         <div class="col-sm-10">
-            <diagnostic-category-selector
+            <nga-diagnostic-category-selector
                     [categoryId]="category.id"
                     (categoryChanged)="onCategoryChange($event)"
                     (loaded)="onSelectorLoaded()"
                     (loading)="onSelectorLoading()"
-            ></diagnostic-category-selector>
+            ></nga-diagnostic-category-selector>
         </div>
         <div class="col-sm-2 text-center">
             <label for="add-category-btn" translate>New Category</label><br>

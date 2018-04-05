@@ -23,8 +23,8 @@
                   (onBeforeUpload)="handleBeforeUpload($event)"
                   (onBeforeSend)="handleBeforeSend($event)">
         <ng-template pTemplate="content">
-            <h3 translate *ngIf="uploadedFiles.length">Uploaded Files</h3>
-            <table class="table table-striped table-bordered" *ngIf="uploadedFiles.length">
+            <h3 translate *ngIf="uploadedFiles && uploadedFiles.length">Uploaded Files</h3>
+            <table class="table table-striped table-bordered" *ngIf="uploadedFiles && uploadedFiles.length">
                 <thead class="table-inverse">
                 <tr>
                     <th>{{ uploadedFiles.length }}</th>

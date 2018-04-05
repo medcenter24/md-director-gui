@@ -6,11 +6,12 @@
 
 import { Component, ViewEncapsulation, ViewChild, OnInit } from '@angular/core';
 import { LocalDataSource } from 'ng2-smart-table';
-import { DiagnosticEditorComponent } from '../../../../components/diagnostic/components/editor/editor.component';
 import { Diagnostic } from '../../../../components/diagnostic/diagnostic';
 import { DiagnosticService } from '../../../../components/diagnostic/diagnostic.service';
 import { SlimLoadingBarService } from 'ng2-slim-loading-bar';
 import { TranslateService } from '@ngx-translate/core';
+import { DiagnosticEditorComponent }
+    from '../../../../components/diagnostic/components/editor/diagnostic.editor.component';
 
 @Component({
     selector: 'nga-doctor-diagnostic',

@@ -20,11 +20,6 @@ import { UsersService } from '../../components/users/users.service';
 import { DoctorEditorComponent } from '../../components/doctors/editor/editor.component';
 import { ServicesService } from '../../components/service/services.service';
 import { DiagnosticsComponent } from './components/diagnostics/diagnostics.component';
-import { DiagnosticEditorComponent } from '../../components/diagnostic/components/editor/editor.component';
-import { DiagnosticCategoryEditorComponent }
-  from '../../components/diagnostic/category/components/editor/editor.component';
-import { DiagnosticCategorySelectorComponent }
-  from '../../components/diagnostic/category/components/selector/selector.component';
 import { DiagnosticService } from '../../components/diagnostic/diagnostic.service';
 import { DiagnosticCategoryService } from '../../components/diagnostic/category/category.service';
 import { AppTranslationModule } from '../../app.translation.module';
@@ -33,6 +28,9 @@ import { CitiesModule } from '../../components/city/cities.module';
 import { CitiesService } from '../../components/city/cities.service';
 import { SurveysComponent } from './components/surveys/surveys.component';
 import { SurveyService } from '../../components/survey/survey.service';
+import { DiagnosticEditorModule } from '../../components/diagnostic/components/editor';
+import { DiagnosticCategoryEditorModule } from '../../components/diagnostic/category/components/editor';
+import { DiagnosticCategorySelectorModule } from '../../components/diagnostic/category/components/selector';
 
 @NgModule({
   imports: [
@@ -45,6 +43,9 @@ import { SurveyService } from '../../components/survey/survey.service';
     AutoCompleteModule,
     ListboxModule,
     CitiesModule,
+    DiagnosticEditorModule,
+    DiagnosticCategoryEditorModule,
+    DiagnosticCategorySelectorModule,
   ],
   declarations: [
     DoctorsComponent,
@@ -54,9 +55,6 @@ import { SurveyService } from '../../components/survey/survey.service';
     UserSelectorComponent,
     DoctorEditorComponent,
     DiagnosticsComponent,
-    DiagnosticEditorComponent,
-    DiagnosticCategoryEditorComponent,
-    DiagnosticCategorySelectorComponent,
     SurveysComponent,
   ],
   providers: [

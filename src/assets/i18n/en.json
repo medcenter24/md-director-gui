@@ -1,4 +1,13 @@
 {
+  "Time": "Time",
+  "Day of week": "Day of week",
+  "mon": "mon",
+  "tues": "tues",
+  "wed": "wed",
+  "thurs": "thurs",
+  "fri": "fri",
+  "sat": "sat",
+  "sun": "sun",
   "from": "from",
   "to": "to",
   "The ? field is required": "The \"{{value}}\" field is required",

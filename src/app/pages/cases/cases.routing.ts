@@ -4,12 +4,11 @@
  * @author Alexander Zagovorichev <zagovorichev@gmail.com>
  */
 
-import { Routes, RouterModule }  from '@angular/router';
-
+import { Routes, RouterModule } from '@angular/router';
 import { CasesComponent } from './cases.component';
 import { ModuleWithProviders } from '@angular/core';
-import { CaseEditorComponent } from '../../components/case/components/editor/editor.component';
-import { CasesListComponent } from '../../components/case/components/list/list.component';
+import { CaseListComponent } from '../../components/case/components/list/case.list.component';
+import { CaseEditorComponent } from '../../components/case/components/editor/case.editor.component';
 
 // noinspection TypeScriptValidateTypes
 export const routes: Routes = [
@@ -17,11 +16,11 @@ export const routes: Routes = [
     path: '',
     component: CasesComponent,
     children: [
-      { path: '', component: CasesListComponent },
+      { path: '', component: CaseListComponent },
       { path: 'new', component: CaseEditorComponent },
-      { path: ':id', component: CaseEditorComponent }
-    ]
-  }
+      { path: ':id', component: CaseEditorComponent },
+    ],
+  },
 ];
 
 export const routing: ModuleWithProviders = RouterModule.forChild(routes);
