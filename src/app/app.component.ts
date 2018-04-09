@@ -14,7 +14,7 @@ import { layoutPaths } from './theme/theme.constants';
 import { Confirmation, ConfirmationService, Message } from 'primeng/primeng';
 import { ApiErrorService } from './components/ui/apiError.service';
 import { LocalStorageHelper } from './helpers/local.storage.helper';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 
 /*
  * App Component
@@ -55,7 +55,7 @@ export class AppComponent implements AfterViewInit {
       this._state.subscribe('growl', (msgs: Message[]) => this.msgs = msgs);
       this._state.subscribe('confirmDialog', (config) => this.confirmationService.confirm(config));
       this._state.subscribe('blocker', (block: boolean) => this.blocked = block);
-      this._state.subscribe('apiError', (errors: any[]) => {
+      this._state.subscribe('apiError', (errors: HttpErrorResponse) => {
           this.apiErrorService.show(errors);
       });
       this._state.subscribe('avatarB64', (b64: string) => {

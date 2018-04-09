@@ -4,23 +4,28 @@
  * @author Zagovorychev Olexandr <zagovorichev@gmail.com>
  */
 
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'nga-date-dow-dropdown',
   template: `
       <p-dropdown [options]="days"
-                  [style]="{'width':'150px'}"
+                  [style]="{'width':'100px'}"
                   appendTo="body"
-                  placeholder="{{ 'Day of week' | translate }}"
-                  [(ngModel)]="selectedDay" filter="true" [showClear]="true"></p-dropdown>
+                  placeholder="{{ 'all' | translate }}"
+                  [(ngModel)]="selectedDay"
+                  (onChange)="changed($event)"
+                  filter="true"
+                  [showClear]="true"></p-dropdown>
   `,
 })
 export class UiDateDowDropdownComponent {
 
+  @Output() change: EventEmitter<string> = new EventEmitter<string>();
+
   selectedDay: string = '';
-  days: Object[];
+  days: any[];
 
   constructor(
     private translate: TranslateService,
@@ -37,5 +42,17 @@ export class UiDateDowDropdownComponent {
         { label: 'sun', value: this.translate.instant('sun') },
       ];
     });
+  }
+
+  changed(event): void {
+    this.change.emit(event.value);
+  }
+
+  set(dowLabel: string): void {
+    this.selectedDay = '';
+    const selected = this.days.find(x => x.label === dowLabel);
+    if (selected) {
+      this.selectedDay = selected.label;
+    }
   }
 }
