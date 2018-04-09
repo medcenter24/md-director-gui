@@ -8,6 +8,7 @@ import { Component, Input, ChangeDetectorRef, ViewChild, OnInit } from '@angular
 import { LoadableComponent } from '../../core/components/componentLoader/LoadableComponent';
 import { DataTable, LazyLoadEvent } from 'primeng/primeng';
 import { DatatableConfig } from './datatable.config';
+import { DatatableResponse } from './datatable.response';
 
 @Component({
   selector: 'nga-datatable',
@@ -25,25 +26,28 @@ export class DatatableComponent extends LoadableComponent implements OnInit {
   loading: boolean = false;
   selectedData: any;
   total: number = 0;
-  filters: Object = {};
 
   constructor (private cdr: ChangeDetectorRef) {
     super();
   }
 
   ngOnInit(): void {
-    this.filters = {
-      rows: this.config.rows,
-      offset: this.config.offset,
-    };
   }
 
   loadLazy(event: LazyLoadEvent) {
+    // in a real application, make a remote request to load data using state metadata from event
+    // event.first = First row offset
+    // event.rows = Number of rows per page
+    // event.sortField = Field name to sort with
+    // event.sortOrder = Sort order as number, 1 for asc and -1 for dec
+    // filters: FilterMetadata object having field as key and filter value, filter matchMode as value
+
     this.setLoading(true);
 
-    this.config.dataProvider(this.filters).then(data => {
+    this.config.dataProvider(event).then((response: DatatableResponse) => {
       this.setLoading(false);
-      this.data = data;
+      this.data = response.data;
+      this.total = response.meta.pagination.total;
     }).catch(err => {
       this.setLoading(false);
     });
