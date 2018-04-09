@@ -29,4 +29,8 @@ export class PeriodService extends HttpService {
     const action = datePeriod.id ? this.put(datePeriod.id, datePeriod) : this.store(datePeriod);
     return action.then(response => response.data as Period);
   }
+
+  destroy (datePeriod: Period): Promise<any> {
+    return this.remove(datePeriod.id);
+  }
 }

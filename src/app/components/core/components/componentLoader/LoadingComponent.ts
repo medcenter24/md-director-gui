@@ -18,10 +18,11 @@ import { GlobalState } from '../../../../global.state';
  */
 @Injectable()
 export abstract class LoadingComponent extends LoadableComponent {
+    protected abstract componentName;
 
-    protected _logger: Logger;
-    protected loadingBar: SlimLoadingBarService;
-    protected _state: GlobalState;
+    protected abstract _logger: Logger;
+    protected abstract loadingBar: SlimLoadingBarService;
+    protected abstract _state: GlobalState;
     protected onComponentsLoadingCompleted(): void { }
 
     private componentsList: string[] = [];
