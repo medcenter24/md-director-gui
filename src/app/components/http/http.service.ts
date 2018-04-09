@@ -65,7 +65,12 @@ export abstract class HttpService {
    * @returns {Promise<any>}
    */
   protected getList(filters: Object): Promise<any> {
-    return this.get(null, filters);
+    return this.http.post(this.getUrl('list'), JSON.stringify(filters), { headers: this.getAuthHeaders() })
+      .toPromise()
+      .then(response => {
+        return Promise.resolve(response);
+      })
+      .catch(error => this.handleError(error));
   }
 
   /**
