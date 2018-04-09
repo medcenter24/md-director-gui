@@ -9,7 +9,7 @@ import { LoadingComponent } from '../../../core/components/componentLoader/Loadi
 import { Period } from '../../period';
 import { PeriodService } from '../../period.service';
 import { DatatableConfig } from '../../../ui/datatable/datatable.config';
-import { DatatableCol } from '../../../ui/datatable/datatableCol';
+import { DatatableCol } from '../../../ui/datatable/datatable.col';
 import { DatatableAction } from '../../../ui/datatable/datatable.action';
 import { DatatableComponent } from '../../../ui/datatable/datatable.component';
 import { SlimLoadingBarService } from 'ng2-slim-loading-bar';
@@ -90,13 +90,17 @@ export class PeriodListComponent extends LoadingComponent implements OnInit {
       const to = this.datePeriod.to.trim();
       if (from.indexOf(' ') !== -1) {
         [this.dowTo, this.timeTo] = from.split(' ');
-        this.dowToComponent.set(this.dowTo);
+        if (this.dowToComponent && this.dowTo) {
+          this.dowToComponent.set(this.dowTo);
+        }
       } else {
         this.timeTo = to;
       }
       if (to.indexOf(' ') !== -1) {
         [this.dowFrom, this.timeFrom] = to.split(' ');
-        this.dowFromComponent.set(this.dowFrom);
+        if (this.dowFromComponent && this.dowFrom) {
+          this.dowFromComponent.set(this.dowFrom);
+        }
       } else {
         this.timeFrom = from;
       }

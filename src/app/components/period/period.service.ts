@@ -7,6 +7,7 @@
 import { Injectable } from '@angular/core';
 import { HttpService } from '../http/http.service';
 import { Period } from './period';
+import { DatatableResponse } from '../ui/datatable/datatable.response';
 
 @Injectable()
 export class PeriodService extends HttpService {
@@ -21,8 +22,8 @@ export class PeriodService extends HttpService {
     });
   */
 
-  getPeriods(filters: Object = {}): Promise<Period[]> {
-    return this.getList(filters).then(response => response.data as Period[]);
+  getPeriods(filters: Object = {}): Promise<DatatableResponse> {
+    return this.getList(filters);
   }
 
   save (datePeriod: Period): Promise<Period> {
