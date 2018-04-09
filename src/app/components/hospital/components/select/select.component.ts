@@ -4,7 +4,7 @@
  *  @author Alexander Zagovorichev <zagovorichev@gmail.com>
  */
 
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { Logger } from 'angular2-logger/core';
 import { Hospital } from '../../hospital';
 import { HospitalsService } from '../../hospitals.service';
