@@ -66,9 +66,10 @@ export class PeriodListComponent extends LoadingComponent implements OnInit {
           new DatatableCol('from', this.translateService.instant('From')),
           new DatatableCol('to', this.translateService.instant('To')),
         ],
+        refreshTitle: this.translateService.instant('Refresh'),
         controlPanel: true,
         controlPanelActions: [
-          new DatatableAction('Add', 'fa-plus', () => {
+          new DatatableAction(this.translateService.instant('Add'), 'fa-plus', () => {
             this.showDialogToAdd();
           }),
         ],
