@@ -16,6 +16,7 @@ import { SlimLoadingBarService } from 'ng2-slim-loading-bar';
 import { GlobalState } from '../../../../global.state';
 import { Logger } from 'angular2-logger/core';
 import { UiDateDowDropdownComponent } from '../../../ui/date/dow/dropdown/ui.date.dow.dropdown.component';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'nga-period-list',
@@ -40,39 +41,41 @@ export class PeriodListComponent extends LoadingComponent implements OnInit {
   timeFrom: string = '';
   dowTo: string = '';
   dowFrom: string = '';
+  langLoaded: boolean = false;
 
   constructor(
     protected loadingBar: SlimLoadingBarService,
     private datePeriodService: PeriodService,
     protected _logger: Logger,
     protected _state: GlobalState,
+    protected translateService: TranslateService,
   ) {
     super();
     this.datePeriod = new Period();
   }
 
   ngOnInit() {
-    this.datatableConfig = DatatableConfig.factory({
-      dataProvider: (filters: Object) => {
-        return this.datePeriodService.getPeriods(filters);
-      },
-      cols: [
-        new DatatableCol('title', 'Title'),
-        new DatatableCol('from', 'From'),
-        new DatatableCol('to', 'To'),
-      ],
-      controlPanel: true,
-      controlPanelActions: [
-        new DatatableAction('Add', 'fa-plus', () => {
-          this.showDialogToAdd();
-        }),
-        new DatatableAction('Refresh', 'fa-refresh', () => {
-          this.periodDatatable.refresh();
-        }),
-      ],
-      onRowSelect: event => {
-        this.onRowSelect(event);
-      },
+    this.translateService.get('Yes').subscribe(() => {
+      this.langLoaded = true;
+      this.datatableConfig = DatatableConfig.factory({
+        dataProvider: (filters: Object) => {
+          return this.datePeriodService.getDatatableData(filters);
+        },
+        cols: [
+          new DatatableCol('title', this.translateService.instant('Title')),
+          new DatatableCol('from', this.translateService.instant('From')),
+          new DatatableCol('to', this.translateService.instant('To')),
+        ],
+        controlPanel: true,
+        controlPanelActions: [
+          new DatatableAction('Add', 'fa-plus', () => {
+            this.showDialogToAdd();
+          }),
+        ],
+        onRowSelect: event => {
+          this.onRowSelect(event);
+        },
+      });
     });
   }
 

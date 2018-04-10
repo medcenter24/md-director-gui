@@ -5,7 +5,7 @@
  */
 
 import { DatatableAction } from './datatable.action';
-import { DatatableCol } from './datatableCol';
+import { DatatableCol } from './datatable.col';
 
 export class DatatableConfig {
 
@@ -21,6 +21,8 @@ export class DatatableConfig {
     public cols: DatatableCol[] = null,
     public onRowSelect: Function = function (event) {},
     public showTotal: boolean = true,
+    public refreshBtnTitle: string = 'Refresh',
+    public showRefreshBtn: boolean = true,
   ) { }
 
   /**
@@ -41,6 +43,8 @@ export class DatatableConfig {
       config.update('cols', configuration);
       config.update('onRowSelect', configuration);
       config.update('showTotal', configuration);
+      config.update('refreshBtnTitle', configuration);
+      config.update('showRefreshBtn', configuration);
     }
     return config;
   }
