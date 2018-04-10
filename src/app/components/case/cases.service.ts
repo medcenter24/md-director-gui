@@ -29,6 +29,7 @@ export class CasesService extends HttpService {
     return 'director/cases';
   }
 
+  // todo check if I'm using it
   getExtendedCase(id: number): Promise<ExtendCaseAccident[]> {
     return this.get()
       .then(response => response.data as ExtendCaseAccident[]);

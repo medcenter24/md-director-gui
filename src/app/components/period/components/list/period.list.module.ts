@@ -9,7 +9,7 @@ import { FormsModule } from '@angular/forms';
 import { DialogModule } from 'primeng/dialog';
 import { ButtonModule } from 'primeng/button';
 import { AppTranslationModule } from '../../../../app.translation.module';
-import { TableModule } from 'primeng/table';
+// import { TableModule } from 'primeng/table';
 import { CommonModule } from '@angular/common';
 import { DatatableModule } from '../../../ui/datatable/datatable.module';
 import { PeriodService } from '../../period.service';
@@ -22,7 +22,7 @@ import { UiDateDowDropdownModule } from '../../../ui/date/dow/dropdown';
     CommonModule,
     FormsModule,
     AppTranslationModule,
-    TableModule,
+    // TableModule,
     DialogModule,
     ButtonModule,
     DatatableModule,
