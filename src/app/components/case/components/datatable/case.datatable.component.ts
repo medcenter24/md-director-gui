@@ -10,6 +10,7 @@ import { DatatableAction } from '../../../ui/datatable/datatable.action';
 import { DatatableConfig } from '../../../ui/datatable/datatable.config';
 import { CasesService } from '../../cases.service';
 import { TranslateService } from '@ngx-translate/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'nga-case-datatable',
@@ -23,6 +24,7 @@ export class CaseDatatableComponent implements OnInit {
   constructor(
     private caseService: CasesService,
     private translateService: TranslateService,
+    public router: Router,
   ) {}
 
   ngOnInit() {
@@ -49,11 +51,11 @@ export class CaseDatatableComponent implements OnInit {
         controlPanel: true,
         controlPanelActions: [
           new DatatableAction(this.translateService.instant('Add'), 'fa-plus', () => {
-            console.log('adding action');
+            this.router.navigate(['pages/cases/new']);
           }),
         ],
         onRowSelect: event => {
-          console.log('row selection');
+          this.router.navigate(['pages/cases/', event.data.id]);
         },
       });
     });

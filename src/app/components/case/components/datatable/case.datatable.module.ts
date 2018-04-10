@@ -7,7 +7,7 @@
 import { NgModule } from '@angular/core';
 import { CaseDatatableComponent } from './case.datatable.component';
 import { DatatableModule } from '../../../ui/datatable/datatable.module';
-import {CommonModule} from "@angular/common";
+import { CommonModule } from '@angular/common';
 
 @NgModule({
   imports: [
