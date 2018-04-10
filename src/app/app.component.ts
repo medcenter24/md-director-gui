@@ -44,23 +44,23 @@ export class AppComponent implements AfterViewInit {
               public http: HttpClient,
   ) {
 
-      themeConfig.config();
+    themeConfig.config();
 
-      this._loadImages();
+    this._loadImages();
 
-      this._state.subscribe('menu.isCollapsed', (isCollapsed) => {
-        this.isMenuCollapsed = isCollapsed;
-      });
+    this._state.subscribe('menu.isCollapsed', (isCollapsed) => {
+      this.isMenuCollapsed = isCollapsed;
+    });
 
-      this._state.subscribe('growl', (msgs: Message[]) => this.msgs = msgs);
-      this._state.subscribe('confirmDialog', (config) => this.confirmationService.confirm(config));
-      this._state.subscribe('blocker', (block: boolean) => this.blocked = block);
-      this._state.subscribe('apiError', (errors: HttpErrorResponse) => {
-          this.apiErrorService.show(errors);
-      });
-      this._state.subscribe('avatarB64', (b64: string) => {
-          this.storage.setItem('avatar', b64);
-      });
+    this._state.subscribe('growl', (msgs: Message[]) => this.msgs = msgs);
+    this._state.subscribe('confirmDialog', (config) => this.confirmationService.confirm(config));
+    this._state.subscribe('blocker', (block: boolean) => this.blocked = block);
+    this._state.subscribe('apiError', (errors: HttpErrorResponse) => {
+      this.apiErrorService.show(errors);
+    });
+    this._state.subscribe('avatarB64', (b64: string) => {
+      this.storage.setItem('avatar', b64);
+    });
   }
 
   ngAfterViewInit(): void {

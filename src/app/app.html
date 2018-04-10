@@ -1,17 +1,19 @@
 <p-blockUI [blocked]="blocked">
-    <i class="fa fa-lock fa-5x" style="position:absolute;top:50%;left:50%"></i>
+  <i class="fa fa-lock fa-5x" style="position:absolute;top:50%;left:50%"></i>
 </p-blockUI>
-<main [class.menu-collapsed]="isMenuCollapsed" baThemeRun>
-    <ng2-slim-loading-bar [height]="'3px'" [color]="'#e85656'"></ng2-slim-loading-bar>
-    <p-growl [value]="msgs"></p-growl>
-    <div class="additional-bg"></div>
-    <router-outlet></router-outlet>
-    <p-confirmDialog #apiErr>
-        <p-footer>
-            <button type="button" pButton [icon]="apiErr.rejectIcon" *ngIf="apiErr.rejectVisible"
-                    label="{{ 'Cancel' | translate }}" (click)="apiErr.reject()"></button>
-            <button type="button" pButton [icon]="apiErr.acceptIcon" *ngIf="apiErr.acceptVisible"
-                    label="{{ 'Confirm' | translate }}" (click)="apiErr.accept()"></button>
-        </p-footer>
-    </p-confirmDialog>
+<main
+  [class.menu-collapsed]="isMenuCollapsed"
+  baThemeRun>
+  <ng2-slim-loading-bar [height]="'3px'" [color]="'#e85656'"></ng2-slim-loading-bar>
+  <p-growl [value]="msgs"></p-growl>
+  <div class="additional-bg"></div>
+  <router-outlet></router-outlet>
+  <p-confirmDialog #apiErr>
+    <p-footer>
+      <button type="button" pButton [icon]="apiErr.rejectIcon" *ngIf="apiErr.rejectVisible"
+              label="{{ 'Cancel' | translate }}" (click)="apiErr.reject()"></button>
+      <button type="button" pButton [icon]="apiErr.acceptIcon" *ngIf="apiErr.acceptVisible"
+              label="{{ 'Confirm' | translate }}" (click)="apiErr.accept()"></button>
+    </p-footer>
+  </p-confirmDialog>
 </main>

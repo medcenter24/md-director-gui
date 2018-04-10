@@ -9,6 +9,7 @@ import { LoadableComponent } from '../../core/components/componentLoader/Loadabl
 import { DataTable, LazyLoadEvent } from 'primeng/primeng';
 import { DatatableConfig } from './datatable.config';
 import { DatatableResponse } from './datatable.response';
+import { DatatableAction } from './datatable.action';
 
 @Component({
   selector: 'nga-datatable',
@@ -27,11 +28,18 @@ export class DatatableComponent extends LoadableComponent implements OnInit {
   selectedData: any;
   total: number = 0;
 
-  constructor (private cdr: ChangeDetectorRef) {
+  constructor (
+    private cdr: ChangeDetectorRef,
+  ) {
     super();
   }
 
   ngOnInit(): void {
+    if (this.config.showRefreshBtn) {
+      this.config.controlPanelActions.push(new DatatableAction(this.config.refreshBtnTitle, 'fa-refresh', () => {
+        this.refresh();
+      }));
+    }
   }
 
   loadLazy(event: LazyLoadEvent) {

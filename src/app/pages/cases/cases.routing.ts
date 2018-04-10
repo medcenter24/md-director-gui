@@ -7,8 +7,8 @@
 import { Routes, RouterModule } from '@angular/router';
 import { CasesComponent } from './cases.component';
 import { ModuleWithProviders } from '@angular/core';
-import { CaseListComponent } from '../../components/case/components/list/case.list.component';
 import { CaseEditorComponent } from '../../components/case/components/editor/case.editor.component';
+import { CaseDatatableComponent } from '../../components/case/components/datatable/case.datatable.component';
 
 // noinspection TypeScriptValidateTypes
 export const routes: Routes = [
@@ -16,7 +16,7 @@ export const routes: Routes = [
     path: '',
     component: CasesComponent,
     children: [
-      { path: '', component: CaseListComponent },
+      { path: '', component: CaseDatatableComponent },
       { path: 'new', component: CaseEditorComponent },
       { path: ':id', component: CaseEditorComponent },
     ],

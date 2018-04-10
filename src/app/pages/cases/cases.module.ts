@@ -38,8 +38,8 @@ import { NumbersHelper } from '../../helpers/numbers.helper';
 import { AssistantModule } from '../../components/assistant/assistant.module';
 import { DoctorModule } from '../../components/doctors/doctor.module';
 import { ServiceModule } from '../../components/service/service.module';
-import { CaseListModule } from '../../components/case/components/list/case.list.module';
 import { CaseEditorModule } from '../../components/case/components/editor/case.editor.module';
+import { CaseDatatableModule } from '../../components/case/components/datatable';
 
 @NgModule({
   imports: [
@@ -75,8 +75,9 @@ import { CaseEditorModule } from '../../components/case/components/editor/case.e
     ServiceModule,
 
     // new impl
-    CaseListModule,
+    // CaseListModule,
     CaseEditorModule,
+    CaseDatatableModule,
   ],
   declarations: [
     CasesComponent,

@@ -64,8 +64,8 @@ export abstract class HttpService {
    * @param {Object} filters
    * @returns {Promise<any>}
    */
-  protected getList(filters: Object): Promise<any> {
-    return this.http.post(this.getUrl('list'), JSON.stringify(filters), { headers: this.getAuthHeaders() })
+  getDatatableData(filters: Object): Promise<any> {
+    return this.http.post(this.getUrl('datatable'), JSON.stringify(filters), { headers: this.getAuthHeaders() })
       .toPromise()
       .then(response => {
         return Promise.resolve(response);
