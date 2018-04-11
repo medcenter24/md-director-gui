@@ -15,7 +15,7 @@
   "from": "from",
   "to": "to",
   "The ? field is required.": "The \"{{value}}\" field is required.",
-  "There is ? records": "There is {{value}} records",
+  "There are ? records": "There are {{value}} records",
   "From": "From",
   "To": "To",
   "Date Period Details": "Date Period Details",

@@ -18,6 +18,11 @@ export class DatatableConfig {
     public selectionMode: string = 'single',
     public controlPanel: boolean = false,
     public controlPanelActions: DatatableAction[] = null,
+    public captionPanelActions: DatatableAction[] = null,
+    public csvExportAll: boolean = true,
+    public csvExportAllTitle: string = 'All Data',
+    public csvExportSelections: boolean = true,
+    public csvExportSelectionsTitle: string = 'Selection Only',
     public cols: DatatableCol[] = null,
     public onRowSelect: Function = function (event) {},
     public showTotal: boolean = true,
@@ -40,6 +45,11 @@ export class DatatableConfig {
       config.update('selectionMode', configuration);
       config.update('controlPanel', configuration);
       config.update('controlPanelActions', configuration);
+      config.update('captionPanelActions', configuration);
+      config.update('csvExportAll', configuration);
+      config.update('csvExportAllTitle', configuration);
+      config.update('csvExportSelections', configuration);
+      config.update('csvExportSelectionsTitle', configuration);
       config.update('cols', configuration);
       config.update('onRowSelect', configuration);
       config.update('showTotal', configuration);
