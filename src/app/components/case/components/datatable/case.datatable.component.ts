@@ -4,13 +4,15 @@
  * @author Zagovorychev Olexandr <zagovorichev@gmail.com>
  */
 
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { DatatableCol } from '../../../ui/datatable/datatable.col';
 import { DatatableAction } from '../../../ui/datatable/datatable.action';
 import { DatatableConfig } from '../../../ui/datatable/datatable.config';
 import { CasesService } from '../../cases.service';
 import { TranslateService } from '@ngx-translate/core';
 import { Router } from '@angular/router';
+import { ExporterService } from '../../../exporter/exporter.service';
+import { ImporterComponent } from '../../../importer/importer.component';
 
 @Component({
   selector: 'nga-case-datatable',
@@ -18,13 +20,17 @@ import { Router } from '@angular/router';
 })
 export class CaseDatatableComponent implements OnInit {
 
+  @ViewChild('importer')
+    importer: ImporterComponent;
+
   datatableConfig: DatatableConfig;
   langLoaded: boolean = false;
 
   constructor(
-    private caseService: CasesService,
+    public caseService: CasesService,
     private translateService: TranslateService,
-    public router: Router,
+    private router: Router,
+    private exporterService: ExporterService,
   ) {}
 
   ngOnInit() {
@@ -48,6 +54,14 @@ export class CaseDatatableComponent implements OnInit {
         },
         cols,
         refreshTitle: this.translateService.instant('Refresh'),
+        captionPanelActions: [
+          new DatatableAction(this.translateService.instant('Import'), 'fa-upload', () => {
+            this.importer.showImporter();
+          }),
+          new DatatableAction(this.translateService.instant('Export'), 'fa-download', () => {
+            this.exporterService.form1({});
+          }),
+        ],
         controlPanel: true,
         controlPanelActions: [
           new DatatableAction(this.translateService.instant('Add'), 'fa-plus', () => {
