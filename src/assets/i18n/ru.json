@@ -15,7 +15,7 @@
   "from": "с",
   "to": "до",
   "The ? field is required": "Заполните поле \"{{value}}\"",
-  "There is ? records": "Всего {{value}} записей",
+  "There are ? records": "Всего {{value}} записей",
   "Date Period Details": "Настройка периода дат",
   "From": "С",
   "To": "До",

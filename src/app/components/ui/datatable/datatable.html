@@ -12,6 +12,44 @@
     [selectionMode]="config.selectionMode"
     [(selection)]="selectedData"
 >
+  <ng-template pTemplate="caption">
+    <div class="ui-helper-clearfix">
+      <button
+        *ngIf="config.csvExportAll"
+        type="button" pButton
+        icon="fa-file-o" iconPos="left"
+        [label]="config.csvExportAllTitle"
+        (click)="datatable.exportCSV()"
+        class="pull-left"></button>
+
+      <!--<button
+        *ngIf="config.csvExportSelections"
+        type="button"
+        pButton icon="fa-file"
+        iconPos="left"
+        [label]="config.csvExportSelectionsTitle"
+        (click)="datatable.exportCSV({selectionOnly:true})"
+        class="pull-left"
+      ></button>-->
+
+      <div
+        *ngIf="config.captionPanelActions && config.captionPanelActions.length"
+        class="pull-left"
+      >
+        <i
+          class="fa fa-bars pull-left pr-2 pl-2"
+        ></i>
+        <button
+          *ngFor="let action of config.captionPanelActions"
+          pButton
+          [icon]="action.icon"
+          (click)="action.run()"
+          [label]="action.title"
+          class="pull-left"
+        ></button>
+      </div>
+    </div>
+  </ng-template>
     <ng-template pTemplate="header" let-columns>
         <tr>
             <th *ngFor="let col of columns">
@@ -35,6 +73,6 @@
                     (click)="action.run()"
                     [label]="action.title"></button>
         </div>
-        <div class="text-center" *ngIf="config.showTotal" translate [translateParams]="{value: total}">There is ? records</div>
+        <div class="text-center" *ngIf="config.showTotal" translate [translateParams]="{value: total}">There are ? records</div>
     </ng-template>
 </p-table>
