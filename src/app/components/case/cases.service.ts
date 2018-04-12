@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017. 
+ * Copyright (c) 2017.
  *
  * @author Alexander Zagovorichev <zagovorichev@gmail.com>
  */
@@ -99,8 +99,8 @@ export class CasesService extends HttpService {
   downloadPdfReport (id: number): void {
     // const options = new RequestOptions({ responseType: ResponseContentType.Blob, headers: this.getAuthHeaders() });
     this.http
-      .get(this.getUrl(`${id}/downloadPdf`), { headers: this.getAuthHeaders(), responseType: 'arraybuffer' })
-      .map(res => res/*res.blob()*/)
+      .get(this.getUrl(`${id}/downloadPdf`), { headers: this.getAuthHeaders(), responseType: 'blob' })
+      .map(res => res)
       .subscribe(data => saveAs(data, `report_case_${id}.pdf`), err => this.handleError(err));
   }
 

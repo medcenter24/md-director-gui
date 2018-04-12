@@ -7,11 +7,10 @@
                 <span *ngIf="event.user_id" class="mt-0">{{ event.user_name }}</span>
                 <span *ngIf="!event.user_id" class="mt-0 text-muted" translate>System</span>
                 <small>
-                    <span translate>made changes</span> - {{ event.createdFormated }}
+                    <span translate>made changes</span> - <span class="text-muted">{{ event.createdFormated }}</span>
                 </small>
             </h5>
-            <p><span translate>Status</span> <span class="accident-status_{{event.status}}" translate>{{ event.status }}</span></p>
-
+            <p><span translate>Status</span>&nbsp;<span class="accident-status_{{event.status}}" translate>{{ event.status }}</span></p>
             <p class="mt-1">{{ event.commentary }}</p>
         </div>
     </div>
