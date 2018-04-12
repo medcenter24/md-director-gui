@@ -15,13 +15,13 @@
                                 <h2 *ngIf="accident.id">
                                     {{ 'Case Editing' | translate}} {{ 'pp' | translate }}{{ accident.id }}
                                     <span class="pull-right">
-                                        <span class="fa fa-file-pdf-o"
+                                        <span class="fa fa-file-pdf-o mr-2"
                                               (click)="downloadPdfReport()"
                                               title="{{ 'Save as PDF' | translate }}"></span>
-                                        <span class="fa fa-print"
+                                        <span class="fa fa-print mr-2"
                                               (click)="printReport()"
                                               title="{{ 'Print a Report' | translate }}"></span>
-                                        <span class="fa fa-window-maximize"
+                                        <span class="fa fa-window-maximize mr-2"
                                               (click)="previewReport()"
                                               title="{{ 'Report Preview' | translate }}"></span>
                                     </span>
@@ -36,7 +36,7 @@
                             <div class="col-sm-4">
                                 <label class="label separate" translate>Referral Number</label>
                                 <b pTooltip="{{ 'If you leave it empty then it will be generated automatically' | translate }}"
-                                   class="badge badge-default pull-left">?</b>
+                                   class="badge badge-secondary pull-left">?</b>
                                 <p-inplace closable="true" class="pull-left">
                                     <span pInplaceDisplay>
                                         {{ accident.ref_num }}
@@ -361,7 +361,7 @@
                 <button pButton type="button" class="ui-button-success pull-left offset-right20" (click)="onSave($event)"
                         [disabled]="!accidentForm.form.valid" label="{{ 'Save' | translate }}"></button>
                 <b pTooltip="{{ 'All required (*) fields should be filled' | translate }}"
-                   class="badge badge-default pull-left">?</b>
+                   class="badge badge-secondary pull-left">?</b>
                 <button pButton type="button" class="ui-button-secondary pull-right"
                         label="{{ 'Close' | translate }}" *ngIf="accident.id"
                         (click)="onClose($event)"></button>
