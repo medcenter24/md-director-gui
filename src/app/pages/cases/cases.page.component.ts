@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017. 
+ * Copyright (c) 2017.
  *
  * @author Alexander Zagovorichev <zagovorichev@gmail.com>
  */
@@ -10,6 +10,6 @@ import { Component } from '@angular/core';
   selector: 'nga-cases-component',
   template: `<router-outlet></router-outlet>`,
 })
-export class CasesComponent {
+export class CasesPageComponent {
   constructor () {}
 }

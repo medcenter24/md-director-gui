@@ -21,8 +21,6 @@ import { PagesComponent } from './pages.component';
   declarations: [
     PagesComponent,
   ],
-  providers: [
-  ],
 })
 export class PagesModule {
 }

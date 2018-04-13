@@ -59,10 +59,3 @@
         </div>
     </p-footer>
 </p-dialog>
-
-<p-confirmDialog width="425" #cd>
-    <p-footer>
-        <button type="button" pButton icon="fa-close" label="{{ 'Cancel' | translate }}" (click)="cd.reject()"></button>
-        <button *ngIf="cd.acceptVisible" type="button" pButton icon="fa-check" label="{{ 'Accept' | translate }}" (click)="cd.accept()"></button>
-    </p-footer>
-</p-confirmDialog>
