@@ -1,7 +1,7 @@
 /*
- * Copyright (c) 2017. 
+ * Copyright (c) 2018.
  *
- * @author Alexander Zagovorichev <zagovorichev@gmail.com>
+ * @author Zagovorychev Olexandr <zagovorichev@gmail.com>
  */
 
 import { Component, ViewEncapsulation, ViewChild, OnInit } from '@angular/core';
@@ -23,7 +23,6 @@ export class PatientsComponent implements OnInit {
 
     deleteDialogEvent: any = null;
     titleForDeletion: string = '';
-    deleteProcess: boolean = false;
 
     settings = {
         actions: null,

@@ -45,7 +45,7 @@ export abstract class HttpService {
   getUrl(path: string|number = null): string {
     let url = `${environment.apiHost}/${this.getPrefix()}`;
       if (path) {
-          url += `/${path}`;
+        url += (url.substr(-1) === '/' ? '' : '/') + path;
       }
     return url;
   }

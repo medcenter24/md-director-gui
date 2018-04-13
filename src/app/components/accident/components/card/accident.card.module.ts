@@ -10,7 +10,7 @@ import { CommonModule } from '@angular/common';
 import { AppTranslationModule } from '../../../../app.translation.module';
 import { FormsModule } from '@angular/forms';
 import { AccidentCardComponent } from './accident.card.component';
-import { routing } from '../../../../pages/cases/cases.routing';
+import { routing } from '../../../../pages/cases/cases.page.routing';
 
 @NgModule({
   imports: [

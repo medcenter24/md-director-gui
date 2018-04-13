@@ -10,6 +10,7 @@ import { DatatableModule } from '../../../ui/datatable/datatable.module';
 import { CommonModule } from '@angular/common';
 import { ImporterModule } from '../../../importer/importer.module';
 import { ExporterService } from '../../../exporter/exporter.service';
+import { CasesService } from '../../cases.service';
 
 @NgModule({
   imports: [
@@ -22,6 +23,7 @@ import { ExporterService } from '../../../exporter/exporter.service';
   ],
   providers: [
     ExporterService,
+    CasesService,
   ],
   exports: [
     CaseDatatableComponent,
