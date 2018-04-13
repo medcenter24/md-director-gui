@@ -1,0 +1,30 @@
+<!--
+  ~ Copyright (c) 2018.
+  ~
+  ~ @author Zagovorychev Olexandr <zagovorichev@gmail.com>
+  -->
+
+<div class="widgets">
+
+  <div class="row">
+    <div class="col-sm-{{ isAssistant ? '6' : '12' }}">
+      <ng2-smart-table
+        *ngIf="settings.columns"
+        [settings]="settings"
+        [source]="source"
+        (userRowSelect)="onUserSelectRow($event)"
+        (deleteConfirm)="onDeleteConfirm($event)"
+        (createConfirm)="onTableCreate($event)"
+        (editConfirm)="onTableSave($event)"
+      ></ng2-smart-table>
+    </div>
+    <div class="col-sm-6" [hidden]="!isAssistant">
+      <nga-assistant-editor
+        [assistant]="currentAssistant"
+        (assistantSaved)="onUpdateAssistant($event)"
+        (close)="closeAssistantEditor()"
+      ></nga-assistant-editor>
+    </div>
+  </div>
+
+</div>

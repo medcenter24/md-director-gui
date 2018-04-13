@@ -1,0 +1,22 @@
+<!--
+  ~ Copyright (c) 2018.
+  ~
+  ~ @author Zagovorychev Olexandr <zagovorichev@gmail.com>
+  -->
+
+<div class="widgets">
+
+  <div class="row">
+    <div class="col-sm-12">
+      <ng2-smart-table
+              *ngIf="settings.columns"
+              [settings]="settings"
+              [source]="source"
+              (deleteConfirm)="onDeleteConfirm($event)"
+              (createConfirm)="onTableCreate($event)"
+              (editConfirm)="onTableSave($event)"
+      ></ng2-smart-table>
+    </div>
+  </div>
+
+</div>

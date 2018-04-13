@@ -7,10 +7,10 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'nga-companions',
+  selector: 'nga-page-companions',
   template: `<router-outlet></router-outlet>`,
 })
-export class CompanionsComponent {
+export class CompanionsPageComponent {
 
   constructor () {
   }

@@ -9,8 +9,8 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { NgaModule } from '../../theme/nga.module';
 
-import { CasesComponent } from './cases.component';
-import { routing } from './cases.routing';
+import { CasesPageComponent } from './cases.page.component';
+import { routing } from './cases.page.routing';
 
 import { Ng2SmartTableModule } from 'ng2-smart-table';
 
@@ -41,9 +41,11 @@ import { ServiceModule } from '../../components/service/service.module';
 import { CaseEditorModule } from '../../components/case/components/editor/case.editor.module';
 import { CaseDatatableModule } from '../../components/case/components/datatable';
 
+
+// todo clean this imports list
 @NgModule({
   imports: [
-    CommonModule,
+   /* CommonModule,
     FormsModule,
     NgaModule,
     routing,
@@ -72,19 +74,20 @@ import { CaseDatatableModule } from '../../components/case/components/datatable'
     InputMaskModule,
     AssistantModule,
     DoctorModule,
-    ServiceModule,
+    ServiceModule,*/
 
     // new impl
     // CaseListModule,
+    routing,
     CaseEditorModule,
     CaseDatatableModule,
   ],
   declarations: [
-    CasesComponent,
-    AccidentStatusSelectComponent,
+    CasesPageComponent,
+    /*AccidentStatusSelectComponent,*/
   ],
   providers: [
-    CasesService,
+    /*CasesService,
     AuthenticationService,
     DocumentsService,
     AccidentStatusesService,
@@ -95,8 +98,8 @@ import { CaseDatatableModule } from '../../components/case/components/datatable'
     AccidentsService,
     AccidentTypesService,
     AssistantsService,
-    PatientsService,
+    PatientsService,*/
   ],
 })
-export class CasesModule {
+export class CasesPageModule {
 }

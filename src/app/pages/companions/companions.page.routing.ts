@@ -6,15 +6,15 @@
 
 import { Routes, RouterModule } from '@angular/router';
 import { ModuleWithProviders } from '@angular/core';
-import { CompanionsComponent } from './companions.component';
-import { AssistantsComponent } from './components/assistants/assistants.component';
-import { PatientsComponent } from './components/patients/patients.component';
+import { CompanionsPageComponent } from './companions.page.component';
+import { AssistantsComponent } from '../../components/assistant/components/list/assistants.component';
+import { PatientsComponent } from '../../components/patient/components/list/patients.component';
 
 // noinspection TypeScriptValidateTypes
 const routes: Routes = [
   {
     path: '',
-    component: CompanionsComponent,
+    component: CompanionsPageComponent,
     children: [
       { path: 'assistants', component: AssistantsComponent },
       { path: 'patients', component: PatientsComponent },

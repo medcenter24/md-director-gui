@@ -73,7 +73,7 @@ export class CasesService extends HttpService {
   }
 
   getImportUrl (): string {
-    return `${this.getUrl()}/importer`;
+    return `${this.getPrefix()}/importer`;
   }
 
   saveCase (data): Promise<any> {
