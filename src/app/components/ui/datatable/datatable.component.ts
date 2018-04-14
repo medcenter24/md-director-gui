@@ -10,6 +10,8 @@ import { DataTable, LazyLoadEvent } from 'primeng/primeng';
 import { DatatableConfig } from './datatable.config';
 import { DatatableResponse } from './datatable.response';
 import { DatatableAction } from './datatable.action';
+import { DatatableTransformer } from './datatable.transformer';
+import { DatatableCol } from './datatable.col';
 
 @Component({
   selector: 'nga-datatable',
@@ -72,5 +74,19 @@ export class DatatableComponent extends LoadableComponent implements OnInit {
 
   refresh(): void {
     this.datatable.reset();
+  }
+
+  showData(rowData: string[], col: DatatableCol): string {
+    const transformer: DatatableTransformer = this.getTransformer(col);
+    return transformer.transform(rowData[col.field]);
+  }
+
+  private getTransformer(col: DatatableCol): DatatableTransformer {
+    let transformer;
+    if (this.config.transformers) {
+      transformer = this.config.transformers.find(tr => tr.field === col.field);
+    }
+
+    return transformer || new DatatableTransformer(col.field);
   }
 }

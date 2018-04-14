@@ -4,3 +4,4 @@
  * @author Zagovorychev Olexandr <zagovorichev@gmail.com>
  */
 
+export * from './period.datatable.module';

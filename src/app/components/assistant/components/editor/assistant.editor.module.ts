@@ -10,6 +10,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { AppTranslationModule } from '../../../../app.translation.module';
 import { NgaModule } from '../../../../theme/nga.module';
+import { AssistantsService } from '../../assistant.service';
 
 @NgModule({
   imports: [
@@ -23,6 +24,9 @@ import { NgaModule } from '../../../../theme/nga.module';
   ],
   exports: [
     AssistantEditorComponent,
+  ],
+  providers: [
+    AssistantsService,
   ],
 })
 export class AssistantEditorModule {

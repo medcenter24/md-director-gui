@@ -9,11 +9,10 @@ import { FormsModule } from '@angular/forms';
 import { DialogModule } from 'primeng/dialog';
 import { ButtonModule } from 'primeng/button';
 import { AppTranslationModule } from '../../../../app.translation.module';
-// import { TableModule } from 'primeng/table';
 import { CommonModule } from '@angular/common';
 import { DatatableModule } from '../../../ui/datatable/datatable.module';
 import { PeriodService } from '../../period.service';
-import { PeriodListComponent } from './period.list.component';
+import { PeriodDatatableComponent } from './period.datatable.component';
 import { InputMaskModule } from 'primeng/primeng';
 import { UiDateDowDropdownModule } from '../../../ui/date/dow/dropdown';
 
@@ -22,7 +21,6 @@ import { UiDateDowDropdownModule } from '../../../ui/date/dow/dropdown';
     CommonModule,
     FormsModule,
     AppTranslationModule,
-    // TableModule,
     DialogModule,
     ButtonModule,
     DatatableModule,
@@ -33,11 +31,11 @@ import { UiDateDowDropdownModule } from '../../../ui/date/dow/dropdown';
     PeriodService,
   ],
   declarations: [
-    PeriodListComponent,
+    PeriodDatatableComponent,
   ],
   exports: [
-    PeriodListComponent,
+    PeriodDatatableComponent,
   ],
 })
-export class PeriodListModule {
+export class PeriodDatatableModule {
 }

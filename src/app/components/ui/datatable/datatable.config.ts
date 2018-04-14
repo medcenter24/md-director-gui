@@ -6,6 +6,7 @@
 
 import { DatatableAction } from './datatable.action';
 import { DatatableCol } from './datatable.col';
+import { DatatableTransformer } from './datatable.transformer';
 
 export class DatatableConfig {
 
@@ -19,9 +20,11 @@ export class DatatableConfig {
     public controlPanel: boolean = false,
     public controlPanelActions: DatatableAction[] = null,
     public captionPanelActions: DatatableAction[] = null,
-    public csvExportAll: boolean = true,
+    public transformers: DatatableTransformer[] = null,
+    public captionPanel: boolean = false,
+    public csvExportAll: boolean = false,
     public csvExportAllTitle: string = 'All Data',
-    public csvExportSelections: boolean = true,
+    public csvExportSelections: boolean = false,
     public csvExportSelectionsTitle: string = 'Selection Only',
     public cols: DatatableCol[] = null,
     public onRowSelect: Function = function (event) {},
@@ -44,6 +47,7 @@ export class DatatableConfig {
       config.update('offset', configuration);
       config.update('selectionMode', configuration);
       config.update('controlPanel', configuration);
+      config.update('captionPanel', configuration);
       config.update('controlPanelActions', configuration);
       config.update('captionPanelActions', configuration);
       config.update('csvExportAll', configuration);
@@ -55,6 +59,7 @@ export class DatatableConfig {
       config.update('showTotal', configuration);
       config.update('refreshBtnTitle', configuration);
       config.update('showRefreshBtn', configuration);
+      config.update('transformers', configuration);
     }
     return config;
   }

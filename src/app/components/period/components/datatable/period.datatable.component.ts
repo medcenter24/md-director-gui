@@ -19,10 +19,10 @@ import { UiDateDowDropdownComponent } from '../../../ui/date/dow/dropdown/ui.dat
 import { TranslateService } from '@ngx-translate/core';
 
 @Component({
-  selector: 'nga-period-list',
-  templateUrl: './period.list.html',
+  selector: 'nga-period-datatable',
+  templateUrl: './period.datatable.html',
 })
-export class PeriodListComponent extends LoadingComponent implements OnInit {
+export class PeriodDatatableComponent extends LoadingComponent implements OnInit {
   protected componentName: string = 'PeriodListComponent';
 
   @ViewChild('dowFrom')
