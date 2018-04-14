@@ -9,7 +9,7 @@ import { ModuleWithProviders } from '@angular/core';
 import { AccidentCheckpointsComponent } from './components/checkpoints/checkpoints.component';
 import { AccidentFinanceComponent } from './components/finance/finance.component';
 import { SettingsComponent } from './settings.component';
-import { PeriodListComponent } from '../../components/period/components/list/period.list.component';
+import { PeriodDatatableComponent } from '../../components/period/components/datatable/period.datatable.component';
 
 // noinspection TypeScriptValidateTypes
 const routes: Routes = [
@@ -19,7 +19,7 @@ const routes: Routes = [
     children: [
       { path: 'checkpoints', component: AccidentCheckpointsComponent },
       { path: 'finance', component: AccidentFinanceComponent },
-      { path: 'periods', component: PeriodListComponent },
+      { path: 'periods', component: PeriodDatatableComponent },
     ],
   },
 ];

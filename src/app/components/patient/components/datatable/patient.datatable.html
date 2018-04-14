@@ -1,0 +1,22 @@
+<nga-datatable
+  *ngIf="langLoaded"
+  #patientDatatable
+  [config]="datatableConfig"
+></nga-datatable>
+
+<p-dialog
+  header="{{ 'Patient Editor' | translate }}"
+  [(visible)]="displayDialog"
+  [responsive]="true"
+  [modal]="true"
+  appendTo="body">
+
+  <nga-patient-editor
+    #editPatientForm
+    [initPatient]="patient"
+    (changed)="onPatientChanged($event)"
+    (init)="startLoader($event)"
+    (loaded)="stopLoader($event)"
+  ></nga-patient-editor>
+</p-dialog>
+

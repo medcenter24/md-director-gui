@@ -63,6 +63,8 @@ export class CaseDatatableComponent implements OnInit {
           }),
         ],
         controlPanel: true,
+        captionPanel: true,
+        csvExportAll: true,
         controlPanelActions: [
           new DatatableAction(this.translateService.instant('Add'), 'fa-plus', () => {
             this.router.navigate(['pages/cases/new']);

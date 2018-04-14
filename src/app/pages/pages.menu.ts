@@ -90,7 +90,7 @@ export const PAGES_MENU = [
         data: {
           menu: {
             title: 'Geo',
-            icon: 'ion-android-pin',
+            icon: 'fa fa-map-marker',
           },
         },
         children: [
