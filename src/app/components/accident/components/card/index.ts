@@ -4,4 +4,4 @@
  * @author Zagovorychev Olexandr <zagovorichev@gmail.com>
  */
 
-export * from './period.list.module';
+export * from './accident.card.module';

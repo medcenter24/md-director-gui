@@ -4,7 +4,14 @@
         [config]="datatableConfig"
 ></nga-datatable>
 
-<p-dialog header="{{ 'Date Period Details' | translate }}" [(visible)]="displayDialog" [responsive]="true" showEffect="fade" [modal]="true" [width]="300">
+<p-dialog
+  header="{{ 'Date Period Details' | translate }}"
+  [(visible)]="displayDialog"
+  [responsive]="true"
+  showEffect="fade"
+  [modal]="true"
+  [width]="300">
+
     <div class="ui-g ui-fluid" *ngIf="datePeriod">
         <div class="ui-g-12">
             <div class="ui-g-3">

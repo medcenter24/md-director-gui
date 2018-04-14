@@ -11,6 +11,7 @@ import { AppTranslationModule } from '../../../../app.translation.module';
 import { FormsModule } from '@angular/forms';
 import { AccidentCardComponent } from './accident.card.component';
 import { routing } from '../../../../pages/cases/cases.page.routing';
+import { AccidentsService } from '../../accidents.service';
 
 @NgModule({
   imports: [
@@ -25,6 +26,9 @@ import { routing } from '../../../../pages/cases/cases.page.routing';
   ],
   exports: [
     AccidentCardComponent,
+  ],
+  providers: [
+    AccidentsService,
   ],
 })
 export class AccidentCardModule {

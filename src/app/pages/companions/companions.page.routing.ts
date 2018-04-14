@@ -8,7 +8,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { ModuleWithProviders } from '@angular/core';
 import { CompanionsPageComponent } from './companions.page.component';
 import { AssistantsComponent } from '../../components/assistant/components/list/assistants.component';
-import { PatientsComponent } from '../../components/patient/components/list/patients.component';
+import { PatientDatatableComponent } from '../../components/patient/components/datatable/patient.datatable.component';
 
 // noinspection TypeScriptValidateTypes
 const routes: Routes = [
@@ -17,7 +17,7 @@ const routes: Routes = [
     component: CompanionsPageComponent,
     children: [
       { path: 'assistants', component: AssistantsComponent },
-      { path: 'patients', component: PatientsComponent },
+      { path: 'patients', component: PatientDatatableComponent },
     ],
   },
 ];

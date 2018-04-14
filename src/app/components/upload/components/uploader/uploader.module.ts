@@ -10,6 +10,7 @@ import { AppTranslationModule } from '../../../../app.translation.module';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { FileUploaderComponent } from './uploader.component';
+import { DocumentsService } from '../../../document/documents.service';
 
 @NgModule({
   imports: [
@@ -23,7 +24,10 @@ import { FileUploaderComponent } from './uploader.component';
   ],
   exports: [
     FileUploaderComponent,
-  ]
+  ],
+  providers: [
+    DocumentsService,
+  ],
 })
 export class UploaderModule {
 }

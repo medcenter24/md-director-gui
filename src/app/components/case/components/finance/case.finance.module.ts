@@ -11,6 +11,7 @@ import { FormsModule } from '@angular/forms';
 import { AppTranslationModule } from '../../../../app.translation.module';
 import { InplaceModule } from 'primeng/inplace';
 import { InputTextModule, ToggleButtonModule, TooltipModule } from 'primeng/primeng';
+import { NumbersHelper } from '../../../../helpers/numbers.helper';
 
 @NgModule({
   imports: [
@@ -25,7 +26,9 @@ import { InputTextModule, ToggleButtonModule, TooltipModule } from 'primeng/prim
   declarations: [
     CaseFinanceComponent,
   ],
-  providers: [],
+  providers: [
+    NumbersHelper,
+  ],
   exports: [
     CaseFinanceComponent,
   ],

@@ -12,7 +12,7 @@
     [selectionMode]="config.selectionMode"
     [(selection)]="selectedData"
 >
-  <ng-template pTemplate="caption">
+  <ng-template pTemplate="caption" *ngIf="config.captionPanel">
     <div class="ui-helper-clearfix">
       <button
         *ngIf="config.csvExportAll"
@@ -22,7 +22,7 @@
         (click)="datatable.exportCSV()"
         class="pull-left"></button>
 
-      <!--<button
+      <button
         *ngIf="config.csvExportSelections"
         type="button"
         pButton icon="fa-file"
@@ -30,13 +30,14 @@
         [label]="config.csvExportSelectionsTitle"
         (click)="datatable.exportCSV({selectionOnly:true})"
         class="pull-left"
-      ></button>-->
+      ></button>
 
       <div
         *ngIf="config.captionPanelActions && config.captionPanelActions.length"
         class="pull-left"
       >
         <i
+          *ngIf="config.csvExportAll || config.csvExportSelections"
           class="fa fa-bars pull-left pr-2 pl-2"
         ></i>
         <button
@@ -60,7 +61,7 @@
     <ng-template pTemplate="body" let-rowData let-columns="columns">
         <tr [pSelectableRow]="rowData">
             <td *ngFor="let col of columns">
-                {{rowData[col.field]}}
+                {{showData(rowData, col)}}
             </td>
         </tr>
     </ng-template>
