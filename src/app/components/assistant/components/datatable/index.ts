@@ -4,4 +4,4 @@
  * @author Zagovorychev Olexandr <zagovorichev@gmail.com>
  */
 
-export * from './assistants.module';
+export * from './assistant.datatable.module';

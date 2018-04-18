@@ -7,32 +7,29 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { Assistant } from '../../assistant';
 import { AssistantsService } from '../../assistant.service';
-import { SlimLoadingBarService } from 'ng2-slim-loading-bar';
+import { LoadableComponent } from '../../../core/components/componentLoader/LoadableComponent';
 
 @Component({
-    selector: 'nga-assistant-editor',
-    templateUrl: './editor.html',
+  selector: 'nga-assistant-editor',
+  templateUrl: './editor.html',
 })
-export class AssistantEditorComponent {
+export class AssistantEditorComponent extends LoadableComponent {
+  protected componentName: string = 'AssistantEditorComponent';
 
-    @Input() assistant: Assistant;
-    @Output() assistantSaved: EventEmitter<Assistant> = new EventEmitter<Assistant>();
-    @Output() loaded: EventEmitter<null> = new EventEmitter<null>();
-    @Output() close: EventEmitter<null> = new EventEmitter<null>();
+  @Input() assistant: Assistant;
+  @Output() assistantSaved: EventEmitter<Assistant> = new EventEmitter<Assistant>();
 
-    constructor (private service: AssistantsService, private loadingBar: SlimLoadingBarService) { }
+  constructor(private service: AssistantsService) {
+    super();
+  }
 
-    onSubmit(): void {
-        this.loadingBar.start();
-        this.service.update(this.assistant).then(() => {
-            this.assistantSaved.emit(this.assistant);
-            this.loadingBar.complete();
-        }).catch(() => {
-            this.loadingBar.complete();
-        });
-    }
-
-    closeEditor(): void {
-        this.close.emit();
-    }
+  onSubmit(): void {
+    this.initComponent();
+    this.service.update(this.assistant).then(() => {
+      this.loadedComponent();
+      this.assistantSaved.emit(this.assistant);
+    }).catch(() => {
+      this.loadedComponent();
+    });
+  }
 }
