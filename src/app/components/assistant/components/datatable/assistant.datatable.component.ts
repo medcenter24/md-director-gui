@@ -9,42 +9,40 @@ import { DatatableCol } from '../../../ui/datatable/datatable.col';
 import { DatatableConfig } from '../../../ui/datatable/datatable.config';
 import { DatatableAction } from '../../../ui/datatable/datatable.action';
 import { TranslateService } from '@ngx-translate/core';
-import { PatientsService } from '../../patients.service';
-import { DatatableTransformer } from '../../../ui/datatable/datatable.transformer';
-import { DateHelper } from '../../../../helpers/date.helper';
-import { Patient } from '../../patient';
 import { LoadingComponent } from '../../../core/components/componentLoader/LoadingComponent';
 import { Logger } from 'angular2-logger/core';
 import { GlobalState } from '../../../../global.state';
 import { SlimLoadingBarService } from 'ng2-slim-loading-bar';
 import { DatatableComponent } from '../../../ui/datatable/datatable.component';
-import { PatientEditorComponent } from '../editor/patient.editor.component';
+import { AssistantEditorComponent } from '../editor/assistant.editor.component';
+import { AssistantsService } from '../../assistant.service';
+import { Assistant } from '../../assistant';
 
 @Component({
-  selector: 'nga-patient-datatable',
-  templateUrl: './patient.datatable.html',
+  selector: 'nga-assistant-datatable',
+  templateUrl: './assistant.datatable.html',
 })
-export class PatientDatatableComponent extends LoadingComponent implements OnInit {
+export class AssistantDatatableComponent extends LoadingComponent implements OnInit {
 
-  protected componentName: string = 'PatientDatatableComponent';
+  protected componentName: string = 'AssistantDatatableComponent';
 
-  @ViewChild('patientDatatable')
-  private patientDatatable: DatatableComponent;
+  @ViewChild('datatable')
+  private datatable: DatatableComponent;
 
-  @ViewChild('editPatientForm')
-  private editPatientForm: PatientEditorComponent;
+  @ViewChild('editAssistantForm')
+  private editAssistantForm: AssistantEditorComponent;
 
   datatableConfig: DatatableConfig;
   langLoaded: boolean = false;
   displayDialog: boolean = false;
+  assistant: Assistant;
 
   constructor(
     protected _logger: Logger,
     protected _state: GlobalState,
     protected loadingBar: SlimLoadingBarService,
     private translateService: TranslateService,
-    private patientService: PatientsService,
-    private dateHelper: DateHelper,
+    private assistantService: AssistantsService,
   ) {
     super();
   }
@@ -53,15 +51,15 @@ export class PatientDatatableComponent extends LoadingComponent implements OnIni
     this.translateService.get('Yes').subscribe(() => {
       this.langLoaded = true;
       const cols = [
-        new DatatableCol('name', this.translateService.instant('Name')),
-        new DatatableCol('address', this.translateService.instant('Address')),
-        new DatatableCol('phones', this.translateService.instant('Phone')),
-        new DatatableCol('birthday', this.translateService.instant('Birthday')),
+        new DatatableCol('title', this.translateService.instant('Title')),
+        new DatatableCol('email', this.translateService.instant('E-Mail')),
+        new DatatableCol('commentary', this.translateService.instant('Commentary')),
+        new DatatableCol('refKey', this.translateService.instant('Ref. Key')),
       ];
 
       this.datatableConfig = DatatableConfig.factory({
         dataProvider: (filters: Object) => {
-          return this.patientService.getDatatableData(filters);
+          return this.assistantService.getDatatableData(filters);
         },
         cols,
         refreshTitle: this.translateService.instant('Refresh'),
@@ -71,9 +69,6 @@ export class PatientDatatableComponent extends LoadingComponent implements OnIni
             this.showDialogToAdd();
           }),
         ],
-        transformers: [
-          new DatatableTransformer('birthday', val => this.dateHelper.toEuropeFormat(val)),
-        ],
         onRowSelect: event => {
           this.onRowSelect(event);
         },
@@ -82,29 +77,30 @@ export class PatientDatatableComponent extends LoadingComponent implements OnIni
   }
 
   showDialogToAdd() {
-    this.setPatient(new Patient());
+    this.setAssistant(new Assistant());
     this.displayDialog = true;
   }
 
-  private setPatient(patient: Patient): void {
-    this.editPatientForm.setPatient(patient);
+  private setAssistant(assistant: Assistant): void {
+    this.assistant = assistant;
   }
 
   onRowSelect(event) {
-    this.setPatient(this.clonePatient(event.data));
+    this.setAssistant(this.cloneAssistant(event.data));
     this.displayDialog = true;
   }
 
-  private clonePatient(p: Patient): Patient {
-    const patient = new Patient();
-    for (const prop of Object.keys(p)) {
-      patient[prop] = p[prop];
+  private cloneAssistant(a: Assistant): Assistant {
+    const assistant = new Assistant();
+    for (const prop of Object.keys(a)) {
+      assistant[prop] = a[prop];
     }
-    return patient;
+    return assistant;
   }
 
-  onPatientChanged(event): void {
+  onChanged(event): void {
     this.displayDialog = false;
-    this.patientDatatable.refresh();
+    this.datatable.refresh();
   }
 }
+
