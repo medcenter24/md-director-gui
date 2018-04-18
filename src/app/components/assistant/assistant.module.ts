@@ -11,7 +11,8 @@ import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { AssistantSelectComponent } from './components/select/select.component';
 import { AssistantsService } from './assistant.service';
-import {CitiesModule} from "../city/cities.module";
+import { CitiesModule } from '../city/cities.module';
+
 @NgModule({
   imports: [
     CommonModule,

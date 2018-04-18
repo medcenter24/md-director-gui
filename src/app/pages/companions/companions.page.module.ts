@@ -5,14 +5,14 @@
  */
 
 import { NgModule } from '@angular/core';
-import { AssistantsModule } from '../../components/assistant/components/list';
 import { CompanionsPageComponent } from './companions.page.component';
 import { routing } from './companions.page.routing';
 import { PatientDatatableModule } from '../../components/patient/components/datatable';
+import { AssistantDatatableModule } from '../../components/assistant/components/datatable';
 
 @NgModule({
   imports: [
-    AssistantsModule,
+    AssistantDatatableModule,
     routing,
     PatientDatatableModule,
   ],

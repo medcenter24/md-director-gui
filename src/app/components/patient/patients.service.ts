@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017. 
+ * Copyright (c) 2017.
  *
  * @author Alexander Zagovorichev <zagovorichev@gmail.com>
  */
@@ -17,7 +17,7 @@ export class PatientsService extends HttpService {
   protected getPrefix(): string {
     return 'director/patients';
   }
-  
+
   getPatients(): Promise<Patient[]> {
     return this.get().then(response => response.data as Patient[]);
   }
@@ -31,7 +31,7 @@ export class PatientsService extends HttpService {
   }
 
   create(patient: Patient): Promise<Patient> {
-    return this.store(patient).then(res => res.json() as Patient);
+    return this.store(patient).then(res => res as Patient);
   }
 
   update(patient: Patient): Promise<Patient> {

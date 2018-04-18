@@ -1,0 +1,28 @@
+<!--
+  ~ Copyright (c) 2018.
+  ~
+  ~ @author Zagovorychev Olexandr <zagovorichev@gmail.com>
+  -->
+
+<nga-datatable
+  *ngIf="langLoaded"
+  #assistantDatatable
+  [config]="datatableConfig"
+></nga-datatable>
+
+<p-dialog
+  header="{{ 'Assistant Editor' | translate }}"
+  [(visible)]="displayDialog"
+  [responsive]="true"
+  [modal]="true"
+  appendTo="body">
+
+  <nga-assistant-editor
+    #editAssistantForm
+    [assistant]="assistant"
+    (assistantSaved)="onChanged($event)"
+    (init)="startLoader($event)"
+    (loaded)="stopLoader($event)"
+  ></nga-assistant-editor>
+</p-dialog>
+
