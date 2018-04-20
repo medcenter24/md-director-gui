@@ -29,6 +29,7 @@ export class DatatableComponent extends LoadableComponent implements OnInit {
   loading: boolean = false;
   selectedData: any;
   total: number = 0;
+  firstLoading: boolean = true;
 
   constructor (
     private cdr: ChangeDetectorRef,
@@ -53,6 +54,12 @@ export class DatatableComponent extends LoadableComponent implements OnInit {
     // filters: FilterMetadata object having field as key and filter value, filter matchMode as value
 
     this.setLoading(true);
+
+    if (this.firstLoading && this.config.sortBy) {
+      event.sortField = this.config.sortBy;
+      event.sortOrder = this.config.sortOrder;
+      this.firstLoading = false;
+    }
 
     this.config.dataProvider(event).then((response: DatatableResponse) => {
       this.setLoading(false);
@@ -88,5 +95,16 @@ export class DatatableComponent extends LoadableComponent implements OnInit {
     }
 
     return transformer || new DatatableTransformer(col.field);
+  }
+
+  /**
+   * Checks that field could be sorted
+   * @param {string} field
+   * @returns {boolean}
+   */
+  isSortable(field: string): boolean {
+    return this.config.sort && (!this.config.sortable
+      || !this.config.sortable.length
+      || this.config.sortable.indexOf(field) !== -1);
   }
 }

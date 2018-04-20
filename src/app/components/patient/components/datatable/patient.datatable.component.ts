@@ -77,6 +77,8 @@ export class PatientDatatableComponent extends LoadingComponent implements OnIni
         onRowSelect: event => {
           this.onRowSelect(event);
         },
+        sort: true,
+        sortBy: 'name',
       });
     });
   }

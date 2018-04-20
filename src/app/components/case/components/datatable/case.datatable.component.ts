@@ -13,6 +13,8 @@ import { TranslateService } from '@ngx-translate/core';
 import { Router } from '@angular/router';
 import { ExporterService } from '../../../exporter/exporter.service';
 import { ImporterComponent } from '../../../importer/importer.component';
+import { DatatableTransformer } from '../../../ui/datatable/datatable.transformer';
+import { DateHelper } from '../../../../helpers/date.helper';
 
 @Component({
   selector: 'nga-case-datatable',
@@ -31,6 +33,7 @@ export class CaseDatatableComponent implements OnInit {
     private translateService: TranslateService,
     private router: Router,
     private exporterService: ExporterService,
+    private dateHelper: DateHelper,
   ) {}
 
   ngOnInit() {
@@ -73,6 +76,13 @@ export class CaseDatatableComponent implements OnInit {
         onRowSelect: event => {
           this.router.navigate(['pages/cases/', event.data.id]);
         },
+        transformers: [
+          new DatatableTransformer('createdAt', val => this.dateHelper.toEuropeFormatWithTime(val)),
+        ],
+        filters: true,
+        filterActions: [],
+        // todo sorting by this table is harder than that, I need to think more how to implement it
+        // sort: true,
       });
     });
   }
