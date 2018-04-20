@@ -31,6 +31,33 @@ export class DatatableConfig {
     public showTotal: boolean = true,
     public refreshBtnTitle: string = 'Refresh',
     public showRefreshBtn: boolean = true,
+    /**
+     * https://www.primefaces.org/primeng/#/table/sort
+     * 'single', 'multiple'
+     * @type {string}
+     */
+    public sortMode: string = 'single',
+    /**
+     * it turns sorting on|off
+     * @type {boolean}
+     */
+    public sort: boolean = false,
+    /**
+     * field to sort by on the init
+     * @type {null}
+     */
+    public sortBy: string = null,
+    /**
+     * 1 - asc
+     * -1 - desc
+     * @type {number}
+     */
+    public sortOrder: number = 1,
+    /**
+     * if present then will be shown sorting on that fields
+     * @type {null}
+     */
+    public sortable: string[] = null,
   ) { }
 
   /**
@@ -60,6 +87,11 @@ export class DatatableConfig {
       config.update('refreshBtnTitle', configuration);
       config.update('showRefreshBtn', configuration);
       config.update('transformers', configuration);
+      config.update('sortMode', configuration);
+      config.update('sort', configuration);
+      config.update('sortBy', configuration);
+      config.update('sortOrder', configuration);
+      config.update('sortable', configuration);
     }
     return config;
   }
