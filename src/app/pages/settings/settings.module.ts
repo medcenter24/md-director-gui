@@ -10,10 +10,8 @@ import { FormsModule } from '@angular/forms';
 import { NgaModule } from '../../theme/nga.module';
 import { Ng2SmartTableModule } from 'ng2-smart-table';
 import { routing } from './settings.routing';
-import { AccidentCheckpointsComponent } from './components/checkpoints/checkpoints.component';
 import { AccidentsService } from '../../components/accident/accidents.service';
 import { AccidentTypesService } from '../../components/accident/components/type/types.service';
-import { AccidentCheckpointsService } from '../../components/accident/components/checkpoint/checkpoints.service';
 import { AccidentStatusesService } from '../../components/accident/components/status/statuses.service';
 import { SettingsComponent } from './settings.component';
 import { AppTranslationModule } from '../../app.translation.module';
@@ -31,6 +29,8 @@ import { ServiceModule } from '../../components/service/service.module';
 import { NumbersHelper } from '../../helpers/numbers.helper';
 import { FinanceModule } from '../../components/finance/finance.module';
 import { PeriodDatatableModule } from '../../components/period/components/datatable';
+import { AccidentCheckpointDatatableModule }
+  from '../../components/accident/components/checkpoint/components/datatable';
 
 @NgModule({
   imports: [
@@ -48,15 +48,14 @@ import { PeriodDatatableModule } from '../../components/period/components/datata
     ServiceModule,
     FinanceModule,
     PeriodDatatableModule,
+    AccidentCheckpointDatatableModule,
   ],
   declarations: [
     SettingsComponent,
-    AccidentCheckpointsComponent,
     AccidentFinanceComponent,
   ],
   providers: [
     AccidentStatusesService,
-    AccidentCheckpointsService,
     AccidentTypesService,
     AccidentsService,
     AssistantsService,

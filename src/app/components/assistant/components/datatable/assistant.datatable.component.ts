@@ -72,6 +72,8 @@ export class AssistantDatatableComponent extends LoadingComponent implements OnI
         onRowSelect: event => {
           this.onRowSelect(event);
         },
+        sort: true,
+        sortBy: 'title',
       });
     });
   }

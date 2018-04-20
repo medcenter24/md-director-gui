@@ -1,0 +1,46 @@
+<!--
+  ~ Copyright (c) 2018.
+  ~
+  ~ @author Zagovorychev Olexandr <zagovorichev@gmail.com>
+  -->
+
+<nga-datatable
+  *ngIf="langLoaded"
+  #datatable
+  [config]="datatableConfig"
+></nga-datatable>
+
+<p-dialog
+  header="{{ 'Checkpoint Editor' | translate }}"
+  [(visible)]="displayDialog"
+  [responsive]="true"
+  [modal]="true"
+  appendTo="body">
+
+  <div class="ui-g ui-fluid" *ngIf="checkpoint">
+    <div class="ui-g-12">
+      <div class="ui-g-3">
+        <label for="title" translate>Title</label>
+      </div>
+      <div class="ui-g-9">
+        <input pInputText id="title" [(ngModel)]="checkpoint.title" />
+      </div>
+    </div>
+    <div class="ui-g-12">
+      <div class="ui-g-3">
+        <label for="description" translate>Description</label>
+      </div>
+      <div class="ui-g-9">
+        <input pInputText id="description" [(ngModel)]="checkpoint.description" />
+      </div>
+    </div>
+
+  </div>
+  <p-footer>
+    <div class="ui-dialog-buttonpane ui-helper-clearfix">
+      <button type="button" *ngIf="checkpoint && checkpoint.id" pButton icon="fa-close" (click)="delete()" label="{{ 'Delete' | translate }}"></button>
+      <button type="button" pButton icon="fa-check" (click)="save()" label="{{ 'Save' | translate }}"></button>
+    </div>
+  </p-footer>
+</p-dialog>
+
