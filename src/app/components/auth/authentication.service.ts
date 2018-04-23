@@ -5,7 +5,7 @@
  */
 
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import 'rxjs/add/operator/map';
 import { environment } from '../../../environments/environment';
@@ -69,7 +69,8 @@ export class AuthenticationService {
   }
 
   refresh(): void {
-    this.http.get(this.refreshUrl)
+    this.http.get(this.refreshUrl,
+      { headers: new HttpHeaders({ 'Authorization': `Bearer ${this.getToken()}` }) })
       .subscribe(
         (response: any) => {
           this.update(response);
@@ -92,6 +93,7 @@ export class AuthenticationService {
     const ava = response && response.thumb;
     const lang = response && response.lang;
     // store language
+    this._state.notifyDataChanged('token', token);
     this.storage.setItem(this.langKey, lang);
     this._state.notifyDataChanged('avatarB64', ava);
     this.setToken(token);
