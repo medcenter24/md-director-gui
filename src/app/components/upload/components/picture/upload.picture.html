@@ -1,0 +1,28 @@
+<!--
+  ~ Copyright (c) 2018.
+  ~
+  ~ @author Zagovorychev Olexandr <zagovorichev@gmail.com>
+  -->
+
+<div class="picture-group" [ngClass]="{uploading: uploadInProgress}">
+  <div class="picture-wrapper" (click)="bringFileSelector();">
+    <img [src]="picture" *ngIf="picture">
+    <img [src]="defaultPicture" *ngIf="!picture && !!defaultPicture">
+
+    <div class="loading" *ngIf="uploadInProgress">
+      <div class="spinner">
+        <div class="double-bounce1"></div>
+        <div class="double-bounce2"></div>
+      </div>
+    </div>
+  </div>
+  <i class="fa fa-times" (click)="removePicture();" *ngIf="picture && canDelete"></i>
+  <a href class="change-picture" (click)="bringFileSelector();" translate>Change Picture</a>
+  <input #fileUpload
+         ngFileSelect
+         [options]="uploaderOptions"
+         (uploadOutput)="onUploadOutput($event)"
+         [uploadInput]="uploadInput"
+         [ngClass]="{ 'is-drop-over': dragOver }"
+      type="file" hidden="true">
+</div>

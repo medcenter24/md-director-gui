@@ -170,7 +170,7 @@ export const PAGES_MENU = [
           menu: {
             title: 'Doctor',
             url: 'https://doctor.myDoctors24.com',
-            icon: 'ion-android-exit',
+            icon: 'fa fa-sign-in',
             order: 800,
             target: '_blank',
           },

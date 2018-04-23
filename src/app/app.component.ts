@@ -61,6 +61,9 @@ export class AppComponent implements AfterViewInit {
     this._state.subscribe('avatarB64', (b64: string) => {
       this.storage.setItem('avatar', b64);
     });
+    this._state.subscribe('token', (token) => {
+      // token has been changed
+    });
   }
 
   ngAfterViewInit(): void {
