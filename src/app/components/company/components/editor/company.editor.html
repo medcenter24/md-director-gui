@@ -1,0 +1,42 @@
+<div class="company-editor" *ngIf="company">
+    <div class="row">
+        <div class="col-3">
+            <div class="form-group">
+                <label class="label separate" translate>Company Name</label>
+                <input type="text"
+                       class="form-control form-control-sm"
+                       [(ngModel)]="company.title"
+                       placeholder="{{ 'Company Name' | translate }}">
+            </div>
+        </div>
+        <div class="col-9 company-images-loader">
+            <div class="pull-left offset-right10">
+                <label class="label separate" translate>Company Logo</label><br>
+                <nga-picture-uploader
+                  [picture]="pictureLogo"
+                  [defaultPicture]="defaultCompanyLogo"
+                  [uploaderOptions]="uploaderLogoOptions"
+                  [eventToUpload]="eventLogoToUpload"
+                  (onUpload)="startCompanyLogoUpload($event)"
+                  (onUploadCompleted)="endCompanyLogoUpload($event)"
+                  (onDelete)="deleteCompanyLogo()"
+                ></nga-picture-uploader>
+            </div>
+            <div class="pull-left">
+              <label class="label separate" translate>Company Signature</label><br>
+              <nga-picture-uploader
+                [picture]="pictureSign"
+                [defaultPicture]="defaultCompanySign"
+                [uploaderOptions]="uploaderSignOptions"
+                [eventToUpload]="eventSignToUpload"
+                (onUpload)="startCompanySignatureUpload($event)"
+                (onUploadCompleted)="endCompanySignatureUpload($event)"
+                (onDelete)="deleteSignature()"
+              ></nga-picture-uploader>
+            </div>
+        </div>
+    </div>
+    <button pButton type="button" label="{{ 'Save' | translate }}"
+            (click)="saveCompany()"
+            class="ui-button-success"></button>
+</div>

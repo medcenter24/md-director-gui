@@ -18,7 +18,7 @@ import { LoadingComponent } from '../../components/core/components/componentLoad
 import { Logger } from 'angular2-logger/core';
 import { LocalStorageHelper } from '../../helpers/local.storage.helper';
 import { isNumber, isObject } from 'util';
-import { UploaderOptions } from 'ngx-uploader';
+import { UploaderOptions, UploadInput } from 'ngx-uploader';
 
 @Component({
   selector: 'nga-profile',
@@ -36,7 +36,7 @@ export class ProfileComponent extends LoadingComponent implements OnInit {
   loggedUser: User;
   defaultPicture: string = 'assets/img/theme/photo-camera.svg';
   uploaderOptions: UploaderOptions;
-  picture: string = '';
+  eventToUpload: UploadInput;
   msgs: Message[] = [];
   directorPhotoUri: string = '';
   private profileTabIndexKey: string = 'profileTabIndex';
@@ -58,15 +58,23 @@ export class ProfileComponent extends LoadingComponent implements OnInit {
     const langs = this.translateService.getLangs();
     this._state.notifyDataChanged('menu.activeLink', { title: 'Profile' });
     this.languages = langs.map((v) => ({ label: v, value: v }) );
-    this.loadingBar.start();
+    this.startLoader(this.componentName);
     this.loggedUserService.getUser().then((user: User) => {
-      this.loadingBar.complete();
+      this.stopLoader(this.componentName);
       this.loggedUser = user;
       this.directorPhotoUri = user.thumb_200 ? `data:image/jpeg;base64,${user.thumb_200}` : '';
-      /*this.uploaderOptions.url = this.usersService.getUrl(`${this.loggedUser.id}/photo`);
-      // todo add global trigger refresh token and bind all relative things to it
-      this.uploaderOptions.authToken = this.authService.getToken();*/
-    }).catch(() => this.loadingBar.complete());
+
+      this.eventToUpload = {
+        type: 'uploadAll',
+        url: this.usersService.getUrl(`${this.loggedUser.id}/photo`),
+        method: 'POST',
+        headers: { 'Authorization': `Bearer ${this.authService.getToken()}` },
+      };
+    }).catch(() => this.loadedComponent());
+
+    this._state.subscribe('token', (token) => {
+      this.eventToUpload.headers = { 'Authorization': `Bearer ${token}` };
+    });
 
     this.tabs = [
         { id: 1, name: 'Director' },
@@ -93,12 +101,12 @@ export class ProfileComponent extends LoadingComponent implements OnInit {
   }
 
   onLangChanged (event): void {
-    this.loadingBar.start();
+    this.onInit(`${this.componentName}LangChange`);
     this.usersService.update(this.loggedUser)
       .then(() => {
         this._state.notifyDataChanged('lang', this.loggedUser.lang);
-        this.loadingBar.complete();
-      }).catch(() => this.loadingBar.complete());
+        this.onLoaded(`${this.componentName}LangChange`);
+      }).catch(() => this.onLoaded(`${this.componentName}LangChange`));
   }
 
   refreshToken(): void {
@@ -106,23 +114,23 @@ export class ProfileComponent extends LoadingComponent implements OnInit {
   }
 
   saveDirector(): void {
-    this.loadingBar.start();
+    this.onInit(`${this.componentName}SaveDirector`);
     this.usersService.update(this.loggedUser)
       .then(() => {
-          this.msgs = [];
-          this.msgs.push({ severity: 'success',
-              summary: this.translateService.instant('Success'),
-              detail: this.translateService.instant('Saved') });
-          this._state.notifyDataChanged('growl', this.msgs);
-          this.loadingBar.complete();
+        this.onLoaded(`${this.componentName}SaveDirector`);
+        this.msgs = [];
+        this.msgs.push({ severity: 'success',
+            summary: this.translateService.instant('Success'),
+            detail: this.translateService.instant('Saved') });
+        this._state.notifyDataChanged('growl', this.msgs);
       })
       .catch(() => {
-          this.msgs = [];
-          this.msgs.push({ severity: 'error',
-              summary: this.translateService.instant('error'),
-              detail: this.translateService.instant('Data not saved') });
-          this._state.notifyDataChanged('growl', this.msgs);
-          this.loadingBar.complete();
+        this.onLoaded(`${this.componentName}SaveDirector`);
+        this.msgs = [];
+        this.msgs.push({ severity: 'error',
+            summary: this.translateService.instant('error'),
+            detail: this.translateService.instant('Data not saved') });
+        this._state.notifyDataChanged('growl', this.msgs);
       });
   }
 
@@ -139,35 +147,41 @@ export class ProfileComponent extends LoadingComponent implements OnInit {
   }
 
   startPhotoUpload(event): void {
-    this.loadingBar.start();
+    this.startLoader(`${this.componentName}PhotoUpload`);
   }
 
   endPhotoUpload(event): void {
+    this.stopLoader(`${this.componentName}PhotoUpload`);
     this.msgs.push({ severity: 'success',
       summary: this.translateService.instant('Success'),
       detail: this.translateService.instant('Saved') });
     this._state.notifyDataChanged('growl', this.msgs);
-    const response = JSON.parse(event.response);
-    this._state.notifyDataChanged('avatarB64', response.thumb_45);
-    this.loadingBar.complete();
+
+    this.startLoader(`${this.componentName}LoadUser`);
+    this.loggedUserService.getUser().then((user: User) => {
+      this.stopLoader(`${this.componentName}LoadUser`);
+      this.loggedUser = user;
+      this._state.notifyDataChanged('avatarB64', user.thumb_45);
+      this.directorPhotoUri = user.thumb_200 ? `data:image/jpeg;base64,${user.thumb_200}` : '';
+    }).catch(() => this.stopLoader(`${this.componentName}LoadUser`));
   }
 
   deletePhoto(): void {
-    this.loadingBar.start();
+    this.startLoader(`${this.componentName}PhotoDelete`);
     this.usersService.deletePhoto(this.loggedUser.id)
     .then(() => {
+      this.stopLoader(`${this.componentName}PhotoDeleted`);
       this.msgs.push({ severity: 'success',
         summary: this.translateService.instant('Success'),
         detail: this.translateService.instant('Saved') });
       this._state.notifyDataChanged('growl', this.msgs);
-      this.loadingBar.complete();
     })
     .catch(() => {
+      this.stopLoader(`${this.componentName}PhotoDeleted`);
       this.msgs.push({ severity: 'error',
         summary: this.translateService.instant('error'),
         detail: this.translateService.instant('Data not saved') });
       this._state.notifyDataChanged('growl', this.msgs);
-      this.loadingBar.complete();
     });
   }
 
@@ -176,10 +190,9 @@ export class ProfileComponent extends LoadingComponent implements OnInit {
       return;
     }
     this.loggedUser.timezone = tz;
-    this.loadingBar.start();
+    this.startLoader(`${this.componentName}Tz`);
     this.usersService.update(this.loggedUser)
-      .then(() => {
-        this.loadingBar.complete();
-      }).catch(() => this.loadingBar.complete());
+      .then(() => this.stopLoader(`${this.componentName}Tz`))
+      .catch(() => this.stopLoader(`${this.componentName}Tz`));
   }
 }
