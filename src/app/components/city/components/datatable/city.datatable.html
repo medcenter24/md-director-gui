@@ -10,7 +10,7 @@
   [responsive]="true"
   showEffect="fade"
   [modal]="true"
-  [width]="300">
+  [width]="500">
 
   <div class="ui-g ui-fluid" *ngIf="city">
     <div class="ui-g-12">
@@ -24,8 +24,8 @@
   </div>
   <p-footer>
     <div class="ui-dialog-buttonpane ui-helper-clearfix">
-      <button type="button" *ngIf="city && city.id" pButton icon="fa-close" (click)="delete()" label="Delete"></button>
-      <button type="button" pButton icon="fa-check" (click)="save()" label="Save"></button>
+      <button type="button" *ngIf="city && city.id" pButton icon="fa-close" (click)="delete()" label="{{ 'Delete' | translate }}"></button>
+      <button type="button" pButton icon="fa-check" (click)="save()" label="{{ 'Save' | translate }}"></button>
     </div>
   </p-footer>
 </p-dialog>

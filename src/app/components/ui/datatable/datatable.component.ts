@@ -29,7 +29,6 @@ export class DatatableComponent extends LoadableComponent implements OnInit {
   loading: boolean = false;
   selectedData: any;
   total: number = 0;
-  firstLoading: boolean = true;
 
   constructor (
     private cdr: ChangeDetectorRef,
@@ -55,10 +54,9 @@ export class DatatableComponent extends LoadableComponent implements OnInit {
 
     this.setLoading(true);
 
-    if (this.firstLoading && this.config.sortBy) {
+    if (!event.sortField && this.config.sortBy) {
       event.sortField = this.config.sortBy;
       event.sortOrder = this.config.sortOrder;
-      this.firstLoading = false;
     }
 
     this.config.dataProvider(event).then((response: DatatableResponse) => {
