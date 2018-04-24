@@ -9,12 +9,13 @@ import { AfterViewInit, Component, ViewContainerRef } from '@angular/core';
 import * as $ from 'jquery';
 import { GlobalState } from './global.state';
 import { BaImageLoaderService, BaThemePreloader, BaThemeSpinner } from './theme/services';
-import { BaThemeConfig } from './theme/theme.config';
+import { BaThemeConfig } from './theme';
 import { layoutPaths } from './theme/theme.constants';
-import { Confirmation, ConfirmationService, Message } from 'primeng/primeng';
+import { ConfirmationService, Message } from 'primeng/primeng';
 import { ApiErrorService } from './components/ui/apiError.service';
 import { LocalStorageHelper } from './helpers/local.storage.helper';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { NavigationStart, Router } from '@angular/router';
 
 /*
  * App Component
@@ -42,6 +43,7 @@ export class AppComponent implements AfterViewInit {
               private apiErrorService: ApiErrorService,
               private storage: LocalStorageHelper,
               public http: HttpClient,
+              private router: Router,
   ) {
 
     themeConfig.config();
@@ -64,6 +66,16 @@ export class AppComponent implements AfterViewInit {
     this._state.subscribe('token', (token) => {
       // token has been changed
     });
+
+    // blocker should be turned off on the route change (to not block content)
+    this.router.events
+      .subscribe(event => {
+        // https://angular.io/guide/router#router-events
+        if (event instanceof NavigationStart) {
+          this._state.notifyDataChanged('blocker', false);
+        }
+        // NavigationCancel
+      });
   }
 
   ngAfterViewInit(): void {
