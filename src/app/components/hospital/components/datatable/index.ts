@@ -4,4 +4,4 @@
  * @author Zagovorychev Olexandr <zagovorichev@gmail.com>
  */
 
-export * from './city.datatable.module';
+export * from './hospital.datatable.module';

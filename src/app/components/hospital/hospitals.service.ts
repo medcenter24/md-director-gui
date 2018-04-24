@@ -4,8 +4,8 @@
  * @author Alexander Zagovorichev <zagovorichev@gmail.com>
  */
 
-import {Injectable} from '@angular/core';
-import {Hospital} from "./hospital";
+import { Injectable } from '@angular/core';
+import { Hospital } from './hospital';
 import { HttpService } from '../http/http.service';
 
 @Injectable()
@@ -33,5 +33,14 @@ export class HospitalsService extends HttpService {
 
   update(hospital: Hospital): Promise<Hospital> {
     return this.put(hospital.id, hospital);
+  }
+
+  save (hospital: Hospital): Promise<Hospital> {
+    const action = hospital.id ? this.put(hospital.id, hospital) : this.store(hospital);
+    return action.then(response => response.data as Hospital);
+  }
+
+  destroy (hospital: Hospital): Promise<any> {
+    return this.remove(hospital.id);
   }
 }
