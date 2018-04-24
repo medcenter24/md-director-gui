@@ -16,7 +16,6 @@ import { DatatableAction } from '../../../ui/datatable/datatable.action';
 import { CitiesService } from '../../cities.service';
 import { City } from '../../city';
 import { DatatableComponent } from '../../../ui/datatable/datatable.component';
-import {Period} from "../../../period/period";
 
 @Component({
   selector: 'nga-city-datatable',
@@ -64,6 +63,7 @@ export class CityDatatableComponent extends LoadingComponent implements OnInit {
         onRowSelect: event => {
           this.onRowSelect(event);
         },
+        sortBy: 'title',
       });
     });
   }
