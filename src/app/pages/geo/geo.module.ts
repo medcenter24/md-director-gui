@@ -11,11 +11,10 @@ import { NgaModule } from '../../theme/nga.module';
 import { Ng2SmartTableModule } from 'ng2-smart-table';
 import { routing } from './geo.routing';
 import { GeoComponent } from './geo.component';
-import { CitiesComponent } from './components/cities/cities.component';
 import { HospitalsComponent } from './components/hospitals/hospitals.component';
-import { CitiesService } from '../../components/city/cities.service';
 import { HospitalsService } from '../../components/hospital/hospitals.service';
 import { AppTranslationModule } from '../../app.translation.module';
+import { CityDatatableModule } from '../../components/city/components/datatable/city.datatable.module';
 
 @NgModule({
   imports: [
@@ -25,14 +24,13 @@ import { AppTranslationModule } from '../../app.translation.module';
     NgaModule,
     routing,
     Ng2SmartTableModule,
+    CityDatatableModule,
   ],
   declarations: [
     GeoComponent,
-    CitiesComponent,
     HospitalsComponent,
   ],
   providers: [
-    CitiesService,
     HospitalsService,
   ],
 })
