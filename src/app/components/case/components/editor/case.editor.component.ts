@@ -117,8 +117,6 @@ export class CaseEditorComponent extends LoadingComponent implements OnInit {
     this.route.params
       .subscribe((params: Params) => {
         this._state.notifyDataChanged('menu.activeLink', { title: 'Cases' });
-        // we need it because of redirect after case creation
-        this._state.notifyDataChanged('blocker', false);
 
         if (+params[ 'id' ]) {
           this.startLoader(this.componentName);
