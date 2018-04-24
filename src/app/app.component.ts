@@ -5,12 +5,9 @@
  */
 
 import { AfterViewInit, Component, ViewContainerRef } from '@angular/core';
-// todo check if all these needed
-import * as $ from 'jquery';
 import { GlobalState } from './global.state';
 import { BaImageLoaderService, BaThemePreloader, BaThemeSpinner } from './theme/services';
 import { BaThemeConfig } from './theme';
-import { layoutPaths } from './theme/theme.constants';
 import { ConfirmationService, Message } from 'primeng/primeng';
 import { ApiErrorService } from './components/ui/apiError.service';
 import { LocalStorageHelper } from './helpers/local.storage.helper';
