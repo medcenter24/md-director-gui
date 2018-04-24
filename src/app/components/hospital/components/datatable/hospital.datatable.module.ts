@@ -5,15 +5,15 @@
  */
 
 import { NgModule } from '@angular/core';
-import { CityDatatableComponent } from './city.datatable.component';
 import { CommonModule } from '@angular/common';
 import { AppTranslationModule } from '../../../../app.translation.module';
-import { CitiesService } from '../../cities.service';
 import { DatatableModule } from '../../../ui/datatable/datatable.module';
 import { DialogModule } from 'primeng/dialog';
 import { FormsModule } from '@angular/forms';
 import { ButtonModule } from 'primeng/button';
-import { InputTextModule } from 'primeng/primeng';
+import { HospitalsService } from '../../hospitals.service';
+import { HospitalDatatableComponent } from './hospital.datatable.component';
+import { InputTextareaModule, InputTextModule } from 'primeng/primeng';
 
 @NgModule({
   imports: [
@@ -23,17 +23,18 @@ import { InputTextModule } from 'primeng/primeng';
     DatatableModule,
     DialogModule,
     ButtonModule,
+    InputTextareaModule,
     InputTextModule,
   ],
   providers: [
-    CitiesService,
+    HospitalsService,
   ],
   declarations: [
-    CityDatatableComponent,
+    HospitalDatatableComponent,
   ],
   exports: [
-    CityDatatableComponent,
+    HospitalDatatableComponent,
   ],
 })
-export class CityDatatableModule {
+export class HospitalDatatableModule {
 }

@@ -360,7 +360,7 @@ export class CaseEditorComponent extends LoadingComponent implements OnInit {
     this.accident.city_id = cityId;
 
     this.doctorAccident.doctor_id = +this.doctorAccident.doctor_id;
-    // determine which doctor could be used in this city
+    // determine which doctor could be used in this hospital
     if (!this.doctorAccident.doctor_id && cityId) {
       this.defineDoctorByCity(cityId);
     }
