@@ -12,6 +12,7 @@ import { CitiesService } from '../../cities.service';
 import { DatatableModule } from '../../../ui/datatable/datatable.module';
 import { DialogModule } from 'primeng/dialog';
 import { FormsModule } from '@angular/forms';
+import { ButtonModule } from 'primeng/button';
 
 @NgModule({
   imports: [
@@ -20,6 +21,7 @@ import { FormsModule } from '@angular/forms';
     AppTranslationModule,
     DatatableModule,
     DialogModule,
+    ButtonModule,
   ],
   providers: [
     CitiesService,

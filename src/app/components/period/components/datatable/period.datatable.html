@@ -69,8 +69,8 @@
     </div>
     <p-footer>
         <div class="ui-dialog-buttonpane ui-helper-clearfix">
-            <button type="button" *ngIf="datePeriod && datePeriod.id" pButton icon="fa-close" (click)="delete()" label="Delete"></button>
-            <button type="button" pButton icon="fa-check" (click)="save()" label="Save"></button>
+            <button type="button" *ngIf="datePeriod && datePeriod.id" pButton icon="fa-close" (click)="delete()" label="{{ 'Delete' | translate }}"></button>
+            <button type="button" pButton icon="fa-check" (click)="save()" label="{{ 'Save' | translate }}"></button>
         </div>
     </p-footer>
 </p-dialog>
