@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2017
- *  
+ *
  *  @author Alexander Zagovorichev <zagovorichev@gmail.com>
  */
 
@@ -54,15 +54,16 @@ export class DiagnosticsSelectorComponent extends LoadableComponent implements O
   onSelectDiagnosticsLoaded(name): void {
     this.onLoaded(name);
     if (this.caseId) {
-      this.initComponent();
+      const postfix = 'SelectDiagnosticsLoaded';
+      this.startLoader(postfix);
       this.casesService.getCaseDiagnostics(this.caseId).then(diagnostics => {
+        this.stopLoader(postfix);
         this.caseDiagnostics = diagnostics;
         this.selectDiagnosticsComponent.reloadChosenDiagnostics(this.caseDiagnostics);
         this.changed.emit(this.caseDiagnostics);
-        this.loadedComponent();
       }).catch((err) => {
+        this.stopLoader(postfix);
         this._logger.error(err);
-        this.loadedComponent();
       });
     }
   }

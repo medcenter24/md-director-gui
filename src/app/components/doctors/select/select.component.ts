@@ -35,16 +35,16 @@ export class DoctorSelectComponent extends LoadableComponent implements OnInit {
   }
 
   ngOnInit () {
-    this.initComponent();
+    this.startLoader();
     this.isLoaded = false;
     this.doctorsService.getDoctors().then(doctors => {
+      this.stopLoader();
       this.doctors = doctors;
       this.selectDoctor();
       this.isLoaded = true;
-      this.loadedComponent();
     }).catch((err) => {
+      this.stopLoader();
       this._logger.error(err);
-      this.loadedComponent();
     });
   }
 

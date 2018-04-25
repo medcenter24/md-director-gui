@@ -9,9 +9,9 @@
         <div class="row">
             <div class="col-sm-6">
                 <div class="form-group{{ doctorName.valid || doctorName.pristine ? '' : ' has-error'}}">
-                    <label for="inputName" class="label" *ngIf="doctorName.valid || doctorName.pristine" translate>Name</label>
-                    <label for="inputName" class="label label-error" *ngIf="!doctorName.valid && !doctorName.pristine" translate>Name is required</label>
-                    <input type="text" class="form-control" id="inputName"
+                    <label class="label" *ngIf="doctorName.valid || doctorName.pristine" translate>Name</label>
+                    <label class="label label-error" *ngIf="!doctorName.valid && !doctorName.pristine" translate>Name is required</label>
+                    <input type="text" class="form-control"
                            required
                            [(ngModel)]="doctor.name" name="doctorName"
                            #doctorName="ngModel"
@@ -25,7 +25,8 @@
                     <label class="label" *ngIf="refKey.valid || refKey.pristine" translate>Referral Key</label>
                     <input type="text" class="form-control"
                            required
-                           [(ngModel)]="doctor.ref_key" name="doctorRefKey"
+                           [(ngModel)]="doctor.refKey"
+                           name="doctorRefKey"
                            #refKey="ngModel"
                            placeholder="{{ 'Doctor referral key' | translate }}"
                            maxlength="3"
@@ -40,6 +41,7 @@
                     <textarea name="description" class="form-control"
                               [(ngModel)]="doctor.description"
                               #description="ngModel"
+                              title="description"
                               maxlength="255"
                               [innerHTML]="doctor.description"
                     ></textarea>
@@ -48,20 +50,21 @@
             </div>
             <div class="col-sm-6">
                 <div class="form-group">
-                    <label class="label" translate>Medical board number</label>
+                    <label class="label" translate>Medical Board Number</label>
                     <input type="text" class="form-control"
-                            required name="doctorMedicalBoardNum"
-                            [(ngModel)]="doctor.medical_board_num"
-                           placeholder="{{ 'Medical board number' | translate }}"
+                           required
+                           name="doctorMedicalBoardNum"
+                           [(ngModel)]="doctor.medicalBoardNumber"
+                           placeholder="{{ 'Medical Board Number' | translate }}"
                     >
 
                     <label class="label" translate>User</label>
                     <nga-user-selector
-                            [userId]="doctor.user_id"
-                            (userChanged)="onUserChanged($event)"
-                            (loaded)="onSelectorLoaded()"
-                            (loading)="onSelectorLoading()"
+                        (userChanged)="onUserChanged($event)"
+                        (loading)="startLoader('UserSelector')"
+                        (loaded)="stopLoader('UserSelector')"
                     ></nga-user-selector>
+
                     <a (click)="toggleEditor(doctor.user_id)"
                        class="editor-toggle" *ngIf="showUserEditor" translate>Close user editor</a>
                     <a (click)="toggleEditor(doctor.user_id)"
@@ -69,8 +72,8 @@
                 </div>
             </div>
         </div>
-        <button type="submit" class="btn btn-primary" *ngIf="doctor.id" translate>Save</button>
-        <button type="submit" class="btn btn-primary" *ngIf="!doctor.id" translate>Create</button>
+        <button pButton type="submit" *ngIf="doctor.id" [label]="'Save' | translate"></button>
+        <button pButton type="submit" *ngIf="!doctor.id" [label]="'Create' | translate"></button>
     </form>
 
     <hr>
@@ -85,3 +88,9 @@
         </div>
     </div>
 </ba-card>
+
+<nga-user-editor
+  [hidden]="!showUserEditor"
+  [userId]="editableUserId"
+  (changedUser)="handleUserEdited()"
+></nga-user-editor>

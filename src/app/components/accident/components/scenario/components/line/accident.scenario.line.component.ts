@@ -32,24 +32,20 @@ export class AccidentScenarioLineComponent extends LoadableComponent implements 
   }
 
   ngOnInit () {
-    this.initComponent();
-    this.caseService.getScenario(this.accidentId).then((scenario: AccidentScenario[]) => {
-      this.steps = scenario;
-      this.isLoaded = true;
-      this.loadedComponent();
-    }).catch((err) => {
-      this._logger.error(err);
-      this.loadedComponent();
-    });
+    this.reload();
   }
 
   /**
    * Quick reload for the save method or update
    */
   reload(): void {
+    this.startLoader();
     this.caseService.getScenario(this.accidentId).then((scenario: AccidentScenario[]) => {
+      this.stopLoader();
       this.steps = scenario;
+      this.isLoaded = true;
     }).catch((err) => {
+      this.stopLoader();
       this._logger.error(err);
     });
   }

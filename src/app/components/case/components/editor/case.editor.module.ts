@@ -20,25 +20,25 @@ import { CaseEditorComponent } from './case.editor.component';
 import { CaseEditorTabsService } from './case.editor.tabs.service';
 import { AssistantModule } from '../../../assistant/assistant.module';
 import { CaseTypeSelectModule } from '../type/case.type.select.module';
-import { CitiesModule } from '../../../city/cities.module';
 import { DoctorModule } from '../../../doctors/doctor.module';
 import { HospitalModule } from '../../../hospital/hospital.module';
 import { AccidentSelectModule } from '../../../accident/components/select/accident.select.module';
-import { AccidentCardModule } from '../../../accident/components/card/accident.card.module';
-import { PatientEditorModule } from '../../../patient/components/editor/patient.editor.module';
+import { AccidentCardModule } from '../../../accident/components/card';
+import { PatientEditorModule } from '../../../patient/components/editor';
 import { PatientSelectorModule } from '../../../patient/components/selector/patient.selector.module';
 import { AccidentScenarioLineModule }
   from '../../../accident/components/scenario/components/line/accident.scenario.line.module';
 import { AccidentCheckpointsSelectorModule }
   from '../../../accident/components/checkpoint/components/select/accident.checkpoints.selector.module';
 import { ServiceModule } from '../../../service/service.module';
-import { AccidentTypeSelectModule } from '../../../accident/components/type/select/accident.type.select.module';
+import { AccidentTypeSelectModule } from '../../../accident/components/type/select';
 import { SurveySelectorModule } from '../../../survey/components/selector/survey.selector.module';
 import { DiagnosticSelectorModule } from '../../../diagnostic/components/selector';
 import { UploaderModule } from '../../../upload/components/uploader';
-import { CaseFinanceModule } from '../finance/case.finance.module';
+import { CaseFinanceModule } from '../finance';
 import { NgaModule } from '../../../../theme/nga.module';
 import { AccidentActivityModule } from '../../../accident/components/activity';
+import { CitySelectModule } from '../../../city/components/select';
 
 @NgModule({
   imports: [
@@ -53,7 +53,7 @@ import { AccidentActivityModule } from '../../../accident/components/activity';
     TooltipModule,
     AssistantModule,
     CaseTypeSelectModule,
-    CitiesModule,
+    CitySelectModule,
     DoctorModule,
     InputMaskModule,
     HospitalModule,

@@ -24,12 +24,10 @@ export class AssistantEditorComponent extends LoadableComponent {
   }
 
   onSubmit(): void {
-    this.initComponent();
+    this.startLoader();
     this.service.update(this.assistant).then(() => {
-      this.loadedComponent();
+      this.stopLoader();
       this.assistantSaved.emit(this.assistant);
-    }).catch(() => {
-      this.loadedComponent();
-    });
+    }).catch(() => this.stopLoader());
   }
 }

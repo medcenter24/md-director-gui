@@ -34,8 +34,9 @@ export class SurveySelectComponent extends LoadableComponent implements OnInit {
   }
 
   ngOnInit () {
-    this.initComponent();
+    this.startLoader();
     this.surveysService.getSurveys().then(surveys => {
+      this.stopLoader();
       this.surveys = surveys;
       this.dataSurveys = surveys.map(x => {
         return {
@@ -49,10 +50,9 @@ export class SurveySelectComponent extends LoadableComponent implements OnInit {
         this.selectedSurveys = [];
       }
       this.isLoaded = true;
-      this.loadedComponent();
     }).catch((err) => {
+      this.stopLoader();
       this._logger.error(err);
-      this.loadedComponent();
     });
   }
 

@@ -34,15 +34,15 @@ export class AssistantSelectComponent extends LoadableComponent implements OnIni
   }
 
   ngOnInit () {
-    this.initComponent();
+    this.startLoader();
     this.assistantsService.getAssistants().then(assistants => {
+      this.stopLoader();
       this.assistants = assistants;
       this.assistant = this.assistants.find(_assistant => +_assistant.id === +this.assistantId);
       this.isLoaded = true;
-      this.loadedComponent();
     }).catch((err) => {
+      this.stopLoader();
       this._logger.error(err);
-      this.loadedComponent();
     });
   }
 

@@ -5,27 +5,29 @@
  */
 
 import { NgModule } from '@angular/core';
+import { CitySelectComponent } from './city.select.component';
+import { CitiesService } from '../../cities.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { AutoCompleteModule } from 'primeng/primeng';
 import { AppTranslationModule } from '../../../../app.translation.module';
-import { DiagnosticCategoryEditorModule } from '../../category/components/editor';
-import { DiagnosticEditorComponent } from './diagnostic.editor.component';
-import {NgaModule} from "../../../../theme/nga.module";
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
+    AutoCompleteModule,
     AppTranslationModule,
-    DiagnosticCategoryEditorModule,
-    NgaModule
+  ],
+  providers: [
+    CitiesService,
   ],
   declarations: [
-    DiagnosticEditorComponent,
+    CitySelectComponent,
   ],
   exports: [
-    DiagnosticEditorComponent,
+    CitySelectComponent,
   ],
 })
-export class DiagnosticEditorModule {
+export class CitySelectModule {
 }

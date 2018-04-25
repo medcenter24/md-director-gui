@@ -12,6 +12,7 @@ import { LoggedUserService } from '../../../auth/loggedUser.service';
 import { AuthenticationService } from '../../../auth/authentication.service';
 import { UploaderOptions, UploadFile, UploadInput, humanizeBytes, UploadOutput } from 'ngx-uploader';
 import { GlobalState } from '../../../../global.state';
+import {post} from "selenium-webdriver/http";
 
 @Component({
   selector: 'nga-company-editor',
@@ -60,10 +61,10 @@ export class CompanyEditorComponent extends LoadableComponent implements OnInit 
   }
 
   ngOnInit() {
-    this.initComponent();
+    this.startLoader();
     this.loggedUserService.getCompany()
       .then((company: Company) => {
-        this.loadedComponent();
+        this.stopLoader();
 
         this.company = company;
 
@@ -84,7 +85,7 @@ export class CompanyEditorComponent extends LoadableComponent implements OnInit 
           headers: { 'Authorization': `Bearer ${this.authService.getToken()}` },
         };
       })
-      .catch(() => this.loadedComponent());
+      .catch(() => this.stopLoader());
 
     this._state.subscribe('token', (token) => {
       this.eventLogoToUpload.headers = { 'Authorization': `Bearer ${token}` };
@@ -93,40 +94,43 @@ export class CompanyEditorComponent extends LoadableComponent implements OnInit 
   }
 
   saveCompany(): void {
-    this.initComponent();
+    const postfix = 'SaveCompany';
+    this.startLoader(postfix);
     this.companyService.update(this.company)
-      .then(() => this.loadedComponent())
-      .catch(() => this.loadedComponent());
+      .then(() => this.stopLoader(postfix))
+      .catch(() => this.stopLoader(postfix));
   }
 
   startCompanyLogoUpload(event): void {
-    this.initComponent();
+    this.startLoader('CompanyLogoUpload');
   }
 
   endCompanyLogoUpload(event): void {
-    this.loadedComponent();
+    this.stopLoader('CompanyLogoUpload')
   }
 
   startCompanySignatureUpload(event): void {
-    this.initComponent();
+    this.startLoader('CompanySignUpload');
   }
 
   endCompanySignatureUpload(event): void {
-    this.loadedComponent();
+    this.stopLoader('CompanySignUpload');
   }
 
   deleteSignature(): void {
-    this.initComponent();
+    const postfix = 'DeleteSign';
+    this.startLoader(postfix);
     this.companyService.deleteSignature(this.company)
-      .then(() => this.loadedComponent())
-      .catch(() => this.loadedComponent());
+      .then(() => this.stopLoader(postfix))
+      .catch(() => this.stopLoader(postfix));
   }
 
   deleteCompanyLogo(): void {
-    this.initComponent();
+    const postfix = 'DeleteCompanyLogo';
+    this.startLoader(postfix);
     this.companyService.deleteLogo(this.company)
-      .then(() => this.loadedComponent())
-      .catch(() => this.loadedComponent());
+      .then(() => this.stopLoader(postfix))
+      .catch(() => this.stopLoader(postfix));
   }
 
 }

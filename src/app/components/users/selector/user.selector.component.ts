@@ -49,7 +49,7 @@ export class UserSelectorComponent implements OnInit {
         });
 
         if (!changed) {
-            this.user = new User(0, '', '', '');
+            this.user = new User();
         }
 
         return this.user;
@@ -59,7 +59,7 @@ export class UserSelectorComponent implements OnInit {
         this.loading.emit();
         this.service.getUsers().then((data: User[]) => {
             this.users = [];
-            this.users.push(new User(0, '', '', ''));
+            this.users.push(new User());
             data.map(_user => {
                 this.users.push(_user);
             });
@@ -86,7 +86,7 @@ export class UserSelectorComponent implements OnInit {
 
     modelChanged(user): void {
         if (!user) {
-            user = new User(0, '', '', '');
+            user = new User();
         }
 
         this.userChanged.emit(user.id);
