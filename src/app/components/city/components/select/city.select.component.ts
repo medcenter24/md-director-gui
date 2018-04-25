@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2017
- *  
+ *
  *  @author Alexander Zagovorichev <zagovorichev@gmail.com>
  */
 
@@ -9,9 +9,10 @@ import { Logger } from 'angular2-logger/core';
 import { City } from '../../city';
 import { CitiesService } from '../../cities.service';
 import { LoadableComponent } from '../../../core/components/componentLoader/LoadableComponent';
+
 @Component({
   selector: 'nga-select-city',
-  templateUrl: './select.html',
+  templateUrl: './city.select.html',
 })
 export class CitySelectComponent extends LoadableComponent implements OnInit {
 
@@ -37,15 +38,15 @@ export class CitySelectComponent extends LoadableComponent implements OnInit {
   }
 
   ngOnInit () {
-    this.initComponent();
+    this.startLoader();
     this.citiesService.getCities().then(cities => {
+      this.stopLoader();
       this.cities = cities;
       this.selectPreloadedCities();
       this.isLoaded = true;
-      this.loadedComponent();
     }).catch((err) => {
+      this.stopLoader();
       this._logger.error(err);
-      this.loadedComponent();
     });
   }
 

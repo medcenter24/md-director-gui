@@ -56,15 +56,16 @@ export class SurveysSelectorComponent extends LoadableComponent implements OnIni
   onSelectSurveysLoaded(name: string): void {
     this.onLoaded(name);
     if (this.caseId) {
-      this.initComponent();
+      const postfix = 'SelectSurveysLoaded';
+      this.startLoader(postfix);
       this.casesService.getCaseSurveys(this.caseId).then(surveys => {
+        this.stopLoader(postfix);
         this.caseSurveys = surveys;
         this.selectSurveysComponent.reloadChosenSurveys(this.caseSurveys);
         this.changed.emit(this.caseSurveys);
-        this.loadedComponent();
       }).catch((err) => {
+        this.stopLoader(postfix);
         this._logger.error(err);
-        this.loadedComponent();
       });
     }
   }

@@ -59,16 +59,16 @@ export class ServicesSelectorComponent extends LoadableComponent implements OnIn
   onSelectServicesLoaded(name: string): void {
     this.onLoaded(name);
     if (this.caseId) {
-      this.initComponent();
+      this.startLoader();
       this.casesService.getCaseServices(this.caseId).then(services => {
+        this.stopLoader();
         this.caseServices = services;
         this.selectServicesComponent.reloadChosenServices(this.caseServices);
         this.changedServices.emit(this.caseServices);
         this.recalculatePrice();
-        this.loadedComponent();
       }).catch((err) => {
+        this.stopLoader();
         this._logger.error(err);
-        this.loadedComponent();
       });
     }
   }

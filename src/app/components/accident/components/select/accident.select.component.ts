@@ -33,17 +33,17 @@ export class AccidentSelectComponent extends LoadableComponent implements OnInit
   }
 
   ngOnInit () {
-    this.initComponent();
+    this.startLoader();
     this.accidentService.getAccidents().then(accidents => {
+      this.stopLoader();
       this.accidents = accidents;
       if (this.selectedAccidentId) {
         this.accident = this.accidents.find(accident => accident.id === this.selectedAccidentId);
       }
       this.isLoaded = true;
-      this.loadedComponent();
     }).catch((err) => {
+      this.stopLoader();
       this._logger.error(err);
-      this.loadedComponent();
     });
   }
 

@@ -7,15 +7,16 @@
 import { Injectable } from '@angular/core';
 import { Doctor } from './doctor';
 import { HttpService } from '../http/http.service';
+import { DatatableServiceInterface } from '../ui/datatable/datatable.service.interface';
 import { City } from '../city/city';
 
 @Injectable()
-export class DoctorsService extends HttpService {
+export class DoctorsService extends HttpService implements DatatableServiceInterface {
 
   protected getPrefix(): string {
     return 'director/doctors';
   }
-  
+
   getDoctors(): Promise<Doctor[]> {
     return this.get().then(response => response.data as Doctor[]);
   }
@@ -53,5 +54,14 @@ export class DoctorsService extends HttpService {
 
   getDoctorsByCity(cityId: number): Promise<Doctor[]> {
     return this.get(`cities/${cityId}`).then(res => res.json().data as Doctor[]);
+  }
+
+  save (doctor: Doctor): Promise<Doctor> {
+    const action = doctor.id ? this.put(doctor.id, doctor) : this.store(doctor);
+    return action.then(response => response.data as Doctor);
+  }
+
+  destroy (doctor: Doctor): Promise<any> {
+    return this.remove(doctor.id);
   }
 }

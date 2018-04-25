@@ -26,24 +26,29 @@
                     <label *ngIf="!userName.valid && !userName.pristine" class="label label-error">Name is required</label>
                     <label *ngIf="userName.valid || userName.pristine" class="label" translate>Name</label>
 
-                    <input type="text" class="form-control"
+                    <input type="text"
                            required
+                           class="form-control"
+                           name="name"
                            [(ngModel)]="user.name"
-                           name="userName"
                            #userName="ngModel"
-                           placeholder="{{ 'User Name' | translate }}" maxlength="70"
+                           placeholder="{{ 'User Name' | translate }}"
+                           maxlength="70"
                     >
                 </div>
             </div>
             <div class="col-sm-6">
                 <div class="form-group{{ phone.valid || phone.pristine ? '' : ' has-error'}}">
-                    <label *ngIf="phone.valid || phone.pristine" for="phone" class="label" translate>Phone</label>
-                    <label *ngIf="!phone.valid && !phone.pristine" for="phone" class="label label-error" translate>Phone is required</label>
-                    <input type="text" class="form-control" id="phone"
+                    <label *ngIf="phone.valid || phone.pristine" class="label" translate>Phone</label>
+                    <label *ngIf="!phone.valid && !phone.pristine" class="label label-error" translate>Phone is required</label>
+                    <input type="text"
                            required
-                           [(ngModel)]="user.phone" name="phone"
+                           name="phone"
+                           class="form-control"
+                           [(ngModel)]="user.phone"
                            #phone="ngModel"
-                           placeholder="{{ 'Users Phone' | translate }}" maxlength="70"
+                           placeholder="{{ 'Users Phone' | translate }}"
+                           maxlength="70"
                     >
                 </div>
             </div>
@@ -53,11 +58,14 @@
                 <div class="form-group{{ email.valid || email.pristine ? '' : ' has-error'}}">
                     <label *ngIf="email.valid || email.pristine" class="label" translate>Email</label>
                     <label *ngIf="!email.valid && !email.pristine" class="label label-error" translate>Email is required</label>
-                    <input type="text" class="form-control" id="email"
+                    <input type="text"
                            required
-                           [(ngModel)]="user.email" name="email"
+                           name="email"
+                           [(ngModel)]="user.email"
                            #email="ngModel"
-                           placeholder="{{ 'Email' | translate }}" maxlength="200"
+                           placeholder="{{ 'Email' | translate }}"
+                           maxlength="200"
+                           class="form-control"
                     >
                 </div>
             </div>
@@ -65,16 +73,20 @@
                 <div class="form-group{{ password.valid || password.pristine ? '' : ' has-error'}}">
                     <label *ngIf="password.valid || password.pristine" class="label" translate>Password</label>
                     <label *ngIf="!password.valid && !password.pristine" class="label label-error" translate>Password is required</label>
-                    <input type="password" class="form-control" id="password"
+                    <input type="password"
                            required
-                           [(ngModel)]="user.password" name="email"
+                           name="password"
+                           [(ngModel)]="user.password"
                            #password="ngModel"
-                           placeholder="{{ 'Password' | translate }}" maxlength="50"
+                           placeholder="{{ 'Password' | translate }}"
+                           maxlength="50"
+                           class="form-control"
+                           autocomplete="off"
                     >
                 </div>
             </div>
         </div>
-        <button *ngIf="user.id" type="submit" class="btn btn-primary" translate>Save</button>
-        <button *ngIf="!user.id" type="submit" class="btn btn-primary" translate>Create</button>
+        <button pButton *ngIf="user.id" type="submit" [label]="'Save' | translate"></button>
+        <button pButton *ngIf="!user.id" type="submit" [label]="'Create' | translate "></button>
     </form>
 </ba-card>

@@ -7,11 +7,11 @@
 import { Component, Input, ViewChild, Output, EventEmitter, OnInit } from '@angular/core';
 import { User } from '../user';
 import { UsersService } from '../users.service';
-import { UserSelectorComponent } from '../selector/selector.component';
 import { SlimLoadingBarService } from 'ng2-slim-loading-bar';
+import { UserSelectorComponent } from '../selector';
 @Component({
   selector: 'nga-user-editor',
-  templateUrl: './editor.html',
+  templateUrl: './user.editor.html',
 })
 export class UserEditorComponent implements OnInit {
 

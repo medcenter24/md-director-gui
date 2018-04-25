@@ -26,15 +26,13 @@ export class AccidentCheckpointsSelectorComponent extends LoadableComponent impl
   constructor (private accidentCheckpointsService: AccidentCheckpointsService) { super(); }
 
   ngOnInit () {
-    this.initComponent();
+    this.startLoader();
     this.isLoaded = false;
     this.accidentCheckpointsService.getCheckpoints().then(checkpoints => {
+      this.stopLoader();
       this.checkpoints = checkpoints;
       this.isLoaded = true;
-      this.loadedComponent();
-    }).catch(() => {
-      this.loadedComponent();
-    });
+    }).catch(() => this.stopLoader());
   }
 
   onChange(): void {

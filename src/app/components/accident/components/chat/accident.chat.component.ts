@@ -32,22 +32,23 @@ export class AccidentChatComponent extends LoadableComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.initComponent();
+    this.startLoader();
     this.caseService.getCommentaries(this.accident).then(response => {
-      this.loadedComponent();
+      this.stopLoader();
       response.map((row) => {
         row.created_at = this.dateHelper.toEuropeFormatWithTime(row.created_at);
         return row;
       });
       this.comments = response;
-    }).catch(() => this.loadedComponent());
+    }).catch(() => this.stopLoader());
   }
 
   createCommentary(text: string) {
-    this.initComponent();
+    const actName = 'CreateComment';
+    this.startLoader(actName);
     this.caseService.createComment(this.accident, text).then(comment => {
-      this.loadedComponent();
+      this.stopLoader(actName);
       this.commentariesComponent.applyComment(comment);
-    }).catch(() => this.loadedComponent());
+    }).catch(() => this.stopLoader(actName));
   }
 }

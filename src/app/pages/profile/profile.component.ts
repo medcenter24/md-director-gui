@@ -58,11 +58,11 @@ export class ProfileComponent extends LoadingComponent implements OnInit {
     const langs = this.translateService.getLangs();
     this._state.notifyDataChanged('menu.activeLink', { title: 'Profile' });
     this.languages = langs.map((v) => ({ label: v, value: v }) );
-    this.startLoader(this.componentName);
+    this.startLoader();
     this.loggedUserService.getUser().then((user: User) => {
-      this.stopLoader(this.componentName);
+      this.stopLoader();
       this.loggedUser = user;
-      this.directorPhotoUri = user.thumb_200 ? `data:image/jpeg;base64,${user.thumb_200}` : '';
+      this.directorPhotoUri = user.thumb200 ? `data:image/jpeg;base64,${user.thumb200}` : '';
 
       this.eventToUpload = {
         type: 'uploadAll',
@@ -70,7 +70,7 @@ export class ProfileComponent extends LoadingComponent implements OnInit {
         method: 'POST',
         headers: { 'Authorization': `Bearer ${this.authService.getToken()}` },
       };
-    }).catch(() => this.loadedComponent());
+    }).catch(() => this.stopLoader());
 
     this._state.subscribe('token', (token) => {
       this.eventToUpload.headers = { 'Authorization': `Bearer ${token}` };
@@ -161,8 +161,8 @@ export class ProfileComponent extends LoadingComponent implements OnInit {
     this.loggedUserService.getUser().then((user: User) => {
       this.stopLoader(`${this.componentName}LoadUser`);
       this.loggedUser = user;
-      this._state.notifyDataChanged('avatarB64', user.thumb_45);
-      this.directorPhotoUri = user.thumb_200 ? `data:image/jpeg;base64,${user.thumb_200}` : '';
+      this._state.notifyDataChanged('avatarB64', user.thumb45);
+      this.directorPhotoUri = user.thumb200 ? `data:image/jpeg;base64,${user.thumb200}` : '';
     }).catch(() => this.stopLoader(`${this.componentName}LoadUser`));
   }
 

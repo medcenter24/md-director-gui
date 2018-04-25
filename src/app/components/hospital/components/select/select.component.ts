@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2017
- *  
+ *
  *  @author Alexander Zagovorichev <zagovorichev@gmail.com>
  */
 
@@ -29,16 +29,16 @@ export class HospitalSelectComponent extends LoadableComponent implements OnInit
   }
 
   ngOnInit () {
-    this.initComponent();
+    this.startLoader();
     this.hospitalsService.getHospitals().then(hospitals => {
+      this.stopLoader();
       this.hospitals = hospitals;
       if (this.hospitalId) {
         this.hospital = this.hospitals.find(hospital => hospital.id === this.hospitalId);
       }
-      this.loadedComponent();
     }).catch((err) => {
+      this.stopLoader();
       this._logger.error(err);
-      this.loadedComponent();
     });
   }
 

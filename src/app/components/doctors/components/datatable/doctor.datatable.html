@@ -1,0 +1,25 @@
+<!--
+  ~ Copyright (c) 2018.
+  ~
+  ~ @author Zagovorychev Olexandr <zagovorichev@gmail.com>
+  -->
+
+<div class="widgets">
+  <div class="row">
+    <div [class]="displayDialog ? 'col-sm-6' : 'col-sm-12'">
+      <nga-datatable
+        *ngIf="langLoaded"
+        #datatable
+        [config]="datatableConfig"
+      ></nga-datatable>
+    </div>
+    <div class="col-sm-6" *ngIf="displayDialog">
+      <nga-doctor-editor
+        [doctor]="model"
+        (close)="closeDoctorEditor()"
+        (init)="startLoader($event)"
+        (loaded)="stopLoader($event)"
+      ></nga-doctor-editor>
+    </div>
+  </div>
+</div>

@@ -34,9 +34,9 @@ export class SelectServicesComponent extends LoadableComponent implements OnInit
   }
 
   ngOnInit () {
-    this.initComponent();
+    this.startLoader();
     this.servicesService.getServices().then(services => {
-      this.loadedComponent();
+      this.stopLoader();
       this.services = services;
       this.dataServices = services.map(x => {
         return {
@@ -51,8 +51,8 @@ export class SelectServicesComponent extends LoadableComponent implements OnInit
       }
       this.isLoaded = true;
     }).catch((err) => {
+      this.stopLoader();
       this._logger.error(err);
-      this.loadedComponent();
     });
   }
 
