@@ -7,11 +7,8 @@
 import { Routes, RouterModule } from '@angular/router';
 import { ModuleWithProviders } from '@angular/core';
 
+import { DoctorDatatableComponent } from '../../components/doctors/components/datatable';
 import { DoctorsComponent } from './doctors.component';
-import { DiagnosticsComponent } from './components/diagnostics/diagnostics.component';
-import { DoctorServicesComponent } from './components/services/services.component';
-import { StuffComponent } from './components/stuff/stuff.component';
-import { SurveysComponent } from './components/surveys/surveys.component';
 
 // noinspection TypeScriptValidateTypes
 const routes: Routes = [
@@ -19,10 +16,10 @@ const routes: Routes = [
         path: '',
         component: DoctorsComponent,
         children: [
-            { path: 'diagnostics', component: DiagnosticsComponent },
+            /*{ path: 'diagnostics', component: DiagnosticsComponent },
             { path: 'services', component: DoctorServicesComponent },
-            { path: 'surveys', component: SurveysComponent },
-            { path: 'stuff', component: StuffComponent },
+            { path: 'surveys', component: SurveysComponent },*/
+            { path: 'stuff', component: DoctorDatatableComponent },
         ],
     },
 ];

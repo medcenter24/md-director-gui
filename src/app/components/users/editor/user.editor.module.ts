@@ -5,24 +5,29 @@
  */
 
 import { NgModule } from '@angular/core';
+import { UserEditorComponent } from './user.editor.component';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 import { AppTranslationModule } from '../../../app.translation.module';
-import { TableModule } from 'primeng/table';
+import { UserSelectorModule } from '../selector';
+import { NgaModule } from '../../../theme/nga.module';
 import { ButtonModule } from 'primeng/button';
-import { DatatableComponent } from './datatable.component';
 
 @NgModule({
   imports: [
     CommonModule,
+    FormsModule,
     AppTranslationModule,
-    TableModule,
+    UserSelectorModule,
+    NgaModule,
     ButtonModule,
   ],
-  declarations: [
-    DatatableComponent,
-  ],
   exports: [
-    DatatableComponent,
+    UserEditorComponent,
+  ],
+  declarations: [
+    UserEditorComponent,
   ],
 })
-export class DatatableModule {}
+export class UserEditorModule {
+}

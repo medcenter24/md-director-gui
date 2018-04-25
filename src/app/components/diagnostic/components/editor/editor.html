@@ -49,12 +49,12 @@
             </div>
             <div class="col-sm-6">
                 <div class="form-group">
-                    <nga-diagnostic-category-selector
+                    <!--<nga-diagnostic-category-selector
                             [categoryId]="diagnostic.diagnostic_category_id"
                             (categoryChanged)="onSelectCategory($event)"
                             (loaded)="onSelectorLoaded()"
                             (loading)="onSelectorLoading"
-                    ></nga-diagnostic-category-selector>
+                    ></nga-diagnostic-category-selector>-->
                     <a (click)="toggleEditor(diagnostic.diagnostic_category_id)"
                        *ngIf="showEditor" class="editor-toggle" translate>Close categories editor</a>
                     <a (click)="toggleEditor(diagnostic.diagnostic_category_id)"

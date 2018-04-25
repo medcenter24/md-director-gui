@@ -5,23 +5,25 @@
  */
 
 import { NgModule } from '@angular/core';
-import { DiagnosticCategorySelectorComponent } from './diagnostic.category.selector.component';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import {NgaModule} from "../../../../../theme/nga.module";
+import { UserSelectorComponent } from './user.selector.component';
+import { UsersService } from '../users.service';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
-    NgaModule,
+  ],
+  providers: [
+    UsersService,
   ],
   declarations: [
-    DiagnosticCategorySelectorComponent,
+    UserSelectorComponent,
   ],
   exports: [
-    DiagnosticCategorySelectorComponent,
+    UserSelectorComponent,
   ],
 })
-export class DiagnosticCategorySelectorModule {
+export class UserSelectorModule {
 }

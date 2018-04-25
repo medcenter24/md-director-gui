@@ -52,7 +52,7 @@ export class FileUploaderComponent extends LoadableComponent implements OnInit {
   handleBeforeUpload(event): void {
     this.msgs = [];
     this._state.notifyDataChanged('growl', this.msgs);
-    this.initComponent();
+    this.startLoader('Uploader');
   }
 
   handleBeforeSend(event): void {
@@ -68,7 +68,7 @@ export class FileUploaderComponent extends LoadableComponent implements OnInit {
     }
     this._state.notifyDataChanged('growl', this.msgs);
     this.changed.emit(this.documents);
-    this.loadedComponent();
+    this.stopLoader('Uploader');
   }
 
   handleError(event): void {
@@ -78,7 +78,7 @@ export class FileUploaderComponent extends LoadableComponent implements OnInit {
       this._state.notifyDataChanged('growl', this.msgs);
       this._logger.error(`Error: Upload to ${event.xhr.responseURL}
         [${event.xhr.status}: ${event.xhr.statusText}]`);
-      this.loadedComponent();
+      this.stopLoader('Uploader');
   }
 
   handleClear(event): void {
@@ -107,17 +107,18 @@ export class FileUploaderComponent extends LoadableComponent implements OnInit {
     this.deleterCounter = files.length;
 
     if (this.deleterCounter) {
-      this.initComponent();
+      const postfix = 'Deleter';
+      this.startLoader(postfix);
       files.map(id => {
         this.documentsService.deleteDocument(id).then(() => {
           this.deleteFileFromGui(id);
           if (--this.deleterCounter <= 0) {
-            this.loadedComponent();
+            this.stopLoader(postfix);
           }
         }).catch(err => {
           this._logger.error(err);
           if (--this.deleterCounter <= 0) {
-            this.loadedComponent();
+            this.stopLoader(postfix);
           }
         });
       });

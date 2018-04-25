@@ -34,8 +34,9 @@ export class DiagnosticSelectComponent extends LoadableComponent implements OnIn
   }
 
   ngOnInit () {
-    this.initComponent();
+    this.startLoader();
     this.diagnosticsService.getDiagnostics().then(diagnostics => {
+      this.stopLoader();
       this.diagnostics = diagnostics;
       this.dataDiagnostics = diagnostics.map(x => {
         return {
@@ -49,10 +50,9 @@ export class DiagnosticSelectComponent extends LoadableComponent implements OnIn
         this.selectedDiagnostics = [];
       }
       this.isLoaded = true;
-      this.loadedComponent();
     }).catch((err) => {
+      this.stopLoader();
       this._logger.error(err);
-      this.loadedComponent();
     });
   }
 

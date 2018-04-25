@@ -46,8 +46,9 @@ export class AccidentTypeSelectComponent extends LoadableComponent implements On
       this.transNonInsurance = res;
     });
 
-    this.initComponent();
+    this.startLoader();
     this.accidentTypesService.getTypes().then(types => {
+      this.stopLoader();
       this.loadedTypes = types;
       if (!this.selectedTypeId) {
         this.selectedTypeId = 1;
@@ -60,10 +61,9 @@ export class AccidentTypeSelectComponent extends LoadableComponent implements On
         };
       });
       this.isLoaded = true;
-      this.loadedComponent();
     }).catch((err) => {
+      this.stopLoader();
       this._logger.error(err);
-      this.loadedComponent();
     });
   }
 

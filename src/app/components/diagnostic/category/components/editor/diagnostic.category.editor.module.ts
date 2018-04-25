@@ -10,13 +10,18 @@ import { FormsModule } from '@angular/forms';
 import { DiagnosticCategorySelectorModule } from '../selector';
 import { DiagnosticCategoryEditorComponent } from './diagnostic.category.editor.component';
 import { AppTranslationModule } from '../../../../../app.translation.module';
+import {NgaModule} from "../../../../../theme/nga.module";
+import {DiagnosticSelectorModule} from "../../../components/selector";
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     AppTranslationModule,
+    DiagnosticSelectorModule,
     DiagnosticCategorySelectorModule,
+    // todo delete it?
+    NgaModule,
   ],
   declarations: [
     DiagnosticCategoryEditorComponent,

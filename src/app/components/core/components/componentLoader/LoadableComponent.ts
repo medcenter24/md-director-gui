@@ -19,22 +19,22 @@ export abstract class LoadableComponent {
     protected abstract componentName: string;
 
     // component was initialized
+  // @deprecated use startLoader
     onInit(name: string): void {
         this.init.emit(name);
     }
 
     // component loaded
+  // @deprecated use stopLoader
     onLoaded(name: string): void {
         this.loaded.emit(name);
     }
 
-    // init current component
-    initComponent(): void {
-        this.onInit(this.componentName);
+    startLoader(postfix: string = ''): void {
+      this.init.emit(`${this.componentName}${postfix}`);
     }
 
-    // current component has been loaded
-    loadedComponent(): void {
-        this.onLoaded(this.componentName);
+    stopLoader(postfix: string = ''): void {
+      this.loaded.emit(`${this.componentName}${postfix}`);
     }
 }

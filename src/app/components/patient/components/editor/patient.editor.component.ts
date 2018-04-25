@@ -46,7 +46,8 @@ export class PatientEditorComponent extends LoadableComponent {
   }
 
   save(): void {
-    this.initComponent();
+    const postfix = 'Save';
+    this.startLoader(postfix);
     if (this.birthday) {
       this.patient.birthday = this.dateHelper
         .getUnixDate(this.dateHelper.parseDateFromFormat(this.birthday, 'd.m.Y'));
@@ -60,6 +61,7 @@ export class PatientEditorComponent extends LoadableComponent {
     savePromise = this.patient.id ? this.patientService.update(this.patient)
       : this.patientService.create(this.patient);
     savePromise.then((patient) => {
+      this.stopLoader(postfix);
       if (patient && patient.id) {
         this.patient = patient;
       }
@@ -70,10 +72,7 @@ export class PatientEditorComponent extends LoadableComponent {
         detail: this.translate.instant('Successfully saved'),
       });
       this._state.notifyDataChanged('growl', this.msgs);
-      this.loadedComponent();
-    }).catch(() => {
-      this.loadedComponent();
-    });
+    }).catch(() => this.stopLoader(postfix));
   }
 
   changedPatientName(event): void {

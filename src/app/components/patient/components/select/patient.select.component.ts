@@ -63,8 +63,10 @@ export class PatientSelectComponent extends LoadableComponent implements OnInit 
  }
 
   reload(): void {
-      this.initComponent();
+      const postfix = 'Reload';
+      this.startLoader(postfix);
       this.patientService.getPatients().then(patients => {
+          this.stopLoader(postfix);
           this.patients = patients;
           this.dataPatients = patients.map(x => {
               return {
@@ -73,10 +75,9 @@ export class PatientSelectComponent extends LoadableComponent implements OnInit 
               };
           });
           this.isLoaded = true;
-          this.loadedComponent();
       }).catch((err) => {
+          this.stopLoader(postfix);
           this._logger.error(err);
-          this.loadedComponent();
       });
     }
 
