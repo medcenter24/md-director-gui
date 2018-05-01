@@ -48,7 +48,7 @@ export class CityDatatableComponent extends LoadingComponent implements OnInit {
       this.langLoaded = true;
       this.datatableConfig = DatatableConfig.factory({
         dataProvider: (filters: Object) => {
-          return this.citiesService.getDatatableData(filters);
+          return this.citiesService.find(filters);
         },
         cols: [
           new DatatableCol('title', this.translateService.instant('Title')),

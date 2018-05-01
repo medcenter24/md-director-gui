@@ -14,7 +14,7 @@ import { FormsModule } from '@angular/forms';
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/primeng';
 import { DoctorsService } from '../../doctors.service';
-import { DoctorEditorModule } from '../../editor';
+import { DoctorEditorModule } from '../editor';
 
 @NgModule({
   imports: [

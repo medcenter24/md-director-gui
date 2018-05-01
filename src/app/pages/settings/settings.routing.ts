@@ -6,11 +6,11 @@
 
 import { Routes, RouterModule } from '@angular/router';
 import { ModuleWithProviders } from '@angular/core';
-import { AccidentFinanceComponent } from './components/finance/finance.component';
 import { SettingsComponent } from './settings.component';
 import { PeriodDatatableComponent } from '../../components/period/components/datatable/period.datatable.component';
 import { AccidentCheckpointDatatableComponent }
   from '../../components/accident/components/checkpoint/components/datatable/accident.checkpoint.datatable.component';
+import { FinanceEditorComponent } from '../../components/finance/components/editor';
 
 // noinspection TypeScriptValidateTypes
 const routes: Routes = [
@@ -19,7 +19,7 @@ const routes: Routes = [
     component: SettingsComponent,
     children: [
       { path: 'checkpoints', component: AccidentCheckpointDatatableComponent },
-      { path: 'finance', component: AccidentFinanceComponent },
+      { path: 'finance', component: FinanceEditorComponent },
       { path: 'periods', component: PeriodDatatableComponent },
     ],
   },

@@ -10,8 +10,8 @@
             <nga-user-selector
                     [userId]="user.id"
                     (userChanged)="onUserChanged($event)"
-                    (loaded)="onSelectorLoaded()"
-                    (loading)="onSelectorLoading()"
+                    (init)="startLoader('Selector')"
+                    (loaded)="stopLoader('Selector')"
             ></nga-user-selector>
         </div>
         <div class="col-sm-2 text-center">
@@ -19,7 +19,7 @@
             <i class="ion-ios-plus-outline create-new-btn" id="add-user-btn" title="{{ 'Add new user' }}" (click)="onUserCreated()"></i>
         </div>
     </div>
-    <form (ngSubmit)="onSubmit()" #diagnosticForm="ngForm" class="edit-form">
+    <form (ngSubmit)="onSubmit()" #diagnosticForm="ngForm" class="edit-form" autocomplete="off">
         <div class="row">
             <div class="col-sm-6">
                 <div class="form-group{{ userName.valid || userName.pristine ? '' : ' has-error'}}">
@@ -66,6 +66,7 @@
                            placeholder="{{ 'Email' | translate }}"
                            maxlength="200"
                            class="form-control"
+                           autocomplete="off"
                     >
                 </div>
             </div>
@@ -74,14 +75,14 @@
                     <label *ngIf="password.valid || password.pristine" class="label" translate>Password</label>
                     <label *ngIf="!password.valid && !password.pristine" class="label label-error" translate>Password is required</label>
                     <input type="password"
-                           required
                            name="password"
                            [(ngModel)]="user.password"
                            #password="ngModel"
                            placeholder="{{ 'Password' | translate }}"
                            maxlength="50"
                            class="form-control"
-                           autocomplete="off"
+                           autocomplete="new-password"
+                           [required]="user.id"
                     >
                 </div>
             </div>

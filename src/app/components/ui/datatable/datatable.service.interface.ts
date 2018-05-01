@@ -5,7 +5,7 @@
  */
 
 export interface DatatableServiceInterface {
-  getDatatableData(filters: Object): Promise<any>;
+  find(filters: Object): Promise<any>;
   save(model: Object): Promise<any>;
   destroy(model: Object): Promise<any>;
 }

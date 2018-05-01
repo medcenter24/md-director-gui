@@ -59,7 +59,7 @@ export class PeriodDatatableComponent extends LoadingComponent implements OnInit
       this.langLoaded = true;
       this.datatableConfig = DatatableConfig.factory({
         dataProvider: (filters: Object) => {
-          return this.datePeriodService.getDatatableData(filters);
+          return this.datePeriodService.find(filters);
         },
         cols: [
           new DatatableCol('title', this.translateService.instant('Title')),

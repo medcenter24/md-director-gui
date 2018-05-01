@@ -52,7 +52,7 @@ export class DiagnosticsSelectorComponent extends LoadableComponent implements O
   }
 
   onSelectDiagnosticsLoaded(name): void {
-    this.onLoaded(name);
+    this.stopLoader(name);
     if (this.caseId) {
       const postfix = 'SelectDiagnosticsLoaded';
       this.startLoader(postfix);
@@ -69,7 +69,7 @@ export class DiagnosticsSelectorComponent extends LoadableComponent implements O
   }
 
   onSelectDiagnosticsInit(name): void {
-    this.onInit(name);
+    this.startLoader(name);
   }
 
   private hasDiagnostic (diagnostic: Diagnostic): boolean {
