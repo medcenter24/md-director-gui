@@ -4,16 +4,7 @@
   ~  @author Alexander Zagovorichev <zagovorichev@gmail.com>
   -->
 
-<p-autoComplete
-        *ngIf="isLoaded"
-        [(ngModel)]="city"
-        [suggestions]="filteredCities"
-        [dropdown]="true"
-        (completeMethod)="filterCities($event)"
-        (onSelect)="onSelect($event)"
-        (onBlur)="onBlur($event)"
-        [multiple]="isMultiple"
-        placeholder="{{ 'Select City' | translate}}"
-        field="title"
-        appendTo="body"
-></p-autoComplete>
+<nga-auto-complete
+  *ngIf="langLoaded"
+  [config]="autoCompleteConfig"
+></nga-auto-complete>

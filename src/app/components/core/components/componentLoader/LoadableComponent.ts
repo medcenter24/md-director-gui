@@ -18,18 +18,6 @@ export abstract class LoadableComponent {
     // should be provided just for loader control to check which component has been loaded
     protected abstract componentName: string;
 
-    // component was initialized
-  // @deprecated use startLoader
-    onInit(name: string): void {
-        this.init.emit(name);
-    }
-
-    // component loaded
-  // @deprecated use stopLoader
-    onLoaded(name: string): void {
-        this.loaded.emit(name);
-    }
-
     startLoader(postfix: string = ''): void {
       this.init.emit(`${this.componentName}${postfix}`);
     }

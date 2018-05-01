@@ -28,7 +28,7 @@ export class UsersService extends HttpService {
   }
 
   create(user: User): Promise<User> {
-    return this.store(user).then(res => res.json() as User);
+    return this.store(user).then(res => res as User);
   }
 
   update(user: User): Promise<User> {

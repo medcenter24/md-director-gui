@@ -4,59 +4,59 @@
  *  @author Alexander Zagovorichev <zagovorichev@gmail.com>
  */
 
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { Logger } from 'angular2-logger/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { City } from '../../city';
 import { CitiesService } from '../../cities.service';
-import { LoadableComponent } from '../../../core/components/componentLoader/LoadableComponent';
+import { TranslateService } from '@ngx-translate/core';
+import { AbstractAutoCompleteController } from '../../../ui/abstract.auto.complete.controller';
 
 @Component({
   selector: 'nga-select-city',
   templateUrl: './city.select.html',
 })
-export class CitySelectComponent extends LoadableComponent implements OnInit {
+export class CitySelectComponent extends AbstractAutoCompleteController {
+
+  protected componentName = 'CitySelectComponent';
 
   @Input()
-    set selectPreloaded(preloaded: number[]) {
-      this.preloaded = preloaded;
-      this.selectPreloadedCities();
+    set selectPreloaded(preloaded: City|City[]) {
+      // this.selectPreloadedCities(preloaded);
+      console.log('select preloaded cities');
     }
   @Input() isMultiple: boolean = false;
-  @Output() selected: EventEmitter<any> = new EventEmitter<any>();
-
-  preloaded: number[] = [];
-  isLoaded: boolean = false;
-  cities: City[] = [];
-  city: any; // ngModel selected
-  filteredCities: City[] = [];
-  protected componentName: string = 'CitySelectComponent';
+  @Output() selected: EventEmitter<City|City[]> = new EventEmitter<City|City[]>();
 
   constructor (
     private citiesService: CitiesService,
-    private _logger: Logger) {
-    super();
+    protected translateService: TranslateService,
+    ) {
+    super(translateService);
   }
 
-  ngOnInit () {
-    this.startLoader();
-    this.citiesService.getCities().then(cities => {
-      this.stopLoader();
-      this.cities = cities;
-      this.selectPreloadedCities();
-      this.isLoaded = true;
-    }).catch((err) => {
-      this.stopLoader();
-      this._logger.error(err);
-    });
+  getService() {
+    return this.citiesService;
   }
 
-  selectPreloadedCities(): void {
+  getFieldKey(): string {
+    return 'title';
+  }
+
+  /**
+   *
+   * @param cities City or City[]
+   */
+/*  selectPreloadedCities(cities: any): void {
     this.city = [];
-    if (this.preloaded && this.preloaded.length) {
-      this.city = this.cities.filter((cty: City) => {
-        return this.preloaded.indexOf(cty.id) >= 0;
-      });
+    let preloaded = [];
+
+    if (!this.isMultiple && cities instanceof City) {
+      preloaded.push(cities.id);
+    } else if (this.isMultiple && cities instanceof Array) {
+      preloaded = cities.map(x => x.id);
     }
+    this.city = this.cities.filter((cty: City) => {
+      return preloaded.indexOf(cty.id) >= 0;
+    });
     if (!this.isMultiple) {
       this.city = this.city.length ? this.city[0] : null;
     }
@@ -72,16 +72,6 @@ export class CitySelectComponent extends LoadableComponent implements OnInit {
   }
 
   onSelect (): void {
-    if (this.isMultiple) {
-      this.preloaded = this.city ? this.city.map(x => x.id) : [];
-    }
     this.selected.emit(this.city);
-  }
-
-  onBlur(): void {
-    if (typeof this.city !== 'object') {
-      this.city = null;
-    }
-    this.onSelect();
-  }
+  }*/
 }

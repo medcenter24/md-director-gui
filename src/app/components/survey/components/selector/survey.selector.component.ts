@@ -54,7 +54,7 @@ export class SurveysSelectorComponent extends LoadableComponent implements OnIni
   }
 
   onSelectSurveysLoaded(name: string): void {
-    this.onLoaded(name);
+    this.stopLoader(name);
     if (this.caseId) {
       const postfix = 'SelectSurveysLoaded';
       this.startLoader(postfix);
@@ -71,7 +71,7 @@ export class SurveysSelectorComponent extends LoadableComponent implements OnIni
   }
 
   onSelectSurveysInit(name: string): void {
-    this.onInit(name);
+    this.startLoader(name);
   }
 
   private hasSurvey (survey: Survey): boolean {

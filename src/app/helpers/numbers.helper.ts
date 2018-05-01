@@ -6,7 +6,7 @@
 
 export class NumbersHelper {
 
-  getFixedFloat (num, saveDot = false, toFixed = true): number {
+  static getFixedFloat (num, saveDot = false, toFixed = true): number {
     num = num ? num.replace( /[^\d.,]/g, '') : 0;
     if (!num) {
       num = 0;

@@ -61,7 +61,7 @@ export class PatientDatatableComponent extends LoadingComponent implements OnIni
 
       this.datatableConfig = DatatableConfig.factory({
         dataProvider: (filters: Object) => {
-          return this.patientService.getDatatableData(filters);
+          return this.patientService.find(filters);
         },
         cols,
         refreshTitle: this.translateService.instant('Refresh'),

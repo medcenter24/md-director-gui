@@ -15,10 +15,11 @@
     </div>
     <div class="col-sm-6" *ngIf="displayDialog">
       <nga-doctor-editor
-        [doctor]="model"
+        [setDoctor]="model"
         (close)="closeDoctorEditor()"
         (init)="startLoader($event)"
         (loaded)="stopLoader($event)"
+        (doctorChanged)="onDoctorChanged($event)"
       ></nga-doctor-editor>
     </div>
   </div>
