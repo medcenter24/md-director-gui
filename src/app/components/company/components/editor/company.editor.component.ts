@@ -12,7 +12,6 @@ import { LoggedUserService } from '../../../auth/loggedUser.service';
 import { AuthenticationService } from '../../../auth/authentication.service';
 import { UploaderOptions, UploadFile, UploadInput, humanizeBytes, UploadOutput } from 'ngx-uploader';
 import { GlobalState } from '../../../../global.state';
-import {post} from "selenium-webdriver/http";
 
 @Component({
   selector: 'nga-company-editor',
@@ -106,7 +105,7 @@ export class CompanyEditorComponent extends LoadableComponent implements OnInit 
   }
 
   endCompanyLogoUpload(event): void {
-    this.stopLoader('CompanyLogoUpload')
+    this.stopLoader('CompanyLogoUpload');
   }
 
   startCompanySignatureUpload(event): void {

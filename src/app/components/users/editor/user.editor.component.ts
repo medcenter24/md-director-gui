@@ -7,13 +7,16 @@
 import { Component, Input, ViewChild, Output, EventEmitter, OnInit } from '@angular/core';
 import { User } from '../user';
 import { UsersService } from '../users.service';
-import { SlimLoadingBarService } from 'ng2-slim-loading-bar';
 import { UserSelectorComponent } from '../selector';
+import { LoadableComponent } from '../../core/components/componentLoader/LoadableComponent';
+
 @Component({
   selector: 'nga-user-editor',
   templateUrl: './user.editor.html',
 })
-export class UserEditorComponent implements OnInit {
+export class UserEditorComponent extends LoadableComponent implements OnInit {
+
+  protected componentName: string = 'UserEditorComponent';
 
   user: User;
 
@@ -27,8 +30,8 @@ export class UserEditorComponent implements OnInit {
   @ViewChild(UserSelectorComponent)
   private userSelectorComponent: UserSelectorComponent;
 
-  constructor(private service: UsersService,
-              private loadingBar: SlimLoadingBarService) {
+  constructor(private service: UsersService) {
+    super();
   }
 
   ngOnInit(): void {
@@ -36,24 +39,21 @@ export class UserEditorComponent implements OnInit {
   }
 
   onSubmit(): void {
-    this.loadingBar.start();
+    let service;
+    const postfix = 'Submit';
+    this.startLoader(postfix);
     if (this.user.id) {
-      this.service.update(this.user).then((user: User) => {
-        this.loadingBar.complete();
-        this.user = this.userSelectorComponent.reload(user);
-        this.changedUser.emit();
-      }).catch(() => {
-        this.loadingBar.complete();
-      });
+      service = this.service.update(this.user);
     } else {
-      this.service.create(this.user).then((user: User) => {
-        this.loadingBar.complete();
-        this.user = this.userSelectorComponent.reload(user);
-        this.changedUser.emit();
-      }).catch(() => {
-        this.loadingBar.complete();
-      });
+      service = this.service.create(this.user);
     }
+
+    service.then((user: User) => {
+      this.stopLoader(postfix);
+      // todo this.userSelectorComponent.reloadWithUserId(user.id);
+      this.user = user;
+      this.changedUser.emit();
+    }).catch(() => this.stopLoader(postfix));
   }
 
   onUserChanged(userId): void {
@@ -64,27 +64,17 @@ export class UserEditorComponent implements OnInit {
     this.setEmptyUser();
   }
 
-  onSelectorLoaded(): void {
-    this.loadingBar.complete();
-  }
-
-  onSelectorLoading(): void {
-    this.loadingBar.start();
-  }
-
   private setEmptyUser(): void {
-    this.user = new User(0, '', '', '');
+    this.user = new User();
   }
 
   private loadUser(id: number): void {
     if (+id) {
-      this.loadingBar.start();
+      const postfix = 'User';
+      this.startLoader(postfix);
       this.service.getUser(id).then((user) => {
         this.user = user;
-        this.loadingBar.complete();
-      }).catch(() => {
-        this.loadingBar.complete();
-      });
+      }).catch(() => this.stopLoader(postfix));
     } else {
       this.setEmptyUser();
     }

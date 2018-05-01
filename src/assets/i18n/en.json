@@ -1,4 +1,7 @@
 {
+  "ref key": "Ref. Key",
+  "refKey": "Ref. Key",
+  "password": "password",
   "Hospital": "Hospital",
   "Checkpoint Editor": "Checkpoint Editor",
   "Assistant Editor": "Assistant Editor",

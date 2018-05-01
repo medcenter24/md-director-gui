@@ -9,15 +9,15 @@ import { CitySelectComponent } from './city.select.component';
 import { CitiesService } from '../../cities.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { AutoCompleteModule } from 'primeng/primeng';
 import { AppTranslationModule } from '../../../../app.translation.module';
+import { AutoCompleteModule } from '../../../ui/autosuggest';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
-    AutoCompleteModule,
     AppTranslationModule,
+    AutoCompleteModule,
   ],
   providers: [
     CitiesService,

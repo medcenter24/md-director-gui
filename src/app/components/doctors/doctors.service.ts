@@ -30,30 +30,23 @@ export class DoctorsService extends HttpService implements DatatableServiceInter
   }
 
   create(doctor: Doctor): Promise<Doctor> {
-    return this.store(doctor).then(res => res.json() as Doctor);
+    return this.store(doctor).then(res => res as Doctor);
   }
 
   update(doctor: Doctor): Promise<Doctor> {
-    return this.put(doctor.id, doctor);
+    return this.put(doctor.id, doctor).then(res => res.data as Doctor);
   }
 
   getDoctorCities(id: number): Promise<City[]> {
-    return this.get(`${id}/cities`).then(res => res.json().data as City[]);
+    return this.get(`${id}/cities`).then(res => res.data as City[]);
   }
 
   setDoctorCities(id: number, cities: City[]): Promise<any> {
-    let els = [];
-    if (cities) {
-      els = cities.map(x => x.id);
-    }
-    return this.http
-      .put(`${this.getUrl(id)}/cities`, JSON.stringify({ cities: els }), { headers: this.getAuthHeaders() })
-      .toPromise()
-      .catch(error => this.handleError(error));
+    return this.put(`${id}/cities`, { cities: cities.map(x => x.id) });
   }
 
   getDoctorsByCity(cityId: number): Promise<Doctor[]> {
-    return this.get(`cities/${cityId}`).then(res => res.json().data as Doctor[]);
+    return this.get(`cities/${cityId}`).then(res => res.data as Doctor[]);
   }
 
   save (doctor: Doctor): Promise<Doctor> {

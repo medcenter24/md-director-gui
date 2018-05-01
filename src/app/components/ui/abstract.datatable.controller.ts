@@ -13,7 +13,8 @@ import {
   DatatableServiceInterface,
 } from './datatable';
 import { TranslateService } from '@ngx-translate/core';
-import { LoadingComponent } from '../core/components/componentLoader/LoadingComponent';
+import { LoadingComponent } from '../core/components/componentLoader';
+import { ObjectHelper } from '../../helpers/object.helper';
 
 /**
  * Simplify the datatable injections
@@ -32,7 +33,7 @@ export abstract class AbstractDatatableController extends LoadingComponent imple
    */
   model: any;
 
-  constructor (
+  protected constructor (
     protected translateService: TranslateService,
   ) {
     super();
@@ -49,7 +50,7 @@ export abstract class AbstractDatatableController extends LoadingComponent imple
       this.langLoaded = true;
       this.datatableConfig = DatatableConfig.factory({
         dataProvider: (filters: Object) => {
-          return this.getService().getDatatableData(filters);
+          return this.getService().find(filters);
         },
         cols: this.getColumns(),
         refreshTitle: this.translateService.instant('Refresh'),
@@ -94,16 +95,26 @@ export abstract class AbstractDatatableController extends LoadingComponent imple
   }
 
   protected onRowSelect(event) {
-    this.setModel(this.cloneModel(event.data));
-    this.displayDialog = true;
+    if (this.model && event.data && this.model.id === event.data.id && this.displayDialog) {
+      // do nothing, already opened
+    } else {
+      this.setModel(this.cloneModel(event.data));
+      this.displayDialog = true;
+    }
   }
 
   protected cloneModel(model: Object): Object {
-    const newModel = this.getEmptyModel();
-    for (const prop of Object.keys(newModel)) {
-      newModel[prop] = model[prop];
-    }
-    return newModel;
+    const cloned = this.getEmptyModel();
+    ObjectHelper.clone(model, cloned);
+    return cloned;
+  }
+
+  refresh(): void {
+    this.datatable.refresh();
+  }
+
+  updateModel(model: Object): boolean {
+    return this.datatable.updateModel(model);
   }
 
   delete() {

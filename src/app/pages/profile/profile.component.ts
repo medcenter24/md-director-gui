@@ -101,12 +101,13 @@ export class ProfileComponent extends LoadingComponent implements OnInit {
   }
 
   onLangChanged (event): void {
-    this.onInit(`${this.componentName}LangChange`);
+    const opName = 'LangChange';
+    this.startLoader(opName);
     this.usersService.update(this.loggedUser)
       .then(() => {
+        this.stopLoader(opName);
         this._state.notifyDataChanged('lang', this.loggedUser.lang);
-        this.onLoaded(`${this.componentName}LangChange`);
-      }).catch(() => this.onLoaded(`${this.componentName}LangChange`));
+      }).catch(() => this.stopLoader(opName));
   }
 
   refreshToken(): void {
@@ -114,10 +115,11 @@ export class ProfileComponent extends LoadingComponent implements OnInit {
   }
 
   saveDirector(): void {
-    this.onInit(`${this.componentName}SaveDirector`);
+    const opName = 'SaveDirector';
+    this.startLoader(opName);
     this.usersService.update(this.loggedUser)
       .then(() => {
-        this.onLoaded(`${this.componentName}SaveDirector`);
+        this.stopLoader(opName);
         this.msgs = [];
         this.msgs.push({ severity: 'success',
             summary: this.translateService.instant('Success'),
@@ -125,7 +127,7 @@ export class ProfileComponent extends LoadingComponent implements OnInit {
         this._state.notifyDataChanged('growl', this.msgs);
       })
       .catch(() => {
-        this.onLoaded(`${this.componentName}SaveDirector`);
+        this.stopLoader(opName);
         this.msgs = [];
         this.msgs.push({ severity: 'error',
             summary: this.translateService.instant('error'),
@@ -147,37 +149,39 @@ export class ProfileComponent extends LoadingComponent implements OnInit {
   }
 
   startPhotoUpload(event): void {
-    this.startLoader(`${this.componentName}PhotoUpload`);
+    this.startLoader('PhotoUpload');
   }
 
   endPhotoUpload(event): void {
-    this.stopLoader(`${this.componentName}PhotoUpload`);
+    this.stopLoader('PhotoUpload');
     this.msgs.push({ severity: 'success',
       summary: this.translateService.instant('Success'),
       detail: this.translateService.instant('Saved') });
     this._state.notifyDataChanged('growl', this.msgs);
 
-    this.startLoader(`${this.componentName}LoadUser`);
+    const opName: string = 'LoadUser';
+    this.startLoader(opName);
     this.loggedUserService.getUser().then((user: User) => {
-      this.stopLoader(`${this.componentName}LoadUser`);
+      this.stopLoader(opName);
       this.loggedUser = user;
       this._state.notifyDataChanged('avatarB64', user.thumb45);
       this.directorPhotoUri = user.thumb200 ? `data:image/jpeg;base64,${user.thumb200}` : '';
-    }).catch(() => this.stopLoader(`${this.componentName}LoadUser`));
+    }).catch(() => this.stopLoader(opName));
   }
 
   deletePhoto(): void {
-    this.startLoader(`${this.componentName}PhotoDelete`);
+    const opName = 'PhotoDelete';
+    this.startLoader(opName);
     this.usersService.deletePhoto(this.loggedUser.id)
     .then(() => {
-      this.stopLoader(`${this.componentName}PhotoDeleted`);
+      this.stopLoader(opName);
       this.msgs.push({ severity: 'success',
         summary: this.translateService.instant('Success'),
         detail: this.translateService.instant('Saved') });
       this._state.notifyDataChanged('growl', this.msgs);
     })
     .catch(() => {
-      this.stopLoader(`${this.componentName}PhotoDeleted`);
+      this.stopLoader(opName);
       this.msgs.push({ severity: 'error',
         summary: this.translateService.instant('error'),
         detail: this.translateService.instant('Data not saved') });
@@ -190,9 +194,10 @@ export class ProfileComponent extends LoadingComponent implements OnInit {
       return;
     }
     this.loggedUser.timezone = tz;
-    this.startLoader(`${this.componentName}Tz`);
+    const opName = 'Tz';
+    this.startLoader(opName);
     this.usersService.update(this.loggedUser)
-      .then(() => this.stopLoader(`${this.componentName}Tz`))
-      .catch(() => this.stopLoader(`${this.componentName}Tz`));
+      .then(() => this.stopLoader(opName))
+      .catch(() => this.stopLoader(opName));
   }
 }

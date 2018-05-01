@@ -11,8 +11,8 @@ import { routing } from './doctors.routing';
 
 @NgModule({
   imports: [
-    DoctorDatatableModule,
     routing,
+    DoctorDatatableModule,
   ],
   declarations: [
     DoctorsComponent,

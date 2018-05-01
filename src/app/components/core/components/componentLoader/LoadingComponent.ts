@@ -28,28 +28,27 @@ export abstract class LoadingComponent extends LoadableComponent {
     private componentsList: string[] = [];
 
     startLoader(componentName: string = ''): void {
-        if (componentName.length) {
-            this._logger.debug(`+${componentName}`);
-        } else {
-            this._logger.warn(`+===========> Component Name is empty <============`);
-        }
+        const name = `${this.componentName}${componentName}`;
+        this._logger.debug(`+ ${name}`);
 
         if (!this.componentsList.length) {
             window.setTimeout(() => this._state.notifyDataChanged('blocker', true));
             this.loadingBar.start();
         }
-        if (this.componentsList.indexOf(componentName) !== -1) {
-            componentName = this.generateName(componentName);
+
+        if (this.componentsList.indexOf(name) !== -1) {
+            componentName = this.generateName(name);
         }
 
         this.componentsList.push(componentName);
     }
 
-    stopLoader(componentName: string = 'Not provided'): void {
-        this._logger.debug(`-${componentName}`);
+    stopLoader(componentName: string = ''): void {
+        const name = `${this.componentName}${componentName}`;
+        this._logger.debug(`- ${name}`);
 
         if (!this.deleteName(componentName)) {
-            this._logger.error(`Loading is trying to stop component which has not been launched => ${componentName}`);
+            this._logger.error(`Loading is trying to stop component which has not been launched => ${name}`);
         }
 
         if (this.componentsList.length === 0) {

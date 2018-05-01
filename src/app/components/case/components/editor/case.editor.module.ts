@@ -18,9 +18,7 @@ import { AppTranslationModule } from '../../../../app.translation.module';
 import { FormsModule } from '@angular/forms';
 import { CaseEditorComponent } from './case.editor.component';
 import { CaseEditorTabsService } from './case.editor.tabs.service';
-import { AssistantModule } from '../../../assistant/assistant.module';
 import { CaseTypeSelectModule } from '../type/case.type.select.module';
-import { DoctorModule } from '../../../doctors/doctor.module';
 import { HospitalModule } from '../../../hospital/hospital.module';
 import { AccidentSelectModule } from '../../../accident/components/select/accident.select.module';
 import { AccidentCardModule } from '../../../accident/components/card';
@@ -30,7 +28,6 @@ import { AccidentScenarioLineModule }
   from '../../../accident/components/scenario/components/line/accident.scenario.line.module';
 import { AccidentCheckpointsSelectorModule }
   from '../../../accident/components/checkpoint/components/select/accident.checkpoints.selector.module';
-import { ServiceModule } from '../../../service/service.module';
 import { AccidentTypeSelectModule } from '../../../accident/components/type/select';
 import { SurveySelectorModule } from '../../../survey/components/selector/survey.selector.module';
 import { DiagnosticSelectorModule } from '../../../diagnostic/components/selector';
@@ -39,6 +36,9 @@ import { CaseFinanceModule } from '../finance';
 import { NgaModule } from '../../../../theme/nga.module';
 import { AccidentActivityModule } from '../../../accident/components/activity';
 import { CitySelectModule } from '../../../city/components/select';
+import { DoctorSelectModule } from '../../../doctors/components/select';
+import { AssistantSelectModule } from '../../../assistant/components/select';
+import {ServiceSelectorModule} from "../../../service/components/selector";
 
 @NgModule({
   imports: [
@@ -51,10 +51,10 @@ import { CitySelectModule } from '../../../city/components/select';
     ButtonModule,
     InplaceModule,
     TooltipModule,
-    AssistantModule,
+    AssistantSelectModule,
     CaseTypeSelectModule,
     CitySelectModule,
-    DoctorModule,
+    DoctorSelectModule,
     InputMaskModule,
     HospitalModule,
     AccidentSelectModule,
@@ -63,7 +63,7 @@ import { CitySelectModule } from '../../../city/components/select';
     PatientSelectorModule,
     AccidentScenarioLineModule,
     AccidentCheckpointsSelectorModule,
-    ServiceModule,
+    ServiceSelectorModule,
     AccidentTypeSelectModule,
     SurveySelectorModule,
     DiagnosticSelectorModule,

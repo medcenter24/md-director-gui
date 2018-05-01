@@ -30,7 +30,6 @@ export class CaseFinanceComponent extends LoadableComponent implements OnInit {
 
   constructor(
     private translate: TranslateService,
-    private numbersHelper: NumbersHelper,
   ) {
     super();
   }
@@ -73,12 +72,12 @@ export class CaseFinanceComponent extends LoadableComponent implements OnInit {
   }
 
   onDoctorFeeChanged(event): void {
-    this.accident.caseable_cost = this.numbersHelper.getFixedFloat(event.target.value);
+    this.accident.caseable_cost = NumbersHelper.getFixedFloat(event.target.value);
     this.recalculatePrice();
   }
 
   onTotalIncomeChanged(event): void {
-    this.totalIncome = this.numbersHelper.getFixedFloat(event.target.value);
+    this.totalIncome = NumbersHelper.getFixedFloat(event.target.value);
     this.setFixedIncome(true);
     this.recalculatePrice();
   }

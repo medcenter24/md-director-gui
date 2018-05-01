@@ -7,11 +7,11 @@
 import { Component, ViewEncapsulation, ViewChild, OnInit } from '@angular/core';
 import { LocalDataSource } from 'ng2-smart-table';
 import { DoctorsService } from '../../../../components/doctors/doctors.service';
-import { DoctorEditorComponent } from '../../../../components/doctors/editor/doctor.editor.component';
 import { SlimLoadingBarService } from 'ng2-slim-loading-bar';
 import { Logger } from 'angular2-logger/core';
 import { City } from '../../../../components/city/city';
 import { TranslateService } from '@ngx-translate/core';
+import { DoctorEditorComponent } from '../../../../components/doctors/components/editor';
 
 @Component({
     selector: 'nga-stuff-component',

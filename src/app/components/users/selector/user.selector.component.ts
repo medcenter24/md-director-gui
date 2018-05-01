@@ -4,91 +4,97 @@
  * @author Alexander Zagovorichev <zagovorichev@gmail.com>
  */
 
-import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { User } from '../user';
 import { UsersService } from '../users.service';
-import * as _ from 'lodash';
+import { TranslateService } from '@ngx-translate/core';
+import { AbstractAutoCompleteController } from '../../ui/abstract.auto.complete.controller';
 
 @Component({
-    selector: 'nga-user-selector',
-    template: `
-        <select class="form-control" name="user" [(ngModel)]="user" (ngModelChange)="modelChanged($event)">
-            <option [ngValue]="_user" *ngFor="let _user of users">{{ _user.name }}</option>
-        </select>
-    `,
+  selector: 'nga-user-selector',
+  templateUrl: './user.selector.html',
 })
-export class UserSelectorComponent implements OnInit {
+export class UserSelectorComponent extends AbstractAutoCompleteController {
+  protected componentName: string = 'UserSelectorComponent';
 
-    user: User;
+  user: User;
+  isLoaded: boolean = false;
 
-    @Input()
-    set userId(id: number) {
+  @Input()
+  set userId(id: number) {
+    // todo this.changeUser(id);
+    console.error('user in selector needs to be changed');
+  }
+
+  @Output() userChanged: EventEmitter<User> = new EventEmitter<User>();
+
+  users: User[] = [];
+
+  constructor(
+    private service: UsersService,
+    protected translateService: TranslateService,
+    ) {
+    super(translateService);
+  }
+
+  getService() {
+    return this.service;
+  }
+
+  getFieldKey(): string {
+    return 'name';
+  }
+
+ /* ngOnInit(): void {
+    const postfix = 'Reload';
+    this.startLoader(postfix);
+    this.service.getUsers().then((data: User[]) => {
+      this.stopLoader(postfix);
+      this.users = [];
+      this.users.push(new User());
+      data.map(_user => {
+        this.users.push(_user);
+      });
+      this.isLoaded = true;
+    }).catch(() => this.stopLoader(postfix));
+  }
+
+  changeUser(id: number = 0): User {
+    let changed = false;
+    _.forEach(this.users, (cat: User) => {
+      if (cat && id === cat.id) {
+        this.user = cat;
+        changed = true;
+      }
+    });
+
+    if (!changed) {
+      this.user = new User();
+    }
+
+    return this.user;
+  }
+
+  reloadWithUserId(id: number): void {
+    this.reload().then(() => {
+      if (!id && this.users.length) {
+        this.directChange = true;
+        this.user = this.users[0];
+      } else {
         this.user = this.changeUser(id);
+      }
+    });
+  }
+
+  modelChanged(user: User): void {
+    console.log(user);
+    if (!this.directChange) {
+      this.directChange = false;
+      if (!user) {
+        user = new User();
+      }
+
+      this.userChanged.emit(user);
     }
-
-    @Output() userChanged: EventEmitter<number> = new EventEmitter<number>();
-    @Output() loading: EventEmitter<any> = new EventEmitter<any>();
-    @Output() loaded: EventEmitter<any> = new EventEmitter<any>();
-
-    users: User[] = [];
-
-    constructor(private service: UsersService) {
-    }
-
-    ngOnInit(): void {
-        this.reload(this.user);
-    }
-
-    changeUser(id): User {
-        let changed = false;
-        _.forEach(this.users, (cat) => {
-            if (cat && id === cat.id) {
-                this.user = cat;
-                changed = true;
-            }
-        });
-
-        if (!changed) {
-            this.user = new User();
-        }
-
-        return this.user;
-    }
-
-    reload(user: User): User {
-        this.loading.emit();
-        this.service.getUsers().then((data: User[]) => {
-            this.users = [];
-            this.users.push(new User());
-            data.map(_user => {
-                this.users.push(_user);
-            });
-
-            if (!this.user) {
-                if ((!user || !user.id) && this.users.length) {
-                    this.user = this.users[0];
-                } else {
-                    this.user = this.changeUser(user.id);
-                }
-            } else {
-                this.user = this.changeUser(this.user.id);
-            }
-            this.loaded.emit();
-        });
-
-         return this.user;
-    }
-
-    reloadWithUserId(id: number): void {
-        const user = this.users.filter(_user => +_user.id === +id);
-        this.reload(user[0]);
-    }
-
-    modelChanged(user): void {
-        if (!user) {
-            user = new User();
-        }
-
-        this.userChanged.emit(user.id);
-    }
+  }*/
 }

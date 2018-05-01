@@ -105,4 +105,19 @@ export class DatatableComponent extends LoadableComponent implements OnInit {
       || !this.config.sortable.length
       || this.config.sortable.indexOf(field) !== -1);
   }
+
+  updateModel(model: Object): boolean {
+    if (!model.hasOwnProperty('id')) {
+      throw Error('You need to implement your own updater since this model does not have id');
+    }
+
+    let found = false;
+    this.data.forEach((val, ind) => {
+      if (val.id === model['id']) {
+        this.data[ind] = model;
+        found = true;
+      }
+    });
+    return found;
+  }
 }

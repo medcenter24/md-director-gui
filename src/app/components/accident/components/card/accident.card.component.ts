@@ -35,26 +35,28 @@ export class AccidentCardComponent extends LoadableComponent implements OnInit {
 
   ngOnInit () {
     if (+this.selectedAccidentId) {
-      this.onInit(`${this.componentName}.getAccident`);
+      const postfix = 'getAccident';
+      this.startLoader(postfix);
       this.accidentService.getAccident(this.selectedAccidentId).then(accident => {
-        this.onLoaded(`${this.componentName}.getAccident`);
+        this.stopLoader(postfix);
         this.accident = accident;
         this.loadPatient();
       }).catch((err) => {
         this._logger.error(err);
-        this.onLoaded(`${this.componentName}.getAccident`);
+        this.stopLoader(postfix);
       });
     }
   }
 
   private loadPatient(): void {
-    this.onInit(`${this.componentName}.getPatient`);
+    const opName = 'getPatient';
+    this.startLoader(opName);
     this.patientService.getPatient(+this.accident.patient_id).then((patient: Patient) => {
+      this.stopLoader(opName);
       this.patient = patient;
-      this.onLoaded(`${this.componentName}.getPatient`);
     }).catch((err) => {
+      this.stopLoader(opName);
       this._logger.error(err);
-      this.onLoaded(`${this.componentName}.getPatient`);
     });
   }
 

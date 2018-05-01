@@ -13,6 +13,7 @@ import { Doctor } from '../../doctor';
 import { DoctorsService } from '../../doctors.service';
 import { AbstractDatatableController } from '../../../ui/abstract.datatable.controller';
 import { DatatableAction, DatatableCol, DatatableServiceInterface } from '../../../ui/datatable';
+import { ObjectHelper } from '../../../../helpers/object.helper';
 
 @Component({
   selector: 'nga-city-datatable',
@@ -21,7 +22,7 @@ import { DatatableAction, DatatableCol, DatatableServiceInterface } from '../../
 export class DoctorDatatableComponent extends AbstractDatatableController implements OnInit {
   protected componentName: string = 'DoctorDatatableComponent';
 
-  constructor(
+  constructor (
     protected loadingBar: SlimLoadingBarService,
     protected _logger: Logger,
     protected _state: GlobalState,
@@ -63,4 +64,12 @@ export class DoctorDatatableComponent extends AbstractDatatableController implem
   closeDoctorEditor(): void {
     this.displayDialog = false;
   }
+
+  onDoctorChanged(doctor: Doctor): void {
+    if (!this.updateModel(doctor)) {
+      this.refresh();
+    }
+    this.setModel(ObjectHelper.clone(doctor, this.getEmptyModel()));
+  }
+
 }
