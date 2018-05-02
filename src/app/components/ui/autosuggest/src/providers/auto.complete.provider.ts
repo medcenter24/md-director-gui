@@ -11,6 +11,11 @@ export interface AutoCompleteProvider {
   filtered: Object[];
 
   /**
+   * Chosen data
+   */
+  selected: Object|Object[];
+
+  /**
    * Loading required data with provider from configuration
    * @param event
    */
@@ -21,4 +26,10 @@ export interface AutoCompleteProvider {
    * @param event
    */
   filter(event): void;
+
+  /**
+   * Select defined items in the autocompleter
+   * @param {Object | Object[]} items
+   */
+  selectItems(items: Object|Object[]): void;
 }

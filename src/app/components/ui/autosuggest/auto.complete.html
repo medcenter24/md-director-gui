@@ -1,6 +1,6 @@
 <p-autoComplete
   *ngIf="provider && conf"
-  [(ngModel)]="selected"
+  [(ngModel)]="provider.selected"
   [suggestions]="provider.filtered"
   [dropdown]="true"
   (completeMethod)="provider.filter($event)"
@@ -9,5 +9,6 @@
   [placeholder]="conf.placeholder"
   [field]="conf.fieldKey"
   [minLength]="conf.minLength"
+  [multiple]="conf.isMultiple"
   appendTo="body"
 ></p-autoComplete>

@@ -33,8 +33,27 @@ export abstract class AbstractAutoCompleteController extends LoadableComponent i
 
   /**
    * Key of the field to show in the selector
+   * @returns {string}
    */
   abstract getFieldKey(): string;
+
+  /**
+   * Check if auto completer is multiple or single
+   * @returns {boolean}
+   */
+  getIsMultiple(): boolean {
+    return false;
+  }
+
+  /**
+   * Default state for the auto completer
+   * If defined then reset should use this value as default for the completer
+   * and empty needs to make it blank
+   * @returns {Object[] | Object}
+   */
+  getPreloadedData(): Object[]|Object {
+    return [];
+  }
 
   ngOnInit() {
     this.translateService.get('Yes').subscribe(() => {
@@ -44,7 +63,15 @@ export abstract class AbstractAutoCompleteController extends LoadableComponent i
           return this.getService().find(filters);
         },
         fieldKey: this.getFieldKey(),
+        isMultiple: this.getIsMultiple(),
+        preloaded: this.getPreloadedData(),
       }, new AutoCompleteSrcConfig());
     });
+  }
+
+  selectItems(items: Object|Object[]): void {
+    if (this.autocompleter) {
+      this.autocompleter.selectItems(items);
+    }
   }
 }

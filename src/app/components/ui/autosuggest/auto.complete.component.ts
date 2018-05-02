@@ -23,7 +23,9 @@ export class AutoCompleteComponent {
   conf: AutoCompleteSrcConfig;
 
   @Input() set config(conf: AutoCompleteSrcConfig) {
+    // init conf
     this.conf = conf;
+    // reload data provider
     this.provider = conf.provider === 'static'
       ? new AutoCompleteStaticProvider(conf)
       : new AutoCompleteLoadableProvider(conf);
@@ -35,16 +37,15 @@ export class AutoCompleteComponent {
    */
   private provider: AutoCompleteStaticProvider | AutoCompleteLoadableProvider;
 
-  /**
-   * Selected models for the result
-   */
-  selected: Object | Object[];
-
   onSelect (): void {
-    this.changed.emit(this.selected);
+    this.changed.emit(this.provider.selected);
   }
 
   onBlur(): void {
     this.onSelect();
+  }
+
+  selectItems(items: Object|Object[]): void {
+    this.provider.selectItems(items);
   }
 }

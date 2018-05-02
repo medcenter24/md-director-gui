@@ -10,6 +10,7 @@ import { PatientSelectorComponent } from './patient.selector.component';
 import { CommonModule } from '@angular/common';
 import { AppTranslationModule } from '../../../../app.translation.module';
 import { FormsModule } from '@angular/forms';
+import { PatientsService } from '../../patients.service';
 
 @NgModule({
   imports: [
@@ -17,6 +18,9 @@ import { FormsModule } from '@angular/forms';
     FormsModule,
     AppTranslationModule,
     PatientSelectModule,
+  ],
+  providers: [
+    PatientsService,
   ],
   declarations: [
     PatientSelectorComponent,
