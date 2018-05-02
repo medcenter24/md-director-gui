@@ -40,6 +40,17 @@ export class AutoCompleteSrcConfig extends Configurable {
      * @type {AutoCompleteProvider}
      */
     public provider: string = 'static',
+    /**
+     * Type of auto suggest
+     * could be used as single or multiple choice
+     * @type {boolean}
+     */
+    public isMultiple: boolean = false,
+    /**
+     * Initialize default state of auto completer
+     * @type {any[]}
+     */
+    public preloaded: Object|Object[] = [],
   ) {
     super();
   }

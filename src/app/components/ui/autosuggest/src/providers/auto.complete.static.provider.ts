@@ -19,6 +19,11 @@ export class AutoCompleteStaticProvider implements AutoCompleteProvider {
   filtered: Object[] = [];
 
   /**
+   * Selected data
+   */
+  selected: Object|Object[];
+
+  /**
    * All loaded data
    * @type {any[]}
    */
@@ -33,6 +38,11 @@ export class AutoCompleteStaticProvider implements AutoCompleteProvider {
     if (!config.fieldKey) {
       console.info('Field key is empty');
     }
+    this.selectItems(config.preloaded);
+  }
+
+  selectItems(items: Object|Object[]): void {
+    this.selected = items;
   }
 
   /**
