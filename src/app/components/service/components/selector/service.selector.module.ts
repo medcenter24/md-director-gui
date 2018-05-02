@@ -5,10 +5,12 @@
  */
 
 import { NgModule } from '@angular/core';
-import {CommonModule} from "@angular/common";
-import {FormsModule} from "@angular/forms";
-import {AppTranslationModule} from "../../../../app.translation.module";
-import {ServiceSelectModule} from "../select";
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { AppTranslationModule } from '../../../../app.translation.module';
+import { ServiceSelectModule } from '../select';
+import { ServiceSelectorComponent } from './service.selector.component';
+import { CasesService } from '../../../case/cases.service';
 
 @NgModule({
   imports: [
@@ -17,9 +19,15 @@ import {ServiceSelectModule} from "../select";
     AppTranslationModule,
     ServiceSelectModule,
   ],
-  providers: [],
-  declarations: [],
-  exports: [],
+  providers: [
+    CasesService,
+  ],
+  declarations: [
+    ServiceSelectorComponent,
+  ],
+  exports: [
+    ServiceSelectorComponent,
+  ],
 })
 export class ServiceSelectorModule {
 }

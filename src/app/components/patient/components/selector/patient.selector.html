@@ -3,8 +3,8 @@
         #patientSelect
         [patient]="patient"
         (select)="onPatientChanged($event)"
-        (init)="onInit($event)"
-        (loaded)="onLoaded($event)"
+        (init)="startLoader($event)"
+        (loaded)="stopLoader($event)"
         (input)="changedValue($event)"
         class="pull-left"
     ></nga-select-patient>

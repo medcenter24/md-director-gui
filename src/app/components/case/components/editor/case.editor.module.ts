@@ -38,7 +38,7 @@ import { AccidentActivityModule } from '../../../accident/components/activity';
 import { CitySelectModule } from '../../../city/components/select';
 import { DoctorSelectModule } from '../../../doctors/components/select';
 import { AssistantSelectModule } from '../../../assistant/components/select';
-import {ServiceSelectorModule} from "../../../service/components/selector";
+import { ServiceSelectorModule } from '../../../service/components/selector';
 
 @NgModule({
   imports: [
@@ -70,8 +70,6 @@ import {ServiceSelectorModule} from "../../../service/components/selector";
     UploaderModule,
     CaseFinanceModule,
     AccidentActivityModule,
-
-    // deprecated
     NgaModule,
   ],
   declarations: [

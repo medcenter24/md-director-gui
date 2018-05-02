@@ -7,7 +7,7 @@
 import { Component, EventEmitter, Input, Output, ViewChild } from '@angular/core';
 import { PatientsService } from '../../patients.service';
 import { Patient } from '../../patient';
-import { LoadableComponent } from '../../../core/components/componentLoader/LoadableComponent';
+import { LoadableComponent } from '../../../core/components/componentLoader';
 import { PatientSelectComponent } from '../select/patient.select.component';
 
 @Component({

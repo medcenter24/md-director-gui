@@ -18,6 +18,11 @@ export class AutoCompleteLoadableProvider implements AutoCompleteProvider {
    */
   filtered: Object[] = [];
 
+  /**
+   * Chosen data
+   */
+  selected: Object|Object[];
+
   constructor (private config: AutoCompleteSrcConfig) {}
 
   /**
@@ -30,5 +35,13 @@ export class AutoCompleteLoadableProvider implements AutoCompleteProvider {
 
   filter(event): void {
     this.loadData(event).then(data => this.filtered = data);
+  }
+
+  /**
+   * Select new selection
+   * @param {Object | Object[]} items
+   */
+  selectItems(items: Object|Object[]): void {
+    this.selected = items;
   }
 }

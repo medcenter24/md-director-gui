@@ -17,11 +17,13 @@ import { AbstractAutoCompleteController } from '../../../ui/abstract.auto.comple
 export class CitySelectComponent extends AbstractAutoCompleteController {
 
   protected componentName = 'CitySelectComponent';
+  preloaded: City[]|City = [];
 
   @Input()
     set selectPreloaded(preloaded: City|City[]) {
-      // this.selectPreloadedCities(preloaded);
-      console.log('select preloaded cities');
+      // we need to use both - if hasn't loaded yet - use config otherwise use component updater
+      this.preloaded = preloaded;
+      this.selectItems(this.preloaded);
     }
   @Input() isMultiple: boolean = false;
   @Output() selected: EventEmitter<City|City[]> = new EventEmitter<City|City[]>();
@@ -41,37 +43,11 @@ export class CitySelectComponent extends AbstractAutoCompleteController {
     return 'title';
   }
 
-  /**
-   *
-   * @param cities City or City[]
-   */
-/*  selectPreloadedCities(cities: any): void {
-    this.city = [];
-    let preloaded = [];
-
-    if (!this.isMultiple && cities instanceof City) {
-      preloaded.push(cities.id);
-    } else if (this.isMultiple && cities instanceof Array) {
-      preloaded = cities.map(x => x.id);
-    }
-    this.city = this.cities.filter((cty: City) => {
-      return preloaded.indexOf(cty.id) >= 0;
-    });
-    if (!this.isMultiple) {
-      this.city = this.city.length ? this.city[0] : null;
-    }
+  getIsMultiple(): boolean {
+    return this.isMultiple;
   }
 
-  filterCities (event): void {
-    this.filteredCities = [];
-    for (const city of this.cities) {
-      if (city.title.toLowerCase().indexOf(event.query.toLowerCase()) !== -1) {
-        this.filteredCities.push(city);
-      }
-    }
+  getPreloadedData(): City[]|City {
+    return this.preloaded;
   }
-
-  onSelect (): void {
-    this.selected.emit(this.city);
-  }*/
 }
