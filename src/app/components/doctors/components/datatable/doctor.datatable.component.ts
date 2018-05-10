@@ -4,7 +4,7 @@
  * @author Zagovorychev Olexandr <zagovorichev@gmail.com>
  */
 
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Logger } from 'angular2-logger/core';
 import { TranslateService } from '@ngx-translate/core';
 import { GlobalState } from '../../../../global.state';
@@ -12,8 +12,10 @@ import { SlimLoadingBarService } from 'ng2-slim-loading-bar';
 import { Doctor } from '../../doctor';
 import { DoctorsService } from '../../doctors.service';
 import { AbstractDatatableController } from '../../../ui/abstract.datatable.controller';
-import { DatatableAction, DatatableCol, DatatableServiceInterface } from '../../../ui/datatable';
+import { DatatableAction, DatatableCol } from '../../../ui/datatable';
 import { ObjectHelper } from '../../../../helpers/object.helper';
+import { DoctorEditorComponent } from '../editor';
+import { LoadableServiceInterface } from '../../../core/loadable';
 
 @Component({
   selector: 'nga-city-datatable',
@@ -21,6 +23,9 @@ import { ObjectHelper } from '../../../../helpers/object.helper';
 })
 export class DoctorDatatableComponent extends AbstractDatatableController implements OnInit {
   protected componentName: string = 'DoctorDatatableComponent';
+
+  @ViewChild('doctorEditor')
+  private doctorEditor: DoctorEditorComponent;
 
   constructor (
     protected loadingBar: SlimLoadingBarService,
@@ -32,7 +37,7 @@ export class DoctorDatatableComponent extends AbstractDatatableController implem
     super(translateService);
   }
 
-  getService(): DatatableServiceInterface {
+  getService(): LoadableServiceInterface {
     return this.doctorsService;
   }
 
@@ -46,6 +51,13 @@ export class DoctorDatatableComponent extends AbstractDatatableController implem
       new DatatableCol('refKey', this.translateService.instant('Ref. Key')),
       new DatatableCol('medicalBoardNumber', this.translateService.instant('Medical Board Number')),
     ];
+  }
+
+  protected setModel(model: Object = null): void {
+    this.model = model;
+    if (this.doctorEditor) {
+      this.doctorEditor.editDoctor(this.model);
+    }
   }
 
   getActions(): DatatableAction[] {

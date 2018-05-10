@@ -7,8 +7,8 @@
 import { Component, Input, ViewChild, Output, EventEmitter, OnInit } from '@angular/core';
 import { User } from '../user';
 import { UsersService } from '../users.service';
-import { UserSelectorComponent } from '../selector';
-import { LoadableComponent } from '../../core/components/componentLoader/LoadableComponent';
+import { UserSelectComponent } from '../select';
+import { LoadableComponent } from '../../core/components/componentLoader';
 
 @Component({
   selector: 'nga-user-editor',
@@ -27,8 +27,8 @@ export class UserEditorComponent extends LoadableComponent implements OnInit {
 
   @Output() changedUser: EventEmitter<null> = new EventEmitter<null>();
 
-  @ViewChild(UserSelectorComponent)
-  private userSelectorComponent: UserSelectorComponent;
+  @ViewChild(UserSelectComponent)
+  private userSelectorComponent: UserSelectComponent;
 
   constructor(private service: UsersService) {
     super();

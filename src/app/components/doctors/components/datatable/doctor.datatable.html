@@ -15,6 +15,7 @@
     </div>
     <div class="col-sm-6" *ngIf="displayDialog">
       <nga-doctor-editor
+        #doctorEditor
         [setDoctor]="model"
         (close)="closeDoctorEditor()"
         (init)="startLoader($event)"

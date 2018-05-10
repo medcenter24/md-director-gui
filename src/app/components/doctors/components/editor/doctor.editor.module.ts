@@ -10,7 +10,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { AppTranslationModule } from '../../../../app.translation.module';
 import { NgaModule } from '../../../../theme/nga.module';
-import { UserSelectorModule } from '../../../users/selector';
+import { UserSelectModule } from '../../../users/select';
 import { CitySelectModule } from '../../../city/components/select';
 import { InputTextareaModule, InputTextModule } from 'primeng/primeng';
 import { ButtonModule } from 'primeng/button';
@@ -22,7 +22,7 @@ import { UserEditorModule } from '../../../users/editor';
     FormsModule,
     AppTranslationModule,
     NgaModule,
-    UserSelectorModule,
+    UserSelectModule,
     CitySelectModule,
     InputTextModule,
     InputTextareaModule,

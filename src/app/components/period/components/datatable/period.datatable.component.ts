@@ -5,13 +5,13 @@
  */
 
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { LoadingComponent } from '../../../core/components/componentLoader/LoadingComponent';
+import { LoadingComponent } from '../../../core/components/componentLoader';
 import { Period } from '../../period';
 import { PeriodService } from '../../period.service';
-import { DatatableConfig } from '../../../ui/datatable/datatable.config';
-import { DatatableCol } from '../../../ui/datatable/datatable.col';
-import { DatatableAction } from '../../../ui/datatable/datatable.action';
-import { DatatableComponent } from '../../../ui/datatable/datatable.component';
+import { DatatableConfig } from '../../../ui/datatable';
+import { DatatableCol } from '../../../ui/datatable';
+import { DatatableAction } from '../../../ui/datatable';
+import { DatatableComponent } from '../../../ui/datatable';
 import { SlimLoadingBarService } from 'ng2-slim-loading-bar';
 import { GlobalState } from '../../../../global.state';
 import { Logger } from 'angular2-logger/core';
@@ -59,7 +59,7 @@ export class PeriodDatatableComponent extends LoadingComponent implements OnInit
       this.langLoaded = true;
       this.datatableConfig = DatatableConfig.factory({
         dataProvider: (filters: Object) => {
-          return this.datePeriodService.find(filters);
+          return this.datePeriodService.search(filters);
         },
         cols: [
           new DatatableCol('title', this.translateService.instant('Title')),

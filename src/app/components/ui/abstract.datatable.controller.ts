@@ -10,11 +10,11 @@ import {
   DatatableCol,
   DatatableComponent,
   DatatableConfig,
-  DatatableServiceInterface,
 } from './datatable';
 import { TranslateService } from '@ngx-translate/core';
 import { LoadingComponent } from '../core/components/componentLoader';
 import { ObjectHelper } from '../../helpers/object.helper';
+import { LoadableServiceInterface } from '../core/loadable';
 
 /**
  * Simplify the datatable injections
@@ -39,7 +39,7 @@ export abstract class AbstractDatatableController extends LoadingComponent imple
     super();
   }
 
-  abstract getService(): DatatableServiceInterface;
+  abstract getService(): LoadableServiceInterface;
   abstract getColumns(): DatatableCol[];
   abstract getActions(): DatatableAction[];
   abstract getSortBy(): string;
@@ -50,7 +50,7 @@ export abstract class AbstractDatatableController extends LoadingComponent imple
       this.langLoaded = true;
       this.datatableConfig = DatatableConfig.factory({
         dataProvider: (filters: Object) => {
-          return this.getService().find(filters);
+          return this.getService().search(filters);
         },
         cols: this.getColumns(),
         refreshTitle: this.translateService.instant('Refresh'),

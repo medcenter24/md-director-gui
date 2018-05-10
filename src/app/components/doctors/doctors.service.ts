@@ -7,11 +7,11 @@
 import { Injectable } from '@angular/core';
 import { Doctor } from './doctor';
 import { HttpService } from '../http/http.service';
-import { DatatableServiceInterface } from '../ui/datatable/datatable.service.interface';
 import { City } from '../city/city';
+import { LoadableServiceInterface } from '../core/loadable';
 
 @Injectable()
-export class DoctorsService extends HttpService implements DatatableServiceInterface {
+export class DoctorsService extends HttpService implements LoadableServiceInterface {
 
   protected getPrefix(): string {
     return 'director/doctors';

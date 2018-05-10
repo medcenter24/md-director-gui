@@ -7,7 +7,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { UserSelectorComponent } from './user.selector.component';
+import { UserSelectComponent } from './user.select.component';
 import { UsersService } from '../users.service';
 import { AutoCompleteModule } from '../../ui/autosuggest';
 
@@ -21,11 +21,11 @@ import { AutoCompleteModule } from '../../ui/autosuggest';
     UsersService,
   ],
   declarations: [
-    UserSelectorComponent,
+    UserSelectComponent,
   ],
   exports: [
-    UserSelectorComponent,
+    UserSelectComponent,
   ],
 })
-export class UserSelectorModule {
+export class UserSelectModule {
 }

@@ -1,15 +1,15 @@
 /*
  * Copyright (c) 2018.
  *
- * @author Zagovorychev Olexandr <zagovorichev@gmail.com>
+ * @author Zagovorychev Oleksandr <zagovorichev@gmail.com>
  */
 
 import { OnInit, ViewChild } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { LoadableComponent } from '../core/components/componentLoader';
-import { AutoCompleteSrcConfig } from './autosuggest/src';
-import { Configurable } from '../core/configurable';
-import { AutoCompleteComponent } from './autosuggest';
+import { LoadableComponent } from '../../core/components/componentLoader';
+import { AutoCompleteSrcConfig } from '../autosuggest/src';
+import { Configurable } from '../../core/configurable';
+import { AutoCompleteComponent } from '../autosuggest';
 
 // template can't be inherited so it has no sense to declare abstract Component
 export abstract class AbstractAutoCompleteController extends LoadableComponent implements OnInit {
@@ -60,7 +60,7 @@ export abstract class AbstractAutoCompleteController extends LoadableComponent i
       this.langLoaded = true;
       this.autoCompleteConfig = Configurable.factory({
         dataProvider: (filters: Object) => {
-          return this.getService().find(filters);
+          return this.getService().search(filters);
         },
         fieldKey: this.getFieldKey(),
         isMultiple: this.getIsMultiple(),

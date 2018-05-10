@@ -4,7 +4,7 @@
  * @author Zagovorychev Olexandr <zagovorichev@gmail.com>
  */
 
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { ChangeDetectorRef, Component, EventEmitter, Input, Output } from '@angular/core';
 import {
   AutoCompleteLoadableProvider,
   AutoCompleteSrcConfig,
@@ -27,10 +27,14 @@ export class AutoCompleteComponent {
     this.conf = conf;
     // reload data provider
     this.provider = conf.provider === 'static'
-      ? new AutoCompleteStaticProvider(conf)
+      ? new AutoCompleteStaticProvider(conf, this._changeDetectionRef)
       : new AutoCompleteLoadableProvider(conf);
   }
   @Output() changed: EventEmitter<Object|Object[]> = new EventEmitter<Object|Object[]>();
+
+  constructor(
+    private _changeDetectionRef: ChangeDetectorRef,
+  ) {}
 
   /**
    * Data Provider for the auto completer
@@ -39,10 +43,6 @@ export class AutoCompleteComponent {
 
   onSelect (): void {
     this.changed.emit(this.provider.selected);
-  }
-
-  onBlur(): void {
-    this.onSelect();
   }
 
   selectItems(items: Object|Object[]): void {
