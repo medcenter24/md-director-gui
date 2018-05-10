@@ -4,5 +4,5 @@
  * @author Zagovorychev Olexandr <zagovorichev@gmail.com>
  */
 
-export * from './user.selector.module';
-export * from './user.selector.component';
+export * from './user.select.module';
+export * from './user.select.component';

@@ -59,7 +59,7 @@ export class AssistantDatatableComponent extends LoadingComponent implements OnI
 
       this.datatableConfig = DatatableConfig.factory({
         dataProvider: (filters: Object) => {
-          return this.assistantService.find(filters);
+          return this.assistantService.search(filters);
         },
         cols,
         refreshTitle: this.translateService.instant('Refresh'),

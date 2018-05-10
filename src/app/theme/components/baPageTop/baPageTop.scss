@@ -3,6 +3,10 @@
 
 :host /deep/ {
 
+  .show-menu {
+    display: block;
+  }
+
   .page-top {
     background-color: $sidebar;
     position: fixed;

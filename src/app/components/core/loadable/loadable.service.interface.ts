@@ -10,7 +10,7 @@ export interface LoadableServiceInterface {
    * @param {Object} filters
    * @returns {Promise<any>}
    */
-  searchData(filters: Object): Promise<any>;
+  search(filters: Object): Promise<any>;
 
   /**
    * Save model

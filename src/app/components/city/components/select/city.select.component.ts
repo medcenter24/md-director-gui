@@ -8,11 +8,11 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { City } from '../../city';
 import { CitiesService } from '../../cities.service';
 import { TranslateService } from '@ngx-translate/core';
-import { AbstractAutoCompleteController } from '../../../ui/abstract.auto.complete.controller';
+import { AbstractAutoCompleteController } from '../../../ui/autocompleter/abstract.auto.complete.controller';
 
 @Component({
   selector: 'nga-select-city',
-  templateUrl: './city.select.html',
+  templateUrl: '../../../ui/autocompleter/autocompleter.tpl.html',
 })
 export class CitySelectComponent extends AbstractAutoCompleteController {
 
@@ -49,5 +49,9 @@ export class CitySelectComponent extends AbstractAutoCompleteController {
 
   getPreloadedData(): City[]|City {
     return this.preloaded;
+  }
+
+  onChanged(event): void {
+    this.selected.emit(event);
   }
 }

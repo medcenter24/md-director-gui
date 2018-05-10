@@ -16,7 +16,7 @@ import { Doctor } from '../../doctor';
 import { DoctorsService } from '../../doctors.service';
 import { City } from '../../../city/city';
 import { LoadableComponent } from '../../../core/components/componentLoader';
-import { UserSelectorComponent } from '../../../users/selector';
+import { UserSelectComponent } from '../../../users/select';
 import { CitySelectComponent } from '../../../city/components/select';
 import { User } from '../../../users/user';
 
@@ -28,24 +28,21 @@ export class DoctorEditorComponent extends LoadableComponent implements AfterVie
   protected componentName: string = 'DoctorEditorComponent';
 
   @Input() set setDoctor(doctor: Doctor) {
-    if (this.doctor !== doctor) {
-      this.showUserEditor = false;
-    }
-    this.doctor = doctor;
-    this.loadEditableData();
+    this.editDoctor(doctor);
   }
 
   @Output() doctorChanged: EventEmitter<Doctor> = new EventEmitter<Doctor>();
   @Output() close: EventEmitter<boolean> = new EventEmitter();
 
   @ViewChild('userSelector')
-    private userSelectorComponent: UserSelectorComponent;
+    private userSelectComponent: UserSelectComponent;
 
   @ViewChild('selectCity')
     private selectCityComponent: CitySelectComponent;
 
   doctor: Doctor;
   showUserEditor: boolean = false;
+  // doctor's cities
   cities: City[] = [];
   isLoaded: boolean = false;
 
@@ -53,6 +50,14 @@ export class DoctorEditorComponent extends LoadableComponent implements AfterVie
     private service: DoctorsService,
   ) {
     super();
+  }
+
+  editDoctor(doctor: Doctor): void {
+    if (this.doctor !== doctor) {
+      this.showUserEditor = false;
+    }
+    this.doctor = doctor;
+    this.loadEditableData();
   }
 
   ngAfterViewInit(): void {
@@ -105,20 +110,7 @@ export class DoctorEditorComponent extends LoadableComponent implements AfterVie
   }
 
   reloadUsers(): void {
-    // todo this.userSelectorComponent.reloadWithUserId(+this.doctor.userId);
-  }
-
-  loadDoctorById(id: number): void {
-    if (id) {
-      const opName = 'Doctor';
-      this.startLoader(opName);
-      this.service.getDoctor(id)
-        .then((doctor: Doctor) => {
-          this.stopLoader(opName);
-          this.doctor = doctor;
-          this.loadEditableData();
-        }).catch(() => this.stopLoader(opName));
-    }
+    this.userSelectComponent.setUserById(this.doctor.userId);
   }
 
   loadEditableData(): void {
@@ -137,12 +129,11 @@ export class DoctorEditorComponent extends LoadableComponent implements AfterVie
         .then((cities: City[]) => {
           this.stopLoader(opName);
           this.cities = cities;
-          // this.selectCityComponent.selectPreloadedCities(this.cities);
         }).catch(() => this.stopLoader(opName));
     }
   }
 
   handleUserEdited(event): void {
-    console.log('user edited', event);
+    console.error('user edited', event);
   }
 }

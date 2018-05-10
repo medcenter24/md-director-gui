@@ -53,7 +53,7 @@ export class CaseDatatableComponent implements OnInit {
 
       this.datatableConfig = DatatableConfig.factory({
         dataProvider: (filters: Object) => {
-          return this.caseService.find(filters);
+          return this.caseService.search(filters);
         },
         cols,
         refreshTitle: this.translateService.instant('Refresh'),
