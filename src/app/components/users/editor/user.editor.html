@@ -7,12 +7,12 @@
 <ba-card title="User Editor" baCardClass="with-scroll" class="edit-form-container">
     <div class="row">
         <div class="col-sm-10">
-            <nga-user-selector
+            <nga-user-select
                     [userId]="user.id"
                     (userChanged)="onUserChanged($event)"
                     (init)="startLoader('Selector')"
                     (loaded)="stopLoader('Selector')"
-            ></nga-user-selector>
+            ></nga-user-select>
         </div>
         <div class="col-sm-2 text-center">
             <label for="add-user-btn" translate>New User</label><br>

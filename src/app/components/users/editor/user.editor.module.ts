@@ -9,7 +9,7 @@ import { UserEditorComponent } from './user.editor.component';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { AppTranslationModule } from '../../../app.translation.module';
-import { UserSelectorModule } from '../selector';
+import { UserSelectModule } from '../select';
 import { NgaModule } from '../../../theme/nga.module';
 import { ButtonModule } from 'primeng/button';
 
@@ -18,7 +18,7 @@ import { ButtonModule } from 'primeng/button';
     CommonModule,
     FormsModule,
     AppTranslationModule,
-    UserSelectorModule,
+    UserSelectModule,
     NgaModule,
     ButtonModule,
   ],

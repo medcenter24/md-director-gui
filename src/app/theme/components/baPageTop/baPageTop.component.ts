@@ -15,6 +15,7 @@ export class BaPageTopComponent {
   isScrolled: boolean = false;
   isMenuCollapsed: boolean = false;
   avatar: string = '';
+  showProfileMenu: boolean = false;
 
   constructor(
     private _state: GlobalState,
@@ -47,5 +48,9 @@ export class BaPageTopComponent {
 
   logout(): void {
     this.authenticationService.logout();
+  }
+
+  toggleProfileMenu(): void {
+    this.showProfileMenu = !this.showProfileMenu;
   }
 }

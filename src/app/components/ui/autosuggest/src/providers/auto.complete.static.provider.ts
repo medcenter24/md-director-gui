@@ -6,6 +6,7 @@
 
 import { AutoCompleteProvider } from './auto.complete.provider';
 import { AutoCompleteSrcConfig } from '../auto.complete.src.config';
+import { ChangeDetectorRef } from '@angular/core';
 
 /**
  * Load all the data and store it for application
@@ -34,15 +35,19 @@ export class AutoCompleteStaticProvider implements AutoCompleteProvider {
    */
   private loaded: boolean = false;
 
-  constructor (private config: AutoCompleteSrcConfig) {
+  constructor (
+    private config: AutoCompleteSrcConfig,
+    private _changeDetectionRef: ChangeDetectorRef,
+  ) {
     if (!config.fieldKey) {
       console.info('Field key is empty');
     }
     this.selectItems(config.preloaded);
   }
 
-  selectItems(items: Object|Object[]): void {
+  selectItems(items: Object|Object[], resolve: Function = () => {}): void {
     this.selected = items;
+    this._changeDetectionRef.detectChanges();
   }
 
   /**

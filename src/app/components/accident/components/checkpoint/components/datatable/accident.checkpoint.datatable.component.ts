@@ -53,7 +53,7 @@ export class AccidentCheckpointDatatableComponent extends LoadingComponent imple
 
       this.datatableConfig = DatatableConfig.factory({
         dataProvider: (filters: Object) => {
-          return this.checkpointService.find(filters);
+          return this.checkpointService.search(filters);
         },
         cols,
         refreshTitle: this.translateService.instant('Refresh'),

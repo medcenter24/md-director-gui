@@ -69,19 +69,20 @@
                   </div>
                   <div class="row">
                     <div class="col-12">
-                      <nga-user-selector
+                      <nga-user-select
                         #userSelector
+                        [userId]="doctor.userId"
                         (userChanged)="onUserChanged($event)"
                         (init)="startLoader($event)"
                         (loaded)="stopLoader($event)"
-                      ></nga-user-selector>
+                      ></nga-user-select>
                     </div>
                   </div>
                   <div class="row">
                     <div class="col-12">
-                      <a (click)="toggleEditor(doctor.user_id)"
+                      <a (click)="toggleEditor(doctor.userId)"
                          class="editor-toggle" *ngIf="showUserEditor" translate>Close user editor</a>
-                      <a (click)="toggleEditor(doctor.user_id)"
+                      <a (click)="toggleEditor(doctor.userId)"
                          class="editor-toggle" *ngIf="!showUserEditor" translate>Open user editor</a>
                     </div>
                   </div>

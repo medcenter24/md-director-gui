@@ -48,7 +48,7 @@ export class HospitalDatatableComponent extends LoadingComponent implements OnIn
       this.langLoaded = true;
       this.datatableConfig = DatatableConfig.factory({
         dataProvider: (filters: Object) => {
-          return this.hospitalService.find(filters);
+          return this.hospitalService.search(filters);
         },
         cols: [
           new DatatableCol('title', this.translateService.instant('Title')),
