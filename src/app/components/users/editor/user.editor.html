@@ -4,9 +4,9 @@
   ~ @author Alexander Zagovorichev <zagovorichev@gmail.com>
   -->
 
-<ba-card title="User Editor" baCardClass="with-scroll" class="edit-form-container">
+<ba-card baCardClass="with-scroll" class="edit-form-container">
     <div class="row">
-        <div class="col-sm-10">
+        <div class="col-sm-6">
             <nga-user-select
                     [userId]="user.id"
                     (userChanged)="onUserChanged($event)"
@@ -14,9 +14,8 @@
                     (loaded)="stopLoader('Selector')"
             ></nga-user-select>
         </div>
-        <div class="col-sm-2 text-center">
-            <label for="add-user-btn" translate>New User</label><br>
-            <i class="ion-ios-plus-outline create-new-btn" id="add-user-btn" title="{{ 'Add new user' }}" (click)="onUserCreated()"></i>
+        <div class="col-sm-6 text-center">
+          <button pButton (click)="onUserCreated()" icon="fa fa-plus" [label]="'Add New' | translate"></button>
         </div>
     </div>
     <form (ngSubmit)="onSubmit()" #diagnosticForm="ngForm" class="edit-form" autocomplete="off">

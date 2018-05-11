@@ -25,7 +25,7 @@ export class UserEditorComponent extends LoadableComponent implements OnInit {
     this.loadUser(id);
   }
 
-  @Output() changedUser: EventEmitter<null> = new EventEmitter<null>();
+  @Output() changedUser: EventEmitter<User> = new EventEmitter<User>();
 
   @ViewChild(UserSelectComponent)
   private userSelectorComponent: UserSelectComponent;
@@ -50,30 +50,34 @@ export class UserEditorComponent extends LoadableComponent implements OnInit {
 
     service.then((user: User) => {
       this.stopLoader(postfix);
-      // todo this.userSelectorComponent.reloadWithUserId(user.id);
-      this.user = user;
-      this.changedUser.emit();
+      this.setUser(user);
+      this.changedUser.emit(user);
     }).catch(() => this.stopLoader(postfix));
   }
 
-  onUserChanged(userId): void {
-    this.loadUser(userId);
+  onUserChanged(user: User): void {
+    this.setUser(user);
   }
 
   onUserCreated(): void {
     this.setEmptyUser();
   }
 
+  private setUser(user: User): void {
+    this.user = user;
+  }
+
   private setEmptyUser(): void {
     this.user = new User();
   }
 
-  private loadUser(id: number): void {
+  loadUser(id: number): void {
     if (+id) {
       const postfix = 'User';
       this.startLoader(postfix);
-      this.service.getUser(id).then((user) => {
-        this.user = user;
+      this.service.getUser(id).then((user: User) => {
+        this.stopLoader(postfix);
+        this.setUser(user);
       }).catch(() => this.stopLoader(postfix));
     } else {
       this.setEmptyUser();
