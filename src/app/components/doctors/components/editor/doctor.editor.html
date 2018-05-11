@@ -108,6 +108,7 @@
 </ba-card>
 
 <nga-user-editor
+  #userEditor
   [hidden]="!showUserEditor"
   [userId]="editableUserId"
   (changedUser)="handleUserEdited($event)"

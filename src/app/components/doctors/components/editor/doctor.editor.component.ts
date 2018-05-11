@@ -19,6 +19,7 @@ import { LoadableComponent } from '../../../core/components/componentLoader';
 import { UserSelectComponent } from '../../../users/select';
 import { CitySelectComponent } from '../../../city/components/select';
 import { User } from '../../../users/user';
+import { UserEditorComponent } from '../../../users/editor/user.editor.component';
 
 @Component({
   selector: 'nga-doctor-editor',
@@ -39,6 +40,9 @@ export class DoctorEditorComponent extends LoadableComponent implements AfterVie
 
   @ViewChild('selectCity')
     private selectCityComponent: CitySelectComponent;
+
+  @ViewChild('userEditor')
+    private userEditor: UserEditorComponent;
 
   doctor: Doctor;
   showUserEditor: boolean = false;
@@ -103,6 +107,7 @@ export class DoctorEditorComponent extends LoadableComponent implements AfterVie
 
   toggleEditor(): void {
     this.showUserEditor = !this.showUserEditor;
+    this.userEditor.loadUser(this.doctor.userId);
   }
 
   closeEditor(): void {
@@ -110,7 +115,9 @@ export class DoctorEditorComponent extends LoadableComponent implements AfterVie
   }
 
   reloadUsers(): void {
-    this.userSelectComponent.setUserById(this.doctor.userId);
+    if (this.doctor) {
+      this.userSelectComponent.setUserById(this.doctor.userId);
+    }
   }
 
   loadEditableData(): void {
@@ -134,6 +141,8 @@ export class DoctorEditorComponent extends LoadableComponent implements AfterVie
   }
 
   handleUserEdited(event): void {
-    console.error('user edited', event);
+    this.showUserEditor = false;
+    this.doctor.userId = event.id;
+    this.reloadUsers();
   }
 }
