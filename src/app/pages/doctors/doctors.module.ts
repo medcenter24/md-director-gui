@@ -8,11 +8,13 @@ import { NgModule } from '@angular/core';
 import { DoctorDatatableModule } from '../../components/doctors/components/datatable';
 import { DoctorsComponent } from './doctors.component';
 import { routing } from './doctors.routing';
+import { DiagnosticDatatableModule } from '../../components/diagnostic/components/datatable';
 
 @NgModule({
   imports: [
     routing,
     DoctorDatatableModule,
+    DiagnosticDatatableModule,
   ],
   declarations: [
     DoctorsComponent,

@@ -4,7 +4,7 @@
  * @author Zagovorychev Oleksandr <zagovorichev@gmail.com>
  */
 
-import { OnInit, ViewChild } from '@angular/core';
+import { EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { LoadableComponent } from '../../core/components/componentLoader';
 import { AutoCompleteSrcConfig } from '../autosuggest/src';
@@ -13,6 +13,8 @@ import { AutoCompleteComponent } from '../autosuggest';
 
 // template can't be inherited so it has no sense to declare abstract Component
 export abstract class AbstractAutoCompleteController extends LoadableComponent implements OnInit {
+
+  @Output() selected: EventEmitter<Object> = new EventEmitter<Object>();
 
   @ViewChild('autocompleter')
   private autocompleter: AutoCompleteComponent;
@@ -73,5 +75,9 @@ export abstract class AbstractAutoCompleteController extends LoadableComponent i
     if (this.autocompleter) {
       this.autocompleter.selectItems(items);
     }
+  }
+
+  onChanged(event): void {
+    this.selected.emit(event);
   }
 }

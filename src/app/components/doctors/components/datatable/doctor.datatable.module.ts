@@ -9,10 +9,7 @@ import { DoctorDatatableComponent } from './doctor.datatable.component';
 import { CommonModule } from '@angular/common';
 import { AppTranslationModule } from '../../../../app.translation.module';
 import { DatatableModule } from '../../../ui/datatable';
-import { DialogModule } from 'primeng/dialog';
 import { FormsModule } from '@angular/forms';
-import { ButtonModule } from 'primeng/button';
-import { InputTextModule } from 'primeng/primeng';
 import { DoctorsService } from '../../doctors.service';
 import { DoctorEditorModule } from '../editor';
 
@@ -22,9 +19,6 @@ import { DoctorEditorModule } from '../editor';
     FormsModule,
     AppTranslationModule,
     DatatableModule,
-    DialogModule,
-    ButtonModule,
-    InputTextModule,
     DoctorEditorModule,
   ],
   providers: [

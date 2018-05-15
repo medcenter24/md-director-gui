@@ -30,7 +30,7 @@ export class DiagnosticCategorySelectorComponent implements OnInit {
     this.category = this.changeCategory(+id);
   }
 
-  @Output() categoryChanged: EventEmitter<number> = new EventEmitter<number>();
+  @Output() categoryChanged: EventEmitter<DiagnosticCategory> = new EventEmitter<DiagnosticCategory>();
   @Output() loading: EventEmitter<any> = new EventEmitter<any>();
   @Output() loaded: EventEmitter<any> = new EventEmitter<any>();
 
@@ -94,7 +94,7 @@ export class DiagnosticCategorySelectorComponent implements OnInit {
   }
 
   modelChanged (category): void {
-    this.categoryChanged.emit(category.id);
+    this.categoryChanged.emit(category);
   }
 
 }
