@@ -9,9 +9,9 @@
         <div class="col-sm-6">
             <nga-user-select
                     [userId]="user.id"
-                    (userChanged)="onUserChanged($event)"
-                    (init)="startLoader('Selector')"
-                    (loaded)="stopLoader('Selector')"
+                    (selected)="onUserChanged($event)"
+                    (init)="startLoader($event)"
+                    (loaded)="stopLoader($event)"
             ></nga-user-select>
         </div>
         <div class="col-sm-6 text-center">

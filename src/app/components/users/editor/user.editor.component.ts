@@ -4,7 +4,7 @@
  * @author Alexander Zagovorichev <zagovorichev@gmail.com>
  */
 
-import { Component, Input, ViewChild, Output, EventEmitter, OnInit } from '@angular/core';
+import { Component, ViewChild, Output, EventEmitter, OnInit } from '@angular/core';
 import { User } from '../user';
 import { UsersService } from '../users.service';
 import { UserSelectComponent } from '../select';
@@ -20,12 +20,7 @@ export class UserEditorComponent extends LoadableComponent implements OnInit {
 
   user: User;
 
-  @Input()
-  set userId(id: number) {
-    this.loadUser(id);
-  }
-
-  @Output() changedUser: EventEmitter<User> = new EventEmitter<User>();
+  @Output() saved: EventEmitter<User> = new EventEmitter<User>();
 
   @ViewChild(UserSelectComponent)
   private userSelectorComponent: UserSelectComponent;
@@ -51,7 +46,7 @@ export class UserEditorComponent extends LoadableComponent implements OnInit {
     service.then((user: User) => {
       this.stopLoader(postfix);
       this.setUser(user);
-      this.changedUser.emit(user);
+      this.saved.emit(user);
     }).catch(() => this.stopLoader(postfix));
   }
 

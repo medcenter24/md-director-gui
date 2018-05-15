@@ -9,55 +9,52 @@ import { Logger } from 'angular2-logger/core';
 import { TranslateService } from '@ngx-translate/core';
 import { GlobalState } from '../../../../global.state';
 import { SlimLoadingBarService } from 'ng2-slim-loading-bar';
-import { Doctor } from '../../doctor';
-import { DoctorsService } from '../../doctors.service';
 import { AbstractDatatableController } from '../../../ui/abstract.datatable.controller';
 import { DatatableAction, DatatableCol } from '../../../ui/datatable';
 import { ObjectHelper } from '../../../../helpers/object.helper';
-import { DoctorEditorComponent } from '../editor';
 import { LoadableServiceInterface } from '../../../core/loadable';
+import { DiagnosticEditorComponent } from '../editor';
+import { DiagnosticService } from '../../diagnostic.service';
+import { Diagnostic } from '../../diagnostic';
 
 @Component({
-  selector: 'nga-doctor-datatable',
-  templateUrl: './doctor.datatable.html',
+  selector: 'nga-diagnostic-datatable',
+  templateUrl: './diagnostic.datatable.html',
 })
-export class DoctorDatatableComponent extends AbstractDatatableController implements OnInit {
+export class DiagnosticDatatableComponent extends AbstractDatatableController implements OnInit {
   protected componentName: string = 'DoctorDatatableComponent';
 
-  @ViewChild('doctorEditor')
-  private doctorEditor: DoctorEditorComponent;
+  @ViewChild('diagnosticEditor')
+  private diagnosticEditor: DiagnosticEditorComponent;
 
   constructor (
     protected loadingBar: SlimLoadingBarService,
     protected _logger: Logger,
     protected _state: GlobalState,
     protected translateService: TranslateService,
-    private doctorsService: DoctorsService,
+    private diagnosticService: DiagnosticService,
   ) {
     super(translateService);
   }
 
   getService(): LoadableServiceInterface {
-    return this.doctorsService;
+    return this.diagnosticService;
   }
 
   getEmptyModel(): Object {
-    return new Doctor();
+    return new Diagnostic();
   }
 
   getColumns(): DatatableCol[] {
     return [
-      new DatatableCol('name', this.translateService.instant('Name')),
-      new DatatableCol('refKey', this.translateService.instant('Ref. Key')),
-      new DatatableCol('medicalBoardNumber', this.translateService.instant('Medical Board Number')),
+      new DatatableCol('title', this.translateService.instant('Title')),
+      new DatatableCol('description', this.translateService.instant('Description')),
+      new DatatableCol('diseaseCode', this.translateService.instant('Disease Code')),
     ];
   }
 
   protected setModel(model: Object = null): void {
     this.model = model;
-    if (this.displayDialog && this.doctorEditor) {
-      this.doctorEditor.editDoctor(this.model);
-    }
   }
 
   getActions(): DatatableAction[] {
@@ -77,12 +74,11 @@ export class DoctorDatatableComponent extends AbstractDatatableController implem
     this.displayDialog = false;
   }
 
-  onDoctorChanged(doctor: Doctor): void {
-    if (!this.updateModel(doctor)) {
+  onDiagnosticChanged(diagnostic: Diagnostic): void {
+    if (!this.updateModel(diagnostic)) {
       this.refresh();
     }
-    this.setModel(ObjectHelper.clone(doctor, this.getEmptyModel()));
-    this.displayDialog = false;
+    this.setModel(ObjectHelper.clone(diagnostic, this.getEmptyModel()));
   }
 
 }
