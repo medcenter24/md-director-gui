@@ -64,11 +64,6 @@ export abstract class AbstractDatatableController extends LoadingComponent imple
     });
   }
 
-  protected showDialogToAdd() {
-    this.setModel(this.getEmptyModel());
-    this.displayDialog = true;
-  }
-
   protected setModel(model: Object = null): void {
     this.model = model;
   }

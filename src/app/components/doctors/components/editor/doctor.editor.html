@@ -72,7 +72,7 @@
                       <nga-user-select
                         #userSelector
                         [userId]="doctor.userId"
-                        (userChanged)="onUserChanged($event)"
+                        (selected)="onUserChanged($event)"
                         (init)="startLoader($event)"
                         (loaded)="stopLoader($event)"
                       ></nga-user-select>
@@ -110,8 +110,7 @@
 <nga-user-editor
   #userEditor
   [hidden]="!showUserEditor"
-  [userId]="editableUserId"
-  (changedUser)="handleUserEdited($event)"
+  (saved)="handleUserEdited($event)"
   (init)="startLoader($event)"
   (loaded)="stopLoader($event)"
 ></nga-user-editor>

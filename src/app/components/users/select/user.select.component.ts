@@ -4,7 +4,7 @@
  * @author Alexander Zagovorichev <zagovorichev@gmail.com>
  */
 
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { User } from '../user';
 import { UsersService } from '../users.service';
 import { TranslateService } from '@ngx-translate/core';
@@ -25,8 +25,6 @@ export class UserSelectComponent extends AbstractAutoCompleteController {
     this.setUserById(id);
   }
 
-  @Output() userChanged: EventEmitter<User> = new EventEmitter<User>();
-
   users: User[] = [];
 
   constructor(
@@ -42,10 +40,6 @@ export class UserSelectComponent extends AbstractAutoCompleteController {
 
   getFieldKey(): string {
     return 'name';
-  }
-
-  onChanged(event): void {
-    this.userChanged.emit(event);
   }
 
   setUserById(userId: number): void {

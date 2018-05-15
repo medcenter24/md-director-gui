@@ -25,7 +25,7 @@
                 <div class="form-group">
                     <label for="inputComment" translate>Disease Code</label>
                     <input type="text" class="form-control" id="inputComment"
-                           [(ngModel)]="diagnostic.disease_code" name="disease_code"
+                           [(ngModel)]="diagnostic.diseaseCode" name="disease_code"
                            #comment="ngModel"
                            placeholder="{{ 'Disease Code' | translate }}" maxlength="70"
                     >
@@ -49,15 +49,15 @@
             </div>
             <div class="col-sm-6">
                 <div class="form-group">
-                    <!--<nga-diagnostic-category-selector
-                            [categoryId]="diagnostic.diagnostic_category_id"
+                    <nga-diagnostic-category-selector
+                            [categoryId]="diagnostic.diagnosticCategoryId"
                             (categoryChanged)="onSelectCategory($event)"
                             (loaded)="onSelectorLoaded()"
                             (loading)="onSelectorLoading"
-                    ></nga-diagnostic-category-selector>-->
-                    <a (click)="toggleEditor(diagnostic.diagnostic_category_id)"
+                    ></nga-diagnostic-category-selector>
+                    <a (click)="toggleEditor(diagnostic.diagnosticCategoryId)"
                        *ngIf="showEditor" class="editor-toggle" translate>Close categories editor</a>
-                    <a (click)="toggleEditor(diagnostic.diagnostic_category_id)"
+                    <a (click)="toggleEditor(diagnostic.diagnosticCategoryId)"
                        *ngIf="!showEditor" class="editor-toggle" translate>Open categories editor</a>
                 </div>
             </div>

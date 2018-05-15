@@ -10,7 +10,9 @@ import { FormsModule } from '@angular/forms';
 import { AppTranslationModule } from '../../../../app.translation.module';
 import { DiagnosticCategoryEditorModule } from '../../category/components/editor';
 import { DiagnosticEditorComponent } from './diagnostic.editor.component';
-import {NgaModule} from "../../../../theme/nga.module";
+import { NgaModule } from '../../../../theme/nga.module';
+import { DiagnosticService } from '../../diagnostic.service';
+import { DiagnosticCategorySelectorModule } from '../../category/components/selector';
 
 @NgModule({
   imports: [
@@ -18,7 +20,11 @@ import {NgaModule} from "../../../../theme/nga.module";
     FormsModule,
     AppTranslationModule,
     DiagnosticCategoryEditorModule,
-    NgaModule
+    NgaModule,
+    DiagnosticCategorySelectorModule,
+  ],
+  providers: [
+    DiagnosticService,
   ],
   declarations: [
     DiagnosticEditorComponent,
