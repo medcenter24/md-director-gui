@@ -59,6 +59,8 @@ export class AutoCompleteStaticProvider implements AutoCompleteProvider {
       this.data = resp.data;
       this.filtered = this.data;
       this.loaded = true;
+    }).catch(() => {
+      this.loaded = false;
     });
   }
 

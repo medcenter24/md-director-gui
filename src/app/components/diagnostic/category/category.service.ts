@@ -31,11 +31,11 @@ export class DiagnosticCategoryService extends HttpService {
     }
 
     create(title: string): Promise<DiagnosticCategory> {
-        return this.store({ title }).then(res => res.json() as DiagnosticCategory);
+        return this.store({ title }).then(res => res as DiagnosticCategory);
     }
 
     update(category: DiagnosticCategory): Promise<DiagnosticCategory> {
-        return this.put(category.id, category).then(res => res.json().data as DiagnosticCategory);
+        return this.put(category.id, category).then(res => res.data as DiagnosticCategory);
     }
 }
 

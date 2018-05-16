@@ -12,7 +12,7 @@ import { DiagnosticCategoryEditorModule } from '../../category/components/editor
 import { DiagnosticEditorComponent } from './diagnostic.editor.component';
 import { NgaModule } from '../../../../theme/nga.module';
 import { DiagnosticService } from '../../diagnostic.service';
-import { DiagnosticCategorySelectorModule } from '../../category/components/selector';
+import { DiagnosticCategorySelectModule } from '../../category/components/select';
 
 @NgModule({
   imports: [
@@ -21,7 +21,7 @@ import { DiagnosticCategorySelectorModule } from '../../category/components/sele
     AppTranslationModule,
     DiagnosticCategoryEditorModule,
     NgaModule,
-    DiagnosticCategorySelectorModule,
+    DiagnosticCategorySelectModule,
   ],
   providers: [
     DiagnosticService,

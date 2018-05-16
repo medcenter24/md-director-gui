@@ -7,11 +7,12 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { DiagnosticCategorySelectorModule } from '../selector';
 import { DiagnosticCategoryEditorComponent } from './diagnostic.category.editor.component';
 import { AppTranslationModule } from '../../../../../app.translation.module';
-import {NgaModule} from "../../../../../theme/nga.module";
-import {DiagnosticSelectorModule} from "../../../components/selector";
+import { NgaModule } from '../../../../../theme/nga.module';
+import { DiagnosticSelectorModule } from '../../../components/selector';
+import { ButtonModule } from 'primeng/button';
+import { DiagnosticCategorySelectModule } from '../select';
 
 @NgModule({
   imports: [
@@ -19,9 +20,9 @@ import {DiagnosticSelectorModule} from "../../../components/selector";
     FormsModule,
     AppTranslationModule,
     DiagnosticSelectorModule,
-    DiagnosticCategorySelectorModule,
-    // todo delete it?
+    DiagnosticCategorySelectModule,
     NgaModule,
+    ButtonModule,
   ],
   declarations: [
     DiagnosticCategoryEditorComponent,

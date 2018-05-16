@@ -4,7 +4,7 @@
   ~ @author Alexander Zagovorichev <zagovorichev@gmail.com>
   -->
 
-<ba-card *ngIf="diagnostic" title="Diagnostic Editor" baCardClass="with-scroll" class="edit-form-container" [closeable]="true" (close)="closeEditor()">
+<ba-card *ngIf="diagnostic" baCardClass="with-scroll" class="edit-form-container" [closeable]="true" (close)="closeEditor()">
     <form (ngSubmit)="onSubmit()" #diagnosticForm="ngForm">
         <div class="row">
             <div class="col-sm-6">
@@ -49,12 +49,13 @@
             </div>
             <div class="col-sm-6">
                 <div class="form-group">
-                    <nga-diagnostic-category-selector
-                            [categoryId]="diagnostic.diagnosticCategoryId"
-                            (categoryChanged)="onSelectCategory($event)"
-                            (loaded)="onSelectorLoaded()"
-                            (loading)="onSelectorLoading"
-                    ></nga-diagnostic-category-selector>
+                    <nga-diagnostic-category-select
+                      #diagnosticCategorySelect
+                      [diagnosticCategoryId]="diagnostic.diagnosticCategoryId"
+                      (selected)="onDiagnosticCategoryChanged($event)"
+                      (init)="startLoader($event)"
+                      (loaded)="onSelectorLoaded($event)"
+                    ></nga-diagnostic-category-select>
                     <a (click)="toggleEditor(diagnostic.diagnosticCategoryId)"
                        *ngIf="showEditor" class="editor-toggle" translate>Close categories editor</a>
                     <a (click)="toggleEditor(diagnostic.diagnosticCategoryId)"
@@ -65,3 +66,12 @@
         <button type="submit" class="btn btn-primary" translate>Submit</button>
     </form>
 </ba-card>
+
+<nga-diagnostic-category-editor
+  #diagnosticCategoryEditor
+  [hidden]="!showEditor"
+  [categoryId]="diagnostic.diagnosticCategoryId"
+  (init)="startLoader($event)"
+  (loaded)="stopLoader($event)"
+  (updated)="onDiagnosticCategorySubmit($event)"
+></nga-diagnostic-category-editor>

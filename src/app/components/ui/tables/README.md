@@ -1,22 +1,5 @@
-/*
- * Copyright (c) 2018.
- *
- * @author Zagovorychev Olexandr <zagovorichev@gmail.com>
- */
-
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { Logger } from 'angular2-logger/core';
-import { TranslateService } from '@ngx-translate/core';
-import { GlobalState } from '../../../../global.state';
-import { SlimLoadingBarService } from 'ng2-slim-loading-bar';
-import { AbstractDatatableController } from '../../../ui/tables/abstract.datatable.controller';
-import { DatatableAction, DatatableCol } from '../../../ui/datatable';
-import { ObjectHelper } from '../../../../helpers/object.helper';
-import { LoadableServiceInterface } from '../../../core/loadable';
-import { DiagnosticEditorComponent } from '../editor';
-import { DiagnosticService } from '../../diagnostic.service';
-import { Diagnostic } from '../../diagnostic';
-
+Usage Example
+```php
 @Component({
   selector: 'nga-diagnostic-datatable',
   templateUrl: './diagnostic.datatable.html',
@@ -55,9 +38,6 @@ export class DiagnosticDatatableComponent extends AbstractDatatableController im
 
   protected setModel(model: Object = null): void {
     this.model = model;
-    if (this.displayDialog && this.diagnosticEditor) {
-      this.diagnosticEditor.editDiagnostic(this.model);
-    }
   }
 
   getActions(): DatatableAction[] {
@@ -86,3 +66,4 @@ export class DiagnosticDatatableComponent extends AbstractDatatableController im
   }
 
 }
+```

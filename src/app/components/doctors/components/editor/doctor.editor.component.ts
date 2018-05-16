@@ -35,7 +35,7 @@ export class DoctorEditorComponent extends LoadableComponent implements AfterVie
   @Output() doctorChanged: EventEmitter<Doctor> = new EventEmitter<Doctor>();
   @Output() close: EventEmitter<boolean> = new EventEmitter();
 
-  @ViewChild('userSelector')
+  @ViewChild('userSelect')
     private userSelectComponent: UserSelectComponent;
 
   @ViewChild('selectCity')
