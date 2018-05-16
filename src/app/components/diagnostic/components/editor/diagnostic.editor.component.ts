@@ -7,28 +7,29 @@
 import { Component, Input, Output, EventEmitter, ViewChild } from '@angular/core';
 import { Diagnostic } from '../../diagnostic';
 import { DiagnosticService } from '../../diagnostic.service';
-import { EditorEvent } from './editorEvent';
-import { DiagnosticCategorySelectorComponent }
-  from '../../category/components/selector/diagnostic.category.selector.component';
 import { LoadableComponent } from '../../../core/components/componentLoader';
+import { DiagnosticCategorySelectComponent } from '../../category/components/select';
+import { DiagnosticCategory } from '../../category/category';
+import { DiagnosticCategoryEditorComponent } from '../../category/components/editor';
 
 @Component({
   selector: 'nga-diagnostic-editor',
-  templateUrl: './editor.html',
+  templateUrl: './diagnostic.editor.html',
 })
 export class DiagnosticEditorComponent extends LoadableComponent {
   protected componentName: string = 'DiagnosticEditorComponent';
 
   @Input() diagnostic: Diagnostic;
   @Output() diagnosticSaved: EventEmitter<Diagnostic> = new EventEmitter<Diagnostic>();
-  @Output() openCategoryEditor: EventEmitter<EditorEvent> = new EventEmitter<EditorEvent>();
   @Output() close: EventEmitter<null> = new EventEmitter<null>();
 
-  @ViewChild(DiagnosticCategorySelectorComponent)
-  private categorySelectorComponent: DiagnosticCategorySelectorComponent;
+  @ViewChild(DiagnosticCategorySelectComponent)
+    private categorySelectComponent: DiagnosticCategorySelectComponent;
+
+  @ViewChild('diagnosticCategoryEditor')
+    private diagnosticCategoryEditor: DiagnosticCategoryEditorComponent;
 
   showEditor: boolean = false;
-  isInit: boolean = true;
 
   constructor(private service: DiagnosticService) {
     super();
@@ -45,30 +46,34 @@ export class DiagnosticEditorComponent extends LoadableComponent {
 
   toggleEditor(categoryId): void {
     this.showEditor = !this.showEditor;
-    this.openCategoryEditor.emit({ show: this.showEditor, categoryId });
+    this.diagnosticCategoryEditor.loadCategoryById(categoryId);
   }
 
-  onSelectorLoading(): void {
-    this.startLoader('LoadSelector');
+  onSelectorLoaded(name: string): void {
+    this.stopLoader(name);
   }
 
-  onSelectorLoaded(): void {
-    this.stopLoader('LoadSelector');
-    if (this.isInit) {
-      this.reloadCategories();
-      this.isInit = false;
+  editDiagnostic(diagnostic: Diagnostic): void {
+    if (this.diagnostic !== diagnostic) {
+      this.showEditor = false;
     }
-  }
-
-  reloadCategories(): void {
-    this.categorySelectorComponent.reloadCategoriesWithCategoryId(this.diagnostic.diagnosticCategoryId);
+    this.diagnostic = diagnostic;
   }
 
   closeEditor(): void {
     this.close.emit();
   }
 
-  onSelectCategory(event): void {
-    this.diagnostic.diagnosticCategoryId = event;
+  onDiagnosticCategoryChanged(dc: DiagnosticCategory): void {
+    if (this.diagnostic.diagnosticCategoryId !== dc.id && this.showEditor) {
+      this.showEditor = false;
+    }
+    this.diagnostic.diagnosticCategoryId = dc.id;
+  }
+
+  onDiagnosticCategorySubmit (dc: DiagnosticCategory): void {
+    this.showEditor = false;
+    this.diagnostic.diagnosticCategoryId = dc.id;
+    this.categorySelectComponent.setDiagnosticCategoryById(dc.id);
   }
 }

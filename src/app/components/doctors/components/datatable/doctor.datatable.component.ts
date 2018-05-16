@@ -11,7 +11,7 @@ import { GlobalState } from '../../../../global.state';
 import { SlimLoadingBarService } from 'ng2-slim-loading-bar';
 import { Doctor } from '../../doctor';
 import { DoctorsService } from '../../doctors.service';
-import { AbstractDatatableController } from '../../../ui/abstract.datatable.controller';
+import { AbstractDatatableController } from '../../../ui/tables/abstract.datatable.controller';
 import { DatatableAction, DatatableCol } from '../../../ui/datatable';
 import { ObjectHelper } from '../../../../helpers/object.helper';
 import { DoctorEditorComponent } from '../editor';

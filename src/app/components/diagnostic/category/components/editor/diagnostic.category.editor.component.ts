@@ -4,95 +4,86 @@
  * @author Alexander Zagovorichev <zagovorichev@gmail.com>
  */
 
-import { Component, Input, ViewChild, Output, EventEmitter, OnInit } from '@angular/core';
+import { Component, Input, ViewChild, Output, EventEmitter } from '@angular/core';
 import { DiagnosticCategory } from '../../category';
-import { DiagnosticCategorySelectorComponent } from '../selector/diagnostic.category.selector.component';
 import { DiagnosticCategoryService } from '../../category.service';
-import { SlimLoadingBarService } from 'ng2-slim-loading-bar';
-import { Logger } from 'angular2-logger/core';
+import { LoadableComponent } from '../../../../core/components/componentLoader';
+import { DiagnosticCategorySelectComponent } from '../select';
 
 @Component({
   selector: 'nga-diagnostic-category-editor',
-  templateUrl: './editor.html',
+  templateUrl: './diagnostic.category.editor.html',
 })
-export class DiagnosticCategoryEditorComponent implements OnInit {
+export class DiagnosticCategoryEditorComponent extends LoadableComponent {
+  protected componentName: string = 'DiagnosticCategoryEditorComponent';
 
-  category: DiagnosticCategory;
+  category: DiagnosticCategory = new DiagnosticCategory();
 
   @Input()
   set categoryId (id: number) {
-    this.loadCategory(+id);
+    this.loadCategoryById(id);
   }
 
-  @Output() changedCategories: EventEmitter<null> = new EventEmitter<null>();
+  @Output() updated: EventEmitter<DiagnosticCategory> = new EventEmitter<DiagnosticCategory>();
 
-  @ViewChild(DiagnosticCategorySelectorComponent)
-  private categorySelectorComponent: DiagnosticCategorySelectorComponent;
+  @ViewChild(DiagnosticCategorySelectComponent)
+    private categorySelectComponent: DiagnosticCategorySelectComponent;
 
   constructor (
     private service: DiagnosticCategoryService,
-    private loadingBar: SlimLoadingBarService,
-    private _logger: Logger,
   ) {
-  }
-
-  ngOnInit (): void {
-    this.setEmptyCategory();
+    super();
   }
 
   onSubmit (): void {
-    this.loadingBar.start();
+    const postfix = 'SaveDiagnosticCategory';
+    this.startLoader(postfix);
     if (this.category.id) {
       this.service.update(this.category).then((category: DiagnosticCategory) => {
-        this.loadingBar.complete();
-        this.category = this.categorySelectorComponent.reloadCategories(category);
-        this.changedCategories.emit();
-      }).catch(error => {
-        this.loadingBar.complete();
-        this._logger.error(error);
-      });
+        this.stopLoader(postfix);
+        this.category = category;
+        this.updated.emit(category);
+      }).catch(() => this.stopLoader(postfix));
     } else {
       this.service.create(this.category.title).then((category: DiagnosticCategory) => {
-        this.category = this.categorySelectorComponent.reloadCategories(category);
-        this.changedCategories.emit();
-        this.loadingBar.complete();
-      }).catch(error => {
-        this._logger.error(error);
-        this.loadingBar.complete();
-      });
+        this.stopLoader(postfix);
+        this.category = category;
+        this.updated.emit(category);
+      }).catch(() => this.stopLoader(postfix));
     }
   }
 
   onCategoryChange (categoryId): void {
-    this.loadCategory(categoryId);
+    this.loadCategoryById(categoryId);
   }
 
   onCreateCategory (): void {
     this.setEmptyCategory();
   }
 
-  onSelectorLoaded (): void {
-    this.loadingBar.complete();
+  onSelectorLoading (): void {
+    this.startLoader('Selector');
   }
 
-  onSelectorLoading (): void {
-    this.loadingBar.start();
+  onSelectorLoaded (): void {
+    this.stopLoader('Selector');
   }
 
   private setEmptyCategory (): void {
     this.category = new DiagnosticCategory(0, '');
   }
 
-  private loadCategory (id: number): void {
-    if (+id) {
-      this.loadingBar.start();
+  loadCategoryById (id: number): void {
+    id = +id;
+    if (id) {
+      const postfix = 'LoadCategory';
+      this.startLoader(postfix);
       this.service.getCategory(id).then((category) => {
+        this.stopLoader(postfix);
         this.category = category;
-        this.loadingBar.complete();
-      }).catch(error => {
-        this._logger.error(error);
-        this.loadingBar.complete();
-      });
+      }).catch(() => this.stopLoader(postfix));
+    } else {
+      this.category = new DiagnosticCategory();
     }
   }
 }

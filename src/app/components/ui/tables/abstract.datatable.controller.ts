@@ -1,7 +1,7 @@
 /*
  * Copyright (c) 2018.
  *
- * @author Zagovorychev Olexandr <zagovorichev@gmail.com>
+ * @author Zagovorychev Oleksandr <zagovorichev@gmail.com>
  */
 
 import { OnInit, ViewChild } from '@angular/core';
@@ -10,11 +10,11 @@ import {
   DatatableCol,
   DatatableComponent,
   DatatableConfig,
-} from './datatable';
+} from '../datatable/index';
 import { TranslateService } from '@ngx-translate/core';
-import { LoadingComponent } from '../core/components/componentLoader';
-import { ObjectHelper } from '../../helpers/object.helper';
-import { LoadableServiceInterface } from '../core/loadable';
+import { LoadingComponent } from '../../core/components/componentLoader/index';
+import { ObjectHelper } from '../../../helpers/object.helper';
+import { LoadableServiceInterface } from '../../core/loadable/index';
 
 /**
  * Simplify the datatable injections

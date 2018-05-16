@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017. 
+ * Copyright (c) 2017.
  *
  * @author Alexander Zagovorichev <zagovorichev@gmail.com>
  */
@@ -175,6 +175,7 @@ export class DiagnosticsComponent implements OnInit {
     }
 
     onCategoryChanged(): void {
-        this.diagnosticComponent.reloadCategories();
+        // this.diagnosticComponent.reloadCategories();
+      console.log('reload categories')
     }
 }
