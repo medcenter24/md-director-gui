@@ -5,3 +5,4 @@
  */
 
 export * from './diagnostic.category.editor.module';
+export * from './diagnostic.category.editor.component';

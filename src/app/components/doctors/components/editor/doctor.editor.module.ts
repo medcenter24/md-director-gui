@@ -15,6 +15,7 @@ import { CitySelectModule } from '../../../city/components/select';
 import { InputTextareaModule, InputTextModule } from 'primeng/primeng';
 import { ButtonModule } from 'primeng/button';
 import { UserEditorModule } from '../../../users/editor';
+import { DiagnosticCategoryEditorModule } from '../../../diagnostic/category/components/editor';
 
 @NgModule({
   imports: [
@@ -28,6 +29,7 @@ import { UserEditorModule } from '../../../users/editor';
     InputTextareaModule,
     ButtonModule,
     UserEditorModule,
+    DiagnosticCategoryEditorModule,
   ],
   exports: [
     DoctorEditorComponent,
