@@ -4,7 +4,7 @@ Usage Example
   selector: 'nga-diagnostic-datatable',
   templateUrl: './diagnostic.datatable.html',
 })
-export class DiagnosticDatatableComponent extends AbstractDatatableController implements OnInit {
+export class DiagnosticDatatableComponent extends AbstractDatatableController {
   protected componentName: string = 'DiagnosticDatatableComponent';
 
   @ViewChild('diagnosticEditor')

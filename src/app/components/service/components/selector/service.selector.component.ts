@@ -88,7 +88,8 @@ export class ServiceSelectorComponent extends LoadableComponent implements OnIni
   recalculatePrice (): void {
     this.sumPrices = 0;
     this.caseServices.forEach(service => {
-      this.sumPrices += +service.price;
+      this.sumPrices += 0; // +service.price;
+      console.warn('price recalculation going to the backend');
     });
     this.sumPrices.toFixed(2);
     this.priceChanged.emit(this.sumPrices);

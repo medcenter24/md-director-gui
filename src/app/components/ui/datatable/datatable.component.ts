@@ -110,7 +110,6 @@ export class DatatableComponent extends LoadableComponent implements OnInit {
     if (!model.hasOwnProperty('id')) {
       throw Error('You need to implement your own updater since this model does not have id');
     }
-
     let found = false;
     this.data.forEach((val, ind) => {
       if (val.id === model['id']) {
