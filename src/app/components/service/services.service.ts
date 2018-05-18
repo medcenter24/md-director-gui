@@ -5,15 +5,13 @@
  */
 
 import { Injectable } from '@angular/core';
-
-import 'rxjs/add/operator/toPromise';
-
 import { Service } from './service';
 import { HttpService } from '../http/http.service';
+import { LoadableServiceInterface } from '../core/loadable';
 
 @Injectable()
-export class ServicesService extends HttpService {
-  
+export class ServicesService extends HttpService implements LoadableServiceInterface {
+
   protected getPrefix(): string {
     return 'director/services';
   }
@@ -36,5 +34,15 @@ export class ServicesService extends HttpService {
 
   update(service: Service): Promise<Service> {
     return this.put(service.id, service);
+  }
+
+  save(service: Service): Promise<Service> {
+    const action = service.id ? this.put(service.id, service) : this.store(service);
+    // todo check if creation has the same transformed response or check if it has data array to get data from there
+    return action.then(response => response as Service);
+  }
+
+  destroy(service: Service): Promise<any> {
+    return this.remove(service.id);
   }
 }
