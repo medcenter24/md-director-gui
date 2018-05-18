@@ -38,7 +38,6 @@ export class ServicesService extends HttpService implements LoadableServiceInter
 
   save(service: Service): Promise<Service> {
     const action = service.id ? this.put(service.id, service) : this.store(service);
-    // todo check if creation has the same transformed response or check if it has data array to get data from there
     return action.then(response => response as Service);
   }
 
