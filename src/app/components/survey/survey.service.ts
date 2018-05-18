@@ -10,10 +10,11 @@ import 'rxjs/add/operator/toPromise';
 
 import { Survey } from './survey';
 import { HttpService } from '../http/http.service';
+import { LoadableServiceInterface } from '../core/loadable';
 
 @Injectable()
-export class SurveyService extends HttpService {
-  
+export class SurveyService extends HttpService implements LoadableServiceInterface {
+
   protected getPrefix(): string {
     return 'director/surveys';
   }
@@ -36,5 +37,14 @@ export class SurveyService extends HttpService {
 
   update(service: Survey): Promise<Survey> {
     return this.put(service.id, service);
+  }
+
+  save(survey: Survey): Promise<Survey> {
+    const action = survey.id ? this.put(survey.id, survey) : this.store(survey);
+    return action.then(response => response as Survey);
+  }
+
+  destroy(survey: Survey): Promise<any> {
+    return this.remove(survey.id);
   }
 }

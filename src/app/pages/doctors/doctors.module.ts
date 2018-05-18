@@ -10,6 +10,7 @@ import { DoctorsComponent } from './doctors.component';
 import { routing } from './doctors.routing';
 import { DiagnosticDatatableModule } from '../../components/diagnostic/components/datatable';
 import { ServiceDatatableModule } from '../../components/service/components/datatable';
+import { SurveyDatatableModule } from '../../components/survey/components/datatable';
 
 @NgModule({
   imports: [
@@ -17,11 +18,9 @@ import { ServiceDatatableModule } from '../../components/service/components/data
     DoctorDatatableModule,
     DiagnosticDatatableModule,
     ServiceDatatableModule,
+    SurveyDatatableModule,
   ],
   declarations: [
-    DoctorsComponent,
-  ],
-  providers: [
     DoctorsComponent,
   ],
 })
