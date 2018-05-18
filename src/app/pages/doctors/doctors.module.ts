@@ -9,12 +9,14 @@ import { DoctorDatatableModule } from '../../components/doctors/components/datat
 import { DoctorsComponent } from './doctors.component';
 import { routing } from './doctors.routing';
 import { DiagnosticDatatableModule } from '../../components/diagnostic/components/datatable';
+import { ServiceDatatableModule } from '../../components/service/components/datatable';
 
 @NgModule({
   imports: [
     routing,
     DoctorDatatableModule,
     DiagnosticDatatableModule,
+    ServiceDatatableModule,
   ],
   declarations: [
     DoctorsComponent,

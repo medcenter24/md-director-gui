@@ -9,6 +9,7 @@ import { ModuleWithProviders } from '@angular/core';
 import { DoctorDatatableComponent } from '../../components/doctors/components/datatable';
 import { DoctorsComponent } from './doctors.component';
 import { DiagnosticDatatableComponent } from '../../components/diagnostic/components/datatable';
+import { ServiceDatatableComponent } from '../../components/service/components/datatable/service.datatable.component';
 
 // noinspection TypeScriptValidateTypes
 const routes: Routes = [
@@ -16,11 +17,10 @@ const routes: Routes = [
     path: '',
     component: DoctorsComponent,
     children: [
-      /*
-      { path: 'services', component: DoctorServicesComponent },
-      { path: 'surveys', component: SurveysComponent },*/
+      /*{ path: 'surveys', component: SurveysComponent },*/
       { path: 'stuff', component: DoctorDatatableComponent },
       { path: 'diagnostics', component: DiagnosticDatatableComponent },
+      { path: 'services', component: ServiceDatatableComponent },
     ],
   },
 ];

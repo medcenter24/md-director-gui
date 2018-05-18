@@ -68,25 +68,23 @@ export abstract class AbstractDatatableController extends LoadingComponent imple
     this.model = model;
   }
 
-  private beforeAction(name: string): void {
-    this.startLoader(`${this.componentName}${name}`);
-  }
-  private afterAction(name: string): void {
-    this.stopLoader(`${this.componentName}${name}`);
-  }
-
   save() {
-    this.beforeAction('Save');
+    const postfix = 'Save';
+    this.startLoader(postfix);
     this.getService().save(this.model)
-      .then(() => {
-        this.afterAction('Save');
-        this.setModel();
+      .then((model: Object) => {
+        this.stopLoader(postfix);
         this.displayDialog = false;
-        this.datatable.refresh();
+        if (!this.model.id) {
+          // refresh on adding
+          this.refresh();
+        } else {
+          this.updateModel(model);
+        }
+        // to close popup
+        this.setModel();
       })
-      .catch(() => {
-        this.afterAction('Save');
-      });
+      .catch(() => this.stopLoader(postfix));
   }
 
   protected onRowSelect(event) {
@@ -112,17 +110,16 @@ export abstract class AbstractDatatableController extends LoadingComponent imple
     return this.datatable.updateModel(model);
   }
 
-  delete() {
-    this.beforeAction('Delete');
+  delete(): void {
+    const postfix = 'Delete';
+    this.startLoader(postfix);
     this.getService().destroy(this.model)
       .then(() => {
-        this.afterAction('Delete');
+        this.stopLoader(postfix);
         this.setModel();
         this.displayDialog = false;
         this.datatable.refresh();
       })
-      .catch(() => {
-        this.afterAction('Delete');
-      });
+      .catch(() => this.stopLoader(postfix));
   }
 }
