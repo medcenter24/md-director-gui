@@ -12,7 +12,7 @@ import { ButtonModule } from 'primeng/button';
 import { AppTranslationModule } from '../../../../app.translation.module';
 import { CommonModule } from '@angular/common';
 import { DatatableModule } from '../../../ui/datatable';
-import { InputMaskModule } from 'primeng/primeng';
+import { ConfirmDialogModule, InputMaskModule } from 'primeng/primeng';
 import { ServicesService } from '../../services.service';
 import { ServiceDatatableComponent } from './service.datatable.component';
 
@@ -25,7 +25,8 @@ import { ServiceDatatableComponent } from './service.datatable.component';
     ButtonModule,
     DatatableModule,
     InputMaskModule,
-  ],
+    ConfirmDialogModule,
+],
   providers: [
     ServicesService,
   ],

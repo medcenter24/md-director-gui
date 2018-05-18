@@ -14,6 +14,7 @@ import { ServicesService } from '../../services.service';
 import { LoadableServiceInterface } from '../../../core/loadable';
 import { Service } from '../../service';
 import { DatatableAction, DatatableCol } from '../../../ui/datatable';
+import { ConfirmationService } from 'primeng/api';
 
 @Component({
   selector: 'nga-service-datatable',
@@ -28,6 +29,7 @@ export class ServiceDatatableComponent extends AbstractDatatableController {
     protected _state: GlobalState,
     protected translateService: TranslateService,
     private servicesService: ServicesService,
+    private confirmationService: ConfirmationService,
   ) {
     super(translateService);
   }
@@ -60,5 +62,14 @@ export class ServiceDatatableComponent extends AbstractDatatableController {
 
   getSortBy(): string {
     return 'title';
+  }
+
+  confirmDelete(): void {
+    this.confirmationService.confirm({
+      message: this.translateService.instant('Are you sure that you want to perform this action?'),
+      accept: () => {
+        this.delete();
+      },
+    });
   }
 }
