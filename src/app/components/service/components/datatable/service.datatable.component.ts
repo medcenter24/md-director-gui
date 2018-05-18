@@ -50,7 +50,12 @@ export class ServiceDatatableComponent extends AbstractDatatableController {
   }
 
   getActions(): DatatableAction[] {
-    return [];
+    return [
+      new DatatableAction(this.translateService.instant('Add'), 'fa-plus', () => {
+        this.setModel(this.getEmptyModel());
+        this.displayDialog = true;
+      }),
+    ];
   }
 
   getSortBy(): string {
