@@ -10,7 +10,7 @@ import { SettingsComponent } from './settings.component';
 import { PeriodDatatableComponent } from '../../components/period/components/datatable/period.datatable.component';
 import { AccidentCheckpointDatatableComponent }
   from '../../components/accident/components/checkpoint/components/datatable/accident.checkpoint.datatable.component';
-import { FinanceEditorComponent } from '../../components/finance/components/editor';
+import { FinanceDatatableComponent } from '../../components/finance/components/datatable';
 
 // noinspection TypeScriptValidateTypes
 const routes: Routes = [
@@ -19,7 +19,7 @@ const routes: Routes = [
     component: SettingsComponent,
     children: [
       { path: 'checkpoints', component: AccidentCheckpointDatatableComponent },
-      { path: 'finance', component: FinanceEditorComponent },
+      { path: 'finance', component: FinanceDatatableComponent },
       { path: 'periods', component: PeriodDatatableComponent },
     ],
   },

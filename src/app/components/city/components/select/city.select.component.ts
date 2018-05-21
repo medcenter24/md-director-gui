@@ -4,11 +4,10 @@
  *  @author Alexander Zagovorichev <zagovorichev@gmail.com>
  */
 
-import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { City } from '../../city';
+import { Component } from '@angular/core';
 import { CitiesService } from '../../cities.service';
 import { TranslateService } from '@ngx-translate/core';
-import { AbstractAutoCompleteController } from '../../../ui/autocompleter/abstract.auto.complete.controller';
+import { AbstractAutoCompleteController } from '../../../ui/autocompleter';
 
 @Component({
   selector: 'nga-select-city',
@@ -17,16 +16,6 @@ import { AbstractAutoCompleteController } from '../../../ui/autocompleter/abstra
 export class CitySelectComponent extends AbstractAutoCompleteController {
 
   protected componentName = 'CitySelectComponent';
-  preloaded: City[]|City = [];
-
-  @Input()
-    set selectPreloaded(preloaded: City|City[]) {
-      // we need to use both - if hasn't loaded yet - use config otherwise use component updater
-      this.preloaded = preloaded;
-      this.selectItems(this.preloaded);
-    }
-  @Input() isMultiple: boolean = false;
-  @Output() selected: EventEmitter<City|City[]> = new EventEmitter<City|City[]>();
 
   constructor (
     private citiesService: CitiesService,
@@ -41,17 +30,5 @@ export class CitySelectComponent extends AbstractAutoCompleteController {
 
   getFieldKey(): string {
     return 'title';
-  }
-
-  getIsMultiple(): boolean {
-    return this.isMultiple;
-  }
-
-  getPreloadedData(): City[]|City {
-    return this.preloaded;
-  }
-
-  onChanged(event): void {
-    this.selected.emit(event);
   }
 }
