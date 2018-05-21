@@ -13,7 +13,7 @@ import { Period } from '../period/period';
 export class FinanceRule {
   constructor(
     public id: number = 0,
-    public title: string = '', // if I need to determine context
+    public title: string = '',
     public assistant: Assistant = null,
     public city: City = null,
     public doctor: Doctor = null,

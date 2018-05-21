@@ -1,5 +1,5 @@
 Example:
-```
+```angularjs
 @Component({
   selector: 'nga-diagnostic-category-select',
   templateUrl: '../../ui/autocompleter/autocompleter.tpl.html',
@@ -21,6 +21,14 @@ export class DiagnosticCategorySelectComponent extends AbstractAutoCompleteContr
   getFieldKey(): string {
     return 'title';
   }
-
 }
+```
+
+```angular2html
+<nga-select-city
+                #selectCity
+                [isMultiple]="true"
+                (selected)="onCitySelect($event)"
+                [selectPreloaded]="cities"
+            ></nga-select-city>
 ```

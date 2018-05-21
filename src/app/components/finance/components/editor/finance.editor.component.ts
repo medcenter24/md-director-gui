@@ -19,8 +19,8 @@ import { NumbersHelper } from '../../../../helpers/numbers.helper';
 
 @Component({
   selector: 'nga-finance-editor',
-  templateUrl: './finance.html',
-  styleUrls: ['./finance.scss'],
+  templateUrl: './finance.editor.html',
+  styleUrls: ['./finance.editor.scss'],
 })
 export class FinanceEditorComponent extends LoadingComponent {
   protected componentName: string = 'AccidentFinanceComponent';
@@ -68,6 +68,10 @@ export class FinanceEditorComponent extends LoadingComponent {
 
   hasPrice () {
     return this.rule.priceAmount || this.rule.priceAmount === 0;
+  }
+
+  onTitleChanged(title: string): void {
+    this.rule.title = title;
   }
 
   onAssistantChanged(assistant: Assistant): void {

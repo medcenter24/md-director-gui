@@ -1,0 +1,144 @@
+<div class="row">
+  <div class="col-sm-3">
+    <div class="row">
+      <div class="col-12 mb-2">
+        <label class="label required separate" translate>Title</label>
+        <input type="text" pInputText
+               class="form-control"
+               value="{{ rule.title }}"
+               size="30"
+               (input)="onTitleChanged($event)"
+               required/>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-12 mb-2">
+        <label class="label separate" translate>Doctor</label>
+        <nga-select-doctor
+          [isMultiple]="true"
+          [selectPreloaded]="rule.doctor"
+          (selected)="onDoctorChanged($event)"
+          (init)="startLoader($event)"
+          (loaded)="stopLoader($event)"
+        ></nga-select-doctor>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-12 mb-2">
+        <label class="label separate" translate>Assistant</label>
+        <nga-select-assistant
+          [isMultiple]="true"
+          [selectPreloaded]="rule.assistant ? [rule.assistant] : []"
+          (selected)="onAssistantChanged($event)"
+          (init)="startLoader($event)"
+          (loaded)="stopLoader($event)"
+          class="case-assistant-selector"
+        ></nga-select-assistant>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-12 mb-2">
+        <label class="label separate" translate>City</label>
+        <nga-select-city
+          [isMultiple]="true"
+          [selectPreloaded]="[rule.city ? rule.city.id : 0]"
+          (selected)="onCityChanged($event)"
+          (init)="startLoader($event)"
+          (loaded)="stopLoader($event)"
+        ></nga-select-city>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-12 mb-2">
+        <label class="label separate" translate>Date Period</label>
+        <nga-period-select
+          [isMultiple]="true"
+          [selectPreloaded]="rule.period"
+          (init)="startLoader($event)"
+          (loaded)="stopLoader($event)"
+        ></nga-period-select>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-12 mb-2">
+        <label class="label separate" translate>Services</label>
+        <nga-select-services
+          [(chosenServices)]="rule.services"
+          (chosenServicesChange)="onServicesChanged($event)"
+          (loaded)="stopLoader($event)"
+          (init)="startLoader($event)"
+        ></nga-select-services>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-12 mb-2">
+        <label class="label required separate"><b translate>Set Amount</b></label>
+        <input type="text" pInputText
+               class="form-control"
+               value="{{ rule.priceAmount }}"
+               size="30"
+               (input)="onPriceAmountChanged($event)"
+               (change)="priceAmountToFixed($event)"
+               required/>
+      </div>
+    </div>
+
+    <button class="btn btn-success"
+            translate [disabled]="!hasPrice()"
+            (click)="saveFinanceRule()"
+    >Add
+    </button>
+  </div>
+  <div class="col-sm-9">
+    <div class="alert alert-warning" role="alert">
+      <ul class="info-list">
+        <li class="mb-2" translate>A new criterion will be set for calculating the cost of services and the subsequent
+          calculation of the company's income, using formula
+        </li>
+
+        <li *ngIf="!hasConditions()"><span translate>This rule for all of the cases</span></li>
+
+        <li class="mb-1" *ngIf="hasCondition('doctor')"><span translate>For the doctor</span> <b>{{ rule.doctor.name
+          }}</b></li>
+        <li class="mb-1" *ngIf="hasCondition('assistant')"><span translate>If assistant company is</span> <b>{{
+          rule.assistant.title }}</b></li>
+        <li class="mb-1" *ngIf="hasCondition('city')"><span translate>In the city</span> <b>{{ rule.city.title }}</b>
+        </li>
+        <li class="mb-1" *ngIf="hasCondition('datePeriod')"><span translate>If case came</span> <b>{{rule.datePeriod.title}}</b>
+        </li>
+        <li class="mb-1" *ngIf="hasCondition('service')">
+          <b translate>Services provided</b>
+          <ul>
+            <li *ngFor="let service of rule.services">{{ service.title }}</li>
+          </ul>
+        </li>
+        <li class="mt-2" *ngIf="hasPrice()">
+          <span translate>Set price</span> <b>{{ rule.priceAmount }}</b> <b translate>euro</b> <span
+          translate>for case</span>
+        </li>
+      </ul>
+    </div>
+    <div class="alert alert-danger">
+      <ul class="info-list">
+        Необходимо учесть, что с данным правилом пересекаются следующие правила назначения платежей:
+        <li>
+          1. Для данного врача
+          днём
+          назначить оплату в 2 рубля
+        </li>
+        <li>
+          2. Для данной ассистантской компании добавлена скидка в 10 рублей.
+        </li>
+        <li>
+          Итого после всех правил общий индекс составляет -100 рублей!!!
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>

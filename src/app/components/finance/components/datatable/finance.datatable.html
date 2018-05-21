@@ -1,0 +1,26 @@
+<!--
+  ~ Copyright (c) 2018.
+  ~
+  ~ @author Zagovorychev Oleksandr <zagovorichev@gmail.com>
+  -->
+
+<nga-datatable
+  #datatable
+  *ngIf="langLoaded"
+  [config]="datatableConfig"
+></nga-datatable>
+
+<p-dialog
+  header="{{ 'Finance Details' | translate }}"
+  [(visible)]="displayDialog"
+  [responsive]="true"
+  showEffect="fade"
+  [modal]="true">
+
+  <div class="ui-g ui-fluid" *ngIf="model">
+    <nga-finance-editor
+      (init)="startLoader($event)"
+      (loaded)="stopLoader($event)"
+    ></nga-finance-editor>
+  </div>
+</p-dialog>
