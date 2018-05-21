@@ -10,14 +10,14 @@ import { SettingsComponent } from './settings.component';
 import { PeriodDatatableModule } from '../../components/period/components/datatable';
 import { AccidentCheckpointDatatableModule }
   from '../../components/accident/components/checkpoint/components/datatable';
-import { FinanceEditorModule } from '../../components/finance/components/editor';
+import { FinanceDatatableModule } from '../../components/finance/components/datatable';
 
 @NgModule({
   imports: [
     routing,
     PeriodDatatableModule,
     AccidentCheckpointDatatableModule,
-    FinanceEditorModule,
+    FinanceDatatableModule,
   ],
   declarations: [
     SettingsComponent,

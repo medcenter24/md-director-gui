@@ -15,6 +15,7 @@ import { CitySelectModule } from '../../../city/components/select';
 import { ServiceSelectModule } from '../../../service/components/select';
 import { NgaModule } from '../../../../theme/nga.module';
 import { FinanceService } from '../../finance.service';
+import { PeriodSelectModule } from '../../../period/components/select';
 
 @NgModule({
   imports: [
@@ -26,6 +27,7 @@ import { FinanceService } from '../../finance.service';
     CitySelectModule,
     ServiceSelectModule,
     NgaModule,
+    PeriodSelectModule,
   ],
   providers: [
     FinanceService,

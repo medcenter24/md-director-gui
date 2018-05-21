@@ -1,15 +1,15 @@
 /*
  * Copyright (c) 2018.
  *
- * @author Zagovorychev Olexandr <zagovorichev@gmail.com>
+ * @author Zagovorychev Oleksandr <zagovorichev@gmail.com>
  */
 
 import { NgModule } from '@angular/core';
-import { DoctorSelectComponent } from './doctor.select.component';
-import { DoctorsService } from '../../doctors.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { AutoCompleteModule } from '../../../ui/autosuggest';
+import { PeriodSelectComponent } from './period.select.component';
+import { PeriodService } from '../../period.service';
 
 @NgModule({
   imports: [
@@ -18,14 +18,14 @@ import { AutoCompleteModule } from '../../../ui/autosuggest';
     AutoCompleteModule,
   ],
   providers: [
-    DoctorsService,
+    PeriodService,
   ],
   declarations: [
-    DoctorSelectComponent,
+    PeriodSelectComponent,
   ],
   exports: [
-    DoctorSelectComponent,
+    PeriodSelectComponent,
   ],
 })
-export class DoctorSelectModule {
+export class PeriodSelectModule {
 }
