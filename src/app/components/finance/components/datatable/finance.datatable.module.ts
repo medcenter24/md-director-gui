@@ -16,6 +16,7 @@ import { ConfirmDialogModule, InputMaskModule } from 'primeng/primeng';
 import { FinanceService } from '../../finance.service';
 import { FinanceDatatableComponent } from './finance.datatable.component';
 import { FinanceEditorModule } from '../editor';
+import { NgaModule } from '../../../../theme/nga.module';
 
 @NgModule({
   imports: [
@@ -28,6 +29,7 @@ import { FinanceEditorModule } from '../editor';
     InputMaskModule,
     ConfirmDialogModule,
     FinanceEditorModule,
+    NgaModule,
 ],
   providers: [
     FinanceService,
