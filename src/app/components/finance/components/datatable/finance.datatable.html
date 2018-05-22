@@ -6,21 +6,18 @@
 
 <nga-datatable
   #datatable
-  *ngIf="langLoaded"
+  *ngIf="langLoaded && !displayDialog"
   [config]="datatableConfig"
 ></nga-datatable>
 
-<p-dialog
-  header="{{ 'Finance Details' | translate }}"
-  [(visible)]="displayDialog"
-  [responsive]="true"
-  showEffect="fade"
-  [modal]="true">
-
-  <div class="ui-g ui-fluid" *ngIf="model">
-    <nga-finance-editor
-      (init)="startLoader($event)"
-      (loaded)="stopLoader($event)"
-    ></nga-finance-editor>
+<ba-card baCardClass="with-scroll" *ngIf="displayDialog">
+  <div class="row mb-3">
+    <div class="col-12">
+      <button pButton [label]="'Back' | translate" (click)="displayDialog = false" icon="fa fa-angle-left"></button>
+    </div>
   </div>
-</p-dialog>
+  <nga-finance-editor
+    (init)="startLoader($event)"
+    (loaded)="stopLoader($event)"
+  ></nga-finance-editor>
+</ba-card>

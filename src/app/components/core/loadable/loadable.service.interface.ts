@@ -4,14 +4,9 @@
  * @author Zagovorychev Olexandr <zagovorichev@gmail.com>
  */
 
-export interface LoadableServiceInterface {
-  /**
-   * Search data with parameters
-   * @param {Object} filters
-   * @returns {Promise<any>}
-   */
-  search(filters: Object): Promise<any>;
+import { SearchableServiceInterface } from './searchable.service.interface';
 
+export interface LoadableServiceInterface extends SearchableServiceInterface {
   /**
    * Save model
    * @param {Object} model
