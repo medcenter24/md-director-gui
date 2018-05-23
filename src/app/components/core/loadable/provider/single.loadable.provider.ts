@@ -5,6 +5,7 @@
  */
 
 import { SearchableServiceInterface } from '../searchable.service.interface';
+import { SearchFilter } from '../search.filter';
 
 /**
  * Downloading data from the server only once for the current request, then filtering and other things
@@ -30,25 +31,26 @@ export class SingleLoadableProvider implements SearchableServiceInterface {
     public config: SearchableServiceInterface,
   ) { }
 
-  search(filters: Object): Promise<any> {
+  search(filter: SearchFilter): Promise<any> {
     return new Promise<any>((resolve, reject) => {
-      if (!filters || !filters.hasOwnProperty('field') || !filters.hasOwnProperty('query')) {
+      if (!filter || !filter.hasOwnProperty('fields') || !filter.hasOwnProperty('query')) {
         reject('Single Loadable Provider must have [field] and [query] filters parameters');
       }
       if (!this.loaded) {
-        this.loadData(filters)
-          .then(() => resolve(this.filtering(filters)))
+        this.loadData(filter)
+          .then(() => resolve(this.filtering(filter)))
           .catch(error => {
             reject(error);
           });
       } else {
-        resolve(this.filtering(filters));
+        resolve(this.filtering(filter));
       }
     });
   }
 
-  private loadData(filters: Object): Promise<any> {
-    return this.config.search(filters).then(resp => {
+  private loadData(filter: SearchFilter): Promise<any> {
+    filter.rows = 0; // to load all data, without paginating
+    return this.config.search(filter).then(resp => {
       this.data = resp.data;
       this.loaded = true;
     }).catch(() => {
@@ -59,14 +61,16 @@ export class SingleLoadableProvider implements SearchableServiceInterface {
   /**
    * Filter data to filtered and for show
    */
-  private filtering(filters: any): any[] {
+  private filtering(filter: SearchFilter): any[] {
     const filtered = [];
     for (const model of this.data) {
-      const v1 = `${model[filters.field]}`;
-      const v2 = `${filters.query}`;
-      if (v1.toLowerCase().indexOf(v2.toLowerCase()) !== -1) {
-        filtered.push(model);
-      }
+      const v2 = `${filter.query}`;
+      filter.fields.forEach(field => {
+        const v1 = `${model[field]}`;
+        if (v1.toLowerCase().indexOf(v2.toLowerCase()) !== -1) {
+          filtered.push(model);
+        }
+      });
     }
     return filtered;
   }
