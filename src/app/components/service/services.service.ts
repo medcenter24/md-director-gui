@@ -6,7 +6,7 @@
 
 import { Injectable } from '@angular/core';
 import { Service } from './service';
-import { HttpService } from '../http/http.service';
+import { HttpService } from '../core/http/http.service';
 import { LoadableServiceInterface } from '../core/loadable';
 
 @Injectable()

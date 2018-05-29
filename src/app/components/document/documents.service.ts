@@ -5,7 +5,7 @@
  */
 
 import { Injectable } from '@angular/core';
-import { HttpService } from '../http/http.service';
+import { HttpService } from '../core/http/http.service';
 // import { RequestOptions, ResponseContentType } from '@angular/http';
 import { saveAs } from 'file-saver';
 

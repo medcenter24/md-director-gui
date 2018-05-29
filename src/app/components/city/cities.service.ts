@@ -6,7 +6,7 @@
 
 import { Injectable } from '@angular/core';
 import { City } from './city';
-import { HttpService } from '../http/http.service';
+import { HttpService } from '../core/http/http.service';
 
 @Injectable()
 export class CitiesService extends HttpService {

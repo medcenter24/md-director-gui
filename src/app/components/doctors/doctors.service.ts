@@ -6,7 +6,7 @@
 
 import { Injectable } from '@angular/core';
 import { Doctor } from './doctor';
-import { HttpService } from '../http/http.service';
+import { HttpService } from '../core/http/http.service';
 import { City } from '../city/city';
 import { LoadableServiceInterface } from '../core/loadable';
 

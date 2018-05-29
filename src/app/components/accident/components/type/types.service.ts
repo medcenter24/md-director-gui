@@ -1,12 +1,12 @@
 /*
- * Copyright (c) 2017. 
+ * Copyright (c) 2017.
  *
  * @author Alexander Zagovorichev <zagovorichev@gmail.com>
  */
 
 import { Injectable } from '@angular/core';
 import { AccidentType } from './type';
-import { HttpService } from '../../../http/http.service';
+import { HttpService } from '../../../core/http/http.service';
 
 @Injectable()
 export class AccidentTypesService extends HttpService {
@@ -14,7 +14,7 @@ export class AccidentTypesService extends HttpService {
   protected getPrefix(): string {
     return 'director/types';
   }
-  
+
   getTypes(): Promise<AccidentType[]> {
     return this.get()
       .then(response => response.data as AccidentType[]);

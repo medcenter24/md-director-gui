@@ -6,11 +6,11 @@
 
 import { Injectable } from '@angular/core';
 import 'rxjs/add/operator/toPromise';
-import { Service } from '../service/service';
+import { Service } from '../service';
 import { DoctorAccident } from '../doctorAccident/doctorAccident';
 import { HospitalAccident } from '../hospitalAccident/hospitalAccident';
 import { Diagnostic } from '../diagnostic/diagnostic';
-import { HttpService } from '../http/http.service';
+import { HttpService } from '../core/http/http.service';
 import { ExtendCaseAccident } from './extendCaseAccident';
 import { Document } from '../document/document';
 import { CaseAccident } from './case';

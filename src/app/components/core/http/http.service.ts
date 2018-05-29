@@ -5,11 +5,11 @@
  */
 
 import { Injectable } from '@angular/core';
-import { AuthenticationService } from '../auth/authentication.service';
-import { environment } from '../../../environments/environment';
+import { AuthenticationService } from '../../auth/authentication.service';
+import { environment } from '../../../../environments/environment';
 import 'rxjs/add/operator/toPromise';
 import { Logger } from 'angular2-logger/core';
-import { GlobalState } from '../../global.state';
+import { GlobalState } from '../../../global.state';
 import { TranslateService } from '@ngx-translate/core';
 import { Router } from '@angular/router';
 import { Message } from 'primeng/primeng';

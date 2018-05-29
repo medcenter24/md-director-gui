@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpService } from '../../../components/http/http.service';
+import { HttpService } from '../../../components/core/http/http.service';
 import { CalendarEvent } from './calendar';
 
 @Injectable()
