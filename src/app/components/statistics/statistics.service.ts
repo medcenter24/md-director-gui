@@ -25,12 +25,12 @@ export class StatisticsService extends HttpService {
    * @returns {Promise<any>}
    */
   loadDoctorsTraffic(year: string = ''): Promise<TrafficChartData[]> {
-    return this.get('doctorsTraffic', `year=${year}`)
+    return this.get('doctorsTraffic', { year })
       .then(response => response.data as TrafficChartData[]);
   }
 
   loadAssistantsTraffic(year: string = ''): Promise<TrafficChartData[]> {
-    return this.get('assistantsTraffic', `year=${year}`)
+    return this.get('assistantsTraffic', { year })
       .then(response => response.data as TrafficChartData[]);
   }
 }
