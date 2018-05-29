@@ -88,7 +88,8 @@
               (click)="action.run()"
               [label]="action.title"></button>
     </div>
-    <div class="text-center" *ngIf="config.showTotal" translate [translateParams]="{value: total}">There are ? records
-    </div>
+    <div class="text-center"
+         *ngIf="config.showTotal"
+         translate [translateParams]="{value: total}">There are ? records</div>
   </ng-template>
 </p-table>
