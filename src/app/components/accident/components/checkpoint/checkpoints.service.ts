@@ -6,7 +6,7 @@
 
 import { Injectable } from '@angular/core';
 import { AccidentCheckpoint } from './checkpoint';
-import { HttpService } from '../../../http/http.service';
+import { HttpService } from '../../../core/http/http.service';
 
 @Injectable()
 export class AccidentCheckpointsService extends HttpService {

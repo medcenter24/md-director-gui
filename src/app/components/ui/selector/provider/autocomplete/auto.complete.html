@@ -1,0 +1,19 @@
+<!--
+  ~ Copyright (c) 2018.
+  ~
+  ~ @author Zagovorychev Oleksandr <zagovorichev@gmail.com>
+  -->
+
+<p-autoComplete
+  *ngIf="provider && conf"
+  [(ngModel)]="provider.selected"
+  [suggestions]="provider.filtered"
+  [dropdown]="true"
+  (completeMethod)="conf.dataProvider.filter($event)"
+  (onSelect)="onSelect($event)"
+  [placeholder]="conf.placeholder"
+  [field]="conf.fieldKey"
+  [minLength]="conf.minLength"
+  (onUnselect)="onSelect($event)"
+  appendTo="body"
+></p-autoComplete>

@@ -6,7 +6,7 @@
 
 import { Injectable } from '@angular/core';
 import { Assistant } from './assistant';
-import { HttpService } from '../http/http.service';
+import { HttpService } from '../core/http/http.service';
 
 @Injectable()
 export class AssistantsService extends HttpService {
@@ -14,7 +14,7 @@ export class AssistantsService extends HttpService {
   protected getPrefix(): string {
     return 'director/assistants';
   }
-  
+
   getAssistants(): Promise<Assistant[]> {
     return this.get()
       .then(response => response.data as Assistant[]);

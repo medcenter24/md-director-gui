@@ -1,12 +1,12 @@
 /*
- * Copyright (c) 2017. 
+ * Copyright (c) 2017.
  *
  * @author Alexander Zagovorichev <zagovorichev@gmail.com>
  */
 
 import { Injectable } from '@angular/core';
 import { Accident } from './accident';
-import { HttpService } from '../http/http.service';
+import { HttpService } from '../core/http/http.service';
 
 @Injectable()
 export class AccidentsService extends HttpService {
