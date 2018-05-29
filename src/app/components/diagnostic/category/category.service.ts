@@ -7,7 +7,7 @@
 import { Injectable } from '@angular/core';
 import 'rxjs/add/operator/toPromise';
 import { DiagnosticCategory } from './category';
-import { HttpService } from '../../http/http.service';
+import { HttpService } from '../../core/http/http.service';
 
 @Injectable()
 export class DiagnosticCategoryService extends HttpService {

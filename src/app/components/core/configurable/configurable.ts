@@ -6,7 +6,15 @@
 
 import { ObjectHelper } from '../../../helpers/object.helper';
 
-export abstract class Configurable {
+/*type ConfigurableConstructor = {
+  new (): Configurable;
+};*/
+
+export class Configurable {
+
+  /*private configurableMap: ConfigurableConstructor = {
+    "isEmpty": isEmptyConfig
+  };*/
 
   /**
    *

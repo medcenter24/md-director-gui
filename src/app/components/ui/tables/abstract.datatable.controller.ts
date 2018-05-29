@@ -49,7 +49,7 @@ export abstract class AbstractDatatableController extends LoadingComponent imple
     this.translateService.get('Yes').subscribe(() => {
       this.langLoaded = true;
       this.datatableConfig = DatatableConfig.factory({
-        dataProvider: (filters: Object) => {
+        dataProvider: (filters: any) => {
           return this.getService().search(filters);
         },
         cols: this.getColumns(),
