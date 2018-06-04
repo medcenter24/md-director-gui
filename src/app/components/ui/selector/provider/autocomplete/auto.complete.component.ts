@@ -5,7 +5,7 @@
  */
 
 import { ChangeDetectorRef, Component, EventEmitter, Input, Output } from '@angular/core';
-import { AutoCompleteConfig } from './auto.complete.config';
+import { SelectorConfig } from '../../selector.config';
 
 @Component({
   selector: 'nga-auto-complete',
@@ -16,13 +16,13 @@ export class AutoCompleteComponent {
   /**
    * Configuration
    */
-  conf: AutoCompleteConfig;
+  conf: SelectorConfig;
 
-  @Input() set config(conf: AutoCompleteConfig) {
+  @Input() set config(conf: SelectorConfig) {
     // init conf
     this.conf = conf;
   }
-  @Output() changed: EventEmitter<Object|Object[]> = new EventEmitter<Object|Object[]>();
+  @Output() changed: EventEmitter<any> = new EventEmitter<any>();
 
   constructor(
     // private _changeDetectionRef: ChangeDetectorRef,

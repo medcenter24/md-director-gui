@@ -5,3 +5,4 @@
  */
 
 export * from './loadable.service.interface';
+export * from './searchable.service.interface';

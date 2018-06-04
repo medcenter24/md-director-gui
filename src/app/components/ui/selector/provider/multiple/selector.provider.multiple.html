@@ -1,0 +1,13 @@
+<!--
+  ~ Copyright (c) 2018.
+  ~
+  ~ @author Zagovorychev Oleksandr <zagovorichev@gmail.com>
+  -->
+
+<nga-selector-provider-multiple-adapter
+  *ngIf="conf"
+  [config]="conf"
+  [options]="options"
+  (change)="onChange($event)"
+  (filter)="loadData($event)"
+></nga-selector-provider-multiple-adapter>

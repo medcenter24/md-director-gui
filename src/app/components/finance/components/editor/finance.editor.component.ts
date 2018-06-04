@@ -70,8 +70,8 @@ export class FinanceEditorComponent extends LoadingComponent {
     return this.rule.priceAmount || this.rule.priceAmount === 0;
   }
 
-  onTitleChanged(title: string): void {
-    this.rule.title = title;
+  onTitleChanged(event): void {
+    this.rule.title = event.target.value;
   }
 
   onAssistantChanged(assistant: Assistant): void {
