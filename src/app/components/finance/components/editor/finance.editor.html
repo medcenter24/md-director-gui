@@ -92,15 +92,12 @@
     <button class="btn btn-success"
             translate [disabled]="!hasPrice()"
             (click)="saveFinanceRule()"
-    >Add
-    </button>
+    >Add</button>
   </div>
   <div class="col-sm-9">
     <div class="alert alert-warning" role="alert">
       <ul class="info-list">
-        <li class="mb-2" translate>A new criterion will be set for calculating the cost of services and the subsequent
-          calculation of the company's income, using formula
-        </li>
+        <li class="mb-2" translate>A new criterion will be set for calculating the cost of services and the subsequent calculation of the company's income, using formula</li>
 
         <li *ngIf="!hasConditions()"><span translate>This rule for all of the cases</span></li>
 
