@@ -1,0 +1,16 @@
+<!--
+  ~ Copyright (c) 2018.
+  ~
+  ~ @author Zagovorychev Oleksandr <zagovorichev@gmail.com>
+  -->
+
+<p-multiSelect
+  *ngIf="isLoaded"
+  [(ngModel)]="selected"
+  [defaultLabel]="config.placeholder"
+  [options]="options"
+  [filter]="filter($event)"
+  (onChange)="onChanged($event)"
+  [maxSelectedLabels]="5"
+  appendTo="body"
+></p-multiSelect>

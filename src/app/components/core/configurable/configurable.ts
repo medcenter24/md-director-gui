@@ -6,15 +6,13 @@
 
 import { ObjectHelper } from '../../../helpers/object.helper';
 
-/*type ConfigurableConstructor = {
-  new (): Configurable;
-};*/
-
 export class Configurable {
 
-  /*private configurableMap: ConfigurableConstructor = {
-    "isEmpty": isEmptyConfig
-  };*/
+  /**
+   * List of fields that required for current configuration
+   * @type {string[]}
+   */
+  protected static required: string[] = [];
 
   /**
    *
@@ -27,7 +25,29 @@ export class Configurable {
     if (configuration) {
       config.eachProp(prop => config.update(prop, configuration));
     }
+    // check if all of the required configurations provided
+    const missedConfigurations = this.checkRequired(config);
+    if (missedConfigurations.length) {
+      throw new Error(`This type of configuration `
+        + `require this parameters to be filled: ${missedConfigurations.join(', ')}`);
+    }
+
     return config;
+  }
+
+  /**
+   * Checks if config doesn't have any of the required parameters
+   * @param config
+   * @returns {string[]}
+   */
+  private static checkRequired(config: any): string[] {
+    const missed = [];
+    this.required.forEach(v => {
+      if (!config.hasOwnProperty(v) || !config[v]) {
+        missed.push(v);
+      }
+    });
+    return missed;
   }
 
   /**
