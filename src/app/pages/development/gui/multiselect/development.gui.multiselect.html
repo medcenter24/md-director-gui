@@ -1,0 +1,92 @@
+<ba-card baCardClass="with-scroll">
+
+  <div class="row mb-3">
+    <div class="col-12">
+      <a routerLink="/pages/development/gui" translate class="mb-3">Back</a> &#183;
+      <a routerLink="/pages/development/gui/multiselect/implementations" translate class="mb-3 right">Implementations</a>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-3">
+      <nga-selector-multiple
+        [setConfig]="config"
+        (selected)="onSelected($event)"
+        (init)="startLoader($event)"
+        (loaded)="stopLoader($event)"
+      ></nga-selector-multiple>
+    </div>
+    <div class="col-6">
+      <span *ngFor="let item of items">[id: {{ '{' }}{{ '{' }} item.id }}; val: {{ '{' }}{{ '{' }} item.value }}]</span>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-12">
+      <div class="well">
+        <p>Easy to use selector for multiple selections</p>
+        <p>Template: <br>
+          <code>
+            &lt;nga-selector-multiple <br>
+              [setConfig]="config" <br>
+              (selected)="onSelected($event)" <br>
+            &gt;&lt;/nga-selector-multiple&gt;
+          </code>
+        </p>
+        <p>
+          Configuration: <br>
+          <code>
+            let conf = SelectorConfig.instance({{ '{' }} <br>
+              dataProvider: new SimpleSearchProviderMock(), <br>
+              labelField: 'value', <br>
+            });
+          </code>
+        </p>
+        <p>
+          And more options: <br>
+          <code>
+            export class SelectorConfig extends Configurable {{ '{' }} <br>
+            <br>
+            /** <br>
+            * List of fields that required for current configuration <br>
+            * @type {{ '{' }}string[]} <br>
+            */ <br>
+            protected static required: string[] = ['dataProvider']; <br>
+            <br>
+            constructor ( <br>
+            /** <br>
+            * Provider for data searching <br>
+            */ <br>
+            public dataProvider: SearchableServiceInterface, <br>
+            /** <br>
+            * Name of the label field of an option when an arbitrary objects instead of SelectItems are used as options. <br>
+            * @type {{ '{' }}string} <br>
+            */ <br>
+            public labelField: string = 'id', <br>
+            /** <br>
+            * minimum characters that needed for searching <br>
+            */ <br>
+            public minLength: number = 1, <br>
+            /** <br>
+            * it is parameters to filter results <br>
+            */ <br>
+            public filter: SearchFilter, <br>
+            /** <br>
+            * placeholder for the empty selector <br>
+            */ <br>
+            public placeholder: string = '', <br>
+            /** <br>
+            * it is a fields Initialize default state of auto completer <br>
+            * @type {{ '{' }}any[]} <br>
+            */ <br>
+            public preloaded: any[] = [], <br>
+            ) {{ '{' }} <br>
+            &nbsp;&nbsp;super(); <br>
+            } <br>
+            } <br>
+          </code>
+        </p>
+      </div>
+    </div>
+  </div>
+</ba-card>

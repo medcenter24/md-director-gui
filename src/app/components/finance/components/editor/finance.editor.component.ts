@@ -14,7 +14,7 @@ import { FinanceRule } from '../../financeRule';
 import { FinanceService } from '../../finance.service';
 import { Assistant } from '../../../assistant';
 import { City } from '../../../city/city';
-import { Period } from '../../../period/period';
+import { Period } from '../../../period';
 import { NumbersHelper } from '../../../../helpers/numbers.helper';
 
 @Component({

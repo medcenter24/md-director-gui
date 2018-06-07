@@ -17,25 +17,25 @@ import { GlobalState } from '../../../../global.state';
 import { DoctorAccident } from '../../../doctorAccident/doctorAccident';
 import { HospitalAccident } from '../../../hospitalAccident/hospitalAccident';
 import { CasesService } from '../../cases.service';
-import { Service } from '../../../service/service';
 import { Diagnostic } from '../../../diagnostic/diagnostic';
 import { Document } from '../../../document/document';
 import { AccidentCheckpoint } from '../../../accident/components/checkpoint/checkpoint';
-import { DoctorsService } from '../../../doctors/doctors.service';
-import { Doctor } from '../../../doctors/doctor';
+import { DoctorsService } from '../../../doctors';
+import { Doctor } from '../../../doctors';
 import { DateHelper } from '../../../../helpers/date.helper';
 import { Survey } from '../../../survey/survey';
 import { PatientEditorComponent } from '../../../patient/components/editor/patient.editor.component';
-import { LoadingComponent } from '../../../core/components/componentLoader/LoadingComponent';
+import { LoadingComponent } from '../../../core/components/componentLoader';
 import { Patient } from '../../../patient/patient';
 import { PatientSelectorComponent } from '../../../patient/components/selector/patient.selector.component';
 import { PatientsService } from '../../../patient/patients.service';
 import { CaseFinanceComponent } from '../finance/finance.component';
-import { Assistant } from '../../../assistant/assistant';
+import { Assistant } from '../../../assistant';
 import { CaseEditorTabsService } from './case.editor.tabs.service';
 import { AccidentSelectComponent } from '../../../accident/components/select/accident.select.component';
 import { AccidentScenarioLineComponent }
   from '../../../accident/components/scenario/components/line/accident.scenario.line.component';
+import { Service } from '../../../service';
 
 @Component({
   selector: 'nga-case-editor',

@@ -9,12 +9,14 @@ import { SelectorProviderMultipleAdapterComponent } from './selector.provider.mu
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { SelectorProviderMultipleAdapterEchoModule } from './implementation/echo';
+import { SelectorProviderMultipleAdapterPrimengModule } from './implementation/primeng';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     SelectorProviderMultipleAdapterEchoModule,
+    SelectorProviderMultipleAdapterPrimengModule,
   ],
   declarations: [SelectorProviderMultipleAdapterComponent],
   exports: [SelectorProviderMultipleAdapterComponent],

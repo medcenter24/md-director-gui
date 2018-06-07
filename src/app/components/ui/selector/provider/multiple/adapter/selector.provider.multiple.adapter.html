@@ -1,2 +1,10 @@
 <nga-selector-provider-multiple-adapter-echo
+  *ngIf="isAdapter('echo')"
 ></nga-selector-provider-multiple-adapter-echo>
+
+<nga-selector-provider-multiple-adapter-primeng
+  *ngIf="isAdapter('primeng')"
+  [config]="config"
+  [options]="options"
+  (selected)="onChanged($event)"
+></nga-selector-provider-multiple-adapter-primeng>

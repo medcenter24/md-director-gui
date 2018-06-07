@@ -4,7 +4,7 @@
  *  @author Alexander Zagovorichev <zagovorichev@gmail.com>
  */
 
-import { AfterViewInit, Component, ViewContainerRef } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, ViewContainerRef } from '@angular/core';
 import { GlobalState } from './global.state';
 import { BaImageLoaderService, BaThemePreloader, BaThemeSpinner } from './theme/services';
 import { BaThemeConfig } from './theme';
@@ -41,6 +41,7 @@ export class AppComponent implements AfterViewInit {
               private storage: LocalStorageHelper,
               public http: HttpClient,
               private router: Router,
+              protected cdRef: ChangeDetectorRef,
   ) {
 
     themeConfig.config();
@@ -53,7 +54,10 @@ export class AppComponent implements AfterViewInit {
 
     this._state.subscribe('growl', (msgs: Message[]) => this.msgs = msgs);
     this._state.subscribe('confirmDialog', (config) => this.confirmationService.confirm(config));
-    this._state.subscribe('blocker', (block: boolean) => this.blocked = block);
+    this._state.subscribe('blocker', (block: boolean) => {
+      this.blocked = block;
+      this.cdRef.detectChanges();
+    });
     this._state.subscribe('apiError', (errors: HttpErrorResponse) => {
       this.apiErrorService.show(errors);
     });

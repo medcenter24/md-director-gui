@@ -5,11 +5,9 @@
   -->
 
 <p-multiSelect
-  *ngIf="isLoaded"
-  [(ngModel)]="selected"
-  [defaultLabel]="config.placeholder"
+  [defaultLabel]="_config.placeholder"
+  [optionLabel]="_config.labelField"
   [options]="options"
-  [filter]="filter($event)"
   (onChange)="onChanged($event)"
   [maxSelectedLabels]="5"
   appendTo="body"

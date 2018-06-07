@@ -8,10 +8,12 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { SelectorProviderMultipleComponent } from './selector.provider.multiple.component';
 import { SelectorProviderMultipleAdapterModule } from './adapter';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   imports: [
     CommonModule,
+    FormsModule,
     SelectorProviderMultipleAdapterModule,
   ],
   declarations: [

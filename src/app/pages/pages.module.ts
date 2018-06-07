@@ -10,6 +10,7 @@ import { routing } from './pages.routing';
 import { NgaModule } from '../theme/nga.module';
 import { AppTranslationModule } from '../app.translation.module';
 import { PagesComponent } from './pages.component';
+import { PageNotFoundComponent } from './page.not.found.component';
 
 @NgModule({
   imports: [
@@ -20,6 +21,7 @@ import { PagesComponent } from './pages.component';
   ],
   declarations: [
     PagesComponent,
+    PageNotFoundComponent,
   ],
 })
 export class PagesModule {

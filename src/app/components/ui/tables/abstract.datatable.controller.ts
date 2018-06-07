@@ -10,17 +10,17 @@ import {
   DatatableCol,
   DatatableComponent,
   DatatableConfig,
-} from '../datatable/index';
+} from '../datatable';
 import { TranslateService } from '@ngx-translate/core';
-import { LoadingComponent } from '../../core/components/componentLoader/index';
+import { LoadingComponent } from '../../core/components/componentLoader';
 import { ObjectHelper } from '../../../helpers/object.helper';
-import { LoadableServiceInterface } from '../../core/loadable/index';
+import { LoadableServiceInterface } from '../../core/loadable';
+
+export abstract class AbstractDatatableController extends LoadingComponent implements OnInit {
 
 /**
  * Simplify the datatable injections
  */
-export abstract class AbstractDatatableController extends LoadingComponent implements OnInit {
-
   @ViewChild('datatable')
   private datatable: DatatableComponent;
 
@@ -33,12 +33,7 @@ export abstract class AbstractDatatableController extends LoadingComponent imple
    */
   model: any;
 
-  protected constructor (
-    protected translateService: TranslateService,
-  ) {
-    super();
-  }
-
+  protected abstract translateService: TranslateService;
   abstract getService(): LoadableServiceInterface;
   abstract getColumns(): DatatableCol[];
   abstract getActions(): DatatableAction[];
