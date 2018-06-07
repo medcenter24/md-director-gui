@@ -10,8 +10,6 @@ import { routing } from './cases.page.routing';
 import { CaseEditorModule } from '../../components/case/components/editor/case.editor.module';
 import { CaseDatatableModule } from '../../components/case/components/datatable';
 
-
-// todo clean this imports list
 @NgModule({
   imports: [
     routing,
@@ -20,8 +18,6 @@ import { CaseDatatableModule } from '../../components/case/components/datatable'
   ],
   declarations: [
     CasesPageComponent,
-  ],
-  providers: [
   ],
 })
 export class CasesPageModule {

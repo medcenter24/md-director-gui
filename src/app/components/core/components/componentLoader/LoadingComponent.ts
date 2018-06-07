@@ -32,8 +32,9 @@ export abstract class LoadingComponent extends LoadableComponent {
         this._logger.debug(`+ ${name}`);
 
         if (!this.componentsList.length) {
-            window.setTimeout(() => this._state.notifyDataChanged('blocker', true));
-            this.loadingBar.start();
+          // if I use here setTimeout it is an issue that startLoader works after the stop loader
+          this._state.notifyDataChanged('blocker', true);
+          this.loadingBar.start();
         }
 
         if (this.componentsList.indexOf(name) !== -1) {

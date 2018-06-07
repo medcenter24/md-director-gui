@@ -5,15 +5,15 @@
  */
 
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { DatatableCol } from '../../../../../ui/datatable/datatable.col';
-import { DatatableConfig } from '../../../../../ui/datatable/datatable.config';
-import { DatatableAction } from '../../../../../ui/datatable/datatable.action';
+import { DatatableCol } from '../../../../../ui/datatable';
+import { DatatableConfig } from '../../../../../ui/datatable';
+import { DatatableAction } from '../../../../../ui/datatable';
 import { TranslateService } from '@ngx-translate/core';
-import { LoadingComponent } from '../../../../../core/components/componentLoader/LoadingComponent';
+import { LoadingComponent } from '../../../../../core/components/componentLoader';
 import { Logger } from 'angular2-logger/core';
 import { GlobalState } from '../../../../../../global.state';
 import { SlimLoadingBarService } from 'ng2-slim-loading-bar';
-import { DatatableComponent } from '../../../../../ui/datatable/datatable.component';
+import { DatatableComponent } from '../../../../../ui/datatable';
 import { AccidentCheckpoint } from '../../checkpoint';
 import { AccidentCheckpointsService } from '../../checkpoints.service';
 

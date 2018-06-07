@@ -1,0 +1,46 @@
+<ba-card baCardClass="with-scroll">
+  <div class="row mb-3">
+    <div class="col-12">
+      <a routerLink="/pages/development/gui" translate class="mb-3">Back to list</a> &#183;
+      <a routerLink="/pages/development/gui/multiselect" translate class="mb-3">Back</a>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-12">
+      <h3 translate>Cities</h3>
+      <div class="row">
+        <div class="col-4">
+          <nga-multi-selector
+            [service]="cityService"
+            placeholder="{{ 'Cities' | translate }}"
+            labelField="title"
+            (init)="startLoader($event)"
+            (loaded)="stopLoader($event)"
+            (selected)="cities = $event"
+          ></nga-multi-selector>
+
+          <p>{{ 'Selected' | translate }}: <span *ngFor="let city of cities">{{ city.title }}; </span></p>
+        </div>
+        <div class="col-8">
+          <div class="bg-info text-muted">
+            <pre>
+              <code>
+                &lt;nga-multi-selector
+                  [service]="cityService"
+                  placeholder="&#123; &#123; 'Cities' | translate }}"
+                  labelField="title"
+                  (init)="startLoader($event)"
+                  (loaded)="stopLoader($event)"
+                  (selected)="cities = $event"
+                >&lt;/nga-multi-selector>
+              </code>
+            </pre>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+</ba-card>

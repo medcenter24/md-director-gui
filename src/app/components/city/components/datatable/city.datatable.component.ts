@@ -5,17 +5,17 @@
  */
 
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { LoadingComponent } from '../../../core/components/componentLoader/LoadingComponent';
+import { LoadingComponent } from '../../../core/components/componentLoader';
 import { Logger } from 'angular2-logger/core';
 import { TranslateService } from '@ngx-translate/core';
 import { GlobalState } from '../../../../global.state';
 import { SlimLoadingBarService } from 'ng2-slim-loading-bar';
-import { DatatableConfig } from '../../../ui/datatable/datatable.config';
-import { DatatableCol } from '../../../ui/datatable/datatable.col';
-import { DatatableAction } from '../../../ui/datatable/datatable.action';
+import { DatatableConfig } from '../../../ui/datatable';
+import { DatatableCol } from '../../../ui/datatable';
+import { DatatableAction } from '../../../ui/datatable';
 import { CitiesService } from '../../cities.service';
 import { City } from '../../city';
-import { DatatableComponent } from '../../../ui/datatable/datatable.component';
+import { DatatableComponent } from '../../../ui/datatable';
 
 @Component({
   selector: 'nga-city-datatable',

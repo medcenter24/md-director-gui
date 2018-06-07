@@ -5,9 +5,9 @@
   -->
 
 <nga-selector-provider-multiple-adapter
-  *ngIf="conf"
+  *ngIf="isLoaded"
   [config]="conf"
   [options]="options"
-  (change)="onChange($event)"
+  (selected)="onChanged($event)"
   (filter)="loadData($event)"
 ></nga-selector-provider-multiple-adapter>

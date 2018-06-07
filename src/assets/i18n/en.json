@@ -1,4 +1,11 @@
 {
+  "Selected": "Selected",
+  "Back to list": "Back to list",
+  "Implementations": "Implementations",
+  "go_to_dashboard": "Go To Dashboard",
+  "404_sorry_text": "Content that you are looking for is not found. We so sorry.",
+  "Development": "Development",
+  "GUI": "GUI",
   "Back": "Back",
   "Are you sure that you want to perform this action?": "Are you sure that you want to perform this action?",
   "Service Details": "Service Details",

@@ -5,20 +5,22 @@
  */
 
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { DatatableCol } from '../../../ui/datatable/datatable.col';
-import { DatatableConfig } from '../../../ui/datatable/datatable.config';
-import { DatatableAction } from '../../../ui/datatable/datatable.action';
 import { TranslateService } from '@ngx-translate/core';
 import { PatientsService } from '../../patients.service';
-import { DatatableTransformer } from '../../../ui/datatable/datatable.transformer';
 import { DateHelper } from '../../../../helpers/date.helper';
 import { Patient } from '../../patient';
-import { LoadingComponent } from '../../../core/components/componentLoader/LoadingComponent';
+import { LoadingComponent } from '../../../core/components/componentLoader';
 import { Logger } from 'angular2-logger/core';
 import { GlobalState } from '../../../../global.state';
 import { SlimLoadingBarService } from 'ng2-slim-loading-bar';
-import { DatatableComponent } from '../../../ui/datatable/datatable.component';
 import { PatientEditorComponent } from '../editor/patient.editor.component';
+import {
+  DatatableAction,
+  DatatableCol,
+  DatatableComponent,
+  DatatableConfig,
+  DatatableTransformer,
+} from '../../../ui/datatable';
 
 @Component({
   selector: 'nga-patient-datatable',

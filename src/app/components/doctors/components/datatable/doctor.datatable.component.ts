@@ -34,7 +34,7 @@ export class DoctorDatatableComponent extends AbstractDatatableController implem
     protected translateService: TranslateService,
     private doctorsService: DoctorsService,
   ) {
-    super(translateService);
+    super();
   }
 
   getService(): LoadableServiceInterface {
