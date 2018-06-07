@@ -31,7 +31,7 @@ export class FinanceDatatableComponent extends AbstractDatatableController {
     private financeService: FinanceService,
     private confirmationService: ConfirmationService,
   ) {
-    super(translateService);
+    super();
   }
 
   getService(): LoadableServiceInterface {

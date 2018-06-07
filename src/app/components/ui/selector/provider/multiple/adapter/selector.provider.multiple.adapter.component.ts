@@ -28,14 +28,37 @@ export class SelectorProviderMultipleAdapterComponent {
    * Returns selected options
    * @type {EventEmitter<any[]>}
    */
-  @Output() change: EventEmitter<any[]> = new EventEmitter<any[]>();
+  @Output() selected: EventEmitter<any[]> = new EventEmitter<any[]>();
 
   /**
    * Filter to the data searching
    */
-  @Output() filter: SearchFilter;
+  @Output() filter: EventEmitter<SearchFilter> = new EventEmitter<SearchFilter>();
 
+  /**
+   * Select provided items
+   * @param {any[]} items
+   */
   selectItems(items: any[]): void {
-    this.change.emit(items);
+   console.warn('set these items to selector');
+  }
+
+  /**
+   * Chosen adapter
+   * default - primeng
+   * @type {string}
+   */
+  adapter: string = 'primeng';
+
+  isAdapter(name: string): boolean {
+    return this.adapter === name;
+  }
+
+  setAdapter(name: string): void {
+    this.adapter = name;
+  }
+
+  onChanged(event: any[]): void {
+    this.selected.emit(event);
   }
 }

@@ -14,10 +14,9 @@ import { LoggedUserService } from '../../components/auth/loggedUser.service';
 import { AuthenticationService } from '../../components/auth/authentication.service';
 import { Message } from 'primeng/primeng';
 import { Company } from '../../components/company/company';
-import { LoadingComponent } from '../../components/core/components/componentLoader/LoadingComponent';
+import { LoadingComponent } from '../../components/core/components/componentLoader';
 import { Logger } from 'angular2-logger/core';
 import { LocalStorageHelper } from '../../helpers/local.storage.helper';
-import { isNumber, isObject } from 'util';
 import { UploaderOptions, UploadInput } from 'ngx-uploader';
 
 @Component({
@@ -87,12 +86,12 @@ export class ProfileComponent extends LoadingComponent implements OnInit {
 
   selectTab(tab: any): void {
     let id = 0;
-    if (isObject(tab)) {
+    if (typeof tab === 'object') {
         const pos = this.tabs.findIndex(x => x.id === tab.id);
         if (pos) {
             id = pos;
         }
-    } else if (isNumber(tab) && tab >= 0) {
+    } else if (typeof tab === 'number' && tab >= 0) {
       this.selectedTab = this.tabs[tab];
       id = tab;
     }
@@ -190,7 +189,7 @@ export class ProfileComponent extends LoadingComponent implements OnInit {
   }
 
   timezoneChanged(tz): void {
-    if (isObject(tz)) {
+    if (typeof tz === 'object') {
       return;
     }
     this.loggedUser.timezone = tz;

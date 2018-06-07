@@ -1,4 +1,6 @@
-export const PAGES_MENU = [
+import { isDevMode } from '@angular/core';
+
+const menu = [
   {
     path: 'pages',
     children: [
@@ -176,6 +178,28 @@ export const PAGES_MENU = [
           },
         },
       },
+      {
+        path: 'development',
+        data: {
+          menu: {
+            title: 'Development',
+            icon: 'fa fa-wrench',
+          },
+        },
+        children: [{
+          path: 'gui',
+          data: {
+            menu: {
+              title: 'GUI',
+            },
+          },
+        }],
+      },
     ],
   },
 ];
+
+if (!isDevMode()) {
+   menu[0].children.filter(v => v.path !== 'development');
+}
+export const PAGES_MENU = menu;

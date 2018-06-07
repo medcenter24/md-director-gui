@@ -5,3 +5,4 @@
  */
 
 export * from './simple.search.provider.mock';
+export * from './city.provider.mock';

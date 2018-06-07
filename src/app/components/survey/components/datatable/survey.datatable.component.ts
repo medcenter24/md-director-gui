@@ -31,7 +31,7 @@ export class SurveyDatatableComponent extends AbstractDatatableController {
     private surveyService: SurveyService,
     private confirmationService: ConfirmationService,
   ) {
-    super(translateService);
+    super();
   }
 
   getService(): LoadableServiceInterface {

@@ -34,7 +34,7 @@ export class DiagnosticDatatableComponent extends AbstractDatatableController im
     protected translateService: TranslateService,
     private diagnosticService: DiagnosticService,
   ) {
-    super(translateService);
+    super();
   }
 
   getService(): LoadableServiceInterface {
