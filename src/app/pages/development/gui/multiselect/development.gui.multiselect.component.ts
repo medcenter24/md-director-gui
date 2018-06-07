@@ -21,7 +21,6 @@ export class DevelopmentGuiMultiselectComponent extends LoadingComponent impleme
   protected componentName: string = 'DevelopmentGuiMultiselectComponent';
 
   config: SelectorConfig;
-  items: any[] = [];
 
   constructor(
     protected _logger: Logger,
@@ -38,9 +37,4 @@ export class DevelopmentGuiMultiselectComponent extends LoadingComponent impleme
       labelField: 'value',
     });
   }
-
-  onSelected(items): void {
-    this.items = items;
-  }
-
 }

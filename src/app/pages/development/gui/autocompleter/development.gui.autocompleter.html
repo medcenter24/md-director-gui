@@ -1,37 +1,45 @@
+<!--
+  ~ Copyright (c) 2018.
+  ~
+  ~ @author Zagovorychev Oleksandr <zagovorichev@gmail.com>
+  -->
+
 <ba-card baCardClass="with-scroll">
 
   <div class="row mb-3">
     <div class="col-12">
       <a routerLink="/pages/development/gui" translate class="mb-3">Back</a> &#183;
-      <a routerLink="/pages/development/gui/multiselect/implementations" translate class="mb-3 right">Implementations</a>
+      <a routerLink="/pages/development/gui/autocompleter/implementations" translate class="mb-3 right">Implementations</a>
     </div>
   </div>
 
   <div class="row">
     <div class="col-3">
-      <nga-selector-multiple
-        [setConfig]="config"
-        (selected)="items = $event"
+      <nga-autocompleter
+        [service]="simpleSearch"
+        placeholder="Test Autocompleter"
+        labelField="value"
+        (selected)="item = $event"
         (init)="startLoader($event)"
         (loaded)="stopLoader($event)"
-      ></nga-selector-multiple>
+      ></nga-autocompleter>
     </div>
-    <div class="col-6">
-      <span *ngFor="let item of items">[id: {{ '{' }}{{ '{' }} item.id }}; val: {{ '{' }}{{ '{' }} item.value }}]</span>
+    <div class="col-6" *ngIf="item">
+      Selected: {{ item.id }} => {{ item.value }}
     </div>
   </div>
 
   <div class="row">
     <div class="col-12">
       <div class="well">
-        <p>Easy to use selector for single selections</p>
+        <p>Easy to use selector for multiple selections</p>
         <p>Template: <br>
           <code>
-            &lt;nga-autocompleter <br>
+            &lt;nga-selector-multiple <br>
               [setConfig]="config" <br>
               (selected)="onSelected($event)" <br>
-              (init)="startLoader($event)"
-              (loaded)="stopLoader($event)"
+              (init)="startLoader($event)" <br>
+              (loaded)="stopLoader($event)" <br>
             &gt;&lt;/nga-selector-multiple&gt;
           </code>
         </p>
