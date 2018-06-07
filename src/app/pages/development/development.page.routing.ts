@@ -10,6 +10,7 @@ import { ModuleWithProviders } from '@angular/core';
 import { DevelopmentGuiComponent } from './gui';
 import { DevelopmentGuiMultiselectComponent } from './gui/multiselect';
 import { MultiselectImplementationsComponent } from './gui/multiselect/implementations';
+import { DevelopmentGuiAutocompleterComponent } from './gui/autocompleter';
 
 // noinspection TypeScriptValidateTypes
 const routes: Routes = [
@@ -20,6 +21,7 @@ const routes: Routes = [
       { path: 'gui', component: DevelopmentGuiComponent },
       { path: 'gui/multiselect', component: DevelopmentGuiMultiselectComponent },
       { path: 'gui/multiselect/implementations', component: MultiselectImplementationsComponent },
+      { path: 'gui/autocompleter', component: DevelopmentGuiAutocompleterComponent },
     ],
   },
 ];
