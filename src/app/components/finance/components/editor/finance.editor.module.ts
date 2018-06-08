@@ -16,6 +16,12 @@ import { ServiceSelectModule } from '../../../service/components/select';
 import { NgaModule } from '../../../../theme/nga.module';
 import { FinanceService } from '../../finance.service';
 import { PeriodSelectModule } from '../../../period/components/select';
+import { DoctorsService } from '../../../doctors';
+import { CitiesService } from '../../../city';
+import { MultiSelectorModule } from '../../../ui/selector/components/multiSelector';
+import { AssistantsService } from '../../../assistant';
+import { PeriodService } from '../../../period';
+import { ServicesService } from '../../../service';
 
 @NgModule({
   imports: [
@@ -28,9 +34,15 @@ import { PeriodSelectModule } from '../../../period/components/select';
     ServiceSelectModule,
     NgaModule,
     PeriodSelectModule,
+    MultiSelectorModule,
   ],
   providers: [
     FinanceService,
+    DoctorsService,
+    CitiesService,
+    AssistantsService,
+    PeriodService,
+    ServicesService,
   ],
   declarations: [
     FinanceEditorComponent,

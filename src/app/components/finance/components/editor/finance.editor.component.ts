@@ -9,13 +9,14 @@ import { Logger } from 'angular2-logger/core';
 import { SlimLoadingBarService } from 'ng2-slim-loading-bar';
 import { GlobalState } from '../../../../global.state';
 import { LoadingComponent } from '../../../core/components/componentLoader';
-import { Doctor } from '../../../doctors';
+import { Doctor, DoctorsService } from '../../../doctors';
 import { FinanceRule } from '../../financeRule';
 import { FinanceService } from '../../finance.service';
-import { Assistant } from '../../../assistant';
-import { City } from '../../../city/city';
-import { Period } from '../../../period';
+import { Assistant, AssistantsService } from '../../../assistant';
+import { CitiesService, City } from '../../../city';
+import { Period, PeriodService } from '../../../period';
 import { NumbersHelper } from '../../../../helpers/numbers.helper';
+import { ServicesService } from '../../../service';
 
 @Component({
   selector: 'nga-finance-editor',
@@ -32,36 +33,45 @@ export class FinanceEditorComponent extends LoadingComponent {
     protected loadingBar: SlimLoadingBarService,
     protected _state: GlobalState,
     protected financeService: FinanceService,
+    public doctorService: DoctorsService,
+    public cityService: CitiesService,
+    public assistantService: AssistantsService,
+    public periodService: PeriodService,
+    public servicesService: ServicesService,
   ) {
     super();
     this.rule = new FinanceRule();
   }
 
   saveFinanceRule(): void {
-    this.financeService.create(this.rule);
+    const postfix = 'saveRule';
+    this.startLoader(postfix);
+    this.financeService.create(this.rule)
+      .then(() => this.stopLoader(postfix))
+      .catch(() => this.stopLoader(postfix));
   }
 
   hasConditions () {
-    return this.hasCondition('assistant')
-      || this.hasCondition('doctor')
-      || this.hasCondition('datePeriod')
-      || this.hasCondition('service')
-      || this.hasCondition('city');
+    return this.hasCondition('assistants')
+      || this.hasCondition('doctors')
+      || this.hasCondition('datePeriods')
+      || this.hasCondition('services')
+      || this.hasCondition('cities');
   }
 
   hasCondition (conditionName): boolean {
 
     switch (conditionName) {
-      case 'doctor':
-        return !!this.rule.doctor;
-      case 'assistant':
-        return !!this.rule.assistant;
-      case 'datePeriod':
-        return this.rule.datePeriod && this.rule.datePeriod.title !== '';
-      case 'service':
+      case 'doctors':
+        return !!this.rule.doctors;
+      case 'assistants':
+        return !!this.rule.assistants;
+      case 'datePeriods':
+        return !!this.rule.datePeriods;
+      case 'services':
         return !!this.rule.services;
-      case 'city':
-        return !!this.rule.city;
+      case 'cities':
+        return !!this.rule.cities;
     }
     return false;
   }
@@ -74,36 +84,36 @@ export class FinanceEditorComponent extends LoadingComponent {
     this.rule.title = event.target.value;
   }
 
-  onAssistantChanged(assistant: Assistant): void {
-    this.rule.assistant = assistant;
+  onAssistantsChanged(assistants: Assistant[]): void {
+    this.rule.assistants = assistants;
   }
 
-  onDoctorChanged (doctor: Doctor): void {
-    this.rule.doctor = doctor;
+  onDoctorsChanged (doctors: Doctor[]): void {
+    this.rule.doctors = doctors;
   }
 
-  onCityChanged (city: City): void {
-    this.rule.city = city;
+  onCitiesChanged (cities: City[]): void {
+    this.rule.cities = cities;
   }
 
   onPriceAmountChanged(event): void {
     const val = event.target.value;
-    this.rule.priceAmount = event.target.value = this.convertPriceAmount(val);
+    this.rule.priceAmount = event.target.value = FinanceEditorComponent.convertPriceAmount(val);
   }
 
   onServicesChanged(event): void {
     this.rule.services = event;
   }
 
-  onDatePeriodChanged(period: Period): void {
-    this.rule.datePeriod = period;
+  onPeriodsChanged(periods: Period[]): void {
+    this.rule.datePeriods = periods;
   }
 
   priceAmountToFixed(event): void {
-    this.rule.priceAmount = event.target.value = this.convertPriceAmount(event.target.value, true);
+    this.rule.priceAmount = event.target.value = FinanceEditorComponent.convertPriceAmount(event.target.value, true);
   }
 
-  private convertPriceAmount(amount: string = '', toFixed: boolean = false): number {
+  private static convertPriceAmount(amount: string = '', toFixed: boolean = false): number {
     let result = null;
     if (amount !== '') {
       result = NumbersHelper.getFixedFloat(amount, true, toFixed);
