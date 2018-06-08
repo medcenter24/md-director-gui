@@ -4,20 +4,20 @@
  * @author Zagovorychev Olexandr <zagovorichev@gmail.com>
  */
 
-import { Assistant } from '../assistant/assistant';
-import { City } from '../city/city';
-import { Doctor } from '../doctors/doctor';
-import { Service } from '../service/service';
-import { Period } from '../period/period';
+import { Assistant } from '../assistant';
+import { City } from '../city';
+import { Doctor } from '../doctors';
+import { Service } from '../service';
+import { Period } from '../period';
 
 export class FinanceRule {
   constructor(
     public id: number = 0,
     public title: string = '',
-    public assistant: Assistant = null,
-    public city: City = null,
-    public doctor: Doctor = null,
-    public services: Service[] = null,
+    public assistants: Assistant[] = [],
+    public cities: City[] = [],
+    public doctors: Doctor[] = [],
+    public services: Service[] = [],
     /**
      * from string - formatted string
      * example:
@@ -25,7 +25,7 @@ export class FinanceRule {
      *    from '21:00' to '6:00' # night rule
      *    # everything other - it is a day rule
      */
-    public datePeriod: Period = new Period(),
+    public datePeriods: Period[] = [],
     public priceAmount: number = null,
   ) { }
 }

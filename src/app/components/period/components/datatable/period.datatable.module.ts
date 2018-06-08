@@ -10,7 +10,7 @@ import { DialogModule } from 'primeng/dialog';
 import { ButtonModule } from 'primeng/button';
 import { AppTranslationModule } from '../../../../app.translation.module';
 import { CommonModule } from '@angular/common';
-import { DatatableModule } from '../../../ui/datatable/datatable.module';
+import { DatatableModule } from '../../../ui/datatable';
 import { PeriodService } from '../../period.service';
 import { PeriodDatatableComponent } from './period.datatable.component';
 import { InputMaskModule } from 'primeng/primeng';
