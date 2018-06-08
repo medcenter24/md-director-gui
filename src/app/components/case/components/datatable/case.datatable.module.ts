@@ -6,7 +6,7 @@
 
 import { NgModule } from '@angular/core';
 import { CaseDatatableComponent } from './case.datatable.component';
-import { DatatableModule } from '../../../ui/datatable/datatable.module';
+import { DatatableModule } from '../../../ui/datatable';
 import { CommonModule } from '@angular/common';
 import { ImporterModule } from '../../../importer/importer.module';
 import { ExporterService } from '../../../exporter/exporter.service';

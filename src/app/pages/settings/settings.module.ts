@@ -11,6 +11,7 @@ import { PeriodDatatableModule } from '../../components/period/components/datata
 import { AccidentCheckpointDatatableModule }
   from '../../components/accident/components/checkpoint/components/datatable';
 import { FinanceDatatableModule } from '../../components/finance/components/datatable';
+import { FinanceEditorPageModule } from './finance/editor';
 
 @NgModule({
   imports: [
@@ -18,6 +19,7 @@ import { FinanceDatatableModule } from '../../components/finance/components/data
     PeriodDatatableModule,
     AccidentCheckpointDatatableModule,
     FinanceDatatableModule,
+    FinanceEditorPageModule,
   ],
   declarations: [
     SettingsComponent,

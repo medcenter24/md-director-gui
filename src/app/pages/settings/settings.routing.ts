@@ -11,6 +11,7 @@ import { PeriodDatatableComponent } from '../../components/period/components/dat
 import { AccidentCheckpointDatatableComponent }
   from '../../components/accident/components/checkpoint/components/datatable/accident.checkpoint.datatable.component';
 import { FinanceDatatableComponent } from '../../components/finance/components/datatable';
+import { FinanceEditorPageComponent } from './finance/editor';
 
 // noinspection TypeScriptValidateTypes
 const routes: Routes = [
@@ -20,6 +21,8 @@ const routes: Routes = [
     children: [
       { path: 'checkpoints', component: AccidentCheckpointDatatableComponent },
       { path: 'finance', component: FinanceDatatableComponent },
+      { path: 'finance/new', component: FinanceEditorPageComponent },
+      { path: 'finance/:id', component: FinanceEditorPageComponent },
       { path: 'periods', component: PeriodDatatableComponent },
     ],
   },

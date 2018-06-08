@@ -5,16 +5,13 @@
  */
 
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { DatatableCol } from '../../../ui/datatable/datatable.col';
-import { DatatableAction } from '../../../ui/datatable/datatable.action';
-import { DatatableConfig } from '../../../ui/datatable/datatable.config';
 import { CasesService } from '../../cases.service';
 import { TranslateService } from '@ngx-translate/core';
 import { Router } from '@angular/router';
 import { ExporterService } from '../../../exporter/exporter.service';
 import { ImporterComponent } from '../../../importer/importer.component';
-import { DatatableTransformer } from '../../../ui/datatable/datatable.transformer';
 import { DateHelper } from '../../../../helpers/date.helper';
+import { DatatableAction, DatatableCol, DatatableConfig, DatatableTransformer } from '../../../ui/datatable';
 
 @Component({
   selector: 'nga-case-datatable',
