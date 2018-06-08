@@ -9,7 +9,7 @@ const menu = [
         data: {
           menu: {
             title: 'Dashboard',
-            icon: 'ion-android-home',
+            icon: 'fa fa-home',
             selected: false,
             expanded: false,
             order: 0,
