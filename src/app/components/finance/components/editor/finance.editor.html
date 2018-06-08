@@ -15,64 +15,76 @@
     <div class="row">
       <div class="col-12 mb-2">
         <label class="label separate" translate>Doctor</label>
-        <nga-select-doctor
-          [isMultiple]="true"
-          [selectPreloaded]="rule.doctor"
-          (selected)="onDoctorChanged($event)"
+
+        <nga-multi-selector
+          [service]="doctorService"
+          placeholder="Doctors"
+          labelField="name"
           (init)="startLoader($event)"
           (loaded)="stopLoader($event)"
-        ></nga-select-doctor>
+          (selected)="onDoctorsChanged($event)"
+          [preloadedData]="rule.doctors"
+        ></nga-multi-selector>
       </div>
     </div>
 
     <div class="row">
       <div class="col-12 mb-2">
         <label class="label separate" translate>Assistant</label>
-        <nga-select-assistant
-          [isMultiple]="true"
-          [selectPreloaded]="rule.assistant ? [rule.assistant] : []"
-          (selected)="onAssistantChanged($event)"
+        <nga-multi-selector
+          [service]="assistantService"
+          placeholder="Assistants"
+          labelField="title"
           (init)="startLoader($event)"
           (loaded)="stopLoader($event)"
-          class="case-assistant-selector"
-        ></nga-select-assistant>
+          (selected)="onAssistantsChanged($event)"
+          [preloadedData]="rule.assistants"
+        ></nga-multi-selector>
       </div>
     </div>
 
     <div class="row">
       <div class="col-12 mb-2">
         <label class="label separate" translate>City</label>
-        <nga-select-city
-          [isMultiple]="true"
-          [selectPreloaded]="[rule.city ? rule.city.id : 0]"
-          (selected)="onCityChanged($event)"
+        <nga-multi-selector
+          [service]="cityService"
+          placeholder="Cities"
+          labelField="title"
           (init)="startLoader($event)"
           (loaded)="stopLoader($event)"
-        ></nga-select-city>
+          (selected)="onCitiesChanged($event)"
+          [preloadedData]="rule.cities"
+        ></nga-multi-selector>
       </div>
     </div>
 
     <div class="row">
       <div class="col-12 mb-2">
         <label class="label separate" translate>Date Period</label>
-        <nga-period-select
-          [isMultiple]="true"
-          [selectPreloaded]="rule.period"
+        <nga-multi-selector
+          [service]="periodService"
+          placeholder="Date Periods"
+          labelField="title"
           (init)="startLoader($event)"
           (loaded)="stopLoader($event)"
-        ></nga-period-select>
+          (selected)="onPeriodsChanged($event)"
+          [preloadedData]="rule.datePeriods"
+        ></nga-multi-selector>
       </div>
     </div>
 
     <div class="row">
       <div class="col-12 mb-2">
         <label class="label separate" translate>Services</label>
-        <nga-select-services
-          [(chosenServices)]="rule.services"
-          (chosenServicesChange)="onServicesChanged($event)"
-          (loaded)="stopLoader($event)"
+        <nga-multi-selector
+          [service]="servicesService"
+          placeholder="Services"
+          labelField="title"
           (init)="startLoader($event)"
-        ></nga-select-services>
+          (loaded)="stopLoader($event)"
+          (selected)="onServicesChanged($event)"
+          [preloadedData]="rule.services"
+        ></nga-multi-selector>
       </div>
     </div>
 
