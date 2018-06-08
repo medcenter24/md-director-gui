@@ -5,10 +5,7 @@
  */
 
 import { Component } from '@angular/core';
-import { Logger } from 'angular2-logger/core';
-import { SlimLoadingBarService } from 'ng2-slim-loading-bar';
-import { GlobalState } from '../../../../global.state';
-import { LoadingComponent } from '../../../core/components/componentLoader';
+import { LoadableComponent } from '../../../core/components/componentLoader';
 import { Doctor, DoctorsService } from '../../../doctors';
 import { FinanceRule } from '../../financeRule';
 import { FinanceService } from '../../finance.service';
@@ -23,15 +20,12 @@ import { ServicesService } from '../../../service';
   templateUrl: './finance.editor.html',
   styleUrls: ['./finance.editor.scss'],
 })
-export class FinanceEditorComponent extends LoadingComponent {
+export class FinanceEditorComponent extends LoadableComponent {
   protected componentName: string = 'AccidentFinanceComponent';
 
   rule: FinanceRule;
 
   constructor(
-    protected _logger: Logger,
-    protected loadingBar: SlimLoadingBarService,
-    protected _state: GlobalState,
     protected financeService: FinanceService,
     public doctorService: DoctorsService,
     public cityService: CitiesService,

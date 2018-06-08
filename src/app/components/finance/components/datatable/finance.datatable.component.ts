@@ -15,6 +15,7 @@ import { LoadableServiceInterface } from '../../../core/loadable';
 import { FinanceRule } from '../../financeRule';
 import { DatatableAction, DatatableCol } from '../../../ui/datatable';
 import { ConfirmationService } from 'primeng/api';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'nga-finance-datatable',
@@ -30,6 +31,7 @@ export class FinanceDatatableComponent extends AbstractDatatableController {
     protected translateService: TranslateService,
     private financeService: FinanceService,
     private confirmationService: ConfirmationService,
+    private router: Router,
   ) {
     super();
   }
@@ -53,9 +55,14 @@ export class FinanceDatatableComponent extends AbstractDatatableController {
     return [
       new DatatableAction(this.translateService.instant('Add'), 'fa-plus', () => {
         this.setModel(this.getEmptyModel());
-        this.displayDialog = true;
+        // this.displayDialog = true;
+        this.router.navigate(['pages/settings/finance/new']);
       }),
     ];
+  }
+
+  protected onRowSelect(event): void {
+    this.router.navigate([`pages/settings/finance/${event.data.id}`]);
   }
 
   getSortBy(): string {
