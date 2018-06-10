@@ -39,7 +39,7 @@ export class AutocompleterComponent extends LoadableComponent implements OnInit 
    * Data to show as a selected (should be rewritable to the default state?)
    * @type {any[]}
    */
-  @Input() preloadedData: any[] = [];
+  @Input() preloadedData: any;
 
   /**
    * Selected options

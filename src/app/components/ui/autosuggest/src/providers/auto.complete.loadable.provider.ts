@@ -39,9 +39,9 @@ export class AutoCompleteLoadableProvider implements AutoCompleteProvider {
 
   /**
    * Select new selection
-   * @param {Object | Object[]} items
+   * @param {any} items
    */
-  selectItems(items: Object|Object[]): void {
+  selectItems(items: any): void {
     this.selected = items;
   }
 }

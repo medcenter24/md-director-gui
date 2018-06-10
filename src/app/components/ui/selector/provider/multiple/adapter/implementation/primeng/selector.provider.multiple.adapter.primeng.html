@@ -7,6 +7,7 @@
 <p-multiSelect
   [defaultLabel]="_config.placeholder"
   [optionLabel]="_config.labelField"
+  [(ngModel)]="selectedOptions"
   [options]="options"
   (onChange)="onChanged($event)"
   [maxSelectedLabels]="5"

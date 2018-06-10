@@ -12,13 +12,13 @@ export class CityProviderMock {
   private data: any = {
     data: [{
       id: 1,
-      title: 'value1',
+      title: 'city1',
     }, {
       id: 2,
-      title: 'value2',
+      title: 'city2',
     }, {
       id: 3,
-      title: 'value3',
+      title: 'city3',
     }],
   };
 

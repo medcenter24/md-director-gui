@@ -47,10 +47,10 @@ export class AutoCompleteSrcConfig extends Configurable {
      */
     public isMultiple: boolean = false,
     /**
-     * Initialize default state of auto completer
+     * it is initialize default state of auto completer
      * @type {any[]}
      */
-    public preloaded: Object|Object[] = [],
+    public preloaded: any,
   ) {
     super();
   }
