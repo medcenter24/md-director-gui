@@ -4,7 +4,7 @@
  * @author Zagovorychev Oleksandr <zagovorichev@gmail.com>
  */
 
-import { Component, EventEmitter, Input, Output, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { SelectorConfig } from '../../selector.config';
 import { SearchFilter } from '../../../../core/loadable/search.filter';
 import { SelectorProviderMultipleAdapterComponent } from './adapter';
@@ -14,7 +14,7 @@ import { LoadableComponent } from '../../../../core/components/componentLoader';
   selector: 'nga-selector-multiple',
   templateUrl: './selector.provider.multiple.html',
 })
-export class SelectorProviderMultipleComponent extends LoadableComponent {
+export class SelectorProviderMultipleComponent extends LoadableComponent implements OnInit {
   protected componentName: string = 'SelectorProviderMultipleComponent';
 
   /**
@@ -23,10 +23,6 @@ export class SelectorProviderMultipleComponent extends LoadableComponent {
    */
   @Input() set setConfig(conf: SelectorConfig) {
     this.conf = conf;
-    this.loadData(null).then(() => {
-      // add preselected choice?
-      this.isLoaded = true;
-    });
   }
 
   /**
@@ -38,7 +34,7 @@ export class SelectorProviderMultipleComponent extends LoadableComponent {
   /**
    * Html adapter element
    */
-  @ViewChild(SelectorProviderMultipleAdapterComponent)
+  @ViewChild('selectorProviderMultipleAdapter')
     adapter: SelectorProviderMultipleAdapterComponent;
 
   /**
@@ -53,18 +49,31 @@ export class SelectorProviderMultipleComponent extends LoadableComponent {
    */
   options: any[] = [];
 
-  /**
-   * When data is ready
-   * @type {boolean}
-   */
-  isLoaded: boolean = false;
+  ngOnInit(): void {
+    this.loadData(null).then(() => {
+      this.selectItems(this.conf.preloaded);
+    });
+  }
 
   /**
    * Make provided items selected in the selector
    * @param {any[]} items
    */
-  selectItems(items: any[]): void {
-    this.adapter.selectItems(items);
+  selectItems(items: any): void {
+    let selected: any = items;
+    if (typeof items === 'number') {
+      // by ID
+      selected = [this.options.find(v => v.hasOwnProperty('id') && v['id'] === items)];
+    } else if (typeof items === 'object') {
+      // if list of ID's
+      const isIds = items.find(v => typeof v !== 'number');
+      if (!isIds) {
+        selected = this.options.filter(v => v.hasOwnProperty('id') && this.options.indexOf(v['id']));
+      }
+    }
+    if (selected && selected.length) {
+      this.adapter.selectItems(selected);
+    }
   }
 
   /**
@@ -79,6 +88,7 @@ export class SelectorProviderMultipleComponent extends LoadableComponent {
       .search(filter).then(response => {
         this.stopLoader(postfix);
         this.options = response.data;
+        return this.options;
       }).catch(() => this.stopLoader(postfix));
   }
 

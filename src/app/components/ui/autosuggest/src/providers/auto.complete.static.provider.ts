@@ -45,8 +45,14 @@ export class AutoCompleteStaticProvider implements AutoCompleteProvider {
     this.selectItems(config.preloaded);
   }
 
-  selectItems(items: Object|Object[], resolve: Function = () => {}): void {
-    this.selected = items;
+  selectItems(items: any): void {
+    if (typeof items === 'number') {
+      this.afterLoaded(data => {
+        this.selected = this.data.find(v => v.hasOwnProperty('id') && v['id'] === items);
+      });
+    } else {
+      this.selected = items;
+    }
     this._changeDetectionRef.detectChanges();
   }
 
@@ -59,17 +65,25 @@ export class AutoCompleteStaticProvider implements AutoCompleteProvider {
       this.data = resp.data;
       this.filtered = this.data;
       this.loaded = true;
-    }).catch(() => {
+      return this.data;
+    }).catch(e => {
+      console.debug('Error on auto complete static provider', e);
       this.loaded = false;
     });
   }
 
   filter(event): void {
-    if (!this.loaded) {
-      this.loadData(event).then(() => this.filtering(event));
-    } else {
-      this.filtering(event);
-    }
+    this.afterLoaded(() => this.filtering(event));
+  }
+
+  /**
+   * Make action only after the data loaded
+   * @param {Function} func
+   */
+  private afterLoaded(func: Function) {
+    this.loaded ? func(this.data) : this.loadData(event).then(data => {
+      func(data);
+    });
   }
 
   /**

@@ -29,7 +29,7 @@ export interface AutoCompleteProvider {
 
   /**
    * Select defined items in the autocompleter
-   * @param {Object | Object[]} items
+   * @param {any} items
    */
-  selectItems(items: Object|Object[]): void;
+  selectItems(items: any): void;
 }

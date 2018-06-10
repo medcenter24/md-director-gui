@@ -5,7 +5,7 @@
   -->
 
 <nga-selector-provider-multiple-adapter
-  *ngIf="isLoaded"
+  #selectorProviderMultipleAdapter
   [config]="conf"
   [options]="options"
   (selected)="onChanged($event)"

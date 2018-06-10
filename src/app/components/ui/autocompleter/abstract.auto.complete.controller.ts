@@ -8,13 +8,10 @@ import { EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { LoadableComponent } from '../../core/components/componentLoader';
 import { AutoCompleteSrcConfig } from '../autosuggest/src';
-import { Configurable } from '../../core/configurable';
 import { AutoCompleteComponent } from '../autosuggest';
 
 // template can't be inherited so it has no sense to declare abstract Component
 export abstract class AbstractAutoCompleteController extends LoadableComponent implements OnInit {
-
-  @Input() isMultiple: boolean = false;
 
   preloaded: Object[]|Object = [];
   @Input()
@@ -50,38 +47,29 @@ export abstract class AbstractAutoCompleteController extends LoadableComponent i
   abstract getFieldKey(): string;
 
   /**
-   * Check if auto completer is multiple or single
-   * @returns {boolean}
-   */
-  getIsMultiple(): boolean {
-    return this.isMultiple;
-  }
-
-  /**
    * Default state for the auto completer
    * If defined then reset should use this value as default for the completer
    * and empty needs to make it blank
-   * @returns {Object[] | Object}
+   * @returns {any}
    */
-  getPreloadedData(): Object[]|Object {
+  getPreloadedData(): any {
     return this.preloaded;
   }
 
   ngOnInit() {
     this.translateService.get('Yes').subscribe(() => {
       this.langLoaded = true;
-      this.autoCompleteConfig = Configurable.factory({
+      this.autoCompleteConfig = AutoCompleteSrcConfig.instance({
         dataProvider: (filters: Object) => {
           return this.getService().search(filters);
         },
         fieldKey: this.getFieldKey(),
-        isMultiple: this.getIsMultiple(),
         preloaded: this.getPreloadedData(),
-      }, new AutoCompleteSrcConfig());
+      });
     });
   }
 
-  selectItems(items: Object|Object[]): void {
+  selectItems(items: any): void {
     if (this.autocompleter) {
       this.autocompleter.selectItems(items);
     }

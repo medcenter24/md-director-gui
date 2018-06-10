@@ -36,9 +36,10 @@ import { CaseFinanceModule } from '../finance';
 import { NgaModule } from '../../../../theme/nga.module';
 import { AccidentActivityModule } from '../../../accident/components/activity';
 import { CitySelectModule } from '../../../city/components/select';
-import { DoctorSelectModule } from '../../../doctors/components/select';
-import { AssistantSelectModule } from '../../../assistant/components/select';
 import { ServiceSelectorModule } from '../../../service/components/selector';
+import { AutocompleterModule } from '../../../ui/selector/components/autocompleter';
+import { DoctorsService } from '../../../doctors';
+import { AssistantsService } from '../../../assistant';
 
 @NgModule({
   imports: [
@@ -51,10 +52,8 @@ import { ServiceSelectorModule } from '../../../service/components/selector';
     ButtonModule,
     InplaceModule,
     TooltipModule,
-    AssistantSelectModule,
     CaseTypeSelectModule,
     CitySelectModule,
-    DoctorSelectModule,
     InputMaskModule,
     HospitalModule,
     AccidentSelectModule,
@@ -71,12 +70,15 @@ import { ServiceSelectorModule } from '../../../service/components/selector';
     CaseFinanceModule,
     AccidentActivityModule,
     NgaModule,
+    AutocompleterModule,
   ],
   declarations: [
     CaseEditorComponent,
   ],
   providers: [
     CaseEditorTabsService,
+    DoctorsService,
+    AssistantsService,
   ],
   exports: [
     CaseEditorComponent,

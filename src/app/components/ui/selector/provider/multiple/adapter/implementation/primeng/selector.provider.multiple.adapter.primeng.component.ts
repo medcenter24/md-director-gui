@@ -26,6 +26,11 @@ export class SelectorProviderMultipleAdapterPrimengComponent {
   _config: SelectorConfig;
 
   /**
+   * Options which were/or should be selected
+   */
+  selectedOptions: any[];
+
+  /**
    * Options which can be selected
    */
   @Input() options: any[];
@@ -42,5 +47,14 @@ export class SelectorProviderMultipleAdapterPrimengComponent {
    */
   onChanged(event): void {
     this.selected.emit(event.value);
+  }
+
+  /**
+   * Choosing needed options
+   * @param {any[]} options
+   */
+  setOptions(options: any[]): void {
+    this.selectedOptions = options;
+    this.selected.emit(this.selectedOptions);
   }
 }
