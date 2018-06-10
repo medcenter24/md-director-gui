@@ -30,7 +30,8 @@ export class AutoCompleteComponent {
       ? new AutoCompleteStaticProvider(conf, this._changeDetectionRef)
       : new AutoCompleteLoadableProvider(conf);
   }
-  @Output() changed: EventEmitter<Object|Object[]> = new EventEmitter<Object|Object[]>();
+
+  @Output() changed: EventEmitter<any> = new EventEmitter<any>();
 
   constructor(
     private _changeDetectionRef: ChangeDetectorRef,
@@ -45,7 +46,7 @@ export class AutoCompleteComponent {
     this.changed.emit(this.provider.selected);
   }
 
-  selectItems(items: Object|Object[]): void {
+  selectItems(items: any): void {
     this.provider.selectItems(items);
   }
 }

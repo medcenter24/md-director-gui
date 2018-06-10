@@ -43,7 +43,7 @@ export class SelectorConfig extends Configurable {
      * it is a fields Initialize default state of auto completer
      * @type {any[]}
      */
-    public preloaded: any[] = [],
+    public preloaded: any,
   ) {
     super();
   }

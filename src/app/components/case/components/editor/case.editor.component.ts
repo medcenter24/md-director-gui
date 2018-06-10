@@ -30,7 +30,7 @@ import { Patient } from '../../../patient/patient';
 import { PatientSelectorComponent } from '../../../patient/components/selector/patient.selector.component';
 import { PatientsService } from '../../../patient/patients.service';
 import { CaseFinanceComponent } from '../finance/finance.component';
-import { Assistant } from '../../../assistant';
+import { Assistant, AssistantsService } from '../../../assistant';
 import { CaseEditorTabsService } from './case.editor.tabs.service';
 import { AccidentSelectComponent } from '../../../accident/components/select/accident.select.component';
 import { AccidentScenarioLineComponent }
@@ -97,11 +97,12 @@ export class CaseEditorComponent extends LoadingComponent implements OnInit {
                protected _state: GlobalState,
                private accidentsService: AccidentsService,
                private caseService: CasesService,
-               private doctorService: DoctorsService,
+               public doctorService: DoctorsService,
                private router: Router,
                private dateHelper: DateHelper,
                private patientService: PatientsService,
                private tabStopper: CaseEditorTabsService,
+               public assistantService: AssistantsService,
   ) {
     super();
   }

@@ -40,8 +40,12 @@ export class MultiSelectorComponent extends LoadableComponent implements OnInit 
    * Data to show as a selected (should be revertable to the default state?)
    * @type {any[]}
    */
-  @Input() preloadedData: any[] = [];
+  @Input() preloadedData: any;
 
+  /**
+   * Event on cities changed
+   * @type {EventEmitter<any>}
+   */
   @Output() selected: EventEmitter<any> = new EventEmitter<any>();
 
   constructor (
@@ -66,6 +70,7 @@ export class MultiSelectorComponent extends LoadableComponent implements OnInit 
         dataProvider: this.service,
         labelField: this.labelField,
         placeholder: this.translateService.instant(this.placeholder),
+        preloaded: this.preloadedData,
       });
     });
   }
