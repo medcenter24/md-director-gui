@@ -32,10 +32,11 @@ import { PatientsService } from '../../../patient/patients.service';
 import { CaseFinanceComponent } from '../finance/finance.component';
 import { Assistant, AssistantsService } from '../../../assistant';
 import { CaseEditorTabsService } from './case.editor.tabs.service';
-import { AccidentSelectComponent } from '../../../accident/components/select/accident.select.component';
 import { AccidentScenarioLineComponent }
   from '../../../accident/components/scenario/components/line/accident.scenario.line.component';
 import { Service } from '../../../service';
+import { AutocompleterComponent } from '../../../ui/selector/components/autocompleter';
+import { CitiesService } from '../../../city';
 
 @Component({
   selector: 'nga-case-editor',
@@ -45,7 +46,7 @@ import { Service } from '../../../service';
 export class CaseEditorComponent extends LoadingComponent implements OnInit {
 
   @ViewChild('parentSelector')
-    private parentSelector: AccidentSelectComponent;
+    private parentSelector: AutocompleterComponent;
 
   @ViewChild('scenario')
     private scenarioComponent: AccidentScenarioLineComponent;
@@ -61,6 +62,15 @@ export class CaseEditorComponent extends LoadingComponent implements OnInit {
 
   @ViewChild('caseFinance')
     private caseFinance: CaseFinanceComponent;
+
+  @ViewChild('assistantAutocompleter')
+    private assistantAutocompleter: AutocompleterComponent;
+
+  @ViewChild('cityAutocompleter')
+    private cityAutocompleter: AutocompleterComponent;
+
+  @ViewChild('doctorAutocompleter')
+    private doctorAutocompleter: AutocompleterComponent;
 
   msgs: Message[] = [];
   accident: Accident;
@@ -95,7 +105,7 @@ export class CaseEditorComponent extends LoadingComponent implements OnInit {
                private translate: TranslateService,
                protected _logger: Logger,
                protected _state: GlobalState,
-               private accidentsService: AccidentsService,
+               public accidentsService: AccidentsService,
                private caseService: CasesService,
                public doctorService: DoctorsService,
                private router: Router,
@@ -103,6 +113,7 @@ export class CaseEditorComponent extends LoadingComponent implements OnInit {
                private patientService: PatientsService,
                private tabStopper: CaseEditorTabsService,
                public assistantService: AssistantsService,
+               public cityService: CitiesService,
   ) {
     super();
   }
@@ -139,6 +150,9 @@ export class CaseEditorComponent extends LoadingComponent implements OnInit {
             }
             if (this.accident.closed_at && this.accident.closed_at.length) {
               this.closedTime = this.dateHelper.toEuropeFormatWithTime(this.accident.closed_at);
+            }
+            if (this.accident.assistant_id) {
+              this.assistantAutocompleter.selectItems(this.accident.assistant_id);
             }
             this.loadCaseable();
             this.loadDocuments();
@@ -332,7 +346,7 @@ export class CaseEditorComponent extends LoadingComponent implements OnInit {
 
   onParentDeleted(): void {
     this.accident.parent_id = 0;
-    this.parentSelector.clear();
+    this.parentSelector.selectItems(0);
   }
 
   onReferralChanged(event): void {
@@ -426,6 +440,12 @@ export class CaseEditorComponent extends LoadingComponent implements OnInit {
       .then((doctorAccident: DoctorAccident) => {
         this.doctorAccident = doctorAccident;
         this.doctorBeforeSave = doctorAccident.doctor_id;
+        if (doctorAccident.doctor_id) {
+          this.doctorAutocompleter.selectItems(doctorAccident.doctor_id);
+        }
+        if (doctorAccident.city_id) {
+          this.cityAutocompleter.selectItems(doctorAccident.city_id);
+        }
         if (doctorAccident.visit_time) {
           this.appliedTime = this.dateHelper.toEuropeFormatWithTime(doctorAccident.visit_time);
         }

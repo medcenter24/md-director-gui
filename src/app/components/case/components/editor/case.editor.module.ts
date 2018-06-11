@@ -20,7 +20,6 @@ import { CaseEditorComponent } from './case.editor.component';
 import { CaseEditorTabsService } from './case.editor.tabs.service';
 import { CaseTypeSelectModule } from '../type/case.type.select.module';
 import { HospitalModule } from '../../../hospital/hospital.module';
-import { AccidentSelectModule } from '../../../accident/components/select/accident.select.module';
 import { AccidentCardModule } from '../../../accident/components/card';
 import { PatientEditorModule } from '../../../patient/components/editor';
 import { PatientSelectorModule } from '../../../patient/components/selector/patient.selector.module';
@@ -35,11 +34,12 @@ import { UploaderModule } from '../../../upload/components/uploader';
 import { CaseFinanceModule } from '../finance';
 import { NgaModule } from '../../../../theme/nga.module';
 import { AccidentActivityModule } from '../../../accident/components/activity';
-import { CitySelectModule } from '../../../city/components/select';
 import { ServiceSelectorModule } from '../../../service/components/selector';
 import { AutocompleterModule } from '../../../ui/selector/components/autocompleter';
 import { DoctorsService } from '../../../doctors';
 import { AssistantsService } from '../../../assistant';
+import { CitiesService } from '../../../city';
+import { AccidentsService } from '../../../accident/accidents.service';
 
 @NgModule({
   imports: [
@@ -53,10 +53,8 @@ import { AssistantsService } from '../../../assistant';
     InplaceModule,
     TooltipModule,
     CaseTypeSelectModule,
-    CitySelectModule,
     InputMaskModule,
     HospitalModule,
-    AccidentSelectModule,
     AccidentCardModule,
     PatientEditorModule,
     PatientSelectorModule,
@@ -79,6 +77,8 @@ import { AssistantsService } from '../../../assistant';
     CaseEditorTabsService,
     DoctorsService,
     AssistantsService,
+    CitiesService,
+    AccidentsService,
   ],
   exports: [
     CaseEditorComponent,
