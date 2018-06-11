@@ -15,16 +15,16 @@
                 <h2 *ngIf="accident.id">
                   {{ 'Case Editing' | translate}} {{ 'pp' | translate }}{{ accident.id }}
                   <span class="pull-right">
-                                        <span class="fa fa-file-pdf-o mr-2"
-                                              (click)="downloadPdfReport()"
-                                              title="{{ 'Save as PDF' | translate }}"></span>
-                                        <span class="fa fa-print mr-2"
-                                              (click)="printReport()"
-                                              title="{{ 'Print a Report' | translate }}"></span>
-                                        <span class="fa fa-window-maximize mr-2"
-                                              (click)="previewReport()"
-                                              title="{{ 'Report Preview' | translate }}"></span>
-                                    </span>
+                      <span class="fa fa-file-pdf-o mr-2"
+                            (click)="downloadPdfReport()"
+                            title="{{ 'Save as PDF' | translate }}"></span>
+                      <span class="fa fa-print mr-2"
+                            (click)="printReport()"
+                            title="{{ 'Print a Report' | translate }}"></span>
+                      <span class="fa fa-window-maximize mr-2"
+                            (click)="previewReport()"
+                            title="{{ 'Report Preview' | translate }}"></span>
+                  </span>
                 </h2>
                 <h2 *ngIf="!accident.id">{{ 'New case creating' | translate }}</h2>
               </div>
@@ -51,8 +51,9 @@
               <div class="col-sm-4">
                 <label class="label required separate" translate>Assistant</label>
                 <nga-autocompleter
+                  #assistantAutocompleter
                   [service]="assistantService"
-                  placeholder="Assistants"
+                  placeholder="Assistant"
                   labelField="title"
                   (selected)="onAssistantChanged($event)"
                   (init)="startLoader($event)"
@@ -92,17 +93,22 @@
                   <div class="row">
                     <div class="col-sm-4">
                       <label class="label required separate" translate>City</label>
-                      <nga-select-city
+                      <nga-autocompleter
+                        #cityAutocompleter
                         *ngIf="doctorAccident"
-                        [selectPreloaded]="doctorAccident.city_id"
+                        [service]="cityService"
+                        placeholder="City"
+                        labelField="title"
                         (selected)="onCityChanged($event)"
                         (init)="startLoader($event)"
                         (loaded)="stopLoader($event)"
-                      ></nga-select-city>
+                        [preloadedData]="doctorAccident.city_id"
+                      ></nga-autocompleter>
                     </div>
                     <div class="col-sm-4">
                       <label class="label required separate" translate>Doctor</label>
                       <nga-autocompleter
+                        #doctorAutocompleter
                         *ngIf="doctorAccident"
                         [service]="doctorService"
                         placeholder="Doctor"
@@ -158,13 +164,16 @@
                 <label class="label separate" translate>Repeated Appointment</label>
                 <div class="row offset-bottom10">
                   <div class="col-sm-12">
-                    <nga-select-accident
+                    <nga-autocompleter
                       #parentSelector
-                      [selectedAccidentId]="accident.parent_id"
+                      [service]="accidentsService"
+                      placeholder="City"
+                      labelField="title"
                       (selected)="onAccidentSelected($event)"
                       (init)="startLoader($event)"
                       (loaded)="stopLoader($event)"
-                    ></nga-select-accident>
+                      [preloadedData]="accident.parent_id"
+                    ></nga-autocompleter>
                   </div>
                 </div>
                 <div class="row" *ngIf="+accident.parent_id">
