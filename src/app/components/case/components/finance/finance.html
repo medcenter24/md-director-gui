@@ -6,10 +6,10 @@
                 <div class="well well-lg">
                     <p-inplace closable="closable">
                         <span class="h2" pInplaceDisplay>
-                            {{ accident.caseable_cost }}
+                            {{ accident.caseableCost }}
                         </span>
                         <span pInplaceContent>
-                            <input type="text" value="{{ accident.caseable_cost }}"
+                            <input type="text" value="{{ accident.caseableCost }}"
                                    (keydown)="onDoctorFeeChanged($event)"
                                    (change)="onDoctorFeeChanged($event)"
                                    pInputText>

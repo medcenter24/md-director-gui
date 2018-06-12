@@ -39,10 +39,10 @@
                    class="badge badge-secondary pull-left">?</b>
                 <p-inplace closable="true" class="pull-left">
                   <span pInplaceDisplay>
-                      {{ accident.ref_num }}
+                      {{ accident.refNum }}
                   </span>
                   <span pInplaceContent>
-                    <input type="text" value="{{ accident.ref_num }}"
+                    <input type="text" value="{{ accident.refNum }}"
                            (change)="onReferralChanged($event)"
                            pInputText placeholder="{{ 'Referral Number' | translate }}">
                   </span>
@@ -58,14 +58,14 @@
                   (selected)="onAssistantChanged($event)"
                   (init)="startLoader($event)"
                   (loaded)="stopLoader($event)"
-                  [preloadedData]="accident.assistant_id"
+                  [preloadedData]="accident.assistantId"
                 ></nga-autocompleter>
               </div>
               <div class="col-sm-4">
                 <label class="label required separate" translate>Assistant Ref Num</label>
                 <input type="text" pInputText
-                       [(value)]="accident.assistant_ref_num"
-                       (change)="accident.assistant_ref_num=$event.target.value"
+                       [(value)]="accident.assistantRefNum"
+                       (change)="accident.assistantRefNum=$event.target.value"
                        placeholder="{{ 'Assistant Ref Num' | translate }}">
               </div>
             </div>
@@ -79,17 +79,17 @@
                 <br>
                 <nga-case-type-select
                   *ngIf="!accident.id && !onlyDoctorAccident"
-                  [selectedCaseTypeId]="accident.caseable_type"
+                  [selectedCaseTypeId]="accident.caseableType"
                   (selected)="onCaseTypeSelected($event)"
                 ></nga-case-type-select>
 
-                <h4 *ngIf="(onlyDoctorAccident || accident.id) && accident.caseable_type === 'App\\DoctorAccident'"
+                <h4 *ngIf="(onlyDoctorAccident || accident.id) && accident.caseableType === 'App\\DoctorAccident'"
                     class="text-danger" translate>Doctor Case</h4>
-                <h4 *ngIf="accident.id && accident.caseable_type === 'App\\HospitalAccident'"
+                <h4 *ngIf="accident.id && accident.caseableType === 'App\\HospitalAccident'"
                     class="text-danger" translate>Hospital Case</h4>
               </div>
               <div class="col-sm-12">
-                <div *ngIf="accident.caseable_type === 'App\\DoctorAccident'">
+                <div *ngIf="accident.caseableType === 'App\\DoctorAccident'">
                   <div class="row">
                     <div class="col-sm-4">
                       <label class="label required separate" translate>City</label>
@@ -130,7 +130,7 @@
                     </div>
                   </div>
                 </div>
-                <div *ngIf="accident.caseable_type === 'App\\HospitalAccident'">
+                <div *ngIf="accident.caseableType === 'App\\HospitalAccident'">
                   <b class="text-muted" translate>Hospital Case</b>
                   <br>
                   <nga-select-hospital
@@ -167,19 +167,19 @@
                     <nga-autocompleter
                       #parentSelector
                       [service]="accidentsService"
-                      placeholder="City"
-                      labelField="title"
+                      placeholder="Accident"
+                      labelField="refNum"
                       (selected)="onAccidentSelected($event)"
                       (init)="startLoader($event)"
                       (loaded)="stopLoader($event)"
-                      [preloadedData]="accident.parent_id"
+                      [preloadedData]="accident.parentId"
                     ></nga-autocompleter>
                   </div>
                 </div>
-                <div class="row" *ngIf="+accident.parent_id">
+                <div class="row" *ngIf="+accident.parentId">
                   <div class="col-sm-12">
                     <nga-accident-card
-                      [(selectedAccidentId)]="accident.parent_id"
+                      [(selectedAccidentId)]="accident.parentId"
                       (closed)="onParentDeleted()"
                       (init)="startLoader($event)"
                       (loaded)="stopLoader($event)"
@@ -293,7 +293,7 @@
                     <div class="col-sm-6">
                       <label class="label separated offset-right10" translate>Accident Type</label>
                       <nga-select-accident-type
-                        [selectedTypeId]="accident.accident_type_id"
+                        [selectedTypeId]="accident.accidentTypeId"
                         (selected)="onAccidentTypeSelected($event)"
                         (init)="startLoader($event)"
                         (loaded)="stopLoader($event)"
@@ -390,15 +390,15 @@
         <div class="col-4 label"><span translate>Created</span>:</div>
         <div class="col-8">{{ createdTime }}</div>
       </div>
-      <div class="row item" *ngIf="accident.updated_at">
+      <div class="row item" *ngIf="accident.updatedAt">
         <div class="col-4 label"><span translate>Updated</span>:</div>
         <div class="col-8">{{ updatedTime }}</div>
       </div>
-      <div class="row item" *ngIf="accident.deleted_at">
+      <div class="row item" *ngIf="accident.deletedAt">
         <div class="col-4 label"><span translate>Deleted</span>:</div>
         <div class="col-8">{{ deletedTime }}</div>
       </div>
-      <div class="row item" *ngIf="accident.closed_at">
+      <div class="row item" *ngIf="accident.closedAt">
         <div class="col-4 label"><span translate>Closed</span>:</div>
         <div class="col-8">{{ closedTime }}</div>
       </div>
