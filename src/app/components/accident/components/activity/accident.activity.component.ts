@@ -5,8 +5,7 @@
  */
 
 import { Component, Input, OnInit } from '@angular/core';
-import { isNumber, isObject } from 'util';
-import { LoadableComponent } from '../../../core/components/componentLoader/LoadableComponent';
+import { LoadableComponent } from '../../../core/components/componentLoader';
 import { Accident } from '../../accident';
 
 @Component({
@@ -36,15 +35,16 @@ export class AccidentActivityComponent extends LoadableComponent implements OnIn
 
   selectTab(tab: any): void {
     let id = 0;
-    if (isObject(tab)) {
-      const pos = this.tabs.findIndex(x => x.id === tab.id);
-      if (pos) {
-        id = pos;
-      }
-    } else if (isNumber(tab) && tab >= 0) {
+    if (typeof tab === 'number' && tab >= 0) {
       this.selectedTab = this.tabs[tab];
       id = tab;
-    }
+    } else
+      if (typeof tab === 'object') {
+        const pos = this.tabs.findIndex(x => x.id === tab.id);
+        if (pos) {
+          id = pos;
+        }
+      }
     this.selectedTab = this.tabs[id];
   }
 }

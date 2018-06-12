@@ -124,7 +124,7 @@ export class CaseEditorComponent extends LoadingComponent implements OnInit {
     // while configured only doctorAccidents
     // I need to define accident as a doctor
     this.doctorAccident = new DoctorAccident();
-    this.accident.caseable_type = 'App\\DoctorAccident';
+    this.accident.caseableType = 'App\\DoctorAccident';
 
     this.route.params
       .subscribe((params: Params) => {
@@ -136,23 +136,23 @@ export class CaseEditorComponent extends LoadingComponent implements OnInit {
             this.stopLoader(this.componentName);
             this._state.notifyDataChanged('menu.activeLink', { title: 'Cases' });
             this.accident = accident ? accident : new Accident();
-            if (this.accident.handling_time && this.accident.handling_time.length) {
-              this.handlingTime = this.dateHelper.toEuropeFormatWithTime(this.accident.handling_time);
+            if (this.accident.handlingTime && this.accident.handlingTime.length) {
+              this.handlingTime = this.dateHelper.toEuropeFormatWithTime(this.accident.handlingTime);
             }
-            if (this.accident.created_at.length) {
-              this.createdTime = this.dateHelper.toEuropeFormatWithTime(this.accident.created_at);
+            if (this.accident.createdAt.length) {
+              this.createdTime = this.dateHelper.toEuropeFormatWithTime(this.accident.createdAt);
             }
-            if (this.accident.updated_at && this.accident.updated_at.length) {
-              this.updatedTime = this.dateHelper.toEuropeFormatWithTime(this.accident.updated_at);
+            if (this.accident.updatedAt && this.accident.updatedAt.length) {
+              this.updatedTime = this.dateHelper.toEuropeFormatWithTime(this.accident.updatedAt);
             }
-            if (this.accident.deleted_at && this.accident.deleted_at.length) {
-              this.deletedTime = this.dateHelper.toEuropeFormatWithTime(this.accident.deleted_at);
+            if (this.accident.deletedAt && this.accident.deletedAt.length) {
+              this.deletedTime = this.dateHelper.toEuropeFormatWithTime(this.accident.deletedAt);
             }
-            if (this.accident.closed_at && this.accident.closed_at.length) {
-              this.closedTime = this.dateHelper.toEuropeFormatWithTime(this.accident.closed_at);
+            if (this.accident.closedAt && this.accident.closedAt.length) {
+              this.closedTime = this.dateHelper.toEuropeFormatWithTime(this.accident.closedAt);
             }
-            if (this.accident.assistant_id) {
-              this.assistantAutocompleter.selectItems(this.accident.assistant_id);
+            if (this.accident.assistantId) {
+              this.assistantAutocompleter.selectItems(this.accident.assistantId);
             }
             this.loadCaseable();
             this.loadDocuments();
@@ -191,7 +191,7 @@ export class CaseEditorComponent extends LoadingComponent implements OnInit {
   }
 
   onSave(): void {
-    this.accident.handling_time = this.handlingTime && this.handlingTime.length
+    this.accident.handlingTime = this.handlingTime && this.handlingTime.length
       ? this.dateHelper.getUnixDateWithTime(this.dateHelper.parseDateFromFormat(this.handlingTime))
       : '';
 
@@ -325,32 +325,32 @@ export class CaseEditorComponent extends LoadingComponent implements OnInit {
   }
 
   onCaseTypeSelected(type): void {
-    this.accident.caseable_type = type;
+    this.accident.caseableType = type;
     if (type === 'App\\DoctorAccident' && !this.doctorAccident) {
       this.doctorAccident = new DoctorAccident();
     }
   }
 
   onAccidentTypeSelected(accidentType: AccidentType): void {
-    this.accident.accident_type_id = accidentType.id;
+    this.accident.accidentTypeId = accidentType.id;
   }
 
   onAssistantChanged(assistant: Assistant): void {
-    this.accident.assistant_id = assistant.id;
+    this.accident.assistantId = assistant.id;
   }
 
   onAccidentSelected(accident: Accident): void {
-    this.accident.parent_id = 0;
-    setTimeout(() => this.accident.parent_id = accident.id, 100);
+    this.accident.parentId = 0;
+    setTimeout(() => this.accident.parentId = accident.id, 100);
   }
 
   onParentDeleted(): void {
-    this.accident.parent_id = 0;
+    this.accident.parentId = 0;
     this.parentSelector.selectItems(0);
   }
 
   onReferralChanged(event): void {
-    this.accident.ref_num = event.target.value;
+    this.accident.refNum = event.target.value;
   }
 
   onServicesChanged(services: Service[]): void {
@@ -372,7 +372,7 @@ export class CaseEditorComponent extends LoadingComponent implements OnInit {
   onCityChanged(city): void {
     const cityId = city ? city.id : 0;
     this.doctorAccident.city_id = cityId;
-    this.accident.city_id = cityId;
+    this.accident.cityId = cityId;
 
     this.doctorAccident.doctor_id = +this.doctorAccident.doctor_id;
     // determine which doctor could be used in this hospital
@@ -426,7 +426,7 @@ export class CaseEditorComponent extends LoadingComponent implements OnInit {
 
   private loadPatient(): void {
     this.startLoader('getPatient');
-    this.patientService.getPatient(this.accident.patient_id)
+    this.patientService.getPatient(this.accident.patientId)
         .then((patient: Patient) => {
           this.patient = patient;
           this.stopLoader('getPatient');

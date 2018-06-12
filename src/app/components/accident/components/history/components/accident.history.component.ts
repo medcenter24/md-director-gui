@@ -5,7 +5,7 @@
  */
 
 import { Component, Input, OnInit } from '@angular/core';
-import { LoadableComponent } from '../../../../core/components/componentLoader/LoadableComponent';
+import { LoadableComponent } from '../../../../core/components/componentLoader';
 import { Accident } from '../../../accident';
 import { CasesService } from '../../../../case/cases.service';
 import { AccidentHistory } from '../history';

@@ -10,7 +10,7 @@ import { Accident } from '../../accident';
 import { AccidentsService } from '../../accidents.service';
 import { PatientsService } from '../../../patient/patients.service';
 import { Patient } from '../../../patient/patient';
-import { LoadableComponent } from '../../../core/components/componentLoader/LoadableComponent';
+import { LoadableComponent } from '../../../core/components/componentLoader';
 
 @Component({
   selector: 'nga-accident-card',
@@ -51,7 +51,7 @@ export class AccidentCardComponent extends LoadableComponent implements OnInit {
   private loadPatient(): void {
     const opName = 'getPatient';
     this.startLoader(opName);
-    this.patientService.getPatient(+this.accident.patient_id).then((patient: Patient) => {
+    this.patientService.getPatient(+this.accident.patientId).then((patient: Patient) => {
       this.stopLoader(opName);
       this.patient = patient;
     }).catch((err) => {
