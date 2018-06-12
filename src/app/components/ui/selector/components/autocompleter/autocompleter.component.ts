@@ -71,6 +71,7 @@ export class AutocompleterComponent extends LoadableComponent implements OnInit 
         },
         fieldKey: this.labelField,
         preloaded: this.preloadedData,
+        placeholder: this.placeholder,
       });
     });
   }

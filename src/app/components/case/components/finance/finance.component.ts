@@ -46,7 +46,7 @@ export class CaseFinanceComponent extends LoadableComponent implements OnInit {
    * @param {boolean} val
    */
   setFixedIncome(val: boolean): void {
-    this.accident.fixed_income = val ? 1 : 0;
+    this.accident.fixedIncome = val ? 1 : 0;
     this.incomeAutoupdate.checked = !val;
   }
 
@@ -55,7 +55,7 @@ export class CaseFinanceComponent extends LoadableComponent implements OnInit {
    * @returns {boolean}
    */
   private isIncomeFixed(): boolean {
-    return +this.accident.fixed_income !== 0;
+    return +this.accident.fixedIncome !== 0;
   }
 
   /**
@@ -72,7 +72,7 @@ export class CaseFinanceComponent extends LoadableComponent implements OnInit {
   }
 
   onDoctorFeeChanged(event): void {
-    this.accident.caseable_cost = NumbersHelper.getFixedFloat(event.target.value);
+    this.accident.caseableCost = NumbersHelper.getFixedFloat(event.target.value);
     this.recalculatePrice();
   }
 

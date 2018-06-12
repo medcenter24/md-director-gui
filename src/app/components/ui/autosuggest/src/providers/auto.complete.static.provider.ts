@@ -95,7 +95,9 @@ export class AutoCompleteStaticProvider implements AutoCompleteProvider {
   private filtering(event): void {
     this.filtered = [];
     for (const model of this.data) {
-      if (model[this.config.fieldKey].toLowerCase().indexOf(event.query.toLowerCase()) !== -1) {
+      if (model.hasOwnProperty(this.config.fieldKey)
+        && model[this.config.fieldKey].toLowerCase().indexOf(event.query.toLowerCase()) !== -1) {
+
         this.filtered.push(model);
       }
     }
