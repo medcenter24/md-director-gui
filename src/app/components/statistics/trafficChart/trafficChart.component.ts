@@ -4,37 +4,41 @@
  * @author Zagovorychev Olexandr <zagovorichev@gmail.com>
  */
 
-import { Component, Input } from '@angular/core';
-
+import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import * as Chart from 'chart.js';
-
 import 'style-loader!./trafficChart.scss';
 import { TrafficChartData } from './trafficChart.data';
 import { colorHelper } from '../../../theme';
-import { LoadableComponent } from '../../core/components/componentLoader/LoadableComponent';
+import { LoadableComponent } from '../../core/components/componentLoader';
 
 @Component({
   selector: 'nga-traffic-chart',
   templateUrl: './trafficChart.html',
 })
 
-export class TrafficChartComponent extends LoadableComponent {
+export class TrafficChartComponent extends LoadableComponent implements OnInit {
 
   protected componentName: string = 'TrafficChartComponent';
 
   infoData: Object[] = [];
-  doughnutData: Object;
   total: number = 0;
+  private transformedData: any;
 
   @Input() prefix: string = '';
   @Input() set setData(data: TrafficChartData[] ) {
-    this.doughnutData = this.transformTrafficChartData(data);
-    this._loadDoughnutCharts();
+    this.transformedData = this.transformTrafficChartData(data);
   }
+
+  @ViewChild('canvasChart')
+    private canvasEl: ElementRef;
 
   constructor (
   ) {
     super();
+  }
+
+  ngOnInit(): void {
+    this._loadDoughnutCharts(this.transformedData);
   }
 
   private transformTrafficChartData(data: TrafficChartData[]): Object {
@@ -49,17 +53,16 @@ export class TrafficChartComponent extends LoadableComponent {
       index++;
       this.infoData.push({
         value: row.casesCount,
-        color: this.getColor(index),
-        highlight: this.getColor(index, 15),
+        color: TrafficChartComponent.getColor(index),
+        highlight: TrafficChartComponent.getColor(index, 15),
         label: row.name,
         percentage: ((row.casesCount / this.total) * 100).toFixed(2),
       });
       dataForSet.push(row.casesCount);
-      backgroundColors.push(this.getColor(index));
-      backgroundHoverColors.push(this.getColor(index, 15));
+      backgroundColors.push(TrafficChartComponent.getColor(index));
+      backgroundHoverColors.push(TrafficChartComponent.getColor(index, 15));
       labels.push(row.name);
     });
-
     return {
       datasets: [{
         data: dataForSet,
@@ -71,7 +74,7 @@ export class TrafficChartComponent extends LoadableComponent {
     };
   }
 
-  private getColor(pp: number, weight: number = 0) {
+  private static getColor(pp: number, weight: number = 0) {
     const colors = [
       '#005562',
       '#0e8174',
@@ -104,21 +107,17 @@ export class TrafficChartComponent extends LoadableComponent {
     return colorHelper.shade( colors.length > pp ? colors[pp - 1] : '#aaaaaa', weight);
   }
 
-  private _loadDoughnutCharts (): void {
-    const $el = jQuery(`.chart-area_${this.prefix}`);
-    if ($el.length) {
-      const el = $el.get(0) as HTMLCanvasElement;
-      const chart = new Chart(el.getContext('2d'), {
-        type: 'doughnut',
-        data: this.doughnutData,
-        options: {
-          cutoutPercentage: 64,
-          responsive: true,
-          legend: {
-            display: false,
-          },
+  private _loadDoughnutCharts (data): Chart {
+    return new Chart(this.canvasEl.nativeElement, {
+      type: 'doughnut',
+      data,
+      options: {
+        cutoutPercentage: 64,
+        responsive: true,
+        legend: {
+          display: false,
         },
-      });
-    }
+      },
+    });
   }
 }
