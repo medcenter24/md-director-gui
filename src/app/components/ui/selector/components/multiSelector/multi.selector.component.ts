@@ -63,6 +63,9 @@ export class MultiSelectorComponent extends LoadableComponent implements OnInit 
     return this.selected.emit(event);
   }
 
+  /**
+   * Initialize after the component loading
+   */
   ngOnInit() {
     this.translateService.get('Yes').subscribe(() => {
       this.langLoaded = true;

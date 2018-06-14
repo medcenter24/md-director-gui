@@ -22,6 +22,7 @@ import { MultiSelectorModule } from '../../../ui/selector/components/multiSelect
 import { AssistantsService } from '../../../assistant';
 import { PeriodService } from '../../../period';
 import { ServicesService } from '../../../service';
+import { FinanceInfoModule } from '../info';
 
 @NgModule({
   imports: [
@@ -35,6 +36,7 @@ import { ServicesService } from '../../../service';
     NgaModule,
     PeriodSelectModule,
     MultiSelectorModule,
+    FinanceInfoModule,
   ],
   providers: [
     FinanceService,
