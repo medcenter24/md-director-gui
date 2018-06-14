@@ -64,7 +64,7 @@ export class SelectorProviderMultipleComponent extends LoadableComponent impleme
     if (typeof items === 'number') {
       // by ID
       selected = [this.options.find(v => v.hasOwnProperty('id') && v['id'] === items)];
-    } else if (typeof items === 'object') {
+    } else if (typeof items === 'object' && items.length) {
       // if list of ID's
       const isIds = items.find(v => typeof v !== 'number');
       if (!isIds) {

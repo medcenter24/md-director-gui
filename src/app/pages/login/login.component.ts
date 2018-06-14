@@ -10,6 +10,7 @@ import 'style-loader!./login.scss';
 import { AuthenticationService } from '../../components/auth/authentication.service';
 import { Router } from '@angular/router';
 import { SlimLoadingBarService } from 'ng2-slim-loading-bar';
+import { LocalStorageHelper } from '../../helpers/local.storage.helper';
 
 @Component({
   selector: 'nga-login',
@@ -26,6 +27,7 @@ export class LoginComponent implements OnInit {
   constructor (private fb: FormBuilder,
                private authenticationService: AuthenticationService,
                private router: Router,
+               private storage: LocalStorageHelper,
                private loadingBar: SlimLoadingBarService,
   ) {
     this.form = fb.group({
@@ -50,7 +52,8 @@ export class LoginComponent implements OnInit {
       this.authenticationService.login(this.email.value, this.password.value)
         .subscribe(() => {
           this.loadingBar.complete();
-          this.router.navigate(['/']);
+          const lastUri = this.storage.getItem('lastActiveUri');
+          this.router.navigate([lastUri ? lastUri : '/']);
           this.submitted = false;
         }, () => {
           this.showError = true;

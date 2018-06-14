@@ -45,31 +45,6 @@ export class FinanceEditorComponent extends LoadableComponent {
       .catch(() => this.stopLoader(postfix));
   }
 
-  hasConditions () {
-    return this.hasCondition('assistants')
-      || this.hasCondition('doctors')
-      || this.hasCondition('datePeriods')
-      || this.hasCondition('services')
-      || this.hasCondition('cities');
-  }
-
-  hasCondition (conditionName): boolean {
-
-    switch (conditionName) {
-      case 'doctors':
-        return !!this.rule.doctors;
-      case 'assistants':
-        return !!this.rule.assistants;
-      case 'datePeriods':
-        return !!this.rule.datePeriods;
-      case 'services':
-        return !!this.rule.services;
-      case 'cities':
-        return !!this.rule.cities;
-    }
-    return false;
-  }
-
   hasPrice () {
     return this.rule.priceAmount || this.rule.priceAmount === 0;
   }
