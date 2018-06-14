@@ -1,0 +1,39 @@
+<ul class="info-list">
+  <li class="mb-2" translate>A new criterion will be set for calculating the cost of services and the subsequent calculation of the company's income, using formula</li>
+
+  <li *ngIf="!hasConditions()"><span translate>This rule for all of the cases</span></li>
+
+  <li class="mb-1" *ngIf="hasCondition('doctors')">
+    <b translate>For the doctor(s)</b>
+    <ul>
+      <li *ngFor="let doctor of financeRule.doctors">{{ doctor.name }}</li>
+    </ul>
+  </li>
+  <li class="mb-1" *ngIf="hasCondition('assistants')">
+    <b translate>If assistant company is</b>
+    <ul>
+      <li *ngFor="let assistant of financeRule.assistants">{{ assistant.title }}</li>
+    </ul>
+  </li>
+  <li class="mb-1" *ngIf="hasCondition('cities')">
+    <b translate>In the city</b>
+    <ul>
+      <li *ngFor="let city of financeRule.cities">{{ city.title }}</li>
+    </ul>
+  </li>
+  <li class="mb-1" *ngIf="hasCondition('datePeriods')">
+    <b translate>If case came</b>
+    <ul>
+      <li *ngFor="let datePeriod of financeRule.datePeriods">{{ datePeriod.title }}</li>
+    </ul>
+  </li>
+  <li class="mb-1" *ngIf="hasCondition('services')">
+    <b translate>Services provided</b>
+    <ul>
+      <li *ngFor="let service of financeRule.services">{{ service.title }}</li>
+    </ul>
+  </li>
+  <li class="mt-2" *ngIf="hasPrice()">
+    <span translate>Set price</span> <b>{{ financeRule.priceAmount }}</b> <b translate>euro</b> <span translate>for case</span>
+  </li>
+</ul>

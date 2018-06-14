@@ -64,6 +64,9 @@ export class AppComponent implements AfterViewInit {
     this._state.subscribe('avatarB64', (b64: string) => {
       this.storage.setItem('avatar', b64);
     });
+    this._state.subscribe('changeUri', (uri: string) => {
+      this.storage.setItem('lastActiveUri', uri);
+    });
     this._state.subscribe('token', (token) => {
       // token has been changed
     });

@@ -15,7 +15,6 @@
     <div class="row">
       <div class="col-12 mb-2">
         <label class="label separate" translate>Doctor</label>
-
         <nga-multi-selector
           [service]="doctorService"
           placeholder="Doctors"
@@ -107,30 +106,11 @@
   </div>
   <div class="col-sm-9">
     <div class="alert alert-warning" role="alert">
-      <ul class="info-list">
-        <li class="mb-2" translate>A new criterion will be set for calculating the cost of services and the subsequent calculation of the company's income, using formula</li>
-
-        <li *ngIf="!hasConditions()"><span translate>This rule for all of the cases</span></li>
-
-        <li class="mb-1" *ngIf="hasCondition('doctor')"><span translate>For the doctor</span> <b>{{ rule.doctor.name
-          }}</b></li>
-        <li class="mb-1" *ngIf="hasCondition('assistant')"><span translate>If assistant company is</span> <b>{{
-          rule.assistant.title }}</b></li>
-        <li class="mb-1" *ngIf="hasCondition('city')"><span translate>In the city</span> <b>{{ rule.city.title }}</b>
-        </li>
-        <li class="mb-1" *ngIf="hasCondition('datePeriod')"><span translate>If case came</span> <b>{{rule.datePeriod.title}}</b>
-        </li>
-        <li class="mb-1" *ngIf="hasCondition('service')">
-          <b translate>Services provided</b>
-          <ul>
-            <li *ngFor="let service of rule.services">{{ service.title }}</li>
-          </ul>
-        </li>
-        <li class="mt-2" *ngIf="hasPrice()">
-          <span translate>Set price</span> <b>{{ rule.priceAmount }}</b> <b translate>euro</b> <span
-          translate>for case</span>
-        </li>
-      </ul>
+      <nga-finance-info
+        [(financeRule)]="rule"
+        (init)="startLoader($event)"
+        (loaded)="stopLoader($event)"
+      ></nga-finance-info>
     </div>
     <div class="alert alert-danger">
       <ul class="info-list">
