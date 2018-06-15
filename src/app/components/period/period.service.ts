@@ -14,13 +14,6 @@ export class PeriodService extends HttpService {
     return 'director/periods';
   }
 
-  /*
-  * // predefined data
-      return new Promise<DatePeriod[]>(function (resolve, reject) {
-      return resolve([new DatePeriod('12:00', '15:00', 'test')]);
-    });
-  */
-
   save (datePeriod: Period): Promise<Period> {
     const action = datePeriod.id ? this.put(datePeriod.id, datePeriod) : this.store(datePeriod);
     return action.then(response => response.data as Period);

@@ -5,7 +5,7 @@
         <label class="label required separate" translate>Title</label>
         <input type="text" pInputText
                title="Title"
-               value="{{ rule.title }}"
+               [(value)]="rule.title"
                size="30"
                (input)="onTitleChanged($event)"
                required/>
@@ -91,7 +91,7 @@
       <div class="col-12 mb-2">
         <label class="label required separate"><b translate>Set Amount</b></label>
         <input type="text" pInputText
-               value="{{ rule.priceAmount }}"
+               [(value)]="rule.priceAmount"
                size="30"
                (input)="onPriceAmountChanged($event)"
                (change)="priceAmountToFixed($event)"
