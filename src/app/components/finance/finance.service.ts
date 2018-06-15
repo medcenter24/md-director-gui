@@ -15,6 +15,10 @@ export class FinanceService extends HttpService implements LoadableServiceInterf
     return 'director/finance';
   }
 
+  getFinanceRule(id: number): Promise<FinanceRule> {
+    return this.get(id).then(response => response as FinanceRule);
+  }
+
   create(financeRule: FinanceRule): Promise<FinanceRule> {
     return this.store(financeRule);
   }

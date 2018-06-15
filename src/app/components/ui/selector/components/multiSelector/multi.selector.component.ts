@@ -77,4 +77,18 @@ export class MultiSelectorComponent extends LoadableComponent implements OnInit 
       });
     });
   }
+
+  /** rewritten to add some unique parameters */
+  startLoader(postfix: string = ''): void {
+    this.init.emit(`_${this.componentName}${postfix}_${this.getUniquePostfix()}`);
+  }
+
+  /** rewritten to add some unique parameters */
+  stopLoader(postfix: string = ''): void {
+    this.loaded.emit(`_${this.componentName}${postfix}_${this.getUniquePostfix()}`);
+  }
+
+  private getUniquePostfix(): string {
+    return this.placeholder.toLowerCase().replace(' ', '');
+  }
 }

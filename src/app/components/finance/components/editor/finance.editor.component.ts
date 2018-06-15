@@ -4,7 +4,7 @@
  * @author Zagovorychev Olexandr <zagovorichev@gmail.com>
  */
 
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { LoadableComponent } from '../../../core/components/componentLoader';
 import { Doctor, DoctorsService } from '../../../doctors';
 import { FinanceRule } from '../../financeRule';
@@ -14,14 +14,16 @@ import { CitiesService, City } from '../../../city';
 import { Period, PeriodService } from '../../../period';
 import { NumbersHelper } from '../../../../helpers/numbers.helper';
 import { ServicesService } from '../../../service';
+import { ActivatedRoute, Params } from '@angular/router';
+import { GlobalState } from '../../../../global.state';
 
 @Component({
   selector: 'nga-finance-editor',
   templateUrl: './finance.editor.html',
   styleUrls: ['./finance.editor.scss'],
 })
-export class FinanceEditorComponent extends LoadableComponent {
-  protected componentName: string = 'AccidentFinanceComponent';
+export class FinanceEditorComponent extends LoadableComponent implements OnInit {
+  protected componentName: string = 'FinanceEditorComponent';
 
   rule: FinanceRule;
 
@@ -32,9 +34,26 @@ export class FinanceEditorComponent extends LoadableComponent {
     public assistantService: AssistantsService,
     public periodService: PeriodService,
     public servicesService: ServicesService,
+    private route: ActivatedRoute,
+    protected _state: GlobalState,
   ) {
     super();
     this.rule = new FinanceRule();
+  }
+
+  ngOnInit(): void {
+    this.route.params
+      .subscribe((params: Params) => {
+        this._state.notifyDataChanged('menu.activeLink', { title: 'Finance' });
+        const id = +params[ 'id' ];
+        if (id) {
+          this.startLoader();
+          this.financeService.getFinanceRule(id).then((financeRule: FinanceRule) => {
+            this.stopLoader();
+            this.rule = financeRule;
+          }).catch(() => this.stopLoader());
+        }
+      });
   }
 
   saveFinanceRule(): void {
