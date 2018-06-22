@@ -1,4 +1,11 @@
 {
+  "datePeriods": "периоды дат",
+  "services": "услуги",
+  "doctors": "врачи",
+  "cities": "города",
+  "assistants": "ассист. компании",
+  "Condition": "Условие",
+  "Update": "Обновить",
   "For the doctor(s)": "Для доктора(ов)",
   "Selected": "Выбрано",
   "Back to list": "Вернуться к списку",

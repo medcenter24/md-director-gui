@@ -15,7 +15,7 @@ import { FinanceRule } from '../../financeRule';
 export class FinanceInfoComponent extends LoadableComponent {
   protected componentName: string = 'FinanceInfoComponent';
 
-  @Input() financeRule: FinanceRule;
+  @Input() financeRule: FinanceRule = new FinanceRule();
 
   hasConditions () {
     return this.hasCondition('assistants')

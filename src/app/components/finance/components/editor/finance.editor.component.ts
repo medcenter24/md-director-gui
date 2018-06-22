@@ -27,6 +27,8 @@ export class FinanceEditorComponent extends LoadableComponent implements OnInit 
 
   rule: FinanceRule;
 
+  isLoaded: boolean = false;
+
   constructor(
     protected financeService: FinanceService,
     public doctorService: DoctorsService,
@@ -38,7 +40,6 @@ export class FinanceEditorComponent extends LoadableComponent implements OnInit 
     protected _state: GlobalState,
   ) {
     super();
-    this.rule = new FinanceRule();
   }
 
   ngOnInit(): void {
@@ -51,7 +52,11 @@ export class FinanceEditorComponent extends LoadableComponent implements OnInit 
           this.financeService.getFinanceRule(id).then((financeRule: FinanceRule) => {
             this.stopLoader();
             this.rule = financeRule;
+            this.isLoaded = true;
           }).catch(() => this.stopLoader());
+        } else {
+            this.rule = new FinanceRule();
+            this.isLoaded = true;
         }
       });
   }
@@ -59,7 +64,7 @@ export class FinanceEditorComponent extends LoadableComponent implements OnInit 
   saveFinanceRule(): void {
     const postfix = 'saveRule';
     this.startLoader(postfix);
-    this.financeService.create(this.rule)
+    this.financeService.save(this.rule)
       .then(() => this.stopLoader(postfix))
       .catch(() => this.stopLoader(postfix));
   }
