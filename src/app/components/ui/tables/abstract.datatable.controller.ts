@@ -6,10 +6,10 @@
 
 import { OnInit, ViewChild } from '@angular/core';
 import {
-  DatatableAction,
-  DatatableCol,
-  DatatableComponent,
-  DatatableConfig,
+    DatatableAction,
+    DatatableCol,
+    DatatableComponent,
+    DatatableConfig, DatatableTransformer,
 } from '../datatable';
 import { TranslateService } from '@ngx-translate/core';
 import { LoadingComponent } from '../../core/components/componentLoader';
@@ -40,6 +40,13 @@ export abstract class AbstractDatatableController extends LoadingComponent imple
   abstract getSortBy(): string;
   abstract getEmptyModel(): Object;
 
+  /**
+   * @return {DatatableTransformer[]}
+   */
+  getTransformers(): DatatableTransformer[] {
+    return [];
+  }
+
   ngOnInit() {
     this.translateService.get('Yes').subscribe(() => {
       this.langLoaded = true;
@@ -55,6 +62,7 @@ export abstract class AbstractDatatableController extends LoadingComponent imple
           this.onRowSelect(event);
         },
         sortBy: this.getSortBy(),
+        transformers: this.getTransformers(),
       });
     });
   }

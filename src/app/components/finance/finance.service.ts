@@ -16,7 +16,7 @@ export class FinanceService extends HttpService implements LoadableServiceInterf
   }
 
   getFinanceRule(id: number): Promise<FinanceRule> {
-    return this.get(id).then(response => response as FinanceRule);
+    return this.get(id).then(response => response.data as FinanceRule);
   }
 
   create(financeRule: FinanceRule): Promise<FinanceRule> {

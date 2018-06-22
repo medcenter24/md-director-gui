@@ -1,4 +1,11 @@
 {
+  "datePeriods": "datePeriods",
+  "services": "services",
+  "doctors": "doctors",
+  "cities": "cities",
+  "assistants": "assistants",
+  "Condition": "Condition",
+  "Update": "Update",
   "For the doctor(s)": "For the doctor(s)",
   "Selected": "Selected",
   "Back to list": "Back to list",

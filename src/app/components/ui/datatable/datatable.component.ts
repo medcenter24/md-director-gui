@@ -5,7 +5,7 @@
  */
 
 import { Component, Input, ChangeDetectorRef, ViewChild, OnInit } from '@angular/core';
-import { LoadableComponent } from '../../core/components/componentLoader/LoadableComponent';
+import { LoadableComponent } from '../../core/components/componentLoader';
 import { DataTable, LazyLoadEvent } from 'primeng/primeng';
 import { DatatableConfig } from './datatable.config';
 import { DatatableResponse } from './datatable.response';
@@ -63,7 +63,7 @@ export class DatatableComponent extends LoadableComponent implements OnInit {
       this.setLoading(false);
       this.data = response.data;
       this.total = response.meta.pagination.total;
-    }).catch(err => {
+    }).catch(() => {
       this.setLoading(false);
     });
   }
@@ -83,7 +83,7 @@ export class DatatableComponent extends LoadableComponent implements OnInit {
 
   showData(rowData: string[], col: DatatableCol): string {
     const transformer: DatatableTransformer = this.getTransformer(col);
-    return transformer.transform(rowData[col.field]);
+    return transformer.transform(rowData[col.field], rowData);
   }
 
   private getTransformer(col: DatatableCol): DatatableTransformer {
@@ -106,6 +106,11 @@ export class DatatableComponent extends LoadableComponent implements OnInit {
       || this.config.sortable.indexOf(field) !== -1);
   }
 
+  /**
+   * Update current model in the datatable
+   * @param {Object} model
+   * @return {boolean}
+   */
   updateModel(model: Object): boolean {
     if (!model.hasOwnProperty('id')) {
       throw Error('You need to implement your own updater since this model does not have id');
