@@ -296,8 +296,7 @@ export class CaseEditorComponent extends LoadingComponent implements OnInit {
       this.msgs.push({ severity: 'success', summary: this.translate.instant('Saved'),
         detail: this.translate.instant('Successfully saved') });
       this._state.notifyDataChanged('growl', this.msgs);
-
-      if (response.status === 201) {
+      if (!data.accident.id) {
         this.router.navigate([`pages/cases/${response.accident.id}`]);
       } else {
         this.scenarioComponent.reload();
@@ -425,13 +424,15 @@ export class CaseEditorComponent extends LoadingComponent implements OnInit {
   }
 
   private loadPatient(): void {
-    this.startLoader('getPatient');
-    this.patientService.getPatient(this.accident.patientId)
+    if (+this.accident.patientId) {
+      this.startLoader('getPatient');
+      this.patientService.getPatient(this.accident.patientId)
         .then((patient: Patient) => {
-          this.patient = patient;
           this.stopLoader('getPatient');
+          this.patient = patient;
         })
         .catch(() => this.stopLoader('getPatient'));
+    }
   }
 
   private loadCaseable(): void {
