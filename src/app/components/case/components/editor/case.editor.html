@@ -209,15 +209,15 @@
                   <div class="col-6">
                     <label class="label separated float-left offset-right10" translate>Patient editor</label>
                     <div class="edit-patient">
-                                            <span class="fa fa-edit lead linked text-success"
-                                                  *ngIf="patient && patient.id"
-                                                  (click)="openEditPatientForm(patient)"
-                                                  title="{{ 'Edit patient data' | translate }}"></span>
+                      <span class="fa fa-edit lead linked text-success"
+                            *ngIf="patient && patient.id"
+                            (click)="openEditPatientForm(patient)"
+                            title="{{ 'Edit patient data' | translate }}"></span>
                     </div>
                     <div class="add-patient">
-                                            <span class="fa fa-user-plus lead linked"
-                                                  (click)="openEditPatientForm( null )"
-                                                  title="{{ 'Add Patient' | translate }}"></span>
+                      <span class="fa fa-user-plus lead linked"
+                            (click)="openEditPatientForm( null )"
+                            title="{{ 'Add Patient' | translate }}"></span>
                     </div>
                   </div>
                 </div>

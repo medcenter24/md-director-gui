@@ -22,7 +22,9 @@ export class PatientSelectorComponent extends LoadableComponent {
 
     @Output() select: EventEmitter<Patient> = new EventEmitter<Patient>();
     @Input() set initPatient(patient: Patient) {
-        this.setPatient(patient);
+        if (patient) {
+            this.setPatient(patient);
+        }
     }
 
     protected componentName: string = 'PatientSelectorComponent';
