@@ -5,6 +5,7 @@
   -->
 
 <nga-selector-multiple
+  #selectorComponent
   *ngIf="langLoaded"
   [setConfig]="config"
   (selected)="onSelected($event)"

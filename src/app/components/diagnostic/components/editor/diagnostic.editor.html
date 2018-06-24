@@ -16,9 +16,9 @@
                            #title="ngModel"
                            placeholder="{{ 'Title' | translate }}" maxlength="70"
                     >
-                    <div [hidden]="title.valid || title.pristine" class="alert alert-danger" translate>
-                        Title is required
-                    </div>
+                    <div [hidden]="title.valid || title.pristine"
+                         class="alert alert-danger"
+                         translate>Title is required</div>
                 </div>
             </div>
             <div class="col-sm-6">
@@ -42,9 +42,9 @@
                               maxlength="255"
                               [innerHTML]="diagnostic ? diagnostic.description : ''"
                     ></textarea>
-                    <div [hidden]="description.valid || description.pristine" class="alert alert-danger" translate>
-                        Description is required
-                    </div>
+                    <div [hidden]="description.valid || description.pristine"
+                         class="alert alert-danger"
+                         translate>Description is required</div>
                 </div>
             </div>
             <div class="col-sm-6">
