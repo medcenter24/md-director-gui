@@ -14,12 +14,12 @@ import {
 } from '@angular/core';
 import { Doctor } from '../../doctor';
 import { DoctorsService } from '../../doctors.service';
-import { City } from '../../../city/city';
+import { City, CitiesService } from '../../../city';
 import { LoadableComponent } from '../../../core/components/componentLoader';
 import { UserSelectComponent } from '../../../users/select';
-import { CitySelectComponent } from '../../../city/components/select';
 import { User } from '../../../users/user';
 import { UserEditorComponent } from '../../../users/editor/user.editor.component';
+import { MultiSelectorComponent } from '../../../ui/selector/components/multiSelector';
 
 @Component({
   selector: 'nga-doctor-editor',
@@ -38,11 +38,11 @@ export class DoctorEditorComponent extends LoadableComponent implements AfterVie
   @ViewChild('userSelect')
     private userSelectComponent: UserSelectComponent;
 
-  @ViewChild('selectCity')
-    private selectCityComponent: CitySelectComponent;
-
   @ViewChild('userEditor')
     private userEditor: UserEditorComponent;
+
+  @ViewChild('citiesSelector')
+    private citiesSelector: MultiSelectorComponent;
 
   doctor: Doctor;
   showUserEditor: boolean = false;
@@ -52,6 +52,7 @@ export class DoctorEditorComponent extends LoadableComponent implements AfterVie
 
   constructor(
     private service: DoctorsService,
+    public cityService: CitiesService,
   ) {
     super();
   }
@@ -136,6 +137,7 @@ export class DoctorEditorComponent extends LoadableComponent implements AfterVie
         .then((cities: City[]) => {
           this.stopLoader(opName);
           this.cities = cities;
+          this.citiesSelector.selectItems(this.cities);
         }).catch(() => this.stopLoader(opName));
     }
   }

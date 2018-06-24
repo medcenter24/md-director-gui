@@ -97,12 +97,17 @@
     <div class="row edit-form-container" *ngIf="doctor.id">
         <div class="col-sm-12 edit-form">
             <label class="label separate" translate>Cities</label>
-            <nga-select-city
-                #selectCity
-                [isMultiple]="true"
+
+            <nga-multi-selector
+                #citiesSelector
+                [service]="cityService"
+                placeholder="Cities"
+                labelField="title"
+                (init)="startLoader($event)"
+                (loaded)="stopLoader($event)"
                 (selected)="onCitySelect($event)"
-                [selectPreloaded]="cities"
-            ></nga-select-city>
+                [preloadedData]="cities"
+            ></nga-multi-selector>
         </div>
     </div>
 </ba-card>
