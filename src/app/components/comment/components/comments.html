@@ -8,8 +8,9 @@
       <h5 class="mt-0">
         <span *ngIf="event.user_id" class="mt-0">{{ event.user_name }}</span>
         <span *ngIf="!event.user_id" class="mt-0 text-muted" translate>System</span>
+        &nbsp;
         <small>
-          <span translate> wrote</span> - <span class="text-muted">{{ event.created_at }}</span>
+          <span translate>wrote</span> - <span class="text-muted">{{ event.created_at }}</span>
         </small>
       </h5>
       <p class="mt-1">{{ event.body }}</p>
