@@ -4,11 +4,12 @@
  * @author Zagovorychev Oleksandr <zagovorichev@gmail.com>
  */
 
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { LoadableComponent } from '../../../../core/components/componentLoader';
 import { TranslateService } from '@ngx-translate/core';
 import { SelectorConfig } from '../../selector.config';
 import { SearchableServiceInterface } from '../../../../core/loadable';
+import { SelectorProviderMultipleComponent } from '../../provider/multiple';
 
 @Component({
   selector: 'nga-multi-selector',
@@ -47,6 +48,12 @@ export class MultiSelectorComponent extends LoadableComponent implements OnInit 
    * @type {EventEmitter<any>}
    */
   @Output() selected: EventEmitter<any> = new EventEmitter<any>();
+
+  /**
+   * Selector provider component ref
+   */
+  @ViewChild('selectorComponent')
+    selectorComponent: SelectorProviderMultipleComponent;
 
   constructor (
     protected translateService: TranslateService,
@@ -90,5 +97,9 @@ export class MultiSelectorComponent extends LoadableComponent implements OnInit 
 
   private getUniquePostfix(): string {
     return this.placeholder.toLowerCase().replace(' ', '');
+  }
+
+  selectItems(items: any): void {
+    this.selectorComponent.selectItems(items);
   }
 }
