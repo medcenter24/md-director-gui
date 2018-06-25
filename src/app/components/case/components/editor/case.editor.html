@@ -11,7 +11,7 @@
         <div class="main-part">
           <div class="form-group offset-bottom20">
             <div class="row offset-bottom20">
-              <div class="col-sm-12">
+              <div class="col-sm-8">
                 <h2 *ngIf="accident.id">
                   {{ 'Case Editing' | translate}} {{ 'pp' | translate }}{{ accident.id }}
                   <span class="pull-right">
@@ -27,6 +27,20 @@
                   </span>
                 </h2>
                 <h2 *ngIf="!accident.id">{{ 'New case creating' | translate }}</h2>
+              </div>
+              <div class="col-sm-4 right text-right">
+                <b class="text-muted">{{ 'Choose Case' | translate }}</b>
+                <br>
+                <nga-case-type-select
+                        *ngIf="!accident.id"
+                        [(selectedCaseTypeId)]="accident.caseableType"
+                        (selected)="onCaseTypeSelected($event)"
+                ></nga-case-type-select>
+
+                <h4 *ngIf="accident.id && accident.caseableType === 'App\\DoctorAccident'"
+                    class="text-danger" translate>Doctor Case</h4>
+                <h4 *ngIf="accident.id && accident.caseableType === 'App\\HospitalAccident'"
+                    class="text-danger" translate>Hospital Case</h4>
               </div>
             </div>
           </div>
@@ -73,21 +87,6 @@
 
           <div class="form-group offset-bottom20">
             <div class="row">
-              <div class="col-sm-5" *ngIf="false">
-                <!-- this block needed only when hospitals will be implemented -->
-                <b class="text-muted">{{ 'Choose Case' | translate }}</b>
-                <br>
-                <nga-case-type-select
-                  *ngIf="!accident.id && !onlyDoctorAccident"
-                  [selectedCaseTypeId]="accident.caseableType"
-                  (selected)="onCaseTypeSelected($event)"
-                ></nga-case-type-select>
-
-                <h4 *ngIf="(onlyDoctorAccident || accident.id) && accident.caseableType === 'App\\DoctorAccident'"
-                    class="text-danger" translate>Doctor Case</h4>
-                <h4 *ngIf="accident.id && accident.caseableType === 'App\\HospitalAccident'"
-                    class="text-danger" translate>Hospital Case</h4>
-              </div>
               <div class="col-sm-12">
                 <div *ngIf="accident.caseableType === 'App\\DoctorAccident'">
                   <div class="row">
@@ -102,7 +101,7 @@
                         (selected)="onCityChanged($event)"
                         (init)="startLoader($event)"
                         (loaded)="stopLoader($event)"
-                        [preloadedData]="doctorAccident.city_id"
+                        [preloadedData]="doctorAccident.cityId"
                       ></nga-autocompleter>
                     </div>
                     <div class="col-sm-4">
@@ -116,7 +115,7 @@
                         (selected)="onDoctorChanged($event)"
                         (init)="startLoader($event)"
                         (loaded)="stopLoader($event)"
-                        [preloadedData]="doctorAccident.doctor_id"
+                        [preloadedData]="doctorAccident.doctorId"
                       ></nga-autocompleter>
                     </div>
                     <div class="col-sm-4">
@@ -133,12 +132,16 @@
                 <div *ngIf="accident.caseableType === 'App\\HospitalAccident'">
                   <b class="text-muted" translate>Hospital Case</b>
                   <br>
-                  <nga-select-hospital
+                  <nga-autocompleter
+                    [service]="hospitalService"
                     *ngIf="hospitalAccident"
-                    [hospitalId]="hospitalAccident.hospital_id"
+                    placeholder="Hospitals"
+                    labelField="title"
+                    (selected)="onHospitalChanged($event)"
+                    [preloadedData]="hospitalAccident.hospitalId"
                     (init)="startLoader($event)"
                     (loaded)="stopLoader($event)"
-                  ></nga-select-hospital>
+                  ></nga-autocompleter>
                 </div>
               </div>
             </div>
