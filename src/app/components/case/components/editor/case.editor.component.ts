@@ -37,6 +37,7 @@ import { AccidentScenarioLineComponent }
 import { Service } from '../../../service';
 import { AutocompleterComponent } from '../../../ui/selector/components/autocompleter';
 import { CitiesService } from '../../../city';
+import { Hospital, HospitalsService } from '../../../hospital';
 
 @Component({
   selector: 'nga-case-editor',
@@ -87,8 +88,6 @@ export class CaseEditorComponent extends LoadingComponent implements OnInit {
   updatedTime: string = '';
   deletedTime: string = '';
   closedTime: string = '';
-  // for a while until the hospital cases implementation
-  onlyDoctorAccident: boolean = true;
   patientEditFormDisplay: boolean = false;
   patient: Patient;
   reportPreviewVisible: boolean = false;
@@ -114,6 +113,7 @@ export class CaseEditorComponent extends LoadingComponent implements OnInit {
                private tabStopper: CaseEditorTabsService,
                public assistantService: AssistantsService,
                public cityService: CitiesService,
+               public hospitalService: HospitalsService,
   ) {
     super();
   }
@@ -121,7 +121,6 @@ export class CaseEditorComponent extends LoadingComponent implements OnInit {
   ngOnInit () {
     this.accident = new Accident();
 
-    // while configured only doctorAccidents
     // I need to define accident as a doctor
     this.doctorAccident = new DoctorAccident();
     this.accident.caseableType = 'App\\DoctorAccident';
@@ -195,13 +194,14 @@ export class CaseEditorComponent extends LoadingComponent implements OnInit {
       ? this.dateHelper.getUnixDateWithTime(this.dateHelper.parseDateFromFormat(this.handlingTime))
       : '';
 
-    this.doctorAccident.visit_time = this.appliedTime && this.appliedTime.length
+    this.doctorAccident.visitTime = this.appliedTime && this.appliedTime.length
       ? this.dateHelper.getUnixDateWithTime(this.dateHelper.parseDateFromFormat(this.appliedTime))
       : '';
 
     const data = {
       accident: this.accident,
       doctorAccident: this.doctorAccident,
+      hospitalAccident: this.hospitalAccident,
       services: this.services.map(x => x.id),
       diagnostics: this.diagnostics.map(x => x.id),
       surveys: this.surveys.map(x => x.id),
@@ -210,7 +210,7 @@ export class CaseEditorComponent extends LoadingComponent implements OnInit {
       patient: this.patientSelector.getPatient(),
     };
 
-    if (this.doctorBeforeSave && this.doctorBeforeSave !== this.doctorAccident.doctor_id) {
+    if (this.doctorBeforeSave && this.doctorBeforeSave !== this.doctorAccident.doctorId) {
       this._state.notifyDataChanged('confirmDialog',
         {
           header: this.translate.instant('Warning'),
@@ -291,7 +291,7 @@ export class CaseEditorComponent extends LoadingComponent implements OnInit {
     this.startLoader('saveCase');
     this.caseService.saveCase(data).then(response => {
       this.stopLoader('saveCase');
-      this.doctorBeforeSave = this.doctorAccident.doctor_id;
+      this.doctorBeforeSave = this.doctorAccident.doctorId;
       this.msgs = [];
       this.msgs.push({ severity: 'success', summary: this.translate.instant('Saved'),
         detail: this.translate.instant('Successfully saved') });
@@ -327,6 +327,8 @@ export class CaseEditorComponent extends LoadingComponent implements OnInit {
     this.accident.caseableType = type;
     if (type === 'App\\DoctorAccident' && !this.doctorAccident) {
       this.doctorAccident = new DoctorAccident();
+    } else if (!this.hospitalAccident) {
+      this.hospitalAccident = new HospitalAccident();
     }
   }
 
@@ -365,17 +367,21 @@ export class CaseEditorComponent extends LoadingComponent implements OnInit {
   }
 
   onDoctorChanged(doc): void {
-    this.doctorAccident.doctor_id = doc ? doc.id : 0;
+    this.doctorAccident.doctorId = doc ? doc.id : 0;
+  }
+
+  onHospitalChanged(hospital: Hospital): void {
+    this.hospitalAccident.hospitalId = hospital ? hospital.id : 0;
   }
 
   onCityChanged(city): void {
     const cityId = city ? city.id : 0;
-    this.doctorAccident.city_id = cityId;
+    this.doctorAccident.cityId = cityId;
     this.accident.cityId = cityId;
 
-    this.doctorAccident.doctor_id = +this.doctorAccident.doctor_id;
+    this.doctorAccident.doctorId = +this.doctorAccident.doctorId;
     // determine which doctor could be used in this hospital
-    if (!this.doctorAccident.doctor_id && cityId) {
+    if (!this.doctorAccident.doctorId && cityId) {
       this.defineDoctorByCity(cityId);
     }
   }
@@ -394,7 +400,7 @@ export class CaseEditorComponent extends LoadingComponent implements OnInit {
     this.loadingBar.start();
     this.doctorService.getDoctorsByCity(cityId).then((doctors: Doctor[]) => {
       if (doctors && doctors.length) {
-        this.doctorAccident.doctor_id = doctors[0].id;
+        this.doctorAccident.doctorId = doctors[0].id;
       }
       this.loadingBar.complete();
     });
@@ -436,37 +442,38 @@ export class CaseEditorComponent extends LoadingComponent implements OnInit {
   }
 
   private loadCaseable(): void {
-    this.startLoader('getDoctorCase');
-    this.caseService.getDoctorCase(this.accident.id)
-      .then((doctorAccident: DoctorAccident) => {
-        this.doctorAccident = doctorAccident;
-        this.doctorBeforeSave = doctorAccident.doctor_id;
-        if (doctorAccident.doctor_id) {
-          this.doctorAutocompleter.selectItems(doctorAccident.doctor_id);
-        }
-        if (doctorAccident.city_id) {
-          this.cityAutocompleter.selectItems(doctorAccident.city_id);
-        }
-        if (doctorAccident.visit_time) {
-          this.appliedTime = this.dateHelper.toEuropeFormatWithTime(doctorAccident.visit_time);
-        }
-        this.stopLoader('getDoctorCase');
-      }).catch(err => {
-        this._logger.error(err);
-        this.stopLoader('getDoctorCase');
-      });
-
-    /*
-    TODO Not Implemented yet, doctor case has priority
-
-    this.caseService.getHospitalCase(this.accident.id)
-      .then((hospitalAccident: HospitalAccident) => {
-        this.hospitalAccident = hospitalAccident;
-        complete();
-      }).catch((err) => {
-        this._logger.error(err);
-        complete();
-      });*/
+    const postfix = 'getCaseable';
+    this.startLoader(postfix);
+    if (this.accident.caseableType === 'App\\DoctorAccident') {
+      this.caseService.getDoctorCase(this.accident.id)
+        .then((doctorAccident: DoctorAccident) => {
+          this.doctorAccident = doctorAccident;
+          this.doctorBeforeSave = doctorAccident.doctorId;
+          if (doctorAccident.doctorId) {
+            this.doctorAutocompleter.selectItems(doctorAccident.doctorId);
+          }
+          if (doctorAccident.cityId) {
+            this.cityAutocompleter.selectItems(doctorAccident.cityId);
+          }
+          if (doctorAccident.visitTime) {
+            this.appliedTime = this.dateHelper.toEuropeFormatWithTime(doctorAccident.visitTime);
+          }
+          this.stopLoader(postfix);
+        }).catch(err => {
+          this._logger.error(err);
+          this.stopLoader(postfix);
+        });
+    } else {
+      this.caseService.getHospitalCase(this.accident.id)
+        .then((hospitalAccident: HospitalAccident) => {
+          this.hospitalAccident = hospitalAccident;
+          console.log(this.hospitalAccident);
+          this.stopLoader(postfix);
+        }).catch((err) => {
+          this._logger.error(err);
+          this.stopLoader(postfix);
+        });
+    }
   }
 
   openEditPatientForm (patient: Patient): void {

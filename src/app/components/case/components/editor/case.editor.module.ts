@@ -19,7 +19,6 @@ import { FormsModule } from '@angular/forms';
 import { CaseEditorComponent } from './case.editor.component';
 import { CaseEditorTabsService } from './case.editor.tabs.service';
 import { CaseTypeSelectModule } from '../type/case.type.select.module';
-import { HospitalModule } from '../../../hospital/hospital.module';
 import { AccidentCardModule } from '../../../accident/components/card';
 import { PatientEditorModule } from '../../../patient/components/editor';
 import { PatientSelectorModule } from '../../../patient/components/selector/patient.selector.module';
@@ -40,6 +39,7 @@ import { DoctorsService } from '../../../doctors';
 import { AssistantsService } from '../../../assistant';
 import { CitiesService } from '../../../city';
 import { AccidentsService } from '../../../accident/accidents.service';
+import { HospitalsService } from '../../../hospital';
 
 @NgModule({
   imports: [
@@ -54,7 +54,6 @@ import { AccidentsService } from '../../../accident/accidents.service';
     TooltipModule,
     CaseTypeSelectModule,
     InputMaskModule,
-    HospitalModule,
     AccidentCardModule,
     PatientEditorModule,
     PatientSelectorModule,
@@ -79,6 +78,7 @@ import { AccidentsService } from '../../../accident/accidents.service';
     AssistantsService,
     CitiesService,
     AccidentsService,
+    HospitalsService,
   ],
   exports: [
     CaseEditorComponent,

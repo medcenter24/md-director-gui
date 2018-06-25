@@ -15,9 +15,9 @@
                #title="ngModel"
                placeholder="{{ 'Assistant Title' | translate }}" maxlength="70"
         >
-        <div [hidden]="title.valid || title.pristine" class="alert alert-danger" translate>
-          Title is required
-        </div>
+        <div [hidden]="title.valid || title.pristine"
+             class="alert alert-danger"
+             translate>Title is required</div>
       </div>
     </div>
     <div class="col-sm-6">
@@ -41,9 +41,9 @@
                maxlength="255"
                [innerHTML]="assistant.email"
         >
-        <div [hidden]="email.valid || email.pristine" class="alert alert-danger" translate>
-          Description is required
-        </div>
+        <div [hidden]="email.valid || email.pristine"
+             class="alert alert-danger"
+             translate>Description is required</div>
       </div>
     </div>
     <div class="col-sm-6">
@@ -55,9 +55,9 @@
                maxlength="255"
                [innerHTML]="assistant.refKey"
         >
-        <div [hidden]="ref.valid || ref.pristine" class="alert alert-danger" translate>
-          Referral key is required
-        </div>
+        <div [hidden]="ref.valid || ref.pristine"
+             class="alert alert-danger"
+             translate>Referral key is required</div>
       </div>
     </div>
   </div>
