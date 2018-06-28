@@ -1,4 +1,8 @@
 {
+  "assistant_guarantee": "Assistant Guarantee",
+  "assistant_invoice": "Assistant Invoice",
+  "hospital_invoice": "Hospital Invoice",
+  "hospital_guarantee": "Hospital Guarantee",
   "datePeriods": "datePeriods",
   "services": "services",
   "doctors": "doctors",

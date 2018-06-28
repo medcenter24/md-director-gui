@@ -1,4 +1,8 @@
 {
+  "assistant_guarantee": "Гарантия от ассистанса",
+  "assistant_invoice": "Инвойс в ассистантс",
+  "hospital_invoice": "Инвойс из больницы",
+  "hospital_guarantee": "Письмо в Больницу",
   "datePeriods": "периоды дат",
   "services": "услуги",
   "doctors": "врачи",
