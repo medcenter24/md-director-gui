@@ -467,7 +467,6 @@ export class CaseEditorComponent extends LoadingComponent implements OnInit {
       this.caseService.getHospitalCase(this.accident.id)
         .then((hospitalAccident: HospitalAccident) => {
           this.hospitalAccident = hospitalAccident;
-          console.log(this.hospitalAccident);
           this.stopLoader(postfix);
         }).catch((err) => {
           this._logger.error(err);
