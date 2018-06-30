@@ -78,6 +78,14 @@ const menu = [
             },
           },
           {
+            path: 'forms',
+            data: {
+              menu: {
+                title: 'doc_templates',
+              },
+            },
+          },
+          {
             path: 'checkpoints',
             data: {
               menu: {
