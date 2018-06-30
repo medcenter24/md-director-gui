@@ -7,7 +7,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AppTranslationModule } from '../../../../app.translation.module';
-import { DatatableModule } from '../../../ui/datatable/datatable.module';
+import { DatatableModule } from '../../../ui/datatable';
 import { DialogModule } from 'primeng/dialog';
 import { FormsModule } from '@angular/forms';
 import { ButtonModule } from 'primeng/button';

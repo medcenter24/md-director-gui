@@ -12,6 +12,8 @@ import { AccidentCheckpointDatatableModule }
   from '../../components/accident/components/checkpoint/components/datatable';
 import { FinanceDatatableModule } from '../../components/finance/components/datatable';
 import { FinanceEditorPageModule } from './finance/editor';
+import { FormDatatableModule } from '../../components/forms/components/datatable';
+import { FormEditorPageModule } from './form/editor';
 
 @NgModule({
   imports: [
@@ -20,6 +22,8 @@ import { FinanceEditorPageModule } from './finance/editor';
     AccidentCheckpointDatatableModule,
     FinanceDatatableModule,
     FinanceEditorPageModule,
+    FormDatatableModule,
+    FormEditorPageModule,
   ],
   declarations: [
     SettingsComponent,
