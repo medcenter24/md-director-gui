@@ -1,4 +1,5 @@
 {
+  "doc_templates": "Шаблоны",
   "assistant_guarantee": "Гарантия от ассистанса",
   "assistant_invoice": "Инвойс в ассистантс",
   "hospital_invoice": "Инвойс из больницы",
@@ -340,7 +341,7 @@
   "Cities": "Города",
   "Hospitals": "Госпитали",
   "Stuff": "Работники",
-  "Checkpoints": "Контрольные точки",
+  "Checkpoints": "Метки",
   "Statuses": "Состояние кейса",
   "Types": "Тип кейса",
   "pages": "Страницы",
