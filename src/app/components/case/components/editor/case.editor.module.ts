@@ -40,6 +40,7 @@ import { AssistantsService } from '../../../assistant';
 import { CitiesService } from '../../../city';
 import { AccidentsService } from '../../../accident/accidents.service';
 import { HospitalsService } from '../../../hospital';
+import { FormService } from '../../../forms';
 
 @NgModule({
   imports: [
@@ -79,6 +80,7 @@ import { HospitalsService } from '../../../hospital';
     CitiesService,
     AccidentsService,
     HospitalsService,
+    FormService,
   ],
   exports: [
     CaseEditorComponent,

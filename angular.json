@@ -34,12 +34,15 @@
               "node_modules/font-awesome/scss/font-awesome.scss",
               "node_modules/pace-js/templates/pace-theme-flash.tmpl.css",
               "src/app/theme/theme.scss",
-              "src/styles.scss"
+              "src/styles.scss",
+              "node_modules/froala-editor/css/froala_editor.pkgd.css",
+              "node_modules/froala-editor/css/froala_style.css"
             ],
             "scripts": [
               "node_modules/jquery/dist/jquery.js",
               "node_modules/pace-js/pace.min.js",
-              "node_modules/chart.js/dist/Chart.min.js"
+              "node_modules/chart.js/dist/Chart.min.js",
+              "node_modules/froala-editor/js/froala_editor.pkgd.min.js"
             ]
           },
           "configurations": {
@@ -89,7 +92,8 @@
             "scripts": [
               "node_modules/jquery/dist/jquery.js",
               "node_modules/pace-js/pace.min.js",
-              "node_modules/chart.js/dist/Chart.min.js"
+              "node_modules/chart.js/dist/Chart.min.js",
+              "node_modules/froala-editor/js/froala_editor.pkgd.min.js"
             ],
             "styles": [
               "node_modules/bootstrap/dist/css/bootstrap.css",
@@ -99,7 +103,9 @@
               "node_modules/font-awesome/scss/font-awesome.scss",
               "node_modules/pace-js/templates/pace-theme-flash.tmpl.css",
               "src/app/theme/theme.scss",
-              "src/styles.scss"
+              "src/styles.scss",
+              "node_modules/froala-editor/css/froala_editor.pkgd.css",
+              "node_modules/froala-editor/css/froala_style.css"
             ],
             "assets": [
               "src/assets",

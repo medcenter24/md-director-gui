@@ -11,5 +11,6 @@ export class Form {
     public description: string = '',
     public variables: string[] = [],
     public template: string = '',
+    public formableType: string = '',
   ) {}
 }

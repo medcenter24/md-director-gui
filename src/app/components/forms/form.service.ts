@@ -21,7 +21,7 @@ export class FormService extends HttpService implements LoadableServiceInterface
 
   save (form: Form): Promise<Form> {
     const action = form.id ? this.put(form.id, form) : this.store(form);
-    return action.then(response => response.data as Form);
+    return action.then(response => response as Form);
   }
 
   destroy (form: Form): Promise<any> {
