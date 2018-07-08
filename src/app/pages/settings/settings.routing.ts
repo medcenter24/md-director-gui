@@ -13,7 +13,7 @@ import { AccidentCheckpointDatatableComponent }
 import { FinanceDatatableComponent } from '../../components/finance/components/datatable';
 import { FinanceEditorPageComponent } from './finance/editor';
 import { FormDatatableComponent } from '../../components/forms/components/datatable';
-import { FormEditorPageComponent } from './form/editor/form.editor.page.component';
+import { FormEditorPageComponent } from './form/editor';
 
 // noinspection TypeScriptValidateTypes
 const routes: Routes = [
@@ -28,6 +28,7 @@ const routes: Routes = [
       { path: 'periods', component: PeriodDatatableComponent },
       { path: 'forms', component: FormDatatableComponent },
       { path: 'forms/new', component: FormEditorPageComponent },
+      { path: 'forms/:id', component: FormEditorPageComponent },
     ],
   },
 ];

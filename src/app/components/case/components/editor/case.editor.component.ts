@@ -38,6 +38,7 @@ import { Service } from '../../../service';
 import { AutocompleterComponent } from '../../../ui/selector/components/autocompleter';
 import { CitiesService } from '../../../city';
 import { Hospital, HospitalsService } from '../../../hospital';
+import { Form, FormService } from '../../../forms';
 
 @Component({
   selector: 'nga-case-editor',
@@ -114,6 +115,7 @@ export class CaseEditorComponent extends LoadingComponent implements OnInit {
                public assistantService: AssistantsService,
                public cityService: CitiesService,
                public hospitalService: HospitalsService,
+               public formService: FormService,
   ) {
     super();
   }
@@ -121,9 +123,9 @@ export class CaseEditorComponent extends LoadingComponent implements OnInit {
   ngOnInit () {
     this.accident = new Accident();
 
-    // I need to define accident as a doctor
     this.doctorAccident = new DoctorAccident();
-    this.accident.caseableType = 'App\\DoctorAccident';
+    this.hospitalAccident = new HospitalAccident();
+    // this.accident.caseableType = 'App\\DoctorAccident';
 
     this.route.params
       .subscribe((params: Params) => {
@@ -508,5 +510,17 @@ export class CaseEditorComponent extends LoadingComponent implements OnInit {
             this.reportPreviewVisible = true;
             this.previewContainer.nativeElement.innerHTML = html;
         }).catch();
+  }
+
+  isDoctorAccident(): boolean {
+    return this.accident.caseableType === 'App\\DoctorAccident';
+  }
+
+  isHospitalAccident(): boolean {
+    return this.accident.caseableType === 'App\\HospitalAccident';
+  }
+
+  onHospitalLatterChanged(form: Form): void {
+    console.log('selected for the hospital latter', form);
   }
 }

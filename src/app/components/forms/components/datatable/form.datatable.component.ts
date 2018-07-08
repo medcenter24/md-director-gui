@@ -54,13 +54,13 @@ export class FormDatatableComponent extends AbstractDatatableController {
     return [
       new DatatableAction(this.translateService.instant('Add'), 'fa-plus', () => {
         this.setModel(this.getEmptyModel());
-        this.router.navigate(['pages/settings/form/new']);
+        this.router.navigate(['pages/settings/forms/new']);
       }),
     ];
   }
 
   protected onRowSelect(event): void {
-    this.router.navigate([`pages/settings/form/${event.data.id}`]);
+    this.router.navigate([`pages/settings/forms/${event.data.id}`]);
   }
 
   getSortBy(): string {

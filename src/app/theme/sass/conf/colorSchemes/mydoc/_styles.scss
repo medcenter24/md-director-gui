@@ -150,3 +150,17 @@ a.al-sidebar-list-link i {
 input[pInputText] {
   padding: 5px 10px;
 }
+
+.alert-variable {
+  padding: 0;
+  font-size: 0.7rem;
+  background-color: #eaf4f5;
+
+  .close {
+    float: initial;
+    padding: 0;
+    position: initial;
+    font-size: 1rem;
+  }
+}
+

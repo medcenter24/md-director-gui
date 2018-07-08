@@ -4,56 +4,163 @@
  * @author Zagovorychev Olexandr <zagovorichev@gmail.com>
  */
 
-import { Component, OnInit } from '@angular/core';
+import { AfterContentChecked, Component, OnInit } from '@angular/core';
 import { LoadableComponent } from '../../../core/components/componentLoader';
-import { ActivatedRoute, Params } from '@angular/router';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 import { GlobalState } from '../../../../global.state';
 import { FormService } from '../../form.service';
 import { Form } from '../../form';
+import { TranslateService } from '@ngx-translate/core';
+declare var $: any;
+import { ChangeDetectorRef } from '@angular/core';
+import { AuthenticationService } from '../../../auth/authentication.service';
+import { MediaFroalaService } from '../../../media/froala/media.froala.service';
+import { FormOption } from '../options/form.option';
 
 @Component({
   selector: 'nga-form-editor',
   templateUrl: './form.editor.html',
-  styleUrls: ['./form.editor.scss'],
 })
-export class FormEditorComponent extends LoadableComponent implements OnInit {
+export class FormEditorComponent extends LoadableComponent implements OnInit, AfterContentChecked {
   protected componentName: string = 'FormEditorComponent';
 
   isLoaded: boolean = false;
   form: Form;
+  msgs: any;
+  editorOptions: any = {
+    requestWithCORS: true,
+    imageUploadURL: '', // getting from the media service
+    imageCORSProxy: '',
+    // imageManagerDeleteMethod: 'DELETE',
+    imageInsertButtons: ['imageBack', '|', 'imageUpload', 'imageByURL'],
+    imageDefaultAlign: 'left',
+    requestWithCredentials: true,
+    placeholderText: 'Loading',
+    charCounterCount: false,
+    fullPage: false,
+    toolbarButtons: [
+      'bold', 'italic', 'underline', 'strikeThrough', 'subscript', 'superscript',
+      '|', 'paragraphFormat', 'align', 'formatOL', 'formatUL', 'outdent', 'indent',
+      'quote', '-', 'insertLink', 'insertImage', 'embedly', 'insertTable', '|',
+      'fontFamily', 'fontSize', 'color', 'paragraphStyle', '|', 'specialCharacters', 'insertHR',
+      'selectAll', 'clearFormatting', '|', 'html', '|', 'undo', 'redo', '|', 'vars',
+    ],
+    quickInsertButtons: ['image', 'table', 'ul', 'ol', 'hr', 'vars'],
+   /* events: {
+      'froalaEditor.imageManager.imageLoaded': function (e, editor, $img) {
+        console.log('imageLoaded', e, editor, $img);
+      },
+      'froalaEditor.imageManager.imagesLoaded': function (e, editor, data) {
+        console.log('images', e, editor, data);
+        // Stop default image chain.
+        return false;
+      }
+    }*/
+  };
+
+  displayDialog: boolean = false;
+  froalaEditor: any;
 
   constructor(
     private formService: FormService,
     private route: ActivatedRoute,
     protected _state: GlobalState,
+    private translateService: TranslateService,
+    private router: Router,
+    private cdRef: ChangeDetectorRef,
+    private mediaService: MediaFroalaService,
+    private authenticationService: AuthenticationService,
   ) {
     super();
   }
 
   ngOnInit(): void {
-    this.route.params
-      .subscribe((params: Params) => {
-        this._state.notifyDataChanged('menu.activeLink', { title: 'Forms' });
-        const id = +params[ 'id' ];
-        if (id) {
-          this.startLoader();
-          this.formService.getForm(id).then((form: Form) => {
-            this.stopLoader();
-            this.form = form;
-            this.isLoaded = true;
-          }).catch(() => this.stopLoader());
-        } else {
-            this.form = new Form();
-            this.isLoaded = true;
-        }
+    this.translateService.get('Form content is here').subscribe(translation => {
+      this.editorOptions.placeholderText = translation;
+      this.editorOptions.language = this.translateService.currentLang;
+      this.editorOptions.imageUploadURL = this.mediaService.getUrl();
+      // this.editorOptions.imageCORSProxy = this.mediaService.getUrl();
+      this.editorOptions.imageManagerLoadURL = this.mediaService.getUrl();
+      this.editorOptions.requestHeaders = {
+        'Authorization': `Bearer ${this.authenticationService.getToken()}`,
+      };
+      const self = this;
+      $.FroalaEditor.DefineIcon('vars', { NAME: 'asterisk' });
+      $.FroalaEditor.RegisterCommand('vars', {
+        title: this.translateService.instant('Choose variables'),
+        focus: false,
+        undo: false,
+        refreshAfterCallback: false,
+
+        callback: function callback () {
+          self.displayDialog = true;
+          self.froalaEditor = this;
+          self.cdRef.detectChanges();
+        },
       });
+
+      this.route.params
+        .subscribe((params: Params) => {
+          this._state.notifyDataChanged('menu.activeLink', { title: 'Forms' });
+          const id = +params['id'];
+          if (id) {
+            this.startLoader();
+            this.formService.getForm(id).then((form: Form) => {
+              this.stopLoader();
+              this.form = form;
+              this.readyToLoad();
+            }).catch(() => this.stopLoader());
+          } else {
+            this.form = new Form();
+            this.readyToLoad();
+          }
+        });
+    });
+  }
+
+  ngAfterContentChecked(): void {
+    // bind event to delete variables
+    const $alert = $('.alert-variable');
+    $('.close', $alert).off('click').on('click', function () {
+      $(this).parents('.alert').remove();
+    });
+  }
+
+  private readyToLoad(): void {
+      this.isLoaded = true;
   }
 
   saveForm(): void {
-    const postfix = 'saveRule';
+    const postfix = 'SaveRule';
     this.startLoader(postfix);
+    const previousId = this.form.id;
     this.formService.save(this.form)
-      .then(() => this.stopLoader(postfix))
-      .catch(() => this.stopLoader(postfix));
+      .then(form => {
+        this.stopLoader(postfix);
+        this.msgs = [];
+        this.msgs.push({ severity: 'success', summary: this.translateService.instant('Saved'),
+          detail: this.translateService.instant('Successfully saved') });
+        this._state.notifyDataChanged('growl', this.msgs);
+        if (!previousId) {
+          this.router.navigate([`pages/forms/${form.id}`]);
+        }
+      })
+      .catch(() => this.stopLoader(postfix) );
+  }
+
+  setSelectedVar(formParam: FormOption): void {
+    this.froalaEditor.html.insert(`&nbsp;<span class="alert alert-variable alert-dismissible fade show fr-deletable"
+            contenteditable="false" role="alert" data-class="${formParam.key}">
+              ${formParam.title}
+              <span class="close" data-dismiss="alert">
+                <span aria-hidden="true">&times;</span>
+              </span>
+            </span>&nbsp;`);
+
+    // bind event to delete variables
+    const $alert = $('.alert-variable');
+    $('.close', $alert).off('click').on('click', function () {
+      $(this).parents('.alert').remove();
+    });
   }
 }
