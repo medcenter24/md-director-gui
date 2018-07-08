@@ -29,7 +29,7 @@
                 <h2 *ngIf="!accident.id">{{ 'New case creating' | translate }}</h2>
               </div>
               <div class="col-sm-4 right text-right">
-                <b class="text-muted">{{ 'Choose Case' | translate }}</b>
+                <b class="text-muted" *ngIf="!accident.caseableType">{{ 'Choose Case' | translate }}</b>
                 <br>
                 <nga-case-type-select
                         *ngIf="!accident.id"
@@ -37,9 +37,9 @@
                         (selected)="onCaseTypeSelected($event)"
                 ></nga-case-type-select>
 
-                <h4 *ngIf="accident.id && accident.caseableType === 'App\\DoctorAccident'"
+                <h4 *ngIf="accident.id && isDoctorAccident()"
                     class="text-danger" translate>Doctor Case</h4>
-                <h4 *ngIf="accident.id && accident.caseableType === 'App\\HospitalAccident'"
+                <h4 *ngIf="accident.id && isHospitalAccident()"
                     class="text-danger" translate>Hospital Case</h4>
               </div>
             </div>
@@ -88,13 +88,12 @@
           <div class="form-group offset-bottom20">
             <div class="row">
               <div class="col-sm-12">
-                <div *ngIf="accident.caseableType === 'App\\DoctorAccident'">
+                <div *ngIf="isDoctorAccident()">
                   <div class="row">
-                    <div class="col-sm-4">
+                    <div class="col-sm-4" *ngIf="isDoctorAccident()">
                       <label class="label required separate" translate>City</label>
                       <nga-autocompleter
                         #cityAutocompleter
-                        *ngIf="doctorAccident"
                         [service]="cityService"
                         placeholder="City"
                         labelField="title"
@@ -104,11 +103,10 @@
                         [preloadedData]="doctorAccident.cityId"
                       ></nga-autocompleter>
                     </div>
-                    <div class="col-sm-4">
+                    <div class="col-sm-4" *ngIf="isDoctorAccident()">
                       <label class="label required separate" translate>Doctor</label>
                       <nga-autocompleter
                         #doctorAutocompleter
-                        *ngIf="doctorAccident"
                         [service]="doctorService"
                         placeholder="Doctor"
                         labelField="name"
@@ -129,12 +127,11 @@
                     </div>
                   </div>
                 </div>
-                <div *ngIf="accident.caseableType === 'App\\HospitalAccident'">
+                <div *ngIf="isHospitalAccident()">
                   <b class="text-muted" translate>Hospital Case</b>
                   <br>
                   <nga-autocompleter
                     [service]="hospitalService"
-                    *ngIf="hospitalAccident"
                     placeholder="Hospitals"
                     labelField="title"
                     (selected)="onHospitalChanged($event)"
@@ -265,15 +262,15 @@
             </div>
           </div>
 
-          <div class="form-group offset-bottom20">
+          <div class="form-group offset-bottom20" *ngIf="isDoctorAccident()">
             <div class="row">
               <div class="col-sm-12">
                 <nga-services-selector
-                  [caseId]="accident.id"
-                  (priceChanged)="onServicesSelectorPriceChanged($event)"
-                  (changedServices)="onServicesChanged($event)"
-                  (init)="startLoader($event)"
-                  (loaded)="stopLoader($event)"
+                        [caseId]="accident.id"
+                        (priceChanged)="onServicesSelectorPriceChanged($event)"
+                        (changedServices)="onServicesChanged($event)"
+                        (init)="startLoader($event)"
+                        (loaded)="stopLoader($event)"
                 ></nga-services-selector>
               </div>
             </div>
@@ -284,7 +281,7 @@
               <div class="col-sm-12">
                 <div class="form-group offset-bottom20">
                   <div class="row">
-                    <div class="col-sm-6">
+                    <div class="col-sm-6" *ngIf="isDoctorAccident()">
                       <label class="label separated required offset-right10" translate>Applied Time</label>
                       <p-inputMask
                         name="appliedTime"
@@ -305,7 +302,7 @@
                   </div>
                 </div>
 
-                <div class="form-group offset-bottom20">
+                <div class="form-group offset-bottom20" *ngIf="isDoctorAccident()">
                   <div class="row">
                     <div class="col-sm-12">
                       <nga-surveys-selector
@@ -318,7 +315,7 @@
                   </div>
                 </div>
 
-                <div class="form-group offset-bottom20">
+                <div class="form-group offset-bottom20" *ngIf="isDoctorAccident()">
                   <div class="row">
                     <div class="col-sm-12">
                       <nga-diagnostics-selector
@@ -330,7 +327,8 @@
                     </div>
                   </div>
                 </div>
-                <div class="row offset-bottom20">
+
+                <div class="row offset-bottom20" *ngIf="isDoctorAccident()">
                   <div class="col-sm-6">
                     <label class="label separate" translate>Diagnosis</label>
                     <textarea rows="5" cols="70" pInputTextarea
@@ -352,6 +350,26 @@
                     ></textarea>
                   </div>
                 </div>
+
+                <div class="row">
+                  <div class="col-12">
+                    <label class="label separate" translate>Hospital latter</label>
+                    <nga-autocompleter
+                            [service]="formService"
+                            placeholder="Forms"
+                            labelField="title"
+                            (selected)="onHospitalLatterChanged($event)"
+                            [preloadedData]="hospitalAccident.formReportId"
+                            (init)="startLoader($event)"
+                            (loaded)="stopLoader($event)"
+                    ></nga-autocompleter>
+
+                    Выбор формы для письма в больницу / Форма инвойс в ассистантс /
+
+                    Гарантия из ассистанса / Инвойс из больницы? чекбокс?
+                  </div>
+                </div>
+
                 <div class="row">
                   <div class="col-sm-12">
                     <label class="label separated" translate>Documents</label>
