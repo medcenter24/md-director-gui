@@ -92,6 +92,8 @@ export class CaseEditorComponent extends LoadingComponent implements OnInit {
   patientEditFormDisplay: boolean = false;
   patient: Patient;
   reportPreviewVisible: boolean = false;
+  invoiceFromTheHospital: boolean = false;
+  guaranteeFromTheAssistant: boolean = false;
 
   /**
    * to show on save message, that doctor was changed
@@ -521,6 +523,6 @@ export class CaseEditorComponent extends LoadingComponent implements OnInit {
   }
 
   onHospitalLatterChanged(form: Form): void {
-    console.log('selected for the hospital latter', form);
+    this.hospitalAccident.formReportId = form.id;
   }
 }

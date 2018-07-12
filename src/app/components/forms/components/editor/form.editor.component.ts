@@ -14,7 +14,6 @@ import { TranslateService } from '@ngx-translate/core';
 declare var $: any;
 import { ChangeDetectorRef } from '@angular/core';
 import { AuthenticationService } from '../../../auth/authentication.service';
-import { MediaFroalaService } from '../../../media/froala/media.froala.service';
 import { FormOption } from '../options/form.option';
 
 @Component({
@@ -29,12 +28,13 @@ export class FormEditorComponent extends LoadableComponent implements OnInit, Af
   msgs: any;
   editorOptions: any = {
     requestWithCORS: true,
-    imageUploadURL: '', // getting from the media service
-    imageCORSProxy: '',
+    // imageUploadURL: '', // getting from the media service
+    // imageCORSProxy: '',
     // imageManagerDeleteMethod: 'DELETE',
-    imageInsertButtons: ['imageBack', '|', 'imageUpload', 'imageByURL'],
+    // imageInsertButtons: ['imageBack', '|', 'imageUpload', 'imageByURL'],
     imageDefaultAlign: 'left',
     requestWithCredentials: true,
+    imageMaxSize: 1024 * 1024 * 2, // 2 Mb is max size
     placeholderText: 'Loading',
     charCounterCount: false,
     fullPage: false,
@@ -46,16 +46,41 @@ export class FormEditorComponent extends LoadableComponent implements OnInit, Af
       'selectAll', 'clearFormatting', '|', 'html', '|', 'undo', 'redo', '|', 'vars',
     ],
     quickInsertButtons: ['image', 'table', 'ul', 'ol', 'hr', 'vars'],
-   /* events: {
-      'froalaEditor.imageManager.imageLoaded': function (e, editor, $img) {
+    events: {
+      'froalaEditor.image.beforeUpload': (e, editor, files) => {
+        if (files.length) {
+          // Create a File Reader.
+          const reader = new FileReader();
+
+          // Set the reader to insert images when they are loaded.
+          reader.onload = (event: ProgressEvent) => {
+            const result = event.target.result;
+            editor.image.insert(result, null, null, editor.image.get());
+          };
+
+          // Read image as base64.
+          reader.readAsDataURL(files[0]);
+        }
+
+        editor.popups.hideAll();
+
+        // Stop default upload chain.
+        return false;
+      },
+      /* 'froalaEditor.image.uploaded': (e, editor, response) => {
+        console.log(e, editor, response);
+        // stop default image chain
+        return false;
+      }, */
+      /*'froalaEditor.imageManager.imageLoaded': function (e, editor, $img) {
         console.log('imageLoaded', e, editor, $img);
       },
       'froalaEditor.imageManager.imagesLoaded': function (e, editor, data) {
         console.log('images', e, editor, data);
         // Stop default image chain.
         return false;
-      }
-    }*/
+      }*/
+    },
   };
 
   displayDialog: boolean = false;
@@ -68,7 +93,6 @@ export class FormEditorComponent extends LoadableComponent implements OnInit, Af
     private translateService: TranslateService,
     private router: Router,
     private cdRef: ChangeDetectorRef,
-    private mediaService: MediaFroalaService,
     private authenticationService: AuthenticationService,
   ) {
     super();
@@ -78,9 +102,13 @@ export class FormEditorComponent extends LoadableComponent implements OnInit, Af
     this.translateService.get('Form content is here').subscribe(translation => {
       this.editorOptions.placeholderText = translation;
       this.editorOptions.language = this.translateService.currentLang;
-      this.editorOptions.imageUploadURL = this.mediaService.getUrl();
+      // do not load images at all, I'm going to use b64 as a text for forms as I don't expect a lot of images
+      //
+      // this.editorOptions.imageUploadURL = this.mediaService.getUrl();
       // this.editorOptions.imageCORSProxy = this.mediaService.getUrl();
-      this.editorOptions.imageManagerLoadURL = this.mediaService.getUrl();
+      // this.editorOptions.imageManagerLoadURL = this.mediaService.getUrl();
+
+      // to save text I guess no
       this.editorOptions.requestHeaders = {
         'Authorization': `Bearer ${this.authenticationService.getToken()}`,
       };
@@ -142,7 +170,7 @@ export class FormEditorComponent extends LoadableComponent implements OnInit, Af
           detail: this.translateService.instant('Successfully saved') });
         this._state.notifyDataChanged('growl', this.msgs);
         if (!previousId) {
-          this.router.navigate([`pages/forms/${form.id}`]);
+          this.router.navigate([`pages/settings/forms/${form.id}`]);
         }
       })
       .catch(() => this.stopLoader(postfix) );
