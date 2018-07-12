@@ -45,8 +45,7 @@ export class FormDatatableComponent extends AbstractDatatableController {
   getColumns(): DatatableCol[] {
     return [
       new DatatableCol('title', this.translateService.instant('Title')),
-      new DatatableCol('description', this.translateService.instant('Description')),
-      new DatatableCol('formable_type', this.translateService.instant('Type')),
+      new DatatableCol('formableType', this.translateService.instant('Type')),
     ];
   }
 

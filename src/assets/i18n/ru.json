@@ -1,4 +1,8 @@
 {
+  "Invoice From Hospital": "Инвойс из больницы",
+  "Invoice To Assistant": "Инвойс в ассистанс",
+  "Guarantee From Assistant": "Гарантия из больницы",
+  "Letter To Hospital": "Письмо в больницу",
   "Case": "Дело",
   "Choose Type": "Выберите тип",
   "Hospital Title": "Название больницы",
