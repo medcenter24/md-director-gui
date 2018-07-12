@@ -351,9 +351,9 @@
                   </div>
                 </div>
 
-                <div class="row">
-                  <div class="col-12">
-                    <label class="label separate" translate>Hospital latter</label>
+                <div class="row" *ngIf="isHospitalAccident()">
+                  <div class="col-3">
+                    <label class="label separate" translate>Letter To Hospital</label>
                     <nga-autocompleter
                             [service]="formService"
                             placeholder="Forms"
@@ -363,10 +363,29 @@
                             (init)="startLoader($event)"
                             (loaded)="stopLoader($event)"
                     ></nga-autocompleter>
-
-                    Выбор формы для письма в больницу / Форма инвойс в ассистантс /
-
-                    Гарантия из ассистанса / Инвойс из больницы? чекбокс?
+                  </div>
+                  <div class="col-3">
+                    <label class="label separate" for="invoiceFromTheHospital" translate>Invoice From Hospital</label>
+                    <p-checkbox [(ngModel)]="invoiceFromTheHospital"
+                                id="invoiceFromTheHospital"
+                                name="invoiceFromTheHospital" binary="true"></p-checkbox>
+                  </div>
+                  <div class="col-3">
+                    <label class="label separate" translate>Invoice To Assistant</label>
+                    <nga-autocompleter
+                            [service]="formService"
+                            placeholder="Forms"
+                            labelField="title"
+                            (selected)="onHospitalLatterChanged($event)"
+                            [preloadedData]="hospitalAccident.formReportId"
+                            (init)="startLoader($event)"
+                            (loaded)="stopLoader($event)"
+                    ></nga-autocompleter>
+                  </div>
+                  <div class="col-3">
+                    <label class="label separate" for="guaranteeFromTheAssistant" translate>Guarantee From Assistant</label>
+                    <p-checkbox id="guaranteeFromTheAssistant"
+                            name="guaranteeFromTheAssistant" [(ngModel)]="guaranteeFromTheAssistant" binary="true"></p-checkbox>
                   </div>
                 </div>
 

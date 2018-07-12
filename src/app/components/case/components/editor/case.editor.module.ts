@@ -7,7 +7,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
-  ButtonModule,
+  ButtonModule, CheckboxModule,
   ConfirmDialogModule,
   DialogModule,
   FileUploadModule,
@@ -69,6 +69,7 @@ import { FormService } from '../../../forms';
     AccidentActivityModule,
     NgaModule,
     AutocompleterModule,
+    CheckboxModule,
   ],
   declarations: [
     CaseEditorComponent,

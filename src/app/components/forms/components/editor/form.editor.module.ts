@@ -14,9 +14,8 @@ import { FormEditorComponent } from './form.editor.component';
 import { FroalaEditorModule, FroalaViewModule } from 'angular-froala-wysiwyg';
 import { DialogModule } from 'primeng/dialog';
 import { ButtonModule } from 'primeng/button';
-import { MediaFroalaService } from '../../../media/froala/media.froala.service';
 import { FormsOptionsEditorModule } from '../options/editor';
-import { FormsTypesSelectModule } from '../types/select/forms.types.select.module';
+import { FormsTypesSelectModule } from '../types/select';
 
 @NgModule({
   imports: [
@@ -33,7 +32,6 @@ import { FormsTypesSelectModule } from '../types/select/forms.types.select.modul
   ],
   providers: [
     FormService,
-    MediaFroalaService,
   ],
   declarations: [
     FormEditorComponent,
