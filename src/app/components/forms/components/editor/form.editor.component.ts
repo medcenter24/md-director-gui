@@ -16,6 +16,17 @@ import { ChangeDetectorRef } from '@angular/core';
 import { AuthenticationService } from '../../../auth/authentication.service';
 import { FormOption } from '../options/form.option';
 
+
+// todo until some change in lib.d.ts
+interface FileReaderEventTarget extends EventTarget {
+  result: string;
+}
+
+interface FileReaderEvent extends Event {
+  target: FileReaderEventTarget;
+  getMessage(): string;
+}
+
 @Component({
   selector: 'nga-form-editor',
   templateUrl: './form.editor.html',
@@ -53,7 +64,7 @@ export class FormEditorComponent extends LoadableComponent implements OnInit, Af
           const reader = new FileReader();
 
           // Set the reader to insert images when they are loaded.
-          reader.onload = (event: ProgressEvent) => {
+          reader.onload = (event: FileReaderEvent) => {
             const result = event.target.result;
             editor.image.insert(result, null, null, editor.image.get());
           };

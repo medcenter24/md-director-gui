@@ -5,12 +5,14 @@
  */
 
 import { NgModule } from '@angular/core';
+import { NgaModule } from '../../../theme/nga.module';
 import { DevelopmentGuiComponent } from './development.gui.component';
 import { RouterModule } from '@angular/router';
 
 @NgModule({
   imports: [
     RouterModule,
+    NgaModule,
   ],
   declarations: [
     DevelopmentGuiComponent,

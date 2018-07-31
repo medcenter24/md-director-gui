@@ -11,36 +11,36 @@
         <div class="main-part">
           <div class="form-group offset-bottom20">
             <div class="row offset-bottom20">
-              <div class="col-sm-8">
-                <h2 *ngIf="accident.id">
-                  {{ 'Case Editing' | translate}} {{ 'pp' | translate }}{{ accident.id }}
-                  <span class="pull-right">
-                      <span class="fa fa-file-pdf-o mr-2"
-                            (click)="downloadPdfReport()"
-                            title="{{ 'Save as PDF' | translate }}"></span>
-                      <span class="fa fa-print mr-2"
-                            (click)="printReport()"
-                            title="{{ 'Print a Report' | translate }}"></span>
-                      <span class="fa fa-window-maximize mr-2"
-                            (click)="previewReport()"
-                            title="{{ 'Report Preview' | translate }}"></span>
-                  </span>
-                </h2>
-                <h2 *ngIf="!accident.id">{{ 'New case creating' | translate }}</h2>
-              </div>
-              <div class="col-sm-4 right text-right">
-                <b class="text-muted" *ngIf="!accident.caseableType">{{ 'Choose Case' | translate }}</b>
-                <br>
-                <nga-case-type-select
-                        *ngIf="!accident.id"
-                        [(selectedCaseTypeId)]="accident.caseableType"
-                        (selected)="onCaseTypeSelected($event)"
-                ></nga-case-type-select>
+              <div class="col-sm-10">
+                <h2>
+                  <span *ngIf="accident.id">{{ 'Case Editing' | translate}} {{ 'pp' | translate }}{{ accident.id }}</span>
+                  <span *ngIf="!accident.id">{{ 'New case creating' | translate }}</span>
+                  <small class="pull-right">
+                    <b class="text-muted" *ngIf="!accident.caseableType">{{ 'Choose Case' | translate }}</b>
+                    <br *ngIf="!accident.caseableType" />
+                    <nga-case-type-select
+                            *ngIf="!accident.id"
+                            [(selectedCaseTypeId)]="accident.caseableType"
+                            (selected)="onCaseTypeSelected($event)"
+                    ></nga-case-type-select>
 
-                <h4 *ngIf="accident.id && isDoctorAccident()"
-                    class="text-danger" translate>Doctor Case</h4>
-                <h4 *ngIf="accident.id && isHospitalAccident()"
-                    class="text-danger" translate>Hospital Case</h4>
+                    <h4 *ngIf="accident.id && isDoctorAccident()"
+                        class="text-danger" translate>Doctor Case</h4>
+                    <h4 *ngIf="accident.id && isHospitalAccident()"
+                        class="text-danger" translate>Hospital Case</h4>
+                  </small>
+                </h2>
+              </div>
+              <div class="col-sm-2 right text-right">
+                <span class="fa fa-file-pdf-o mr-2"
+                      (click)="downloadPdfReport()"
+                      title="{{ 'Save as PDF' | translate }}"></span>
+                <span class="fa fa-print mr-2"
+                      (click)="printReport()"
+                      title="{{ 'Print a Report' | translate }}"></span>
+                <span class="fa fa-window-maximize mr-2"
+                      (click)="previewReport()"
+                      title="{{ 'Report Preview' | translate }}"></span>
               </div>
             </div>
           </div>
@@ -113,7 +113,6 @@
                         (selected)="onDoctorChanged($event)"
                         (init)="startLoader($event)"
                         (loaded)="stopLoader($event)"
-                        [preloadedData]="doctorAccident.doctorId"
                       ></nga-autocompleter>
                     </div>
                     <div class="col-sm-4">
@@ -131,11 +130,11 @@
                   <b class="text-muted" translate>Hospital Case</b>
                   <br>
                   <nga-autocompleter
+                    #hospitalAutocompleter
                     [service]="hospitalService"
-                    placeholder="Hospitals"
+                    placeholder="Hospital"
                     labelField="title"
                     (selected)="onHospitalChanged($event)"
-                    [preloadedData]="hospitalAccident.hospitalId"
                     (init)="startLoader($event)"
                     (loaded)="stopLoader($event)"
                   ></nga-autocompleter>
@@ -353,39 +352,68 @@
 
                 <div class="row" *ngIf="isHospitalAccident()">
                   <div class="col-3">
-                    <label class="label separate" translate>Letter To Hospital</label>
+                    <label class="label separate">{{ 'Letter To Hospital' | translate }}</label>
                     <nga-autocompleter
+                            #hospitalLetterAutocompleter
                             [service]="formService"
-                            placeholder="Forms"
+                            placeholder="Form of the letter"
                             labelField="title"
-                            (selected)="onHospitalLatterChanged($event)"
-                            [preloadedData]="hospitalAccident.formReportId"
+                            (selected)="this.hospitalAccident.hospitalGuaranteeId = $event.id"
                             (init)="startLoader($event)"
                             (loaded)="stopLoader($event)"
                     ></nga-autocompleter>
                   </div>
                   <div class="col-3">
-                    <label class="label separate" for="invoiceFromTheHospital" translate>Invoice From Hospital</label>
-                    <p-checkbox [(ngModel)]="invoiceFromTheHospital"
-                                id="invoiceFromTheHospital"
-                                name="invoiceFromTheHospital" binary="true"></p-checkbox>
+                    <label class="label separate" for="invoiceFromTheHospital">
+                      {{ 'Invoice From Hospital' | translate }}
+                      <b pTooltip="{{ 'Place the ID of the document from the list' | translate }}"
+                         class="badge badge-secondary">?</b>
+                    </label>
+                    invoice is here will be moved to module
                   </div>
                   <div class="col-3">
-                    <label class="label separate" translate>Invoice To Assistant</label>
+                    <label class="label separate">
+                      {{ 'Invoice Price' | translate }}
+                    </label>
+                    price going to hospital invoice component
+                  </div>
+                  <div class="col-3">
+
+                  </div>
+                </div>
+
+                <div class="row" *ngIf="isHospitalAccident()">
+                  <div class="col-3">
+                    <label class="label separate">{{ 'Invoice To Assistant' | translate }}</label>
                     <nga-autocompleter
+                            #invoiceToAssistantAutocompleter
                             [service]="formService"
                             placeholder="Forms"
                             labelField="title"
-                            (selected)="onHospitalLatterChanged($event)"
-                            [preloadedData]="hospitalAccident.formReportId"
+                            (selected)="console.log('move to assistant invoice')"
                             (init)="startLoader($event)"
                             (loaded)="stopLoader($event)"
                     ></nga-autocompleter>
                   </div>
                   <div class="col-3">
-                    <label class="label separate" for="guaranteeFromTheAssistant" translate>Guarantee From Assistant</label>
-                    <p-checkbox id="guaranteeFromTheAssistant"
-                            name="guaranteeFromTheAssistant" [(ngModel)]="guaranteeFromTheAssistant" binary="true"></p-checkbox>
+                    <label class="label separate">
+                      {{ 'Invoice Price' | translate }}
+                    </label>
+                    move to assistant price
+                  </div>
+                  <div class="col-2">
+                    <label class="label separate">
+                      {{ 'Guarantee From Assistant' | translate }}
+                    </label>
+                    <nga-ha-assistant-guarantee [hospitalAccident]="hospitalAccident"></nga-ha-assistant-guarantee>
+                  </div>
+                  <div class="col-2">
+                    <label for="approve" class="label separate">
+                      {{ 'Paid' | translate}}
+                      <b pTooltip="{{ 'Payment from assistant' | translate }}"
+                         class="badge badge-secondary">?</b>
+                    </label>
+                    <p-checkbox name="approve" id="approve" (onChange)="hospitalAccident.assistantPaid = $event === true ? 1 : 0"></p-checkbox>
                   </div>
                 </div>
 

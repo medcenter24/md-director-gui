@@ -14,8 +14,10 @@ import {
   InplaceModule, InputMaskModule,
   TooltipModule,
 } from 'primeng/primeng';
+import { KeyFilterModule } from 'primeng/keyfilter';
 import { AppTranslationModule } from '../../../../app.translation.module';
 import { FormsModule } from '@angular/forms';
+import { HaAssistantGuaranteeModule } from '../../../hospitalAccident/components/assistantGuaranteeFile';
 import { CaseEditorComponent } from './case.editor.component';
 import { CaseEditorTabsService } from './case.editor.tabs.service';
 import { CaseTypeSelectModule } from '../type/case.type.select.module';
@@ -69,7 +71,9 @@ import { FormService } from '../../../forms';
     AccidentActivityModule,
     NgaModule,
     AutocompleterModule,
+    KeyFilterModule,
     CheckboxModule,
+    HaAssistantGuaranteeModule,
   ],
   declarations: [
     CaseEditorComponent,

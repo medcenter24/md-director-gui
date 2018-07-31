@@ -1,4 +1,13 @@
 {
+  "Invoice":"Invoice",
+  "Browse": "Browse",
+  "Document ID": "Document ID",
+  "Invoice Price":  "Invoice Price",
+  "Paid": "Paid",
+  "Payment from assistant": "Payment from assistant",
+  "Accident": "Accident",
+  "Form of the letter": "Form of the letter",
+  "Place the ID of the document from the list": "Place the ID of the document from the list",
   "Invoice From Hospital": "Invoice From Hospital",
   "Invoice To Assistant": "Invoice To Assistant",
   "Guarantee From Assistant": "Guarantee From Assistant",
