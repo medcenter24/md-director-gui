@@ -1,0 +1,38 @@
+<!--
+  ~ Copyright (c) 2018
+  ~
+  ~  @author Oleksander  Zagovorychev <zagovorichev@gmail.com>
+  -->
+
+<ba-card baCardClass="with-scroll">
+
+  <div class="row mb-3">
+    <div class="col-12">
+      <a routerLink="/pages/development/gui" translate class="mb-3">Back</a>
+    </div>
+  </div>
+
+  <h4>Invoice</h4>
+  <div class="row">
+    <div class="col-7">
+      <h5 class="text-muted">Invoice with a form</h5>
+      <nga-invoice-editor
+          [invoice]="invoiceForm"
+          (sourceChosen)="form = $event"
+      ></nga-invoice-editor>
+      <button pButton label="Save" (click)="SaveForm()" class="ui-button-success"></button>
+    </div>
+  </div>
+
+  <div class="row mt-2">
+    <div class="col-7">
+      <h5 class="text-muted">Invoice with a File</h5>
+      <nga-invoice-editor
+              [invoice]="invoiceFile"
+              (sourceChosen)="file = $event"
+      ></nga-invoice-editor>
+      <button pButton label="Save" (click)="SaveFile()" class="ui-button-success"></button>
+    </div>
+  </div>
+
+</ba-card>

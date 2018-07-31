@@ -7,6 +7,7 @@
 import { Component, ViewChild, Input, Output, EventEmitter, ElementRef, Renderer2 } from '@angular/core';
 import { UploadOutput, UploadInput, UploadFile, humanizeBytes, UploaderOptions } from 'ngx-uploader';
 
+// todo move to ui/upload
 @Component({
   selector: 'nga-picture-uploader',
   styleUrls: ['./upload.picture.scss'],

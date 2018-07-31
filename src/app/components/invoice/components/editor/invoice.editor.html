@@ -1,0 +1,30 @@
+<div class="row">
+    <div class="col-6">
+        <label class="label separate">{{ 'Invoice' | translate }}</label>
+        <nga-autocompleter
+                *ngIf="invoice && invoice.type === 'form'"
+                #invoiceFormAutocompleter
+                [service]="formService"
+                placeholder="Forms"
+                labelField="title"
+                (selected)="formSelected($event)"
+                (init)="startLoader($event)"
+                (loaded)="stopLoader($event)"
+        ></nga-autocompleter>
+
+        <div *ngIf="invoice && invoice.type === 'file'">
+            <nga-file-upload
+                    *ngIf="!invoiceFile"
+                    (changed)="onUploaded($event)"
+            ></nga-file-upload>
+            <nga-file-download
+                    *ngIf="invoiceFile"
+                    [file]="invoiceFile"
+            ></nga-file-download>
+        </div>
+    </div>
+    <div class="col-6">
+        <label class="label separate">{{ 'Price' | translate }}</label>
+        <input type="text" pInputText [placeholder]="'Price' | translate" [(ngModel)]="invoice.price">
+    </div>
+</div>
