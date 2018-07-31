@@ -38,7 +38,7 @@ import { Service } from '../../../service';
 import { AutocompleterComponent } from '../../../ui/selector/components/autocompleter';
 import { CitiesService } from '../../../city';
 import { Hospital, HospitalsService } from '../../../hospital';
-import { Form, FormService } from '../../../forms';
+import { FormService } from '../../../forms';
 
 @Component({
   selector: 'nga-case-editor',
@@ -74,6 +74,16 @@ export class CaseEditorComponent extends LoadingComponent implements OnInit {
   @ViewChild('doctorAutocompleter')
     private doctorAutocompleter: AutocompleterComponent;
 
+  @ViewChild('hospitalAutocompleter')
+    private hospitalAutocompleter: AutocompleterComponent;
+
+  @ViewChild('hospitalLetterAutocompleter')
+    private hospitalLetterAutocompleter: AutocompleterComponent;
+
+  @ViewChild('invoiceToAssistantAutocompleter')
+    private invoiceToAssistantAutocompleter: AutocompleterComponent;
+
+
   msgs: Message[] = [];
   accident: Accident;
   appliedTime: string = '';
@@ -92,8 +102,6 @@ export class CaseEditorComponent extends LoadingComponent implements OnInit {
   patientEditFormDisplay: boolean = false;
   patient: Patient;
   reportPreviewVisible: boolean = false;
-  invoiceFromTheHospital: boolean = false;
-  guaranteeFromTheAssistant: boolean = false;
 
   /**
    * to show on save message, that doctor was changed
@@ -471,6 +479,15 @@ export class CaseEditorComponent extends LoadingComponent implements OnInit {
       this.caseService.getHospitalCase(this.accident.id)
         .then((hospitalAccident: HospitalAccident) => {
           this.hospitalAccident = hospitalAccident;
+          if (hospitalAccident.hospitalId) {
+            this.hospitalAutocompleter.selectItems(hospitalAccident.hospitalId);
+          }
+          if (hospitalAccident.hospitalGuaranteeId) {
+            this.hospitalLetterAutocompleter.selectItems(hospitalAccident.hospitalGuaranteeId);
+          }
+          if (hospitalAccident.assistantInvoiceId) {
+            this.invoiceToAssistantAutocompleter.selectItems(hospitalAccident.assistantInvoiceId);
+          }
           this.stopLoader(postfix);
         }).catch((err) => {
           this._logger.error(err);
@@ -520,9 +537,5 @@ export class CaseEditorComponent extends LoadingComponent implements OnInit {
 
   isHospitalAccident(): boolean {
     return this.accident.caseableType === 'App\\HospitalAccident';
-  }
-
-  onHospitalLatterChanged(form: Form): void {
-    this.hospitalAccident.formReportId = form.id;
   }
 }
