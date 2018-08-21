@@ -3,7 +3,7 @@
  *
  *  @author Alexander Zagovorichev <zagovorichev@gmail.com>
  */
-@import "variables";
+@import 'variables';
 
 a.al-sidebar-list-link i {
   font-size: $font-size-lg;
@@ -164,3 +164,20 @@ input[pInputText] {
   }
 }
 
+.circle-icon {
+  font-size: 1.4em;
+  width: 25px;
+  height: 25px;
+  padding-top: 3px;
+  padding-left: 5px;
+  border-radius: 50%;
+
+  &.doctor {
+    background: #cce5ff;
+    border-color: #b8daff;
+  }
+  &.hospital {
+    background: #d4edda;
+    border-color: #c3e6cb;
+  }
+}
