@@ -75,6 +75,13 @@ export class CaseDatatableComponent implements OnInit {
         },
         transformers: [
           new DatatableTransformer('createdAt', val => this.dateHelper.toEuropeFormatWithTime(val)),
+          new DatatableTransformer('caseType', val => `
+                <div>
+                    <div class="circle-icon m-auto ${val === 'App\\DoctorAccident' ? 'doctor' : 'hospital'}">
+                        <span class="fa fa-${val === 'App\\DoctorAccident' ? 'user-md' : 'hospital-o'}"></span>
+                    </div>
+                </div>
+            `),
         ],
         filters: true,
         filterActions: [],
