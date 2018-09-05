@@ -30,4 +30,23 @@ export class ObjectHelper {
        f(prop);
      }
   }
+
+  /**
+   * Extends an object o with extended object params eo
+   * @param o
+   * @param eo
+   */
+  static extend(o: Object, eo: Object): Object {
+    // clone
+    const obj = {};
+    for (const key of Object.keys(o)) {
+      obj[key] = o[key];
+    }
+    // extend
+    for (const key of Object.keys(eo)) {
+      obj[key] = eo[key];
+    }
+
+    return obj;
+  }
 }
