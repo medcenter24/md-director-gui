@@ -1,5 +1,8 @@
 {
-  "Invoice":"Invoice",
+  "Choose Form": "Choose Form",
+  "Invoice to the assistant": "Invoice to the assistant",
+  "Invoice from the hospital": "Invoice from the hospital",
+  "Invoice": "Invoice",
   "Browse": "Browse",
   "Document ID": "Document ID",
   "Invoice Price":  "Invoice Price",
@@ -7,7 +10,6 @@
   "Payment from assistant": "Payment from assistant",
   "Accident": "Accident",
   "Form of the letter": "Form of the letter",
-  "Place the ID of the document from the list": "Place the ID of the document from the list",
   "Invoice From Hospital": "Invoice From Hospital",
   "Invoice To Assistant": "Invoice To Assistant",
   "Guarantee From Assistant": "Guarantee From Assistant",
