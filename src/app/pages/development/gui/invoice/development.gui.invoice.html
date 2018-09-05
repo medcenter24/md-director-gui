@@ -17,10 +17,8 @@
     <div class="col-7">
       <h5 class="text-muted">Invoice with a form</h5>
       <nga-invoice-editor
-          [invoice]="invoiceForm"
-          (sourceChosen)="form = $event"
-      ></nga-invoice-editor>
-      <button pButton label="Save" (click)="SaveForm()" class="ui-button-success"></button>
+            [invoice]="invoiceForm"
+    ></nga-invoice-editor>
     </div>
   </div>
 
@@ -29,9 +27,41 @@
       <h5 class="text-muted">Invoice with a File</h5>
       <nga-invoice-editor
               [invoice]="invoiceFile"
-              (sourceChosen)="file = $event"
       ></nga-invoice-editor>
-      <button pButton label="Save" (click)="SaveFile()" class="ui-button-success"></button>
+    </div>
+  </div>
+
+  <h4 class="mt-2">Auto Save mode</h4>
+  <div class="row">
+    <div class="col-7">
+      <h5 class="text-muted">Invoice with a form</h5>
+      <nga-invoice-editor
+              [autosave]="true"
+              [invoice]="invoiceForm"
+      ></nga-invoice-editor>
+    </div>
+  </div>
+
+  <h4 class="mt-2">Invoice Creating</h4>
+  <div class="row">
+    <div class="col-7">
+      <h5 class="text-muted">Invoice with a form</h5>
+      <nga-invoice-editor
+              [autosave]="true"
+              label="New Label"
+      ></nga-invoice-editor>
+    </div>
+  </div>
+
+  <h4 class="mt-2">Set Invoice</h4>
+  <div class="row">
+    <div class="col-7">
+      <h5 class="text-muted">Invoice with a form</h5>
+      <nga-invoice-editor
+              #setInvoiceComponent
+              [autosave]="true"
+              label="Set Invoice"
+      ></nga-invoice-editor>
     </div>
   </div>
 

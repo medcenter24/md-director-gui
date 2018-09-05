@@ -16,6 +16,8 @@ import { Logger } from 'angular2-logger/core';
 import { GlobalState } from '../../../../global.state';
 import { DoctorAccident } from '../../../doctorAccident/doctorAccident';
 import { HospitalAccident } from '../../../hospitalAccident/hospitalAccident';
+import { InvoiceEditorComponent } from '../../../invoice/components/editor';
+import { Invoice } from '../../../invoice/invoice';
 import { CasesService } from '../../cases.service';
 import { Diagnostic } from '../../../diagnostic/diagnostic';
 import { Document } from '../../../document/document';
@@ -83,6 +85,11 @@ export class CaseEditorComponent extends LoadingComponent implements OnInit {
   @ViewChild('invoiceToAssistantAutocompleter')
     private invoiceToAssistantAutocompleter: AutocompleterComponent;
 
+  @ViewChild('hospitalInvoiceEditor')
+    private hospitalInvoiceEditor: InvoiceEditorComponent;
+
+  @ViewChild('assistantInvoiceEditor')
+    private assistantInvoiceEditor: InvoiceEditorComponent;
 
   msgs: Message[] = [];
   accident: Accident;
@@ -453,46 +460,56 @@ export class CaseEditorComponent extends LoadingComponent implements OnInit {
     }
   }
 
-  private loadCaseable(): void {
-    const postfix = 'getCaseable';
+  private loadDoctorAccidentCaseable(): void {
+    const postfix = 'getDoctorCaseable';
     this.startLoader(postfix);
-    if (this.accident.caseableType === 'App\\DoctorAccident') {
-      this.caseService.getDoctorCase(this.accident.id)
-        .then((doctorAccident: DoctorAccident) => {
-          this.doctorAccident = doctorAccident;
-          this.doctorBeforeSave = doctorAccident.doctorId;
-          if (doctorAccident.doctorId) {
-            this.doctorAutocompleter.selectItems(doctorAccident.doctorId);
-          }
-          if (doctorAccident.cityId) {
-            this.cityAutocompleter.selectItems(doctorAccident.cityId);
-          }
-          if (doctorAccident.visitTime) {
-            this.appliedTime = this.dateHelper.toEuropeFormatWithTime(doctorAccident.visitTime);
-          }
-          this.stopLoader(postfix);
-        }).catch(err => {
-          this._logger.error(err);
-          this.stopLoader(postfix);
-        });
+    this.caseService.getDoctorCase(this.accident.id)
+      .then((doctorAccident: DoctorAccident) => {
+        this.doctorAccident = doctorAccident;
+        this.doctorBeforeSave = doctorAccident.doctorId;
+        if (doctorAccident.doctorId) {
+          this.doctorAutocompleter.selectItems(doctorAccident.doctorId);
+        }
+        if (doctorAccident.cityId) {
+          this.cityAutocompleter.selectItems(doctorAccident.cityId);
+        }
+        if (doctorAccident.visitTime) {
+          this.appliedTime = this.dateHelper.toEuropeFormatWithTime(doctorAccident.visitTime);
+        }
+        this.stopLoader(postfix);
+      }).catch(err => {
+      this._logger.error(err);
+      this.stopLoader(postfix);
+    });
+  }
+
+  private loadHospitalCaseable (): void {
+    const postfix = 'getHospitalCaseable';
+    this.startLoader(postfix);
+    this.caseService.getHospitalCase(this.accident.id)
+      .then((hospitalAccident: HospitalAccident) => {
+        this.hospitalAccident = hospitalAccident;
+        if (hospitalAccident.hospitalId) {
+          this.hospitalAutocompleter.selectItems(hospitalAccident.hospitalId);
+        }
+        // hospital's letter
+        this.hospitalLetterAutocompleter.selectItems(hospitalAccident.hospitalGuaranteeId);
+        // hospital's invoice
+        this.hospitalInvoiceEditor.setInvoice(new Invoice(hospitalAccident.hospitalInvoiceId, 0, 'file'), true);
+        // assistant's invoice
+        this.assistantInvoiceEditor.setInvoice(new Invoice(hospitalAccident.assistantInvoiceId, 0, 'form'), true);
+        this.stopLoader(postfix);
+      }).catch((err) => {
+      this._logger.error(err);
+      this.stopLoader(postfix);
+    });
+  }
+
+  private loadCaseable(): void {
+    if (this.isDoctorAccident()) {
+      this.loadDoctorAccidentCaseable();
     } else {
-      this.caseService.getHospitalCase(this.accident.id)
-        .then((hospitalAccident: HospitalAccident) => {
-          this.hospitalAccident = hospitalAccident;
-          if (hospitalAccident.hospitalId) {
-            this.hospitalAutocompleter.selectItems(hospitalAccident.hospitalId);
-          }
-          if (hospitalAccident.hospitalGuaranteeId) {
-            this.hospitalLetterAutocompleter.selectItems(hospitalAccident.hospitalGuaranteeId);
-          }
-          if (hospitalAccident.assistantInvoiceId) {
-            this.invoiceToAssistantAutocompleter.selectItems(hospitalAccident.assistantInvoiceId);
-          }
-          this.stopLoader(postfix);
-        }).catch((err) => {
-          this._logger.error(err);
-          this.stopLoader(postfix);
-        });
+      this.loadHospitalCaseable();
     }
   }
 
