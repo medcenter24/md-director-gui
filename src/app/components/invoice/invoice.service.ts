@@ -18,11 +18,11 @@ export class InvoiceService extends HttpService {
   }
 
   save(invoice: Invoice): Promise<Invoice> {
-    const action = invoice.id ? this.put(invoice.id, invoice) : this.store(invoice);
+    const action = invoice && +invoice.id ? this.put(invoice.id, invoice) : this.store(invoice);
     return action.then(response => response as Invoice);
   }
 
-  assignFile(invoice: Invoice, file: Upload): Promise<any> {
+  assignFile(invoice: Invoice, file: Upload): Promise<Invoice> {
     if (!file || typeof file.id === 'undefined') {
       return this.handleError('File should be provided');
     }
@@ -34,11 +34,12 @@ export class InvoiceService extends HttpService {
           obj[key] = invoice[key];
         }
         obj['fileId'] = file.id;
-        this.put(inv.id, obj);
+        console.log(obj);
+        return this.put(inv.id, obj).then(resp => resp as Invoice);
       });
   }
 
-  assignForm(invoice: Invoice, form: Form): Promise<any> {
+  assignForm(invoice: Invoice, form: Form): Promise<Invoice> {
     if (!form || typeof form.id === 'undefined') {
       return this.handleError('Form should be provided');
     }
@@ -50,7 +51,15 @@ export class InvoiceService extends HttpService {
           obj[key] = invoice[key];
         }
         obj['formId'] = form.id;
-        this.put(inv.id, obj);
+        return this.put(inv.id, obj).then(resp => resp as Invoice);
       });
+  }
+
+  getForm(invoice: Invoice): Promise<Form> {
+    return this.get(`${invoice.id}/form`).then(response => response.data as Form);
+  }
+
+  getFile(invoice: Invoice): Promise<Upload> {
+    return this.get(`${invoice.id}/file`).then(response => response as Upload);
   }
 }

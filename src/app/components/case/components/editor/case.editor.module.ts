@@ -18,6 +18,7 @@ import { KeyFilterModule } from 'primeng/keyfilter';
 import { AppTranslationModule } from '../../../../app.translation.module';
 import { FormsModule } from '@angular/forms';
 import { HaAssistantGuaranteeModule } from '../../../hospitalAccident/components/assistantGuaranteeFile';
+import { InvoiceEditorModule } from '../../../invoice/components/editor';
 import { CaseEditorComponent } from './case.editor.component';
 import { CaseEditorTabsService } from './case.editor.tabs.service';
 import { CaseTypeSelectModule } from '../type/case.type.select.module';
@@ -74,6 +75,7 @@ import { FormService } from '../../../forms';
     KeyFilterModule,
     CheckboxModule,
     HaAssistantGuaranteeModule,
+    InvoiceEditorModule,
   ],
   declarations: [
     CaseEditorComponent,

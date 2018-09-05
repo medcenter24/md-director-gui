@@ -7,12 +7,13 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { InputTextModule } from 'primeng/primeng';
+import { ButtonModule, InputTextModule } from 'primeng/primeng';
 import { AppTranslationModule } from '../../../../app.translation.module';
 import { FormService } from '../../../forms';
 import { AutocompleterModule } from '../../../ui/selector/components/autocompleter';
 import { DownloadFileModule } from '../../../upload/components/download';
 import { UploadFileModule } from '../../../upload/components/file';
+import { InvoiceService } from '../../invoice.service';
 import { InvoiceEditorComponent } from './invoice.editor.component';
 
 @NgModule({
@@ -24,6 +25,7 @@ import { InvoiceEditorComponent } from './invoice.editor.component';
     AutocompleterModule,
     UploadFileModule,
     DownloadFileModule,
+    ButtonModule,
   ],
   declarations: [
     InvoiceEditorComponent,
@@ -33,6 +35,7 @@ import { InvoiceEditorComponent } from './invoice.editor.component';
   ],
   providers: [
     FormService,
+    InvoiceService,
   ],
 })
 export class InvoiceEditorModule {

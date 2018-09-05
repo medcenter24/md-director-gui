@@ -152,7 +152,12 @@ export abstract class HttpService {
     } else if (error && error.status && error.status === 422) {
       // using dingo/FormRequest style
       this._state.notifyDataChanged('apiError', error);
+    } else if (typeof error === 'string') {
+      this.msgs = [];
+      this.msgs.push({ severity: 'error', summary: 'Error', detail: error });
+      this._state.notifyDataChanged('growl', this.msgs);
     } else {
+      this.msgs = [];
       this.msgs.push({ severity: 'error', summary: this.errorText,
           detail: this.httpErrorMessage });
       this._state.notifyDataChanged('growl', this.msgs);

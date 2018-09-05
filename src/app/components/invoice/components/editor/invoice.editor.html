@@ -1,30 +1,42 @@
 <div class="row">
-    <div class="col-6">
-        <label class="label separate">{{ 'Invoice' | translate }}</label>
+    <div class="col-5">
+        <label class="label separate">{{ label }}</label>
         <nga-autocompleter
-                *ngIf="invoice && invoice.type === 'form'"
+                *ngIf="isFormInvoice()"
                 #invoiceFormAutocompleter
                 [service]="formService"
-                placeholder="Forms"
+                placeholder="Choose Form"
                 labelField="title"
                 (selected)="formSelected($event)"
                 (init)="startLoader($event)"
                 (loaded)="stopLoader($event)"
         ></nga-autocompleter>
 
-        <div *ngIf="invoice && invoice.type === 'file'">
+        <div *ngIf="isFileInvoice()">
             <nga-file-upload
-                    *ngIf="!invoiceFile"
+                    *ngIf="!file"
                     (changed)="onUploaded($event)"
             ></nga-file-upload>
             <nga-file-download
-                    *ngIf="invoiceFile"
-                    [file]="invoiceFile"
+                    *ngIf="file"
+                    [file]="file"
             ></nga-file-download>
         </div>
     </div>
-    <div class="col-6">
+    <div class="col-5">
         <label class="label separate">{{ 'Price' | translate }}</label>
-        <input type="text" pInputText [placeholder]="'Price' | translate" [(ngModel)]="invoice.price">
+        <input type="text" pInputText
+               [placeholder]="'Price' | translate"
+               [(ngModel)]="invoice.price"
+               (change)="priceChanged($event)"
+        >
+    </div>
+    <div class="col-2" *ngIf="!autosave">
+        <button pButton [label]="'Save' | translate" (click)="save()" class="ui-button-success"></button>
+    </div>
+    <div class="col-2" *ngIf="autosave">
+        <label class="label separate">{{ 'Status' | translate }}</label>
+        <span class="fa fa-check text-success" *ngIf="!saving"></span>
+        <span class="fa fa-spinner fa-spin" *ngIf="saving"></span>
     </div>
 </div>

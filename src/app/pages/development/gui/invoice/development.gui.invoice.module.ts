@@ -7,7 +7,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { ButtonModule } from 'primeng/button';
 import { InvoiceEditorModule } from '../../../../components/invoice/components/editor';
 import { InvoiceService } from '../../../../components/invoice/invoice.service';
 import { NgaModule } from '../../../../theme/nga.module';
@@ -19,7 +18,6 @@ import { DevelopmentGuiInvoiceComponent } from './development.gui.invoice.compon
     RouterModule,
     NgaModule,
     InvoiceEditorModule,
-    ButtonModule,
   ],
   declarations: [
     DevelopmentGuiInvoiceComponent,
