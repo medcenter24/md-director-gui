@@ -1,4 +1,6 @@
 {
+  "Sent": "Отправлен",
+  "New": "Новый",
   "Choose Form": "Выбрать форму",
   "Invoice to the assistant": "Счет в ассистантс",
   "Invoice from the hospital": "Счет из больницы",
@@ -11,8 +13,8 @@
   "Form of the letter": "Шаблон письма",
   "Invoice From Hospital": "Инвойс из больницы",
   "Invoice To Assistant": "Инвойс в ассистанс",
-  "Guarantee From Assistant": "Гарантия из ассистанса",
-  "Letter To Hospital": "Письмо в больницу",
+  "Guarantee From the Assistant": "Гарант. письмо из ассистанса",
+  "Guarantee To the Hospital": "Гаран. письмо в больницу",
   "Case": "Дело",
   "Choose Type": "Выберите тип",
   "Hospital Title": "Название больницы",

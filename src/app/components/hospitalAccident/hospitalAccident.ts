@@ -14,7 +14,6 @@ export class HospitalAccident {
     public hospitalInvoiceId: number = 0,
     public assistantInvoiceId: number = 0,
     public assistantGuaranteeId: number = 0,
-    public assistantPaid: number = 0,
     public createdAt: string = '',
     public updatedAt: string = '',
     public deletedAt: string = '',

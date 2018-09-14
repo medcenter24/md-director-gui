@@ -5,6 +5,7 @@
  */
 
 import { Component, Output, EventEmitter, Input, OnInit } from '@angular/core';
+import { TranslateService } from '@ngx-translate/core';
 import { SelectItem } from 'primeng/primeng';
 
 @Component({
@@ -18,17 +19,21 @@ export class CaseTypeSelectComponent implements OnInit {
 
   caseTypes: SelectItem[] = [];
 
-  constructor () { }
+  constructor (
+    private translate: TranslateService,
+  ) { }
 
   ngOnInit () {
-    this.caseTypes = [];
-    this.caseTypes.push({ label: 'Doctor Case', value: 'App\\DoctorAccident' });
-    this.caseTypes.push({ label: 'Hospital Case', value: 'App\\HospitalAccident' });
+    this.translate.get('Yes').subscribe(() => {
+      this.caseTypes = [];
+      this.caseTypes.push({ label: this.translate.instant('Doctor Case'), value: 'App\\DoctorAccident' });
+      this.caseTypes.push({ label: this.translate.instant('Hospital Case'), value: 'App\\HospitalAccident' });
 
-    if (!this.selectedCaseTypeId) {
-      this.selectedCaseTypeId = 'App\\DoctorAccident';
-      this.onChanged({ value: this.selectedCaseTypeId });
-    }
+      if (!this.selectedCaseTypeId) {
+        this.selectedCaseTypeId = 'App\\DoctorAccident';
+        this.onChanged({ value: this.selectedCaseTypeId });
+      }
+    });
   }
 
   onChanged(event): void {

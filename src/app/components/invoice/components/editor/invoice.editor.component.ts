@@ -5,6 +5,7 @@
  */
 
 import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { TranslateService } from '@ngx-translate/core';
 import { NumbersHelper } from '../../../../helpers/numbers.helper';
 import { LoadableComponent } from '../../../core/components/componentLoader';
 import { Form, FormService } from '../../../forms';
@@ -55,6 +56,11 @@ export class InvoiceEditorComponent extends LoadableComponent implements OnInit 
   onUploaded(file: Upload): void {
     this.file = file;
     this.sourceChosen.emit(file);
+    this.doAutoSave();
+  }
+
+  onStatusChanged(state: string): void {
+    this.invoice.status = state;
     this.doAutoSave();
   }
 
