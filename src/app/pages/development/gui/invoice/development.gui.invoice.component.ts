@@ -25,7 +25,7 @@ export class DevelopmentGuiInvoiceComponent extends LoadingComponent implements 
   @ViewChild('setInvoiceComponent')
     setInvoiceComponent: InvoiceEditorComponent;
 
-  invoiceForm: Invoice = new Invoice(0, 55.77, 'form', 'Test form invoice');
+  invoiceForm: Invoice = new Invoice(0, 55.77, 'form', 'Test form invoice', 'paid');
   invoiceFile: Invoice = new Invoice(0, 35.44, 'file', 'Test file invoice');
 
   constructor(

@@ -8,7 +8,6 @@ import { RouterModule, Routes } from '@angular/router';
 import { DevelopmentPageComponent } from './development.page.component';
 import { ModuleWithProviders } from '@angular/core';
 import { DevelopmentGuiComponent } from './gui';
-import { DevelopmentGuiHospitalAccidentGuaranteeComponent } from './gui/hospital/accident/guarantee';
 import { DevelopmentGuiInvoiceComponent } from './gui/invoice';
 import { DevelopmentGuiMultiselectComponent } from './gui/multiselect';
 import { MultiselectImplementationsComponent } from './gui/multiselect/implementations';
@@ -26,7 +25,6 @@ const routes: Routes = [
       { path: 'gui/multiselect/implementations', component: MultiselectImplementationsComponent },
       { path: 'gui/autocompleter', component: DevelopmentGuiAutocompleterComponent },
       { path: 'gui/uploader/file', component: DevelopmentGuiUploaderFileComponent },
-      { path: 'gui/hospital/accident/guarantee', component: DevelopmentGuiHospitalAccidentGuaranteeComponent },
       { path: 'gui/invoice', component: DevelopmentGuiInvoiceComponent },
     ],
   },

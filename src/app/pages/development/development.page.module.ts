@@ -8,7 +8,6 @@ import { NgModule } from '@angular/core';
 import { DevelopmentPageComponent } from './development.page.component';
 import { routing } from './development.page.routing';
 import { DevelopmentGuiModule } from './gui';
-import { DevelopmentGuiHospitalAccidentGuaranteeModule } from './gui/hospital/accident/guarantee';
 import { DevelopmentGuiInvoiceModule } from './gui/invoice';
 import { DevelopmentGuiMultiselectModule } from './gui/multiselect';
 import { MultiselectImplementationsModule } from './gui/multiselect/implementations';
@@ -23,7 +22,6 @@ import { DevelopmentGuiUploaderFileModule } from './gui/uploader/file';
     MultiselectImplementationsModule,
     DevelopmentGuiAutocompleterModule,
     DevelopmentGuiUploaderFileModule,
-    DevelopmentGuiHospitalAccidentGuaranteeModule,
     DevelopmentGuiInvoiceModule,
   ],
   declarations: [
