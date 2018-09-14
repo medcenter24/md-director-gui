@@ -79,11 +79,11 @@ export class CaseEditorComponent extends LoadingComponent implements OnInit {
   @ViewChild('hospitalAutocompleter')
     private hospitalAutocompleter: AutocompleterComponent;
 
-  @ViewChild('hospitalLetterAutocompleter')
-    private hospitalLetterAutocompleter: AutocompleterComponent;
+  @ViewChild('hospitalGuaranteeEditor')
+    private hospitalGuaranteeEditor: InvoiceEditorComponent;
 
-  @ViewChild('invoiceToAssistantAutocompleter')
-    private invoiceToAssistantAutocompleter: AutocompleterComponent;
+  @ViewChild('assistantGuaranteeEditor')
+    private assistantGuaranteeEditor: InvoiceEditorComponent;
 
   @ViewChild('hospitalInvoiceEditor')
     private hospitalInvoiceEditor: InvoiceEditorComponent;
@@ -142,7 +142,6 @@ export class CaseEditorComponent extends LoadingComponent implements OnInit {
 
     this.doctorAccident = new DoctorAccident();
     this.hospitalAccident = new HospitalAccident();
-    // this.accident.caseableType = 'App\\DoctorAccident';
 
     this.route.params
       .subscribe((params: Params) => {
@@ -488,17 +487,20 @@ export class CaseEditorComponent extends LoadingComponent implements OnInit {
     this.startLoader(postfix);
     this.caseService.getHospitalCase(this.accident.id)
       .then((hospitalAccident: HospitalAccident) => {
+        this.stopLoader(postfix);
+
         this.hospitalAccident = hospitalAccident;
         if (hospitalAccident.hospitalId) {
           this.hospitalAutocompleter.selectItems(hospitalAccident.hospitalId);
         }
         // hospital's letter
-        this.hospitalLetterAutocompleter.selectItems(hospitalAccident.hospitalGuaranteeId);
+        this.hospitalGuaranteeEditor.setInvoice(new Invoice(hospitalAccident.hospitalGuaranteeId, 0, 'form'), true);
         // hospital's invoice
         this.hospitalInvoiceEditor.setInvoice(new Invoice(hospitalAccident.hospitalInvoiceId, 0, 'file'), true);
         // assistant's invoice
         this.assistantInvoiceEditor.setInvoice(new Invoice(hospitalAccident.assistantInvoiceId, 0, 'form'), true);
-        this.stopLoader(postfix);
+        // assistants' letter
+        this.assistantGuaranteeEditor.setInvoice(new Invoice(hospitalAccident.assistantGuaranteeId, 0, 'file'), true);
       }).catch((err) => {
       this._logger.error(err);
       this.stopLoader(postfix);

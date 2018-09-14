@@ -16,14 +16,18 @@
             <nga-file-upload
                     *ngIf="!file"
                     (changed)="onUploaded($event)"
+                    (loaded)="stopLoader($event)"
+                    (init)="startLoader($event)"
             ></nga-file-upload>
             <nga-file-download
                     *ngIf="file"
                     [file]="file"
+                    (loaded)="stopLoader($event)"
+                    (init)="startLoader($event)"
             ></nga-file-download>
         </div>
     </div>
-    <div class="col-5">
+    <div class="col-3">
         <label class="label separate">{{ 'Price' | translate }}</label>
         <input type="text" pInputText
                [placeholder]="'Price' | translate"
@@ -31,11 +35,21 @@
                (change)="priceChanged($event)"
         >
     </div>
+    <div class="col-2">
+        <label class="label separate">{{ 'Status' | translate }}</label>
+        <nga-ui-status-select
+            [status]="invoice.status"
+            (selected)="onStatusChanged($event)"
+            (loaded)="stopLoader($event)"
+            (init)="startLoader($event)"
+        ></nga-ui-status-select>
+    </div>
     <div class="col-2" *ngIf="!autosave">
+        <label class="label separate">{{ 'Action' | translate }}</label>
         <button pButton [label]="'Save' | translate" (click)="save()" class="ui-button-success"></button>
     </div>
     <div class="col-2" *ngIf="autosave">
-        <label class="label separate">{{ 'Status' | translate }}</label>
+        <label class="label separate">&nbsp;</label>
         <span class="fa fa-check text-success" *ngIf="!saving"></span>
         <span class="fa fa-spinner fa-spin" *ngIf="saving"></span>
     </div>
