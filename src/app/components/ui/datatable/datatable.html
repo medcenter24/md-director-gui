@@ -17,8 +17,9 @@
     <div class="ui-helper-clearfix">
       <button
         *ngIf="config.csvExportAll"
+        class="mr-1"
         type="button" pButton
-        icon="fa-file-o" iconPos="left"
+        icon="fa fa-file-o" iconPos="left"
         [label]="config.csvExportAllTitle"
         (click)="datatable.exportCSV()"
         class="pull-left"></button>
@@ -26,7 +27,7 @@
       <button
         *ngIf="config.csvExportSelections"
         type="button"
-        pButton icon="fa-file"
+        pButton icon="fa fa-file"
         iconPos="left"
         [label]="config.csvExportSelectionsTitle"
         (click)="datatable.exportCSV({selectionOnly:true})"
@@ -47,7 +48,7 @@
           [icon]="action.icon"
           (click)="action.run()"
           [label]="action.title"
-          class="pull-left"
+          class="pull-left mr-1"
         ></button>
       </div>
     </div>
@@ -80,6 +81,7 @@
   <ng-template pTemplate="summary" let-rowData *ngIf="config.controlPanel">
     <div class="text-left">
       <button type="button"
+              class="mr-1"
               *ngFor="let action of config.controlPanelActions"
               pButton
               [icon]="action.icon"

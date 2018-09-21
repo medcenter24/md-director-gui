@@ -51,7 +51,7 @@ export class SurveyDatatableComponent extends AbstractDatatableController {
 
   getActions(): DatatableAction[] {
     return [
-      new DatatableAction(this.translateService.instant('Add'), 'fa-plus', () => {
+      new DatatableAction(this.translateService.instant('Add'), 'fa fa-plus', () => {
         this.setModel(this.getEmptyModel());
         this.displayDialog = true;
       }),

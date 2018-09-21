@@ -64,8 +64,8 @@ export class FormEditorComponent extends LoadableComponent implements OnInit, Af
           const reader = new FileReader();
 
           // Set the reader to insert images when they are loaded.
-          reader.onload = (event: FileReaderEvent) => {
-            const result = event.target.result;
+          reader.onload = (ev: FileReaderProgressEvent) => {
+            const result = ev.target.result;
             editor.image.insert(result, null, null, editor.image.get());
           };
 
