@@ -7,8 +7,10 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { InputSwitchModule, SelectButtonModule } from 'primeng/primeng';
 import { AppTranslationModule } from '../../../../app.translation.module';
 import { DoctorSelectModule } from '../../../doctors/components/select';
+import { AutocompleterModule } from '../../../ui/selector/components/autocompleter';
 import { FinanceEditorComponent } from './finance.editor.component';
 import { AssistantSelectModule } from '../../../assistant/components/select';
 import { CitySelectModule } from '../../../city/components/select';
@@ -37,6 +39,9 @@ import { FinanceInfoModule } from '../info';
     PeriodSelectModule,
     MultiSelectorModule,
     FinanceInfoModule,
+    SelectButtonModule,
+    InputSwitchModule,
+    AutocompleterModule,
   ],
   providers: [
     FinanceService,

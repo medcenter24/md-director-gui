@@ -29,6 +29,30 @@ const menu = [
         },
       },
       {
+        path: 'finance',
+        data: {
+          menu: {
+            title: 'Finance',
+            icon: 'fa fa-dollar',
+          },
+        },
+        children: [{
+          path: 'conditions',
+          data: {
+            menu: {
+              title: 'Conditions',
+            },
+          },
+        }, {
+          path: 'currencies',
+          data: {
+            menu: {
+              title: 'Currencies',
+            },
+          },
+        }],
+      },
+      {
         path: 'companions',
         data: {
           menu: {
@@ -66,14 +90,6 @@ const menu = [
             data: {
               menu: {
                 title: 'Date Periods',
-              },
-            },
-          },
-          {
-            path: 'finance',
-            data: {
-              menu: {
-                title: 'Finance',
               },
             },
           },

@@ -12,7 +12,7 @@ import { Logger } from 'angular2-logger/core';
 import { TranslateService } from '@ngx-translate/core';
 import { FinanceService } from '../../finance.service';
 import { LoadableServiceInterface } from '../../../core/loadable';
-import { FinanceRule } from '../../financeRule';
+import { FinanceRule } from '../../finance.rule';
 import { DatatableAction, DatatableCol, DatatableTransformer } from '../../../ui/datatable';
 import { ConfirmationService } from 'primeng/api';
 import { Router } from '@angular/router';
@@ -81,13 +81,13 @@ export class FinanceDatatableComponent extends AbstractDatatableController {
     return [
       new DatatableAction(this.translateService.instant('Add'), 'fa-plus', () => {
         this.setModel(this.getEmptyModel());
-        this.router.navigate(['pages/settings/finance/new']);
+        this.router.navigate(['pages/finance/conditions/new']);
       }),
     ];
   }
 
   protected onRowSelect(event): void {
-    this.router.navigate([`pages/settings/finance/${event.data.id}`]);
+    this.router.navigate([`pages/finance/conditions/${event.data.id}`]);
   }
 
   getSortBy(): string {

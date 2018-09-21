@@ -22,6 +22,8 @@ export const routes: Routes = [
     children: [
       { path: 'settings', loadChildren: 'app/pages/settings/settings.module#SettingsModule',
         canActivate: [AuthGuard] },
+      { path: 'finance', loadChildren: 'app/pages/finance/finance.module#FinanceModule',
+        canActivate: [AuthGuard] },
       { path: 'geo', loadChildren: 'app/pages/geo/geo.module#GeoModule', canActivate: [AuthGuard] },
       { path: 'doctors', loadChildren: 'app/pages/doctors/doctors.module#DoctorsModule', canActivate: [AuthGuard] },
       { path: 'dashboard', loadChildren: 'app/pages/dashboard/dashboard.module#DashboardModule',
