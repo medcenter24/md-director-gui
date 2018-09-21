@@ -27,5 +27,8 @@ export class FinanceRule {
      */
     public datePeriods: Period[] = [],
     public priceAmount: number = null,
+    public currencyId: number = 0, // sub or add value in the currency value (from the FinanceCurrency)
+    public isPercent: boolean = false, // if needs to be calculated percent from the total amount
+    public type: string = 'payment', // payment, discount (+ -)
   ) { }
 }

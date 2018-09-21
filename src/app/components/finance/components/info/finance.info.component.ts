@@ -6,7 +6,7 @@
 
 import { Component, Input } from '@angular/core';
 import { LoadableComponent } from '../../../core/components/componentLoader';
-import { FinanceRule } from '../../financeRule';
+import { FinanceRule } from '../../finance.rule';
 
 @Component({
   selector: 'nga-finance-info',

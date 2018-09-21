@@ -27,8 +27,8 @@ export abstract class LoadingComponent extends LoadableComponent {
 
     private componentsList: string[] = [];
 
-    startLoader(componentName: string = ''): void {
-        const name = `${this.componentName}${componentName}`;
+    startLoader(postfix: string = ''): void {
+        const name = `${this.componentName}${postfix}`;
         this._logger.debug(`+ ${name}`);
 
         if (!this.componentsList.length) {
@@ -38,17 +38,17 @@ export abstract class LoadingComponent extends LoadableComponent {
         }
 
         if (this.componentsList.indexOf(name) !== -1) {
-            componentName = this.generateName(name);
+            postfix = this.generateName(name);
         }
 
-        this.componentsList.push(componentName);
+        this.componentsList.push(postfix);
     }
 
-    stopLoader(componentName: string = ''): void {
-        const name = `${this.componentName}${componentName}`;
+    stopLoader(postfix: string = ''): void {
+        const name = `${this.componentName}${postfix}`;
         this._logger.debug(`- ${name}`);
 
-        if (!this.deleteName(componentName)) {
+        if (!this.deleteName(postfix)) {
             this._logger.error(`Loading is trying to stop component which has not been launched => ${name}`);
         }
 

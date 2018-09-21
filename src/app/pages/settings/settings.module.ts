@@ -10,8 +10,6 @@ import { SettingsComponent } from './settings.component';
 import { PeriodDatatableModule } from '../../components/period/components/datatable';
 import { AccidentCheckpointDatatableModule }
   from '../../components/accident/components/checkpoint/components/datatable';
-import { FinanceDatatableModule } from '../../components/finance/components/datatable';
-import { FinanceEditorPageModule } from './finance/editor';
 import { FormDatatableModule } from '../../components/forms/components/datatable';
 import { FormEditorPageModule } from './form/editor';
 
@@ -20,8 +18,6 @@ import { FormEditorPageModule } from './form/editor';
     routing,
     PeriodDatatableModule,
     AccidentCheckpointDatatableModule,
-    FinanceDatatableModule,
-    FinanceEditorPageModule,
     FormDatatableModule,
     FormEditorPageModule,
   ],

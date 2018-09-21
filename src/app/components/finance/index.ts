@@ -5,4 +5,4 @@
  */
 
 export * from './finance.service';
-export * from './financeRule';
+export * from './finance.rule';
