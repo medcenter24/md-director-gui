@@ -1,4 +1,13 @@
 {
+  "Icon Preview": "Просмотр иконки",
+  "code": "код",
+  "Icon": "Класс иконки",
+  "Code": "Код",
+  "Currencies": "Валюты",
+  "Conditions": "Условия",
+  "Currency": "Валюта",
+  "Payment": "Оплата",
+  "Discount": "Скидка",
   "Sent": "Отправлен",
   "New": "Новый",
   "Choose Form": "Выбрать форму",

@@ -2,6 +2,14 @@
   <div class="col-sm-3">
     <div class="row">
       <div class="col-12 mb-2">
+        <label class="label required separate" for="title" translate>Type</label>
+        <p-selectButton [options]="financeTypes"
+                        [(ngModel)]="selectedFinanceTypeId"
+                        (onChange)="onFinanceTypeChanged($event)"></p-selectButton>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-12 mb-2">
         <label class="label required separate" for="title" translate>Title</label>
         <input type="text" pInputText
                id="title"
@@ -97,6 +105,31 @@
                (input)="onPriceAmountChanged($event)"
                (change)="priceAmountToFixed($event)"
                required/>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-12 mb-2">
+        <label class="label required separate" for="price">{{ 'Currency' | translate }}</label>
+        <div class="row">
+          <div class="col-12">
+            <p-inputSwitch [(ngModel)]="rule.isPercent"></p-inputSwitch>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12">
+            <nga-autocompleter
+                    *ngIf="!rule.isPercent"
+                    [service]="currencyService"
+                    placeholder="Choose Currency"
+                    labelField="title"
+                    (selected)="setCurrency($event)"
+                    [preloadedData]="rule.currencyId"
+                    (init)="startLoader($event)"
+                    (loaded)="stopLoader($event)"
+            ></nga-autocompleter>
+          </div>
+        </div>
       </div>
     </div>
 

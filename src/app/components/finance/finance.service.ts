@@ -6,7 +6,7 @@
 
 import { Injectable } from '@angular/core';
 import { HttpService } from '../core/http/http.service';
-import { FinanceRule } from './financeRule';
+import { FinanceRule } from './finance.rule';
 import { LoadableServiceInterface } from '../core/loadable';
 
 @Injectable()
