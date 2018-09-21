@@ -59,7 +59,7 @@ export class AccidentCheckpointDatatableComponent extends LoadingComponent imple
         refreshTitle: this.translateService.instant('Refresh'),
         controlPanel: true,
         controlPanelActions: [
-          new DatatableAction(this.translateService.instant('Add'), 'fa-plus', () => {
+          new DatatableAction(this.translateService.instant('Add'), 'fa fa-plus', () => {
             this.showDialogToAdd();
           }),
         ],

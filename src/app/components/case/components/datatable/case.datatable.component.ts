@@ -55,10 +55,10 @@ export class CaseDatatableComponent implements OnInit {
         cols,
         refreshTitle: this.translateService.instant('Refresh'),
         captionPanelActions: [
-          new DatatableAction(this.translateService.instant('Import'), 'fa-upload', () => {
+          new DatatableAction(this.translateService.instant('Import'), 'fa fa-upload', () => {
             this.importer.showImporter();
           }),
-          new DatatableAction(this.translateService.instant('Export'), 'fa-download', () => {
+          new DatatableAction(this.translateService.instant('Export'), 'fa fa-download', () => {
             this.exporterService.form1({});
           }),
         ],
@@ -66,7 +66,7 @@ export class CaseDatatableComponent implements OnInit {
         captionPanel: true,
         csvExportAll: true,
         controlPanelActions: [
-          new DatatableAction(this.translateService.instant('Add'), 'fa-plus', () => {
+          new DatatableAction(this.translateService.instant('Add'), 'fa fa-plus', () => {
             this.router.navigate(['pages/cases/new']);
           }),
         ],
