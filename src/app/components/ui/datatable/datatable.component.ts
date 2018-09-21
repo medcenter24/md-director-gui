@@ -38,7 +38,7 @@ export class DatatableComponent extends LoadableComponent implements OnInit {
 
   ngOnInit(): void {
     if (this.config.showRefreshBtn) {
-      this.config.controlPanelActions.push(new DatatableAction(this.config.refreshBtnTitle, 'fa-refresh', () => {
+      this.config.controlPanelActions.push(new DatatableAction(this.config.refreshBtnTitle, 'fa fa-refresh', () => {
         this.refresh();
       }));
     }
