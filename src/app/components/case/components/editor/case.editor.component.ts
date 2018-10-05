@@ -306,9 +306,10 @@ export class CaseEditorComponent extends LoadingComponent implements OnInit {
   }
 
   private saveCase(data): void {
-    this.startLoader('saveCase');
+    const postfix = 'saveCase';
+    this.startLoader(postfix);
     this.caseService.saveCase(data).then(response => {
-      this.stopLoader('saveCase');
+      this.stopLoader(postfix);
       this.doctorBeforeSave = this.doctorAccident.doctorId;
       this.msgs = [];
       this.msgs.push({ severity: 'success', summary: this.translate.instant('Saved'),
@@ -320,7 +321,7 @@ export class CaseEditorComponent extends LoadingComponent implements OnInit {
         this.scenarioComponent.reload();
       }
     }).catch(err => {
-      this.stopLoader('saveCase');
+      this.stopLoader(postfix);
 
       if (err.status === 404) {
         this.msgs = [];

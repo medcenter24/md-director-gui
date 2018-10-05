@@ -1,4 +1,9 @@
 {
+  "Profit calculation for a doctor": "Выгода врача",
+  "Accident profit calculation": "Стоимость случая",
+  "Model": "Модель",
+  "Subtract": "Вычесть",
+  "Calculate as a percent": "Вычислить процент от суммы",
   "Choose Currency": "Выберите валюту",
   "Icon Preview": "Просмотр иконки",
   "code": "код",
@@ -103,7 +108,6 @@
   "Services provided": "При оказании услуг",
   "If assistant company is": "При поступлении дела из ассистантской компании",
   "For the doctor": "Для врача",
-  "A new criterion will be set for calculating the cost of services and the subsequent calculation of the company's income, using formula": "Будет задан новый критерий для расчета стоимости услуг и последующего расчета дохода компании, по формуле:",
   "Finance": "Финансы",
   "Assistant Companies": "Ассистантские компании",
   "Cases Total": "Всего дел за год",
