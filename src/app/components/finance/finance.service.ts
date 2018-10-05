@@ -24,8 +24,8 @@ export class FinanceService extends HttpService implements LoadableServiceInterf
   }
 
   save (finance: FinanceRule): Promise<FinanceRule> {
-    const action = finance.id ? this.put(finance.id, finance) : this.store(finance);
-    return action.then(response => response.data as FinanceRule);
+    return finance.id ? this.put(finance.id, finance).then(response => response.data as FinanceRule)
+      : this.store(finance).then(response => response as FinanceRule);
   }
 
   destroy (financeRule: FinanceRule): Promise<any> {
