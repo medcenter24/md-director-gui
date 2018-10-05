@@ -23,12 +23,22 @@ export class FinanceRule {
      * example:
      *    from 'sat 00:00' to 'sun 23:59' # weekend rule
      *    from '21:00' to '6:00' # night rule
-     *    # everything other - it is a day rule
+     *    # everything other - it's a day rule
      */
     public datePeriods: Period[] = [],
-    public priceAmount: number = null,
+    public value: number = null,
     public currencyId: number = 0, // sub or add value in the currency value (from the FinanceCurrency)
-    public isPercent: boolean = false, // if needs to be calculated percent from the total amount
-    public type: string = 'payment', // payment, discount (+ -)
+    public currencyMode: string = 'currency', // currency, percent mode
+    public type: string = 'add', // add, subtract (+ -)
+    public model: string = 'App\\Accident', // Doctor::class, Accident::class
   ) { }
+
+  static canBeSaved(rule: FinanceRule): boolean {
+    const res = rule.value > 0 // no reason to save 0 - do nothing ?
+      && rule.title
+      && (rule.currencyMode === 'percent' || rule.currencyId)
+      && rule.model;
+
+    return !!res;
+  }
 }

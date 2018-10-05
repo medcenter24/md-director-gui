@@ -15,7 +15,7 @@ import { CitiesService, City } from '../../../city';
 import { Period, PeriodService } from '../../../period';
 import { NumbersHelper } from '../../../../helpers/numbers.helper';
 import { ServicesService } from '../../../service';
-import { ActivatedRoute, Params } from '@angular/router';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 import { GlobalState } from '../../../../global.state';
 import { FinanceCurrency } from '../currency/finance.currency';
 import { FinanceCurrencyService } from '../currency/finance.currency.service';
@@ -28,12 +28,19 @@ import { FinanceCurrencyService } from '../currency/finance.currency.service';
 export class FinanceEditorComponent extends LoadableComponent implements OnInit {
   protected componentName: string = 'FinanceEditorComponent';
 
-  rule: FinanceRule;
+  rule: FinanceRule = new FinanceRule();
 
   isLoaded: boolean = false;
 
+  /**
+   * add, sub
+   */
   financeTypes: any[] = [];
-  selectedFinanceTypeId: string = 'payment';
+
+  /**
+   * doctor, accident
+   */
+  conditionModels: any[] = [];
 
   constructor(
     protected financeService: FinanceService,
@@ -43,6 +50,7 @@ export class FinanceEditorComponent extends LoadableComponent implements OnInit 
     public periodService: PeriodService,
     public servicesService: ServicesService,
     private route: ActivatedRoute,
+    private router: Router,
     protected _state: GlobalState,
     protected translateService: TranslateService,
     public currencyService: FinanceCurrencyService,
@@ -54,82 +62,82 @@ export class FinanceEditorComponent extends LoadableComponent implements OnInit 
     this.route.params
       .subscribe((params: Params) => {
         this._state.notifyDataChanged('menu.activeLink', { title: 'Finance' });
-        this.initTypes();
         const id = +params[ 'id' ];
+        this.initTypes();
+        this.initModels();
         if (id) {
           this.startLoader();
           this.financeService.getFinanceRule(id).then((financeRule: FinanceRule) => {
             this.stopLoader();
             this.rule = financeRule;
-            this.selectedFinanceTypeId = this.rule.type;
             this.isLoaded = true;
           }).catch(() => this.stopLoader());
         } else {
-            this.rule = new FinanceRule();
             this.isLoaded = true;
         }
       });
   }
 
   private initTypes(): void {
+    const postfix = 'TypesLang';
+    this.startLoader(postfix);
     this.translateService.get('Yes').subscribe(() => {
       this.financeTypes = [];
-      this.financeTypes.push({ label: this.translateService.instant('Payment'), value: 'payment' });
-      this.financeTypes.push({ label: this.translateService.instant('Discount'), value: 'discount' });
+      this.financeTypes.push({ label: this.translateService.instant('Add'), value: 'add' });
+      this.financeTypes.push({ label: this.translateService.instant('Subtract'), value: 'sub' });
 
-      if (!this.selectedFinanceTypeId) {
-        this.selectedFinanceTypeId = 'payment';
+      this.stopLoader(postfix);
+
+      if (!this.rule.type) {
+        this.rule.type = 'add';
+      }
+    });
+  }
+
+  private initModels(): void {
+    const postfix = 'ModelsLang';
+    this.startLoader(postfix);
+    this.translateService.get('Yes').subscribe(() => {
+      this.conditionModels = [];
+      this.conditionModels.push({ label: this.translateService.instant('Doctor'), value: 'App\\Doctor' });
+      this.conditionModels.push({ label: this.translateService.instant('Accident'), value: 'App\\Accident' });
+
+      this.stopLoader(postfix);
+
+      if (!this.rule.model) {
+        this.rule.model = 'App\\Accident';
       }
     });
   }
 
   saveFinanceRule(): void {
-    const postfix = 'saveRule';
+    const postfix = 'SaveRule';
     this.startLoader(postfix);
     this.financeService.save(this.rule)
-      .then(() => this.stopLoader(postfix))
-      .catch(() => this.stopLoader(postfix));
+      .then(rule => {
+        this.stopLoader(postfix);
+        if (!this.rule || !this.rule.id) {
+          this.router.navigate([`pages/finance/conditions/${rule.id}`]);
+        } else {
+          this.rule = rule;
+        }
+      })
+      .catch(() => {
+        this.stopLoader(postfix);
+      });
   }
 
-  hasPrice () {
-    return this.rule.priceAmount || this.rule.priceAmount === 0;
-  }
-
-  onTitleChanged(event): void {
-    this.rule.title = event.target.value;
-  }
-
-  onAssistantsChanged(assistants: Assistant[]): void {
-    this.rule.assistants = assistants;
-  }
-
-  onDoctorsChanged (doctors: Doctor[]): void {
-    this.rule.doctors = doctors;
-  }
-
-  onCitiesChanged (cities: City[]): void {
-    this.rule.cities = cities;
+  canBeSaved () {
+    return FinanceRule.canBeSaved(this.rule);
   }
 
   onPriceAmountChanged(event): void {
     const val = event.target.value;
-    this.rule.priceAmount = event.target.value = FinanceEditorComponent.convertPriceAmount(val);
-  }
-
-  onServicesChanged(event): void {
-    this.rule.services = event;
-  }
-
-  onPeriodsChanged(periods: Period[]): void {
-    this.rule.datePeriods = periods;
+    this.rule.value = event.target.value = FinanceEditorComponent.convertPriceAmount(val);
   }
 
   priceAmountToFixed(event): void {
-    this.rule.priceAmount = event.target.value = FinanceEditorComponent.convertPriceAmount(event.target.value, true);
-  }
-
-  setCurrency(currency: FinanceCurrency): void {
-    this.rule.currencyId = currency.id;
+    this.rule.value = event.target.value = FinanceEditorComponent.convertPriceAmount(event.target.value, true);
   }
 
   private static convertPriceAmount(amount: string = '', toFixed: boolean = false): number {
@@ -138,9 +146,5 @@ export class FinanceEditorComponent extends LoadableComponent implements OnInit 
       result = NumbersHelper.getFixedFloat(amount, true, toFixed);
     }
     return result;
-  }
-
-  onFinanceTypeChanged(event): void {
-    this.rule.type = event.value;
   }
 }

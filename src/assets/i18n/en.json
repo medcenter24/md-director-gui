@@ -1,4 +1,9 @@
 {
+  "Profit calculation for a doctor": "Profit calculation for a doctor",
+  "Accident profit calculation": "Accident profit calculation",
+  "Model": "Model",
+  "Subtract": "Subtract",
+  "Calculate as a percent": "Calculate as a percent",
   "Choose Currency": "Choose Currency",
   "Test Autocompleter": "Test Autocompleter",
   "Icon Preview": "Icon Preview",
@@ -104,7 +109,6 @@
   "Services provided": "Services provided",
   "If assistant company is": "If assistant company is",
   "For the doctor": "For the doctor",
-  "A new criterion will be set for calculating the cost of services and the subsequent calculation of the company's income, using formula": "A new criterion will be set for calculating the cost of services and the subsequent calculation of the company's income, using formula",
   "Finance": "Finance",
   "Assistant Companies": "Assistant Companies",
   "Cases Total": "Cases Total",
