@@ -5,7 +5,8 @@
  */
 
 import { NgModule } from '@angular/core';
-import { CaseFinanceComponent } from './finance.component';
+import { PaymentBlockModule } from '../../../finance/components/payment/components/block';
+import { CaseFinanceComponent } from './case.finance.component';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { AppTranslationModule } from '../../../../app.translation.module';
@@ -22,6 +23,7 @@ import { NumbersHelper } from '../../../../helpers/numbers.helper';
     InputTextModule,
     ToggleButtonModule,
     TooltipModule,
+    PaymentBlockModule,
   ],
   declarations: [
     CaseFinanceComponent,

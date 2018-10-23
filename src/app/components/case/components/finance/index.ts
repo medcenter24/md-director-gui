@@ -5,3 +5,4 @@
  */
 
 export * from './case.finance.module';
+export * from './case.finance.component';

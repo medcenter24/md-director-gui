@@ -1,4 +1,7 @@
 {
+  "Payment to the doctor": "Оплата врачу",
+  "Payment to the hospital": "Оплата в больницу",
+  "Payment from the assistant": "Платеж из ассистанса",
   "Profit calculation for a doctor": "Выгода врача",
   "Accident profit calculation": "Стоимость случая",
   "Model": "Модель",
@@ -356,7 +359,7 @@
   "Symptoms": "Симптомы",
   "Price": "Цена",
   "Total": "Итого",
-  "Total Income": "Доход",
+  "Income": "Доход",
   "Total Amount": "Оборот",
   "Total Score": "Общий подсчет",
   "Select Services": "Выбор услуг",

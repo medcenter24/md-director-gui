@@ -12,6 +12,7 @@ import { DevelopmentGuiInvoiceModule } from './gui/invoice';
 import { DevelopmentGuiMultiselectModule } from './gui/multiselect';
 import { MultiselectImplementationsModule } from './gui/multiselect/implementations';
 import { DevelopmentGuiAutocompleterModule } from './gui/autocompleter';
+import { GuiPaymentBlockModule } from './gui/payment/block';
 import { DevelopmentGuiUploaderFileModule } from './gui/uploader/file';
 
 @NgModule({
@@ -23,6 +24,7 @@ import { DevelopmentGuiUploaderFileModule } from './gui/uploader/file';
     DevelopmentGuiAutocompleterModule,
     DevelopmentGuiUploaderFileModule,
     DevelopmentGuiInvoiceModule,
+    GuiPaymentBlockModule,
   ],
   declarations: [
     DevelopmentPageComponent,

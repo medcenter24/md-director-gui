@@ -5,7 +5,7 @@
  */
 
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
-import { LoadableComponent } from '../../../core/components/componentLoader/LoadableComponent';
+import { LoadableComponent } from '../../../core/components/componentLoader';
 import { ToggleButton } from 'primeng/primeng';
 import { Accident } from '../../../accident/accident';
 import { TranslateService } from '@ngx-translate/core';
@@ -13,7 +13,8 @@ import { NumbersHelper } from '../../../../helpers/numbers.helper';
 
 @Component({
   selector: 'nga-case-finance',
-  templateUrl: './finance.html',
+  templateUrl: './case.finance.html',
+  styleUrls: ['./case.finance.scss'],
 })
 export class CaseFinanceComponent extends LoadableComponent implements OnInit {
 

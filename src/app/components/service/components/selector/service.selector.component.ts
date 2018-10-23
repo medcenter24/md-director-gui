@@ -18,7 +18,6 @@ import { SelectServicesComponent } from '../select';
 export class ServiceSelectorComponent extends LoadableComponent implements OnInit {
 
   @Input() caseId: number = 0;
-  @Output() priceChanged: EventEmitter<number> = new EventEmitter<number>();
   @Output() changedServices: EventEmitter<Service[]> = new EventEmitter<Service[]>();
 
   @ViewChild('selectServices')
@@ -26,7 +25,6 @@ export class ServiceSelectorComponent extends LoadableComponent implements OnIni
 
   isLoaded: boolean = false;
   caseServices: Service[] = [];
-  private sumPrices: number = 0;
   protected componentName: string = 'ServicesSelectorComponent';
 
   constructor (
@@ -45,14 +43,12 @@ export class ServiceSelectorComponent extends LoadableComponent implements OnIni
       this.caseServices = this.caseServices.filter(function (el) {
         return el.id !== service.id;
       });
-      this.recalculatePrice();
       this.selectServicesComponent.reloadChosenServices(this.caseServices);
-      this.changedServices.emit(this.caseServices);
+      this.onServicesChanged();
     }
   }
 
   onServicesChanged(): void {
-    this.recalculatePrice();
     this.changedServices.emit(this.caseServices);
   }
 
@@ -64,8 +60,7 @@ export class ServiceSelectorComponent extends LoadableComponent implements OnIni
         this.stopLoader();
         this.caseServices = services;
         this.selectServicesComponent.reloadChosenServices(this.caseServices);
-        this.changedServices.emit(this.caseServices);
-        this.recalculatePrice();
+        this.onServicesChanged();
       }).catch((err) => {
         this.stopLoader();
         this._logger.error(err);
@@ -83,15 +78,5 @@ export class ServiceSelectorComponent extends LoadableComponent implements OnIni
     });
 
     return !!result;
-  }
-
-  recalculatePrice (): void {
-    this.sumPrices = 0;
-    this.caseServices.forEach(service => {
-      this.sumPrices += 0; // +service.price;
-      console.warn('price recalculation going to the backend');
-    });
-    this.sumPrices.toFixed(2);
-    this.priceChanged.emit(this.sumPrices);
   }
 }
