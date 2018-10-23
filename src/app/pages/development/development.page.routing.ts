@@ -12,6 +12,7 @@ import { DevelopmentGuiInvoiceComponent } from './gui/invoice';
 import { DevelopmentGuiMultiselectComponent } from './gui/multiselect';
 import { MultiselectImplementationsComponent } from './gui/multiselect/implementations';
 import { DevelopmentGuiAutocompleterComponent } from './gui/autocompleter';
+import { GuiPaymentBlockComponent } from './gui/payment/block';
 import { DevelopmentGuiUploaderFileComponent } from './gui/uploader/file';
 
 // noinspection TypeScriptValidateTypes
@@ -26,6 +27,7 @@ const routes: Routes = [
       { path: 'gui/autocompleter', component: DevelopmentGuiAutocompleterComponent },
       { path: 'gui/uploader/file', component: DevelopmentGuiUploaderFileComponent },
       { path: 'gui/invoice', component: DevelopmentGuiInvoiceComponent },
+      { path: 'gui/payment/block', component: GuiPaymentBlockComponent },
     ],
   },
 ];

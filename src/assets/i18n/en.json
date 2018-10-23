@@ -1,4 +1,7 @@
 {
+  "Payment to the doctor": "Payment to the doctor",
+  "Payment to the hospital": "Payment to the hospital",
+  "Payment from the assistant": "Payment from the assistant",
   "Profit calculation for a doctor": "Profit calculation for a doctor",
   "Accident profit calculation": "Accident profit calculation",
   "Model": "Model",
@@ -358,7 +361,7 @@
   "Symptoms": "Symptoms",
   "Price": "Price",
   "Total": "Total",
-  "Total Income": "Total Income",
+  "Income": "Income",
   "Total Amount": "Total Amount",
   "Total Score": "Total Score",
   "Select Services": "Select Services",
