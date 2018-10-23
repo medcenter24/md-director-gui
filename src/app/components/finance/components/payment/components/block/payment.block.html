@@ -1,0 +1,28 @@
+<!--
+  ~ Copyright (c) 2018
+  ~
+  ~  https://getbootstrap.com/docs/4.1/components/card/
+  ~  @author Oleksander  Zagovorychev <zagovorichev@gmail.com>
+  -->
+<div class="card payment-block {{ currentTheme.border }}">
+  <div class="card-header" *ngIf="title">{{ title }}</div>
+  <div class="card-body {{ currentTheme.bodyText }}">
+    <h5 class="card-title">
+      {{ priceAmount }} <span class="text-dark" [ngClass]="currency.ico" *ngIf="currency"></span>
+      <span class="fa fa-calculator pull-right {{ formula ? 'text-dark' : 'text-muted' }}"
+            title="{{ 'Formula' | translate }}"
+            (click)="toggleFormula()"
+      ></span>
+    </h5>
+    <p class="card-text">
+      <p-toggleButton
+              #incomeAutoupdate
+              onLabel="{{ 'Auto update' | translate }}"
+              offLabel="{{ 'Fixed amount' | translate }}"
+              onIcon="fa fa-check-square" offIcon="fa fa-square"
+              (onChange)="onAutoupdateChanged($event)"
+      ></p-toggleButton>
+    </p>
+  </div>
+  <div class="card-footer bg-transparent small" *ngIf="showFormula">{{ formula }}</div>
+</div>

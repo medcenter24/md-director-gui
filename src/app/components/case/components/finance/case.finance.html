@@ -1,0 +1,21 @@
+<div class="row">
+    <div class="col-xs-12 col-md-4">
+        <nga-payment-block
+            [title]="'Income' | translate"
+            [theme]="'success'"
+            formula="Place formula in here"
+        ></nga-payment-block>
+    </div>
+    <div class="col-xs-12 col-md-4">
+        <nga-payment-block
+                [title]="(accident.caseableType === 'App\\HospitalAccident' ? 'Payment to the hospital' : 'Payment to the doctor') | translate"
+                formula="Place formula in here"
+        ></nga-payment-block>
+    </div>
+    <div class="col-xs-12 col-md-4">
+        <nga-payment-block
+                [title]="'Payment from the assistant' | translate"
+                formula="Place formula in here"
+        ></nga-payment-block>
+    </div>
+</div>

@@ -31,7 +31,7 @@ import { LoadingComponent } from '../../../core/components/componentLoader';
 import { Patient } from '../../../patient/patient';
 import { PatientSelectorComponent } from '../../../patient/components/selector/patient.selector.component';
 import { PatientsService } from '../../../patient/patients.service';
-import { CaseFinanceComponent } from '../finance/finance.component';
+import { CaseFinanceComponent } from '../finance';
 import { Assistant, AssistantsService } from '../../../assistant';
 import { CaseEditorTabsService } from './case.editor.tabs.service';
 import { AccidentScenarioLineComponent }
@@ -64,6 +64,7 @@ export class CaseEditorComponent extends LoadingComponent implements OnInit {
   @ViewChild('previewContainer')
     previewContainer: ElementRef;
 
+  // I need to update finance if data changes
   @ViewChild('caseFinance')
     private caseFinance: CaseFinanceComponent;
 
@@ -197,14 +198,6 @@ export class CaseEditorComponent extends LoadingComponent implements OnInit {
 
   protected onComponentsLoadingCompleted(): void {
     this.tabStopper.init();
-    /*
-    if (this.accident.id) {
-      this.caseFinance.setFixedIncome();
-      this.caseFinance.recalculate();
-        this.setFixedIncome(this.isIncomeFixed());
-        this.totalIncome = this.accident.income;
-        this.recalculatePrice();
-    }*/
   }
 
   onSave(): void {
