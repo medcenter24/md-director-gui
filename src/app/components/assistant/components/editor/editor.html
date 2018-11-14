@@ -4,7 +4,7 @@
   ~ @author Alexander Zagovorichev <zagovorichev@gmail.com>
   -->
 
-<form (ngSubmit)="onSubmit()" #diagnosticForm="ngForm" *ngIf="assistant">
+<form (ngSubmit)="onSubmit($event)" #diagnosticForm="ngForm" *ngIf="assistant">
   <div class="row">
     <div class="col-sm-6">
       <div class="form-group">

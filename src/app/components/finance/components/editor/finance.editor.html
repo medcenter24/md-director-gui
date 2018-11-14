@@ -90,6 +90,18 @@
                   [preloadedData]="rule.services"
           ></nga-multi-selector>
         </div>
+        <div class="col-xs-4" *ngIf="rule.model === 'App\\Assistant'">
+          <label class="label separate" translate>Hospitals</label>
+          <nga-multi-selector
+                  [service]="hospitalService"
+                  placeholder="Hospitals"
+                  labelField="title"
+                  (init)="startLoader($event)"
+                  (loaded)="stopLoader($event)"
+                  (selected)="rule.hospitals = $event"
+                  [preloadedData]="rule.hospitals"
+          ></nga-multi-selector>
+        </div>
       </div>
 
       <div class="row mb-2">

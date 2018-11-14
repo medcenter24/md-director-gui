@@ -82,7 +82,7 @@ export class DiagnosticDatatableComponent extends AbstractDatatableController im
       this.refresh();
     }
     this.setModel(ObjectHelper.clone(diagnostic, this.getEmptyModel()));
-    this.displayDialog = false;
+    this.closeDiagnosticEditor();
   }
 
 }
