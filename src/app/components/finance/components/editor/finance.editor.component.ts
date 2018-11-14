@@ -8,16 +8,16 @@ import { Component, OnInit } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { LoadableComponent } from '../../../core/components/componentLoader';
 import { Doctor, DoctorsService } from '../../../doctors';
+import { HospitalsService } from '../../../hospital';
 import { FinanceRule } from '../../finance.rule';
 import { FinanceService } from '../../finance.service';
 import { Assistant, AssistantsService } from '../../../assistant';
-import { CitiesService, City } from '../../../city';
-import { Period, PeriodService } from '../../../period';
+import { CitiesService } from '../../../city';
+import { PeriodService } from '../../../period';
 import { NumbersHelper } from '../../../../helpers/numbers.helper';
 import { ServicesService } from '../../../service';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { GlobalState } from '../../../../global.state';
-import { FinanceCurrency } from '../currency/finance.currency';
 import { FinanceCurrencyService } from '../currency/finance.currency.service';
 
 @Component({
@@ -54,6 +54,7 @@ export class FinanceEditorComponent extends LoadableComponent implements OnInit 
     protected _state: GlobalState,
     protected translateService: TranslateService,
     public currencyService: FinanceCurrencyService,
+    public hospitalService: HospitalsService,
   ) {
     super();
   }
@@ -99,8 +100,12 @@ export class FinanceEditorComponent extends LoadableComponent implements OnInit 
     this.startLoader(postfix);
     this.translateService.get('Yes').subscribe(() => {
       this.conditionModels = [];
+      // condition for the doctor
       this.conditionModels.push({ label: this.translateService.instant('Doctor'), value: 'App\\Doctor' });
+      // condition for the income? todo check if I still need it
       this.conditionModels.push({ label: this.translateService.instant('Accident'), value: 'App\\Accident' });
+      // condition for the assistant company
+      this.conditionModels.push({ label: this.translateService.instant('Assistant'), value: 'App\\Assistant' });
 
       this.stopLoader(postfix);
 

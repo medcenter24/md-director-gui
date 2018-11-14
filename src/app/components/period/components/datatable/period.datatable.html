@@ -5,12 +5,13 @@
 ></nga-datatable>
 
 <p-dialog
-  header="{{ 'Date Period Details' | translate }}"
-  [(visible)]="displayDialog"
-  [responsive]="true"
-  showEffect="fade"
-  [modal]="true"
-  [width]="400">
+    header="{{ 'Date Period Details' | translate }}"
+    [(visible)]="displayDialog"
+    [responsive]="true"
+    [modal]="true"
+    [width]="400"
+    appendTo="body"
+>
 
     <div class="ui-g ui-fluid" *ngIf="datePeriod">
         <div class="ui-g-12">
@@ -40,7 +41,7 @@
                     </div>
                     <div class="col-5">
                         <p-inputMask id="from"
-                                     [style]="{'width':'45px'}"
+                                     [style]="{'width':'65px'}"
                                      [(ngModel)]="timeFrom"
                                      mask="99:99"
                                      placeholder="{{ 'Time' | translate }}"
@@ -64,7 +65,7 @@
                     <div class="col-5">
                         <p-inputMask
                                 id="to"
-                                [style]="{'width':'45px'}"
+                                [style]="{'width':'65px'}"
                                 [(ngModel)]="timeTo"
                                 mask="99:99"
                                 placeholder="{{ 'Time' | translate }}"></p-inputMask>

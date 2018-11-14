@@ -38,35 +38,21 @@ export class DiagnosticCategoryEditorComponent extends LoadableComponent {
   onSubmit (): void {
     const postfix = 'SaveDiagnosticCategory';
     this.startLoader(postfix);
-    if (this.category.id) {
-      this.service.update(this.category).then((category: DiagnosticCategory) => {
-        this.stopLoader(postfix);
-        this.category = category;
-        this.updated.emit(category);
-      }).catch(() => this.stopLoader(postfix));
-    } else {
-      this.service.create(this.category.title).then((category: DiagnosticCategory) => {
-        this.stopLoader(postfix);
-        this.category = category;
-        this.updated.emit(category);
-      }).catch(() => this.stopLoader(postfix));
-    }
+    this.service.save(this.category).then((category: DiagnosticCategory) => {
+      this.stopLoader(postfix);
+      this.category = category;
+      this.updated.emit(category);
+    }).catch(() => this.stopLoader(postfix));
   }
 
   onCategoryChange (categoryId): void {
-    this.loadCategoryById(categoryId);
+    if (this.category.id !== categoryId) {
+      this.loadCategoryById(categoryId);
+    }
   }
 
   onCreateCategory (): void {
     this.setEmptyCategory();
-  }
-
-  onSelectorLoading (): void {
-    this.startLoader('Selector');
-  }
-
-  onSelectorLoaded (): void {
-    this.stopLoader('Selector');
   }
 
   private setEmptyCategory (): void {
@@ -81,7 +67,9 @@ export class DiagnosticCategoryEditorComponent extends LoadableComponent {
       this.service.getCategory(id).then((category) => {
         this.stopLoader(postfix);
         this.category = category;
-      }).catch(() => this.stopLoader(postfix));
+      }).catch(() => {
+        this.stopLoader(postfix);
+      });
     } else {
       this.category = new DiagnosticCategory();
     }

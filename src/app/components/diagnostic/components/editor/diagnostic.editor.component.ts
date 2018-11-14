@@ -19,7 +19,7 @@ import { DiagnosticCategoryEditorComponent } from '../../category/components/edi
 export class DiagnosticEditorComponent extends LoadableComponent {
   protected componentName: string = 'DiagnosticEditorComponent';
 
-  @Input() diagnostic: Diagnostic;
+  @Input() diagnostic: Diagnostic = new Diagnostic();
   @Output() diagnosticSaved: EventEmitter<Diagnostic> = new EventEmitter<Diagnostic>();
   @Output() close: EventEmitter<null> = new EventEmitter<null>();
 
@@ -38,19 +38,15 @@ export class DiagnosticEditorComponent extends LoadableComponent {
   onSubmit(): void {
     const opName = 'UpdateDiagnostic';
     this.startLoader(opName);
-    this.service.update(this.diagnostic).then(() => {
+    this.service.save(this.diagnostic).then((diagnostic: Diagnostic) => {
+      this.diagnostic = diagnostic;
       this.diagnosticSaved.emit(this.diagnostic);
       this.stopLoader(opName);
     }).catch(() => this.stopLoader(opName));
   }
 
-  toggleEditor(categoryId): void {
+  toggleEditor(): void {
     this.showEditor = !this.showEditor;
-    this.diagnosticCategoryEditor.loadCategoryById(categoryId);
-  }
-
-  onSelectorLoaded(name: string): void {
-    this.stopLoader(name);
   }
 
   editDiagnostic(diagnostic: Diagnostic): void {
@@ -64,16 +60,16 @@ export class DiagnosticEditorComponent extends LoadableComponent {
     this.close.emit();
   }
 
-  onDiagnosticCategoryChanged(dc: DiagnosticCategory): void {
-    if (this.diagnostic.diagnosticCategoryId !== dc.id && this.showEditor) {
+  onDiagnosticCategoryChanged(diagnosticCategory: DiagnosticCategory): void {
+    if (this.diagnostic.diagnosticCategoryId !== diagnosticCategory.id && this.showEditor) {
       this.showEditor = false;
     }
-    this.diagnostic.diagnosticCategoryId = dc.id;
+    this.diagnostic.diagnosticCategoryId = diagnosticCategory.id;
   }
 
   onDiagnosticCategorySubmit (dc: DiagnosticCategory): void {
     this.showEditor = false;
     this.diagnostic.diagnosticCategoryId = dc.id;
-    this.categorySelectComponent.setDiagnosticCategoryById(dc.id);
+    this.categorySelectComponent.selectItems(dc.id);
   }
 }

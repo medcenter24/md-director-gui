@@ -5,7 +5,6 @@
  */
 
 import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
-import { TranslateService } from '@ngx-translate/core';
 import { NumbersHelper } from '../../../../helpers/numbers.helper';
 import { LoadableComponent } from '../../../core/components/componentLoader';
 import { Form, FormService } from '../../../forms';
@@ -27,6 +26,7 @@ export class InvoiceEditorComponent extends LoadableComponent implements OnInit 
   @Input() invoice: Invoice;
   @Input() label: string = 'Invoice';
   @Input() autosave: boolean = false;
+  @Input() reload: boolean = false; // reload Invoice on the initialization
   @Output() sourceChosen: EventEmitter<Form|Upload> = new EventEmitter<Form|Upload>();
   @Output() saved: EventEmitter<Invoice> = new EventEmitter<Invoice>();
 
@@ -44,6 +44,8 @@ export class InvoiceEditorComponent extends LoadableComponent implements OnInit 
   ngOnInit() {
     if (!this.invoice) {
       this.invoice = new Invoice();
+    } else if (this.reload) {
+      this.setInvoice(this.invoice, true);
     }
   }
 

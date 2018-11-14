@@ -7,6 +7,7 @@
 import { Assistant } from '../assistant';
 import { City } from '../city';
 import { Doctor } from '../doctors';
+import { Hospital } from '../hospital';
 import { Service } from '../service';
 import { Period } from '../period';
 
@@ -18,6 +19,7 @@ export class FinanceRule {
     public cities: City[] = [],
     public doctors: Doctor[] = [],
     public services: Service[] = [],
+    public hospitals: Hospital[] = [],
     /**
      * from string - formatted string
      * example:

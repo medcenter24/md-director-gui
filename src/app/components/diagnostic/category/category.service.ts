@@ -16,26 +16,19 @@ export class DiagnosticCategoryService extends HttpService {
         return 'director/categories';
     }
 
-    getCategories(): Promise<DiagnosticCategory[]> {
-        return this.get()
-          .then(response => response.data as DiagnosticCategory[]);
-    }
-
     getCategory(id: number): Promise<DiagnosticCategory> {
         return this.get(id)
           .then(response => response.data as DiagnosticCategory);
     }
 
     delete(id: number): Promise<void> {
-        return this.delete(id);
+        return this.remove(id);
     }
 
-    create(title: string): Promise<DiagnosticCategory> {
-        return this.store({ title }).then(res => res as DiagnosticCategory);
-    }
-
-    update(category: DiagnosticCategory): Promise<DiagnosticCategory> {
-        return this.put(category.id, category).then(res => res.data as DiagnosticCategory);
+    save(category: DiagnosticCategory): Promise<DiagnosticCategory> {
+        return category.id
+          ? this.put(category.id, category).then(res => res.data as DiagnosticCategory)
+          : this.store(category).then(res => res as DiagnosticCategory);
     }
 }
 
