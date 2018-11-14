@@ -401,7 +401,7 @@
                                 #hospitalGuaranteeEditor
                                 [autosave]="true"
                                 [label]="'Guarantee To the Hospital' | translate"
-                                (saved)="this.hospitalAccident.hospitalGuaranteeId = $event.id"
+                                (saved)="hospitalAccident.hospitalGuaranteeId = $event.id"
                                 (init)="startLoader($event)"
                                 (loaded)="stopLoader($event)"
                         ></nga-invoice-editor>
@@ -413,42 +413,45 @@
                                 #hospitalInvoiceEditor
                                 [autosave]="true"
                                 [label]="'Invoice from the hospital' | translate"
-                                (saved)="this.hospitalAccident.hospitalInvoiceId = $event.id"
+                                (saved)="hospitalAccident.hospitalInvoiceId = $event.id"
                                 (init)="startLoader($event)"
                                 (loaded)="stopLoader($event)"
                         ></nga-invoice-editor>
                       </div>
                     </div>
                     <!-- /Invoice from the hospital -->
-                    <!-- Invoice to the assistant -->
-                    <div class="row mt-2">
-                      <div class="col-9">
-                        <nga-invoice-editor
-                                #assistantInvoiceEditor
-                                [autosave]="true"
-                                [label]="'Invoice to the assistant' | translate"
-                                (saved)="this.hospitalAccident.assistantInvoiceId = $event.id"
-                                (init)="startLoader($event)"
-                                (loaded)="stopLoader($event)"
-                        ></nga-invoice-editor>
-                      </div>
-                    </div>
-                    <div class="row mt-2">
-                      <div class="col-9">
-                        <nga-invoice-editor
-                                #assistantGuaranteeEditor
-                                [autosave]="true"
-                                [label]="'Guarantee From the Assistant' | translate"
-                                (saved)="this.hospitalAccident.assistantGuaranteeId = $event.id"
-                                (init)="startLoader($event)"
-                                (loaded)="stopLoader($event)"
-                        ></nga-invoice-editor>
-                      </div>
-                    </div>
-                    <!-- /Invoice to the assistant -->
                   </div>
                 </div>
                 <!-- HA /Invoices -->
+
+                <!-- Assistant Invoice/Guarantee -->
+                <div class="row mt-2">
+                  <div class="col-9">
+                    <nga-invoice-editor
+                            [autosave]="true"
+                            [reload]="true"
+                            [label]="'Invoice to the assistant' | translate"
+                            (saved)="accident.assistantInvoiceId = $event.id"
+                            [invoice]="assistantInvoice"
+                            (init)="startLoader($event)"
+                            (loaded)="stopLoader($event)"
+                    ></nga-invoice-editor>
+                  </div>
+                </div>
+                <div class="row mt-2">
+                  <div class="col-9">
+                    <nga-invoice-editor
+                            [autosave]="true"
+                            [reload]="true"
+                            [label]="'Guarantee From the Assistant' | translate"
+                            (saved)="accident.assistantGuaranteeId = $event.id"
+                            [invoice]="assistantGuarantee"
+                            (init)="startLoader($event)"
+                            (loaded)="stopLoader($event)"
+                    ></nga-invoice-editor>
+                  </div>
+                </div>
+                <!-- /Assistant Invoice/Guarantee -->
 
                 <!-- Documents -->
                 <div class="row mt-2">

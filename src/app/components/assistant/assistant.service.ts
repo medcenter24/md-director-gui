@@ -15,7 +15,7 @@ export class AssistantsService extends HttpService {
     return 'director/assistants';
   }
 
-  getAssistants(): Promise<Assistant[]> {
+  /*getAssistants(): Promise<Assistant[]> {
     return this.get()
       .then(response => response.data as Assistant[]);
   }
@@ -24,7 +24,7 @@ export class AssistantsService extends HttpService {
   getAssistant(id: number): Promise<Assistant> {
     return this.get(id)
       .then(response => response.data as Assistant);
-  }
+  }*/
 
   delete(id: number): Promise<void> {
     return this.remove(id);
@@ -36,5 +36,9 @@ export class AssistantsService extends HttpService {
 
   update(assistant: Assistant): Promise<Assistant> {
     return this.put(assistant.id, assistant);
+  }
+
+  save (assistant: Assistant): Promise<any> {
+    return assistant.id ? this.put(assistant.id, assistant) : this.store(assistant);
   }
 }

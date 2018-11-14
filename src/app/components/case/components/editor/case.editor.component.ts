@@ -83,14 +83,8 @@ export class CaseEditorComponent extends LoadingComponent implements OnInit {
   @ViewChild('hospitalGuaranteeEditor')
     private hospitalGuaranteeEditor: InvoiceEditorComponent;
 
-  @ViewChild('assistantGuaranteeEditor')
-    private assistantGuaranteeEditor: InvoiceEditorComponent;
-
   @ViewChild('hospitalInvoiceEditor')
     private hospitalInvoiceEditor: InvoiceEditorComponent;
-
-  @ViewChild('assistantInvoiceEditor')
-    private assistantInvoiceEditor: InvoiceEditorComponent;
 
   msgs: Message[] = [];
   accident: Accident;
@@ -110,6 +104,8 @@ export class CaseEditorComponent extends LoadingComponent implements OnInit {
   patientEditFormDisplay: boolean = false;
   patient: Patient;
   reportPreviewVisible: boolean = false;
+  assistantInvoice: Invoice;
+  assistantGuarantee: Invoice;
 
   /**
    * to show on save message, that doctor was changed
@@ -149,9 +145,9 @@ export class CaseEditorComponent extends LoadingComponent implements OnInit {
         this._state.notifyDataChanged('menu.activeLink', { title: 'Cases' });
 
         if (+params[ 'id' ]) {
-          this.startLoader(this.componentName);
+          this.startLoader();
           this.accidentsService.getAccident(+params[ 'id' ]).then((accident: Accident) => {
-            this.stopLoader(this.componentName);
+            this.stopLoader();
             this._state.notifyDataChanged('menu.activeLink', { title: 'Cases' });
             this.accident = accident ? accident : new Accident();
             if (this.accident.handlingTime && this.accident.handlingTime.length) {
@@ -172,12 +168,16 @@ export class CaseEditorComponent extends LoadingComponent implements OnInit {
             if (this.accident.assistantId) {
               this.assistantAutocompleter.selectItems(this.accident.assistantId);
             }
+
+            this.assistantInvoice = new Invoice(accident.assistantInvoiceId, 0, 'form');
+            this.assistantGuarantee = new Invoice(this.accident.assistantGuaranteeId, 0, 'file');
+
             this.loadCaseable();
             this.loadDocuments();
             this.loadCheckpoints();
             this.loadPatient();
           }).catch((err) => {
-            this.stopLoader(this.componentName);
+            this.stopLoader();
             if (err.status === 404) {
               this.msgs = [];
               this.msgs.push({ severity: 'error', summary: this.translate.instant('Error'),
@@ -491,14 +491,10 @@ export class CaseEditorComponent extends LoadingComponent implements OnInit {
         this.hospitalGuaranteeEditor.setInvoice(new Invoice(hospitalAccident.hospitalGuaranteeId, 0, 'form'), true);
         // hospital's invoice
         this.hospitalInvoiceEditor.setInvoice(new Invoice(hospitalAccident.hospitalInvoiceId, 0, 'file'), true);
-        // assistant's invoice
-        this.assistantInvoiceEditor.setInvoice(new Invoice(hospitalAccident.assistantInvoiceId, 0, 'form'), true);
-        // assistants' letter
-        this.assistantGuaranteeEditor.setInvoice(new Invoice(hospitalAccident.assistantGuaranteeId, 0, 'file'), true);
       }).catch((err) => {
-      this._logger.error(err);
-      this.stopLoader(postfix);
-    });
+        this._logger.error(err);
+        this.stopLoader(postfix);
+      });
   }
 
   private loadCaseable(): void {

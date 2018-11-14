@@ -112,7 +112,7 @@ export class DatatableComponent extends LoadableComponent implements OnInit {
    * @return {boolean}
    */
   updateModel(model: Object): boolean {
-    if (!model.hasOwnProperty('id')) {
+    if (!model || !model.hasOwnProperty('id')) {
       throw Error('You need to implement your own updater since this model does not have id');
     }
     let found = false;

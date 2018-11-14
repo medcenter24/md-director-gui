@@ -97,7 +97,7 @@ const menu = [
             path: 'forms',
             data: {
               menu: {
-                title: 'doc_templates',
+                title: 'Templates',
               },
             },
           },

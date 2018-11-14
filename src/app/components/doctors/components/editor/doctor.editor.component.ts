@@ -86,14 +86,6 @@ export class DoctorEditorComponent extends LoadableComponent implements AfterVie
     }
   }
 
-  onSelectorLoading(): void {
-    this.startLoader('Selector');
-  }
-
-  onSelectorLoaded(): void {
-    this.stopLoader('Selector');
-  }
-
   onUserChanged(user: User): void {
     this.doctor.userId = user.id;
   }

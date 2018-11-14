@@ -8,10 +8,10 @@
     <div class="row">
         <div class="col-sm-6">
             <nga-diagnostic-category-select
-                    [diagnosticCategoryId]="category.id"
+                    [selectPreloaded]="category"
                     (selected)="onCategoryChange($event)"
-                    (loaded)="onSelectorLoaded()"
-                    (init)="onSelectorLoading()"
+                    (loaded)="stopLoader($event)"
+                    (init)="startLoader($event)"
             ></nga-diagnostic-category-select>
         </div>
         <div class="col-sm-6 text-center">

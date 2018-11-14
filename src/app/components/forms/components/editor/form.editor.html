@@ -33,15 +33,17 @@
 </div>
 
 <p-dialog
-        *ngIf="form"
-        header="{{ 'Variables' | translate }}"
+        *ngIf="form && form.formableType"
         [(visible)]="displayDialog"
+        [closable]="false"
         [responsive]="true"
-        showEffect="fade"
         [modal]="true"
         [width]="600"
         appendTo="body">
-
+  <p-header>
+    <div class="pull-left">{{ 'Variables' | translate }}</div>
+    <div class="pull-right" (click)="displayDialog = false">&times;</div>
+  </p-header>
   <nga-forms-options-editor
     [formableType]="form.formableType"
     (selected)="setSelectedVar($event)"

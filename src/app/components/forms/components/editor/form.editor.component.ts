@@ -201,5 +201,7 @@ export class FormEditorComponent extends LoadableComponent implements OnInit, Af
     $('.close', $alert).off('click').on('click', function () {
       $(this).parents('.alert').remove();
     });
+
+    this.displayDialog = false;
   }
 }

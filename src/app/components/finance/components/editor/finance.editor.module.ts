@@ -10,6 +10,7 @@ import { FormsModule } from '@angular/forms';
 import { InputSwitchModule, SelectButtonModule } from 'primeng/primeng';
 import { AppTranslationModule } from '../../../../app.translation.module';
 import { DoctorSelectModule } from '../../../doctors/components/select';
+import { HospitalsService } from '../../../hospital';
 import { AutocompleterModule } from '../../../ui/selector/components/autocompleter';
 import { FinanceEditorComponent } from './finance.editor.component';
 import { AssistantSelectModule } from '../../../assistant/components/select';
@@ -50,6 +51,7 @@ import { FinanceInfoModule } from '../info';
     AssistantsService,
     PeriodService,
     ServicesService,
+    HospitalsService,
   ],
   declarations: [
     FinanceEditorComponent,

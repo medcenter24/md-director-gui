@@ -5,9 +5,9 @@
  */
 
 import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { LoadableComponent } from '../../../core/components/componentLoader';
 import { Assistant } from '../../assistant';
 import { AssistantsService } from '../../assistant.service';
-import { LoadableComponent } from '../../../core/components/componentLoader/LoadableComponent';
 
 @Component({
   selector: 'nga-assistant-editor',
@@ -25,7 +25,7 @@ export class AssistantEditorComponent extends LoadableComponent {
 
   onSubmit(): void {
     this.startLoader();
-    this.service.update(this.assistant).then(() => {
+    this.service.save(this.assistant).then(() => {
       this.stopLoader();
       this.assistantSaved.emit(this.assistant);
     }).catch(() => this.stopLoader());
