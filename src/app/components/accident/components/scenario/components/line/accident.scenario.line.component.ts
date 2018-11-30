@@ -6,11 +6,11 @@
 
 import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
 import { Logger } from 'angular2-logger/core';
+import { LoadableComponent } from '../../../../../core/components/componentLoader';
 import { AccidentScenario } from '../../scenario';
 import 'rxjs/add/operator/map';
 import 'style-loader!./line.scss';
 import { CasesService } from '../../../../../case/cases.service';
-import { LoadableComponent } from '../../../../../core/components/componentLoader/LoadableComponent';
 
 @Component({
   selector: 'nga-accident-scenario',
@@ -22,7 +22,7 @@ export class AccidentScenarioLineComponent extends LoadableComponent implements 
   @Input() accidentId: number = 0;
 
   isLoaded: boolean = false;
-  steps = [];
+  steps: AccidentScenario[] = [];
 
   protected componentName: string = 'AccidentScenarioComponent';
 

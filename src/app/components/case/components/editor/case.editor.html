@@ -14,8 +14,9 @@
               <!-- Title -->
               <div class="col-sm-10">
                 <h2>
-                  <span *ngIf="accident.id">{{ 'Case Editing' | translate}} {{ 'pp' | translate }}{{ accident.id }}</span>
-                  <span *ngIf="!accident.id">{{ 'New case creating' | translate }}</span>
+                  <span *ngIf="isLoading()">{{ 'Case loading' | translate }} ... <span class="fa fa-spin fa-spinner"></span></span>
+                  <span *ngIf="!isLoading() && accident.id">{{ 'Case Editing' | translate}} {{ 'pp' | translate }}{{ accident.id }}</span>
+                  <span *ngIf="!isLoading() && !accident.id">{{ 'New case creating' | translate }}</span>
                 </h2>
               </div>
               <!-- /Title -->
@@ -101,67 +102,86 @@
 
           <div class="form-group offset-bottom20">
             <div class="row">
-              <div class="col-sm-12">
-                <!-- Doctor Accident => City, Doctor, Handling Time -->
-                <div *ngIf="isDoctorAccident()">
-                  <div class="row">
-                    <div class="col-sm-4">
-                      <label class="label required separate" translate>City</label>
-                      <nga-autocompleter
-                        #cityAutocompleter
-                        [service]="cityService"
-                        placeholder="City"
-                        labelField="title"
-                        (selected)="onCityChanged($event)"
-                        (init)="startLoader($event)"
+              <!-- City -->
+              <div class="col-sm-4">
+                <label class="label required separate" translate>City</label>
+                <nga-autocompleter
+                    #cityAutocompleter
+                    [service]="cityService"
+                    placeholder="City"
+                    labelField="title"
+                    (selected)="onCityChanged($event)"
+                    (init)="startLoader($event)"
+                    (loaded)="stopLoader($event)"
+                    [preloadedData]="accident.cityId"
+                ></nga-autocompleter>
+              </div>
+              <!-- /City -->
+
+              <!-- Assistants guarantee file -->
+              <div class="col-sm-4">
+                <label class="label separate" translate>Application from the insurance company</label>
+                <nga-file-upload
+                        *ngIf="!assistantGuaranteeFile"
+                        (changed)="onAssistantGuaranteeFileUploaded($event)"
                         (loaded)="stopLoader($event)"
-                        [preloadedData]="doctorAccident.cityId"
-                      ></nga-autocompleter>
-                    </div>
-                    <div class="col-sm-4">
-                      <label class="label required separate" translate>Doctor</label>
-                      <nga-autocompleter
-                        #doctorAutocompleter
-                        [service]="doctorService"
-                        placeholder="Doctor"
-                        labelField="name"
-                        (selected)="onDoctorChanged($event)"
                         (init)="startLoader($event)"
+                ></nga-file-upload>
+                <nga-file-download
+                        *ngIf="assistantGuaranteeFile"
+                        [file]="assistantGuaranteeFile"
                         (loaded)="stopLoader($event)"
-                      ></nga-autocompleter>
-                    </div>
-                    <div class="col-sm-4">
-                      <label class="label required separate" translate>Handling time</label>
-                      <p-inputMask
+                        (init)="startLoader($event)"
+                ></nga-file-download>
+              </div>
+              <!-- /Assistants guarantee -->
+
+              <!-- Doctor Accident => Doctor, Handling Time -->
+              <div class="col-sm-4" *ngIf="isDoctorAccident()">
+                <label class="label required separate" translate>Doctor</label>
+                <nga-autocompleter
+                    #doctorAutocompleter
+                    [service]="doctorService"
+                    placeholder="Doctor"
+                    labelField="name"
+                    [preloadedData]="doctorAccident.doctorId"
+                    (selected)="onDoctorChanged($event)"
+                    (init)="startLoader($event)"
+                    (loaded)="stopLoader($event)"
+                ></nga-autocompleter>
+              </div>
+
+              <div class="col-sm-4" *ngIf="isDoctorAccident()">
+                <label class="label required separate" translate>Handling time</label>
+                <p-inputMask
                         name="handlingTime"
                         mask="99.99.9999 99:99"
                         [(ngModel)]="handlingTime"
                         [placeholder]="'d.m.Y H:m' | translate"
                         slotChar="dd.mm.yyyy hh:ii"></p-inputMask>
-                    </div>
-                  </div>
-                </div>
-                <!-- DA /City, Doctor, Handling Time -->
-                <!-- Hospital Accident => Hospital -->
-                <div *ngIf="isHospitalAccident()">
-                  <label class="label required separate" translate>Hospital</label>
-                  <nga-autocompleter
-                    #hospitalAutocompleter
-                    [service]="hospitalService"
-                    placeholder="Hospital"
-                    labelField="title"
-                    (selected)="onHospitalChanged($event)"
-                    (init)="startLoader($event)"
-                    (loaded)="stopLoader($event)"
-                  ></nga-autocompleter>
-                </div>
-                <!-- HA /Hospital -->
               </div>
+              <!-- DA /Doctor, Handling Time -->
+
+              <!-- Hospital Accident => Hospital -->
+              <div class="col-sm-4" *ngIf="isHospitalAccident()">
+                <label class="label required separate" translate>Hospital</label>
+                <nga-autocompleter
+                  #hospitalAutocompleter
+                  [service]="hospitalService"
+                  placeholder="Hospital"
+                  labelField="title"
+                  (selected)="onHospitalChanged($event)"
+                  (init)="startLoader($event)"
+                  (loaded)="stopLoader($event)"
+                ></nga-autocompleter>
+              </div>
+              <!-- HA /Hospital -->
+
             </div>
           </div>
 
-          <div class="form-group">
-            <div class="row offset-bottom20">
+          <div class="form-group offset-bottom20">
+            <div class="row">
               <!-- Symptoms -->
               <div class="col-sm-6">
                 <div class="row">
@@ -263,17 +283,21 @@
         <div *ngIf="accident.id" class="additional-part">
           <!-- Accident Scenario -->
           <div class="form-group">
-            <nga-accident-scenario
-              #scenario
-              [accidentId]="accident.id"
-              (init)="startLoader($event)"
-              (loaded)="stopLoader($event)"
-            ></nga-accident-scenario>
+            <div class="row">
+              <div class="col-10">
+                <nga-accident-scenario
+                    #scenario
+                    [accidentId]="accident.id"
+                    (init)="startLoader($event)"
+                    (loaded)="stopLoader($event)"
+                ></nga-accident-scenario>
+              </div>
+            </div>
           </div>
           <!-- /Accident Scenario -->
 
           <!-- Checkpoints -->
-          <div class="form-group offset-bottom20">
+          <div class="form-group offset-bottom20" *ngIf="checkpoints.length">
             <div class="row">
               <div class="col-sm-12">
                 <label class="label separate" translate>Checkpoints</label>
@@ -288,22 +312,6 @@
             </div>
           </div>
           <!-- /Checkpoints -->
-
-          <!-- Doctor Accident => Services -->
-          <div class="form-group offset-bottom20" *ngIf="isDoctorAccident()">
-            <div class="row">
-              <div class="col-sm-12">
-                <nga-services-selector
-                        [caseId]="accident.id"
-                        (priceChanged)="onServicesSelectorPriceChanged($event)"
-                        (changedServices)="onServicesChanged($event)"
-                        (init)="startLoader($event)"
-                        (loaded)="stopLoader($event)"
-                ></nga-services-selector>
-              </div>
-            </div>
-          </div>
-          <!-- DA /Services -->
 
           <div class="form-group">
             <div class="row">
@@ -335,6 +343,22 @@
                     <!-- /Accident Type -->
                   </div>
                 </div>
+
+                <!-- Doctor Accident => Services -->
+                <div class="form-group offset-bottom20" *ngIf="isDoctorAccident()">
+                  <div class="row">
+                    <div class="col-sm-12">
+                      <nga-services-selector
+                              [caseId]="accident.id"
+                              (priceChanged)="onServicesSelectorPriceChanged($event)"
+                              (changedServices)="onServicesChanged($event)"
+                              (init)="startLoader($event)"
+                              (loaded)="stopLoader($event)"
+                      ></nga-services-selector>
+                    </div>
+                  </div>
+                </div>
+                <!-- DA /Services -->
 
                 <!-- Doctor Accident => Surveys -->
                 <div class="form-group offset-bottom20" *ngIf="isDoctorAccident()">
@@ -394,17 +418,20 @@
                 <!-- Hospital Accident => Invoices -->
                 <div class="row mt-2" *ngIf="isHospitalAccident()">
                   <div class="col-12">
-                    <!-- Invoice to the hospital -->
+                    <!-- Guarantee to the hospital -->
                     <div class="row">
                       <div class="col-9">
-                        <nga-invoice-editor
-                                #hospitalGuaranteeEditor
-                                [autosave]="true"
-                                [label]="'Guarantee To the Hospital' | translate"
-                                (saved)="hospitalAccident.hospitalGuaranteeId = $event.id"
+                        <label class="label separate" translate>Guarantee To the Hospital</label>
+                        <nga-autocompleter
+                                #guaranteeHospitalAutocompleter
+                                [service]="formService"
+                                placeholder="Choose a Form"
+                                labelField="title"
+                                (selected)="hospitalAccident.hospitalGuaranteeId = $event.id"
                                 (init)="startLoader($event)"
                                 (loaded)="stopLoader($event)"
-                        ></nga-invoice-editor>
+                                [preloadedData]="hospitalAccident.hospitalGuaranteeId"
+                        ></nga-autocompleter>
                       </div>
                     </div>
                     <div class="row mt-2">
@@ -424,7 +451,7 @@
                 </div>
                 <!-- HA /Invoices -->
 
-                <!-- Assistant Invoice/Guarantee -->
+                <!-- Assistant Invoice -->
                 <div class="row mt-2">
                   <div class="col-9">
                     <nga-invoice-editor
@@ -438,20 +465,7 @@
                     ></nga-invoice-editor>
                   </div>
                 </div>
-                <div class="row mt-2">
-                  <div class="col-9">
-                    <nga-invoice-editor
-                            [autosave]="true"
-                            [reload]="true"
-                            [label]="'Guarantee From the Assistant' | translate"
-                            (saved)="accident.assistantGuaranteeId = $event.id"
-                            [invoice]="assistantGuarantee"
-                            (init)="startLoader($event)"
-                            (loaded)="stopLoader($event)"
-                    ></nga-invoice-editor>
-                  </div>
-                </div>
-                <!-- /Assistant Invoice/Guarantee -->
+                <!-- /Assistant Invoice -->
 
                 <!-- Documents -->
                 <div class="row mt-2">
@@ -482,10 +496,12 @@
             </div>
           </div>
         </div>
-        <button pButton type="button" class="ui-button-success pull-left offset-right20" (click)="onSave($event)"
+        <button pButton type="button" class="ui-button-success pull-left offset-right20 mr-1" (click)="onSave()"
                 [disabled]="!accidentForm.form.valid" label="{{ 'Save' | translate }}"></button>
+
         <b pTooltip="{{ 'All required (*) fields should be filled' | translate }}"
            class="badge badge-secondary pull-left">?</b>
+
         <button pButton type="button" class="ui-button-secondary pull-right"
                 label="{{ 'Close' | translate }}" *ngIf="accident.id"
                 (click)="onClose($event)"></button>

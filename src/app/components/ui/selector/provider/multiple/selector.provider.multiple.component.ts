@@ -61,6 +61,12 @@ export class SelectorProviderMultipleComponent extends LoadableComponent impleme
    */
   selectItems(items: any): void {
     let selected: any = items;
+
+    // convert to number, because json input usually stayed as a number
+    if (typeof items === 'string') {
+      items = +items;
+    }
+
     if (typeof items === 'number') {
       // by ID
       selected = [this.options.find(v => v.hasOwnProperty('id') && v['id'] === items)];

@@ -5,7 +5,7 @@
                 *ngIf="isFormInvoice()"
                 #invoiceFormAutocompleter
                 [service]="formService"
-                placeholder="Choose Form"
+                placeholder="Choose a Form"
                 labelField="title"
                 (selected)="formSelected($event)"
                 (init)="startLoader($event)"

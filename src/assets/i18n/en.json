@@ -1,4 +1,5 @@
 {
+  "Case loading": "Case loading",
   "Payment to the doctor": "Payment to the doctor",
   "Payment to the hospital": "Payment to the hospital",
   "Payment from the assistant": "Payment from the assistant",
@@ -20,7 +21,7 @@
   "Discount": "Discount",
   "Sent": "Sent",
   "New": "New",
-  "Choose Form": "Choose Form",
+  "Choose a Form": "Choose a Form",
   "Invoice to the assistant": "Invoice to the assistant",
   "Invoice from the hospital": "Invoice from the hospital",
   "Invoice": "Invoice",
@@ -33,7 +34,7 @@
   "Form of the letter": "Form of the letter",
   "Invoice From the Hospital": "Invoice From the Hospital",
   "Invoice To the Assistant": "Invoice To the Assistant",
-  "Guarantee From the Assistant": "Guarantee From the Assistant",
+  "Application from the insurance company": "Application from the insurance company",
   "Guarantee To the Hospital": "Guarantee To the Hospital",
   "Case": "Case",
   "Choose Type": "Choose Type",

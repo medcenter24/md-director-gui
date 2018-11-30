@@ -24,12 +24,14 @@ export abstract class LoadingComponent extends LoadableComponent {
     protected abstract loadingBar: SlimLoadingBarService;
     protected abstract _state: GlobalState;
     protected onComponentsLoadingCompleted(): void { }
-
     private componentsList: string[] = [];
+    private loading: boolean = false;
 
     startLoader(postfix: string = ''): void {
         const name = `${this.componentName}${postfix}`;
         this._logger.debug(`+ ${name}`);
+
+        this.loading = true;
 
         if (!this.componentsList.length) {
           // if I use here setTimeout it is an issue that startLoader works after the stop loader
@@ -53,10 +55,15 @@ export abstract class LoadingComponent extends LoadableComponent {
         }
 
         if (this.componentsList.length === 0) {
+            this.loading = false;
             this._state.notifyDataChanged('blocker', false);
             this.loadingBar.complete();
             this.onComponentsLoadingCompleted();
         }
+    }
+
+    isLoading(): boolean {
+        return this.loading;
     }
 
     private deleteName(componentName: string): boolean {
