@@ -1,4 +1,5 @@
 {
+  "Case loading": "Загрузка дела",
   "Payment to the doctor": "Оплата врачу",
   "Payment to the hospital": "Оплата в больницу",
   "Payment from the assistant": "Платеж из ассистанса",
@@ -19,7 +20,7 @@
   "Discount": "Скидка",
   "Sent": "Отправлен",
   "New": "Новый",
-  "Choose Form": "Выбрать форму",
+  "Choose a Form": "Выбрать форму",
   "Invoice to the assistant": "Счет в ассистантс",
   "Invoice from the hospital": "Счет из больницы",
   "Invoice": "Счет",
@@ -31,7 +32,7 @@
   "Form of the letter": "Шаблон письма",
   "Invoice From Hospital": "Инвойс из больницы",
   "Invoice To Assistant": "Инвойс в ассистанс",
-  "Guarantee From the Assistant": "Гарант. письмо из ассистанса",
+  "Application from the insurance company": "Заявка из страховой компании",
   "Guarantee To the Hospital": "Гаран. письмо в больницу",
   "Case": "Дело",
   "Choose Type": "Выберите тип",

@@ -15,9 +15,11 @@ import { AccidentType } from '../../../accident/components/type/type';
 import { Logger } from 'angular2-logger/core';
 import { GlobalState } from '../../../../global.state';
 import { DoctorAccident } from '../../../doctorAccident/doctorAccident';
+import { FormService } from '../../../forms';
 import { HospitalAccident } from '../../../hospitalAccident/hospitalAccident';
 import { InvoiceEditorComponent } from '../../../invoice/components/editor';
 import { Invoice } from '../../../invoice/invoice';
+import { Upload } from '../../../upload/upload';
 import { CasesService } from '../../cases.service';
 import { Diagnostic } from '../../../diagnostic/diagnostic';
 import { Document } from '../../../document/document';
@@ -40,7 +42,6 @@ import { Service } from '../../../service';
 import { AutocompleterComponent } from '../../../ui/selector/components/autocompleter';
 import { CitiesService } from '../../../city';
 import { Hospital, HospitalsService } from '../../../hospital';
-import { FormService } from '../../../forms';
 
 @Component({
   selector: 'nga-case-editor',
@@ -80,8 +81,8 @@ export class CaseEditorComponent extends LoadingComponent implements OnInit {
   @ViewChild('hospitalAutocompleter')
     private hospitalAutocompleter: AutocompleterComponent;
 
-  @ViewChild('hospitalGuaranteeEditor')
-    private hospitalGuaranteeEditor: InvoiceEditorComponent;
+  @ViewChild('guaranteeHospitalAutocompleter')
+    private guaranteeHospitalAutocompleter: AutocompleterComponent;
 
   @ViewChild('hospitalInvoiceEditor')
     private hospitalInvoiceEditor: InvoiceEditorComponent;
@@ -105,7 +106,7 @@ export class CaseEditorComponent extends LoadingComponent implements OnInit {
   patient: Patient;
   reportPreviewVisible: boolean = false;
   assistantInvoice: Invoice;
-  assistantGuarantee: Invoice;
+  assistantGuaranteeFile: Upload;
 
   /**
    * to show on save message, that doctor was changed
@@ -168,9 +169,14 @@ export class CaseEditorComponent extends LoadingComponent implements OnInit {
             if (this.accident.assistantId) {
               this.assistantAutocompleter.selectItems(this.accident.assistantId);
             }
-
+            if (this.accident.cityId) {
+              this.cityAutocompleter.selectItems(this.accident.cityId);
+            }
+            // cheating to not make extra request
+            if (+this.accident.assistantGuaranteeId) {
+              this.assistantGuaranteeFile = new Upload(this.accident.assistantGuaranteeId);
+            }
             this.assistantInvoice = new Invoice(accident.assistantInvoiceId, 0, 'form');
-            this.assistantGuarantee = new Invoice(this.accident.assistantGuaranteeId, 0, 'file');
 
             this.loadCaseable();
             this.loadDocuments();
@@ -299,7 +305,7 @@ export class CaseEditorComponent extends LoadingComponent implements OnInit {
   }
 
   private saveCase(data): void {
-    const postfix = 'saveCase';
+    const postfix = 'SaveCase';
     this.startLoader(postfix);
     this.caseService.saveCase(data).then(response => {
       this.stopLoader(postfix);
@@ -388,7 +394,6 @@ export class CaseEditorComponent extends LoadingComponent implements OnInit {
 
   onCityChanged(city): void {
     const cityId = city ? city.id : 0;
-    this.doctorAccident.cityId = cityId;
     this.accident.cityId = cityId;
 
     this.doctorAccident.doctorId = +this.doctorAccident.doctorId;
@@ -454,17 +459,14 @@ export class CaseEditorComponent extends LoadingComponent implements OnInit {
   }
 
   private loadDoctorAccidentCaseable(): void {
-    const postfix = 'getDoctorCaseable';
+    const postfix = '_GetDoctorCaseable';
     this.startLoader(postfix);
     this.caseService.getDoctorCase(this.accident.id)
       .then((doctorAccident: DoctorAccident) => {
         this.doctorAccident = doctorAccident;
         this.doctorBeforeSave = doctorAccident.doctorId;
-        if (doctorAccident.doctorId) {
-          this.doctorAutocompleter.selectItems(doctorAccident.doctorId);
-        }
-        if (doctorAccident.cityId) {
-          this.cityAutocompleter.selectItems(doctorAccident.cityId);
+        if (+this.doctorAccident.doctorId) {
+          this.doctorAutocompleter.selectItems(+this.doctorAccident.doctorId);
         }
         if (doctorAccident.visitTime) {
           this.appliedTime = this.dateHelper.toEuropeFormatWithTime(doctorAccident.visitTime);
@@ -488,7 +490,9 @@ export class CaseEditorComponent extends LoadingComponent implements OnInit {
           this.hospitalAutocompleter.selectItems(hospitalAccident.hospitalId);
         }
         // hospital's letter
-        this.hospitalGuaranteeEditor.setInvoice(new Invoice(hospitalAccident.hospitalGuaranteeId, 0, 'form'), true);
+        if (+this.hospitalAccident.hospitalGuaranteeId) {
+          this.guaranteeHospitalAutocompleter.selectItems(this.hospitalAccident.hospitalGuaranteeId);
+        }
         // hospital's invoice
         this.hospitalInvoiceEditor.setInvoice(new Invoice(hospitalAccident.hospitalInvoiceId, 0, 'file'), true);
       }).catch((err) => {
@@ -546,5 +550,10 @@ export class CaseEditorComponent extends LoadingComponent implements OnInit {
 
   isHospitalAccident(): boolean {
     return this.accident.caseableType === 'App\\HospitalAccident';
+  }
+
+  onAssistantGuaranteeFileUploaded(file: Upload): void {
+    this.assistantGuaranteeFile = file;
+    this.accident.assistantGuaranteeId = file.id;
   }
 }

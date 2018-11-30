@@ -15,7 +15,7 @@ export class Accident {
         public caseableId: number = 0,
         public cityId: number = 0,
         public formReportId: number = 0,
-        public caseableType: string = 'App/Doctor',
+        public caseableType: string = 'App\\DoctorAccident',
         public caseableCost: number = 0,
         public fixedIncome: number = 0,
         public refNum: string = '',
