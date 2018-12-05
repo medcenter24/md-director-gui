@@ -62,6 +62,7 @@ export class CaseEditorComponent extends LoadingComponent implements OnInit {
   @ViewChild('patientSelector')
     private patientSelector: PatientSelectorComponent;
 
+  // todo delete
   @ViewChild('previewContainer')
     previewContainer: ElementRef;
 

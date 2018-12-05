@@ -7,6 +7,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { FormOption } from '../form.option';
+import { FormOptionService } from '../form.option.service';
 
 @Component({
   selector: 'nga-forms-options-editor',
@@ -27,20 +28,14 @@ export class FormsOptionsEditorComponent implements OnInit {
 
   parameters: FormOption[] = [];
 
-  constructor(public translateService: TranslateService) {}
+  constructor(
+    public translateService: TranslateService,
+    private formOptionService: FormOptionService,
+  ) {}
 
   ngOnInit(): void {
-    this.translateService.get('Yes').subscribe(() => {
-      if (this.formableType === 'App\\Accident') {
-        this.parameters = [
-          new FormOption(this.translateService.instant('Patient Name'), 'patient.name'),
-          new FormOption(this.translateService.instant('Doctor Name'), 'doctor.name'),
-          new FormOption(this.translateService.instant('Ref. Number'), 'ref.number'),
-          new FormOption(this.translateService.instant('Hospital Title'), 'hospital.title'),
-          new FormOption(this.translateService.instant('Company Name'), 'company.name'),
-        ];
-      }
-    });
+    this.formOptionService.getOptions('App\\Accident')
+      .then(data => this.parameters = data);
   }
 
   // do not allow to change variables because they could be used in template

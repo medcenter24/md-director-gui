@@ -1,4 +1,7 @@
 {
+  "Template": "Template",
+  "`form` and/or `data source` has not been provided": "`form` and/or `data source` has not been provided",
+  "Get Form": "Get Form",
   "Case loading": "Case loading",
   "Payment to the doctor": "Payment to the doctor",
   "Payment to the hospital": "Payment to the hospital",
@@ -135,8 +138,8 @@
   "Comments": "Comments",
   "History": "History",
   "Activity": "Activity",
-  "Report Preview": "Report Preview",
-  "Print a Report": "Print a Report",
+  "Preview": "Preview",
+  "Print": "Print",
   "Save as PDF": "Save as PDF",
   "Patient Data": "Patient Data",
   "Patient editor": "Patient editor",

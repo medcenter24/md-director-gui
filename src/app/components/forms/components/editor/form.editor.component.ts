@@ -4,17 +4,25 @@
  * @author Zagovorychev Olexandr <zagovorichev@gmail.com>
  */
 
-import { AfterContentChecked, Component, OnInit } from '@angular/core';
+import {
+  AfterContentChecked,
+  Component,
+  OnInit,
+} from '@angular/core';
+import { forEach } from '@angular/router/src/utils/collection';
+import { ObjectHelper } from '../../../../helpers/object.helper';
 import { LoadableComponent } from '../../../core/components/componentLoader';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { GlobalState } from '../../../../global.state';
 import { FormService } from '../../form.service';
 import { Form } from '../../form';
 import { TranslateService } from '@ngx-translate/core';
-declare var $: any;
 import { ChangeDetectorRef } from '@angular/core';
 import { AuthenticationService } from '../../../auth/authentication.service';
 import { FormOption } from '../options/form.option';
+import { FormOptionPreview } from '../options/form.option.preview';
+import { FormOptionService } from '../options/form.option.service';
+declare var $: any;
 
 
 // todo until some change in lib.d.ts
@@ -37,6 +45,7 @@ export class FormEditorComponent extends LoadableComponent implements OnInit, Af
   isLoaded: boolean = false;
   form: Form;
   msgs: any;
+  froalaEditor: any;
   editorOptions: any = {
     requestWithCORS: true,
     // imageUploadURL: '', // getting from the media service
@@ -58,6 +67,9 @@ export class FormEditorComponent extends LoadableComponent implements OnInit, Af
     ],
     quickInsertButtons: ['image', 'table', 'ul', 'ol', 'hr', 'vars'],
     events: {
+      'froalaEditor.initialized': (e, editor) => {
+        this.froalaEditor = editor;
+      },
       'froalaEditor.image.beforeUpload': (e, editor, files) => {
         if (files.length) {
           // Create a File Reader.
@@ -95,7 +107,6 @@ export class FormEditorComponent extends LoadableComponent implements OnInit, Af
   };
 
   displayDialog: boolean = false;
-  froalaEditor: any;
 
   constructor(
     private formService: FormService,
@@ -105,6 +116,7 @@ export class FormEditorComponent extends LoadableComponent implements OnInit, Af
     private router: Router,
     private cdRef: ChangeDetectorRef,
     private authenticationService: AuthenticationService,
+    private formOptionService: FormOptionService,
   ) {
     super();
   }
@@ -123,18 +135,15 @@ export class FormEditorComponent extends LoadableComponent implements OnInit, Af
       this.editorOptions.requestHeaders = {
         'Authorization': `Bearer ${this.authenticationService.getToken()}`,
       };
-      const self = this;
       $.FroalaEditor.DefineIcon('vars', { NAME: 'asterisk' });
       $.FroalaEditor.RegisterCommand('vars', {
         title: this.translateService.instant('Choose variables'),
         focus: false,
         undo: false,
         refreshAfterCallback: false,
-
-        callback: function callback () {
-          self.displayDialog = true;
-          self.froalaEditor = this;
-          self.cdRef.detectChanges();
+        callback: () => {
+          this.displayDialog = true;
+          this.cdRef.detectChanges();
         },
       });
 
@@ -147,7 +156,15 @@ export class FormEditorComponent extends LoadableComponent implements OnInit, Af
             this.formService.getForm(id).then((form: Form) => {
               this.stopLoader();
               this.form = form;
-              this.readyToLoad();
+              if (typeof this.form.variables === 'string') {
+                this.form.variables = JSON.parse(this.form.variables);
+                this.encodeVars(this.form.template).then(tmp => {
+                  this.form.template = tmp;
+                  this.readyToLoad();
+                });
+              } else {
+                this.readyToLoad();
+              }
             }).catch(() => this.stopLoader());
           } else {
             this.form = new Form();
@@ -157,51 +174,135 @@ export class FormEditorComponent extends LoadableComponent implements OnInit, Af
     });
   }
 
-  ngAfterContentChecked(): void {
-    // bind event to delete variables
+  private assignFormOptionDeleteBtn(): void {
     const $alert = $('.alert-variable');
-    $('.close', $alert).off('click').on('click', function () {
-      $(this).parents('.alert').remove();
+    // prevent setting focus to the alert (to not set cursor into)
+    $alert.off('click').on('click', function() {
+      $(this).parent().html($(this).parent().html());
     });
+
+    // assign correct behavior to the close button
+    $('.close-form-option', $alert)
+      .off('click')
+      .on('click', event => {
+        if (this.form.variables) {
+          const $el = $(event.target);
+          const key = $el.data('key');
+          let isFirst = true;
+          // delete only the first variable from the list
+          this.form.variables = this.form.variables.filter((v: string) => {
+            let res = true;
+            if (isFirst && v === key) {
+              isFirst = false;
+              res = false;
+            }
+            return res;
+          });
+          $el.parents('.alert').remove();
+        }
+      });
+  }
+
+  ngAfterContentChecked(): void {
+    this.assignFormOptionDeleteBtn();
   }
 
   private readyToLoad(): void {
       this.isLoaded = true;
   }
 
+  private applyToAllViews(tmp, func): Promise<any> {
+    return new Promise<string>(resolve => {
+      const proceed: string[] = [];
+      const promises = [];
+      this.form.variables.forEach( (variable: string) => {
+        if (!proceed.find(el => el === variable)) {
+          proceed.push(variable);
+          promises.push(this.getView(variable));
+        }
+      });
+      Promise.all(promises).then(templates => {
+        templates.forEach(tmpl => {
+          tmp = func(tmpl, tmp);
+        });
+        resolve(tmp);
+      });
+    });
+  }
+
+  /**
+   * Transform from the html view to the variable key
+   * @param tmp
+   */
+  private decodeVars(tmp: string): Promise<string> {
+    return this.applyToAllViews(tmp, function(tmpl, _tmp) {
+      const regX = new RegExp(tmpl.view, 'g');
+      return _tmp.replace(regX, tmpl.key);
+    });
+  }
+
+  /**
+   * Transform to the html view from the variable key
+   * @param tmp
+   */
+  private encodeVars(tmp: string): Promise<string> {
+    return this.applyToAllViews(tmp, function(tmpl) {
+      const regX = new RegExp(tmpl.key, 'g');
+      return tmp.replace(regX, tmpl.view);
+    });
+  }
+
   saveForm(): void {
+    const tmpForm: Form = new Form();
+    ObjectHelper.clone(this.form, tmpForm);
+    this.decodeVars(tmpForm.template).then(template => {
+      tmpForm.template = template;
+      tmpForm.variables = tmpForm.variables.filter(v => template.includes(v));
+      this.form.variables = tmpForm.variables;
+      this.sendForm(tmpForm);
+    });
+  }
+
+  private sendForm(form: Form): void {
     const postfix = 'SaveRule';
     this.startLoader(postfix);
     const previousId = this.form.id;
-    this.formService.save(this.form)
-      .then(form => {
+    this.formService.save(form)
+      .then(savedForm => {
         this.stopLoader(postfix);
         this.msgs = [];
         this.msgs.push({ severity: 'success', summary: this.translateService.instant('Saved'),
           detail: this.translateService.instant('Successfully saved') });
         this._state.notifyDataChanged('growl', this.msgs);
         if (!previousId) {
-          this.router.navigate([`pages/settings/forms/${form.id}`]);
+          this.router.navigate([`pages/settings/forms/${savedForm.id}`]);
         }
       })
       .catch(() => this.stopLoader(postfix) );
   }
 
-  setSelectedVar(formParam: FormOption): void {
-    this.froalaEditor.html.insert(`&nbsp;<span class="alert alert-variable alert-dismissible fade show fr-deletable"
-            contenteditable="false" role="alert" data-class="${formParam.key}">
-              ${formParam.title}
-              <span class="close" data-dismiss="alert">
-                <span aria-hidden="true">&times;</span>
-              </span>
-            </span>&nbsp;`);
-
-    // bind event to delete variables
-    const $alert = $('.alert-variable');
-    $('.close', $alert).off('click').on('click', function () {
-      $(this).parents('.alert').remove();
+  private getView(key: string): Promise<FormOptionPreview> {
+    return this.formOptionService.get(key).then((option: FormOption) => {
+      return new FormOptionPreview(key,
+        `<span class="alert alert-variable alert-dismissible fade show fr-deletable pl-1 pr-1"`
+        + ` contenteditable="false" data-class="${option.key}">`
+        + `${option.title}`
+        + `<span class="close ml-1">`
+        + `<span class="close-form-option" data-key="${option.key}">&times;</span>`
+        + `</span>`
+        + `</span>`);
     });
+  }
 
+  setSelectedVar(formParam: FormOption): void {
+    if ( !(this.form.variables instanceof Array) ) {
+      this.form.variables = [];
+    }
+    this.form.variables.push(formParam.key);
+    this.getView(formParam.key)
+      .then(template => this.froalaEditor.html.insert(template.view));
+
+    this.assignFormOptionDeleteBtn();
     this.displayDialog = false;
   }
 }

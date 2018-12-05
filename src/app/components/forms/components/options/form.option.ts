@@ -8,5 +8,6 @@ export class FormOption {
   constructor(
     public title: string = '',
     public key: string = '',
+    public type: string = '',
   ) {}
 }
