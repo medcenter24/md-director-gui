@@ -20,7 +20,7 @@
                 </h2>
               </div>
               <!-- /Title -->
-              <!-- Accident Export-Print -->
+              <!-- Accident Export-Print todo delete this and replace by form viewer -->
               <div class="col-sm-2 right text-right">
                 <span class="fa fa-file-pdf-o mr-2"
                       (click)="downloadPdfReport()"
@@ -420,7 +420,7 @@
                   <div class="col-12">
                     <!-- Guarantee to the hospital -->
                     <div class="row">
-                      <div class="col-9">
+                      <div class="col-4">
                         <label class="label separate" translate>Guarantee To the Hospital</label>
                         <nga-autocompleter
                                 #guaranteeHospitalAutocompleter
@@ -432,6 +432,13 @@
                                 (loaded)="stopLoader($event)"
                                 [preloadedData]="hospitalAccident.hospitalGuaranteeId"
                         ></nga-autocompleter>
+                      </div>
+                      <div class="col-4">
+                        <label class="label separate" translate>Get Form</label>
+                        <nga-form-viewer
+                                [formId]="hospitalAccident.hospitalGuaranteeId"
+                                [formableId]="accident.id"
+                        ></nga-form-viewer>
                       </div>
                     </div>
                     <div class="row mt-2">
@@ -539,6 +546,7 @@
     </div>
   </div>
 
+  <!-- todo delete this after the form implementation -->
   <iframe id="printf" name="printf" style="display: none;"></iframe>
 </div>
 
@@ -555,6 +563,7 @@
   ></nga-patient-editor>
 </p-dialog>
 
+<!-- todo to be deleted after forms -->
 <p-dialog [(visible)]="reportPreviewVisible"
           [width]="800"
           appendTo="body">

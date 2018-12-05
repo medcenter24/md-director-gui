@@ -10,6 +10,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { DialogModule, InputTextModule } from 'primeng/primeng';
 import { AppTranslationModule } from '../../../../../app.translation.module';
+import { FormOptionService } from '../form.option.service';
 import { FormsOptionsEditorComponent } from './forms.options.editor.component';
 
 @NgModule({
@@ -26,6 +27,9 @@ import { FormsOptionsEditorComponent } from './forms.options.editor.component';
   ],
   exports: [
     FormsOptionsEditorComponent,
+  ],
+  providers: [
+    FormOptionService,
   ],
 })
 export class FormsOptionsEditorModule {

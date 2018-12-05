@@ -21,6 +21,7 @@
 
     <div class="row mb-3">
       <div class="col-sm-9">
+        <label class="label required separate" for="title" translate>Template</label>
         <div [froalaEditor]="editorOptions" [(ngModel)]="form.template"></div>
       </div>
     </div>
@@ -28,7 +29,7 @@
     <button class="btn btn-success"
             (click)="saveForm()"
             translate
-    >{{ form.id ? 'Update' : 'Add' }}</button>
+    >{{ form.id ? 'Save' : 'Add' }}</button>
   </div>
 </div>
 

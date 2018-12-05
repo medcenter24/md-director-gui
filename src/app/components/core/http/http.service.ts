@@ -154,7 +154,7 @@ export abstract class HttpService {
       this._state.notifyDataChanged('apiError', error);
     } else if (typeof error === 'string') {
       this.msgs = [];
-      this.msgs.push({ severity: 'error', summary: 'Error', detail: error });
+      this.msgs.push({ severity: 'error', summary: this.errorText, detail: error });
       this._state.notifyDataChanged('growl', this.msgs);
     } else {
       this.msgs = [];
