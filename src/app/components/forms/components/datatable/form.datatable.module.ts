@@ -21,7 +21,7 @@ import { FormDatatableComponent } from './form.datatable.component';
     AppTranslationModule,
     ButtonModule,
     DatatableModule,
-],
+  ],
   providers: [
     FormService,
   ],

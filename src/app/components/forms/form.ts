@@ -12,5 +12,6 @@ export class Form {
     public variables: string[] = [],
     public template: string = '',
     public formableType: string = 'App\\Accident',
-  ) {}
+  ) {
+  }
 }

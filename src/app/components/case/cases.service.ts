@@ -17,6 +17,7 @@ import { CaseAccident } from './case';
 import { AccidentCheckpoint } from '../accident/components/checkpoint/checkpoint';
 import { AccidentScenario } from '../accident/components/scenario/scenario';
 import { Survey } from '../survey/survey';
+// todo delete
 import { saveAs } from 'file-saver';
 import { Accident } from '../accident/accident';
 import { AccidentHistory } from '../accident/components/history/history';
@@ -92,10 +93,12 @@ export class CasesService extends HttpService {
     return this.get(`${id}/scenario`).then(response => response.data as AccidentScenario[]);
   }
 
+  // todo remove
   getReportHtml (id: number): Promise<string> {
     return this.get(`${id}/reportHtml`).then(response => response.data as string);
   }
 
+  // todo to be deleted
   downloadPdfReport (id: number): void {
     // const options = new RequestOptions({ responseType: ResponseContentType.Blob, headers: this.getAuthHeaders() });
     this.http

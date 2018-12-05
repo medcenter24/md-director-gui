@@ -1,4 +1,7 @@
 {
+  "Template": "Шаблон",
+  "`form` and/or `data source` has not been provided": "Не указана форма и/или источник данных",
+  "Get Form": "Готовые формы",
   "Case loading": "Загрузка дела",
   "Payment to the doctor": "Оплата врачу",
   "Payment to the hospital": "Оплата в больницу",
@@ -134,8 +137,8 @@
   "Comments": "Комментарии",
   "History": "История",
   "Activity": "Активность",
-  "Report Preview": "Просмотр отчета",
-  "Print a Report": "Печать отчета",
+  "Preview": "Просмотр",
+  "Print": "Печать",
   "Save as PDF": "Скачать PDF",
   "Patient Data": "Данные пациента",
   "Patient editor": "Форма редактирования",

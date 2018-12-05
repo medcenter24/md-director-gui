@@ -18,6 +18,7 @@ import { KeyFilterModule } from 'primeng/keyfilter';
 import { AppTranslationModule } from '../../../../app.translation.module';
 import { FormsModule } from '@angular/forms';
 import { FormService } from '../../../forms';
+import { FormViewerModule } from '../../../forms/components/viewer';
 import { InvoiceEditorModule } from '../../../invoice/components/editor';
 import { DownloadFileModule } from '../../../upload/components/download';
 import { UploadFileModule } from '../../../upload/components/file';
@@ -78,6 +79,7 @@ import { HospitalsService } from '../../../hospital';
     InvoiceEditorModule,
     UploadFileModule,
     DownloadFileModule,
+    FormViewerModule,
   ],
   declarations: [
     CaseEditorComponent,
