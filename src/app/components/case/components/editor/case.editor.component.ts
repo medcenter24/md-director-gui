@@ -62,10 +62,6 @@ export class CaseEditorComponent extends LoadingComponent implements OnInit {
   @ViewChild('patientSelector')
     private patientSelector: PatientSelectorComponent;
 
-  // todo delete
-  @ViewChild('previewContainer')
-    previewContainer: ElementRef;
-
   // I need to update finance if data changes
   @ViewChild('caseFinance')
     private caseFinance: CaseFinanceComponent;
@@ -87,6 +83,9 @@ export class CaseEditorComponent extends LoadingComponent implements OnInit {
 
   @ViewChild('hospitalInvoiceEditor')
     private hospitalInvoiceEditor: InvoiceEditorComponent;
+
+  @ViewChild('accidentReportFormAutocompleter')
+    private accidentReportFormAutocompleter: AutocompleterComponent;
 
   msgs: Message[] = [];
   accident: Accident;
@@ -173,6 +172,10 @@ export class CaseEditorComponent extends LoadingComponent implements OnInit {
             if (this.accident.cityId) {
               this.cityAutocompleter.selectItems(this.accident.cityId);
             }
+            if (this.accident.formReportId) {
+              this.accidentReportFormAutocompleter.selectItems(this.accident.formReportId);
+            }
+
             // cheating to not make extra request
             if (+this.accident.assistantGuaranteeId) {
               this.assistantGuaranteeFile = new Upload(this.accident.assistantGuaranteeId);
@@ -519,30 +522,6 @@ export class CaseEditorComponent extends LoadingComponent implements OnInit {
     this.patient = patient;
     this.editPatientForm.setPatient(patient);
     this.patientSelector.resetPatient(patient);
-  }
-
-  downloadPdfReport(): void {
-      this.caseService.downloadPdfReport(this.accident.id);
-  }
-
-  printReport(): void {
-    this.loadingBar.start();
-    this.caseService.getReportHtml(this.accident.id)
-        .then(html => {
-          this.loadingBar.complete();
-          const newWin = window.frames['printf'];
-          newWin.document.write(`<body onload="window.print()">${html}</body>`);
-          newWin.document.close();
-        })
-        .catch(() => this.loadingBar.complete());
-  }
-
-  previewReport(): void {
-    this.caseService.getReportHtml(this.accident.id)
-        .then((html: string) => {
-            this.reportPreviewVisible = true;
-            this.previewContainer.nativeElement.innerHTML = html;
-        }).catch();
   }
 
   isDoctorAccident(): boolean {

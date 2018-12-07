@@ -1,4 +1,6 @@
 {
+  "Form not assigned": "Форма не назначена",
+  "Form Preview": "Предпросмотр формы",
   "Template": "Шаблон",
   "`form` and/or `data source` has not been provided": "Не указана форма и/или источник данных",
   "Get Form": "Готовые формы",
