@@ -22,7 +22,6 @@ export class FormOptionService {
           new FormOption(this.translateService.instant('Doctor Name'), ':doctor.name', 'App\\Accident'),
           new FormOption(this.translateService.instant('Ref. Number'), ':ref.number', 'App\\Accident'),
           new FormOption(this.translateService.instant('Hospital Title'), ':hospital.title', 'App\\Accident'),
-          new FormOption(this.translateService.instant('Company Name'), ':company.name', 'App\\Accident'),
         ]);
       });
     });
