@@ -93,20 +93,6 @@ export class CasesService extends HttpService {
     return this.get(`${id}/scenario`).then(response => response.data as AccidentScenario[]);
   }
 
-  // todo remove
-  getReportHtml (id: number): Promise<string> {
-    return this.get(`${id}/reportHtml`).then(response => response.data as string);
-  }
-
-  // todo to be deleted
-  downloadPdfReport (id: number): void {
-    // const options = new RequestOptions({ responseType: ResponseContentType.Blob, headers: this.getAuthHeaders() });
-    this.http
-      .get(this.getUrl(`${id}/downloadPdf`), { headers: this.getAuthHeaders(), responseType: 'blob' })
-      .map(res => res)
-      .subscribe(data => saveAs(data, `report_case_${id}.pdf`), err => this.handleError(err));
-  }
-
   getHistory (accident: Accident): Promise <AccidentHistory[]> {
     return this.get(`${accident.id}/history`).then(response => response.data as AccidentHistory[]);
   }

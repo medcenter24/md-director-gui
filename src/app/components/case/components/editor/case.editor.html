@@ -20,24 +20,11 @@
                 </h2>
               </div>
               <!-- /Title -->
-              <!-- Accident Export-Print todo delete this and replace by form viewer -->
-              <div class="col-sm-2 right text-right">
-                <span class="fa fa-file-pdf-o mr-2"
-                      (click)="downloadPdfReport()"
-                      title="{{ 'Save as PDF' | translate }}"></span>
-                <span class="fa fa-print mr-2"
-                      (click)="printReport()"
-                      title="{{ 'Print a Report' | translate }}"></span>
-                <span class="fa fa-window-maximize mr-2"
-                      (click)="previewReport()"
-                      title="{{ 'Report Preview' | translate }}"></span>
-              </div>
-              <!-- /Accident Export-Print -->
             </div>
 
             <!-- Type of Case -->
             <div class="row">
-              <div class="col-12">
+              <div class="col-4">
                   <label class="label separate required" *ngIf="!accident.id" translate>Choose Case</label>
                   <nga-case-type-select
                           *ngIf="!accident.id"
@@ -51,6 +38,30 @@
                       class="text-danger" translate>Hospital Case</h4>
               </div>
               <!-- /Type of Case -->
+              <div class="col-8">
+                <div class="row">
+                  <div class="col-8 right text-right">
+                    <!-- Accident Export-Print -->
+                    <nga-autocompleter
+                        #accidentReportFormAutocompleter
+                        [service]="formService"
+                        placeholder="Choose a Form"
+                        labelField="title"
+                        (selected)="accident.formReportId = $event.id"
+                        (init)="startLoader($event)"
+                        (loaded)="stopLoader($event)"
+                        [preloadedData]="accident.formReportId"
+                    ></nga-autocompleter>
+                  </div>
+                  <div class="col-4">
+                    <nga-form-viewer
+                            [formId]="accident.formReportId"
+                            [formableId]="accident.id"
+                    ></nga-form-viewer>
+                  </div>
+                </div>
+                <!-- /Accident Export-Print -->
+              </div>
             </div>
           </div>
 

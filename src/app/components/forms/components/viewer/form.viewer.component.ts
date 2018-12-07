@@ -15,28 +15,30 @@ import { FormService } from '../../form.service';
 @Component({
   selector: 'nga-form-viewer',
   template: `
-    <span
-            class="fa fa-file-pdf-o mr-2"
-            (click)="downloadPdf()"
-            title="{{ 'Save as PDF' | translate }}"></span>
-    <span
-            class="fa fa-print mr-2"
-            (click)="print()"
-            title="{{ 'Print' | translate }}"
-    ></span>
-    <span
-            class="fa fa-window-maximize"
-            (click)="preview()"
-            title="{{ 'Preview' | translate }}"
-    ></span>
-    
+    <div *ngIf="formId">
+      <span
+              class="fa fa-file-pdf-o mr-2"
+              (click)="downloadPdf()"
+              title="{{ 'Save as PDF' | translate }}"></span>
+      <span
+              class="fa fa-print mr-2"
+              (click)="print()"
+              title="{{ 'Print' | translate }}"
+      ></span>
+      <span
+              class="fa fa-window-maximize"
+              (click)="preview()"
+              title="{{ 'Preview' | translate }}"
+      ></span>
+    </div>
+    <span class="text-muted" *ngIf="!formId" translate>Form not assigned</span>
     <iframe id="printf" name="printf" style="display: none;"></iframe>
 
     <p-dialog [(visible)]="formPreviewerVisible"
               [width]="800"
               appendTo="body">
       <p-header>
-        {{ 'Report Preview' | translate }}
+        {{ 'Form Preview' | translate }}
       </p-header>
       <div #previewContainer></div>
     </p-dialog>
