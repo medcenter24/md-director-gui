@@ -21,10 +21,15 @@ export class PaymentBlockComponent {
     const found = this.themes.find(e => e.title === theme);
     this.currentTheme = found ? found : this.themes.find(e => e.title === 'default');
   }
+  @Input() set loading(status) {
+    this.updating = status;
+  }
   @Input() priceAmount: number = 0;
   @Input() currency: FinanceCurrency;
   @Input() formula: string = '';
+  @Output() update: EventEmitter<void> = new EventEmitter<any>();
 
+  updating: boolean = false;
   showFormula: boolean = false;
   themes: any[] = [{
     title: 'default',
@@ -39,7 +44,7 @@ export class PaymentBlockComponent {
     bodyText: 'text-info',
     border: 'border-info',
   }];
-  currentTheme: string = 'default';
+  currentTheme: Object = {};
 
   onAutoupdateChanged(event): void {
     this.fixed.emit(event);
@@ -47,6 +52,11 @@ export class PaymentBlockComponent {
 
   toggleFormula(): void {
     this.showFormula = !this.showFormula;
+  }
+
+  updateDetails(): void {
+    this.updating = true;
+    this.update.emit();
   }
 
 }

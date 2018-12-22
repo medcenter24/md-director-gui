@@ -1,20 +1,23 @@
-<div class="patient-selector">
-    <nga-select-patient
-        #patientSelect
-        [patient]="patient"
-        (select)="onPatientChanged($event)"
-        (init)="startLoader($event)"
-        (loaded)="stopLoader($event)"
-        (input)="changedValue($event)"
-        class="pull-left"
-    ></nga-select-patient>
-
-    <div class="status pull-left lead">
-        <span class="text-danger"
-              *ngIf="(!patient || !patient.id) && (isPhone===null || isPhone === true)" translate>Patient not selected</span>
-        <span class="text-warning"
-              *ngIf="(!patient || !patient.id) && isPhone===false" translate>New patient will be created</span>
-        <span class="text-success"
-                *ngIf="patient && patient.id" translate>Patient selected</span>
+<div class="row patient-selector">
+    <div class="col-12 col-md-8">
+        <nga-select-patient
+            #patientSelect
+            [patient]="patient"
+            (select)="onPatientChanged($event)"
+            (init)="startLoader($event)"
+            (loaded)="stopLoader($event)"
+            (input)="changedValue($event)"
+            class="pull-left"
+        ></nga-select-patient>
+    </div>
+    <div class="col-12 col-md-4">
+        <div class="status pull-left">
+                <span class="text-danger"
+                      *ngIf="(!patient || !patient.id) && (isPhone===null || isPhone === true)" translate>Patient not selected</span>
+            <span class="text-warning"
+                  *ngIf="(!patient || !patient.id) && isPhone===false" translate>New patient will be created</span>
+            <span class="text-success"
+                  *ngIf="patient && patient.id" translate>Patient selected</span>
+        </div>
     </div>
 </div>

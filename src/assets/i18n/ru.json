@@ -1,4 +1,7 @@
 {
+  "Invoice the assistant": "Счет для ассистанса за кейс",
+  "Income calculation": "Расчет дохода",
+  "Doctor remuneration": "Вознаграждение врача",
   "Form not assigned": "Форма не назначена",
   "Form Preview": "Предпросмотр формы",
   "Template": "Шаблон",
@@ -217,7 +220,7 @@
   "Ref. Number": "Реф. №",
   "Here will be statistics, to do board, calendar with all of the doctors I mean cases of the doctors": "Здесь будет статистика (заявки всего, заявки по регионам) и календарь посещений докторами больных",
   "Surname": "Фамилия",
-  "Fixed amount": "Зафиксированное значение",
+  "Fixed amount": "Фиксированное значение",
   "Auto update": "Автообновление",
   "Income is fixed allowed changes by hand": "Доход зафиксирован, возможно обновление вручную",
   "Fix income": "Фиксировать доход",
