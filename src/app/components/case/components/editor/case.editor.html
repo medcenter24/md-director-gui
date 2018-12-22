@@ -24,7 +24,7 @@
 
             <!-- Type of Case -->
             <div class="row">
-              <div class="col-4">
+              <div class="col-sm-4">
                   <label class="label separate required" *ngIf="!accident.id" translate>Choose Case</label>
                   <nga-case-type-select
                           *ngIf="!accident.id"
@@ -38,9 +38,9 @@
                       class="text-danger" translate>Hospital Case</h4>
               </div>
               <!-- /Type of Case -->
-              <div class="col-8">
+              <div class="col-sm-8">
                 <div class="row">
-                  <div class="col-8 right text-right">
+                  <div class="col-sm-8 text-right">
                     <!-- Accident Export-Print -->
                     <nga-autocompleter
                         #accidentReportFormAutocompleter
@@ -53,7 +53,7 @@
                         [preloadedData]="accident.formReportId"
                     ></nga-autocompleter>
                   </div>
-                  <div class="col-4">
+                  <div class="col-sm-4 text-left">
                     <nga-form-viewer
                             [formId]="accident.formReportId"
                             [formableId]="accident.id"
@@ -247,7 +247,7 @@
               <div class="col-12">
                 <label class="label separate required">{{ 'patient' | translate }}</label>
                 <div class="row">
-                  <div class="col-6">
+                  <div class="col-12 col-md-6">
                     <div class="patient-selector float-left">
                       <nga-patient-selector
                         #patientSelector
@@ -258,7 +258,7 @@
                       ></nga-patient-selector>
                     </div>
                   </div>
-                  <div class="col-6">
+                  <div class="col-12 col-md-6">
                     <label class="label separated float-left offset-right10" translate>Patient editor</label>
                     <div class="edit-patient">
                       <span class="fa fa-edit lead linked text-success"
@@ -431,7 +431,7 @@
                   <div class="col-12">
                     <!-- Guarantee to the hospital -->
                     <div class="row">
-                      <div class="col-4">
+                      <div class="col-sm-6 col-md-4">
                         <label class="label separate" translate>Guarantee To the Hospital</label>
                         <nga-autocompleter
                                 #guaranteeHospitalAutocompleter
@@ -444,7 +444,7 @@
                                 [preloadedData]="hospitalAccident.hospitalGuaranteeId"
                         ></nga-autocompleter>
                       </div>
-                      <div class="col-4">
+                      <div class="col-sm-6 col-md-4">
                         <label class="label separate" translate>Get Form</label>
                         <nga-form-viewer
                                 [formId]="hospitalAccident.hospitalGuaranteeId"
@@ -452,8 +452,8 @@
                         ></nga-form-viewer>
                       </div>
                     </div>
-                    <div class="row mt-2">
-                      <div class="col-9">
+                    <div class="row mt-3">
+                      <div class="col-12">
                         <nga-invoice-editor
                                 #hospitalInvoiceEditor
                                 [autosave]="true"
@@ -470,8 +470,8 @@
                 <!-- HA /Invoices -->
 
                 <!-- Assistant Invoice -->
-                <div class="row mt-2">
-                  <div class="col-9">
+                <div class="row mt-3">
+                  <div class="col-12">
                     <nga-invoice-editor
                             [autosave]="true"
                             [reload]="true"
@@ -487,7 +487,7 @@
 
                 <!-- Documents -->
                 <div class="row mt-2">
-                  <div class="col-sm-12">
+                  <div class="col-12">
                     <label class="label separated" translate>Documents</label>
                     <nga-file-uploader
                       [(documents)]="documents"
@@ -556,9 +556,6 @@
       ></nga-accident-activity>
     </div>
   </div>
-
-  <!-- todo delete this after the form implementation -->
-  <iframe id="printf" name="printf" style="display: none;"></iframe>
 </div>
 
 <p-dialog [(visible)]="patientEditFormDisplay" appendTo="body">
@@ -572,14 +569,4 @@
     (init)="startLoader($event)"
     (loaded)="stopLoader($event)"
   ></nga-patient-editor>
-</p-dialog>
-
-<!-- todo to be deleted after forms -->
-<p-dialog [(visible)]="reportPreviewVisible"
-          [width]="800"
-          appendTo="body">
-  <p-header>
-    {{ 'Report Preview' | translate }}
-  </p-header>
-  <div #previewContainer></div>
 </p-dialog>

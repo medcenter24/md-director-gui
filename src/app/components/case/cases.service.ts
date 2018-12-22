@@ -6,6 +6,9 @@
 
 import { Injectable } from '@angular/core';
 import 'rxjs/add/operator/toPromise';
+import { PaymentViewer } from '../finance/components/payment/components/block/payment.viewer';
+import { FinancePayment } from '../finance/components/payment/finance.payment';
+import { FinancePaymentService } from '../finance/components/payment/finance.payment.service';
 import { Service } from '../service';
 import { DoctorAccident } from '../doctorAccident/doctorAccident';
 import { HospitalAccident } from '../hospitalAccident/hospitalAccident';
@@ -17,8 +20,6 @@ import { CaseAccident } from './case';
 import { AccidentCheckpoint } from '../accident/components/checkpoint/checkpoint';
 import { AccidentScenario } from '../accident/components/scenario/scenario';
 import { Survey } from '../survey/survey';
-// todo delete
-import { saveAs } from 'file-saver';
 import { Accident } from '../accident/accident';
 import { AccidentHistory } from '../accident/components/history/history';
 import { Commentary } from '../comment/commentary';
@@ -103,5 +104,12 @@ export class CasesService extends HttpService {
 
   createComment (accident: Accident, text: string): Promise <Commentary> {
     return this.put(`${accident.id}/comments`, { text }).then(response => response.json() as Commentary);
+  }
+
+  getFinance (accident: Accident, types: Object): Promise<PaymentViewer[]> {
+    return this.http
+      .post(this.getUrl(`${accident.id}/finance`), JSON.stringify(types), { headers: this.getAuthHeaders() })
+      .toPromise()
+      .then(response => response as PaymentViewer[]);
   }
 }

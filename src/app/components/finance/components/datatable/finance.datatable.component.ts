@@ -47,8 +47,8 @@ export class FinanceDatatableComponent extends AbstractDatatableController {
   getColumns(): DatatableCol[] {
     return [
       new DatatableCol('title', this.translateService.instant('Title')),
-      new DatatableCol('condition', this.translateService.instant('Condition')),
-      new DatatableCol('priceAmount', this.translateService.instant('Price')),
+      new DatatableCol('model', this.translateService.instant('Model')),
+      new DatatableCol('value', this.translateService.instant('Price')),
     ];
   }
 

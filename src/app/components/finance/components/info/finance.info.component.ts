@@ -4,11 +4,10 @@
  * @author Zagovorychev Oleksandr <zagovorichev@gmail.com>
  */
 
-import { Component, Input, OnChanges, SimpleChange, SimpleChanges } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { LoadableComponent } from '../../../core/components/componentLoader';
 import { FinanceRule } from '../../finance.rule';
 import { FinanceCurrency } from '../currency/finance.currency';
-import { FinanceCurrencyService } from '../currency/finance.currency.service';
 
 @Component({
   selector: 'nga-finance-info',

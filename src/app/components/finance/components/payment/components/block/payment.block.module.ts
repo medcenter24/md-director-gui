@@ -7,7 +7,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { ToggleButtonModule } from 'primeng/primeng';
+import { InplaceModule, ToggleButtonModule } from 'primeng/primeng';
 import { AppTranslationModule } from '../../../../../../app.translation.module';
 import { PaymentBlockComponent } from './payment.block.component';
 
@@ -17,6 +17,7 @@ import { PaymentBlockComponent } from './payment.block.component';
     FormsModule,
     AppTranslationModule,
     ToggleButtonModule,
+    InplaceModule,
   ],
   declarations: [PaymentBlockComponent],
   exports: [PaymentBlockComponent],
