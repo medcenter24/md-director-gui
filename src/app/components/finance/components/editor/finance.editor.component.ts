@@ -101,11 +101,17 @@ export class FinanceEditorComponent extends LoadableComponent implements OnInit 
     this.translateService.get('Yes').subscribe(() => {
       this.conditionModels = [];
       // condition for the doctor
-      this.conditionModels.push({ label: this.translateService.instant('Doctor'), value: 'App\\Doctor' });
-      // condition for the income? todo check if I still need it
-      this.conditionModels.push({ label: this.translateService.instant('Accident'), value: 'App\\Accident' });
+      this.conditionModels.push({
+        label: this.translateService.instant('Doctor'),
+        desc: this.translateService.instant('Doctor remuneration'),
+        value: 'App\\Doctor',
+      });
       // condition for the assistant company
-      this.conditionModels.push({ label: this.translateService.instant('Assistant'), value: 'App\\Assistant' });
+      this.conditionModels.push({
+        label: this.translateService.instant('Assistant'),
+        desc: this.translateService.instant('Invoice the assistant'), // how much assistant needs to pay
+        value: 'App\\Assistant',
+      });
 
       this.stopLoader(postfix);
 

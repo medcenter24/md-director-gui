@@ -4,12 +4,12 @@
  * @author Zagovorychev Olexandr <zagovorichev@gmail.com>
  */
 
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { LoadableComponent } from '../../../core/components/componentLoader';
-import { ToggleButton } from 'primeng/primeng';
 import { Accident } from '../../../accident/accident';
 import { TranslateService } from '@ngx-translate/core';
-import { NumbersHelper } from '../../../../helpers/numbers.helper';
+import { PaymentViewer } from '../../../finance/components/payment/components/block/payment.viewer';
+import { CasesService } from '../../cases.service';
 
 @Component({
   selector: 'nga-case-finance',
@@ -17,80 +17,65 @@ import { NumbersHelper } from '../../../../helpers/numbers.helper';
   styleUrls: ['./case.finance.scss'],
 })
 export class CaseFinanceComponent extends LoadableComponent implements OnInit {
-
   protected componentName: string = 'CaseFinanceComponent';
 
   @Input() accident: Accident;
 
-  @ViewChild('incomeAutoupdate')
-    private incomeAutoupdate: ToggleButton;
-
-  totalAmount: number = 0;
-  totalIncome: number = 0;
-  totalIncomeFormula: string = '';
+  types: string[] = ['income', 'assistant', 'caseable'];
+  paymentViewers: PaymentViewer[] = [];
 
   constructor(
     private translate: TranslateService,
+    private caseService: CasesService,
   ) {
     super();
   }
 
   ngOnInit() {
-    /*this.translate.get('Without discount').subscribe(res => {
-      this.totalIncomeFormula = res;
-    });*/
-    this.recalculatePrice();
+    this.translate.get('Yes').subscribe(() => {
+      this.types.forEach(type => {
+        this.paymentViewers.push(new PaymentViewer(type, true));
+      });
+      this.recalculateFinance(this.types);
+    });
   }
 
   /**
-   * Set income state: auto count or fixed value
-   * @param {boolean} val
+   * Getting new Finances from the server
+   * @param types [income, assistant, caseable]
    */
-  setFixedIncome(val: boolean): void {
-    this.accident.fixedIncome = val ? 1 : 0;
-    this.incomeAutoupdate.checked = !val;
+  recalculateFinance(types: string[] = []): void {
+    this.caseService.getFinance(this.accident, { types }).then(resp => {
+      types.forEach(type => {
+        this.updateFinanceType(type, resp);
+      });
+    });
   }
 
-  /**
-   * Checks if income is fixed
-   * @returns {boolean}
-   */
-  private isIncomeFixed(): boolean {
-    return +this.accident.fixedIncome !== 0;
+  private updateFinanceType(type: string, resp: Object): void {
+    const viewerKey = this.paymentViewers.findIndex(view => view.type === type);
+    this.paymentViewers[viewerKey] = resp[type];
+    this.paymentViewers[viewerKey].loading = false;
+    this.paymentViewers[viewerKey].type = type;
   }
 
-  /**
-   * on changing could be hidden price on save price will be updated from the backend
-   * it doesn't have any sense to implement this on frontend, all calculations go to the backend
-   */
-  private recalculatePrice(): void {
-    // all finance operations are managed by backend
+  getTitle(type: string): string {
+    switch (type) {
+      case 'income':
+        return 'Income';
+      case 'caseable':
+        return this.accident.caseableType === 'App\\HospitalAccident'
+          ? 'Payment to the hospital'
+          : 'Payment to the doctor';
+      case 'assistant':
+        return 'Payment from the assistant';
+      default: return `Undefined payment type ${type}`;
+    }
   }
 
-  onIncomeAutoupdateChanged(event): void {
-    this.setFixedIncome(!event.checked);
-    this.recalculatePrice();
+  update(type): void {
+    this.recalculateFinance([type]);
   }
 
-  onDoctorFeeChanged(event): void {
-    this.accident.caseableCost = NumbersHelper.getFixedFloat(event.target.value);
-    this.recalculatePrice();
-  }
-
-  onTotalIncomeChanged(event): void {
-    this.totalIncome = NumbersHelper.getFixedFloat(event.target.value);
-    this.setFixedIncome(true);
-    this.recalculatePrice();
-  }
-
-/*  onDiscountTypeSelected(discountType: Discount): void {
-    this.discountType = discountType;
-    this.recalculatePrice();
-  }
-
-  onDiscountValueChanged(): void {
-    this.discountValue = +this.discountValue.toFixed(2);
-    this.recalculatePrice();
-  }*/
 
 }

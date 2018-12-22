@@ -16,7 +16,7 @@ import { TranslateService } from '@ngx-translate/core';
   template: `<ba-card baCardClass="with-scroll">
     <div class="row mb-3">
       <div class="col-12">
-        <button pButton routerLink="/pages/settings/finance/"
+        <button pButton routerLink="/pages/finance/conditions"
                 [label]="'Back' | translate" icon="fa fa-angle-left"></button>
       </div>
     </div>
