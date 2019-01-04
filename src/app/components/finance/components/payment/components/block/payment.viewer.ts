@@ -4,7 +4,6 @@
  *  @author Oleksander  Zagovorychev <zagovorichev@gmail.com>
  */
 import { FinanceCurrency } from '../../../currency/finance.currency';
-import { FinancePayment } from '../../finance.payment';
 
 export class PaymentViewer {
   constructor(
@@ -13,6 +12,5 @@ export class PaymentViewer {
     public value: number = 0, // price amount
     public currency: FinanceCurrency = null,
     public formula: string = '', // calculation formula
-    public financePayment: FinancePayment = null,
   ) { }
 }
