@@ -7,8 +7,6 @@
 import { Injectable } from '@angular/core';
 import 'rxjs/add/operator/toPromise';
 import { PaymentViewer } from '../finance/components/payment/components/block/payment.viewer';
-import { FinancePayment } from '../finance/components/payment/finance.payment';
-import { FinancePaymentService } from '../finance/components/payment/finance.payment.service';
 import { Service } from '../service';
 import { DoctorAccident } from '../doctorAccident/doctorAccident';
 import { HospitalAccident } from '../hospitalAccident/hospitalAccident';
