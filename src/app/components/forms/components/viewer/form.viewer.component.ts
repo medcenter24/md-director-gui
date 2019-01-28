@@ -15,7 +15,7 @@ import { FormService } from '../../form.service';
 @Component({
   selector: 'nga-form-viewer',
   template: `
-    <div *ngIf="formId">
+    <div *ngIf="formId && formableId">
       <span
               class="fa fa-file-pdf-o mr-2"
               (click)="downloadPdf()"
