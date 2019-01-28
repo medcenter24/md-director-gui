@@ -12,9 +12,9 @@ import { DoctorAccident } from '../doctorAccident/doctorAccident';
 import { HospitalAccident } from '../hospitalAccident/hospitalAccident';
 import { Diagnostic } from '../diagnostic/diagnostic';
 import { HttpService } from '../core/http/http.service';
-import { ExtendCaseAccident } from './extendCaseAccident';
+// import { ExtendCaseAccident } from './extendCaseAccident';
 import { Document } from '../document/document';
-import { CaseAccident } from './case';
+// import { CaseAccident } from './case';
 import { AccidentCheckpoint } from '../accident/components/checkpoint/checkpoint';
 import { AccidentScenario } from '../accident/components/scenario/scenario';
 import { Survey } from '../survey/survey';
@@ -30,10 +30,10 @@ export class CasesService extends HttpService {
   }
 
   // todo check if I'm using it
-  getExtendedCase(id: number): Promise<ExtendCaseAccident[]> {
+  /*getExtendedCase(id: number): Promise<ExtendCaseAccident[]> {
     return this.get()
       .then(response => response.data as ExtendCaseAccident[]);
-  }
+  }*/
 
   getDocumentsUrl(id): string {
     return `${this.getUrl()}/${id}/documents`;
@@ -44,9 +44,10 @@ export class CasesService extends HttpService {
       .then(response => response.data as Document[]);
   }
 
-  getCases(params): Promise<any> {
+  // todo delete, seems that not used
+  /*getCases(params): Promise<any> {
     return this.get(null, params).then(response => response as CaseAccident[]);
-  }
+  }*/
 
   getCaseServices(id: number): Promise<Service[]> {
     return this.get(`${id}/services`).then(response => response.data as Service[]);
@@ -108,6 +109,12 @@ export class CasesService extends HttpService {
     return this.http
       .post(this.getUrl(`${accident.id}/finance`), JSON.stringify(types), { headers: this.getAuthHeaders() })
       .toPromise()
-      .then(response => response as PaymentViewer[]);
+      .then(response => {
+        let res = [];
+        if (response && 'data' in response) {
+          res = response['data'] as PaymentViewer[];
+        }
+        return res;
+      });
   }
 }
