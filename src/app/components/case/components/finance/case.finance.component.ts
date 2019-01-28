@@ -45,18 +45,15 @@ export class CaseFinanceComponent extends LoadableComponent implements OnInit {
    * @param types [income, assistant, caseable]
    */
   recalculateFinance(types: string[] = []): void {
-    this.caseService.getFinance(this.accident, { types }).then(resp => {
+    this.caseService.getFinance(this.accident, { types }).then((resp: PaymentViewer[]) => {
       types.forEach(type => {
-        this.updateFinanceType(type, resp);
+        const viewerKey = this.paymentViewers.findIndex(view => view.type === type);
+        const responseKey = resp.findIndex((res: PaymentViewer) => res.type === type);
+        this.paymentViewers[viewerKey] = resp[responseKey];
+        this.paymentViewers[viewerKey].loading = false;
+        this.paymentViewers[viewerKey].type = type;
       });
     });
-  }
-
-  private updateFinanceType(type: string, resp: Object): void {
-    const viewerKey = this.paymentViewers.findIndex(view => view.type === type);
-    this.paymentViewers[viewerKey] = resp[type];
-    this.paymentViewers[viewerKey].loading = false;
-    this.paymentViewers[viewerKey].type = type;
   }
 
   getTitle(type: string): string {

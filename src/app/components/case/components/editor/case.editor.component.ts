@@ -199,6 +199,7 @@ export class CaseEditorComponent extends LoadingComponent implements OnInit {
             }
           });
         } else {
+          this.handlingTime = this.dateHelper.toEuropeFormatWithTime(Date().toString());
           setTimeout(() => {
             this._state.notifyDataChanged('menu.activeLink', { title: 'Cases' });
           }, 100);
