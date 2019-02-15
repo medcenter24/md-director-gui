@@ -1,0 +1,103 @@
+<!--
+  ~ Copyright (c) 2018.
+  ~
+  ~ @author Zagovorychev Oleksandr <zagovorichev@gmail.com>
+  -->
+
+<ba-card baCardClass="with-scroll">
+
+  <div class="row mb-3">
+    <div class="col-12">
+      <a routerLink="/pages/development/gui" translate class="mb-3">Back</a>
+    </div>
+  </div>
+
+  <h4>Autocompleter</h4>
+  <div class="row">
+    <div class="col-3">
+      <nga-autocompleter
+        [service]="simpleSearch"
+        placeholder="Test Autocompleter"
+        labelField="value"
+        (selected)="item = $event"
+        (init)="startLoader($event)"
+        (loaded)="stopLoader($event)"
+      ></nga-autocompleter>
+    </div>
+    <div class="col-6" *ngIf="item">
+      Selected: {{ item.id }} => {{ item.value }}
+    </div>
+  </div>
+
+  <div class="row mt-1">
+    <div class="col-md-6">
+      <div class="well">
+        <p>Easy to use selector for multiple selections</p>
+        <p>Template: <br>
+          <code>
+            &lt;nga-autocompleter <br>
+              [service]="simpleSearch" <br>
+              placeholder="Test Autocompleter" <br>
+              labelField="value" <br>
+              (selected)="item = $event" <br>
+              (init)="startLoader($event)" <br>
+              (loaded)="stopLoader($event)" <br>
+            >&lt;/nga-autocompleter>
+          </code>
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <h4>Preloaded data</h4>
+  <div class="row">
+    <div class="col-3">
+      <nga-autocompleter
+        [service]="simpleSearch"
+        placeholder="Test Autocompleter"
+        labelField="value"
+        (selected)="item = $event"
+        (init)="startLoader($event)"
+        (loaded)="stopLoader($event)"
+        [preloadedData]="{ id: 2, value: 'value2' }"
+      ></nga-autocompleter>
+    </div>
+    <div class="col-6" *ngIf="item">
+      Selected: {{ item.id }} => {{ item.value }}
+    </div>
+  </div>
+
+  <div class="row mt-1">
+    <div class="col-md-6">
+      <div class="well">
+        <code>[preloadedData]="{{ '{' }} id: 2, value: 'value2' }"</code>
+      </div>
+    </div>
+  </div>
+
+  <h4>Preloaded data By ID</h4>
+  <div class="row">
+    <div class="col-3">
+      <nga-autocompleter
+        [service]="simpleSearch"
+        placeholder="Test Autocompleter"
+        labelField="value"
+        (selected)="item = $event"
+        (init)="startLoader($event)"
+        (loaded)="stopLoader($event)"
+        [preloadedData]="2"
+      ></nga-autocompleter>
+    </div>
+    <div class="col-6" *ngIf="item">
+      Selected: {{ item.id }} => {{ item.value }}
+    </div>
+  </div>
+
+  <div class="row mt-1">
+    <div class="col-md-6">
+      <div class="well">
+        <code>[preloadedData]="2"</code>
+      </div>
+    </div>
+  </div>
+</ba-card>

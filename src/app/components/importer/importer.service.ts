@@ -5,42 +5,24 @@
  */
 
 import { Injectable } from '@angular/core';
-import { Headers, Http } from '@angular/http';
-import { AuthenticationService } from '../auth/authentication.service';
+import { HttpService } from '../core/http/http.service';
 
 @Injectable()
-export class ImporterService {
-  private headers: Headers;
+export class ImporterService extends HttpService {
 
-  constructor(private http: Http, private authenticationService: AuthenticationService) {
-    this.headers = new Headers({ 'Authorization': `Bearer ${this.authenticationService.getToken()}` });
+  getPrefix(): string {
+    return '';
   }
 
   getQueue(url): Promise<any> {
-
-    return this.http.get(url, { headers: this.headers })
-      .toPromise()
-      .then(response => response.json())
-      .catch(this.handleError);
+    return this.get(url);
   }
 
   deleteFile(url: string, id: number): Promise<void> {
-    url = `${url}/${id}`;
-    return this.http.delete(url, { headers: this.headers })
-      .toPromise()
-      .then(() => null)
-      .catch(this.handleError);
+    return this.remove(`${url}/${id}`);
   }
 
   importFile(url: string, id: number): Promise<any> {
-    url = `${url}/${id}`;
-    return this.http.put(url, [], { headers: this.headers })
-      .toPromise()
-      .then((response) => response.json())
-      .catch(this.handleError);
-  }
-
-  private handleError(error: any): Promise<any> {
-    return Promise.reject(error.message || error);
+    return this.put(`${url}/${id}`, []);
   }
 }

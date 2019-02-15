@@ -1,0 +1,45 @@
+<ul class="info-list">
+  <li class="mb-2" *ngIf="_financeRule.model === 'App\\Doctor'" translate>Profit calculation for a doctor</li>
+  <li class="mb-2" *ngIf="_financeRule.model === 'App\\Accident'" translate>Accident profit calculation</li>
+
+  <li *ngIf="!hasConditions()"><span translate>This rule for all of the cases</span></li>
+
+  <li class="mb-1" *ngIf="hasCondition('doctors')">
+    <b translate>For the doctor(s)</b>
+    <ul>
+      <li *ngFor="let doctor of _financeRule.doctors">{{ doctor.name }}</li>
+    </ul>
+  </li>
+  <li class="mb-1" *ngIf="hasCondition('assistants')">
+    <b translate>If assistant company is</b>
+    <ul>
+      <li *ngFor="let assistant of _financeRule.assistants">{{ assistant.title }}</li>
+    </ul>
+  </li>
+  <li class="mb-1" *ngIf="hasCondition('cities')">
+    <b translate>In the city</b>
+    <ul>
+      <li *ngFor="let city of _financeRule.cities">{{ city.title }}</li>
+    </ul>
+  </li>
+  <li class="mb-1" *ngIf="hasCondition('datePeriods')">
+    <b translate>If case came</b>
+    <ul>
+      <li *ngFor="let datePeriod of _financeRule.datePeriods">{{ datePeriod.title }}</li>
+    </ul>
+  </li>
+  <li class="mb-1" *ngIf="hasCondition('services')">
+    <b translate>Services provided</b>
+    <ul>
+      <li *ngFor="let service of _financeRule.services">{{ service.title }}</li>
+    </ul>
+  </li>
+  <li class="mt-2" *ngIf="hasCurrency()">
+    <span *ngIf="_financeRule.type === 'add'" translate>Add</span>
+    <span *ngIf="_financeRule.type === 'sub'" translate>Subtract</span>
+    &nbsp;
+    <b>{{ _financeRule.value }}</b>
+    &nbsp;
+    <b [(ngaFinanceCurrencyIco)]="_financeRule.currencyMode === 'percent' ? 'percent' : _financeRule.currencyId"></b>
+  </li>
+</ul>

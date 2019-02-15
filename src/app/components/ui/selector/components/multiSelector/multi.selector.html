@@ -1,0 +1,14 @@
+<!--
+  ~ Copyright (c) 2018.
+  ~
+  ~ @author Zagovorychev Oleksandr <zagovorichev@gmail.com>
+  -->
+
+<nga-selector-multiple
+  #selectorComponent
+  *ngIf="langLoaded"
+  [setConfig]="config"
+  (selected)="onSelected($event)"
+  (init)="startLoader($event)"
+  (loaded)="stopLoader($event)"
+></nga-selector-multiple>

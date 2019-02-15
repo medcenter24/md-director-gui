@@ -1,13 +1,22 @@
 <div baCardBlur class="animated fadeIn card {{cardType}} {{baCardClass || ''}}" zoom-in>
-    <div *ngIf="elTitle" class="card-header clearfix">
-        <h3 class="card-title">
-            {{ elTitle | translate }}
-            <small *ngIf="closeable" class="pull-right"
-                   (click)="closeCard()"
-                   title="{{ 'Close' | translate }}">&times;</small>
-        </h3>
-    </div>
-    <div class="card-body">
-        <ng-content></ng-content>
-    </div>
+  <div *ngIf="elTitle" class="card-header clearfix">
+    <h3 class="card-title">
+      {{ elTitle | translate }}
+      <small *ngIf="closeable" class="pull-right"
+             (click)="closeCard()"
+             title="{{ 'Close' | translate }}">&times;
+      </small>
+    </h3>
+  </div>
+  <div *ngIf="!elTitle && closeable" class="card-header clearfix">
+    <h3 class="card-title">
+      <small *ngIf="closeable" class="pull-right"
+             (click)="closeCard()"
+             title="{{ 'Close' | translate }}">&times;
+      </small>
+    </h3>
+  </div>
+  <div class="card-body">
+    <ng-content></ng-content>
+  </div>
 </div>

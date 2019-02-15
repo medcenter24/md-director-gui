@@ -4,92 +4,120 @@
  * @author Zagovorychev Olexandr <zagovorichev@gmail.com>
  */
 
-import { Component, Input } from '@angular/core';
-
+import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import * as Chart from 'chart.js';
-
 import 'style-loader!./trafficChart.scss';
 import { TrafficChartData } from './trafficChart.data';
-import { BaThemeConfigProvider, colorHelper } from '../../../theme';
-import { LoadableComponent } from '../../core/components/componentLoader/LoadableComponent';
+import { colorHelper } from '../../../theme';
+import { LoadableComponent } from '../../core/components/componentLoader';
 
 @Component({
   selector: 'nga-traffic-chart',
   templateUrl: './trafficChart.html',
 })
 
-export class TrafficChartComponent extends LoadableComponent {
+export class TrafficChartComponent extends LoadableComponent implements OnInit {
 
   protected componentName: string = 'TrafficChartComponent';
 
-  doughnutData: Object[];
+  infoData: Object[] = [];
   total: number = 0;
+  private transformedData: any;
 
   @Input() prefix: string = '';
   @Input() set setData(data: TrafficChartData[] ) {
-    this.doughnutData = this.transformTrafficChartData(data);
-    this._loadDoughnutCharts();
+    this.transformedData = this.transformTrafficChartData(data);
   }
 
+  @ViewChild('canvasChart')
+    private canvasEl: ElementRef;
+
   constructor (
-    private _baConfig: BaThemeConfigProvider,
   ) {
     super();
   }
 
-  private transformTrafficChartData(data: TrafficChartData[]): Object[] {
+  ngOnInit(): void {
+    this._loadDoughnutCharts(this.transformedData);
+  }
+
+  private transformTrafficChartData(data: TrafficChartData[]): Object {
     this.total = 0;
-    data.forEach(row => this.total += row.casesCount);
-    const result = [];
+    data.forEach(row => this.total += +row.casesCount);
     let index = 0;
+    const dataForSet = [];
+    const backgroundColors = [];
+    const backgroundHoverColors = [];
+    const labels = [];
     data.forEach(row => {
       index++;
-      result.push({
+      this.infoData.push({
         value: row.casesCount,
-        color: this.getColor(index),
-        highlight: this.getColor(index, 15),
+        color: TrafficChartComponent.getColor(index),
+        highlight: TrafficChartComponent.getColor(index, 15),
         label: row.name,
         percentage: ((row.casesCount / this.total) * 100).toFixed(2),
-        order: 1,
       });
+      dataForSet.push(row.casesCount);
+      backgroundColors.push(TrafficChartComponent.getColor(index));
+      backgroundHoverColors.push(TrafficChartComponent.getColor(index, 15));
+      labels.push(row.name);
     });
-    return result;
+    return {
+      datasets: [{
+        data: dataForSet,
+        backgroundColor: backgroundColors,
+        hoverBackgroundColor: backgroundHoverColors,
+        borderWidth: 1,
+      }],
+      labels,
+    };
   }
 
-  private getColor(pp: number, weight: number = 0) {
-    const colors = this._baConfig.get().colors;
-    let color = '';
-    switch (pp) {
-      case 1:
-        color = colorHelper.shade(colors.success, weight);
-        break;
-      case 2:
-        color = colorHelper.shade(colors.dashboard.gossip, weight);
-        break;
-      case 3:
-        color = colorHelper.shade(colors.dashboard.silverTree, weight);
-        break;
-      case 4:
-        color = colorHelper.shade(colors.dashboard.surfieGreen, weight);
-        break;
-      case 5:
-        color = colorHelper.shade(colors.dashboard.blueStone, weight);
-        break;
-      default:
-        color = colorHelper.shade(colors.borderDark, weight);
-    }
-    return color;
+  private static getColor(pp: number, weight: number = 0) {
+    const colors = [
+      '#005562',
+      '#0e8174',
+      '#6eba8c',
+      '#b9f2a1',
+      '#10c4b5',
+      '#007500',
+      '#009100',
+      '#00A600',
+      '#00BB00',
+      '#00DB00',
+      '#00EC00',
+      '#28FF28',
+      '#53FF53',
+      '#79FF79',
+      '#93FF93',
+      '#A8CD1B',
+      '#CBE32D',
+      '#F9E814',
+      '#F7DD16',
+      '#FCE016',
+      '#F9D616',
+      '#FFC61E',
+      '#FCB514',
+      '#A6FFA6',
+      '#BBFFBB',
+      '#CEFFCE',
+    ];
+
+    return colorHelper.shade( colors.length > pp ? colors[pp - 1] : '#aaaaaa', weight);
   }
 
-  private _loadDoughnutCharts (): void {
-    const $el = jQuery(`.chart-area_${this.prefix}`);
-    if ($el.length) {
-      const el = $el.get(0) as HTMLCanvasElement;
-      new Chart(el.getContext('2d')).Doughnut(this.doughnutData, {
-        segmentShowStroke: false,
-        percentageInnerCutout: 64,
+  private _loadDoughnutCharts (data): Chart {
+    return new Chart(this.canvasEl.nativeElement, {
+      type: 'doughnut',
+      data,
+      options: {
+        cutoutPercentage: 64,
         responsive: true,
-      });
-    }
+        legend: {
+          display: false,
+        },
+      },
+    });
   }
 }

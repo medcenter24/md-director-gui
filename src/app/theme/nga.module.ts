@@ -18,8 +18,7 @@ import {
   BaMenu,
   BaMsgCenter,
   BaMultiCheckbox,
-  BaPageTop,
-  BaPictureUploader,
+  BaPageTopComponent,
   BaSidebar,
   BaFileUploader,
 } from './components';
@@ -28,7 +27,6 @@ import { BaCardBlur } from './components/baCard/baCardBlur.directive';
 
 import {
   BaScrollPosition,
-  BaSlimScroll,
   BaThemeRun,
 } from './directives';
 
@@ -62,15 +60,13 @@ const NGA_COMPONENTS = [
   BaMenu,
   BaMsgCenter,
   BaMultiCheckbox,
-  BaPageTop,
-  BaPictureUploader,
+  BaPageTopComponent,
   BaSidebar,
   BaFileUploader,
 ];
 
 const NGA_DIRECTIVES = [
   BaScrollPosition,
-  BaSlimScroll,
   BaThemeRun,
   BaCardBlur,
 ];

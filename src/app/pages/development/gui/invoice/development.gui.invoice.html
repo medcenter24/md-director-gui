@@ -1,0 +1,68 @@
+<!--
+  ~ Copyright (c) 2018
+  ~
+  ~  @author Oleksander  Zagovorychev <zagovorichev@gmail.com>
+  -->
+
+<ba-card baCardClass="with-scroll">
+
+  <div class="row mb-3">
+    <div class="col-12">
+      <a routerLink="/pages/development/gui" translate class="mb-3">Back</a>
+    </div>
+  </div>
+
+  <h4>Invoice</h4>
+  <div class="row">
+    <div class="col-9">
+      <h5 class="text-muted">Invoice with a form</h5>
+      <nga-invoice-editor
+            [invoice]="invoiceForm"
+    ></nga-invoice-editor>
+    </div>
+  </div>
+
+  <div class="row mt-2">
+    <div class="col-9">
+      <h5 class="text-muted">Invoice with a File</h5>
+      <nga-invoice-editor
+              [invoice]="invoiceFile"
+      ></nga-invoice-editor>
+    </div>
+  </div>
+
+  <h4 class="mt-2">Auto Save mode</h4>
+  <div class="row">
+    <div class="col-9">
+      <h5 class="text-muted">Invoice with a form</h5>
+      <nga-invoice-editor
+              [autosave]="true"
+              [invoice]="invoiceForm"
+      ></nga-invoice-editor>
+    </div>
+  </div>
+
+  <h4 class="mt-2">Invoice Creating</h4>
+  <div class="row">
+    <div class="col-9">
+      <h5 class="text-muted">Invoice with a form</h5>
+      <nga-invoice-editor
+              [autosave]="true"
+              label="New Label"
+      ></nga-invoice-editor>
+    </div>
+  </div>
+
+  <h4 class="mt-2">Set Invoice</h4>
+  <div class="row">
+    <div class="col-9">
+      <h5 class="text-muted">Invoice with a form</h5>
+      <nga-invoice-editor
+              #setInvoiceComponent
+              [autosave]="true"
+              label="Set Invoice"
+      ></nga-invoice-editor>
+    </div>
+  </div>
+
+</ba-card>

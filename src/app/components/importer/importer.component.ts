@@ -180,15 +180,15 @@ export class ImporterComponent implements OnInit {
             response: resp.accidentId,
           });
           this.loadingBar.complete();
-        }).catch(err => {
+        }).catch(response => {
           this.selectedFiles = this.selectedFiles.filter(val => +val !== +id);
           $(`.row-file-${id}`).addClass('error');
           this.importedFiles.push({
             id: +id,
             success: false,
-            response: err.json().message,
+            response: response.error.message,
           });
-          this._logger.error(err);
+          this._logger.info(response);
           this.loadingBar.complete();
         });
       });
