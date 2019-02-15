@@ -70,7 +70,7 @@ export abstract class LoadingComponent extends LoadableComponent {
         let deleted = false;
         const filtered = [];
         for (const name of this.componentsList) {
-            if (name.startsWith(componentName) && !deleted) {
+            if (name === componentName && !deleted) {
                 deleted = true;
             } else {
                 filtered.push(name);
