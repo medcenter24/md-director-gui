@@ -5,10 +5,12 @@
             [loading]="paymentViewer.loading"
             [title]="getTitle(paymentViewer.type) | translate"
             [theme]="paymentViewer.type === 'income' ? 'success' : ''"
-            (update)="update(paymentViewer.type)"
-            [priceAmount]="paymentViewer.value"
+            (reload)="onReload(paymentViewer.type)"
+            [priceAmount]="paymentViewer.payment && paymentViewer.payment.fixed ? paymentViewer.payment.value : paymentViewer.calculatedValue"
             [currency]="paymentViewer.currency"
+            [isFixed]="paymentViewer.payment && paymentViewer.payment.fixed"
             [formula]="paymentViewer.formula"
+            (update)="onUpdate(paymentViewer.type, $event)"
         ></nga-payment-block>
     </div>
 </div>
