@@ -9,7 +9,7 @@ import { SelectItem } from 'primeng/primeng';
 import { Logger } from 'angular2-logger/core';
 import { Patient } from '../../patient';
 import { PatientsService } from '../../patients.service';
-import { LoadableComponent } from '../../../core/components/componentLoader/LoadableComponent';
+import { LoadableComponent } from '../../../core/components/componentLoader';
 
 @Component({
   selector: 'nga-select-patient',
