@@ -30,19 +30,19 @@ export class AccidentStatusSelectComponent extends LoadableComponent implements 
   }
 
   ngOnInit () {
-    this.initComponent();
+    this.startLoader();
     this.isLoaded = false;
     this.statusesService.getStatuses().then(statuses => {
+      this.stopLoader();
       this.statuses = statuses;
       this.filteredStatuses = statuses;
       if (+this.statusId) {
         this.status = this.statuses.find(doc => +doc.id === +this.statusId);
       }
       this.isLoaded = true;
-      this.loadedComponent();
     }).catch((err) => {
+      this.stopLoader();
       this._logger.error(err);
-      this.loadedComponent();
     });
   }
 
@@ -59,6 +59,7 @@ export class AccidentStatusSelectComponent extends LoadableComponent implements 
     this.filteredStatuses = [];
 
     // mimic remote call
+    // todo I guess that here was issue with update of the variable needs to be changed to use state updater
     setTimeout(() => {
       this.filteredStatuses = this.statuses;
     }, 100);

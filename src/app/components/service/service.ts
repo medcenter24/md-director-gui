@@ -8,7 +8,8 @@ export class Service {
   constructor (public id: number = 0,
                public title: string = '',
                public description: string = '',
-               public price: number = 0,
+               public diseaseCode: string = '',
+               // who created ^ doctor or director
                public type: string = '') {
   }
 }

@@ -5,15 +5,13 @@
  */
 
 import { Accident } from '../accident/accident';
-import { Discount } from '../discount/discount';
 /**
  * For the list of the accidents
  */
 export class ExtendCaseAccident {
 
   constructor (
-    public accident: Accident = new Accident,
-    public discount: Discount = new Discount,
+    public accident: Accident = new Accident(),
   ) {
   }
 }

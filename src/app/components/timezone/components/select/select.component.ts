@@ -28,7 +28,6 @@ export class TimezoneSelectComponent extends LoadableComponent implements OnInit
   }
 
   ngOnInit () {
-    this.initComponent();
     this.timezones = this.timezoneService.getTimezones();
   }
 

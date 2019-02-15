@@ -1,0 +1,573 @@
+<!--
+  ~ Copyright (c) 2017.
+  ~
+  ~ @author Alexander Zagovorichev <zagovorichev@gmail.com>
+  -->
+<div *ngIf="accident" class="case-editor edit-form-container">
+  <div class="form-block row">
+    <ba-card class="col-lg-9" baCardClass="with-scroll">
+      <form class="form edit-form" (ngSubmit)="onSubmit()" #accidentForm="ngForm">
+
+        <div class="main-part">
+          <div class="form-group">
+            <div class="row">
+              <!-- Title -->
+              <div class="col-sm-10">
+                <h2>
+                  <span *ngIf="isLoading()">{{ 'Case loading' | translate }} ... <span class="fa fa-spin fa-spinner"></span></span>
+                  <span *ngIf="!isLoading() && accident.id">{{ 'Case Editing' | translate}} {{ 'pp' | translate }}{{ accident.id }}</span>
+                  <span *ngIf="!isLoading() && !accident.id">{{ 'New case creating' | translate }}</span>
+                </h2>
+              </div>
+              <!-- /Title -->
+            </div>
+
+            <!-- Type of Case -->
+            <div class="row">
+              <div class="col-sm-4">
+                  <label class="label separate required" *ngIf="!accident.id" translate>Choose Case</label>
+                  <nga-case-type-select
+                          *ngIf="!accident.id"
+                          [(selectedCaseTypeId)]="accident.caseableType"
+                          (selected)="onCaseTypeSelected($event)"
+                  ></nga-case-type-select>
+
+                  <h4 *ngIf="accident.id && isDoctorAccident()"
+                      class="text-danger" translate>Doctor Case</h4>
+                  <h4 *ngIf="accident.id && isHospitalAccident()"
+                      class="text-danger" translate>Hospital Case</h4>
+              </div>
+              <!-- /Type of Case -->
+              <div class="col-sm-8">
+                <div class="row">
+                  <div class="col-sm-8 text-right">
+                    <!-- Accident Export-Print -->
+                    <nga-autocompleter
+                        #accidentReportFormAutocompleter
+                        [service]="formService"
+                        placeholder="Choose a Form"
+                        labelField="title"
+                        (selected)="accident.formReportId = $event.id"
+                        (init)="startLoader($event)"
+                        (loaded)="stopLoader($event)"
+                        [preloadedData]="accident.formReportId"
+                    ></nga-autocompleter>
+                  </div>
+                  <div class="col-sm-4 text-left">
+                    <nga-form-viewer
+                            *ngIf="+accident.formReportId"
+                            [formId]="accident.formReportId"
+                            [formableId]="accident.id"
+                    ></nga-form-viewer>
+                  </div>
+                </div>
+                <!-- /Accident Export-Print -->
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <div class="row">
+              <!-- Referral Number -->
+              <div class="col-sm-4">
+                <label class="label separate" translate>Referral Number</label>
+                <b pTooltip="{{ 'If you leave it empty then it will be generated automatically' | translate }}"
+                   class="badge badge-secondary pull-left">?</b>
+                <p-inplace closable="true" class="pull-left">
+                  <span pInplaceDisplay>
+                      {{ accident.refNum }}
+                  </span>
+                  <span pInplaceContent>
+                    <input type="text" value="{{ accident.refNum }}"
+                           (change)="onReferralChanged($event)"
+                           pInputText placeholder="{{ 'Referral Number' | translate }}">
+                  </span>
+                </p-inplace>
+              </div>
+              <!-- Referral Number -->
+              <!-- Assistant -->
+              <div class="col-sm-4">
+                <label class="label required separate" translate>Assistant</label>
+                <nga-autocompleter
+                  #assistantAutocompleter
+                  [service]="assistantService"
+                  placeholder="Assistant"
+                  labelField="title"
+                  (selected)="onAssistantChanged($event)"
+                  (init)="startLoader($event)"
+                  (loaded)="stopLoader($event)"
+                  [preloadedData]="accident.assistantId"
+                ></nga-autocompleter>
+              </div>
+              <!-- /Assistant -->
+              <!-- Assistant Ref Num -->
+              <div class="col-sm-4">
+                <label class="label required separate" translate>Assistant Ref Num</label>
+                <input type="text" pInputText
+                       [(value)]="accident.assistantRefNum"
+                       (change)="accident.assistantRefNum=$event.target.value"
+                       placeholder="{{ 'Assistant Ref Num' | translate }}">
+              </div>
+              <!-- /Assistant Ref Num -->
+            </div>
+          </div>
+
+          <div class="form-group offset-bottom20">
+            <div class="row">
+              <!-- City -->
+              <div class="col-sm-4">
+                <label class="label required separate" translate>City</label>
+                <nga-autocompleter
+                    #cityAutocompleter
+                    [service]="cityService"
+                    placeholder="City"
+                    labelField="title"
+                    (selected)="onCityChanged($event)"
+                    (init)="startLoader($event)"
+                    (loaded)="stopLoader($event)"
+                    [preloadedData]="accident.cityId"
+                ></nga-autocompleter>
+              </div>
+              <!-- /City -->
+
+              <!-- Assistants guarantee file -->
+              <div class="col-sm-4">
+                <label class="label separate" translate>Application from the insurance company</label>
+                <nga-file-upload
+                        *ngIf="!assistantGuaranteeFile"
+                        (changed)="onAssistantGuaranteeFileUploaded($event)"
+                        (loaded)="stopLoader($event)"
+                        (init)="startLoader($event)"
+                ></nga-file-upload>
+                <nga-file-download
+                        *ngIf="assistantGuaranteeFile"
+                        [file]="assistantGuaranteeFile"
+                        (loaded)="stopLoader($event)"
+                        (init)="startLoader($event)"
+                ></nga-file-download>
+              </div>
+              <!-- /Assistants guarantee -->
+
+              <!-- Doctor Accident => Doctor, Handling Time -->
+              <div class="col-sm-4" *ngIf="isDoctorAccident()">
+                <label class="label required separate" translate>Doctor</label>
+                <nga-autocompleter
+                    #doctorAutocompleter
+                    [service]="doctorService"
+                    placeholder="Doctor"
+                    labelField="name"
+                    [preloadedData]="doctorAccident.doctorId"
+                    (selected)="onDoctorChanged($event)"
+                    (init)="startLoader($event)"
+                    (loaded)="stopLoader($event)"
+                ></nga-autocompleter>
+              </div>
+
+              <div class="col-sm-4" *ngIf="isDoctorAccident()">
+                <label class="label required separate" translate>Handling time</label>
+                <p-inputMask
+                        name="handlingTime"
+                        mask="99.99.9999 99:99"
+                        [(ngModel)]="handlingTime"
+                        [placeholder]="'d.m.Y H:m' | translate"
+                        slotChar="dd.mm.yyyy hh:ii"></p-inputMask>
+              </div>
+              <!-- DA /Doctor, Handling Time -->
+
+              <!-- Hospital Accident => Hospital -->
+              <div class="col-sm-4" *ngIf="isHospitalAccident()">
+                <label class="label required separate" translate>Hospital</label>
+                <nga-autocompleter
+                  #hospitalAutocompleter
+                  [service]="hospitalService"
+                  placeholder="Hospital"
+                  labelField="title"
+                  (selected)="onHospitalChanged($event)"
+                  (init)="startLoader($event)"
+                  (loaded)="stopLoader($event)"
+                ></nga-autocompleter>
+              </div>
+              <!-- HA /Hospital -->
+
+            </div>
+          </div>
+
+          <div class="form-group offset-bottom20">
+            <div class="row">
+              <!-- Symptoms -->
+              <div class="col-sm-6">
+                <div class="row">
+                  <div class="col-sm-12">
+                    <label class="label separate" translate>Symptoms</label>
+                    <textarea rows="5" cols="70" pInputTextarea
+                              autoResize="autoResize"
+                              placeholder="{{ 'Symptoms' | translate }}"
+                              class="form-control"
+                              [(ngModel)]="accident.symptoms"
+                              name="symptoms"
+                    ></textarea>
+                  </div>
+                </div>
+              </div>
+              <!-- /Symptoms -->
+              <!-- Repeated Appointment -->
+              <div class="col-sm-6">
+                <label class="label separate" translate>Repeated Appointment</label>
+                <div class="row offset-bottom10">
+                  <div class="col-sm-12">
+                    <nga-autocompleter
+                      #parentSelector
+                      [service]="accidentsService"
+                      placeholder="Accident"
+                      labelField="refNum"
+                      (selected)="onAccidentSelected($event)"
+                      (init)="startLoader($event)"
+                      (loaded)="stopLoader($event)"
+                      [preloadedData]="accident.parentId"
+                    ></nga-autocompleter>
+                  </div>
+                </div>
+                <div class="row" *ngIf="+accident.parentId">
+                  <div class="col-sm-12">
+                    <nga-accident-card
+                      [(selectedAccidentId)]="accident.parentId"
+                      (closed)="onParentDeleted()"
+                      (init)="startLoader($event)"
+                      (loaded)="stopLoader($event)"
+                    ></nga-accident-card>
+                  </div>
+                </div>
+              </div>
+              <!-- /Repeated Appointment -->
+            </div>
+          </div>
+
+          <!-- Patient -->
+          <div class="form-group">
+            <div class="row offset-bottom20 patient-container">
+              <div class="col-12">
+                <label class="label separate required">{{ 'patient' | translate }}</label>
+                <div class="row">
+                  <div class="col-12 col-md-6">
+                    <div class="patient-selector float-left">
+                      <nga-patient-selector
+                        #patientSelector
+                        [initPatient]="patient"
+                        (select)="onPatientSelected($event)"
+                        (init)="startLoader($event)"
+                        (loaded)="stopLoader($event)"
+                      ></nga-patient-selector>
+                    </div>
+                  </div>
+                  <div class="col-12 col-md-6">
+                    <label class="label separated float-left offset-right10" translate>Patient editor</label>
+                    <div class="edit-patient">
+                      <span class="fa fa-edit lead linked text-success"
+                            *ngIf="patient && patient.id"
+                            (click)="openEditPatientForm(patient)"
+                            title="{{ 'Edit patient data' | translate }}"></span>
+                    </div>
+                    <div class="add-patient">
+                      <span class="fa fa-user-plus lead linked"
+                            (click)="openEditPatientForm( null )"
+                            title="{{ 'Add Patient' | translate }}"></span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row offset-bottom20">
+              <div class="col-sm-9">
+                <label class="label separate" translate>Patient Data</label>
+                <textarea rows="2" cols="50" pInputTextarea
+                          autoResize="autoResize"
+                          placeholder="{{ 'Patient Data' | translate }}"
+                          class="form-control"
+                          [(ngModel)]="accident.contacts"
+                          name="contacts"
+                ></textarea>
+              </div>
+            </div>
+          </div>
+          <!-- /Patient -->
+        </div>
+
+        <div *ngIf="accident.id" class="additional-part">
+          <!-- Accident Scenario -->
+          <div class="form-group">
+            <div class="row">
+              <div class="col-10">
+                <nga-accident-scenario
+                    #scenario
+                    [accidentId]="accident.id"
+                    (init)="startLoader($event)"
+                    (loaded)="stopLoader($event)"
+                ></nga-accident-scenario>
+              </div>
+            </div>
+          </div>
+          <!-- /Accident Scenario -->
+
+          <!-- Checkpoints -->
+          <div class="form-group offset-bottom20" *ngIf="checkpoints.length">
+            <div class="row">
+              <div class="col-sm-12">
+                <label class="label separate" translate>Checkpoints</label>
+                <br><br>
+                <nga-checkpoints-selector
+                  [(selectedCheckpoints)]="checkpoints"
+                  (change)="onCheckpointChange($event)"
+                  (init)="startLoader($event)"
+                  (loaded)="stopLoader($event)"
+                ></nga-checkpoints-selector>
+              </div>
+            </div>
+          </div>
+          <!-- /Checkpoints -->
+
+          <div class="form-group">
+            <div class="row">
+              <div class="col-sm-12">
+                <div class="form-group offset-bottom20">
+                  <div class="row">
+                    <!-- Doctor Accident => Applied Time -->
+                    <div class="col-sm-6" *ngIf="isDoctorAccident()">
+                      <label class="label separated required offset-right10" translate>Applied Time</label>
+                      <p-inputMask
+                        name="appliedTime"
+                        mask="99.99.9999 99:99"
+                        [(ngModel)]="appliedTime"
+                        [placeholder]="'d.m.Y H:m' | translate"
+                        slotChar="dd.mm.yyyy hh:ii"></p-inputMask>
+                    </div>
+                    <!-- DA /Applied Time -->
+
+                    <!-- Accident Type -->
+                    <div class="col-sm-6">
+                      <label class="label separated offset-right10" translate>Accident Type</label>
+                      <nga-select-accident-type
+                        [selectedTypeId]="accident.accidentTypeId"
+                        (selected)="onAccidentTypeSelected($event)"
+                        (init)="startLoader($event)"
+                        (loaded)="stopLoader($event)"
+                      ></nga-select-accident-type>
+                    </div>
+                    <!-- /Accident Type -->
+                  </div>
+                </div>
+
+                <!-- Doctor Accident => Services -->
+                <div class="form-group offset-bottom20" *ngIf="isDoctorAccident()">
+                  <div class="row">
+                    <div class="col-sm-12">
+                      <nga-services-selector
+                              [caseId]="accident.id"
+                              (priceChanged)="onServicesSelectorPriceChanged($event)"
+                              (changedServices)="onServicesChanged($event)"
+                              (init)="startLoader($event)"
+                              (loaded)="stopLoader($event)"
+                      ></nga-services-selector>
+                    </div>
+                  </div>
+                </div>
+                <!-- DA /Services -->
+
+                <!-- Doctor Accident => Surveys -->
+                <div class="form-group offset-bottom20" *ngIf="isDoctorAccident()">
+                  <div class="row">
+                    <div class="col-sm-12">
+                      <nga-surveys-selector
+                        [caseId]="accident.id"
+                        (changed)="onSurveysChanged($event)"
+                        (init)="startLoader($event)"
+                        (loaded)="stopLoader($event)"
+                      ></nga-surveys-selector>
+                    </div>
+                  </div>
+                </div>
+                <!-- DA /Surveys -->
+
+                <!-- Doctor Accident => Diagnostics -->
+                <div class="form-group offset-bottom20" *ngIf="isDoctorAccident()">
+                  <div class="row">
+                    <div class="col-sm-12">
+                      <nga-diagnostics-selector
+                        [caseId]="accident.id"
+                        (changed)="onDiagnosticsChanged($event)"
+                        (init)="startLoader($event)"
+                        (loaded)="stopLoader($event)"
+                      ></nga-diagnostics-selector>
+                    </div>
+                  </div>
+                </div>
+                <!-- DA /Diagnostics -->
+
+                <!-- Doctor Accident => Diagnosis & Additional Investigation -->
+                <div class="row offset-bottom20" *ngIf="isDoctorAccident()">
+                  <div class="col-sm-6">
+                    <label class="label separate" translate>Diagnosis</label>
+                    <textarea rows="5" cols="70" pInputTextarea
+                              autoResize="autoResize"
+                              placeholder="{{ 'Made a diagnosis' | translate }}"
+                              class="form-control"
+                              [(ngModel)]="doctorAccident.recommendation"
+                              name="recommendation"
+                    ></textarea>
+                  </div>
+                  <div class="col-sm-6">
+                    <label class="label separate" translate>Additional Investigation</label>
+                    <textarea rows="5" cols="70" pInputTextarea
+                              autoResize="autoResize"
+                              placeholder="{{ 'Additional Investigation' | translate }}"
+                              class="form-control"
+                              [(ngModel)]="doctorAccident.investigation"
+                              name="investigation"
+                    ></textarea>
+                  </div>
+                </div>
+                <!-- DA /Diagnosis & Additional Investigation -->
+
+                <!-- Hospital Accident => Invoices -->
+                <div class="row mt-2" *ngIf="isHospitalAccident()">
+                  <div class="col-12">
+                    <!-- Guarantee to the hospital -->
+                    <div class="row">
+                      <div class="col-sm-6 col-md-4">
+                        <label class="label separate" translate>Guarantee To the Hospital</label>
+                        <nga-autocompleter
+                                #guaranteeHospitalAutocompleter
+                                [service]="formService"
+                                placeholder="Choose a Form"
+                                labelField="title"
+                                (selected)="hospitalAccident.hospitalGuaranteeId = $event.id"
+                                (init)="startLoader($event)"
+                                (loaded)="stopLoader($event)"
+                                [preloadedData]="hospitalAccident.hospitalGuaranteeId"
+                        ></nga-autocompleter>
+                      </div>
+                      <div class="col-sm-6 col-md-4">
+                        <label class="label separate" translate>Get Form</label>
+                        <nga-form-viewer
+                                [formId]="hospitalAccident.hospitalGuaranteeId"
+                                [formableId]="accident.id"
+                        ></nga-form-viewer>
+                      </div>
+                    </div>
+                    <div class="row mt-3">
+                      <div class="col-12">
+                        <nga-invoice-editor
+                                #hospitalInvoiceEditor
+                                [autosave]="true"
+                                [label]="'Invoice from the hospital' | translate"
+                                (saved)="hospitalAccident.hospitalInvoiceId = $event.id"
+                                (init)="startLoader($event)"
+                                (loaded)="stopLoader($event)"
+                        ></nga-invoice-editor>
+                      </div>
+                    </div>
+                    <!-- /Invoice from the hospital -->
+                  </div>
+                </div>
+                <!-- HA /Invoices -->
+
+                <!-- Assistant Invoice -->
+                <div class="row mt-3">
+                  <div class="col-12">
+                    <nga-invoice-editor
+                            [autosave]="true"
+                            [reload]="true"
+                            [label]="'Invoice to the assistant' | translate"
+                            (saved)="accident.assistantInvoiceId = $event.id"
+                            [invoice]="assistantInvoice"
+                            (init)="startLoader($event)"
+                            (loaded)="stopLoader($event)"
+                    ></nga-invoice-editor>
+                  </div>
+                </div>
+                <!-- /Assistant Invoice -->
+
+                <!-- Documents -->
+                <div class="row mt-2">
+                  <div class="col-12">
+                    <label class="label separated" translate>Documents</label>
+                    <nga-file-uploader
+                      [(documents)]="documents"
+                      [url]="caseService.getDocumentsUrl(accident.id)"
+                      (init)="startLoader($event)"
+                      (loaded)="stopLoader($event)"
+                    ></nga-file-uploader>
+                  </div>
+                </div>
+                <!-- /Documents -->
+
+                <!-- Finances -->
+                <div class="row">
+                  <div class="col-12 mt-2">
+                    <label class="label separate" translate>Finance</label>
+                    <nga-case-finance
+                      #caseFinance
+                      [(accident)]="accident"
+                    ></nga-case-finance>
+                  </div>
+                </div>
+                <!-- /Finances -->
+              </div>
+            </div>
+          </div>
+        </div>
+        <button pButton type="button" class="ui-button-success pull-left offset-right20 mr-1" (click)="onSave()"
+                [disabled]="!accidentForm.form.valid" label="{{ 'Save' | translate }}"></button>
+
+        <b pTooltip="{{ 'All required (*) fields should be filled' | translate }}"
+           class="badge badge-secondary pull-left">?</b>
+
+        <button pButton type="button" class="ui-button-secondary pull-right"
+                label="{{ 'Close' | translate }}" *ngIf="accident.id"
+                (click)="onClose($event)"></button>
+        <button pButton type="button" class="ui-button-danger pull-right offset-right10"
+                label="{{ 'Delete' | translate }}" *ngIf="accident.id"
+                (click)="onDelete($event)"></button>
+      </form>
+    </ba-card>
+    <div class="col-lg-3 hidden-md-down case-details" *ngIf="accident.id">
+      <div class="row item">
+        <div class="col-4 label"><span translate>Created</span>:</div>
+        <div class="col-8">{{ createdTime }}</div>
+      </div>
+      <div class="row item" *ngIf="accident.updatedAt">
+        <div class="col-4 label"><span translate>Updated</span>:</div>
+        <div class="col-8">{{ updatedTime }}</div>
+      </div>
+      <div class="row item" *ngIf="accident.deletedAt">
+        <div class="col-4 label"><span translate>Deleted</span>:</div>
+        <div class="col-8">{{ deletedTime }}</div>
+      </div>
+      <div class="row item" *ngIf="accident.closedAt">
+        <div class="col-4 label"><span translate>Closed</span>:</div>
+        <div class="col-8">{{ closedTime }}</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-lg-9">
+      <nga-accident-activity
+        *ngIf="accident && accident.id"
+        [accident]="accident"
+      ></nga-accident-activity>
+    </div>
+  </div>
+</div>
+
+<p-dialog [(visible)]="patientEditFormDisplay" appendTo="body">
+  <p-header>
+    {{ 'Patient Editor' | translate }}
+  </p-header>
+  <nga-patient-editor
+    #editPatientForm
+    [initPatient]="patient"
+    (changed)="onPatientSelected($event)"
+    (init)="startLoader($event)"
+    (loaded)="stopLoader($event)"
+  ></nga-patient-editor>
+</p-dialog>
