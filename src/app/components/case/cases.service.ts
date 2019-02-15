@@ -102,7 +102,8 @@ export class CasesService extends HttpService {
   }
 
   createComment (accident: Accident, text: string): Promise <Commentary> {
-    return this.put(`${accident.id}/comments`, { text }).then(response => response.json() as Commentary);
+    return this.put(`${accident.id}/comments`, { text })
+      .then(response => response.json() as Commentary);
   }
 
   getFinance (accident: Accident, types: Object): Promise<PaymentViewer[]> {
@@ -116,5 +117,10 @@ export class CasesService extends HttpService {
         }
         return res;
       });
+  }
+
+  saveFinance (accident: Accident, type: string, data: Object): Promise<PaymentViewer> {
+    return this.put(`${accident.id}/finance/${type}`, data)
+      .then(response => response.json() as PaymentViewer);
   }
 }

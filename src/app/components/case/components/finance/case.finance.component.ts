@@ -36,7 +36,7 @@ export class CaseFinanceComponent extends LoadableComponent implements OnInit {
       this.types.forEach(type => {
         this.paymentViewers.push(new PaymentViewer(type, true));
       });
-      this.recalculateFinance(this.types);
+      this.reload(this.types);
     });
   }
 
@@ -44,7 +44,7 @@ export class CaseFinanceComponent extends LoadableComponent implements OnInit {
    * Getting new Finances from the server
    * @param types [income, assistant, caseable]
    */
-  recalculateFinance(types: string[] = []): void {
+  private reload(types: string[] = []): void {
     this.caseService.getFinance(this.accident, { types }).then((resp: PaymentViewer[]) => {
       types.forEach(type => {
         const viewerKey = this.paymentViewers.findIndex(view => view.type === type);
@@ -55,6 +55,14 @@ export class CaseFinanceComponent extends LoadableComponent implements OnInit {
       });
     });
   }
+
+  private save(type: string, data: Object): void {
+    this.caseService.saveFinance(this.accident, type, data).then((resp: PaymentViewer) => {
+
+    });
+  }
+
+
 
   getTitle(type: string): string {
     switch (type) {
@@ -70,9 +78,11 @@ export class CaseFinanceComponent extends LoadableComponent implements OnInit {
     }
   }
 
-  update(type): void {
-    this.recalculateFinance([type]);
+  onReload(type): void {
+    this.reload([type]);
   }
 
-
+  onUpdate(type, data): void {
+    this.save(type, data);
+  }
 }
