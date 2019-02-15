@@ -100,12 +100,7 @@ export class FinanceEditorComponent extends LoadableComponent implements OnInit 
     this.startLoader(postfix);
     this.translateService.get('Yes').subscribe(() => {
       this.conditionModels = [];
-      // condition for the doctor
-      this.conditionModels.push({
-        label: this.translateService.instant('Doctor'),
-        desc: this.translateService.instant('Doctor remuneration'),
-        value: 'App\\Doctor',
-      });
+
       // condition for the assistant company
       this.conditionModels.push({
         label: this.translateService.instant('Assistant'),
@@ -113,10 +108,17 @@ export class FinanceEditorComponent extends LoadableComponent implements OnInit 
         value: 'App\\Assistant',
       });
 
+      // condition for the doctor
+      this.conditionModels.push({
+        label: this.translateService.instant('Doctor'),
+        desc: this.translateService.instant('Doctor remuneration'),
+        value: 'App\\Doctor',
+      });
+
       this.stopLoader(postfix);
 
       if (!this.rule.model) {
-        this.rule.model = 'App\\Accident';
+        this.rule.model = 'App\\Assistant';
       }
     });
   }
