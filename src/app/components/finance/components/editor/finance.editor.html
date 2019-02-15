@@ -1,0 +1,158 @@
+<div *ngIf="isLoaded" class="m-3">
+  <div class="row">
+    <div class="col-12 col-lg-6 col-xlg-4">
+      <div class="row mb-2">
+        <div class="col-xs-4">
+          <label class="label required separate" for="title" translate>Title</label>
+          <input type="text" pInputText
+                 id="title"
+                 [(value)]="rule.title"
+                 size="30"
+                 (input)="rule.title = $event.target.value"
+                 autocomplete="off"
+                 required/>
+        </div>
+      </div>
+
+      <div class="row mb-2">
+        <div class="col-xs-4">
+          <label class="label required separate" for="title" translate>Type</label>
+          <p-selectButton [options]="financeTypes"
+                          [(ngModel)]="rule.type"
+                          (onChange)="rule.type = $event.value"></p-selectButton>
+        </div>
+        <div class="col-xs-4">
+          <label class="label required separate" for="title" translate>Model</label>
+          <p-selectButton [options]="conditionModels"
+                          [(ngModel)]="rule.model"
+                          (onChange)="rule.model = $event.value"></p-selectButton>
+        </div>
+      </div>
+
+      <div class="row mb-2">
+        <div class="col-xs-4">
+          <label class="label separate" translate>Doctor</label>
+          <nga-multi-selector
+                  [service]="doctorService"
+                  placeholder="Doctors"
+                  labelField="name"
+                  (init)="startLoader($event)"
+                  (loaded)="stopLoader($event)"
+                  (selected)="rule.doctors = $event"
+                  [preloadedData]="rule.doctors"
+          ></nga-multi-selector>
+        </div>
+        <div class="col-xs-4">
+          <label class="label separate" translate>Assistant</label>
+          <nga-multi-selector
+                  [service]="assistantService"
+                  placeholder="Assistants"
+                  labelField="title"
+                  (init)="startLoader($event)"
+                  (loaded)="stopLoader($event)"
+                  (selected)="rule.assistants = $event"
+                  [preloadedData]="rule.assistants"
+          ></nga-multi-selector>
+        </div>
+        <div class="col-xs-4">
+          <label class="label separate" translate>City</label>
+          <nga-multi-selector
+                  [service]="cityService"
+                  placeholder="Cities"
+                  labelField="title"
+                  (init)="startLoader($event)"
+                  (loaded)="stopLoader($event)"
+                  (selected)="rule.cities = $event"
+                  [preloadedData]="rule.cities"
+          ></nga-multi-selector>
+        </div>
+        <div class="col-xs-4">
+          <label class="label separate" translate>Date Period</label>
+          <nga-multi-selector
+                  [service]="periodService"
+                  placeholder="Date Periods"
+                  labelField="title"
+                  (init)="startLoader($event)"
+                  (loaded)="stopLoader($event)"
+                  (selected)="rule.datePeriods = $event"
+                  [preloadedData]="rule.datePeriods"
+          ></nga-multi-selector>
+        </div>
+        <div class="col-xs-4">
+          <label class="label separate" translate>Services</label>
+          <nga-multi-selector
+                  [service]="servicesService"
+                  placeholder="Services"
+                  labelField="title"
+                  (init)="startLoader($event)"
+                  (loaded)="stopLoader($event)"
+                  (selected)="rule.services = $event"
+                  [preloadedData]="rule.services"
+          ></nga-multi-selector>
+        </div>
+        <div class="col-xs-4" *ngIf="rule.model === 'App\\Assistant'">
+          <label class="label separate" translate>Hospitals</label>
+          <nga-multi-selector
+                  [service]="hospitalService"
+                  placeholder="Hospitals"
+                  labelField="title"
+                  (init)="startLoader($event)"
+                  (loaded)="stopLoader($event)"
+                  (selected)="rule.hospitals = $event"
+                  [preloadedData]="rule.hospitals"
+          ></nga-multi-selector>
+        </div>
+      </div>
+
+      <div class="row mb-2">
+        <div class="col-xs-4">
+          <label class="label required separate" for="price"><b translate>Set Amount</b></label>
+          <input type="text" pInputText
+                 id="price"
+                 [(value)]="rule.value"
+                 size="30"
+                 (input)="onPriceAmountChanged($event)"
+                 (change)="priceAmountToFixed($event)"
+                 required/>
+        </div>
+        <div class="col-xs-4">
+          <label class="label required separate" for="price">{{ 'Currency' | translate }}</label>
+          <div class="row">
+            <div class="col-12">
+              <label class="label pr-3" translate>Calculate as a percent</label>
+              <p-inputSwitch [ngModel]="rule.currencyMode === 'percent'"
+                             (onChange)="rule.currencyMode = $event.checked ? 'percent' : 'currency'"></p-inputSwitch>
+            </div>
+            <div class="col-12">
+              <nga-autocompleter
+                      *ngIf="rule.currencyMode === 'currency'"
+                      [service]="currencyService"
+                      placeholder="Choose Currency"
+                      labelField="title"
+                      (selected)="rule.currencyId = $event.id"
+                      [preloadedData]="rule.currencyId"
+                      (init)="startLoader($event)"
+                      (loaded)="stopLoader($event)"
+              ></nga-autocompleter>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <button class="btn btn-success"
+              [disabled]="!canBeSaved()"
+              (click)="saveFinanceRule()"
+              translate
+      >{{ rule.id ? 'Update' : 'Add' }}</button>
+    </div>
+    <div class="col-12 col-lg-6 col-xlg-8 mt-3">
+      <div class="alert alert-warning" role="alert">
+        <nga-finance-info
+                [(financeRule)]="rule"
+                (init)="startLoader($event)"
+                (loaded)="stopLoader($event)"
+        ></nga-finance-info>
+      </div>
+    </div>
+  </div>
+</div>
