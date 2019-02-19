@@ -125,7 +125,6 @@ export abstract class HttpService {
     if (!id) {
       return this.handleError(this.httpErrorMessage);
     }
-
     return this.http
       .put(this.getUrl(id), JSON.stringify(data), { headers: this.getAuthHeaders() })
       .toPromise()

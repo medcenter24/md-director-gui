@@ -140,6 +140,19 @@ export class FinanceEditorComponent extends LoadableComponent implements OnInit 
       });
   }
 
+  deleteFinanceRule(): void {
+    const postfix = 'DeleteRule';
+    this.startLoader(postfix);
+    this.financeService.destroy(this.rule)
+      .then(() => {
+        this.stopLoader(postfix);
+        this.router.navigate([`pages/finance/conditions`]);
+      })
+      .catch(() => {
+        this.stopLoader(postfix);
+      });
+  }
+
   canBeSaved () {
     return FinanceRule.canBeSaved(this.rule);
   }
