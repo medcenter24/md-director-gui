@@ -29,6 +29,6 @@ export class FinanceService extends HttpService implements LoadableServiceInterf
   }
 
   destroy (financeRule: FinanceRule): Promise<any> {
-    return this.remove(financeRule);
+    return this.remove(financeRule.id);
   }
 }
