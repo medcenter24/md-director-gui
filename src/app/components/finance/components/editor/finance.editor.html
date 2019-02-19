@@ -119,11 +119,6 @@
           <label class="label required separate" for="price">{{ 'Currency' | translate }}</label>
           <div class="row">
             <div class="col-12">
-              <label class="label pr-3" translate>Calculate as a percent</label>
-              <p-inputSwitch [ngModel]="rule.currencyMode === 'percent'"
-                             (onChange)="rule.currencyMode = $event.checked ? 'percent' : 'currency'"></p-inputSwitch>
-            </div>
-            <div class="col-12">
               <nga-autocompleter
                       *ngIf="rule.currencyMode === 'currency'"
                       [service]="currencyService"
@@ -134,6 +129,13 @@
                       (init)="startLoader($event)"
                       (loaded)="stopLoader($event)"
               ></nga-autocompleter>
+            <div class="col-12 pt-1">
+              <div class="row">
+                <label class="label pr-3" translate>Calculate as a percent</label>
+                <p-inputSwitch [ngModel]="rule.currencyMode === 'percent'"
+                               (onChange)="rule.currencyMode = $event.checked ? 'percent' : 'currency'"></p-inputSwitch>
+              </div>
+            </div>
             </div>
           </div>
         </div>
@@ -144,6 +146,12 @@
               (click)="saveFinanceRule()"
               translate
       >{{ rule.id ? 'Update' : 'Add' }}</button>
+
+      <button class="btn btn-danger pull-right"
+              *ngIf="rule.id"
+              (click)="deleteFinanceRule()"
+              translate
+      >{{ 'Delete' }}</button>
     </div>
     <div class="col-12 col-lg-6 col-xlg-8 mt-3">
       <div class="alert alert-warning" role="alert">
