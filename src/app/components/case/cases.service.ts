@@ -119,8 +119,14 @@ export class CasesService extends HttpService {
       });
   }
 
-  saveFinance (accident: Accident, type: string, data: Object): Promise<PaymentViewer> {
+  saveFinance (accident: Accident, type: string, data: Object): Promise<PaymentViewer[]> {
     return this.put(`${accident.id}/finance/${type}`, data)
-      .then(response => response.json() as PaymentViewer);
+      .then(response => {
+        let res = null;
+        if (response && 'data' in response) {
+          res = response['data'] as PaymentViewer[];
+        }
+        return res;
+      });
   }
 }
