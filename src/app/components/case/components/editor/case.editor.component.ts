@@ -323,6 +323,7 @@ export class CaseEditorComponent extends LoadingComponent implements OnInit {
         this.router.navigate([`pages/cases/${response.accident.id}`]);
       } else {
         this.scenarioComponent.reload();
+        this.caseFinance.reloadPayments(['income', 'assistant', 'caseable']);
       }
     }).catch(err => {
       this.stopLoader(postfix);
@@ -379,6 +380,7 @@ export class CaseEditorComponent extends LoadingComponent implements OnInit {
 
   onServicesChanged(services: Service[]): void {
     this.services = services;
+    this.onSave();
   }
 
   onDiagnosticsChanged(diagnostics: Diagnostic[]): void {
@@ -410,12 +412,6 @@ export class CaseEditorComponent extends LoadingComponent implements OnInit {
 
   onCheckpointChange(checkpoints: number[]): void {
     this.checkpoints = checkpoints;
-  }
-
-  onServicesSelectorPriceChanged(servicesPrice: number): void {
-    console.debug('changed price');
-    /*this.totalAmount = +servicesPrice.toFixed(2);
-    this.recalculatePrice();*/
   }
 
   private defineDoctorByCity(cityId: number): void {

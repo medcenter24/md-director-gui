@@ -45,24 +45,23 @@ export class CaseFinanceComponent extends LoadableComponent implements OnInit {
    * @param types [income, assistant, caseable]
    */
   private reload(types: string[] = []): void {
-    this.caseService.getFinance(this.accident, { types }).then((resp: PaymentViewer[]) => {
-      types.forEach(type => {
-        const viewerKey = this.paymentViewers.findIndex(view => view.type === type);
-        const responseKey = resp.findIndex((res: PaymentViewer) => res.type === type);
-        this.paymentViewers[viewerKey] = resp[responseKey];
-        this.paymentViewers[viewerKey].loading = false;
-        this.paymentViewers[viewerKey].type = type;
-      });
+    this.caseService.getFinance(this.accident, { types }).then((paymentViewers: PaymentViewer[]) => {
+      this.updatePaymentViewers(paymentViewers);
     });
   }
 
   private save(type: string, data: Object): void {
-    this.caseService.saveFinance(this.accident, type, data).then((resp: PaymentViewer) => {
-
+    this.caseService.saveFinance(this.accident, type, data).then((paymentViewers: PaymentViewer[]) => {
+      this.updatePaymentViewers(paymentViewers);
     });
   }
 
-
+  private updatePaymentViewers(paymentViewers: PaymentViewer[]): void {
+    paymentViewers.forEach((pView: PaymentViewer) => {
+      const viewerKey = this.paymentViewers.findIndex((view: PaymentViewer) => view.type === pView.type);
+      this.paymentViewers[viewerKey] = pView;
+    });
+  }
 
   getTitle(type: string): string {
     switch (type) {
@@ -78,8 +77,12 @@ export class CaseFinanceComponent extends LoadableComponent implements OnInit {
     }
   }
 
-  onReload(type): void {
+  onReload(type: string): void {
     this.reload([type]);
+  }
+
+  reloadPayments(types: string[]): void {
+    this.reload(types);
   }
 
   onUpdate(type, data): void {
