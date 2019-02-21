@@ -362,7 +362,6 @@
                     <div class="col-sm-12">
                       <nga-services-selector
                               [caseId]="accident.id"
-                              (priceChanged)="onServicesSelectorPriceChanged($event)"
                               (changedServices)="onServicesChanged($event)"
                               (init)="startLoader($event)"
                               (loaded)="stopLoader($event)"
