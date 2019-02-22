@@ -10,7 +10,7 @@ export class FinancePayment {
     public createdBy: number = 0,
     public value: number = 0,
     public currencyId: number = 0,
-    public fixed: number = 0,
+    public fixed: boolean = false,
     public description: string = '',
   ) { }
 }
