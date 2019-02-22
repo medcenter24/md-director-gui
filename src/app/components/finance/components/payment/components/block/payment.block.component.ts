@@ -22,8 +22,8 @@ export class PaymentBlockComponent {
     this.updating = status;
   }
   @Input() set priceAmount(amount) {
-    this.storedPrice = amount;
-    this.changingPrice = amount;
+    this.storedPrice = +amount;
+    this.changingPrice = +amount;
   }
   @Input() currency: FinanceCurrency;
   @Input() formula: string = '';
@@ -62,7 +62,7 @@ export class PaymentBlockComponent {
   }];
   currentTheme: Object = {};
 
-  onAutoupdateChanged(event): void {
+  onAutoupdateChanged(): void {
     this.dataChanged();
   }
 
