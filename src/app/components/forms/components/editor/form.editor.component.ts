@@ -9,7 +9,6 @@ import {
   Component,
   OnInit,
 } from '@angular/core';
-import { forEach } from '@angular/router/src/utils/collection';
 import { ObjectHelper } from '../../../../helpers/object.helper';
 import { LoadableComponent } from '../../../core/components/componentLoader';
 import { ActivatedRoute, Params, Router } from '@angular/router';
@@ -76,10 +75,12 @@ export class FormEditorComponent extends LoadableComponent implements OnInit, Af
           const reader = new FileReader();
 
           // Set the reader to insert images when they are loaded.
+          /*
+          TODO FIX UPLOADER
           reader.onload = (ev: FileReaderProgressEvent) => {
             const result = ev.target.result;
             editor.image.insert(result, null, null, editor.image.get());
-          };
+          };*/
 
           // Read image as base64.
           reader.readAsDataURL(files[0]);
