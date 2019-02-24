@@ -7,12 +7,12 @@
 import { NgModule } from '@angular/core';
 import { UploadPictureComponent } from './upload.picture.component';
 import { CommonModule } from '@angular/common';
-import { NgUploaderModule } from 'ngx-uploader';
+import { NgxUploaderModule } from 'ngx-uploader';
 
 @NgModule({
   imports: [
     CommonModule,
-    NgUploaderModule,
+    NgxUploaderModule,
   ],
   declarations: [
     UploadPictureComponent,
