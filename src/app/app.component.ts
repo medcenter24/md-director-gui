@@ -52,8 +52,31 @@ export class AppComponent implements AfterViewInit {
       this.isMenuCollapsed = isCollapsed;
     });
 
+    /**
+     * Messages on the top right
+     */
     this._state.subscribe('growl', (msgs: Message[]) => this.msgs = msgs);
-    this._state.subscribe('confirmDialog', (config) => this.confirmationService.confirm(config));
+
+    /**
+     * Dialogs to have opportunity to do it quickly
+     * message: string;
+     * key?: string;
+     * icon?: string;
+     * header?: string;
+     * accept?: Function;
+     * reject?: Function;
+     * acceptLabel?: string;
+     * rejectLabel?: string;
+     * acceptVisible?: boolean;
+     * rejectVisible?: boolean;
+     * acceptEvent?: EventEmitter<any>;
+     * rejectEvent?: EventEmitter<any>;
+     */
+    this._state.subscribe('confirmDialog', config => this.confirmationService.confirm(config));
+
+    /**
+     * GUI Blocker (everything on the page)
+     */
     this._state.subscribe('blocker', (block: boolean) => {
       this.blocked = block;
       this.cdRef.detectChanges();

@@ -14,6 +14,7 @@ import { MultiselectImplementationsComponent } from './gui/multiselect/implement
 import { DevelopmentGuiAutocompleterComponent } from './gui/autocompleter';
 import { GuiPaymentBlockComponent } from './gui/payment/block';
 import { DevelopmentGuiUploaderFileComponent } from './gui/uploader/file';
+import { GuiDialogDeleteComponent } from './gui/dialog/delete';
 
 // noinspection TypeScriptValidateTypes
 const routes: Routes = [
@@ -28,6 +29,7 @@ const routes: Routes = [
       { path: 'gui/uploader/file', component: DevelopmentGuiUploaderFileComponent },
       { path: 'gui/invoice', component: DevelopmentGuiInvoiceComponent },
       { path: 'gui/payment/block', component: GuiPaymentBlockComponent },
+      { path: 'gui/dialog/delete', component: GuiDialogDeleteComponent },
     ],
   },
 ];

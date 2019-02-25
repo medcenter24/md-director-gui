@@ -26,10 +26,8 @@
       </div>
     </div>
 
-    <button class="btn btn-success"
-            (click)="saveForm()"
-            translate
-    >{{ form.id ? 'Save' : 'Add' }}</button>
+    <button pButton (click)="saveForm()" [label]="'Save' | translate"></button>
+    <button type="button" *ngIf="form && form.id" class="ml-2" pButton icon="fa fa-close" (click)="onDelete()" label="{{ 'Delete' | translate }}"></button>
   </div>
 </div>
 

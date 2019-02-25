@@ -11,7 +11,7 @@ import { PatientsService } from '../../patients.service';
 import { GlobalState } from '../../../../global.state';
 import { TranslateService } from '@ngx-translate/core';
 import { Message } from 'primeng/primeng';
-import { LoadableComponent } from '../../../core/components/componentLoader/LoadableComponent';
+import { LoadableComponent } from '../../../core/components/componentLoader';
 
 @Component({
   selector: 'nga-patient-editor',
@@ -73,6 +73,27 @@ export class PatientEditorComponent extends LoadableComponent {
       });
       this._state.notifyDataChanged('growl', this.msgs);
     }).catch(() => this.stopLoader(postfix));
+  }
+
+  onDelete(): void {
+    this._state.notifyDataChanged('confirmDialog',
+      {
+        header: this.translate.instant('Delete'),
+        message: this.translate.instant('Are you sure that you want to delete this patient?'),
+        accept: () => {
+          const postfix = 'Delete';
+          this.startLoader(postfix);
+          this.patientService.delete(this.patient.id)
+            .then(() => {
+              this.changed.emit(this.patient);
+              this.patient = null;
+              this.stopLoader(postfix);
+            })
+            .catch(() => this.stopLoader(postfix));
+        },
+        icon: 'fa fa-window-close-o red',
+      },
+    );
   }
 
   changedPatientName(event): void {

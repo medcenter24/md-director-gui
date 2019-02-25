@@ -128,17 +128,26 @@ export class PeriodDatatableComponent extends LoadingComponent implements OnInit
   }
 
   delete() {
-    this.startLoader(this.componentName);
-    this.datePeriodService.destroy(this.datePeriod)
-      .then(() => {
-        this.stopLoader(this.componentName);
-        this.setPeriod();
-        this.displayDialog = false;
-        this.periodDatatable.refresh();
-      })
-      .catch(() => {
-        this.stopLoader(this.componentName);
-      });
+    this._state.notifyDataChanged('confirmDialog',
+      {
+        header: this.translateService.instant('Delete'),
+        message: this.translateService.instant('Are you sure that you want to delete this date period?'),
+        accept: () => {
+          this.startLoader(this.componentName);
+          this.datePeriodService.destroy(this.datePeriod)
+            .then(() => {
+              this.stopLoader(this.componentName);
+              this.setPeriod();
+              this.displayDialog = false;
+              this.periodDatatable.refresh();
+            })
+            .catch(() => {
+              this.stopLoader(this.componentName);
+            });
+        },
+        icon: 'fa fa-window-close-o red',
+      },
+    );
   }
 
   onRowSelect(event) {

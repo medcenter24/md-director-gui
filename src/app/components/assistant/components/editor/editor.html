@@ -4,7 +4,7 @@
   ~ @author Alexander Zagovorichev <zagovorichev@gmail.com>
   -->
 
-<form (ngSubmit)="onSubmit($event)" #diagnosticForm="ngForm" *ngIf="assistant">
+<div *ngIf="assistant">
   <div class="row">
     <div class="col-sm-6">
       <div class="form-group">
@@ -61,5 +61,6 @@
       </div>
     </div>
   </div>
-  <button type="submit" class="btn btn-primary" translate>Save</button>
-</form>
+  <button type="submit" pButton (click)="onSubmit()" [label]="'Save' | translate"></button>
+  <button pButton class="ml-2" (click)="onDelete()" [label]="'Delete' | translate"></button>
+</div>
