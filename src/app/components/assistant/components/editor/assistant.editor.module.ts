@@ -11,6 +11,7 @@ import { FormsModule } from '@angular/forms';
 import { AppTranslationModule } from '../../../../app.translation.module';
 import { NgaModule } from '../../../../theme/nga.module';
 import { AssistantsService } from '../../assistant.service';
+import { ButtonModule } from 'primeng/button';
 
 @NgModule({
   imports: [
@@ -18,6 +19,7 @@ import { AssistantsService } from '../../assistant.service';
     FormsModule,
     AppTranslationModule,
     NgaModule,
+    ButtonModule,
   ],
   declarations: [
     AssistantEditorComponent,

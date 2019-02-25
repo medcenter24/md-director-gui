@@ -1,7 +1,7 @@
 /*
  * Copyright (c) 2018.
  *
- * @author Zagovorychev Olexandr <zagovorichev@gmail.com>
+ * @author Zagovorychev Oleksandr <zagovorichev@gmail.com>
  */
 
 import { NgModule } from '@angular/core';
@@ -9,7 +9,7 @@ import { PatientEditorComponent } from './patient.editor.component';
 import { CommonModule } from '@angular/common';
 import { AppTranslationModule } from '../../../../app.translation.module';
 import { FormsModule } from '@angular/forms';
-import { InputMaskModule, InputTextareaModule, InputTextModule } from 'primeng/primeng';
+import { ButtonModule, InputMaskModule, InputTextareaModule, InputTextModule } from 'primeng/primeng';
 import { PatientsService } from '../../patients.service';
 import { DateHelper } from '../../../../helpers/date.helper';
 
@@ -21,6 +21,7 @@ import { DateHelper } from '../../../../helpers/date.helper';
     InputMaskModule,
     InputTextareaModule,
     InputTextModule,
+    ButtonModule,
   ],
   declarations: [
     PatientEditorComponent,

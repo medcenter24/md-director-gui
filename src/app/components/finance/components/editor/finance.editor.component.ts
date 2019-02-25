@@ -141,16 +141,25 @@ export class FinanceEditorComponent extends LoadableComponent implements OnInit 
   }
 
   deleteFinanceRule(): void {
-    const postfix = 'DeleteRule';
-    this.startLoader(postfix);
-    this.financeService.destroy(this.rule)
-      .then(() => {
-        this.stopLoader(postfix);
-        this.router.navigate([`pages/finance/conditions`]);
-      })
-      .catch(() => {
-        this.stopLoader(postfix);
-      });
+    this._state.notifyDataChanged('confirmDialog',
+      {
+        header: this.translateService.instant('Delete'),
+        message: this.translateService.instant('Are you sure that you want to delete this condition?'),
+        accept: () => {
+          const postfix = 'DeleteRule';
+          this.startLoader(postfix);
+          this.financeService.destroy(this.rule)
+            .then(() => {
+              this.stopLoader(postfix);
+              this.router.navigate([`pages/finance/conditions`]);
+            })
+            .catch(() => {
+              this.stopLoader(postfix);
+            });
+        },
+        icon: 'fa fa-window-close-o red',
+      },
+    );
   }
 
   canBeSaved () {

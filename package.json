@@ -15,7 +15,8 @@
   "scripts": {
     "ng": "ng",
     "conventional-changelog": "conventional-changelog",
-    "start": "ng serve --disable-host-check",
+    "start": "ng serve",
+    "start-disable-host-check": "ng serve --disable-host-check",
     "build": "ng build",
     "build:prod": "npm run build -- --prod --aot",
     "test": "ng test",

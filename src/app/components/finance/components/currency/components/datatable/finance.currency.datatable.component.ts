@@ -115,16 +115,25 @@ export class FinanceCurrencyDatatableComponent extends LoadingComponent implemen
   }
 
   delete() {
-    this.startLoader(`${this.componentName}Delete`);
-    this.financeCurrencyService.destroy(this.currency)
-      .then(() => {
-        this.stopLoader(`${this.componentName}Delete`);
-        this.setObject();
-        this.displayDialog = false;
-        this.datatable.refresh();
-      })
-      .catch(() => {
-        this.stopLoader(`${this.componentName}Delete`);
-      });
+    this._state.notifyDataChanged('confirmDialog',
+      {
+        header: this.translateService.instant('Delete'),
+        message: this.translateService.instant('Are you sure that you want to delete this currency?'),
+        accept: () => {
+          this.startLoader(`${this.componentName}Delete`);
+          this.financeCurrencyService.destroy(this.currency)
+            .then(() => {
+              this.stopLoader(`${this.componentName}Delete`);
+              this.setObject();
+              this.displayDialog = false;
+              this.datatable.refresh();
+            })
+            .catch(() => {
+              this.stopLoader(`${this.componentName}Delete`);
+            });
+        },
+        icon: 'fa fa-window-close-o red',
+      },
+    );
   }
 }
