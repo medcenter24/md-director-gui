@@ -61,5 +61,6 @@
             </span>
         </div>
     </div>
-    <button class="btn btn-sm btn-success" (click)="save()">{{ 'Save' | translate }}</button>
+    <button pButton (click)="save()" [label]="'Save' | translate"></button>
+    <button pButton class="ml-2" (click)="onDelete()" [label]="'Delete' | translate"></button>
 </div>

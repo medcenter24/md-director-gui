@@ -14,6 +14,7 @@ import { MultiselectImplementationsModule } from './gui/multiselect/implementati
 import { DevelopmentGuiAutocompleterModule } from './gui/autocompleter';
 import { GuiPaymentBlockModule } from './gui/payment/block';
 import { DevelopmentGuiUploaderFileModule } from './gui/uploader/file';
+import { GuiDialogDeleteModule } from './gui/dialog/delete';
 
 @NgModule({
   imports: [
@@ -25,6 +26,7 @@ import { DevelopmentGuiUploaderFileModule } from './gui/uploader/file';
     DevelopmentGuiUploaderFileModule,
     DevelopmentGuiInvoiceModule,
     GuiPaymentBlockModule,
+    GuiDialogDeleteModule,
   ],
   declarations: [
     DevelopmentPageComponent,

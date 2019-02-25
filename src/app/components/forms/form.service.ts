@@ -27,7 +27,7 @@ export class FormService extends HttpService implements LoadableServiceInterface
   }
 
   destroy (form: Form): Promise<any> {
-    return this.remove(form);
+    return this.remove(form.id);
   }
 
   downloadPdf(formId: number, formableId: number): Subscription {

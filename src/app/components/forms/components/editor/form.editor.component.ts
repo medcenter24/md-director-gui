@@ -25,14 +25,14 @@ declare var $: any;
 
 
 // todo until some change in lib.d.ts
-interface FileReaderEventTarget extends EventTarget {
+/*interface FileReaderEventTarget extends EventTarget {
   result: string;
 }
 
 interface FileReaderEvent extends Event {
   target: FileReaderEventTarget;
   getMessage(): string;
-}
+}*/
 
 @Component({
   selector: 'nga-form-editor',
@@ -75,12 +75,10 @@ export class FormEditorComponent extends LoadableComponent implements OnInit, Af
           const reader = new FileReader();
 
           // Set the reader to insert images when they are loaded.
-          /*
-          TODO FIX UPLOADER
-          reader.onload = (ev: FileReaderProgressEvent) => {
-            const result = ev.target.result;
+          reader.onload = (ev: ProgressEvent) => {
+            const result = ev.target['result'];
             editor.image.insert(result, null, null, editor.image.get());
-          };*/
+          };
 
           // Read image as base64.
           reader.readAsDataURL(files[0]);
@@ -154,7 +152,8 @@ export class FormEditorComponent extends LoadableComponent implements OnInit, Af
           const id = +params['id'];
           if (id) {
             this.startLoader();
-            this.formService.getForm(id).then((form: Form) => {
+            this.formService.getForm(id)
+              .then((form: Form) => {
               this.stopLoader();
               this.form = form;
               if (typeof this.form.variables === 'string') {
@@ -262,6 +261,28 @@ export class FormEditorComponent extends LoadableComponent implements OnInit, Af
       this.form.variables = tmpForm.variables;
       this.sendForm(tmpForm);
     });
+  }
+
+  onDelete(): void {
+    this._state.notifyDataChanged('confirmDialog',
+      {
+        header: this.translateService.instant('Delete'),
+        message: this.translateService.instant('Are you sure that you want to delete this form?'),
+        accept: () => {
+          const postfix = 'Delete';
+          this.startLoader(postfix);
+          this.formService.destroy(this.form)
+            .then(() => {
+              this.stopLoader(postfix);
+              this.router.navigate(['pages/settings/forms']);
+            })
+            .catch(() => {
+              this.stopLoader(postfix);
+            });
+        },
+        icon: 'fa fa-window-close-o red',
+      },
+    );
   }
 
   private sendForm(form: Form): void {

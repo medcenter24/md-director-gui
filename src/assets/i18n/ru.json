@@ -1,4 +1,10 @@
 {
+  "Are you sure that you want to delete this form?": "Вы хотите удалить эту форму?",
+  "Are you sure that you want to delete this assistant company?": "Вы хотите удалить эту компанию?",
+  "Are you sure that you want to delete this date period?": "Вы хотите удалить этот период дат?",
+  "Are you sure that you want to delete this patient?": "Вы хотите удалить этого пациента?",
+  "Are you sure that you want to delete this currency?": "Вы хотите удалить эту валюту?",
+  "Are you sure that you want to delete this condition?": "Вы действительно хотите удалить это условие?",
   "Invoice the assistant": "Счет для ассистанса за кейс",
   "Income calculation": "Расчет дохода",
   "Doctor remuneration": "Вознаграждение врача",
