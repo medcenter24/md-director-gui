@@ -55,11 +55,11 @@ export class CaseDatatableComponent implements OnInit {
         cols,
         refreshTitle: this.translateService.instant('Refresh'),
         captionPanelActions: [
-          new DatatableAction(this.translateService.instant('Import'), 'fa fa-upload', () => {
+          new DatatableAction(this.translateService.instant('Company Case Import'), 'fa fa-upload', () => {
             this.importer.showImporter();
           }),
-          new DatatableAction(this.translateService.instant('Export'), 'fa fa-download', () => {
-            this.exporterService.form1({});
+          new DatatableAction(this.translateService.instant('Cases Export'), 'fa fa-download', () => {
+            this.exporterService.exportCases({});
           }),
         ],
         controlPanel: true,

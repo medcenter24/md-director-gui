@@ -15,7 +15,7 @@ export class ExporterService extends HttpService {
     return 'director/export';
   }
 
-  form1(params: Object): void {
+  exportCases(params: Object): void {
     const dt = new Date();
     this.http
       .post(this.getUrl('form1'), JSON.stringify(params), {
