@@ -13,6 +13,7 @@ import { DiagnosticEditorComponent } from './diagnostic.editor.component';
 import { NgaModule } from '../../../../theme/nga.module';
 import { DiagnosticService } from '../../diagnostic.service';
 import { DiagnosticCategorySelectModule } from '../../category/components/select';
+import { ButtonModule } from 'primeng/button';
 
 @NgModule({
   imports: [
@@ -22,6 +23,7 @@ import { DiagnosticCategorySelectModule } from '../../category/components/select
     DiagnosticCategoryEditorModule,
     NgaModule,
     DiagnosticCategorySelectModule,
+    ButtonModule,
   ],
   providers: [
     DiagnosticService,

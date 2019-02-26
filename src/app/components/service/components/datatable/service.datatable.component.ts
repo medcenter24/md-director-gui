@@ -66,7 +66,8 @@ export class ServiceDatatableComponent extends AbstractDatatableController {
 
   confirmDelete(): void {
     this.confirmationService.confirm({
-      message: this.translateService.instant('Are you sure that you want to perform this action?'),
+      header: this.translateService.instant('Delete'),
+      message: this.translateService.instant('Are you sure that you want to remove the service?'),
       accept: () => {
         this.delete();
       },

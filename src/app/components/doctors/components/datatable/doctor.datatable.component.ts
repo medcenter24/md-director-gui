@@ -78,7 +78,7 @@ export class DoctorDatatableComponent extends AbstractDatatableController implem
   }
 
   onDoctorChanged(doctor: Doctor): void {
-    if (!this.updateModel(doctor)) {
+    if (!doctor || !this.updateModel(doctor)) {
       this.refresh();
     }
     this.setModel(ObjectHelper.clone(doctor, this.getEmptyModel()));

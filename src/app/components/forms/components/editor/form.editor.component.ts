@@ -23,17 +23,6 @@ import { FormOptionPreview } from '../options/form.option.preview';
 import { FormOptionService } from '../options/form.option.service';
 declare var $: any;
 
-
-// todo until some change in lib.d.ts
-/*interface FileReaderEventTarget extends EventTarget {
-  result: string;
-}
-
-interface FileReaderEvent extends Event {
-  target: FileReaderEventTarget;
-  getMessage(): string;
-}*/
-
 @Component({
   selector: 'nga-form-editor',
   templateUrl: './form.editor.html',
@@ -157,11 +146,15 @@ export class FormEditorComponent extends LoadableComponent implements OnInit, Af
               this.stopLoader();
               this.form = form;
               if (typeof this.form.variables === 'string') {
-                this.form.variables = JSON.parse(this.form.variables);
-                this.encodeVars(this.form.template).then(tmp => {
-                  this.form.template = tmp;
+                try {
+                  this.form.variables = JSON.parse( this.form.variables );
+                  this.encodeVars( this.form.template ).then( tmp => {
+                    this.form.template = tmp;
+                    this.readyToLoad();
+                  } );
+                } catch (e) {
                   this.readyToLoad();
-                });
+                }
               } else {
                 this.readyToLoad();
               }

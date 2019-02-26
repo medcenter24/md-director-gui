@@ -112,19 +112,18 @@ export class PeriodDatatableComponent extends LoadingComponent implements OnInit
   }
 
   save() {
-    this.startLoader(this.componentName);
+    const postfix = 'Save';
+    this.startLoader(postfix);
     this.datePeriod.from = `${this.dowFrom} ${this.timeFrom}`;
     this.datePeriod.to = `${this.dowTo} ${this.timeTo}`;
     this.datePeriodService.save(this.datePeriod)
       .then(() => {
-        this.stopLoader(this.componentName);
+        this.stopLoader(postfix);
         this.setPeriod();
         this.displayDialog = false;
         this.periodDatatable.refresh();
       })
-      .catch(() => {
-        this.stopLoader(this.componentName);
-      });
+      .catch(() => this.stopLoader(postfix));
   }
 
   delete() {
@@ -133,17 +132,16 @@ export class PeriodDatatableComponent extends LoadingComponent implements OnInit
         header: this.translateService.instant('Delete'),
         message: this.translateService.instant('Are you sure that you want to delete this date period?'),
         accept: () => {
-          this.startLoader(this.componentName);
+          const postfix = 'Delete';
+          this.startLoader(postfix);
           this.datePeriodService.destroy(this.datePeriod)
             .then(() => {
-              this.stopLoader(this.componentName);
+              this.stopLoader(postfix);
               this.setPeriod();
               this.displayDialog = false;
               this.periodDatatable.refresh();
             })
-            .catch(() => {
-              this.stopLoader(this.componentName);
-            });
+            .catch(() => this.stopLoader(postfix));
         },
         icon: 'fa fa-window-close-o red',
       },

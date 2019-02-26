@@ -100,31 +100,38 @@ export class AccidentCheckpointDatatableComponent extends LoadingComponent imple
   }
 
   delete () {
-    this.startLoader(this.componentName);
-    this.checkpointService.destroy(this.checkpoint)
-      .then(() => {
-        this.stopLoader(this.componentName);
-        this.setCheckpoint();
-        this.displayDialog = false;
-        this.datatable.refresh();
-      })
-      .catch(() => {
-        this.stopLoader(this.componentName);
-      });
+    this._state.notifyDataChanged('confirmDialog',
+      {
+        header: this.translateService.instant('Delete'),
+        message: this.translateService.instant('Are you sure that you want to delete this checkpoint?'),
+        accept: () => {
+          const postfix = 'Delete';
+          this.startLoader(postfix);
+          this.checkpointService.destroy(this.checkpoint)
+            .then(() => {
+              this.stopLoader(postfix);
+              this.setCheckpoint();
+              this.displayDialog = false;
+              this.datatable.refresh();
+            })
+            .catch(() => this.stopLoader(postfix));
+        },
+        icon: 'fa fa-window-close-o red',
+      },
+    );
   }
 
   save () {
-    this.startLoader(this.componentName);
+    const postfix = 'Save';
+    this.startLoader(postfix);
     this.checkpointService.save(this.checkpoint)
       .then(() => {
-        this.stopLoader(this.componentName);
+        this.stopLoader(postfix);
         this.setCheckpoint();
         this.displayDialog = false;
         this.datatable.refresh();
       })
-      .catch(() => {
-        this.stopLoader(this.componentName);
-      });
+      .catch(() => this.stopLoader(postfix));
   }
 }
 

@@ -5,7 +5,7 @@
   -->
 
 <ba-card *ngIf="doctor" baCardClass="with-scroll" class="edit-form-container" [closeable]="true" (close)="closeEditor()">
-    <form (ngSubmit)="onSubmit()" #diagnosticForm="ngForm" class="edit-form">
+    <div class="edit-form">
         <div class="row">
             <div class="col-sm-6">
                 <div class="form-group{{ doctorName.valid || doctorName.pristine ? '' : ' has-error'}}">
@@ -89,9 +89,10 @@
                 </div>
             </div>
         </div>
-        <button pButton type="submit" *ngIf="doctor.id" [label]="'Save' | translate"></button>
-        <button pButton type="submit" *ngIf="!doctor.id" [label]="'Create' | translate"></button>
-    </form>
+        <button pButton type="submit" (click)="onSubmit()" *ngIf="doctor.id" [label]="'Save' | translate"></button>
+        <button pButton type="submit" (click)="onSubmit()" *ngIf="!doctor.id" [label]="'Create' | translate"></button>
+        <button pButton class="ml-2" (click)="onDelete()" *ngIf="doctor.id" [label]="'Delete' | translate"></button>
+    </div>
 
     <hr *ngIf="doctor.id">
     <div class="row edit-form-container" *ngIf="doctor.id">

@@ -20,6 +20,8 @@ import { UserSelectComponent } from '../../../users/select';
 import { User } from '../../../users/user';
 import { UserEditorComponent } from '../../../users/editor/user.editor.component';
 import { MultiSelectorComponent } from '../../../ui/selector/components/multiSelector';
+import { GlobalState } from '../../../../global.state';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'nga-doctor-editor',
@@ -53,6 +55,8 @@ export class DoctorEditorComponent extends LoadableComponent implements AfterVie
   constructor(
     private service: DoctorsService,
     public cityService: CitiesService,
+    protected _state: GlobalState,
+    private translateService: TranslateService,
   ) {
     super();
   }
@@ -71,7 +75,7 @@ export class DoctorEditorComponent extends LoadableComponent implements AfterVie
   }
 
   onSubmit(): void {
-    const opName = `${this.componentName}Save`;
+    const opName = `Save`;
     this.startLoader(opName);
     if (this.doctor.id) {
       this.service.update(this.doctor).then((doctor: Doctor) => {
@@ -84,6 +88,27 @@ export class DoctorEditorComponent extends LoadableComponent implements AfterVie
         this.doctorChanged.emit(doctor);
       }).catch(() => this.stopLoader(opName));
     }
+  }
+
+  onDelete(): void {
+    this._state.notifyDataChanged('confirmDialog',
+      {
+        header: this.translateService.instant('Delete'),
+        message: this.translateService.instant('Are you sure that you want to delete the doctor?'),
+        accept: () => {
+          const postfix = 'Delete';
+          this.startLoader(postfix);
+          this.service.destroy(this.doctor)
+            .then(() => {
+              this.stopLoader(postfix);
+              this.doctorChanged.emit(null);
+              this.close.emit();
+            })
+            .catch(() => this.stopLoader(postfix));
+        },
+        icon: 'fa fa-window-close-o red',
+      },
+    );
   }
 
   onUserChanged(user: User): void {
