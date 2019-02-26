@@ -9,6 +9,7 @@ import { LoadingComponent } from '../../../../../components/core/components/comp
 import { Logger } from 'angular2-logger/core';
 import { GlobalState } from '../../../../../global.state';
 import { SlimLoadingBarService } from 'ng2-slim-loading-bar';
+import { ConfirmationService } from 'primeng/api';
 
 @Component({
   selector: 'ngd-gui-dialog-delete',
@@ -23,6 +24,7 @@ export class GuiDialogDeleteComponent extends LoadingComponent {
     protected _logger: Logger,
     protected _state: GlobalState,
     protected loadingBar: SlimLoadingBarService,
+    protected confirmationService: ConfirmationService,
   ) {
     super();
   }
@@ -37,5 +39,14 @@ export class GuiDialogDeleteComponent extends LoadingComponent {
         icon: 'fa fa-window-close-o red',
       },
     );
+  }
+
+  onDelete2(): void {
+    this.confirmationService.confirm({
+      header: 'Delete',
+      message: 'Are you sure that you want to remove the service?',
+      accept: () => this.stateClass = 'fa fa-check-circle text-success',
+      reject: () => this.stateClass = 'fa fa-times-circle text-danger',
+    });
   }
 }

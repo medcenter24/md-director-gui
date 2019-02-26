@@ -18,6 +18,7 @@ import { DiagnosticCategoryEditorModule } from '../../../diagnostic/category/com
 import { MultiSelectorModule } from '../../../ui/selector/components/multiSelector';
 import { DoctorsService } from '../../doctors.service';
 import { CitiesService } from '../../../city';
+import { TranslateService } from '@ngx-translate/core';
 
 @NgModule({
   imports: [
@@ -36,6 +37,7 @@ import { CitiesService } from '../../../city';
   providers: [
     DoctorsService,
     CitiesService,
+    TranslateService,
   ],
   exports: [
     DoctorEditorComponent,

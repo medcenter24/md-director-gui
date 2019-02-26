@@ -1,4 +1,9 @@
 {
+  "Are you sure that you want to remove the service?": "Вы хотите удалить услугу?",
+  "Are you sure that you want to delete the doctor?": "Вы хотите удалить доктора?",
+  "Are you sure that you want to delete this hospital?": "Вы хотите удалить госпиталь?",
+  "Are you sure that you want to delete the city?": "Вы хотите удалить город?",
+  "Are you sure that you want to delete this checkpoint?": "Вы хотите удалить эту контрольную точку?",
   "Are you sure that you want to delete this form?": "Вы хотите удалить эту форму?",
   "Are you sure that you want to delete this assistant company?": "Вы хотите удалить эту компанию?",
   "Are you sure that you want to delete this date period?": "Вы хотите удалить этот период дат?",
