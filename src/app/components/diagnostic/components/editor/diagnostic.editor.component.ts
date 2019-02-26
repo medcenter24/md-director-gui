@@ -11,6 +11,8 @@ import { LoadableComponent } from '../../../core/components/componentLoader';
 import { DiagnosticCategorySelectComponent } from '../../category/components/select';
 import { DiagnosticCategory } from '../../category/category';
 import { DiagnosticCategoryEditorComponent } from '../../category/components/editor';
+import { GlobalState } from '../../../../global.state';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'nga-diagnostic-editor',
@@ -31,7 +33,11 @@ export class DiagnosticEditorComponent extends LoadableComponent {
 
   showEditor: boolean = false;
 
-  constructor(private service: DiagnosticService) {
+  constructor(
+    private service: DiagnosticService,
+    protected _state: GlobalState,
+    private translateService: TranslateService,
+  ) {
     super();
   }
 
@@ -41,8 +47,32 @@ export class DiagnosticEditorComponent extends LoadableComponent {
     this.service.save(this.diagnostic).then((diagnostic: Diagnostic) => {
       this.diagnostic = diagnostic;
       this.diagnosticSaved.emit(this.diagnostic);
+      this.close.emit();
       this.stopLoader(opName);
     }).catch(() => this.stopLoader(opName));
+  }
+
+  onDelete(): void {
+    this._state.notifyDataChanged('confirmDialog',
+      {
+        header: this.translateService.instant('Delete'),
+        message: this.translateService.instant('Are you sure that you want to delete this hospital?'),
+        accept: () => {
+          const postfix = 'Delete';
+          this.startLoader(postfix);
+          this.service.destroy(this.diagnostic)
+            .then(() => {
+              this.stopLoader(postfix);
+              this.diagnosticSaved.emit(null);
+              this.close.emit();
+            })
+            .catch(() => {
+              this.stopLoader(postfix);
+            });
+        },
+        icon: 'fa fa-window-close-o red',
+      },
+    );
   }
 
   toggleEditor(): void {

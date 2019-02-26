@@ -76,16 +76,17 @@ export class HospitalDatatableComponent extends LoadingComponent implements OnIn
   }
 
   save() {
-    this.startLoader(`${this.componentName}Save`);
+    const postfix = 'Save';
+    this.startLoader(postfix);
     this.hospitalService.save(this.hospital)
       .then(() => {
-        this.stopLoader(`${this.componentName}Save`);
+        this.stopLoader(postfix);
         this.setHospital();
         this.displayDialog = false;
         this.datatable.refresh();
       })
       .catch(() => {
-        this.stopLoader(`${this.componentName}Save`);
+        this.stopLoader(postfix);
       });
   }
 
@@ -103,16 +104,26 @@ export class HospitalDatatableComponent extends LoadingComponent implements OnIn
   }
 
   delete() {
-    this.startLoader(`${this.componentName}Delete`);
-    this.hospitalService.destroy(this.hospital)
-      .then(() => {
-        this.stopLoader(`${this.componentName}Delete`);
-        this.setHospital();
-        this.displayDialog = false;
-        this.datatable.refresh();
-      })
-      .catch(() => {
-        this.stopLoader(`${this.componentName}Delete`);
-      });
+    this._state.notifyDataChanged('confirmDialog',
+      {
+        header: this.translateService.instant('Delete'),
+        message: this.translateService.instant('Are you sure that you want to delete this hospital?'),
+        accept: () => {
+          const postfix = 'Delete';
+          this.startLoader(postfix);
+          this.hospitalService.destroy(this.hospital)
+            .then(() => {
+              this.stopLoader(postfix);
+              this.setHospital();
+              this.displayDialog = false;
+              this.datatable.refresh();
+            })
+            .catch(() => {
+              this.stopLoader(postfix);
+            });
+        },
+        icon: 'fa fa-window-close-o red',
+      },
+    );
   }
 }

@@ -78,17 +78,16 @@ export class CityDatatableComponent extends LoadingComponent implements OnInit {
   }
 
   save() {
-    this.startLoader(`${this.componentName}Save`);
+    const postfix = 'Save';
+    this.startLoader(postfix);
     this.citiesService.save(this.city)
       .then(() => {
-        this.stopLoader(`${this.componentName}Save`);
+        this.stopLoader(postfix);
         this.setCity();
         this.displayDialog = false;
         this.datatable.refresh();
       })
-      .catch(() => {
-        this.stopLoader(`${this.componentName}Save`);
-      });
+      .catch(() => this.stopLoader(postfix));
   }
 
   onRowSelect(event) {
@@ -105,16 +104,24 @@ export class CityDatatableComponent extends LoadingComponent implements OnInit {
   }
 
   delete() {
-    this.startLoader(`${this.componentName}Delete`);
-    this.citiesService.destroy(this.city)
-      .then(() => {
-        this.stopLoader(`${this.componentName}Delete`);
-        this.setCity();
-        this.displayDialog = false;
-        this.datatable.refresh();
-      })
-      .catch(() => {
-        this.stopLoader(`${this.componentName}Delete`);
-      });
+    this._state.notifyDataChanged('confirmDialog',
+      {
+        header: this.translateService.instant('Delete'),
+        message: this.translateService.instant('Are you sure that you want to delete the city?'),
+        accept: () => {
+          const postfix = 'Delete';
+          this.startLoader(postfix);
+          this.citiesService.destroy(this.city)
+            .then(() => {
+              this.stopLoader(postfix);
+              this.setCity();
+              this.displayDialog = false;
+              this.datatable.refresh();
+            })
+            .catch(() => this.stopLoader(postfix));
+        },
+        icon: 'fa fa-window-close-o red',
+      },
+    );
   }
 }
