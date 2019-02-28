@@ -4,7 +4,7 @@
  * @author Alexander Zagovorichev <zagovorichev@gmail.com>
  */
 
-import { Component, ViewChild, OnInit, ElementRef } from '@angular/core';
+import { Component, ViewChild, OnInit } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Accident } from '../../../accident/accident';
 import { AccidentsService } from '../../../accident/accidents.service';
@@ -104,7 +104,6 @@ export class CaseEditorComponent extends LoadingComponent implements OnInit {
   closedTime: string = '';
   patientEditFormDisplay: boolean = false;
   patient: Patient;
-  reportPreviewVisible: boolean = false;
   assistantInvoice: Invoice;
   assistantGuaranteeFile: Upload;
 
@@ -379,8 +378,10 @@ export class CaseEditorComponent extends LoadingComponent implements OnInit {
   }
 
   onServicesChanged(services: Service[]): void {
-    this.services = services;
-    this.onSave();
+    if (!this.isLoading()) {
+      this.services = services;
+      this.onSave();
+    }
   }
 
   onDiagnosticsChanged(diagnostics: Diagnostic[]): void {
