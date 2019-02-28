@@ -10,7 +10,7 @@
         class="importer"
 >
 
-    <p-fileUpload name="files[]" url="{{ url }}" multiple="multiple"
+    <p-fileUpload name="files[]" url="{{ getUrl() }}" multiple="multiple"
                   [accept]="selectedFormat"
                   maxFileSize="1000000"
                   withCredentials="true"
@@ -19,8 +19,8 @@
                   cancelLabel="{{ 'Cancel' | translate}}"
                   (onUpload)="handleUpload($event)"
                   (onError)="handleError($event)"
-                  (onClear)="handleClear($event)"
-                  (onBeforeUpload)="handleBeforeUpload($event)"
+                  (onClear)="handleClear()"
+                  (onBeforeUpload)="handleBeforeUpload()"
                   (onBeforeSend)="handleBeforeSend($event)">
         <ng-template pTemplate="content">
             <h3 translate *ngIf="uploadedFiles && uploadedFiles.length">Uploaded Files</h3>
@@ -41,8 +41,8 @@
                             {{file.name}}
                         </td>
                         <td>
-                            <button *ngIf="!isImported(file.id)" pButton type="button" (click)="importFile(file)" icon="fa fa-download" label="{{ 'Import' | translate }}"></button>
-                            <button pButton type="button" (click)="deleteFile(file)" [class]=" (isImported(file.id) ? 'ui-button-secondary' : 'ui-button-danger') + ' ui-button ui-widget ui-state-default ui-corner-all ui-button-text-icon-left'" icon="fa fa-trash" label="{{ 'Delete' | translate }}"></button>
+                            <button *ngIf="!isImported(file.id)" pButton type="button" class="mr-2" (click)="importFile(file)" icon="fa fa-download" label="{{ 'Import' | translate }}"></button>
+                            <button pButton type="button" (click)="deleteFile(file)" class="mr-2" icon="fa fa-trash" label="{{ 'Delete' | translate }}"></button>
                             <button pButton type="button" (click)="report(file)" [disabled]="!isImported(file.id)" class="ui-button-secondary btn-report" icon="fa fa-trash" label="{{ 'Report' | translate }}"></button>
                         </td>
                     </tr>
@@ -53,9 +53,9 @@
 
     <p-footer *ngIf="selectedFiles.length">
         <div class="ui-dialog-buttonpane ui-helper-clearfix">
-            <button pButton [disabled]="true" class="ui-button-secondary" label="{{ selectedFiles.length }}"></button>
-            <button pButton (click)="importFile()" type="button" icon="fa fa-download" label="{{ 'Import' | translate }}"></button>
-            <button pButton (click)="deleteFile()" class="ui-button-danger" type="button" icon="fa fa-trash" label="{{ 'Delete' | translate }}"></button>
+            <button pButton [disabled]="true" class="mr-2" label="{{ selectedFiles.length }}"></button>
+            <button pButton (click)="importFile()" class="mr-2" type="button" icon="fa fa-download" label="{{ 'Import' | translate }}"></button>
+            <button pButton (click)="deleteFile()" type="button" icon="fa fa-trash" label="{{ 'Delete' | translate }}"></button>
         </div>
     </p-footer>
 </p-dialog>

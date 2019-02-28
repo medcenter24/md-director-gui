@@ -83,13 +83,13 @@ export class ImporterComponent implements OnInit {
     event.xhr.setRequestHeader('Authorization', `Bearer ${this.authenticationService.getToken()}`);
   }
 
-  handleBeforeUpload(event): void {
+  handleBeforeUpload(): void {
     this.msgs = [];
     this._state.notifyDataChanged('growl', []);
     this.loadingBar.start();
   }
 
-  handleClear(event): void {
+  handleClear(): void {
     this.msgs = [];
     this._state.notifyDataChanged('growl', []);
   }
@@ -158,6 +158,10 @@ export class ImporterComponent implements OnInit {
       icon: result.success ? 'fa fa-check-circle-o' : 'fa fa-exclamation-triangle',
       acceptVisible: false,
     });
+  }
+
+  getUrl(): string {
+    return this.importerService.getUrl(this.url);
   }
 
   isImported(id: number): boolean {
