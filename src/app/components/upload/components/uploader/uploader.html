@@ -36,8 +36,8 @@
                     {{ file.owner | translate }}
                 </td>
                 <td>
-                    <button pButton type="button" (click)="deleteFile(file)" class="ui-button-danger" icon="fa fa-trash" label="{{ 'Delete' | translate }}"></button>
-                    <button pButton type="button" (click)="downloadFile(file)" class="ui-button-secondary" icon="fa fa-download" label="{{ 'Download' | translate }}"></button>
+                    <button pButton type="button" (click)="deleteFile(file)" class="mt-2 mr-2" icon="fa fa-trash" label="{{ 'Delete' | translate }}"></button>
+                    <button pButton type="button" (click)="downloadFile(file)" class="mt-2" icon="fa fa-download" label="{{ 'Download' | translate }}"></button>
                 </td>
             </tr>
             </tbody>
