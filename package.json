@@ -82,7 +82,7 @@
     "pace-js": "^1.0.2",
     "popper.js": "^1.14.7",
     "primeicons": "^1.0.0",
-    "primeng": "^7.0.5",
+    "primeng": "7.0.4",
     "roboto-fontface": "^0.10.0",
     "rxjs": "^6.4.0",
     "rxjs-compat": "^6.4.0",
