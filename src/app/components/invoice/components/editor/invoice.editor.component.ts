@@ -121,6 +121,10 @@ export class InvoiceEditorComponent extends LoadableComponent implements OnInit 
   }
 
   save(): void {
+    if (!this.form || !this.form.id) {
+      return;
+    }
+
     const postfix = 'SaveInvoice';
     this.startLoader(postfix);
     this.saving = true;
