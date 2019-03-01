@@ -346,10 +346,10 @@
                     <div class="col-sm-6">
                       <label class="label separated offset-right10" translate>Accident Type</label>
                       <nga-select-accident-type
-                        [selectedTypeId]="accident.accidentTypeId"
-                        (selected)="onAccidentTypeSelected($event)"
-                        (init)="startLoader($event)"
-                        (loaded)="stopLoader($event)"
+                              [typeId]="accident.accidentTypeId"
+                              (selected)="onAccidentTypeSelected($event)"
+                              (init)="startLoader($event)"
+                              (loaded)="stopLoader($event)"
                       ></nga-select-accident-type>
                     </div>
                     <!-- /Accident Type -->

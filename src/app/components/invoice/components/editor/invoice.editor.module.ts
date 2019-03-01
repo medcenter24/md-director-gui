@@ -1,13 +1,13 @@
 /*
  * Copyright (c) 2018
  *
- *  @author Oleksander  Zagovorychev <zagovorichev@gmail.com>
+ *  @author Oleksandr  Zagovorychev <zagovorichev@gmail.com>
  */
 
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { ButtonModule, InputTextModule } from 'primeng/primeng';
+import { ButtonModule, InputTextModule, KeyFilterModule } from 'primeng/primeng';
 import { AppTranslationModule } from '../../../../app.translation.module';
 import { FormService } from '../../../forms';
 import { AutocompleterModule } from '../../../ui/selector/components/autocompleter';
@@ -28,6 +28,7 @@ import { InvoiceEditorComponent } from './invoice.editor.component';
     DownloadFileModule,
     ButtonModule,
     UiStatusSelectModule,
+    KeyFilterModule,
   ],
   declarations: [
     InvoiceEditorComponent,
