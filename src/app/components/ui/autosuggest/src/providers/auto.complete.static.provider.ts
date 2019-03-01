@@ -56,7 +56,12 @@ export class AutoCompleteStaticProvider implements AutoCompleteProvider {
     } else {
       this.selected = items;
     }
-    this._changeDetectionRef.detectChanges();
+    try {
+      this._changeDetectionRef.detectChanges();
+    } catch (e) {
+      // prevent ViewDestroyedError error
+      // if click back while the page is loading
+    }
   }
 
   /**
