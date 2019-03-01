@@ -67,11 +67,12 @@ export class CaseDatatableComponent implements OnInit {
         csvExportAll: true,
         controlPanelActions: [
           new DatatableAction(this.translateService.instant('Add'), 'fa fa-plus', () => {
-            this.router.navigate(['pages/cases/new']);
+            this.router.navigate(['pages/cases/new'])
+              .then().catch();
           }),
         ],
         onRowSelect: event => {
-          this.router.navigate(['pages/cases/', event.data.id]);
+          this.router.navigate(['pages/cases/', event.data.id]).then();
         },
         transformers: [
           new DatatableTransformer('createdAt', val => this.dateHelper.toEuropeFormatWithTime(val)),
