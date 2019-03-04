@@ -17,12 +17,12 @@ import { GlobalState } from '../../../../global.state';
 })
 export class DevelopmentGuiAutocompleterComponent extends LoadingComponent {
   protected componentName: string = 'DevelopmentGuiAutocompleterComponent';
-
+  item;
   constructor(
     protected _logger: Logger,
     protected _state: GlobalState,
     protected loadingBar: SlimLoadingBarService,
-    protected simpleSearch: SimpleSearchProviderMock,
+    public simpleSearch: SimpleSearchProviderMock,
   ) {
     super();
   }
