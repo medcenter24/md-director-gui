@@ -19,6 +19,7 @@
     "start-disable-host-check": "ng serve --disable-host-check",
     "build": "ng build",
     "build:prod": "npm run build -- --prod --aot",
+    "yarn:build:prod:prefer": "yarn run build --prod --aot",
     "test": "ng test",
     "test:coverage": "rimraf coverage && npm run test -- --code-coverage",
     "lint": "ng lint",

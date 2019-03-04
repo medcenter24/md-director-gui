@@ -18,6 +18,12 @@ import { CityProviderMock } from '../../../../../test/samples/providers';
 export class MultiselectImplementationsComponent extends LoadingComponent {
   protected componentName: string = 'MultiselectImplementationsComponent';
 
+  cities;
+  cities0;
+  cities1;
+  cities2;
+  cities3;
+
   constructor(
     protected _logger: Logger,
     protected _state: GlobalState,

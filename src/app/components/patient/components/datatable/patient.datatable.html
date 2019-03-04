@@ -13,7 +13,6 @@
 
   <nga-patient-editor
     #editPatientForm
-    [initPatient]="patient"
     (changed)="onPatientChanged($event)"
     (init)="startLoader($event)"
     (loaded)="stopLoader($event)"

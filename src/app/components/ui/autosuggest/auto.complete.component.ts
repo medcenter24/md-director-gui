@@ -40,7 +40,7 @@ export class AutoCompleteComponent {
   /**
    * Data Provider for the auto completer
    */
-  private provider: AutoCompleteStaticProvider | AutoCompleteLoadableProvider;
+  provider: AutoCompleteStaticProvider | AutoCompleteLoadableProvider;
 
   onSelect (): void {
     this.changed.emit(this.provider.selected);
