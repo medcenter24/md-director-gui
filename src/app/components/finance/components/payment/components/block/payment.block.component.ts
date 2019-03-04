@@ -6,6 +6,7 @@
 
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FinanceCurrency } from '../../../currency/finance.currency';
+import { PaymentBlockTheme } from './payment.block.theme';
 
 @Component({
   selector: 'nga-payment-block',
@@ -47,20 +48,12 @@ export class PaymentBlockComponent {
   hasChanges: boolean = false;
   updating: boolean = false;
   showFormula: boolean = false;
-  themes: any[] = [{
-    title: 'default',
-    bodyText: 'text-secondary',
-    border: 'border-secondary',
-  }, {
-    title: 'success',
-    bodyText: 'text-success',
-    border: 'border-success',
-  }, {
-    title: 'info',
-    bodyText: 'text-info',
-    border: 'border-info',
-  }];
-  currentTheme: Object = {};
+  themes: PaymentBlockTheme[] = [
+    new PaymentBlockTheme('default', 'text-secondary', 'border-secondary'),
+    new PaymentBlockTheme('success', 'text-success', 'border-success'),
+    new PaymentBlockTheme('info', 'text-info', 'border-info'),
+  ];
+  currentTheme: PaymentBlockTheme = this.themes[0];
 
   onAutoupdateChanged(): void {
     this.dataChanged();

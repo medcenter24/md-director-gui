@@ -22,6 +22,8 @@ export class DevelopmentGuiMultiselectComponent extends LoadingComponent impleme
 
   config: SelectorConfig;
 
+  items;
+
   constructor(
     protected _logger: Logger,
     protected _state: GlobalState,
