@@ -1,17 +1,17 @@
 {
-  "name": "ng2-admin",
+  "name": "md-director-gui",
   "version": "1.0.0",
-  "description": "Angular and Bootstrap 4 Admin Template.",
-  "author": "Akveo <contact@akveo.com>",
-  "homepage": "http://akveo.github.io/ng2-admin/",
+  "description": "MedCenter24.com Directors UI",
+  "author": "Oleksandr Zagovorychev",
+  "homepage": "https://medcenter24.com",
   "repository": {
     "type": "git",
-    "url": "https://github.com/akveo/ng2-admin.git"
+    "url": "https://github.com/mydocs24/md-director-gui"
   },
   "bugs": {
-    "url": "https://github.com/akveo/ng2-admin/issues"
+    "url": "https://github.com/mydocs24/md-director-gui/issues"
   },
-  "license": "MIT",
+  "license": "GNU-2",
   "scripts": {
     "ng": "ng",
     "rimraf": "rimraf",
