@@ -1,5 +1,5 @@
 {
-	"name": "mydocs24/md-director-gui",
+	"name": "medcenter24/md-director-gui",
 	"license": "GPL-2.0-only",
 	"description": "GUI for a director",
 	"keywords": ["director", "mydoctors24", "medcenter24", "mydocs24"],
@@ -9,7 +9,7 @@
         "mydoctors24-extension-name": "guiDirector"
     },
     "require": {
-        "mydocs24/lib-installer": "~0.0.1"
+        "medcenter24/lib-installer": "~0.0.1"
     },
     "config": {
         "preferred-install": "dist",
