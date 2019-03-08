@@ -12,29 +12,17 @@ import { EventEmitter, Injectable, Output } from '@angular/core';
 @Injectable()
 export abstract class LoadableComponent {
 
-    @Output() private init: EventEmitter<string> = new EventEmitter<string>();
-    @Output() private loaded: EventEmitter<string> = new EventEmitter<string>();
+    @Output() protected init: EventEmitter<string> = new EventEmitter<string>();
+    @Output() protected loaded: EventEmitter<string> = new EventEmitter<string>();
 
     // should be provided just for loader control to check which component has been loaded
     protected abstract componentName: string;
 
-    // component was initialized
-    onInit(name: string): void {
-        this.init.emit(name);
+    startLoader(postfix: string = ''): void {
+      this.init.emit(`_${this.componentName}${postfix}`);
     }
 
-    // component loaded
-    onLoaded(name: string): void {
-        this.loaded.emit(name);
-    }
-
-    // init current component
-    initComponent(): void {
-        this.onInit(this.componentName);
-    }
-
-    // current component has been loaded
-    loadedComponent(): void {
-        this.onLoaded(this.componentName);
+    stopLoader(postfix: string = ''): void {
+      this.loaded.emit(`_${this.componentName}${postfix}`);
     }
 }

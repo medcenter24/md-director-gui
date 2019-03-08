@@ -11,6 +11,6 @@ export class Hospital {
         public address: string = '',
         public phones: string = '',
         public description: string = '',
-        public ref_key: string = '',
+        public refKey: string = '',
     ) {}
 }

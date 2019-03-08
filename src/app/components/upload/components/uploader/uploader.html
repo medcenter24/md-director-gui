@@ -8,7 +8,6 @@
         cancelLabel="{{ 'Cancel' | translate}}"
         (onUpload)="handleUpload($event)"
         (onError)="handleError($event)"
-        (onClear)="handleClear($event)"
         (onBeforeUpload)="handleBeforeUpload($event)"
         (onBeforeSend)="handleBeforeSend($event)"
 >
@@ -17,29 +16,28 @@
         <table class="table table-striped table-bordered" *ngIf="documents.length">
             <thead class="table-inverse">
             <tr>
-                <th>{{ documents.length }}</th>
+                <th>ID</th>
+                <th class="text-center">{{ documents.length }}</th>
                 <th translate>Type</th>
                 <th translate>Downloaded By</th>
-                <th></th>
-                <th></th>
+                <th translate>Operation</th>
             </tr>
             </thead>
             <tbody>
             <tr *ngFor="let file of documents" class="row-file-{{ file.id }}">
-                <td>
+                <td>{{ file.id }}</td>
+                <td class="text-center">
                     <img src="data:image/jpeg;base64,{{ file.b64thumb }}" width="120" alt="{{ file.title }}">
                 </td>
-                <td translate>
-                    {{ file.type }}
-                </td>
-                <td translate>
-                    {{ file.owner }}
+                <td>
+                    {{ file.type | translate }}
                 </td>
                 <td>
-                    <button pButton type="button" (click)="deleteFile(file)" class="ui-button-danger" icon="fa-trash" label="{{ 'Delete' | translate }}"></button>
+                    {{ file.owner | translate }}
                 </td>
                 <td>
-                    <button pButton type="button" (click)="downloadFile(file)" class="ui-button-secondary" icon="fa-download" label="{{ 'Download' | translate }}"></button>
+                    <button pButton type="button" (click)="deleteFile(file)" class="mt-2 mr-2" icon="fa fa-trash" label="{{ 'Delete' | translate }}"></button>
+                    <button pButton type="button" (click)="downloadFile(file)" class="mt-2" icon="fa fa-download" label="{{ 'Download' | translate }}"></button>
                 </td>
             </tr>
             </tbody>

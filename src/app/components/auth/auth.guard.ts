@@ -5,9 +5,10 @@
  */
 
 import { Injectable } from '@angular/core';
-import { Router, CanActivate } from '@angular/router';
-import { tokenNotExpired } from 'angular2-jwt';
+import { Router, CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 import { AuthenticationService } from './authentication.service';
+import { JwtHelperService } from '@auth0/angular-jwt';
+import { GlobalState } from '../../global.state';
 
 @Injectable()
 export class AuthGuard implements CanActivate {
@@ -15,11 +16,14 @@ export class AuthGuard implements CanActivate {
   constructor(
     private router: Router,
     private authService: AuthenticationService,
+    private jwtHelper: JwtHelperService,
+    private _state: GlobalState,
     ) {}
 
-  canActivate() {
+  canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
     if ( this.authService.getToken()
-      && tokenNotExpired('token', this.authService.getToken()) ) {
+      && !this.jwtHelper.isTokenExpired() ) {
+      this._state.notifyDataChanged('changeUri', state.url);
       return true;
     }
 

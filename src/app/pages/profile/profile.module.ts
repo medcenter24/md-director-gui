@@ -16,9 +16,10 @@ import { UsersService } from '../../components/users/users.service';
 import { LoggedUserService } from '../../components/auth/loggedUser.service';
 import { MediaService } from '../../components/media/media.service';
 import { CompanyService } from '../../components/company/company.service';
-import { CompanyEditorComponent } from '../../components/company/components/editor/editor.component';
 import { TimezoneService } from '../../components/timezone/timezone.service';
 import { TimezoneSelectComponent } from '../../components/timezone/components/select/select.component';
+import { UploadPictureModule } from '../../components/upload/components/picture';
+import { CompanyEditorModule } from '../../components/company/components/editor';
 
 @NgModule({
   imports: [
@@ -32,10 +33,11 @@ import { TimezoneSelectComponent } from '../../components/timezone/components/se
     ButtonModule,
     InputTextModule,
     AutoCompleteModule,
+    UploadPictureModule,
+    CompanyEditorModule,
   ],
   declarations: [
     ProfileComponent,
-    CompanyEditorComponent,
     TimezoneSelectComponent,
   ],
   providers: [
