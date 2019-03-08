@@ -83,13 +83,13 @@ export class ImporterComponent implements OnInit {
     event.xhr.setRequestHeader('Authorization', `Bearer ${this.authenticationService.getToken()}`);
   }
 
-  handleBeforeUpload(event): void {
+  handleBeforeUpload(): void {
     this.msgs = [];
     this._state.notifyDataChanged('growl', []);
     this.loadingBar.start();
   }
 
-  handleClear(event): void {
+  handleClear(): void {
     this.msgs = [];
     this._state.notifyDataChanged('growl', []);
   }
@@ -160,6 +160,10 @@ export class ImporterComponent implements OnInit {
     });
   }
 
+  getUrl(): string {
+    return this.importerService.getUrl(this.url);
+  }
+
   isImported(id: number): boolean {
     const is = this.importedFiles.filter(val => +val.id === +id);
     return !!is.length;
@@ -180,15 +184,15 @@ export class ImporterComponent implements OnInit {
             response: resp.accidentId,
           });
           this.loadingBar.complete();
-        }).catch(err => {
+        }).catch(response => {
           this.selectedFiles = this.selectedFiles.filter(val => +val !== +id);
           $(`.row-file-${id}`).addClass('error');
           this.importedFiles.push({
             id: +id,
             success: false,
-            response: err.json().message,
+            response: response.error.message,
           });
-          this._logger.error(err);
+          this._logger.info(response);
           this.loadingBar.complete();
         });
       });

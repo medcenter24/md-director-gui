@@ -1,0 +1,12 @@
+<!--
+  ~ Copyright (c) 2018.
+  ~
+  ~ @author Zagovorychev Oleksandr <zagovorichev@gmail.com>
+  -->
+
+<nga-auto-complete
+  #autocompleter
+  *ngIf="langLoaded"
+  [config]="autoCompleteConfig"
+  (changed)="onChanged($event)"
+></nga-auto-complete>

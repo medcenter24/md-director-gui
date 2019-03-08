@@ -1,0 +1,122 @@
+<!--
+  ~ Copyright (c) 2017.
+  ~
+  ~ @author Alexander Zagovorichev <zagovorichev@gmail.com>
+  -->
+
+<ba-card *ngIf="doctor" baCardClass="with-scroll" class="edit-form-container" [closeable]="true" (close)="closeEditor()">
+    <div class="edit-form">
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="form-group{{ doctorName.valid || doctorName.pristine ? '' : ' has-error'}}">
+                    <label class="label" *ngIf="doctorName.valid || doctorName.pristine" translate>Name</label>
+                    <label class="label label-error" *ngIf="!doctorName.valid && !doctorName.pristine" translate>Name is required</label>
+                    <input type="text" class="form-control"
+                           required
+                           [(ngModel)]="doctor.name" name="doctorName"
+                           #doctorName="ngModel"
+                           placeholder="{{ 'Doctor Name' | translate }}"
+                           maxlength="70"
+                           autocomplete="off"
+                    >
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="form-group{{ refKey.valid || refKey.pristine ? '' : ' has-error'}}">
+                    <label class="label label-error" *ngIf="!refKey.valid && !refKey.pristine" translate>Referral key required</label>
+                    <label class="label" *ngIf="refKey.valid || refKey.pristine" translate>Referral Key</label>
+                    <input type="text" class="form-control"
+                           required
+                           [(ngModel)]="doctor.refKey"
+                           name="doctorRefKey"
+                           #refKey="ngModel"
+                           placeholder="{{ 'Doctor referral key' | translate }}"
+                           maxlength="3"
+                           autocomplete="off"
+                    >
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label class="label" translate>Description</label>
+                    <textarea name="description" class="form-control"
+                              [(ngModel)]="doctor.description"
+                              #description="ngModel"
+                              title="description"
+                              maxlength="255"
+                              [innerHTML]="doctor.description"
+                    ></textarea>
+                    <div *ngIf="!description.valid && !description.pristine" class="alert alert-danger" translate>Description Required</div>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label class="label" translate>Medical Board Number</label>
+                    <input type="text" class="form-control"
+                           required
+                           name="doctorMedicalBoardNum"
+                           [(ngModel)]="doctor.medicalBoardNumber"
+                           placeholder="{{ 'Medical Board Number' | translate }}"
+                           autocomplete="off"
+                    >
+
+                  <div class="row">
+                    <div class="col-12">
+                      <label class="label" translate>User</label>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-12">
+                      <nga-user-select
+                        #userSelect
+                        [userId]="doctor.userId"
+                        (selected)="onUserChanged($event)"
+                        (init)="startLoader($event)"
+                        (loaded)="stopLoader($event)"
+                      ></nga-user-select>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-12">
+                      <a (click)="toggleEditor(doctor.userId)"
+                         class="editor-toggle" *ngIf="showUserEditor" translate>Close user editor</a>
+                      <a (click)="toggleEditor(doctor.userId)"
+                         class="editor-toggle" *ngIf="!showUserEditor" translate>Open user editor</a>
+                    </div>
+                  </div>
+                </div>
+            </div>
+        </div>
+        <button pButton type="submit" (click)="onSubmit()" *ngIf="doctor.id" [label]="'Save' | translate"></button>
+        <button pButton type="submit" (click)="onSubmit()" *ngIf="!doctor.id" [label]="'Create' | translate"></button>
+        <button pButton class="ml-2" (click)="onDelete()" *ngIf="doctor.id" [label]="'Delete' | translate"></button>
+    </div>
+
+    <hr *ngIf="doctor.id">
+    <div class="row edit-form-container" *ngIf="doctor.id">
+        <div class="col-sm-12 edit-form">
+            <label class="label separate" translate>Cities</label>
+
+            <nga-multi-selector
+                #citiesSelector
+                [service]="cityService"
+                placeholder="Cities"
+                labelField="title"
+                (init)="startLoader($event)"
+                (loaded)="stopLoader($event)"
+                (selected)="onCitySelect($event)"
+                [preloadedData]="cities"
+            ></nga-multi-selector>
+        </div>
+    </div>
+</ba-card>
+
+<nga-user-editor
+  #userEditor
+  [hidden]="!showUserEditor"
+  (saved)="handleUserEdited($event)"
+  (init)="startLoader($event)"
+  (loaded)="stopLoader($event)"
+></nga-user-editor>

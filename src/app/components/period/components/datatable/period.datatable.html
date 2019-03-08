@@ -1,0 +1,83 @@
+<nga-datatable
+  *ngIf="langLoaded"
+        #periodDatatable
+        [config]="datatableConfig"
+></nga-datatable>
+
+<p-dialog
+    header="{{ 'Date Period Details' | translate }}"
+    [(visible)]="displayDialog"
+    [responsive]="true"
+    [modal]="true"
+    [width]="400"
+    appendTo="body"
+>
+
+    <div class="ui-g ui-fluid" *ngIf="datePeriod">
+        <div class="ui-g-12">
+            <div class="ui-g-3">
+                <label for="title" translate>Title</label>
+            </div>
+            <div class="ui-g-9">
+                <input
+                  pInputText
+                  id="title"
+                  [(ngModel)]="datePeriod.title"
+                  autocomplete="off"
+                />
+            </div>
+        </div>
+        <div class="ui-g-12">
+            <div class="ui-g-3">
+                <label for="from" translate>From</label>
+            </div>
+            <div class="ui-g-9">
+                <div class="row">
+                    <div class="col-7">
+                        <nga-date-dow-dropdown
+                                #dowFrom
+                                (change)="setFromDow($event)"
+                        ></nga-date-dow-dropdown>
+                    </div>
+                    <div class="col-5">
+                        <p-inputMask id="from"
+                                     [style]="{'width':'65px'}"
+                                     [(ngModel)]="timeFrom"
+                                     mask="99:99"
+                                     placeholder="{{ 'Time' | translate }}"
+                        ></p-inputMask>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="ui-g-12">
+            <div class="ui-g-3">
+                <label for="to" translate>To</label>
+            </div>
+            <div class="ui-g-9">
+                <div class="row">
+                    <div class="col-7">
+                        <nga-date-dow-dropdown
+                            #dowTo
+                            (change)="setToDow($event)"
+                        ></nga-date-dow-dropdown>
+                    </div>
+                    <div class="col-5">
+                        <p-inputMask
+                                id="to"
+                                [style]="{'width':'65px'}"
+                                [(ngModel)]="timeTo"
+                                mask="99:99"
+                                placeholder="{{ 'Time' | translate }}"></p-inputMask>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <p-footer>
+        <div class="ui-dialog-buttonpane ui-helper-clearfix">
+            <button type="button" *ngIf="datePeriod && datePeriod.id" pButton icon="fa fa-close" (click)="delete()" label="{{ 'Delete' | translate }}"></button>
+            <button type="button" pButton icon="fa fa-check" (click)="save()" label="{{ 'Save' | translate }}"></button>
+        </div>
+    </p-footer>
+</p-dialog>

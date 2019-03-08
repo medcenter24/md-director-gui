@@ -13,6 +13,7 @@
 
   @mixin sidebar-collapsed() {
     .al-sidebar {
+      overflow: auto;
       width: 52px;
 
       .fa-angle-down, .fa-angle-up {
@@ -55,6 +56,7 @@
 
   @mixin sidebar-overlap() {
     .al-sidebar {
+      overflow: auto;
       width: $sidebar-width;
       @include bg-translucent-dark(0.75);
       transition: width 0.5s ease;

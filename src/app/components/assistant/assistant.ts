@@ -9,9 +9,7 @@ export class Assistant {
         public id: number = 0,
         public title: string = '',
         public email: string = '',
-        public comment: string = '',
-        public ref_key: string = '',
-        public picture: string = '',
-        public media_id: number = 0
+        public commentary: string = '',
+        public refKey: string = '',
     ) {}
 }

@@ -7,10 +7,10 @@
 export class Doctor {
     constructor(
         public id: number = 0,
-        public user_id: number = 0,
+        public userId: number = 0,
         public name: string = '',
         public description: string = '',
-        public ref_key: string = '',
+        public refKey: string = '',
         public medicalBoardNumber: string = '',
     ) { }
 }
