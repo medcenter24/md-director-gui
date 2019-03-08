@@ -4,4 +4,5 @@
  * @author Alexander Zagovorichev <zagovorichev@gmail.com>
  */
 
-export * from './editor.component';
+export * from './diagnostic.category.editor.module';
+export * from './diagnostic.category.editor.component';

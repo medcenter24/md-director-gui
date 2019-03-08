@@ -1,4 +1,6 @@
-export const PAGES_MENU = [
+import { isDevMode } from '@angular/core';
+
+const menu = [
   {
     path: 'pages',
     children: [
@@ -7,7 +9,7 @@ export const PAGES_MENU = [
         data: {
           menu: {
             title: 'Dashboard',
-            icon: 'ion-android-home',
+            icon: 'fa fa-home',
             selected: false,
             expanded: false,
             order: 0,
@@ -25,6 +27,30 @@ export const PAGES_MENU = [
             order: 1,
           },
         },
+      },
+      {
+        path: 'finance',
+        data: {
+          menu: {
+            title: 'Finance',
+            icon: 'fa fa-dollar',
+          },
+        },
+        children: [{
+          path: 'conditions',
+          data: {
+            menu: {
+              title: 'Conditions',
+            },
+          },
+        }, {
+          path: 'currencies',
+          data: {
+            menu: {
+              title: 'Currencies',
+            },
+          },
+        }],
       },
       {
         path: 'companions',
@@ -51,43 +77,35 @@ export const PAGES_MENU = [
         }],
       },
       {
-        path: 'accidents',
+        path: 'settings',
         data: {
           menu: {
-            title: 'Accidents',
+            title: 'Settings',
             icon: 'fa fa-info-circle',
           },
         },
         children: [
           {
+            path: 'periods',
+            data: {
+              menu: {
+                title: 'Date Periods',
+              },
+            },
+          },
+          {
+            path: 'forms',
+            data: {
+              menu: {
+                title: 'Templates',
+              },
+            },
+          },
+          {
             path: 'checkpoints',
             data: {
               menu: {
                 title: 'Checkpoints',
-              },
-            },
-          },
-          {
-            path: 'statuses',
-            data: {
-              menu: {
-                title: 'Statuses',
-              },
-            },
-          },
-          {
-            path: 'types',
-            data: {
-              menu: {
-                title: 'Types',
-              },
-            },
-          },
-          {
-            path: 'discounts',
-            data: {
-              menu: {
-                title: 'Discounts',
               },
             },
           },
@@ -98,7 +116,7 @@ export const PAGES_MENU = [
         data: {
           menu: {
             title: 'Geo',
-            icon: 'ion-android-pin',
+            icon: 'fa fa-map-marker',
           },
         },
         children: [
@@ -178,12 +196,34 @@ export const PAGES_MENU = [
           menu: {
             title: 'Doctor',
             url: 'https://doctor.myDoctors24.com',
-            icon: 'ion-android-exit',
+            icon: 'fa fa-sign-in',
             order: 800,
             target: '_blank',
           },
         },
       },
+      {
+        path: 'development',
+        data: {
+          menu: {
+            title: 'Development',
+            icon: 'fa fa-wrench',
+          },
+        },
+        children: [{
+          path: 'gui',
+          data: {
+            menu: {
+              title: 'GUI',
+            },
+          },
+        }],
+      },
     ],
   },
 ];
+
+if (!isDevMode()) {
+   menu[0].children.filter(v => v.path !== 'development');
+}
+export const PAGES_MENU = menu;

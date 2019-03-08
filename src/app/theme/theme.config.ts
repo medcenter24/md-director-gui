@@ -9,9 +9,9 @@ export class BaThemeConfig {
   }
 
   config () {
-    this._baConfig.changeTheme({name: 'mint'});
+    this._baConfig.changeTheme({ name: 'mint' });
 
-    let colorScheme = {
+    const colorScheme = {
       primary: '#209e91',
       info: '#2dacd1',
       success: '#90b900',

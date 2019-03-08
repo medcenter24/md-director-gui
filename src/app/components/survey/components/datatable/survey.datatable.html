@@ -1,0 +1,53 @@
+<!--
+  ~ Copyright (c) 2018.
+  ~
+  ~ @author Zagovorychev Oleksandr <zagovorichev@gmail.com>
+  -->
+
+<nga-datatable
+  #datatable
+  *ngIf="langLoaded"
+  [config]="datatableConfig"
+></nga-datatable>
+
+<p-dialog
+  header="{{ 'Service Details' | translate }}"
+  [(visible)]="displayDialog"
+  [responsive]="true"
+  showEffect="fade"
+  [modal]="true"
+  [width]="400">
+
+  <div class="ui-g ui-fluid" *ngIf="model">
+    <div class="ui-g-12">
+      <div class="ui-g-3">
+        <label translate>Title</label>
+      </div>
+      <div class="ui-g-9">
+        <input
+          pInputText
+          [(ngModel)]="model.title"
+          autocomplete="off"
+        />
+      </div>
+    </div>
+    <div class="ui-g-12">
+      <div class="ui-g-3">
+        <label translate>Description</label>
+      </div>
+      <div class="ui-g-9">
+        <input
+          pInputText
+          [(ngModel)]="model.description"
+          autocomplete="off"
+        />
+      </div>
+    </div>
+  </div>
+  <p-footer>
+    <div class="ui-dialog-buttonpane ui-helper-clearfix">
+      <button type="button" *ngIf="model && model.id" pButton icon="fa fa-close" (click)="confirmDelete()" label="{{ 'Delete' | translate }}"></button>
+      <button type="button" pButton icon="fa fa-check" (click)="save()" label="{{ 'Save' | translate }}"></button>
+    </div>
+  </p-footer>
+</p-dialog>

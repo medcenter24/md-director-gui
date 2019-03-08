@@ -5,9 +5,9 @@
  */
 
 import { Injectable } from '@angular/core';
-import { HttpService } from '../http/http.service';
+import { HttpService } from '../core/http/http.service';
 import { saveAs } from 'file-saver';
-import { RequestOptions, ResponseContentType } from '@angular/http';
+
 @Injectable()
 export class ExporterService extends HttpService {
 
@@ -15,11 +15,13 @@ export class ExporterService extends HttpService {
     return 'director/export';
   }
 
-  public form1(params: Object): void {
-    const options = new RequestOptions({ responseType: ResponseContentType.Blob, headers: this.getAuthHeaders() });
+  exportCases(params: Object): void {
+    const dt = new Date();
     this.http
-      .post(this.getUrl('form1'), JSON.stringify(params), options)
-      .map(res => res.blob())
-      .subscribe(data => saveAs(data, 'Form1CasesExport.xlsx'), err => this.handleError(err));
+      .post(this.getUrl('form1'), JSON.stringify(params), {
+        headers: this.getAuthHeaders(),
+        responseType: 'blob',
+      })
+      .subscribe(data => saveAs(data, `Form1CasesExport_${dt.valueOf()}.xlsx`), err => this.handleError(err));
   }
 }
