@@ -1,0 +1,31 @@
+<nga-datatable
+  *ngIf="langLoaded"
+  #datatable
+  [config]="datatableConfig"
+></nga-datatable>
+
+<p-dialog
+  header="{{ 'City' | translate }}"
+  [(visible)]="displayDialog"
+  [responsive]="true"
+  showEffect="fade"
+  [modal]="true"
+  [width]="500">
+
+  <div class="ui-g ui-fluid" *ngIf="city">
+    <div class="ui-g-12">
+      <div class="ui-g-3">
+        <label for="title" translate>Title</label>
+      </div>
+      <div class="ui-g-9">
+        <input pInputText id="title" [(ngModel)]="city.title" />
+      </div>
+    </div>
+  </div>
+  <p-footer>
+    <div class="ui-dialog-buttonpane ui-helper-clearfix">
+      <button type="button" *ngIf="city && city.id" pButton icon="fa fa-close" (click)="delete()" label="{{ 'Delete' | translate }}"></button>
+      <button type="button" pButton icon="fa fa-check" (click)="save()" label="{{ 'Save' | translate }}"></button>
+    </div>
+  </p-footer>
+</p-dialog>

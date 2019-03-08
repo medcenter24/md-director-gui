@@ -1,0 +1,46 @@
+/*
+ * Copyright (c) 2018
+ *
+ *  @author Oleksandr  Zagovorychev <zagovorichev@gmail.com>
+ */
+
+import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { ButtonModule, InputTextModule, KeyFilterModule } from 'primeng/primeng';
+import { AppTranslationModule } from '../../../../app.translation.module';
+import { FormService } from '../../../forms';
+import { AutocompleterModule } from '../../../ui/selector/components/autocompleter';
+import { UiStatusSelectModule } from '../../../ui/status/select';
+import { DownloadFileModule } from '../../../upload/components/download';
+import { UploadFileModule } from '../../../upload/components/file';
+import { InvoiceService } from '../../invoice.service';
+import { InvoiceEditorComponent } from './invoice.editor.component';
+
+@NgModule({
+  imports: [
+    CommonModule,
+    FormsModule,
+    AppTranslationModule,
+    InputTextModule,
+    AutocompleterModule,
+    UploadFileModule,
+    DownloadFileModule,
+    ButtonModule,
+    UiStatusSelectModule,
+    KeyFilterModule,
+  ],
+  declarations: [
+    InvoiceEditorComponent,
+  ],
+  exports: [
+    InvoiceEditorComponent,
+  ],
+  providers: [
+    FormService,
+    InvoiceService,
+  ],
+})
+export class InvoiceEditorModule {
+
+}

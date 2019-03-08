@@ -1,0 +1,32 @@
+<div class="row">
+  <div class="col-12">
+    <nga-payment-block></nga-payment-block>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-4">
+    <nga-payment-block
+      title="Green block"
+      [theme]="'success'"
+      [priceAmount]="0.999"
+      [currency]="infoCurrency"
+      formula="AssistantPayment (1) - CaseableCost (0.001)"
+    ></nga-payment-block>
+  </div>
+  <div class="col-4">
+    <nga-payment-block
+            title="Info block"
+            [theme]="'info'"
+            [priceAmount]="578"
+            [currency]="infoCurrency"
+    ></nga-payment-block>
+  </div>
+  <div class="col-4">
+    <nga-payment-block
+            title="Default block"
+            [priceAmount]="7"
+            [currency]="defaultCurrency"
+    ></nga-payment-block>
+  </div>
+</div>

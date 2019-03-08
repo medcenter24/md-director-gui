@@ -29,19 +29,19 @@ $hover: 24;
   &.disabled.focus, &[disabled].focus, fieldset[disabled] &.focus, &.disabled:active,
   &[disabled]:active, fieldset[disabled] &:active, &.disabled.active, &[disabled].active,
   fieldset[disabled] &.active {
-    @include styleButton($color, $borderColor + $hover/2);
+    @include styleButton($color, darken($borderColor, $hover/2));
     &:hover {
       transform: none;
     }
   }
 
   &:hover, &:focus, &.focus, &:active, &.active {
-    @include styleButton($color, $borderColor - $hover);
+    @include styleButton($color, lighten($borderColor, $hover));
   }
 }
 
 @mixin openDropdownButton($color, $dark-color) {
-  @include styleButton($color, $color - $hover);
+  @include styleButton($color, lighten($color, $hover));
   background-color: $dark-color;
   border-color: $dark-color;
 }
@@ -131,9 +131,9 @@ button.btn.btn-inverse {
 }
 
 @mixin buttonGroupColor($color) {
-  border-color: $color - $hover/2;
+  border-color: lighten($color, $hover/2);
   &:hover {
-    border-color: $color - $hover;
+    border-color: lighten($color, $hover);
   }
 }
 
