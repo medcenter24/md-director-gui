@@ -1,7 +1,7 @@
-<nav *ngIf="steps">
-    <ol class="cd-multi-steps text-center custom-icons">
+<nav *ngIf="steps" class="scenario">
+    <ol class="cd-multi-steps text-center">
         <!-- possible statuses: visited <a>, current <em>, '' <>-->
-        <li *ngFor="let step of steps" [ngClass]="step.status">
+        <li *ngFor="let step of steps" class="status-{{ step.status }} type-{{ step.title }}">
             <em>{{ step.title | translate }}</em>
         </li>
     </ol>

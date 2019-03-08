@@ -4,6 +4,8 @@
  *  @author Alexander Zagovorichev <zagovorichev@gmail.com>
  */
 
+// todo I don't need it (think so)
+
 export class Pagination {
   constructor (
       public show: boolean = false,

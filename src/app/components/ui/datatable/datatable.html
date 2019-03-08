@@ -1,0 +1,95 @@
+<p-table
+  #datatable
+  [columns]="config.cols"
+  [value]="data"
+  [lazy]="config.lazy"
+  (onLazyLoad)="loadLazy($event)"
+  [paginator]="config.paginator"
+  [rows]="config.rows"
+  [totalRecords]="total"
+  [loading]="loading"
+  (onRowSelect)="onRowSelect($event)"
+  [selectionMode]="config.selectionMode"
+  [(selection)]="selectedData"
+  [sortMode]="config.sort && config.sortMode"
+>
+  <ng-template pTemplate="caption" *ngIf="config.captionPanel">
+    <div class="ui-helper-clearfix">
+      <button
+        *ngIf="config.csvExportAll"
+        class="mr-1"
+        type="button" pButton
+        icon="fa fa-file-o" iconPos="left"
+        [label]="config.csvExportAllTitle"
+        (click)="datatable.exportCSV()"
+        class="pull-left"></button>
+
+      <button
+        *ngIf="config.csvExportSelections"
+        type="button"
+        pButton icon="fa fa-file"
+        iconPos="left"
+        [label]="config.csvExportSelectionsTitle"
+        (click)="datatable.exportCSV({selectionOnly:true})"
+        class="pull-left"
+      ></button>
+
+      <div
+        *ngIf="config.captionPanelActions && config.captionPanelActions.length"
+        class="pull-left"
+      >
+        <i
+          *ngIf="config.csvExportAll || config.csvExportSelections"
+          class="fa fa-bars pull-left pr-2 pl-2"
+        ></i>
+        <button
+          *ngFor="let action of config.captionPanelActions"
+          pButton
+          [icon]="action.icon"
+          (click)="action.run()"
+          [label]="action.title"
+          class="pull-left mr-1"
+        ></button>
+      </div>
+    </div>
+  </ng-template>
+  <ng-template pTemplate="header" let-columns>
+    <tr>
+      <th
+        *ngFor="let col of columns"
+        [pSortableColumn]="col.field"
+      >
+        {{col.header}}
+        <p-sortIcon
+          *ngIf="isSortable(col.field)"
+          [field]="col.field"></p-sortIcon>
+      </th>
+    </tr>
+    <tr
+      *ngIf="config.filters && config.filterActions.length"
+    >
+      <th
+        *ngFor="let col of columns"
+      >filter for {{col.header}}</th>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="body" let-rowData let-columns="columns">
+    <tr [pSelectableRow]="rowData">
+      <td *ngFor="let col of columns" [innerHTML]="showData(rowData, col)"></td>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="summary" let-rowData *ngIf="config.controlPanel">
+    <div class="text-left">
+      <button type="button"
+              class="mr-1"
+              *ngFor="let action of config.controlPanelActions"
+              pButton
+              [icon]="action.icon"
+              (click)="action.run()"
+              [label]="action.title"></button>
+    </div>
+    <div class="text-center"
+         *ngIf="config.showTotal"
+         translate [translateParams]="{value: total}">There are ? records</div>
+  </ng-template>
+</p-table>

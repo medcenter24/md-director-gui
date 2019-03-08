@@ -1,0 +1,92 @@
+<!--
+  ~ Copyright (c) 2017.
+  ~
+  ~ @author Alexander Zagovorichev <zagovorichev@gmail.com>
+  -->
+
+<ba-card baCardClass="with-scroll" class="edit-form-container">
+    <div class="row">
+        <div class="col-sm-6">
+            <nga-user-select
+                    [userId]="user.id"
+                    (selected)="onUserChanged($event)"
+                    (init)="startLoader($event)"
+                    (loaded)="stopLoader($event)"
+            ></nga-user-select>
+        </div>
+        <div class="col-sm-6 text-center">
+          <button pButton (click)="onUserCreated()" icon="fa fa-plus" [label]="'Add New' | translate"></button>
+        </div>
+    </div>
+    <form (ngSubmit)="onSubmit()" #diagnosticForm="ngForm" class="edit-form" autocomplete="off">
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="form-group{{ userName.valid || userName.pristine ? '' : ' has-error'}}">
+                    <label *ngIf="!userName.valid && !userName.pristine" class="label label-error">Name is required</label>
+                    <label *ngIf="userName.valid || userName.pristine" class="label" translate>Name</label>
+
+                    <input type="text"
+                           required
+                           class="form-control"
+                           name="name"
+                           [(ngModel)]="user.name"
+                           #userName="ngModel"
+                           placeholder="{{ 'User Name' | translate }}"
+                           maxlength="70"
+                    >
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="form-group{{ phone.valid || phone.pristine ? '' : ' has-error'}}">
+                    <label *ngIf="phone.valid || phone.pristine" class="label" translate>Phone</label>
+                    <label *ngIf="!phone.valid && !phone.pristine" class="label label-error" translate>Phone is required</label>
+                    <input type="text"
+                           required
+                           name="phone"
+                           class="form-control"
+                           [(ngModel)]="user.phone"
+                           #phone="ngModel"
+                           placeholder="{{ 'Users Phone' | translate }}"
+                           maxlength="70"
+                    >
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="form-group{{ email.valid || email.pristine ? '' : ' has-error'}}">
+                    <label *ngIf="email.valid || email.pristine" class="label" translate>Email</label>
+                    <label *ngIf="!email.valid && !email.pristine" class="label label-error" translate>Email is required</label>
+                    <input type="text"
+                           required
+                           name="email"
+                           [(ngModel)]="user.email"
+                           #email="ngModel"
+                           placeholder="{{ 'Email' | translate }}"
+                           maxlength="200"
+                           class="form-control"
+                           autocomplete="off"
+                    >
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="form-group{{ password.valid || password.pristine ? '' : ' has-error'}}">
+                    <label *ngIf="password.valid || password.pristine" class="label" translate>Password</label>
+                    <label *ngIf="!password.valid && !password.pristine" class="label label-error" translate>Password is required</label>
+                    <input type="password"
+                           name="password"
+                           [(ngModel)]="user.password"
+                           #password="ngModel"
+                           placeholder="{{ 'Password' | translate }}"
+                           maxlength="50"
+                           class="form-control"
+                           autocomplete="new-password"
+                           [required]="user.id"
+                    >
+                </div>
+            </div>
+        </div>
+        <button pButton *ngIf="user.id" type="submit" [label]="'Save' | translate"></button>
+        <button pButton *ngIf="!user.id" type="submit" [label]="'Create' | translate "></button>
+    </form>
+</ba-card>

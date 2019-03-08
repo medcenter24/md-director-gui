@@ -1,0 +1,30 @@
+<!--
+  ~ Copyright (c) 2018
+  ~
+  ~  @author Oleksander  Zagovorychev <zagovorichev@gmail.com>
+  -->
+
+<ba-card baCardClass="with-scroll">
+
+  <div class="row mb-3">
+    <div class="col-12">
+      <a routerLink="/pages/development/gui" translate class="mb-3">Back</a>
+    </div>
+  </div>
+
+  <h4>File Uploader</h4>
+  <div class="row">
+    <div class="col-3">
+      <nga-file-upload
+      (changed)="fileUploaded($event)"
+      ></nga-file-upload>
+    </div>
+    <div class="col-3">
+      <nga-file-download [file]="file"></nga-file-download>
+    </div>
+    <div class="col-6" *ngIf="file">
+      Uploaded: {{ file.id }} => {{ file.name }}
+    </div>
+  </div>
+
+</ba-card>
