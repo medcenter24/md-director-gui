@@ -12,8 +12,8 @@ export class User {
         public phone: string = '',
         public password: string = '', /* just for send and update not for get */
         public lang: string = '',
-        public thumb_200: string = '',
-        public thumb_45: string = '',
+        public thumb200: string = '',
+        public thumb45: string = '',
         public timezone: string = '',
     ) {}
 }

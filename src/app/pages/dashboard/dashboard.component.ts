@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { TrafficChartData } from '../../components/statistics/trafficChart/trafficChart.data';
-import { LoadingComponent } from '../../components/core/components/componentLoader/LoadingComponent';
+import { LoadingComponent } from '../../components/core/components/componentLoader';
 import { StatisticsService } from '../../components/statistics/statistics.service';
 import { Logger } from 'angular2-logger/core';
 import { SlimLoadingBarService } from 'ng2-slim-loading-bar';
@@ -17,6 +17,12 @@ export class DashboardComponent extends LoadingComponent implements OnInit {
 
   doctorActivities: TrafficChartData[] = [];
   assistantActivities: TrafficChartData[] = [];
+  /**
+   * if we need to hide all dashboard items
+   * for example on the first loading
+   * @type {boolean}
+   */
+  hidden: boolean = true;
 
   constructor(
     private _statService: StatisticsService,
@@ -30,6 +36,10 @@ export class DashboardComponent extends LoadingComponent implements OnInit {
   ngOnInit(): void {
     this.loadDoctorsTraffic();
     this.loadAssistantTraffic();
+  }
+
+  protected onComponentsLoadingCompleted(): void {
+    this.hidden = false;
   }
 
   private loadDoctorsTraffic(): void {

@@ -1,12 +1,12 @@
 /*
- * Copyright (c) 2017. 
+ * Copyright (c) 2017.
  *
  * @author Alexander Zagovorichev <zagovorichev@gmail.com>
  */
 
-import {Injectable} from '@angular/core';
-import {AccidentCheckpoint} from "./checkpoint";
-import {HttpService} from "../../../http/http.service";
+import { Injectable } from '@angular/core';
+import { AccidentCheckpoint } from './checkpoint';
+import { HttpService } from '../../../core/http/http.service';
 
 @Injectable()
 export class AccidentCheckpointsService extends HttpService {
@@ -17,24 +17,15 @@ export class AccidentCheckpointsService extends HttpService {
 
   getCheckpoints(): Promise<AccidentCheckpoint[]> {
     return this.get()
-      .then(response => response.json().data as AccidentCheckpoint[]);
+      .then(response => response.data as AccidentCheckpoint[]);
   }
 
-
-  getCheckpoint(id: number): Promise<AccidentCheckpoint> {
-    return this.get(id)
-      .then(response => response.json().data as AccidentCheckpoint);
+  save (checkpoint: AccidentCheckpoint): Promise<AccidentCheckpoint> {
+    const action = checkpoint.id ? this.put(checkpoint.id, checkpoint) : this.store(checkpoint);
+    return action.then(response => response.data as AccidentCheckpoint);
   }
 
-  delete(id: number): Promise<void> {
-    return this.remove(id);
-  }
-
-  create(checkpoint: AccidentCheckpoint): Promise<AccidentCheckpoint> {
-    return this.store(checkpoint).then(res => res.json().data as AccidentCheckpoint);
-  }
-
-  update(checkpoint: AccidentCheckpoint): Promise<AccidentCheckpoint> {
-    return this.put(checkpoint.id, checkpoint);
+  destroy (checkpoint: AccidentCheckpoint): Promise<any> {
+    return this.remove(checkpoint.id);
   }
 }

@@ -1,0 +1,40 @@
+<!--
+  ~ Copyright (c) 2018
+  ~
+  ~  https://getbootstrap.com/docs/4.1/components/card/
+  ~  @author Oleksander  Zagovorychev <zagovorichev@gmail.com>
+  -->
+<div class="card payment-block {{ currentTheme.border }}">
+  <div class="card-header" *ngIf="title">
+    {{ title }}
+    <span class="fa fa-refresh float-right {{ updating ? 'fa-spin' : '' }}" (click)="reloadDetails()" [title]="'Update' | translate"></span>
+    <span class="fa float-right pr-1 text-muted {{ hasChanges ? 'fa-save' : 'fa-circle' }}" (click)="save()" [title]="'Save' | translate"></span>
+  </div>
+  <div class="card-body {{ currentTheme.bodyText }}">
+    <h5 class="card-title">
+      <span class="text-dark pull-left mt-1 pr-1" [ngClass]="currency.ico" *ngIf="currency"></span>
+      <p-inplace closable="closable pull-left" [disabled]="!isFixedChanging">
+        <span pInplaceDisplay>
+          {{ changingPrice }}
+        </span>
+        <span pInplaceContent>
+          <input type="text" [(ngModel)]="changingPrice" (keyup)="onPriceChanged()" pKeyFilter="money" pInputText>
+        </span>
+      </p-inplace>
+      <span class="fa fa-calculator pull-right {{ formula ? 'text-dark' : 'text-muted' }}"
+            title="{{ 'Formula' | translate }}"
+            (click)="toggleFormula()"
+      ></span>
+    </h5>
+    <p class="card-text">
+      <p-toggleButton
+              onLabel="{{ 'Fixed amount' | translate }}"
+              offLabel="{{ 'Auto update' | translate }}"
+              onIcon="fa fa-check-square" offIcon="fa fa-square"
+              (onChange)="onAutoupdateChanged()"
+              [(ngModel)]="isFixedChanging"
+      ></p-toggleButton>
+    </p>
+  </div>
+  <div class="card-footer bg-transparent small" *ngIf="showFormula">{{ formula }}</div>
+</div>

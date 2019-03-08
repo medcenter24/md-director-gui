@@ -1,13 +1,12 @@
 /*
- * Copyright (c) 2017. 
+ * Copyright (c) 2017.
  *
  * @author Alexander Zagovorichev <zagovorichev@gmail.com>
  */
 
 import { Injectable } from '@angular/core';
 import { City } from './city';
-import { HttpService } from '../http/http.service';
-import 'rxjs/add/operator/toPromise';
+import { HttpService } from '../core/http/http.service';
 
 @Injectable()
 export class CitiesService extends HttpService {
@@ -15,13 +14,13 @@ export class CitiesService extends HttpService {
   protected getPrefix(): string {
     return 'director/cities';
   }
-  
+
   getCities(): Promise<City[]> {
-    return this.get().then(response => response.json().data as City[]);
+    return this.get().then(response => response.data as City[]);
   }
 
   getCity (id: number): Promise<City> {
-    return this.get(id).then(response => response.json().data as City);
+    return this.get(id).then(response => response.data as City);
   }
 
   delete (id: number): Promise<void> {
@@ -34,5 +33,14 @@ export class CitiesService extends HttpService {
 
   update (city: City): Promise<City> {
     return this.put(city.id, city);
+  }
+
+  save (city: City): Promise<City> {
+    const action = city.id ? this.put(city.id, city) : this.store(city);
+    return action.then(response => response.data as City);
+  }
+
+  destroy (city: City): Promise<any> {
+    return this.remove(city.id);
   }
 }

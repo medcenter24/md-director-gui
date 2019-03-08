@@ -1,0 +1,39 @@
+<!--
+  ~ Copyright (c) 2017.
+  ~
+  ~ @author Alexander Zagovorichev <zagovorichev@gmail.com>
+  -->
+
+<ba-card *ngIf="category" baCardClass="with-scroll" class="edit-form-container">
+    <div class="row">
+        <div class="col-sm-6">
+            <nga-diagnostic-category-select
+                    [selectPreloaded]="category"
+                    (selected)="onCategoryChange($event)"
+                    (loaded)="stopLoader($event)"
+                    (init)="startLoader($event)"
+            ></nga-diagnostic-category-select>
+        </div>
+        <div class="col-sm-6 text-center">
+          <button pButton (click)="onCreateCategory()" icon="fa fa-plus" [label]="'Add New' | translate"></button>
+        </div>
+    </div>
+    <form (ngSubmit)="onSubmit()" #diagnosticForm="ngForm" class="edit-form">
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="form-group{{ title.valid || title.pristine ? '' : ' has-error'}}">
+                    <label *ngIf="title.valid || title.pristine" for="inputTitle" class="label" translate>Title</label>
+                    <label *ngIf="!title.valid && !title.pristine" for="inputTitle" class="label label-error" translate>Title is required</label>
+                    <input type="text" class="form-control" id="inputTitle"
+                           required
+                           [(ngModel)]="category.title" name="title"
+                           #title="ngModel"
+                           placeholder="{{ 'Category Title' | translate }}" maxlength="70"
+                    >
+                </div>
+            </div>
+        </div>
+        <button type="submit" class="btn btn-primary" *ngIf="category.id" translate>Submit</button>
+        <button type="submit" class="btn btn-primary" *ngIf="!category.id" translate>Create</button>
+    </form>
+</ba-card>
