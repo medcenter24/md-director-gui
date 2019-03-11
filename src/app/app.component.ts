@@ -4,15 +4,15 @@
  *  @author Alexander Zagovorichev <zagovorichev@gmail.com>
  */
 
-import { AfterViewInit, Component, ViewContainerRef } from '@angular/core';
-import * as $ from 'jquery';
+import { AfterViewInit, ChangeDetectorRef, Component, ViewContainerRef } from '@angular/core';
 import { GlobalState } from './global.state';
 import { BaImageLoaderService, BaThemePreloader, BaThemeSpinner } from './theme/services';
-import { BaThemeConfig } from './theme/theme.config';
-import { layoutPaths } from './theme/theme.constants';
-import { Confirmation, ConfirmationService, Message } from 'primeng/primeng';
+import { BaThemeConfig } from './theme';
+import { ConfirmationService, Message } from 'primeng/primeng';
 import { ApiErrorService } from './components/ui/apiError.service';
 import { LocalStorageHelper } from './helpers/local.storage.helper';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { NavigationStart, Router } from '@angular/router';
 
 /*
  * App Component
@@ -39,24 +39,69 @@ export class AppComponent implements AfterViewInit {
               private confirmationService: ConfirmationService,
               private apiErrorService: ApiErrorService,
               private storage: LocalStorageHelper,
+              public http: HttpClient,
+              private router: Router,
+              protected cdRef: ChangeDetectorRef,
   ) {
 
-      themeConfig.config();
+    themeConfig.config();
 
-      this._loadImages();
+    this._loadImages();
 
-      this._state.subscribe('menu.isCollapsed', (isCollapsed) => {
-        this.isMenuCollapsed = isCollapsed;
-      });
+    this._state.subscribe('menu.isCollapsed', (isCollapsed) => {
+      this.isMenuCollapsed = isCollapsed;
+    });
 
-      this._state.subscribe('growl', (msgs: Message[]) => this.msgs = msgs);
-      this._state.subscribe('confirmDialog', (config) => this.confirmationService.confirm(config));
-      this._state.subscribe('blocker', (block: boolean) => this.blocked = block);
-      this._state.subscribe('apiError', (error) => {
-          this.apiErrorService.show(error);
-      });
-      this._state.subscribe('avatarB64', (b64: string) => {
-          this.storage.setItem('avatar', b64);
+    /**
+     * Messages on the top right
+     */
+    this._state.subscribe('growl', (msgs: Message[]) => this.msgs = msgs);
+
+    /**
+     * Dialogs to have opportunity to do it quickly
+     * message: string;
+     * key?: string;
+     * icon?: string;
+     * header?: string;
+     * accept?: Function;
+     * reject?: Function;
+     * acceptLabel?: string;
+     * rejectLabel?: string;
+     * acceptVisible?: boolean;
+     * rejectVisible?: boolean;
+     * acceptEvent?: EventEmitter<any>;
+     * rejectEvent?: EventEmitter<any>;
+     */
+    this._state.subscribe('confirmDialog', config => this.confirmationService.confirm(config));
+
+    /**
+     * GUI Blocker (everything on the page)
+     */
+    this._state.subscribe('blocker', (block: boolean) => {
+      this.blocked = block;
+      this.cdRef.detectChanges();
+    });
+    this._state.subscribe('apiError', (errors: HttpErrorResponse) => {
+      this.apiErrorService.show(errors);
+    });
+    this._state.subscribe('avatarB64', (b64: string) => {
+      this.storage.setItem('avatar', b64);
+    });
+    this._state.subscribe('changeUri', (uri: string) => {
+      this.storage.setItem('lastActiveUri', uri);
+    });
+    this._state.subscribe('token', (token) => {
+      // token has been changed
+    });
+
+    // blocker should be turned off on the route change (to not block content)
+    this.router.events
+      .subscribe(event => {
+        // https://angular.io/guide/router#router-events
+        if (event instanceof NavigationStart) {
+          this._state.notifyDataChanged('blocker', false);
+        }
+        // NavigationCancel
       });
   }
 

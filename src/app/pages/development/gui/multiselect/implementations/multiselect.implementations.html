@@ -1,0 +1,209 @@
+<ba-card baCardClass="with-scroll">
+  <div class="row mb-3">
+    <div class="col-12">
+      <a routerLink="/pages/development/gui" translate class="mb-3">Back to list</a> &#183;
+      <a routerLink="/pages/development/gui/multiselect" translate class="mb-3">Back</a>
+    </div>
+  </div>
+
+  <div class="row mb-3">
+    <div class="col-12">
+      To use it we need module <b>MultiSelectorModule</b>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-12">
+      <h3 translate>Cities</h3>
+      <div class="row">
+        <div class="col-4">
+          <nga-multi-selector
+            [service]="cityService"
+            placeholder="Cities"
+            labelField="title"
+            (init)="startLoader($event)"
+            (loaded)="stopLoader($event)"
+            (selected)="cities = $event"
+          ></nga-multi-selector>
+
+          <p>{{ 'Selected' | translate }}: <span *ngFor="let city of cities">{{ city.title }}; </span></p>
+        </div>
+        <div class="col-md-6">
+          <div class="bg-info text-muted">
+            <pre>
+              <code>
+                &lt;nga-multi-selector
+                  [service]="cityService"
+                  placeholder="Cities"
+                  labelField="title"
+                  (init)="startLoader($event)"
+                  (loaded)="stopLoader($event)"
+                  (selected)="cities = $event"
+                >&lt;/nga-multi-selector>
+              </code>
+            </pre>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-12">
+      <h3>Preloaded Cities By Array of Objects</h3>
+      <div class="row">
+        <div class="col-4">
+          <nga-multi-selector
+            [service]="cityService"
+            placeholder="Cities"
+            labelField="title"
+            (init)="startLoader($event)"
+            (loaded)="stopLoader($event)"
+            (selected)="cities0 = $event"
+            [preloadedData]="[{ id: 2, title: 'city2' }]"
+          ></nga-multi-selector>
+          <p>{{ 'Selected' | translate }}: <span *ngFor="let city of cities0">{{ city.title }}; </span></p>
+        </div>
+        <div class="col-md-6">
+          <div class="bg-info text-muted">
+            <pre>
+              <code>
+                &lt;nga-multi-selector
+                  [service]="cityService"
+                  placeholder="Cities"
+                  labelField="title"
+                  (init)="startLoader($event)"
+                  (loaded)="stopLoader($event)"
+                  (selected)="cities = $event"
+                  [preloadedData]="[{{ '{' }} id: 2, title: 'city2' }]"
+                >&lt;/nga-multi-selector>
+              </code>
+            </pre>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-12">
+      <h3>Preloaded Cities By Array of Objects (Many)</h3>
+      <div class="row">
+        <div class="col-4">
+          <nga-multi-selector
+            [service]="cityService"
+            placeholder="Cities"
+            labelField="title"
+            (init)="startLoader($event)"
+            (loaded)="stopLoader($event)"
+            (selected)="cities1 = $event"
+            [preloadedData]="[{
+      id: 1,
+      title: 'city1'
+    }, {
+      id: 2,
+      title: 'city2'
+    }, {
+      id: 3,
+      title: 'city3'
+    }]"
+          ></nga-multi-selector>
+          <p>{{ 'Selected' | translate }}: <span *ngFor="let city of cities1">{{ city.title }}; </span></p>
+        </div>
+        <div class="col-md-6">
+          <div class="bg-info text-muted">
+            <pre>
+              <code>
+                &lt;nga-multi-selector
+                  [service]="cityService"
+                  placeholder="Cities"
+                  labelField="title"
+                  (init)="startLoader($event)"
+                  (loaded)="stopLoader($event)"
+                  (selected)="cities = $event"
+                  [preloadedData]="array is here"
+                >&lt;/nga-multi-selector>
+              </code>
+            </pre>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-12">
+      <h3>Preloaded Cities By ID</h3>
+      <div class="row">
+        <div class="col-4">
+          <nga-multi-selector
+            [service]="cityService"
+            placeholder="Cities"
+            labelField="title"
+            (init)="startLoader($event)"
+            (loaded)="stopLoader($event)"
+            (selected)="cities2 = $event"
+            [preloadedData]="2"
+          ></nga-multi-selector>
+          <p>{{ 'Selected' | translate }}: <span *ngFor="let city of cities2">{{ city.title }}; </span></p>
+        </div>
+        <div class="col-md-6">
+          <div class="bg-info text-muted">
+            <pre>
+              <code>
+                &lt;nga-multi-selector
+                  [service]="cityService"
+                  placeholder="Cities"
+                  labelField="title"
+                  (init)="startLoader($event)"
+                  (loaded)="stopLoader($event)"
+                  (selected)="cities = $event"
+                  [preloadedData]="2"
+                >&lt;/nga-multi-selector>
+              </code>
+            </pre>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-12">
+      <h3>Preloaded Cities By the list of IDs</h3>
+      <div class="row">
+        <div class="col-4">
+          <nga-multi-selector
+            [service]="cityService"
+            placeholder="Cities"
+            labelField="title"
+            (init)="startLoader($event)"
+            (loaded)="stopLoader($event)"
+            (selected)="cities3 = $event"
+            [preloadedData]="[1,2,3]"
+          ></nga-multi-selector>
+          <p>{{ 'Selected' | translate }}: <span *ngFor="let city of cities3">{{ city.title }}; </span></p>
+        </div>
+        <div class="col-md-6">
+          <div class="bg-info text-muted">
+            <pre>
+              <code>
+                &lt;nga-multi-selector
+                  [service]="cityService"
+                  placeholder="Cities"
+                  labelField="title"
+                  (init)="startLoader($event)"
+                  (loaded)="stopLoader($event)"
+                  (selected)="cities = $event"
+                  [preloadedData]="[1,2,3]"
+                >&lt;/nga-multi-selector>
+              </code>
+            </pre>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+</ba-card>

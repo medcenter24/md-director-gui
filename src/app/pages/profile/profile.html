@@ -90,14 +90,15 @@
                         </div>
                         <div class="col-8">
                             <label class="label separate" translate>Photo</label><br>
-                            <ba-picture-uploader
+                            <nga-picture-uploader
                                     [picture]="directorPhotoUri"
                                     [defaultPicture]="defaultPicture"
                                     [uploaderOptions]="uploaderOptions"
+                                    [eventToUpload]="eventToUpload"
                                     (onUpload)="startPhotoUpload($event)"
                                     (onUploadCompleted)="endPhotoUpload($event)"
                                     (onDelete)="deletePhoto()"
-                            ></ba-picture-uploader>
+                            ></nga-picture-uploader>
                         </div>
                     </div>
 

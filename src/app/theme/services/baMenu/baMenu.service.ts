@@ -17,21 +17,21 @@ export class BaMenuService {
    *
    * @param {Routes} routes Type compatible with app.menu.ts
    */
-  public updateMenuByRoutes(routes: Routes) {
+  updateMenuByRoutes(routes: Routes) {
     const convertedRoutes = this.convertRoutesToMenus(_.cloneDeep(routes));
     this.menuItems.next(convertedRoutes);
   }
 
-  public convertRoutesToMenus(routes: Routes): any[] {
+  convertRoutesToMenus(routes: Routes): any[] {
     const items = this._convertArrayToItems(routes);
     return this._skipEmpty(items);
   }
 
-  public getCurrentItem(): any {
+  getCurrentItem(): any {
     return this._currentMenuItem;
   }
 
-  public selectMenuItem(menuItems: any[]): any[] {
+  selectMenuItem(menuItems: any[]): any[] {
     const items = [];
     menuItems.forEach((item) => {
       this._selectItem(item);

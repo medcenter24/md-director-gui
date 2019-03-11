@@ -1,0 +1,16 @@
+<div class="row">
+    <div class="col-xs-12 col-md-4" *ngFor="let paymentViewer of paymentViewers">
+        <nga-payment-block
+            *ngIf="paymentViewer"
+            [loading]="paymentViewer.loading"
+            [title]="getTitle(paymentViewer.type) | translate"
+            [theme]="paymentViewer.type === 'income' ? 'success' : ''"
+            (reload)="onReload(paymentViewer.type)"
+            [priceAmount]="paymentViewer.payment && paymentViewer.payment.fixed ? paymentViewer.payment.value : paymentViewer.calculatedValue"
+            [currency]="paymentViewer.currency"
+            [isFixed]="paymentViewer.payment && paymentViewer.payment.fixed"
+            [formula]="paymentViewer.formula"
+            (update)="onUpdate(paymentViewer.type, $event)"
+        ></nga-payment-block>
+    </div>
+</div>

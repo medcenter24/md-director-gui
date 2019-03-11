@@ -4,4 +4,4 @@
  * @author Alexander Zagovorichev <zagovorichev@gmail.com>
  */
 
-export * from './companions.module';
+export * from './companions.page.module';

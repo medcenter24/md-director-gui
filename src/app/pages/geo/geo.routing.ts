@@ -5,11 +5,11 @@
  */
 
 import { Routes, RouterModule } from '@angular/router';
-import { ModuleWithProviders } from '@angular/core';
 
 import { GeoComponent } from './geo.component';
-import { CitiesComponent } from './components/cities/cities.component';
-import { HospitalsComponent } from './components/hospitals/hospitals.component';
+import { CityDatatableComponent } from '../../components/city/components/datatable/city.datatable.component';
+import { HospitalDatatableComponent }
+  from '../../components/hospital/components/datatable/hospital.datatable.component';
 
 // noinspection TypeScriptValidateTypes
 const routes: Routes = [
@@ -17,8 +17,8 @@ const routes: Routes = [
     path: '',
     component: GeoComponent,
     children: [
-      { path: 'cities', component: CitiesComponent },
-      { path: 'hospitals', component: HospitalsComponent },
+      { path: 'cities', component: CityDatatableComponent },
+      { path: 'hospitals', component: HospitalDatatableComponent },
     ],
   },
 ];
