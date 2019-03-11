@@ -18,51 +18,59 @@ import { GlobalState } from '../../../../global.state';
  */
 @Injectable()
 export abstract class LoadingComponent extends LoadableComponent {
+    protected abstract componentName;
 
-    protected _logger: Logger;
-    protected loadingBar: SlimLoadingBarService;
-    protected _state: GlobalState;
+    protected abstract _logger: Logger;
+    protected abstract loadingBar: SlimLoadingBarService;
+    protected abstract _state: GlobalState;
     protected onComponentsLoadingCompleted(): void { }
-
     private componentsList: string[] = [];
+    private loading: boolean = false;
 
-    startLoader(componentName: string = ''): void {
-        if (componentName.length) {
-            this._logger.debug(`+${componentName}`);
-        } else {
-            this._logger.warn(`+===========> Component Name is empty <============`);
-        }
+    startLoader(postfix: string = ''): void {
+        const name = `${this.componentName}${postfix}`;
+        this._logger.debug(`+ ${name}`);
+
+        this.loading = true;
 
         if (!this.componentsList.length) {
-            window.setTimeout(() => this._state.notifyDataChanged('blocker', true));
-            this.loadingBar.start();
-        }
-        if (this.componentsList.indexOf(componentName) !== -1) {
-            componentName = this.generateName(componentName);
+          // if I use here setTimeout it is an issue that startLoader works after the stop loader
+          this._state.notifyDataChanged('blocker', true);
+          this.loadingBar.start();
         }
 
-        this.componentsList.push(componentName);
+        if (this.componentsList.indexOf(name) !== -1) {
+            postfix = this.generateName(name);
+        }
+
+        this.componentsList.push(postfix);
     }
 
-    stopLoader(componentName: string = 'Not provided'): void {
-        this._logger.debug(`-${componentName}`);
+    stopLoader(postfix: string = ''): void {
+        const name = `${this.componentName}${postfix}`;
+        this._logger.debug(`- ${name}`);
 
-        if (!this.deleteName(componentName)) {
-            this._logger.error(`Loading is trying to stop component which has not been launched => ${componentName}`);
+        if (!this.deleteName(postfix)) {
+            this._logger.error(`Loading is trying to stop component which has not been launched => ${name}`);
         }
 
         if (this.componentsList.length === 0) {
+            this.loading = false;
             this._state.notifyDataChanged('blocker', false);
             this.loadingBar.complete();
             this.onComponentsLoadingCompleted();
         }
     }
 
+    isLoading(): boolean {
+        return this.loading;
+    }
+
     private deleteName(componentName: string): boolean {
         let deleted = false;
         const filtered = [];
         for (const name of this.componentsList) {
-            if (name.startsWith(componentName) && !deleted) {
+            if (name === componentName && !deleted) {
                 deleted = true;
             } else {
                 filtered.push(name);

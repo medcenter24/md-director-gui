@@ -5,8 +5,6 @@
  */
 
 import { NgModule } from '@angular/core';
-import { Http, HttpModule } from '@angular/http';
-
 import {
   TranslateModule, TranslateLoader,
   TranslateService, MissingTranslationHandler,
@@ -15,8 +13,9 @@ import {
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { Logger } from 'angular2-logger/core';
 import { GlobalState } from './global.state';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
 
-export function createTranslateLoader (http: Http) {
+export function createTranslateLoader (http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
 }
 
@@ -36,14 +35,14 @@ const translationOptions = {
   loader: {
     provide: TranslateLoader,
     useFactory: (createTranslateLoader),
-    deps: [Http],
+    deps: [HttpClient],
   },
 };
 
 @NgModule({
   imports: [
     TranslateModule.forRoot(translationOptions),
-    HttpModule,
+    HttpClientModule,
   ],
   exports: [TranslateModule],
   providers: [

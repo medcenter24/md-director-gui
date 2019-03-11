@@ -1,7 +1,7 @@
 /*
- * Copyright (c) 2018.
+ * Copyright (c) 2019.
  *
- * @author Zagovorychev Olexandr <zagovorichev@gmail.com>
+ *  @author Zagovorychev Oleksandr <zagovorichev@gmail.com>
  */
 
 import { Injectable } from '@angular/core';

@@ -13,11 +13,15 @@ import { AuthenticationService } from '../../../auth/authentication.service';
 import { DocumentsService } from '../../../document/documents.service';
 import { Document } from '../../../document/document';
 import { LoadableComponent } from '../../../core/components/componentLoader/LoadableComponent';
+
+
+// todo needs to be moved to documents
 @Component({
   selector: 'nga-file-uploader',
   templateUrl: './uploader.html',
 })
 export class FileUploaderComponent extends LoadableComponent implements OnInit {
+  protected componentName: string = 'FileUploaderComponent';
 
   @Input() documents: Document[] = [];
   @Input() url: string = '';
@@ -29,7 +33,6 @@ export class FileUploaderComponent extends LoadableComponent implements OnInit {
   private translateLoaded: string;
   private translateErrorLoad: string;
   private deleterCounter: number = 0;
-  protected componentName: string = 'FileUploaderComponent';
 
   constructor(
               private translate: TranslateService,
@@ -51,7 +54,7 @@ export class FileUploaderComponent extends LoadableComponent implements OnInit {
   handleBeforeUpload(event): void {
     this.msgs = [];
     this._state.notifyDataChanged('growl', this.msgs);
-    this.initComponent();
+    this.startLoader('Uploader');
   }
 
   handleBeforeSend(event): void {
@@ -67,9 +70,10 @@ export class FileUploaderComponent extends LoadableComponent implements OnInit {
     }
     this._state.notifyDataChanged('growl', this.msgs);
     this.changed.emit(this.documents);
-    this.loadedComponent();
+    this.stopLoader('Uploader');
   }
 
+  // used by the template uploader.html
   handleError(event): void {
       for (const file of event.files) {
           this.msgs.push({ severity: 'error', summary: this.translateErrorLoad, detail: file.name });
@@ -77,15 +81,7 @@ export class FileUploaderComponent extends LoadableComponent implements OnInit {
       this._state.notifyDataChanged('growl', this.msgs);
       this._logger.error(`Error: Upload to ${event.xhr.responseURL}
         [${event.xhr.status}: ${event.xhr.statusText}]`);
-      this.loadedComponent();
-  }
-
-  handleClear(event): void {
-    this.msgs = [];
-    this._state.notifyDataChanged('growl', []);
-    // this will clean all data
-    // this.documents = [];
-    // this.changed.emit(this.documents);
+      this.stopLoader('Uploader');
   }
 
   downloadFile(file): void {
@@ -106,17 +102,18 @@ export class FileUploaderComponent extends LoadableComponent implements OnInit {
     this.deleterCounter = files.length;
 
     if (this.deleterCounter) {
-      this.initComponent();
+      const postfix = 'Deleter';
+      this.startLoader(postfix);
       files.map(id => {
         this.documentsService.deleteDocument(id).then(() => {
           this.deleteFileFromGui(id);
           if (--this.deleterCounter <= 0) {
-            this.loadedComponent();
+            this.stopLoader(postfix);
           }
         }).catch(err => {
           this._logger.error(err);
           if (--this.deleterCounter <= 0) {
-            this.loadedComponent();
+            this.stopLoader(postfix);
           }
         });
       });

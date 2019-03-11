@@ -5,7 +5,7 @@
  */
 
 import { Injectable } from '@angular/core';
-import { HttpService } from '../../../http/http.service';
+import { HttpService } from '../../../core/http/http.service';
 import { AccidentScenario } from './scenario';
 
 @Injectable()
@@ -17,6 +17,6 @@ export class AccidentScenarioService extends HttpService {
 
   getDoctorScenario(): Promise<AccidentScenario[]> {
     return this.get(`doctor`)
-      .then(response => response.json().data as AccidentScenario[]);
+      .then(response => response.data as AccidentScenario[]);
   }
 }
