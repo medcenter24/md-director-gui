@@ -31,10 +31,9 @@
       <div class="form-group row">
         <div class="col-sm-12">
           <div *ngIf="showError" class="ui-messages ui-widget ui-corner-all ui-messages-error" style="display: block">
-            <!----><a class="ui-messages-close" href="#">
+            <!----><a class="ui-messages-close" (click)="showError = false">
             <i class="fa fa-close"></i>
           </a>
-            <span class="ui-messages-icon fa fa-fw fa-2x fa-close"></span>
             <ul>
               <!----><li>
               <span class="ui-messages-summary">{{ 'Authorisation Failed' | translate}}</span>
