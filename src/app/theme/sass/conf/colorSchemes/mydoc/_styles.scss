@@ -3,7 +3,7 @@
  *
  *  @author Alexander Zagovorichev <zagovorichev@gmail.com>
  */
-@import "variables";
+@import 'variables';
 
 a.al-sidebar-list-link i {
   font-size: $font-size-lg;
@@ -44,12 +44,6 @@ a.al-sidebar-list-link i {
 .ui-dialog .ui-fileupload .ui-fileupload-content {
   max-height: 400px;
   overflow: auto;
-}
-
-.ui-paginator {
-  padding-top: 10px !important;
-  border: none !important;
-  background: none;
 }
 
 .importer {
@@ -151,4 +145,39 @@ a.al-sidebar-list-link i {
 
 .label-error {
   color: $danger-dark;
+}
+
+input[pInputText] {
+  padding: 5px 10px;
+}
+
+.alert-variable {
+  padding: 0;
+  font-size: 0.7rem;
+  background-color: #eaf4f5;
+
+  .close {
+    float: initial;
+    padding: 0;
+    position: initial;
+    font-size: 1rem;
+  }
+}
+
+.circle-icon {
+  font-size: 1.4em;
+  width: 25px;
+  height: 25px;
+  padding-top: 3px;
+  padding-left: 5px;
+  border-radius: 50%;
+
+  &.doctor {
+    background: #cce5ff;
+    border-color: #b8daff;
+  }
+  &.hospital {
+    background: #d4edda;
+    border-color: #c3e6cb;
+  }
 }

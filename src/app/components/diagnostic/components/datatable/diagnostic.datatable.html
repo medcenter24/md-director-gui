@@ -1,0 +1,22 @@
+
+<div class="widgets">
+  <div class="row">
+    <div [class]="displayDialog ? 'col-sm-6' : 'col-sm-12'">
+      <nga-datatable
+        *ngIf="langLoaded"
+        #datatable
+        [config]="datatableConfig"
+      ></nga-datatable>
+    </div>
+    <div class="col-sm-6" *ngIf="displayDialog">
+      <nga-diagnostic-editor
+        #diagnosticEditor
+        [diagnostic]="model"
+        (close)="closeDiagnosticEditor()"
+        (init)="startLoader($event)"
+        (loaded)="stopLoader($event)"
+        (diagnosticSaved)="onDiagnosticChanged($event)"
+      ></nga-diagnostic-editor>
+    </div>
+  </div>
+</div>

@@ -1,21 +1,25 @@
 <div class="page-top clearfix" baScrollPosition maxHeight="50" (scrollChange)="scrolledChanged($event)"
      [ngClass]="{scrolled: isScrolled}">
-  <a routerLink="/pages/dashboard" class="al-logo clearfix" translate><img height="32"
+  <a routerLink="/pages/dashboard" class="al-logo clearfix"><img height="32"
                                                                            src="../../../../assets/img/medical/director_black_72.png">
-    Director</a>
+    {{ 'Director' | translate}}</a>
   <a href (click)="toggleMenu()" class="collapse-menu-link ion-navicon"></a>
 
   <div class="search">
     <i class="ion-ios-search-strong" ng-click="startSearch()"></i>
-    <input id="searchInput" type="text" placeholder="{{ 'Search for' | translate }}...">
+    <input id="searchInput" type="text" placeholder="{{ 'Search for' | translate }}..." autocomplete="auto">
   </div>
 
   <div class="user-profile clearfix">
     <div class="dropdown al-user-profile">
-      <a class="profile-toggle-link dropdown-toggle" id="user-profile-dd" data-toggle="dropdown" aria-expanded="false">
+      <a class="profile-toggle-link dropdown-toggle"
+         (click)="toggleProfileMenu()"
+         id="user-profile-dd" data-toggle="dropdown" aria-expanded="false">
         <img [src]="avatar">
       </a>
-      <ul class="dropdown-menu top-dropdown-menu profile-dropdown" aria-labelledby="user-profile-dd">
+      <ul class="dropdown-menu top-dropdown-menu profile-dropdown"
+          [ngClass]="{'show-menu': showProfileMenu}"
+          aria-labelledby="user-profile-dd">
         <li class="dropdown-item"><a href routerLink="/pages/profile" translate><i class="fa fa-user"></i>Profile</a></li>
         <li class="dropdown-item"><a href class="signout" translate (click)="logout()"><i class="fa fa-power-off"></i>Sign Out</a></li>
       </ul>

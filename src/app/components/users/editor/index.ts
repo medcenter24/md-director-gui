@@ -4,4 +4,4 @@
  * @author Alexander Zagovorichev <zagovorichev@gmail.com>
  */
 
-export * from './editor.component'
+export * from './user.editor.module';

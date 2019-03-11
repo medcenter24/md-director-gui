@@ -6,16 +6,16 @@
     top: 50%;
     bottom: auto;
     right: auto;
-    @include transform(translateX(-50%) translateY(-50%));
+    @include prefixer(transform, translateX(-50%) translateY(-50%), webkit moz ms o spec);
   }
   @else if $xy == x {
     left: 50%;
     right: auto;
-    @include transform(translateX(-50%));
+    @include prefixer(transform, translateX(-50%), webkit moz ms o spec);
   }
   @else if $xy == y {
     top: 50%;
     bottom: auto;
-    @include transform(translateY(-50%));
+    @include prefixer(transform, translateY(-50%), webkit moz ms o spec);
   }
 }

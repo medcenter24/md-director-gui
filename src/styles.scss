@@ -1,1 +1,8 @@
 /* You can add global styles to this file, and also import other style files */
+
+/* UL list styles which makes it more readable */
+ul.info-list {
+  font-size: 1rem;
+  line-height: 1.3rem;
+  list-style: none;
+}

@@ -9,8 +9,8 @@ export class Diagnostic {
         public id: number = 0,
         public title: string = '',
         public description: string = '',
-        public diagnostic_category_id: number = 0,
-        public disease_code: string = '',
-        public type: string = ''
+        public diagnosticCategoryId: number = 0,
+        public diseaseCode: string = '',
+        public type: string = '',
     ) {}
 }

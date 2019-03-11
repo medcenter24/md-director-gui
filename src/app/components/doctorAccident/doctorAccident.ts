@@ -8,16 +8,10 @@ export class DoctorAccident {
 
   constructor (
       public id: number = 0,
-      public accident_id: number = 0,
-      public accident_status_id: number = 0,
-      public doctor_id: number = 0,
-      public city_id: number = 0,
-      public status: string = '',
+      public doctorId: number = 0,
       public recommendation: string = '',
       public investigation: string = '',
-      public visit_time: string = '',
-      public created_at: string = '',
-      public updated_at: string = '',
-      public deleted_at: string = '',
+      public visitTime: string = '',
+      public createdAt: string = '',
   ) { }
 }

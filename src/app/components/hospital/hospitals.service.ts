@@ -4,9 +4,9 @@
  * @author Alexander Zagovorichev <zagovorichev@gmail.com>
  */
 
-import {Injectable} from '@angular/core';
-import {Hospital} from "./hospital";
-import { HttpService } from '../http/http.service';
+import { Injectable } from '@angular/core';
+import { Hospital } from './hospital';
+import { HttpService } from '../core/http/http.service';
 
 @Injectable()
 export class HospitalsService extends HttpService {
@@ -16,11 +16,11 @@ export class HospitalsService extends HttpService {
   }
 
   getHospitals(): Promise<Hospital[]> {
-    return this.get().then(response => response.json().data as Hospital[]);
+    return this.get().then(response => response.data as Hospital[]);
   }
 
   getHospital(id: number): Promise<Hospital> {
-    return this.get(id).then(response => response.json().data as Hospital);
+    return this.get(id).then(response => response.data as Hospital);
   }
 
   delete(id: number): Promise<void> {
@@ -33,5 +33,14 @@ export class HospitalsService extends HttpService {
 
   update(hospital: Hospital): Promise<Hospital> {
     return this.put(hospital.id, hospital);
+  }
+
+  save (hospital: Hospital): Promise<Hospital> {
+    const action = hospital.id ? this.put(hospital.id, hospital) : this.store(hospital);
+    return action.then(response => response.data as Hospital);
+  }
+
+  destroy (hospital: Hospital): Promise<any> {
+    return this.remove(hospital.id);
   }
 }
