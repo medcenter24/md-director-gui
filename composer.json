@@ -1,15 +1,15 @@
 {
-	"name": "medcenter24/md-director-gui",
-	"license": "GPL-2.0-only",
-	"description": "GUI for a director",
-	"keywords": ["director", "mydoctors24", "medcenter24", "mydocs24"],
-	"minimum-stability": "dev",
-	"type": "mydoctors24-extension",
+    "name": "medcenter24/md-director-gui",
+    "license": "GPL-2.0-only",
+    "description": "GUI for a director",
+    "keywords": ["director", "medcenter24"],
+    "minimum-stability": "dev",
+    "type": "medcenter24-extension",
     "extra": {
-        "mydoctors24-extension-name": "guiDirector"
+        "medcenter24-extension-name": "guiDirector"
     },
     "require": {
-        "medcenter24/lib-installer": "~0.0.1"
+        "medcenter24/lib-installer": "~1.0"
     },
     "config": {
         "preferred-install": "dist",
