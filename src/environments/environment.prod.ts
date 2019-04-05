@@ -16,12 +16,11 @@
  */
 
 import { Level } from 'angular2-logger/core';
+import { env } from '../../../settings/guiDirector/environments/environment.prod';
+
 export const environment = {
-  production: true,
-  // prod
-  apiHost: 'http://api.mydocs24.com',
-  // test preprod nginx
-  // apiHost: 'http://mydoctors24.api.loc',
+  production: env.production || true,
+  apiHost: env.apiHost || 'http://api.medcenter24.com',
   logger: {
     level: Level.WARN,
   },

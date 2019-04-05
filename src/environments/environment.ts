@@ -21,12 +21,14 @@
 // The list of which env maps to which file can be found in `.angular-cli.json`.
 
 import { Level } from 'angular2-logger/core';
+
+// I need this to rewrite clients settings, please use dev for development
+// you can comment it and use const env = {};
+import { env } from '../../../settings/guiDirector/environments/environment';
+
 export const environment = {
-  production: false,
-  // laravel serve
-  apiHost: 'http://127.0.0.1:8000/api',
-  // laravel nginx
-  // apiHost: 'http://mydoctors24.api.loc',
+  production: env.production || false,
+  apiHost: env.apiHost || 'http://127.0.0.1:8000/api',
   logger: {
     level: Level.DEBUG,
   },
