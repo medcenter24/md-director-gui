@@ -20,7 +20,9 @@ import { env } from '../../../settings/guiDirector/environments/environment.prod
 
 export const environment = {
   production: env.production || true,
-  apiHost: env.apiHost || 'http://api.medcenter24.com',
+  apiHost: env.apiHost || 'https://api.medcenter24.com',
+  projectName: env.projectName || 'MedCenter24',
+  doctorLink: env.doctorLink || 'https://doctor.medcenter24.com',
   logger: {
     level: Level.WARN,
   },
