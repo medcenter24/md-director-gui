@@ -22,6 +22,7 @@ import { AuthenticationService } from '../../components/auth/authentication.serv
 import { Router } from '@angular/router';
 import { SlimLoadingBarService } from 'ng2-slim-loading-bar';
 import { LocalStorageHelper } from '../../helpers/local.storage.helper';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'nga-login',
@@ -34,6 +35,8 @@ export class LoginComponent implements OnInit {
   password: AbstractControl;
   submitted: boolean = false;
   showError: boolean = false;
+  year: number;
+  projectName: string = '';
 
   constructor (private fb: FormBuilder,
                private authenticationService: AuthenticationService,
@@ -52,6 +55,8 @@ export class LoginComponent implements OnInit {
     this.showError = false;
     this.email = this.form.controls[ 'email' ];
     this.password = this.form.controls[ 'password' ];
+    this.year = new Date().getFullYear();
+    this.projectName = environment.projectName;
   }
 
   onSubmit (): void {
