@@ -240,7 +240,7 @@ const menu = [
   },
 ];
 
-if (!isDevMode()) {
+if (!isDevMode) {
    menu[0].children.filter(v => v.path !== 'development');
 }
 export const PAGES_MENU = menu;
