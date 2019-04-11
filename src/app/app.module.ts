@@ -15,7 +15,7 @@
  * Copyright (c) 2019 (original work) MedCenter24.com;
  */
 
-import { isDevMode, NgModule } from '@angular/core';
+import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
@@ -100,9 +100,6 @@ export type StoreType = {
 export class AppModule {
 
   constructor(public appState: AppState, private _logger: Logger) {
-    if (isDevMode()) {
-      console.info('To see debug logs enter: \'logger.level = logger.Level.DEBUG;\' in your browser console');
-    }
     this._logger.level = environment.logger.level;
   }
 }
