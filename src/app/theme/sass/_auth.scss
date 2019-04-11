@@ -24,7 +24,8 @@
   align-items: center;
   width: 100%;
   height: 100%;
-  position: absolute;
+  // position brakes background with errors on the login form
+  // position: absolute;
 }
 
 .auth-footer {
