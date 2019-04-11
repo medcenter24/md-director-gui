@@ -16,6 +16,7 @@
  */
 
 import { isDevMode } from '@angular/core';
+import { environment } from '../../environments/environment';
 
 const menu = [
   {
@@ -212,7 +213,7 @@ const menu = [
         data: {
           menu: {
             title: 'Doctor',
-            url: 'https://doctor.myDoctors24.com',
+            url: environment.doctorLink,
             icon: 'fa fa-sign-in',
             order: 800,
             target: '_blank',
