@@ -19,6 +19,7 @@ import { Component, OnInit } from '@angular/core';
 import { Routes } from '@angular/router';
 import { BaMenuService } from '../theme';
 import { PAGES_MENU } from './pages.menu';
+import { environment } from '../../environments/environment';
 
 @Component({
   selector: 'nga-pages',
@@ -34,7 +35,7 @@ import { PAGES_MENU } from './pages.menu';
       <footer class="al-footer clearfix">
           <div class="al-footer-right">
               <div class="copyright">
-                  &copy; 2017 MyDoctors24
+                  &copy; {{ year }} {{ projectName }}
               </div>
               <img src="/assets/img/medical/medical_120.png" width="120"
                    height="120" alt="{{ 'Medical Company' | translate }}">
@@ -56,7 +57,12 @@ export class PagesComponent implements OnInit {
   constructor(private _menuService: BaMenuService) {
   }
 
+  projectName: string = '';
+  year: number;
+
   ngOnInit() {
     this._menuService.updateMenuByRoutes(<Routes>PAGES_MENU);
+    this.year = new Date().getFullYear();
+    this.projectName = environment.projectName;
   }
 }

@@ -29,6 +29,8 @@ import { env } from '../../../settings/guiDirector/environments/environment';
 export const environment = {
   production: env.production || false,
   apiHost: env.apiHost || 'http://127.0.0.1:8000/api',
+  projectName: env.projectName || 'MedCenter24',
+  doctorLink: env.doctorLink || 'http://localhost:8080',
   logger: {
     level: Level.DEBUG,
   },
