@@ -28,6 +28,7 @@ import { GlobalState } from '../../../../global.state';
 import { Logger } from 'angular2-logger/core';
 import { UiDateDowDropdownComponent } from '../../../ui/date/dow/dropdown/ui.date.dow.dropdown.component';
 import { TranslateService } from '@ngx-translate/core';
+import { ObjectHelper } from '../../../../helpers/object.helper';
 
 @Component({
   selector: 'nga-period-datatable',
@@ -101,8 +102,10 @@ export class PeriodDatatableComponent extends LoadingComponent implements OnInit
     this.timeFrom = this.timeTo = this.dowFrom = this.dowTo = '';
 
     if (this.datePeriod) {
+
       const from = this.datePeriod.from.trim();
       const to = this.datePeriod.to.trim();
+
       if (from.indexOf(' ') !== -1) {
         [this.dowTo, this.timeTo] = from.split(' ');
         if (this.dowToComponent && this.dowTo) {
@@ -111,6 +114,7 @@ export class PeriodDatatableComponent extends LoadingComponent implements OnInit
       } else {
         this.timeTo = to;
       }
+
       if (to.indexOf(' ') !== -1) {
         [this.dowFrom, this.timeFrom] = to.split(' ');
         if (this.dowFromComponent && this.dowFrom) {
@@ -119,12 +123,19 @@ export class PeriodDatatableComponent extends LoadingComponent implements OnInit
       } else {
         this.timeFrom = from;
       }
+
     }
   }
 
   save() {
     const postfix = 'Save';
     this.startLoader(postfix);
+    if (this.timeFrom === '') {
+      this.timeFrom = '00:00';
+    }
+    if (this.timeTo === '') {
+      this.timeTo = '00:00';
+    }
     this.datePeriod.from = `${this.dowFrom} ${this.timeFrom}`;
     this.datePeriod.to = `${this.dowTo} ${this.timeTo}`;
     this.datePeriodService.save(this.datePeriod)
@@ -160,24 +171,18 @@ export class PeriodDatatableComponent extends LoadingComponent implements OnInit
   }
 
   onRowSelect(event) {
-    this.setPeriod(this.cloneDatePeriod(event.data));
+    const datePeriod = new Period();
+    ObjectHelper.clone(event.data, datePeriod);
+    this.setPeriod(datePeriod);
     this.displayDialog = true;
   }
 
-  cloneDatePeriod(c: Period): Period {
-    const datePeriod = new Period();
-    for (const prop of Object.keys(c)) {
-      datePeriod[prop] = c[prop];
-    }
-    return datePeriod;
-  }
-
   setToDow(dow: string): void {
-    this.dowTo = dow;
+    this.dowTo = dow === null ? '' : dow;
   }
 
   setFromDow(dow: string): void {
-    this.dowFrom = dow;
+    this.dowFrom = dow === null ? '' : dow;
   }
 
 }
