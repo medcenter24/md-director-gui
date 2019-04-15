@@ -26,7 +26,6 @@
     [(visible)]="displayDialog"
     [responsive]="true"
     [modal]="true"
-    [width]="400"
     appendTo="body"
 >
 
@@ -58,7 +57,7 @@
                     </div>
                     <div class="col-5">
                         <p-inputMask id="from"
-                                     [style]="{'width':'65px'}"
+                                     [style]="{'width':'70px'}"
                                      [(ngModel)]="timeFrom"
                                      mask="99:99"
                                      placeholder="{{ 'Time' | translate }}"
@@ -82,7 +81,7 @@
                     <div class="col-5">
                         <p-inputMask
                                 id="to"
-                                [style]="{'width':'65px'}"
+                                [style]="{'width':'70px'}"
                                 [(ngModel)]="timeTo"
                                 mask="99:99"
                                 placeholder="{{ 'Time' | translate }}"></p-inputMask>
