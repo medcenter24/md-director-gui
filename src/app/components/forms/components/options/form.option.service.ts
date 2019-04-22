@@ -29,10 +29,10 @@ export class FormOptionService {
       this.translateService.get('Yes').subscribe(() => {
         resolve ([
           // todo needs to be hardcoded on the backend, because I use them there
-          new FormOption(this.translateService.instant('Patient Name'), ':patient.name', 'App\\Accident'),
-          new FormOption(this.translateService.instant('Doctor Name'), ':doctor.name', 'App\\Accident'),
-          new FormOption(this.translateService.instant('Ref. Number'), ':ref.number', 'App\\Accident'),
-          new FormOption(this.translateService.instant('Hospital Title'), ':hospital.title', 'App\\Accident'),
+          new FormOption(this.translateService.instant('Patient Name'), ':patient.name', 'medcenter24\\mcCore\\App\\Accident'),
+          new FormOption(this.translateService.instant('Doctor Name'), ':doctor.name', 'medcenter24\\mcCore\\App\\Accident'),
+          new FormOption(this.translateService.instant('Ref. Number'), ':ref.number', 'medcenter24\\mcCore\\App\\Accident'),
+          new FormOption(this.translateService.instant('Hospital Title'), ':hospital.title', 'medcenter24\\mcCore\\App\\Accident'),
         ]);
       });
     });

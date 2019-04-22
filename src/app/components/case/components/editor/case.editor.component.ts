@@ -359,7 +359,7 @@ export class CaseEditorComponent extends LoadingComponent implements OnInit {
 
   onCaseTypeSelected(type): void {
     this.accident.caseableType = type;
-    if (type === 'App\\DoctorAccident' && !this.doctorAccident) {
+    if (type === 'medcenter24\\mcCore\\App\\DoctorAccident' && !this.doctorAccident) {
       this.doctorAccident = new DoctorAccident();
     } else if (!this.hospitalAccident) {
       this.hospitalAccident = new HospitalAccident();
@@ -534,11 +534,11 @@ export class CaseEditorComponent extends LoadingComponent implements OnInit {
   }
 
   isDoctorAccident(): boolean {
-    return this.accident.caseableType === 'App\\DoctorAccident';
+    return this.accident.caseableType === 'medcenter24\\mcCore\\App\\DoctorAccident';
   }
 
   isHospitalAccident(): boolean {
-    return this.accident.caseableType === 'App\\HospitalAccident';
+    return this.accident.caseableType === 'medcenter24\\mcCore\\App\\HospitalAccident';
   }
 
   onAssistantGuaranteeFileUploaded(file: Upload): void {
