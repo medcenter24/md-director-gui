@@ -37,11 +37,11 @@ export class CaseTypeSelectComponent implements OnInit {
   ngOnInit () {
     this.translate.get('Yes').subscribe(() => {
       this.caseTypes = [];
-      this.caseTypes.push({ label: this.translate.instant('Doctor Case'), value: 'App\\DoctorAccident' });
-      this.caseTypes.push({ label: this.translate.instant('Hospital Case'), value: 'App\\HospitalAccident' });
+      this.caseTypes.push({ label: this.translate.instant('Doctor Case'), value: 'medcenter24\\mcCore\\App\\DoctorAccident' });
+      this.caseTypes.push({ label: this.translate.instant('Hospital Case'), value: 'medcenter24\\mcCore\\App\\HospitalAccident' });
 
       if (!this.selectedCaseTypeId) {
-        this.selectedCaseTypeId = 'App\\DoctorAccident';
+        this.selectedCaseTypeId = 'medcenter24\\mcCore\\App\\DoctorAccident';
         this.onChanged({ value: this.selectedCaseTypeId });
       }
     });

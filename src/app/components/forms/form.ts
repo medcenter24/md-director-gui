@@ -22,7 +22,7 @@ export class Form {
     public description: string = '',
     public variables: string[] = [],
     public template: string = '',
-    public formableType: string = 'App\\Accident',
+    public formableType: string = 'medcenter24\\mcCore\\App\\Accident',
   ) {
   }
 }
