@@ -15,7 +15,6 @@
  * Copyright (c) 2019 (original work) MedCenter24.com;
  */
 
-import { isDevMode } from '@angular/core';
 import { environment } from '../../environments/environment';
 
 const menu = [
@@ -241,7 +240,7 @@ const menu = [
   },
 ];
 
-if (!isDevMode) {
-   menu[0].children.filter(v => v.path !== 'development');
+if (environment.production) {
+   menu[0].children = menu[0].children.filter(v => v.path !== 'development');
 }
 export const PAGES_MENU = menu;

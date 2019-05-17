@@ -43,7 +43,7 @@ export class FinanceRule {
     public currencyId: number = 0, // sub or add value in the currency value (from the FinanceCurrency)
     public currencyMode: string = 'currency', // currency, percent mode
     public type: string = 'add', // add, subtract (+ -)
-    public model: string = 'App\\Accident', // Doctor::class, Accident::class
+    public model: string = 'medcenter24\\mcCore\\App\\Accident', // Doctor::class, Accident::class
   ) { }
 
   static canBeSaved(rule: FinanceRule): boolean {

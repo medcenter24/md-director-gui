@@ -47,7 +47,7 @@ export class FormsTypesSelectComponent implements OnInit {
   ngOnInit(): void {
     this.translateService.get('Yes').subscribe(() => {
       if (!this.currentType) {
-        this.currentType = new FormType('App\\Accident', this.translateService.instant('Case'));
+        this.currentType = new FormType('medcenter24\\mcCore\\App\\Accident', this.translateService.instant('Case'));
       }
 
       this.filteredFormableTypes = this.formableTypes = [
