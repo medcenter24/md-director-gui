@@ -25,7 +25,7 @@ import { PeriodService } from '../../period.service';
   templateUrl: '../../../ui/autocompleter/autocompleter.tpl.html',
 })
 export class PeriodSelectComponent extends AbstractAutoCompleteController {
-  protected componentName: string = 'DoctorSelectComponent';
+  protected componentName: string = 'DatePeriodSelectComponent';
 
   constructor(
     private service: PeriodService,

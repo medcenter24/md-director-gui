@@ -44,13 +44,13 @@ export class UiDateDowDropdownComponent {
     this.translate.get('mon').subscribe(res => {
       // to be sure that languages were loaded
       this.days = [
-        { label: 'mon', value: this.translate.instant('mon') },
-        { label: 'tues', value: this.translate.instant('tues') },
-        { label: 'wed', value: this.translate.instant('wed') },
-        { label: 'thurs', value: this.translate.instant('thurs') },
-        { label: 'fri', value: this.translate.instant('fri') },
-        { label: 'sat', value: this.translate.instant('sat') },
-        { label: 'sun', value: this.translate.instant('sun') },
+        { label: this.translate.instant('mon'), value: 'mon' },
+        { label: this.translate.instant('tues'), value: 'tues' },
+        { label: this.translate.instant('wed'), value: 'wed' },
+        { label: this.translate.instant('thurs'), value: 'thurs' },
+        { label: this.translate.instant('fri'), value: 'fri' },
+        { label: this.translate.instant('sat'), value: 'sat' },
+        { label: this.translate.instant('sun'), value: 'sun' },
       ];
     });
   }
@@ -61,9 +61,9 @@ export class UiDateDowDropdownComponent {
 
   set(dowLabel: string): void {
     this.selectedDay = '';
-    const selected = this.days.find(x => x.label === dowLabel);
+    const selected = this.days.find(x => x.value === dowLabel);
     if (selected) {
-      this.selectedDay = selected.label;
+      this.selectedDay = selected.value;
     }
   }
 }

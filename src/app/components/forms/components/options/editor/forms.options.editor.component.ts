@@ -45,7 +45,7 @@ export class FormsOptionsEditorComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.formOptionService.getOptions('App\\Accident')
+    this.formOptionService.getOptions('medcenter24\\mcCore\\App\\Accident')
       .then(data => this.parameters = data);
   }
 
