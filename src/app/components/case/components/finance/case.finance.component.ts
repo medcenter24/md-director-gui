@@ -79,7 +79,7 @@ export class CaseFinanceComponent extends LoadableComponent implements OnInit {
       case 'income':
         return 'Income';
       case 'caseable':
-        return this.accident.caseableType === 'App\\HospitalAccident'
+        return this.accident.caseableType === 'medcenter24\\mcCore\\App\\HospitalAccident'
           ? 'Payment to the hospital'
           : 'Payment to the doctor';
       case 'assistant':

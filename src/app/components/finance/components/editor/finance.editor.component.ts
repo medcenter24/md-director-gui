@@ -116,20 +116,20 @@ export class FinanceEditorComponent extends LoadableComponent implements OnInit 
       this.conditionModels.push({
         label: this.translateService.instant('Assistant'),
         desc: this.translateService.instant('Invoice the assistant'), // how much assistant needs to pay
-        value: 'App\\Assistant',
+        value: 'medcenter24\\mcCore\\App\\Assistant',
       });
 
       // condition for the doctor
       this.conditionModels.push({
         label: this.translateService.instant('Doctor'),
         desc: this.translateService.instant('Doctor remuneration'),
-        value: 'App\\Doctor',
+        value: 'medcenter24\\mcCore\\App\\Doctor',
       });
 
       this.stopLoader(postfix);
 
       if (!this.rule.model) {
-        this.rule.model = 'App\\Assistant';
+        this.rule.model = 'medcenter24\\mcCore\\App\\Assistant';
       }
     });
   }
