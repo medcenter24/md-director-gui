@@ -157,7 +157,7 @@ export abstract class HttpService {
       // won't clean all data so we need browser redirect
       // but I'm trying to clean them by hand
       this.authenticationService.logout();
-      this.router.navigate(['login']);
+      this.router.navigate(['login']).then();
       // window.location.replace('/login');
     } else if (error && error.status && error.status === 422) {
       // using dingo/FormRequest style

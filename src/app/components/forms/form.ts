@@ -20,7 +20,6 @@ export class Form {
     public id: number = 0,
     public title: string = '',
     public description: string = '',
-    public variables: string[] = [],
     public template: string = '',
     public formableType: string = 'medcenter24\\mcCore\\App\\Accident',
   ) {

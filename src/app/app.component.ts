@@ -109,7 +109,9 @@ export class AppComponent implements AfterViewInit {
     this.router.events
       .subscribe(event => {
         // https://angular.io/guide/router#router-events
+        this._state.notifyDataChanged('routerMove', '');
         if (event instanceof NavigationStart) {
+          this._state.notifyDataChanged('routerMove', 'NavigationStart');
           this._state.notifyDataChanged('blocker', false);
         }
         // NavigationCancel

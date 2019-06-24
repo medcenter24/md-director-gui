@@ -63,7 +63,6 @@
                         <div class="form-group">
 
                             <nga-diagnostic-category-select
-                                    #diagnosticCategorySelect
                                     [selectPreloaded]="diagnostic.diagnosticCategoryId"
                                     (selected)="onDiagnosticCategoryChanged($event)"
                                     (init)="startLoader($event)"

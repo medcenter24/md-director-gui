@@ -15,14 +15,14 @@
  * Copyright (c) 2019 (original work) MedCenter24.com;
  */
 
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { AbstractDatatableController } from '../../../ui/tables/abstract.datatable.controller';
 import { GlobalState } from '../../../../global.state';
 import { SlimLoadingBarService } from 'ng2-slim-loading-bar';
 import { Logger } from 'angular2-logger/core';
 import { TranslateService } from '@ngx-translate/core';
 import { LoadableServiceInterface } from '../../../core/loadable';
-import { DatatableAction, DatatableCol } from '../../../ui/datatable';
+import { DatatableAction, DatatableCol, DatatableComponent } from '../../../ui/datatable';
 import { Router } from '@angular/router';
 import { FormService } from '../../form.service';
 import { Form } from '../../form';
@@ -34,6 +34,9 @@ import { Form } from '../../form';
 export class FormDatatableComponent extends AbstractDatatableController {
   protected componentName: string = 'FormDatatableComponent';
 
+  @ViewChild('formDatatableComponent')
+  private formDatatableComponent: DatatableComponent;
+
   constructor (
     protected loadingBar: SlimLoadingBarService,
     protected _logger: Logger,
@@ -43,6 +46,14 @@ export class FormDatatableComponent extends AbstractDatatableController {
     private router: Router,
   ) {
     super();
+  }
+
+  protected getDatatableComponent (): DatatableComponent {
+    return this.formDatatableComponent;
+  }
+
+  protected getTranslateService (): TranslateService {
+    return this.translateService;
   }
 
   getService(): LoadableServiceInterface {
@@ -64,7 +75,7 @@ export class FormDatatableComponent extends AbstractDatatableController {
     return [
       new DatatableAction(this.translateService.instant('Add'), 'fa fa-plus', () => {
         this.setModel(this.getEmptyModel());
-        this.router.navigate(['pages/settings/forms/new']);
+        this.router.navigate(['pages/settings/forms/new']).then();
       }),
     ];
   }

@@ -15,7 +15,7 @@
  * Copyright (c) 2019 (original work) MedCenter24.com;
  */
 
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { AbstractDatatableController } from '../../../ui/tables/abstract.datatable.controller';
 import { GlobalState } from '../../../../global.state';
 import { SlimLoadingBarService } from 'ng2-slim-loading-bar';
@@ -24,7 +24,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { ServicesService } from '../../services.service';
 import { LoadableServiceInterface } from '../../../core/loadable';
 import { Service } from '../../service';
-import { DatatableAction, DatatableCol } from '../../../ui/datatable';
+import { DatatableAction, DatatableCol, DatatableComponent } from '../../../ui/datatable';
 import { ConfirmationService } from 'primeng/api';
 
 @Component({
@@ -33,6 +33,9 @@ import { ConfirmationService } from 'primeng/api';
 })
 export class ServiceDatatableComponent extends AbstractDatatableController {
   protected componentName: string = 'ServiceDatatableComponent';
+
+  @ViewChild('servicesDatatable')
+    protected servicesDatatableComponent: DatatableComponent;
 
   constructor (
     protected loadingBar: SlimLoadingBarService,
@@ -43,6 +46,14 @@ export class ServiceDatatableComponent extends AbstractDatatableController {
     private confirmationService: ConfirmationService,
   ) {
     super();
+  }
+
+  protected getTranslateService (): TranslateService {
+    return this.translateService;
+  }
+
+  getDatatableComponent(): DatatableComponent {
+    return this.servicesDatatableComponent;
   }
 
   getService(): LoadableServiceInterface {

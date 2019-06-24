@@ -89,8 +89,10 @@ export class CaseDatatableComponent implements OnInit {
           new DatatableTransformer('createdAt', val => this.dateHelper.toEuropeFormatWithTime(val)),
           new DatatableTransformer('caseType', val => `
                 <div>
-                    <div class="circle-icon m-auto ${val === 'medcenter24\\mcCore\\App\\DoctorAccident' ? 'doctor' : 'hospital'}">
-                        <span class="fa fa-${val === 'medcenter24\\mcCore\\App\\DoctorAccident' ? 'user-md' : 'hospital-o'}"></span>
+                    <div class="circle-icon m-auto ${val === 'medcenter24\\mcCore\\App\\DoctorAccident'
+            ? 'doctor' : 'hospital'}">
+                        <span class="fa fa-${val === 'medcenter24\\mcCore\\App\\DoctorAccident'
+            ? 'user-md' : 'hospital-o'}"></span>
                     </div>
                 </div>
             `),

@@ -15,7 +15,7 @@
  * Copyright (c) 2019 (original work) MedCenter24.com;
  */
 
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { FormType } from '../form.type';
 
@@ -23,15 +23,31 @@ import { FormType } from '../form.type';
   selector: 'nga-forms-types-select',
   templateUrl: './forms.types.select.html',
 })
-export class FormsTypesSelectComponent implements OnInit {
+export class FormsTypesSelectComponent {
 
   /**
    * Type which determine possible parameters
    * @type {string}
    */
   @Input() set formableType(type: string) {
-    this.currentType = this.formableTypes.filter(v => v.key === type)[0];
+    this.translateService.get('Yes').subscribe(() => {
+      if (!this.currentType) {
+        this.currentType = new FormType('medcenter24\\mcCore\\App\\Accident', this.translateService.instant('Case'));
+      }
+
+      this.filteredFormableTypes = this.formableTypes = [
+        this.currentType,
+      ];
+
+      const foundType = this.formableTypes.filter(v => v.key === type)[0];
+      if (foundType) {
+        this.currentType = foundType;
+      } else {
+        this.selected.emit(this.currentType.key);
+      }
+    });
   }
+
   /**
    * Selected parameter
    * @type {EventEmitter<string>}
@@ -43,18 +59,6 @@ export class FormsTypesSelectComponent implements OnInit {
   filteredFormableTypes: FormType[] = [];
 
   constructor(public translateService: TranslateService) {}
-
-  ngOnInit(): void {
-    this.translateService.get('Yes').subscribe(() => {
-      if (!this.currentType) {
-        this.currentType = new FormType('medcenter24\\mcCore\\App\\Accident', this.translateService.instant('Case'));
-      }
-
-      this.filteredFormableTypes = this.formableTypes = [
-        this.currentType,
-      ];
-    });
-  }
 
   filterFormableTypes(event): void {
     this.filteredFormableTypes = this.formableTypes;

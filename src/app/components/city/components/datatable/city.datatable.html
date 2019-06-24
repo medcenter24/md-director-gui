@@ -16,26 +16,43 @@
   -->
 
 <nga-datatable
-  *ngIf="langLoaded"
-  #datatable
-  [config]="datatableConfig"
+        #cityDatatableComponent
+        *ngIf="langLoaded"
+        [config]="datatableConfig"
 ></nga-datatable>
 
 <p-dialog
   header="{{ 'City' | translate }}"
   [(visible)]="displayDialog"
   [responsive]="true"
-  showEffect="fade"
+  [closable]="true"
   [modal]="true"
-  [width]="500">
+  appendTo="body">
 
   <div class="ui-g ui-fluid" *ngIf="city">
     <div class="ui-g-12">
       <div class="ui-g-3">
-        <label for="title" translate>Title</label>
+        <label for="title" translate>City</label>
       </div>
       <div class="ui-g-9">
         <input pInputText id="title" [(ngModel)]="city.title" />
+      </div>
+    </div>
+    <div class="ui-g-12">
+      <div class="ui-g-3">
+        <label for="title" translate>Region</label>
+      </div>
+      <div class="ui-g-9">
+        <nga-autocompleter
+                #regionAutocompleterComponent
+                [service]="regionService"
+                [preloadedData]="city.regionId"
+                placeholder="Region"
+                labelField="title"
+                (selected)="city.regionId = $event.id"
+                (init)="startLoader($event)"
+                (loaded)="stopLoader($event)"
+        ></nga-autocompleter>
       </div>
     </div>
   </div>

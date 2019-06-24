@@ -19,5 +19,6 @@ export class City {
     constructor(
         public id: number = 0,
         public title: string = '',
+        public regionId: number = 0,
     ) {}
 }

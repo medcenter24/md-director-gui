@@ -15,6 +15,7 @@
  * Copyright (c) 2019 (original work) MedCenter24.com;
  */
 
+export * from './baToolbox';
 export * from './baImageLoader';
 export * from './baMenu';
 export * from './baThemePreloader';

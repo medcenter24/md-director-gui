@@ -16,7 +16,7 @@
  */
 
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { LoadingComponent } from '../../../core/components/componentLoader';
+import { LoadableComponent } from '../../../core/components/componentLoader';
 import { Logger } from 'angular2-logger/core';
 import { TranslateService } from '@ngx-translate/core';
 import { GlobalState } from '../../../../global.state';
@@ -27,21 +27,25 @@ import { DatatableAction } from '../../../ui/datatable';
 import { CitiesService } from '../../cities.service';
 import { City } from '../../city';
 import { DatatableComponent } from '../../../ui/datatable';
+import { RegionService } from '../../../region';
+import { AutocompleterComponent } from '../../../ui/selector/components/autocompleter';
 
 @Component({
   selector: 'nga-city-datatable',
   templateUrl: './city.datatable.html',
 })
-export class CityDatatableComponent extends LoadingComponent implements OnInit {
+export class CityDatatableComponent extends LoadableComponent implements OnInit {
   protected componentName: string = 'CityDatatableComponent';
 
-  @ViewChild('datatable')
-    private datatable: DatatableComponent;
+  @ViewChild('cityDatatableComponent')
+    private cityDatatableComponent: DatatableComponent;
+
+  @ViewChild('regionAutocompleterComponent')
+    private regionAutocompleterComponent: AutocompleterComponent;
 
   displayDialog: boolean;
   langLoaded: boolean = false;
   datatableConfig: DatatableConfig;
-
   city: City;
 
   constructor(
@@ -50,6 +54,7 @@ export class CityDatatableComponent extends LoadingComponent implements OnInit {
     protected _state: GlobalState,
     protected translateService: TranslateService,
     private citiesService: CitiesService,
+    public regionService: RegionService,
   ) {
     super();
   }
@@ -81,6 +86,7 @@ export class CityDatatableComponent extends LoadingComponent implements OnInit {
 
   showDialogToAdd() {
     this.setCity(new City());
+    this.setAutocompleterRegion(0);
     this.displayDialog = true;
   }
 
@@ -96,14 +102,23 @@ export class CityDatatableComponent extends LoadingComponent implements OnInit {
         this.stopLoader(postfix);
         this.setCity();
         this.displayDialog = false;
-        this.datatable.refresh();
+        this.cityDatatableComponent.refresh();
       })
-      .catch(() => this.stopLoader(postfix));
+      .catch(() => {
+        this.stopLoader(postfix);
+      });
   }
 
   onRowSelect(event) {
     this.setCity(this.cloneCity(event.data));
+    this.setAutocompleterRegion(event.data.id);
     this.displayDialog = true;
+  }
+
+  private setAutocompleterRegion(regionId: number): void {
+    if (this.regionAutocompleterComponent) {
+      this.regionAutocompleterComponent.selectItems(regionId);
+    }
   }
 
   cloneCity(c: City): City {
@@ -127,7 +142,7 @@ export class CityDatatableComponent extends LoadingComponent implements OnInit {
               this.stopLoader(postfix);
               this.setCity();
               this.displayDialog = false;
-              this.datatable.refresh();
+              this.cityDatatableComponent.refresh();
             })
             .catch(() => this.stopLoader(postfix));
         },

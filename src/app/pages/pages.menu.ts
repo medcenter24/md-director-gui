@@ -138,6 +138,22 @@ const menu = [
         },
         children: [
           {
+            path: 'countries',
+            data: {
+              menu: {
+                title: 'Countries',
+              },
+            },
+          },
+          {
+            path: 'regions',
+            data: {
+              menu: {
+                title: 'Regions',
+              },
+            },
+          },
+          {
             path: 'cities',
             data: {
               menu: {

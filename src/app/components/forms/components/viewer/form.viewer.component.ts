@@ -46,7 +46,7 @@ import { FormService } from '../../form.service';
     <iframe id="printf" name="printf" style="display: none;"></iframe>
 
     <p-dialog [(visible)]="formPreviewerVisible"
-              [width]="800"
+              [style]="{width: '800px'}"
               appendTo="body">
       <p-header>
         {{ 'Form Preview' | translate }}
