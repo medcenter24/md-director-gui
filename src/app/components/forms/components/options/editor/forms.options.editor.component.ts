@@ -31,11 +31,17 @@ export class FormsOptionsEditorComponent implements OnInit {
    * @type {string}
    */
   @Input() formableType: string = '';
+
+  /**
+   * Variables that I can mark as used in template
+   */
+  @Input() usedVars: FormOption[] = [];
+
   /**
    * Selected parameter
    * @type {EventEmitter<string>}
    */
-  @Output() selected: EventEmitter<string> = new EventEmitter<string>();
+  @Output() selected: EventEmitter<FormOption> = new EventEmitter<FormOption>();
 
   parameters: FormOption[] = [];
 
@@ -50,7 +56,7 @@ export class FormsOptionsEditorComponent implements OnInit {
   }
 
   // do not allow to change variables because they could be used in template
-  onAddParameter(param: string): void {
+  onAddParameter(param: FormOption): void {
     this.selected.emit(param);
   }
 

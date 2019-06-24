@@ -23,7 +23,7 @@ import { SlimLoadingBarService } from 'ng2-slim-loading-bar';
 import { Doctor } from '../../doctor';
 import { DoctorsService } from '../../doctors.service';
 import { AbstractDatatableController } from '../../../ui/tables/abstract.datatable.controller';
-import { DatatableAction, DatatableCol } from '../../../ui/datatable';
+import { DatatableAction, DatatableCol, DatatableComponent } from '../../../ui/datatable';
 import { ObjectHelper } from '../../../../helpers/object.helper';
 import { DoctorEditorComponent } from '../editor';
 import { LoadableServiceInterface } from '../../../core/loadable';
@@ -38,6 +38,9 @@ export class DoctorDatatableComponent extends AbstractDatatableController implem
   @ViewChild('doctorEditor')
   private doctorEditor: DoctorEditorComponent;
 
+  @ViewChild('doctorDatatable')
+  private doctorDatatable: DatatableComponent;
+
   constructor (
     protected loadingBar: SlimLoadingBarService,
     protected _logger: Logger,
@@ -46,6 +49,14 @@ export class DoctorDatatableComponent extends AbstractDatatableController implem
     private doctorsService: DoctorsService,
   ) {
     super();
+  }
+
+  protected getDatatableComponent (): DatatableComponent {
+    return this.doctorDatatable;
+  }
+
+  protected getTranslateService (): TranslateService {
+    return this.translateService;
   }
 
   getService(): LoadableServiceInterface {
@@ -89,10 +100,14 @@ export class DoctorDatatableComponent extends AbstractDatatableController implem
   }
 
   onDoctorChanged(doctor: Doctor): void {
+    let nDoctor;
     if (!doctor || !this.updateModel(doctor)) {
+      nDoctor = this.getEmptyModel();
       this.refresh();
+    } else {
+      nDoctor = ObjectHelper.clone(doctor, this.getEmptyModel());
     }
-    this.setModel(ObjectHelper.clone(doctor, this.getEmptyModel()));
+    this.setModel(nDoctor);
     this.displayDialog = false;
   }
 

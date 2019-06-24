@@ -16,7 +16,7 @@
   -->
 
 <nga-datatable
-  *ngIf="langLoaded"
+        *ngIf="langLoaded"
         #periodDatatable
         [config]="datatableConfig"
 ></nga-datatable>
@@ -26,6 +26,7 @@
     [(visible)]="displayDialog"
     [responsive]="true"
     [modal]="true"
+    (onShow)="onDetailsShow()"
     appendTo="body"
 >
 

@@ -22,11 +22,11 @@ import { AppTranslationModule } from '../../../../app.translation.module';
 import { NgaModule } from '../../../../theme/nga.module';
 import { FormService } from '../../form.service';
 import { FormEditorComponent } from './form.editor.component';
-import { FroalaEditorModule, FroalaViewModule } from 'angular-froala-wysiwyg';
 import { DialogModule } from 'primeng/dialog';
 import { ButtonModule } from 'primeng/button';
 import { FormsOptionsEditorModule } from '../options/editor';
 import { FormsTypesSelectModule } from '../types/select';
+import { InputTextareaModule, InputTextModule } from 'primeng/primeng';
 
 @NgModule({
   imports: [
@@ -34,12 +34,12 @@ import { FormsTypesSelectModule } from '../types/select';
     FormsModule,
     AppTranslationModule,
     NgaModule,
-    FroalaEditorModule.forRoot(),
-    FroalaViewModule.forRoot(),
     FormsOptionsEditorModule,
     DialogModule,
     ButtonModule,
     FormsTypesSelectModule,
+    InputTextareaModule,
+    InputTextModule,
   ],
   providers: [
     FormService,

@@ -16,6 +16,7 @@
  */
 
 export * from './baPageTop';
+export * from './baToolbox';
 export * from './baMsgCenter';
 export * from './baSidebar';
 export * from './baMenu/components/baMenuItem';

@@ -20,11 +20,13 @@ import { CityDatatableComponent } from './city.datatable.component';
 import { CommonModule } from '@angular/common';
 import { AppTranslationModule } from '../../../../app.translation.module';
 import { CitiesService } from '../../cities.service';
-import { DatatableModule } from '../../../ui/datatable/datatable.module';
 import { DialogModule } from 'primeng/dialog';
 import { FormsModule } from '@angular/forms';
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/primeng';
+import { AutocompleterModule } from '../../../ui/selector/components/autocompleter';
+import { DatatableModule } from '../../../ui/datatable';
+import { RegionService } from '../../../region';
 
 @NgModule({
   imports: [
@@ -35,9 +37,11 @@ import { InputTextModule } from 'primeng/primeng';
     DialogModule,
     ButtonModule,
     InputTextModule,
+    AutocompleterModule,
   ],
   providers: [
     CitiesService,
+    RegionService,
   ],
   declarations: [
     CityDatatableComponent,

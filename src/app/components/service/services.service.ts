@@ -35,21 +35,9 @@ export class ServicesService extends HttpService implements LoadableServiceInter
     return this.get(id).then(response => response.data as Service);
   }
 
-  delete(id: number): Promise<void> {
-    return this.remove(id);
-  }
-
-  create(service: Service): Promise<Service> {
-    return this.store(service).then(res => res.json().data as Service);
-  }
-
-  update(service: Service): Promise<Service> {
-    return this.put(service.id, service);
-  }
-
   save(service: Service): Promise<Service> {
     const action = service.id ? this.put(service.id, service) : this.store(service);
-    return action.then(response => response as Service);
+    return action.then(response => response.data as Service);
   }
 
   destroy(service: Service): Promise<any> {

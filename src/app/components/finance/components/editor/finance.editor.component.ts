@@ -141,7 +141,7 @@ export class FinanceEditorComponent extends LoadableComponent implements OnInit 
       .then(rule => {
         this.stopLoader(postfix);
         if (!this.rule || !this.rule.id) {
-          this.router.navigate([`pages/finance/conditions/${rule.id}`]);
+          this.router.navigate([`pages/finance/conditions/${rule.id}`]).then();
         } else {
           this.rule = rule;
         }
@@ -162,7 +162,7 @@ export class FinanceEditorComponent extends LoadableComponent implements OnInit 
           this.financeService.destroy(this.rule)
             .then(() => {
               this.stopLoader(postfix);
-              this.router.navigate([`pages/finance/conditions`]);
+              this.router.navigate([`pages/finance/conditions`]).then();
             })
             .catch(() => {
               this.stopLoader(postfix);

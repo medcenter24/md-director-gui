@@ -106,6 +106,7 @@ export class DoctorEditorComponent extends LoadableComponent implements AfterVie
       {
         header: this.translateService.instant('Delete'),
         message: this.translateService.instant('Are you sure that you want to delete the doctor?'),
+        acceptVisible: true,
         accept: () => {
           const postfix = 'Delete';
           this.startLoader(postfix);

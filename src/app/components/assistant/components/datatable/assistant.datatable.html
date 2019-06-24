@@ -16,10 +16,9 @@
   -->
 
 <nga-datatable
-  #datatable
-  *ngIf="langLoaded"
-  #assistantDatatable
-  [config]="datatableConfig"
+        #assistantDatatableComponent
+        *ngIf="langLoaded"
+        [config]="datatableConfig"
 ></nga-datatable>
 
 <p-dialog
@@ -31,7 +30,7 @@
 
   <nga-assistant-editor
     #editAssistantForm
-    [assistant]="assistant"
+    [assistant]="model"
     (assistantSaved)="onChanged($event)"
     (init)="startLoader($event)"
     (loaded)="stopLoader($event)"

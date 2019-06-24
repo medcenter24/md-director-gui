@@ -55,6 +55,7 @@ export class DiagnosticEditorComponent extends LoadableComponent {
   onSubmit(): void {
     const opName = 'UpdateDiagnostic';
     this.startLoader(opName);
+    console.log(this.diagnostic);
     this.service.save(this.diagnostic).then((diagnostic: Diagnostic) => {
       this.diagnostic = diagnostic;
       this.diagnosticSaved.emit(this.diagnostic);
@@ -67,7 +68,8 @@ export class DiagnosticEditorComponent extends LoadableComponent {
     this._state.notifyDataChanged('confirmDialog',
       {
         header: this.translateService.instant('Delete'),
-        message: this.translateService.instant('Are you sure that you want to delete this hospital?'),
+        message: this.translateService.instant('Are you sure that you want to delete this diagnostic?'),
+
         accept: () => {
           const postfix = 'Delete';
           this.startLoader(postfix);
@@ -111,6 +113,7 @@ export class DiagnosticEditorComponent extends LoadableComponent {
   onDiagnosticCategorySubmit (dc: DiagnosticCategory): void {
     this.showEditor = false;
     this.diagnostic.diagnosticCategoryId = dc.id;
+    console.log('here???')
     this.categorySelectComponent.selectItems(dc.id);
   }
 }

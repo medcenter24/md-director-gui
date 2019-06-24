@@ -17,7 +17,7 @@
 
 <nga-datatable
   *ngIf="langLoaded"
-  #datatable
+  #checkpointDatatableComponent
   [config]="datatableConfig"
 ></nga-datatable>
 
@@ -28,13 +28,13 @@
   [modal]="true"
   appendTo="body">
 
-  <div class="ui-g ui-fluid" *ngIf="checkpoint">
+  <div class="ui-g ui-fluid" *ngIf="model">
     <div class="ui-g-12">
       <div class="ui-g-3">
         <label for="title" translate>Title</label>
       </div>
       <div class="ui-g-9">
-        <input pInputText id="title" [(ngModel)]="checkpoint.title" />
+        <input pInputText id="title" [(ngModel)]="model.title" />
       </div>
     </div>
     <div class="ui-g-12">
@@ -42,14 +42,14 @@
         <label for="description" translate>Description</label>
       </div>
       <div class="ui-g-9">
-        <input pInputText id="description" [(ngModel)]="checkpoint.description" />
+        <input pInputText id="description" [(ngModel)]="model.description" />
       </div>
     </div>
 
   </div>
   <p-footer>
     <div class="ui-dialog-buttonpane ui-helper-clearfix">
-      <button type="button" *ngIf="checkpoint && checkpoint.id" pButton icon="fa fa-close" (click)="delete()" label="{{ 'Delete' | translate }}"></button>
+      <button type="button" *ngIf="model && model.id" pButton icon="fa fa-close" (click)="confirmDelete()" label="{{ 'Delete' | translate }}"></button>
       <button type="button" pButton icon="fa fa-check" (click)="save()" label="{{ 'Save' | translate }}"></button>
     </div>
   </p-footer>
