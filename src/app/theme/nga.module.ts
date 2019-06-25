@@ -36,6 +36,7 @@ import {
   BaMsgCenter,
   BaMultiCheckbox,
   BaPageTopComponent,
+  BaToolboxComponent,
   BaSidebar,
   BaFileUploader,
 } from './components';
@@ -65,6 +66,7 @@ import {
   EqualPasswordsValidator,
 } from './validators';
 import { AuthenticationService } from '../components/auth/authentication.service';
+import { ButtonModule, ToolbarModule } from 'primeng/primeng';
 
 const NGA_COMPONENTS = [
   BaBackTop,
@@ -78,6 +80,7 @@ const NGA_COMPONENTS = [
   BaMsgCenter,
   BaMultiCheckbox,
   BaPageTopComponent,
+  BaToolboxComponent,
   BaSidebar,
   BaFileUploader,
 ];
@@ -119,7 +122,9 @@ const NGA_VALIDATORS = [
     ReactiveFormsModule,
     AppTranslationModule,
     NgxUploaderModule,
-  ],
+    ToolbarModule,
+    ButtonModule,
+],
   exports: [
     ...NGA_PIPES,
     ...NGA_DIRECTIVES,

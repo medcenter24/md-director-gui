@@ -93,8 +93,12 @@ export class PeriodDatatableComponent extends LoadingComponent implements OnInit
   }
 
   showDialogToAdd() {
-    this.setPeriod(new Period());
     this.displayDialog = true;
+    this.datePeriod = new Period();
+  }
+
+  onDetailsShow(): void {
+    this.setPeriod(this.datePeriod);
   }
 
   private setPeriod(period: Period = null): void {
@@ -113,6 +117,7 @@ export class PeriodDatatableComponent extends LoadingComponent implements OnInit
         }
       } else {
         this.timeTo = to;
+        this.dowToComponent.set(this.dowTo);
       }
 
       if (to.indexOf(' ') !== -1) {
@@ -122,6 +127,7 @@ export class PeriodDatatableComponent extends LoadingComponent implements OnInit
         }
       } else {
         this.timeFrom = from;
+        this.dowFromComponent.set(this.dowFrom);
       }
 
     }

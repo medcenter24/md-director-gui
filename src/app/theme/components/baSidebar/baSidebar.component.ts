@@ -25,7 +25,7 @@ import {layoutSizes} from '../../../theme';
   styleUrls: ['./baSidebar.scss']
 })
 export class BaSidebar {
-  public menuHeight:number;
+  public menuHeight: number;
   public isMenuCollapsed:boolean = false;
   public isMenuShouldCollapsed:boolean = false;
 

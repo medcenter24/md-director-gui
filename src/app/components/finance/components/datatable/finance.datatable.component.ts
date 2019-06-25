@@ -15,7 +15,7 @@
  * Copyright (c) 2019 (original work) MedCenter24.com;
  */
 
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { AbstractDatatableController } from '../../../ui/tables/abstract.datatable.controller';
 import { GlobalState } from '../../../../global.state';
 import { SlimLoadingBarService } from 'ng2-slim-loading-bar';
@@ -24,7 +24,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { FinanceService } from '../../finance.service';
 import { LoadableServiceInterface } from '../../../core/loadable';
 import { FinanceRule } from '../../finance.rule';
-import { DatatableAction, DatatableCol, DatatableTransformer } from '../../../ui/datatable';
+import { DatatableAction, DatatableCol, DatatableComponent, DatatableTransformer } from '../../../ui/datatable';
 import { ConfirmationService } from 'primeng/api';
 import { Router } from '@angular/router';
 
@@ -34,6 +34,9 @@ import { Router } from '@angular/router';
 })
 export class FinanceDatatableComponent extends AbstractDatatableController {
   protected componentName: string = 'FinanceDatatableComponent';
+
+  @ViewChild('financeDatatableComponent')
+  private financeDatatableComponent: DatatableComponent;
 
   constructor (
     protected loadingBar: SlimLoadingBarService,
@@ -45,6 +48,14 @@ export class FinanceDatatableComponent extends AbstractDatatableController {
     private router: Router,
   ) {
     super();
+  }
+
+  protected getDatatableComponent (): DatatableComponent {
+    return this.financeDatatableComponent;
+  }
+
+  protected getTranslateService (): TranslateService {
+    return this.translateService;
   }
 
   getService(): LoadableServiceInterface {
@@ -92,13 +103,13 @@ export class FinanceDatatableComponent extends AbstractDatatableController {
     return [
       new DatatableAction(this.translateService.instant('Add'), 'fa fa-plus', () => {
         this.setModel(this.getEmptyModel());
-        this.router.navigate(['pages/finance/conditions/new']);
+        this.router.navigate(['pages/finance/conditions/new']).then();
       }),
     ];
   }
 
   protected onRowSelect(event): void {
-    this.router.navigate([`pages/finance/conditions/${event.data.id}`]);
+    this.router.navigate([`pages/finance/conditions/${event.data.id}`]).then();
   }
 
   getSortBy(): string {

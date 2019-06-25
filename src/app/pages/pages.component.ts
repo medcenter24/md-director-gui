@@ -27,6 +27,7 @@ import { environment } from '../../environments/environment';
       <ba-sidebar></ba-sidebar>
       <nga-ba-page-top></nga-ba-page-top>
       <div class="al-main">
+          <nga-toolbox-component></nga-toolbox-component>
           <div class="al-content">
               <ba-content-top></ba-content-top>
               <router-outlet></router-outlet>

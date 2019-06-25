@@ -33,6 +33,11 @@ export class DatatableComponent extends LoadableComponent implements OnInit {
 
   @Input() config: DatatableConfig;
 
+  /**
+   * it is used by this component only
+   * we can't use it as external selector
+   * to use it from elsewhere outside we need to to use this.refresh method (facade)
+   */
   @ViewChild('datatable')
     private datatable: DataTable;
 

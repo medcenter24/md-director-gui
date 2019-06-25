@@ -54,10 +54,11 @@ export class AssistantEditorComponent extends LoadableComponent {
       {
         header: this.translate.instant('Delete'),
         message: this.translate.instant('Are you sure that you want to delete this assistant company?'),
+        acceptVisible: true,
         accept: () => {
           const postfix = 'Delete';
           this.startLoader(postfix);
-          this.service.delete(this.assistant.id)
+          this.service.destroy(this.assistant)
             .then(() => {
               this.assistantSaved.emit(this.assistant);
               this.assistant = null;

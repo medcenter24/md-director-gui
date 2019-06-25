@@ -15,13 +15,13 @@
  * Copyright (c) 2019 (original work) MedCenter24.com;
  */
 
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Logger } from 'angular2-logger/core';
 import { TranslateService } from '@ngx-translate/core';
 import { GlobalState } from '../../../../global.state';
 import { SlimLoadingBarService } from 'ng2-slim-loading-bar';
 import { AbstractDatatableController } from '../../../ui/tables/abstract.datatable.controller';
-import { DatatableAction, DatatableCol } from '../../../ui/datatable';
+import { DatatableAction, DatatableCol, DatatableComponent } from '../../../ui/datatable';
 import { ObjectHelper } from '../../../../helpers/object.helper';
 import { LoadableServiceInterface } from '../../../core/loadable';
 import { DiagnosticEditorComponent } from '../editor';
@@ -32,11 +32,14 @@ import { Diagnostic } from '../../diagnostic';
   selector: 'nga-diagnostic-datatable',
   templateUrl: './diagnostic.datatable.html',
 })
-export class DiagnosticDatatableComponent extends AbstractDatatableController implements OnInit {
+export class DiagnosticDatatableComponent extends AbstractDatatableController {
   protected componentName: string = 'DiagnosticDatatableComponent';
 
   @ViewChild('diagnosticEditor')
-  private diagnosticEditor: DiagnosticEditorComponent;
+    private diagnosticEditor: DiagnosticEditorComponent;
+
+  @ViewChild('diagnosticDatatableComponent')
+    private diagnosticDatatableComponent: DatatableComponent;
 
   constructor (
     protected loadingBar: SlimLoadingBarService,
@@ -44,8 +47,17 @@ export class DiagnosticDatatableComponent extends AbstractDatatableController im
     protected _state: GlobalState,
     protected translateService: TranslateService,
     private diagnosticService: DiagnosticService,
+    protected datatable: ElementRef,
   ) {
     super();
+  }
+
+  protected getDatatableComponent (): DatatableComponent {
+    return this.diagnosticDatatableComponent;
+  }
+
+  protected getTranslateService (): TranslateService {
+    return this.translateService;
   }
 
   getService(): LoadableServiceInterface {
@@ -89,10 +101,14 @@ export class DiagnosticDatatableComponent extends AbstractDatatableController im
   }
 
   onDiagnosticChanged(diagnostic: Diagnostic): void {
-    if (!this.updateModel(diagnostic)) {
+    let nDiag;
+    if (!diagnostic || !this.updateModel(diagnostic)) {
+      nDiag = this.getEmptyModel();
       this.refresh();
+    } else {
+      nDiag = ObjectHelper.clone(diagnostic, this.getEmptyModel());
     }
-    this.setModel(ObjectHelper.clone(diagnostic, this.getEmptyModel()));
+    this.setModel(nDiag);
     this.closeDiagnosticEditor();
   }
 

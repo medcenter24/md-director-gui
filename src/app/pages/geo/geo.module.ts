@@ -22,8 +22,10 @@ import { NgaModule } from '../../theme/nga.module';
 import { routing } from './geo.routing';
 import { GeoComponent } from './geo.component';
 import { AppTranslationModule } from '../../app.translation.module';
-import { CityDatatableModule } from '../../components/city/components/datatable';
 import { HospitalDatatableModule } from '../../components/hospital/components/datatable';
+import { GeoCityPageModule } from './city';
+import { GeoCountryPageModule } from './country';
+import { GeoRegionPageModule } from './region';
 
 @NgModule({
   imports: [
@@ -32,8 +34,10 @@ import { HospitalDatatableModule } from '../../components/hospital/components/da
     AppTranslationModule,
     NgaModule,
     routing,
-    CityDatatableModule,
     HospitalDatatableModule,
+    GeoCityPageModule,
+    GeoCountryPageModule,
+    GeoRegionPageModule,
   ],
   declarations: [
     GeoComponent,

@@ -16,26 +16,18 @@
  */
 
 import { Injectable } from '@angular/core';
-import { TranslateService } from '@ngx-translate/core';
 import { FormOption } from './form.option';
+import { HttpService } from '../../../core/http/http.service';
 
 @Injectable()
-export class FormOptionService {
+export class FormOptionService extends HttpService {
 
-  constructor(public translateService: TranslateService) {}
+  protected getPrefix (): string {
+    return 'director/forms/variables';
+  }
 
   getFormOptions(): Promise<FormOption[]> {
-    return new Promise<FormOption[]>(resolve => {
-      this.translateService.get('Yes').subscribe(() => {
-        resolve ([
-          // todo needs to be hardcoded on the backend, because I use them there
-          new FormOption(this.translateService.instant('Patient Name'), ':patient.name', 'medcenter24\\mcCore\\App\\Accident'),
-          new FormOption(this.translateService.instant('Doctor Name'), ':doctor.name', 'medcenter24\\mcCore\\App\\Accident'),
-          new FormOption(this.translateService.instant('Ref. Number'), ':ref.number', 'medcenter24\\mcCore\\App\\Accident'),
-          new FormOption(this.translateService.instant('Hospital Title'), ':hospital.title', 'medcenter24\\mcCore\\App\\Accident'),
-        ]);
-      });
-    });
+    return this.search({}).then(response => response.data as FormOption[]);
   }
 
   getOptions(type: string): Promise<FormOption[]> {

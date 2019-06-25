@@ -21,7 +21,7 @@ import { FinanceRule } from './finance.rule';
 import { LoadableServiceInterface } from '../core/loadable';
 
 @Injectable()
-export class FinanceService extends HttpService implements LoadableServiceInterface {
+export class FinanceService extends HttpService {
   protected getPrefix (): string {
     return 'director/finance';
   }

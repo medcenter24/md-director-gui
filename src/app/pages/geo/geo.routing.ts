@@ -18,9 +18,11 @@
 import { Routes, RouterModule } from '@angular/router';
 
 import { GeoComponent } from './geo.component';
-import { CityDatatableComponent } from '../../components/city/components/datatable/city.datatable.component';
 import { HospitalDatatableComponent }
   from '../../components/hospital/components/datatable/hospital.datatable.component';
+import { GeoCityPageComponent } from './city';
+import { GeoCountryPageComponent } from './country';
+import { GeoRegionPageComponent } from './region';
 
 // noinspection TypeScriptValidateTypes
 const routes: Routes = [
@@ -28,8 +30,10 @@ const routes: Routes = [
     path: '',
     component: GeoComponent,
     children: [
-      { path: 'cities', component: CityDatatableComponent },
+      { path: 'cities', component: GeoCityPageComponent },
       { path: 'hospitals', component: HospitalDatatableComponent },
+      { path: 'countries', component: GeoCountryPageComponent },
+      { path: 'regions', component: GeoRegionPageComponent },
     ],
   },
 ];

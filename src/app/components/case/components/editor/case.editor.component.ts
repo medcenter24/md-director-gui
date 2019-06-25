@@ -53,6 +53,8 @@ import { Service } from '../../../service';
 import { AutocompleterComponent } from '../../../ui/selector/components/autocompleter';
 import { CitiesService } from '../../../city';
 import { Hospital, HospitalsService } from '../../../hospital';
+import { BaToolboxAction } from '../../../../theme/components/baToolbox';
+import { FormViewerComponent } from '../../../forms/components/viewer';
 
 @Component({
   selector: 'nga-case-editor',
@@ -97,6 +99,9 @@ export class CaseEditorComponent extends LoadingComponent implements OnInit {
 
   @ViewChild('accidentReportFormAutocompleter')
     private accidentReportFormAutocompleter: AutocompleterComponent;
+
+  @ViewChild('formViewerComponent')
+    private formViewerComponent: FormViewerComponent;
 
   msgs: Message[] = [];
   accident: Accident;
@@ -159,7 +164,11 @@ export class CaseEditorComponent extends LoadingComponent implements OnInit {
           this.startLoader();
           this.accidentsService.getAccident(+params[ 'id' ]).then((accident: Accident) => {
             this.stopLoader();
+
             this._state.notifyDataChanged('menu.activeLink', { title: 'Cases' });
+
+            this.showToolbox();
+
             this.accident = accident ? accident : new Accident();
             if (this.accident.handlingTime && this.accident.handlingTime.length) {
               this.handlingTime = this.dateHelper.toEuropeFormatWithTime(this.accident.handlingTime);
@@ -203,7 +212,7 @@ export class CaseEditorComponent extends LoadingComponent implements OnInit {
               this.msgs.push({ severity: 'error', summary: this.translate.instant('Error'),
                 detail: '404 Not Found' });
               this._state.notifyDataChanged('growl', this.msgs);
-              this.router.navigate(['pages/cases']);
+              this.router.navigate(['pages/cases']).then();
             } else {
               this._logger.error(err);
             }
@@ -215,6 +224,28 @@ export class CaseEditorComponent extends LoadingComponent implements OnInit {
           }, 100);
         }
       });
+  }
+
+  private showToolbox(): void {
+    this.translate.get('Save').subscribe(() => {
+      const actions: BaToolboxAction[] = [];
+      actions.push(new BaToolboxAction(this.translate.instant('Back'), 'fa fa-angle-left', () => {
+
+      }, 'navigation'));
+      actions.push(new BaToolboxAction(this.translate.instant('Save'), 'fa fa-save', () => {
+        this.onSave();
+      }, 'save'));
+      actions.push(new BaToolboxAction(this.translate.instant('Delete'), 'fa fa-trash', () => {
+        this.onDelete();
+      }, 'close'));
+      actions.push(new BaToolboxAction(this.translate.instant('Close'), 'fa fa-times', () => {
+        this.onClose();
+      }, 'close'));
+      actions.push(new BaToolboxAction(this.translate.instant('Preview'), 'fa fa-eye', () => {
+        this.formViewerComponent.preview();
+      }, 'content'));
+      this._state.notifyDataChanged('toolbox.actions', actions);
+    });
   }
 
   protected onComponentsLoadingCompleted(): void {
@@ -264,29 +295,35 @@ export class CaseEditorComponent extends LoadingComponent implements OnInit {
         message: this.translate.instant('Are you sure that you want to close case?' +
           ' Every one will lost access to this case.'),
         accept: () => {
+          const postfix = 'caseClosing';
+          this.startLoader(postfix);
           this.caseService.closeCase(this.accident.id).then(() => {
             this.msgs = [];
             this.msgs.push({ severity: 'success', summary: this.translate.instant('Success'),
               detail: 'Case closed.' });
             this._state.notifyDataChanged('growl', this.msgs);
             this.scenarioComponent.reload();
+            this.stopLoader(postfix);
           }).catch(err => {
-            this.stopLoader('deleteCase');
-
             if (err.status === 404) {
               this.msgs = [];
               this.msgs.push({ severity: 'error', summary: this.translate.instant('Error'),
                 detail: this.translate.instant('404 Not Found') });
               this._state.notifyDataChanged('growl', this.msgs);
-              this.router.navigate(['pages/cases']);
+              this.goToList().then(() => this.stopLoader(postfix));
             } else {
               this._logger.error(err);
+              this.stopLoader(postfix);
             }
           });
         },
         icon: 'fa fa-warning',
       },
     );
+  }
+
+  private goToList(): Promise<boolean> {
+    return this.router.navigate(['pages/cases']);
   }
 
   onDelete(): void {
@@ -296,21 +333,20 @@ export class CaseEditorComponent extends LoadingComponent implements OnInit {
         message: this.translate.instant('Are you sure that you want to DELETE case?' +
           ' After that this case won\'t be restored.'),
         accept: () => {
-          this.startLoader('deleteCase');
+          const postfix = 'deleteCase';
+          this.startLoader(postfix);
           this.caseService.deleteCase(this.accident.id).then(() => {
-            this.stopLoader('deleteCase');
-            this.router.navigate(['pages/cases/']);
+            this.goToList().then(() => this.stopLoader(postfix));
           }).catch(err => {
-            this.stopLoader('deleteCase');
-
             if (err.status === 404) {
               this.msgs = [];
               this.msgs.push({ severity: 'error', summary: this.translate.instant('Error'),
                 detail: this.translate.instant('404 Not Found') });
               this._state.notifyDataChanged('growl', this.msgs);
-              this.router.navigate(['pages/cases']);
+              this.router.navigate(['pages/cases']).then(() => this.stopLoader(postfix));
             } else {
               this._logger.error(err);
+              this.stopLoader(postfix);
             }
           });
         },
@@ -323,27 +359,25 @@ export class CaseEditorComponent extends LoadingComponent implements OnInit {
     const postfix = 'SaveCase';
     this.startLoader(postfix);
     this.caseService.saveCase(data).then(response => {
-      this.stopLoader(postfix);
       this.doctorBeforeSave = this.doctorAccident.doctorId;
       this.msgs = [];
       this.msgs.push({ severity: 'success', summary: this.translate.instant('Saved'),
         detail: this.translate.instant('Successfully saved') });
       this._state.notifyDataChanged('growl', this.msgs);
       if (!data.accident.id) {
-        this.router.navigate([`pages/cases/${response.accident.id}`]);
+        this.router.navigate([`pages/cases/${response.accident.id}`]).then(() => this.stopLoader(postfix));
       } else {
         this.scenarioComponent.reload();
         this.caseFinance.reloadPayments(['income', 'assistant', 'caseable']);
+        this.stopLoader(postfix);
       }
     }).catch(err => {
-      this.stopLoader(postfix);
-
       if (err.status === 404) {
         this.msgs = [];
         this.msgs.push({ severity: 'error', summary: this.translate.instant('Error'),
           detail: this.translate.instant('404 Not Found') });
         this._state.notifyDataChanged('growl', this.msgs);
-        this.router.navigate(['pages/cases']);
+        this.goToList().then(() => this.stopLoader(postfix));
       } else if (err.status === 403) {
         this.msgs = [];
         this.msgs.push({
@@ -351,8 +385,10 @@ export class CaseEditorComponent extends LoadingComponent implements OnInit {
           detail: this.translate.instant('This case was closed'),
         });
         this._state.notifyDataChanged('growl', this.msgs);
+        this.stopLoader(postfix);
       } else {
         this._logger.error(err);
+        this.stopLoader(postfix);
       }
     });
   }

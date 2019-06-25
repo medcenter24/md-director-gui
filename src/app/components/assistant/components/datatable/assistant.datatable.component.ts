@@ -15,37 +15,32 @@
  * Copyright (c) 2019 (original work) MedCenter24.com;
  */
 
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { DatatableCol } from '../../../ui/datatable';
-import { DatatableConfig } from '../../../ui/datatable';
 import { DatatableAction } from '../../../ui/datatable';
 import { TranslateService } from '@ngx-translate/core';
-import { LoadingComponent } from '../../../core/components/componentLoader';
 import { Logger } from 'angular2-logger/core';
 import { GlobalState } from '../../../../global.state';
 import { SlimLoadingBarService } from 'ng2-slim-loading-bar';
 import { DatatableComponent } from '../../../ui/datatable';
 import { AssistantEditorComponent } from '../editor/assistant.editor.component';
 import { AssistantsService } from '../../assistant.service';
+import { AbstractDatatableController } from '../../../ui/tables/abstract.datatable.controller';
+import { LoadableServiceInterface } from '../../../core/loadable';
 import { Assistant } from '../../assistant';
 
 @Component({
   selector: 'nga-assistant-datatable',
   templateUrl: './assistant.datatable.html',
 })
-export class AssistantDatatableComponent extends LoadingComponent implements OnInit {
+export class AssistantDatatableComponent extends AbstractDatatableController {
   protected componentName: string = 'AssistantDatatableComponent';
 
-  @ViewChild('datatable')
-  private datatable: DatatableComponent;
+  @ViewChild('assistantDatatableComponent')
+    private assistantDatatableComponent: DatatableComponent;
 
   @ViewChild('editAssistantForm')
-  private editAssistantForm: AssistantEditorComponent;
-
-  datatableConfig: DatatableConfig;
-  langLoaded: boolean = false;
-  displayDialog: boolean = false;
-  assistant: Assistant;
+    private editAssistantForm: AssistantEditorComponent;
 
   constructor(
     protected _logger: Logger,
@@ -57,62 +52,47 @@ export class AssistantDatatableComponent extends LoadingComponent implements OnI
     super();
   }
 
-  ngOnInit(): void {
-    this.translateService.get('Yes').subscribe(() => {
-      this.langLoaded = true;
-      const cols = [
-        new DatatableCol('title', this.translateService.instant('Title')),
-        new DatatableCol('email', this.translateService.instant('E-Mail')),
-        new DatatableCol('commentary', this.translateService.instant('Commentary')),
-        new DatatableCol('refKey', this.translateService.instant('Ref. Key')),
-      ];
-
-      this.datatableConfig = DatatableConfig.factory({
-        dataProvider: (filters: Object) => {
-          return this.assistantService.search(filters);
-        },
-        cols,
-        refreshTitle: this.translateService.instant('Refresh'),
-        controlPanel: true,
-        controlPanelActions: [
-          new DatatableAction(this.translateService.instant('Add'), 'fa fa-plus', () => {
-            this.showDialogToAdd();
-          }),
-        ],
-        onRowSelect: event => {
-          this.onRowSelect(event);
-        },
-        sort: true,
-        sortBy: 'title',
-      });
-    });
+  protected getTranslateService (): TranslateService {
+    return this.translateService;
   }
 
-  showDialogToAdd() {
-    this.setAssistant(new Assistant());
-    this.displayDialog = true;
+  protected getDatatableComponent (): DatatableComponent {
+    return this.assistantDatatableComponent;
   }
 
-  private setAssistant(assistant: Assistant): void {
-    this.assistant = assistant;
+  getService (): LoadableServiceInterface {
+    return this.assistantService;
   }
 
-  onRowSelect(event) {
-    this.setAssistant(this.cloneAssistant(event.data));
-    this.displayDialog = true;
+  getEmptyModel (): Object {
+    return new Assistant();
   }
 
-  private cloneAssistant(a: Assistant): Assistant {
-    const assistant = new Assistant();
-    for (const prop of Object.keys(a)) {
-      assistant[prop] = a[prop];
-    }
-    return assistant;
+  getColumns (): DatatableCol[] {
+    return [
+      new DatatableCol('title', this.translateService.instant('Title')),
+      new DatatableCol('email', this.translateService.instant('E-Mail')),
+      new DatatableCol('commentary', this.translateService.instant('Commentary')),
+      new DatatableCol('refKey', this.translateService.instant('Ref. Key')),
+    ];
   }
 
-  onChanged(event): void {
+  getActions (): DatatableAction[] {
+    return [
+      new DatatableAction(this.translateService.instant('Add'), 'fa fa-plus', () => {
+        this.setModel(this.getEmptyModel());
+        this.displayDialog = true;
+      }),
+    ];
+  }
+
+  getSortBy(): string {
+    return 'title';
+  }
+
+  onChanged(assistant: Assistant): void {
     this.displayDialog = false;
-    this.datatable.refresh();
+    this.getDatatableComponent().refresh();
   }
 }
 

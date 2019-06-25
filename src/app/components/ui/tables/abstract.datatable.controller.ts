@@ -15,12 +15,11 @@
  * Copyright (c) 2019 (original work) MedCenter24.com;
  */
 
-import { OnInit, ViewChild } from '@angular/core';
+import { OnInit } from '@angular/core';
 import {
-    DatatableAction,
-    DatatableCol,
-    DatatableComponent,
-    DatatableConfig, DatatableTransformer,
+  DatatableAction,
+  DatatableCol, DatatableComponent,
+  DatatableConfig, DatatableTransformer,
 } from '../datatable';
 import { TranslateService } from '@ngx-translate/core';
 import { LoadingComponent } from '../../core/components/componentLoader';
@@ -28,13 +27,6 @@ import { ObjectHelper } from '../../../helpers/object.helper';
 import { LoadableServiceInterface } from '../../core/loadable';
 
 export abstract class AbstractDatatableController extends LoadingComponent implements OnInit {
-
-/**
- * Simplify the datatable injections
- */
-  @ViewChild('datatable')
-  private datatable: DatatableComponent;
-
   displayDialog: boolean;
   langLoaded: boolean = false;
   datatableConfig: DatatableConfig;
@@ -44,7 +36,8 @@ export abstract class AbstractDatatableController extends LoadingComponent imple
    */
   model: any;
 
-  protected abstract translateService: TranslateService;
+  protected abstract getTranslateService(): TranslateService;
+  protected abstract getDatatableComponent(): DatatableComponent;
   abstract getService(): LoadableServiceInterface;
   abstract getColumns(): DatatableCol[];
   abstract getActions(): DatatableAction[];
@@ -59,14 +52,14 @@ export abstract class AbstractDatatableController extends LoadingComponent imple
   }
 
   ngOnInit() {
-    this.translateService.get('Yes').subscribe(() => {
+    this.getTranslateService().get('Yes').subscribe(() => {
       this.langLoaded = true;
       this.datatableConfig = DatatableConfig.factory({
         dataProvider: (filters: any) => {
           return this.getService().search(filters);
         },
         cols: this.getColumns(),
-        refreshTitle: this.translateService.instant('Refresh'),
+        refreshTitle: this.getTranslateService().instant('Refresh'),
         controlPanel: true,
         controlPanelActions: this.getActions(),
         onRowSelect: event => {
@@ -98,7 +91,10 @@ export abstract class AbstractDatatableController extends LoadingComponent imple
         // to close popup
         this.setModel();
       })
-      .catch(() => this.stopLoader(postfix));
+      .catch(e => {
+        console.error(e);
+        this.stopLoader(postfix);
+      });
   }
 
   protected onRowSelect(event) {
@@ -117,11 +113,11 @@ export abstract class AbstractDatatableController extends LoadingComponent imple
   }
 
   refresh(): void {
-    this.datatable.refresh();
+    this.getDatatableComponent().refresh();
   }
 
   updateModel(model: Object): boolean {
-    return this.datatable.updateModel(model);
+    return this.getDatatableComponent().updateModel(model);
   }
 
   delete(): void {
@@ -132,7 +128,7 @@ export abstract class AbstractDatatableController extends LoadingComponent imple
         this.stopLoader(postfix);
         this.setModel();
         this.displayDialog = false;
-        this.datatable.refresh();
+        this.getDatatableComponent().refresh();
       })
       .catch(() => this.stopLoader(postfix));
   }

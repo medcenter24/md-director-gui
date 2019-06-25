@@ -1,0 +1,64 @@
+<!--
+  ~ This program is free software; you can redistribute it and/or
+  ~ modify it under the terms of the GNU General Public License
+  ~ as published by the Free Software Foundation; under version 2
+  ~ of the License (non-upgradable).
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU General Public License for more details.
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with this program; if not, write to the Free Software
+  ~ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+  ~
+  ~ Copyright (c) 2019 (original work) MedCenter24.com;
+  -->
+
+<nga-datatable
+  *ngIf="langLoaded"
+  #datatable
+  [config]="datatableConfig"
+></nga-datatable>
+
+<p-dialog
+  header="{{ 'Region' | translate }}"
+  [(visible)]="displayDialog"
+  [responsive]="true"
+  [closable]="true"
+  [modal]="true"
+  appendTo="body">
+
+  <div class="ui-g ui-fluid" *ngIf="region">
+    <div class="ui-g-12">
+      <div class="ui-g-3">
+        <label for="title" translate>Region</label>
+      </div>
+      <div class="ui-g-9">
+        <input pInputText id="title" [(ngModel)]="region.title" />
+      </div>
+    </div>
+    <div class="ui-g-12">
+      <div class="ui-g-3">
+        <label for="title" translate>Country</label>
+      </div>
+      <div class="ui-g-9">
+        <nga-autocompleter
+                #countryAutocompleterComponent
+                [service]="countryService"
+                [preloadedData]="region.countryId"
+                placeholder="Countries"
+                labelField="title"
+                (selected)="region.countryId = $event.id"
+                (init)="startLoader($event)"
+                (loaded)="stopLoader($event)"
+        ></nga-autocompleter>
+      </div>
+    </div>
+  </div>
+  <p-footer>
+    <div class="ui-dialog-buttonpane ui-helper-clearfix">
+      <button type="button" *ngIf="region && region.id" pButton icon="fa fa-close" (click)="delete()" label="{{ 'Delete' | translate }}"></button>
+      <button type="button" pButton icon="fa fa-check" (click)="save()" label="{{ 'Save' | translate }}"></button>
+    </div>
+  </p-footer>
+</p-dialog>
