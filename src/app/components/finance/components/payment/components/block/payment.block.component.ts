@@ -89,8 +89,8 @@ export class PaymentBlockComponent {
     }
   }
 
-  onPriceChanged(): void {
-    this.changingPrice = Number(this.changingPrice);
+  onPriceChanged(event): void {
+    this.changingPrice = Number(event.target.value);
     this.dataChanged();
   }
 

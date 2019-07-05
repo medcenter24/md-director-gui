@@ -1,4 +1,7 @@
 {
+  "Are you sure that you want to DELETE case? After that this case won't be restored.":  "Вы хотите удалить дело?<br><br>Дело будет недоступно и удалено из поиска.",
+  "Are you sure that you want to close case? Every one will lost access to this case.": "Вы действительно хотите закрыть дело?<br><br>Дело нельзя будет изменить.",
+  "The case has unsaved changes, would you like to save it?": "Вы хотите сохранить изменения?",
   "Are you sure that you want to delete this diagnostic?": "Удалить диагностику?",
   "formable type":  "Тип формы",
   "formableType": "Тип формы",

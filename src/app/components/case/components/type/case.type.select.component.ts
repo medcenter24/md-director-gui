@@ -18,12 +18,15 @@
 import { Component, Output, EventEmitter, Input, OnInit } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { SelectItem } from 'primeng/primeng';
+import { LoadableComponent } from '../../../core/components/componentLoader';
 
 @Component({
   selector: 'nga-case-type-select',
   templateUrl: './case.type.select.html',
 })
-export class CaseTypeSelectComponent implements OnInit {
+export class CaseTypeSelectComponent extends LoadableComponent implements OnInit {
+
+  protected componentName: string = 'CaseFinanceComponent';
 
   @Input() selectedCaseTypeId: string;
   @Output() selected: EventEmitter<string> = new EventEmitter<string>();
@@ -32,7 +35,9 @@ export class CaseTypeSelectComponent implements OnInit {
 
   constructor (
     private translate: TranslateService,
-  ) { }
+  ) {
+    super();
+  }
 
   ngOnInit () {
     this.translate.get('Yes').subscribe(() => {

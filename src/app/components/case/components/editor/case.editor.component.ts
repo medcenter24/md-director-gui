@@ -128,6 +128,11 @@ export class CaseEditorComponent extends LoadingComponent implements OnInit {
    */
   doctorBeforeSave: number = 0;
 
+  /**
+   * if user touched any data on the page
+   */
+  hasChangedData: boolean = false;
+
   protected componentName: string = 'CaseEditorComponent';
 
   constructor (private route: ActivatedRoute,
@@ -150,6 +155,37 @@ export class CaseEditorComponent extends LoadingComponent implements OnInit {
     super();
   }
 
+  dataChanged(): void {
+    if (!this.isLoading()) {
+      this.hasChangedData = true;
+    }
+  }
+
+  requireSave(): Promise<any> {
+    return new Promise<any>((resolve, reject) => {
+      if (this.hasChangedData) {
+        this._state.notifyDataChanged('confirmDialog',
+          {
+            header: this.translate.instant('Warning'),
+            message: this.translate.instant('The case has unsaved changes, would you like to save it?'),
+            accept: () => {
+              this.onSave();
+              resolve();
+            },
+            reject: () => {
+              if (reject) {
+                reject();
+              }
+            },
+            icon: 'fa fa-question-circle',
+          },
+        );
+      } else {
+        resolve();
+      }
+    });
+  }
+
   ngOnInit () {
     this.accident = new Accident();
 
@@ -161,8 +197,10 @@ export class CaseEditorComponent extends LoadingComponent implements OnInit {
         this._state.notifyDataChanged('menu.activeLink', { title: 'Cases' });
 
         if (+params[ 'id' ]) {
+          // start of loading data and the page
           this.startLoader();
           this.accidentsService.getAccident(+params[ 'id' ]).then((accident: Accident) => {
+            // it has no sense to move it to the end of function, because components load asynchronously
             this.stopLoader();
 
             this._state.notifyDataChanged('menu.activeLink', { title: 'Cases' });
@@ -242,7 +280,7 @@ export class CaseEditorComponent extends LoadingComponent implements OnInit {
         this.onClose();
       }, 'close'));
       actions.push(new BaToolboxAction(this.translate.instant('Preview'), 'fa fa-eye', () => {
-        this.formViewerComponent.preview();
+        this.previewCase();
       }, 'content'));
       this._state.notifyDataChanged('toolbox.actions', actions);
     });
@@ -250,6 +288,30 @@ export class CaseEditorComponent extends LoadingComponent implements OnInit {
 
   protected onComponentsLoadingCompleted(): void {
     this.tabStopper.init();
+  }
+
+  previewCase(): void {
+    this.requireSave().then(() => {
+      this.formViewerComponent.preview(true);
+    }).catch(() => {
+      // have to be defined, otherwise won't work
+    });
+  }
+
+  casePdf(): void {
+    this.requireSave().then(() => {
+      this.formViewerComponent.downloadPdf(true);
+    }).catch(() => {
+      // have to be defined, otherwise won't work
+    });
+  }
+
+  printCase(): void {
+    this.requireSave().then(() => {
+      this.formViewerComponent.print(true);
+    }).catch(() => {
+      // have to be defined, otherwise won't work
+    });
   }
 
   onSave(): void {
@@ -273,7 +335,7 @@ export class CaseEditorComponent extends LoadingComponent implements OnInit {
       patient: this.patientSelector.getPatient(),
     };
 
-    if (this.doctorBeforeSave && this.doctorBeforeSave !== this.doctorAccident.doctorId) {
+    if (this.doctorBeforeSave && this.doctorBeforeSave !== +this.doctorAccident.doctorId) {
       this._state.notifyDataChanged('confirmDialog',
         {
           header: this.translate.instant('Warning'),
@@ -359,10 +421,11 @@ export class CaseEditorComponent extends LoadingComponent implements OnInit {
     const postfix = 'SaveCase';
     this.startLoader(postfix);
     this.caseService.saveCase(data).then(response => {
-      this.doctorBeforeSave = this.doctorAccident.doctorId;
+      this.doctorBeforeSave = +this.doctorAccident.doctorId;
       this.msgs = [];
       this.msgs.push({ severity: 'success', summary: this.translate.instant('Saved'),
         detail: this.translate.instant('Successfully saved') });
+      this.hasChangedData = false;
       this._state.notifyDataChanged('growl', this.msgs);
       if (!data.accident.id) {
         this.router.navigate([`pages/cases/${response.accident.id}`]).then(() => this.stopLoader(postfix));
@@ -400,31 +463,38 @@ export class CaseEditorComponent extends LoadingComponent implements OnInit {
     } else if (!this.hospitalAccident) {
       this.hospitalAccident = new HospitalAccident();
     }
+    this.dataChanged();
   }
 
   onAccidentTypeSelected(accidentType: AccidentType): void {
+    this.dataChanged();
     this.accident.accidentTypeId = accidentType.id;
   }
 
   onAssistantChanged(assistant: Assistant): void {
+    this.dataChanged();
     this.accident.assistantId = assistant.id;
   }
 
   onAccidentSelected(accident: Accident): void {
+    this.dataChanged();
     this.accident.parentId = 0;
     setTimeout(() => this.accident.parentId = accident.id, 100);
   }
 
   onParentDeleted(): void {
+    this.dataChanged();
     this.accident.parentId = 0;
     this.parentSelector.selectItems(0);
   }
 
   onReferralChanged(event): void {
+    this.dataChanged();
     this.accident.refNum = event.target.value;
   }
 
   onServicesChanged(services: Service[]): void {
+    this.dataChanged();
     if (!this.isLoading()) {
       this.services = services;
       this.onSave();
@@ -432,22 +502,32 @@ export class CaseEditorComponent extends LoadingComponent implements OnInit {
   }
 
   onDiagnosticsChanged(diagnostics: Diagnostic[]): void {
+    this.dataChanged();
+    this.diagnostics = diagnostics;
+  }
+
+  onDiagnosticsLoaded(diagnostics: Diagnostic[]): void {
+    // loaded by the accidentId, have to be refactored to avoid and moved to the accident service
     this.diagnostics = diagnostics;
   }
 
   onSurveysChanged(surveys: Survey[]): void {
+    this.dataChanged();
     this.surveys = surveys;
   }
 
   onDoctorChanged(doc): void {
+    this.dataChanged();
     this.doctorAccident.doctorId = doc ? doc.id : 0;
   }
 
   onHospitalChanged(hospital: Hospital): void {
+    this.dataChanged();
     this.hospitalAccident.hospitalId = hospital ? hospital.id : 0;
   }
 
   onCityChanged(city): void {
+    this.dataChanged();
     const cityId = city ? city.id : 0;
     this.accident.cityId = cityId;
 
@@ -459,28 +539,31 @@ export class CaseEditorComponent extends LoadingComponent implements OnInit {
   }
 
   onCheckpointChange(checkpoints: number[]): void {
+    this.dataChanged();
     this.checkpoints = checkpoints;
   }
 
   private defineDoctorByCity(cityId: number): void {
-    this.loadingBar.start();
+    const postfix = 'DefineDoctorByCity';
+    this.startLoader(postfix);
     this.doctorService.getDoctorsByCity(cityId).then((doctors: Doctor[]) => {
       if (doctors && doctors.length) {
         this.doctorAccident.doctorId = doctors[0].id;
       }
-      this.loadingBar.complete();
-    });
+      this.stopLoader(postfix);
+    }).catch(() => this.stopLoader(postfix));
   }
 
   private loadDocuments(): void {
-    this.startLoader('getDocuments');
+    const postfix = 'getDocuments';
+    this.startLoader(postfix);
     this.caseService.getDocuments(this.accident.id)
       .then((documents: Document[]) => {
         this.documents = documents;
-        this.stopLoader('getDocuments');
+        this.stopLoader(postfix);
       }).catch(err => {
         this._logger.error(err);
-        this.stopLoader('getDocuments');
+        this.stopLoader(postfix);
       });
   }
 
@@ -513,7 +596,7 @@ export class CaseEditorComponent extends LoadingComponent implements OnInit {
     this.caseService.getDoctorCase(this.accident.id)
       .then((doctorAccident: DoctorAccident) => {
         this.doctorAccident = doctorAccident;
-        this.doctorBeforeSave = doctorAccident.doctorId;
+        this.doctorBeforeSave = +doctorAccident.doctorId;
         if (+this.doctorAccident.doctorId) {
           this.doctorAutocompleter.selectItems(+this.doctorAccident.doctorId);
         }
@@ -564,7 +647,9 @@ export class CaseEditorComponent extends LoadingComponent implements OnInit {
   }
 
   onPatientSelected(patient: Patient): void {
+    this.dataChanged();
     this.patient = patient;
+    this.accident.patientId = patient.id;
     this.editPatientForm.setPatient(patient);
     this.patientSelector.resetPatient(patient);
   }
@@ -578,7 +663,66 @@ export class CaseEditorComponent extends LoadingComponent implements OnInit {
   }
 
   onAssistantGuaranteeFileUploaded(file: Upload): void {
+    this.dataChanged();
     this.assistantGuaranteeFile = file;
     this.accident.assistantGuaranteeId = file.id;
+  }
+
+  onReportFormChanged(event): void {
+    this.dataChanged();
+    this.accident.formReportId = event.id;
+  }
+
+  onAssistantRefNumChanged(event): void {
+    this.dataChanged();
+  }
+
+  onHandlingTimeChanged(event): void {
+    this.dataChanged();
+  }
+
+  onSymptomsChanged(): void {
+    this.dataChanged();
+  }
+
+  onParentChanged(event): void {
+    this.dataChanged();
+    this.accident.parentId = event.value;
+  }
+
+  onPatientDataChanged(): void {
+    this.dataChanged();
+  }
+
+  onAppliedTimeChanged(): void {
+    this.dataChanged();
+  }
+
+  onDiagnosisChanged(): void {
+    this.dataChanged();
+  }
+
+  onAdditionalInvestigationChanged(): void {
+    this.dataChanged();
+  }
+
+  onGuaranteeFormChanged(event): void {
+    this.dataChanged();
+    this.hospitalAccident.hospitalGuaranteeId = event.id;
+  }
+
+  onHospitalInvoiceChanged(event): void {
+    this.dataChanged();
+    this.hospitalAccident.hospitalInvoiceId = event.id;
+  }
+
+  onInvoiceToAssistantChanged(event): void {
+    this.dataChanged();
+    this.accident.assistantInvoiceId = event.id;
+  }
+
+  onDocumentsChanged(event): void {
+    this.dataChanged();
+    this.accident.assistantInvoiceId = event.id;
   }
 }
