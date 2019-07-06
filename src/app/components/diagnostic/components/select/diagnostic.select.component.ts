@@ -20,7 +20,7 @@ import { DiagnosticService } from '../../diagnostic.service';
 import { SelectItem } from 'primeng/primeng';
 import { Diagnostic } from '../../diagnostic';
 import { Logger } from 'angular2-logger/core';
-import { LoadableComponent } from '../../../core/components/componentLoader/LoadableComponent';
+import { LoadableComponent } from '../../../core/components/componentLoader';
 
 @Component({
   selector: 'nga-select-diagnostics',
@@ -47,7 +47,6 @@ export class DiagnosticSelectComponent extends LoadableComponent implements OnIn
   ngOnInit () {
     this.startLoader();
     this.diagnosticsService.getDiagnostics().then(diagnostics => {
-      this.stopLoader();
       this.diagnostics = diagnostics;
       this.dataDiagnostics = diagnostics.map(x => {
         return {
@@ -61,6 +60,7 @@ export class DiagnosticSelectComponent extends LoadableComponent implements OnIn
         this.selectedDiagnostics = [];
       }
       this.isLoaded = true;
+      this.stopLoader();
     }).catch((err) => {
       this.stopLoader();
       this._logger.error(err);

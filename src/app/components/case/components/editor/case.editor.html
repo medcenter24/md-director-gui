@@ -17,7 +17,7 @@
 <div *ngIf="accident" class="case-editor edit-form-container">
   <div class="form-block row">
     <ba-card class="col-lg-9" baCardClass="with-scroll">
-      <form class="form edit-form" (ngSubmit)="onSubmit()" #accidentForm="ngForm">
+      <form class="form edit-form" #accidentForm="ngForm">
 
         <div class="main-part">
           <div class="form-group">
@@ -39,8 +39,10 @@
                   <label class="label separate required" *ngIf="!accident.id" translate>Choose Case</label>
                   <nga-case-type-select
                           *ngIf="!accident.id"
-                          [(selectedCaseTypeId)]="accident.caseableType"
+                          [selectedCaseTypeId]="accident.caseableType"
                           (selected)="onCaseTypeSelected($event)"
+                          (init)="startLoader($event)"
+                          (loaded)="stopLoader($event)"
                   ></nga-case-type-select>
 
                   <h4 *ngIf="accident.id && isDoctorAccident()"
@@ -54,11 +56,12 @@
                   <div class="col-sm-8 text-right">
                     <!-- Accident Export-Print -->
                     <nga-autocompleter
+                            *ngIf="!isLoading()"
                         #accidentReportFormAutocompleter
                         [service]="formService"
                         placeholder="Choose a Form"
                         labelField="title"
-                        (selected)="accident.formReportId = $event.id"
+                        (selected)="onReportFormChanged($event)"
                         (init)="startLoader($event)"
                         (loaded)="stopLoader($event)"
                         [preloadedData]="accident.formReportId"
@@ -70,6 +73,10 @@
                             *ngIf="+accident.formReportId"
                             [formId]="accident.formReportId"
                             [formableId]="accident.id"
+                            [emitInsteadOfAction]="true"
+                            (onPreview)="previewCase()"
+                            (onPdf)="casePdf()"
+                            (onPrint)="printCase()"
                     ></nga-form-viewer>
                   </div>
                 </div>
@@ -116,8 +123,9 @@
               <div class="col-sm-4">
                 <label class="label required separate" translate>Assistant Ref Num</label>
                 <input type="text" pInputText
-                       [(value)]="accident.assistantRefNum"
-                       (change)="accident.assistantRefNum=$event.target.value"
+                       name="assistant_ref_num"
+                       [(ngModel)]="accident.assistantRefNum"
+                       (change)="onAssistantRefNumChanged($event)"
                        placeholder="{{ 'Assistant Ref Num' | translate }}">
               </div>
               <!-- /Assistant Ref Num -->
@@ -181,6 +189,7 @@
                         name="handlingTime"
                         mask="99.99.9999 99:99"
                         [(ngModel)]="handlingTime"
+                        (change)="onHandlingTimeChanged($event)"
                         [placeholder]="'d.m.Y H:m' | translate"
                         slotChar="dd.mm.yyyy hh:ii"></p-inputMask>
               </div>
@@ -216,6 +225,7 @@
                               placeholder="{{ 'Symptoms' | translate }}"
                               class="form-control"
                               [(ngModel)]="accident.symptoms"
+                              (change)="onSymptomsChanged()"
                               name="symptoms"
                     ></textarea>
                   </div>
@@ -242,7 +252,8 @@
                 <div class="row" *ngIf="+accident.parentId">
                   <div class="col-sm-12">
                     <nga-accident-card
-                      [(selectedAccidentId)]="accident.parentId"
+                      [selectedAccidentId]="accident.parentId"
+                      (change)="onParentChanged($event)"
                       (closed)="onParentDeleted()"
                       (init)="startLoader($event)"
                       (loaded)="stopLoader($event)"
@@ -296,6 +307,7 @@
                           placeholder="{{ 'Patient Data' | translate }}"
                           class="form-control"
                           [(ngModel)]="accident.contacts"
+                          (change)="onPatientDataChanged()"
                           name="contacts"
                 ></textarea>
               </div>
@@ -327,7 +339,7 @@
                 <label class="label separate" translate>Checkpoints</label>
                 <br><br>
                 <nga-checkpoints-selector
-                  [(selectedCheckpoints)]="checkpoints"
+                  [selectedCheckpoints]="checkpoints"
                   (change)="onCheckpointChange($event)"
                   (init)="startLoader($event)"
                   (loaded)="stopLoader($event)"
@@ -349,6 +361,7 @@
                         name="appliedTime"
                         mask="99.99.9999 99:99"
                         [(ngModel)]="appliedTime"
+                        (change)="onAppliedTimeChanged()"
                         [placeholder]="'d.m.Y H:m' | translate"
                         slotChar="dd.mm.yyyy hh:ii"></p-inputMask>
                     </div>
@@ -405,6 +418,7 @@
                       <nga-diagnostics-selector
                         [caseId]="accident.id"
                         (changed)="onDiagnosticsChanged($event)"
+                        (diagnosticsLoaded)="onDiagnosticsLoaded($event)"
                         (init)="startLoader($event)"
                         (loaded)="stopLoader($event)"
                       ></nga-diagnostics-selector>
@@ -422,6 +436,7 @@
                               placeholder="{{ 'Made a diagnosis' | translate }}"
                               class="form-control"
                               [(ngModel)]="doctorAccident.recommendation"
+                              (change)="onDiagnosisChanged()"
                               name="recommendation"
                     ></textarea>
                   </div>
@@ -432,6 +447,7 @@
                               placeholder="{{ 'Additional Investigation' | translate }}"
                               class="form-control"
                               [(ngModel)]="doctorAccident.investigation"
+                              (change)="onAdditionalInvestigationChanged()"
                               name="investigation"
                     ></textarea>
                   </div>
@@ -450,7 +466,7 @@
                                 [service]="formService"
                                 placeholder="Choose a Form"
                                 labelField="title"
-                                (selected)="hospitalAccident.hospitalGuaranteeId = $event.id"
+                                (selected)="onGuaranteeFormChanged($event)"
                                 (init)="startLoader($event)"
                                 (loaded)="stopLoader($event)"
                                 [preloadedData]="hospitalAccident.hospitalGuaranteeId"
@@ -470,7 +486,7 @@
                                 #hospitalInvoiceEditor
                                 [autosave]="true"
                                 [label]="'Invoice from the hospital' | translate"
-                                (saved)="hospitalAccident.hospitalInvoiceId = $event.id"
+                                (saved)="onHospitalInvoiceChanged($event)"
                                 (init)="startLoader($event)"
                                 (loaded)="stopLoader($event)"
                         ></nga-invoice-editor>
@@ -488,7 +504,7 @@
                             [autosave]="true"
                             [reload]="true"
                             [label]="'Invoice to the assistant' | translate"
-                            (saved)="accident.assistantInvoiceId = $event.id"
+                            (saved)="onInvoiceToAssistantChanged($event)"
                             [invoice]="assistantInvoice"
                             (init)="startLoader($event)"
                             (loaded)="stopLoader($event)"
@@ -502,7 +518,8 @@
                   <div class="col-12">
                     <label class="label separated" translate>Documents</label>
                     <nga-file-uploader
-                      [(documents)]="documents"
+                      [documents]="documents"
+                      (change)="onDocumentsChanged($event)"
                       [url]="caseService.getDocumentsUrl(accident.id)"
                       (init)="startLoader($event)"
                       (loaded)="stopLoader($event)"
@@ -517,7 +534,7 @@
                     <label class="label separate" translate>Finance</label>
                     <nga-case-finance
                       #caseFinance
-                      [(accident)]="accident"
+                      [accident]="accident"
                     ></nga-case-finance>
                   </div>
                 </div>
@@ -534,10 +551,10 @@
 
         <button pButton type="button" class="ui-button-secondary pull-right"
                 label="{{ 'Close' | translate }}" *ngIf="accident.id"
-                (click)="onClose($event)"></button>
+                (click)="onClose()"></button>
         <button pButton type="button" class="ui-button-danger pull-right offset-right10"
                 label="{{ 'Delete' | translate }}" *ngIf="accident.id"
-                (click)="onDelete($event)"></button>
+                (click)="onDelete()"></button>
       </form>
     </ba-card>
     <div class="col-lg-3 hidden-md-down case-details" *ngIf="accident.id">

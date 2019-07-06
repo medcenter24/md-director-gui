@@ -19,8 +19,8 @@ import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angu
 import { Diagnostic } from '../../diagnostic';
 import { CasesService } from '../../../case/cases.service';
 import { Logger } from 'angular2-logger/core';
-import { LoadableComponent } from '../../../core/components/componentLoader/LoadableComponent';
 import { DiagnosticSelectComponent } from '../select/diagnostic.select.component';
+import { LoadableComponent } from '../../../core/components/componentLoader';
 
 @Component({
   selector: 'nga-diagnostics-selector',
@@ -31,6 +31,7 @@ export class DiagnosticsSelectorComponent extends LoadableComponent implements O
 
   @Input() caseId: number = 0;
   @Output() changed: EventEmitter<Diagnostic[]> = new EventEmitter<Diagnostic[]>();
+  @Output() diagnosticsLoaded: EventEmitter<Diagnostic[]> = new EventEmitter<Diagnostic[]>();
   @ViewChild('selectDiagnostics')
     private selectDiagnosticsComponent: DiagnosticSelectComponent;
 
@@ -71,7 +72,8 @@ export class DiagnosticsSelectorComponent extends LoadableComponent implements O
         this.stopLoader(postfix);
         this.caseDiagnostics = diagnostics;
         this.selectDiagnosticsComponent.reloadChosenDiagnostics(this.caseDiagnostics);
-        this.changed.emit(this.caseDiagnostics);
+        // if I loaded diagnostics by the case id
+        this.diagnosticsLoaded.emit(this.caseDiagnostics);
       }).catch((err) => {
         this.stopLoader(postfix);
         this._logger.error(err);

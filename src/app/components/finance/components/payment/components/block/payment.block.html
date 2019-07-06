@@ -28,7 +28,7 @@
           {{ changingPrice }}
         </span>
         <span pInplaceContent>
-          <input type="text" [(ngModel)]="changingPrice" (keyup)="onPriceChanged()" pKeyFilter="money" pInputText>
+          <input type="text" [value]="changingPrice" (keyup)="onPriceChanged($event)" pKeyFilter="money" pInputText>
         </span>
       </p-inplace>
       <span class="fa fa-calculator pull-right {{ formula ? 'text-dark' : 'text-muted' }}"

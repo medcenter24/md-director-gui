@@ -15,7 +15,7 @@
  * Copyright (c) 2019 (original work) MedCenter24.com;
  */
 
-import { Component, ElementRef, Input, ViewChild } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, Output, ViewChild } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { Logger } from 'angular2-logger/core';
 import { SlimLoadingBarService } from 'ng2-slim-loading-bar';
@@ -46,14 +46,19 @@ import { FormService } from '../../form.service';
     <iframe id="printf" name="printf" style="display: none;"></iframe>
 
     <p-dialog [(visible)]="formPreviewerVisible"
+              header="{{ 'Form Preview' | translate }}"
               [style]="{width: '800px'}"
+              [contentStyle]="{'max-height':'90vh'}"
+              [modal]="true"
+              [blockScroll]="true"
+              [closeOnEscape]="true"
+              [dismissableMask]="true"
+              [closable]="true"
               appendTo="body">
-      <p-header>
-        {{ 'Form Preview' | translate }}
-      </p-header>
-      <div #previewContainer></div>
+      <div class="preview-content" #previewContainer></div>
     </p-dialog>
   `,
+  styleUrls: ['./form.viewer.scss'],
 })
 export class FormViewerComponent extends LoadableComponent {
   protected componentName: string = 'FormViewerComponent';
@@ -62,10 +67,32 @@ export class FormViewerComponent extends LoadableComponent {
    * Identifier of the form to show
    */
   @Input() formId: number;
+
   /**
    * Identifier of the source of the data for this form
    */
   @Input() formableId: number;
+
+  /**
+   * If initialized - will be run before performance
+   * doesn't work with all these inner parameters
+   */
+ /*
+  @Input() before(): Promise<any> {
+    return new Promise<any>((resolve) => {
+      resolve();
+    });
+  }*/
+
+  /**
+   * will be triggered event instead of real method
+   * to pass control upper
+   */
+  @Input() emitInsteadOfAction: boolean = false;
+
+  @Output() onPreview: EventEmitter<any> = new EventEmitter();
+  @Output() onPrint: EventEmitter<any> = new EventEmitter();
+  @Output() onPdf: EventEmitter<any> = new EventEmitter();
 
   @ViewChild('previewContainer')
   previewContainer: ElementRef;
@@ -88,45 +115,62 @@ export class FormViewerComponent extends LoadableComponent {
     });
   }
 
-  private valid(): boolean {
-    let res: boolean = true;
-    if (!this.formId || !this.formableId) {
-      const msgs = [];
-      msgs.push({ severity: 'error', summary: this.errorTitle, detail: this.errorMessage });
-      this._state.notifyDataChanged('growl', msgs);
-      res = false;
-    }
-    return res;
+  private valid(): Promise<any> {
+    return new Promise<any>((resolve, reject) => {
+      if (!this.formId || !this.formableId) {
+        const msgs = [];
+        msgs.push({ severity: 'error', summary: this.errorTitle, detail: this.errorMessage });
+        this._state.notifyDataChanged('growl', msgs);
+        if (reject) {
+          reject();
+        }
+      } else {
+        resolve();
+      }
+    });
   }
 
-  downloadPdf(): void {
-    if (this.valid()) {
-      this.formService.downloadPdf(this.formId, this.formableId);
-    }
-  }
-
-  print(): void {
-    if (this.valid()) {
-      const postfix = 'Print';
-      this.startLoader('Print');
-      this.formService.getReportHtml(this.formId, this.formableId)
-        .then(html => {
-          this.loadingBar.complete();
-          const newWin = window.frames['printf'];
-          newWin.document.write(`<body onload="window.print()">${html}</body>`);
-          newWin.document.close();
-        })
-        .catch(() => this.stopLoader(postfix));
+  downloadPdf(forceRun: boolean = false): void {
+    if (this.emitInsteadOfAction && !forceRun) {
+      this.onPdf.emit();
+    } else {
+      this.valid()
+        .then(() => this.formService.downloadPdf(this.formId, this.formableId));
     }
   }
 
-  preview(): void {
-    if (this.valid()) {
-      this.formService.getReportHtml(this.formId, this.formableId)
-        .then((html: string) => {
-          this.formPreviewerVisible = true;
-          this.previewContainer.nativeElement.innerHTML = html;
-        }).catch();
+  print(forceRun: boolean = false): void {
+    if (this.emitInsteadOfAction && !forceRun) {
+      this.onPrint.emit();
+    } else {
+      this.valid()
+        .then( () => {
+          const postfix = 'Print';
+          this.startLoader( postfix );
+          this.formService.getReportHtml( this.formId, this.formableId )
+            .then( html => {
+              this.stopLoader( postfix );
+              const newWin = window.frames[ 'printf' ];
+              newWin.document.write( `<body onload="window.print()">${html}</body>` );
+              newWin.document.close();
+            } )
+            .catch( () => this.stopLoader( postfix ) );
+        } );
+    }
+  }
+
+  preview(forceRun: boolean = false): void {
+    if (this.emitInsteadOfAction && !forceRun) {
+      this.onPreview.emit();
+    } else {
+      this.valid()
+        .then( () => {
+          this.formService.getReportHtml( this.formId, this.formableId )
+            .then( ( html: string ) => {
+              this.formPreviewerVisible = true;
+              this.previewContainer.nativeElement.innerHTML = html;
+            } ).catch();
+        } );
     }
   }
 }
