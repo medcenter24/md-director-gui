@@ -15,18 +15,17 @@
  * Copyright (c) 2019 (original work) MedCenter24.com;
  */
 
-import {Component} from '@angular/core';
-
-import {GlobalState} from '../../../global.state';
+import { Component } from '@angular/core';
+import { GlobalState } from '../../../global.state';
 
 @Component({
-  selector: 'ba-content-top',
+  selector: 'nga-content-top',
   styleUrls: ['./baContentTop.scss'],
   templateUrl: './baContentTop.html',
 })
-export class BaContentTop {
+export class BaContentTopComponent {
 
-  public activePageTitle: string = '';
+  activePageTitle: string = '';
 
   constructor(private _state: GlobalState) {
     this._state.subscribe('menu.activeLink', (activeLink) => {

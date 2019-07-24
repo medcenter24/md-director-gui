@@ -29,7 +29,7 @@ import { environment } from '../../environments/environment';
       <div class="al-main">
           <nga-toolbox-component></nga-toolbox-component>
           <div class="al-content">
-              <ba-content-top></ba-content-top>
+              <nga-content-top></nga-content-top>
               <router-outlet></router-outlet>
           </div>
       </div>

@@ -101,8 +101,12 @@ export class AppComponent implements AfterViewInit {
     this._state.subscribe('changeUri', (uri: string) => {
       this.storage.setItem('lastActiveUri', uri);
     });
-    this._state.subscribe('token', (token) => {
+    this._state.subscribe('token', (token: string) => {
       // token has been changed
+    });
+
+    this._state.subscribe('seeker', (text: string) => {
+      // someone click on the search button or provided the text to search and press enter
     });
 
     // blocker should be turned off on the route change (to not block content)
