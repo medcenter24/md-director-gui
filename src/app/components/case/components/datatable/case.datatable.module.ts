@@ -22,6 +22,7 @@ import { CommonModule } from '@angular/common';
 import { ImporterModule } from '../../../importer/importer.module';
 import { ExporterService } from '../../../exporter/exporter.service';
 import { CasesService } from '../../cases.service';
+import { ExtensionsService } from '../../../extensions/extensions.service';
 
 @NgModule({
   imports: [
@@ -35,6 +36,7 @@ import { CasesService } from '../../cases.service';
   providers: [
     ExporterService,
     CasesService,
+    ExtensionsService,
   ],
   exports: [
     CaseDatatableComponent,

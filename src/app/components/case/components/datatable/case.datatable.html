@@ -21,5 +21,6 @@
 ></nga-datatable>
 
 <nga-importer #importer
+              *ngIf="isImporterConfigured"
   [url]="caseService.getImportUrl()"
 ></nga-importer>

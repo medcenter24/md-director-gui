@@ -23,6 +23,7 @@ import { ExporterService } from '../../../exporter/exporter.service';
 import { ImporterComponent } from '../../../importer/importer.component';
 import { DateHelper } from '../../../../helpers/date.helper';
 import { DatatableAction, DatatableCol, DatatableConfig, DatatableTransformer } from '../../../ui/datatable';
+import { ExtensionsService } from '../../../extensions/extensions.service';
 
 @Component({
   selector: 'nga-case-datatable',
@@ -35,6 +36,7 @@ export class CaseDatatableComponent implements OnInit {
 
   datatableConfig: DatatableConfig;
   langLoaded: boolean = false;
+  isImporterConfigured: boolean = false;
 
   constructor(
     public caseService: CasesService,
@@ -42,6 +44,7 @@ export class CaseDatatableComponent implements OnInit {
     private router: Router,
     private exporterService: ExporterService,
     private dateHelper: DateHelper,
+    private extensionsService: ExtensionsService,
   ) {}
 
   ngOnInit() {
@@ -59,20 +62,26 @@ export class CaseDatatableComponent implements OnInit {
         new DatatableCol('caseType', this.translateService.instant('Case Type')),
       ];
 
+      this.extensionsService.isPackageInstalled('McImport').then(state => {
+        if (state) {
+          this.isImporterConfigured = true;
+          this.importer.showImporter();
+        }
+      });
+
       this.datatableConfig = DatatableConfig.factory({
         dataProvider: (filters: Object) => {
           return this.caseService.search(filters);
         },
         cols,
         refreshTitle: this.translateService.instant('Refresh'),
-        captionPanelActions: [
-          new DatatableAction(this.translateService.instant('Company Case Import'), 'fa fa-upload', () => {
-            this.importer.showImporter();
-          }),
-          new DatatableAction(this.translateService.instant('Cases Export'), 'fa fa-download', () => {
+        captionPanelActions: () => {
+          const actions = [];
+          actions.push(new DatatableAction(this.translateService.instant('Cases Export'), 'fa fa-download', () => {
             this.exporterService.exportCases({});
-          }),
-        ],
+          }));
+          return actions;
+        },
         controlPanel: true,
         captionPanel: true,
         csvExportAll: true,
