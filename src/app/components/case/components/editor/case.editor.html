@@ -535,6 +535,8 @@
                     <nga-case-finance
                       #caseFinance
                       [accident]="accident"
+                      (init)="startLoader($event)"
+                      (loaded)="stopLoader($event)"
                     ></nga-case-finance>
                   </div>
                 </div>
@@ -582,6 +584,8 @@
       <nga-accident-activity
         *ngIf="accident && accident.id"
         [accident]="accident"
+        (init)="startLoader($event)"
+        (loaded)="stopLoader($event)"
       ></nga-accident-activity>
     </div>
   </div>

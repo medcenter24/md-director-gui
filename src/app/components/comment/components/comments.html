@@ -41,13 +41,13 @@
           (click)="showEditor = true"></button>
 
   <div *ngIf="showEditor" class="mt-3">
-    <h6 translate>New Commentary</h6>
-    <textarea [rows]="5" [cols]="70" pInputTextarea autoResize="autoResize" [(ngModel)]="text"></textarea>
+    <label for="comment-input" translate>New Commentary</label><br>
+    <textarea id="comment-input" [rows]="5" [cols]="70" pInputTextarea autoResize="autoResize" [(ngModel)]="text"></textarea>
     <div class="row">
       <div class="col-12">
         <button pButton type="button" label="{{ 'Add' | translate }}" (click)="addComment()"
                 [disabled]="!text.length"></button>
-        <a href="#" (click)="showEditor = false; false;" translate>Cancel</a>
+        <a href="#" (click)="showEditor = false;" class="ml-2" translate>Cancel</a>
       </div>
     </div>
   </div>

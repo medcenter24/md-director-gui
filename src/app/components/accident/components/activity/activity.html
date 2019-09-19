@@ -29,12 +29,16 @@
             <div *ngIf="selectedTab && selectedTab.name === 'Comments'">
                 <nga-accident-chat
                         [accident]="accident"
+                        (init)="startLoader($event)"
+                        (loaded)="stopLoader($event)"
                 ></nga-accident-chat>
             </div>
 
             <div class="row" *ngIf="selectedTab && selectedTab.name === 'History'">
                 <nga-accident-history
                         [accident]="accident"
+                        (init)="startLoader($event)"
+                        (loaded)="stopLoader($event)"
                 ></nga-accident-history>
             </div>
         </div>
