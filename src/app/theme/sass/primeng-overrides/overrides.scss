@@ -15,11 +15,4 @@
  * Copyright (c) 2019 (original work) MedCenter24.com;
  */
 
-.case-editor {
-  .patient-container {
-    .edit-patient, .add-patient {
-      margin: 3px 0 0 15px;
-      float: left;
-    }
-  }
-}
+@import "autocomplete";
