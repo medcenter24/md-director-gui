@@ -22,4 +22,11 @@
       float: left;
     }
   }
+
+  .ui-autocomplete {
+    width: 100%;
+    input {
+      width: 80%;
+    }
+  }
 }
