@@ -37,6 +37,7 @@ import { TranslateService } from '@ngx-translate/core';
 @Component({
   selector: 'nga-doctor-editor',
   templateUrl: './doctor.editor.html',
+  styleUrls: ['./doctor.editor.scss'],
 })
 export class DoctorEditorComponent extends LoadableComponent implements AfterViewInit {
   protected componentName: string = 'DoctorEditorComponent';
@@ -123,7 +124,7 @@ export class DoctorEditorComponent extends LoadableComponent implements AfterVie
     );
   }
 
-  onUserChanged(user: User): void {
+  onUserChanged(user: User|any): void {
     this.doctor.userId = user.id;
   }
 

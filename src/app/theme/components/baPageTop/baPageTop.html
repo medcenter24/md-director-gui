@@ -17,14 +17,14 @@
 
 <div class="page-top clearfix" baScrollPosition maxHeight="50" (scrollChange)="scrolledChanged($event)"
      [ngClass]="{scrolled: isScrolled}">
-  <a routerLink="/pages/dashboard" class="al-logo clearfix"><img height="32"
+  <a routerLink="/pages/dashboard" class="al-logo clearfix"><img height="32" alt="MedCenter24.Director"
                                                                            src="../../../../assets/img/medical/director_black_72.png">
     {{ 'Director' | translate}}</a>
   <a href (click)="toggleMenu()" class="collapse-menu-link ion-navicon"></a>
 
   <div class="search">
-    <i class="ion-ios-search-strong" ng-click="startSearch()"></i>
-    <input id="searchInput" type="text" placeholder="{{ 'Search for' | translate }}..." autocomplete="auto">
+    <i class="fa fa-search" (click)="startSearch()"></i>
+    <input id="searchInput" type="text" (keydown.enter)="startSearch()" [(ngModel)]="searchText" placeholder="{{ 'Search for' | translate }}..." autocomplete="auto">
   </div>
 
   <div class="user-profile clearfix">
@@ -32,7 +32,7 @@
       <a class="profile-toggle-link dropdown-toggle"
          (click)="toggleProfileMenu()"
          id="user-profile-dd" data-toggle="dropdown" aria-expanded="false">
-        <img [src]="avatar">
+        <img alt="profile" [src]="avatar">
       </a>
       <ul class="dropdown-menu top-dropdown-menu profile-dropdown"
           [ngClass]="{'show-menu': showProfileMenu}"

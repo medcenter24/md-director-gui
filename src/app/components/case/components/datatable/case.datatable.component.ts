@@ -22,19 +22,37 @@ import { Router } from '@angular/router';
 import { ExporterService } from '../../../exporter/exporter.service';
 import { ImporterComponent } from '../../../importer/importer.component';
 import { DateHelper } from '../../../../helpers/date.helper';
-import { DatatableAction, DatatableCol, DatatableConfig, DatatableTransformer } from '../../../ui/datatable';
+import {
+  DatatableAction,
+  DatatableCol,
+  DatatableComponent,
+  DatatableConfig,
+  DatatableTransformer,
+} from '../../../ui/datatable';
+import { ExtensionsService } from '../../../extensions/extensions.service';
+import { LoadingComponent } from '../../../core/components/componentLoader';
+import { GlobalState } from '../../../../global.state';
+import { SlimLoadingBarService } from 'ng2-slim-loading-bar';
+import { Logger } from 'angular2-logger/core';
 
 @Component({
   selector: 'nga-case-datatable',
   templateUrl: './case.datatable.html',
 })
-export class CaseDatatableComponent implements OnInit {
+export class CaseDatatableComponent extends LoadingComponent implements OnInit {
+  protected componentName: string = 'CaseDatatableComponent';
 
   @ViewChild('importer')
     importer: ImporterComponent;
 
+  @ViewChild('datatableComponent')
+    datatableComponent: DatatableComponent;
+
   datatableConfig: DatatableConfig;
   langLoaded: boolean = false;
+  isImporterConfigured: boolean = false;
+
+  private datatableLoaderPrefix = 'Table';
 
   constructor(
     public caseService: CasesService,
@@ -42,11 +60,44 @@ export class CaseDatatableComponent implements OnInit {
     private router: Router,
     private exporterService: ExporterService,
     private dateHelper: DateHelper,
-  ) {}
+    private extensionsService: ExtensionsService,
+    protected _state: GlobalState,
+    protected loadingBar: SlimLoadingBarService,
+    protected _logger: Logger,
+  ) {
+    super();
+  }
 
   ngOnInit() {
+    this.extensionsService.isPackageInstalled('McImport').then((state: boolean) => {
+      this.isImporterConfigured = state;
+      this.loadDatatable();
+    });
+  }
+
+  beforeDatatableLoad(): void {
+    this.startLoader(this.datatableLoaderPrefix);
+  }
+
+  onDatatableLoaded(): void {
+    this.assignGlobalSeeker();
+    this.stopLoader(this.datatableLoaderPrefix);
+  }
+
+  private assignGlobalSeeker(): void {
+    this._state.subscribe('seeker', (text: string) => {
+      this.datatableConfig.dataProvider = (params: Object) => {
+        params['filters']['find'] = text;
+        return this.caseService.search(params);
+      };
+      this.datatableComponent.refresh();
+    });
+  }
+
+  private loadDatatable(): void {
     this.translateService.get('Yes').subscribe(() => {
       this.langLoaded = true;
+
       const cols = [
         new DatatableCol('patientName', this.translateService.instant('Patient Name')),
         new DatatableCol('refNum', this.translateService.instant('Ref. Number')),
@@ -65,14 +116,23 @@ export class CaseDatatableComponent implements OnInit {
         },
         cols,
         refreshTitle: this.translateService.instant('Refresh'),
-        captionPanelActions: [
-          new DatatableAction(this.translateService.instant('Company Case Import'), 'fa fa-upload', () => {
-            this.importer.showImporter();
-          }),
-          new DatatableAction(this.translateService.instant('Cases Export'), 'fa fa-download', () => {
+        captionPanelActions: () => {
+          const actions = [];
+
+          if (this.isImporterConfigured) {
+            actions.push( new DatatableAction( this.translateService.instant( 'Company Case Import' ),
+              'fa fa-upload',
+              () => {
+                this.importer.showImporter();
+              } ),
+            );
+          }
+
+          actions.push(new DatatableAction(this.translateService.instant('Cases Export'), 'fa fa-download', () => {
             this.exporterService.exportCases({});
-          }),
-        ],
+          }));
+          return actions;
+        },
         controlPanel: true,
         captionPanel: true,
         csvExportAll: true,

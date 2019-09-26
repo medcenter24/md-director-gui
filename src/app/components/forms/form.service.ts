@@ -44,7 +44,7 @@ export class FormService extends HttpService implements LoadableServiceInterface
   downloadPdf(formId: number, formableId: number): Subscription {
     // const options = new RequestOptions({ responseType: ResponseContentType.Blob, headers: this.getAuthHeaders() });
     return this.http
-      .get(this.getUrl(`${formableId}/${formableId}/pdf`),
+      .get(this.getUrl(`${formId}/${formableId}/pdf`),
         { headers: this.getAuthHeaders(), responseType: 'blob' })
       .map(res => res)
       // todo to see if I can sent a title from a server side to make it more readable

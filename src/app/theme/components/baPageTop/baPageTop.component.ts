@@ -33,6 +33,7 @@ export class BaPageTopComponent {
   isMenuCollapsed: boolean = false;
   avatar: string = '';
   showProfileMenu: boolean = false;
+  searchText: string = '';
 
   constructor(
     private _state: GlobalState,
@@ -69,5 +70,9 @@ export class BaPageTopComponent {
 
   toggleProfileMenu(): void {
     this.showProfileMenu = !this.showProfileMenu;
+  }
+
+  startSearch() {
+    this._state.notifyDataChanged('seeker', this.searchText);
   }
 }

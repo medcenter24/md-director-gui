@@ -114,7 +114,7 @@ export class CasesService extends HttpService {
 
   createComment (accident: Accident, text: string): Promise <Commentary> {
     return this.put(`${accident.id}/comments`, { text })
-      .then(response => response.json() as Commentary);
+      .then(response => response as Commentary);
   }
 
   getFinance (accident: Accident, types: Object): Promise<PaymentViewer[]> {

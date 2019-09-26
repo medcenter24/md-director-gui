@@ -67,7 +67,6 @@ export class DatatableComponent extends LoadableComponent implements OnInit {
     // event.sortField = Field name to sort with
     // event.sortOrder = Sort order as number, 1 for asc and -1 for dec
     // filters: FilterMetadata object having field as key and filter value, filter matchMode as value
-
     this.setLoading(true);
 
     if (!event.sortField && this.config.sortBy) {
@@ -87,6 +86,11 @@ export class DatatableComponent extends LoadableComponent implements OnInit {
   private setLoading(state: boolean): void {
     this.loading = state;
     this.cdr.detectChanges();
+    if (this.loading) {
+      this.startLoader( this.componentName );
+    } else {
+      this.stopLoader( this.componentName );
+    }
   }
 
   onRowSelect (event): void {

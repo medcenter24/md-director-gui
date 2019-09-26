@@ -1,4 +1,4 @@
-/*!
+/*
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; under version 2
@@ -15,23 +15,18 @@
  * Copyright (c) 2019 (original work) MedCenter24.com;
  */
 
-.edit-form-container {
-  .card {
-    margin-bottom: 0.5em;
+import { Injectable } from '@angular/core';
+import { HttpService } from '../core/http/http.service';
+
+@Injectable()
+export class ExtensionsService extends HttpService {
+
+  protected getPrefix (): string {
+    return 'system/extensions';
   }
 
-  .create-new-btn {
-    cursor: pointer;
-    font-size: 25px;
-  }
-
-  .edit-form {
-    margin-top: 10px;
-  }
-
-  .editor-toggle {
-    cursor: pointer;
-    float: right;
-    margin-top: 10px;
+  isPackageInstalled(extName: string): Promise<Boolean> {
+    return this.get(`${extName}`)
+      .then(resp => resp.installed as Boolean);
   }
 }

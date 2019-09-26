@@ -55,7 +55,6 @@ export class DiagnosticEditorComponent extends LoadableComponent {
   onSubmit(): void {
     const opName = 'UpdateDiagnostic';
     this.startLoader(opName);
-    console.log(this.diagnostic);
     this.service.save(this.diagnostic).then((diagnostic: Diagnostic) => {
       this.diagnostic = diagnostic;
       this.diagnosticSaved.emit(this.diagnostic);
@@ -113,7 +112,6 @@ export class DiagnosticEditorComponent extends LoadableComponent {
   onDiagnosticCategorySubmit (dc: DiagnosticCategory): void {
     this.showEditor = false;
     this.diagnostic.diagnosticCategoryId = dc.id;
-    console.log('here???')
     this.categorySelectComponent.selectItems(dc.id);
   }
 }

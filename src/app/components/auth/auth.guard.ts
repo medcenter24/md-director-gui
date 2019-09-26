@@ -29,7 +29,7 @@ export class AuthGuard implements CanActivate {
     private authService: AuthenticationService,
     private jwtHelper: JwtHelperService,
     private _state: GlobalState,
-    ) {}
+  ) {}
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
     if ( this.authService.getToken()
