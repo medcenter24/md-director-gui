@@ -16,10 +16,10 @@
  */
 
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { LoadableComponent } from '../../core/components/componentLoader/LoadableComponent';
 import { Commentary } from '../commentary';
 import { layoutPaths } from '../../../theme';
 import { DateHelper } from '../../../helpers/date.helper';
+import { LoadableComponent } from '../../core/components/componentLoader';
 
 @Component({
   selector: 'nga-commentaries-component',

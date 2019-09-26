@@ -15,23 +15,4 @@
  * Copyright (c) 2019 (original work) MedCenter24.com;
  */
 
-.edit-form-container {
-  .card {
-    margin-bottom: 0.5em;
-  }
-
-  .create-new-btn {
-    cursor: pointer;
-    font-size: 25px;
-  }
-
-  .edit-form {
-    margin-top: 10px;
-  }
-
-  .editor-toggle {
-    cursor: pointer;
-    float: right;
-    margin-top: 10px;
-  }
-}
+@import "autocomplete";

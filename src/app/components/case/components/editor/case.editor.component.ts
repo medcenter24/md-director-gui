@@ -246,10 +246,8 @@ export class CaseEditorComponent extends LoadingComponent implements OnInit {
           }).catch((err) => {
             this.stopLoader();
             if (err.status === 404) {
-              this.msgs = [];
-              this.msgs.push({ severity: 'error', summary: this.translate.instant('Error'),
-                detail: '404 Not Found' });
-              this._state.notifyDataChanged('growl', this.msgs);
+              this._logger.error('Resource not found');
+              this.growlError('Error', 'Resource not found');
               this.router.navigate(['pages/cases']).then();
             } else {
               this._logger.error(err);
@@ -268,7 +266,7 @@ export class CaseEditorComponent extends LoadingComponent implements OnInit {
     this.translate.get('Save').subscribe(() => {
       const actions: BaToolboxAction[] = [];
       actions.push(new BaToolboxAction(this.translate.instant('Back'), 'fa fa-angle-left', () => {
-
+        this.goToList().then();
       }, 'navigation'));
       actions.push(new BaToolboxAction(this.translate.instant('Save'), 'fa fa-save', () => {
         this.onSave();
@@ -290,27 +288,45 @@ export class CaseEditorComponent extends LoadingComponent implements OnInit {
     this.tabStopper.init();
   }
 
+  private growlError(title: string, msg: string): void {
+    this.translate.get('Save').subscribe(() => {
+      this._state.notifyDataChanged( 'growl', [{
+        severity: 'error',
+        summary: this.translate.instant( title ),
+        detail: this.translate.instant( msg ),
+      }]);
+    });
+  }
+
   previewCase(): void {
     this.requireSave().then(() => {
-      this.formViewerComponent.preview(true);
-    }).catch(() => {
-      // have to be defined, otherwise won't work
+      if (this.formViewerComponent && typeof this.formViewerComponent['preview'] === 'function') {
+        this.formViewerComponent.preview(true);
+      } else {
+        this.growlError('Error', 'Form not selected');
+      }
+    }).catch((e) => {
+      this._logger.error(e);
+      this.growlError('Console Error', e.message);
     });
   }
 
   casePdf(): void {
     this.requireSave().then(() => {
       this.formViewerComponent.downloadPdf(true);
-    }).catch(() => {
-      // have to be defined, otherwise won't work
+    }).catch((e) => {
+      this._logger.error(e);
+      this.growlError('Console Error', e.message);
     });
   }
 
   printCase(): void {
     this.requireSave().then(() => {
       this.formViewerComponent.print(true);
-    }).catch(() => {
+    }).catch((e) => {
       // have to be defined, otherwise won't work
+      this._logger.error(e);
+      this.growlError('Console Error', e.message);
     });
   }
 
@@ -368,13 +384,10 @@ export class CaseEditorComponent extends LoadingComponent implements OnInit {
             this.stopLoader(postfix);
           }).catch(err => {
             if (err.status === 404) {
-              this.msgs = [];
-              this.msgs.push({ severity: 'error', summary: this.translate.instant('Error'),
-                detail: this.translate.instant('404 Not Found') });
-              this._state.notifyDataChanged('growl', this.msgs);
-              this.goToList().then(() => this.stopLoader(postfix));
+              this.growlError('Error', 'Resource not found');
             } else {
               this._logger.error(err);
+              this.growlError('Console Error', err.message);
               this.stopLoader(postfix);
             }
           });
@@ -673,11 +686,11 @@ export class CaseEditorComponent extends LoadingComponent implements OnInit {
     this.accident.formReportId = event.id;
   }
 
-  onAssistantRefNumChanged(event): void {
+  onAssistantRefNumChanged(): void {
     this.dataChanged();
   }
 
-  onHandlingTimeChanged(event): void {
+  onHandlingTimeChanged(): void {
     this.dataChanged();
   }
 

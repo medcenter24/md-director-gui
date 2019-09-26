@@ -1,4 +1,6 @@
 {
+  "Form not selected": "Form not selected",
+  "Resource not found": "Resource not found",
   "The case has unsaved changes, would you like to save it?": "The case has unsaved changes, would you like to save it?",
   "Are you sure that you want to delete this diagnostic?": "Are you sure that you want to delete this diagnostic?",
   "formable type": "Type of the form",
