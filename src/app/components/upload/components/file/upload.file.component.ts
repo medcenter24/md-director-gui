@@ -18,7 +18,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { GlobalState } from '../../../../global.state';
-import { Logger } from 'angular2-logger/core';
+import { LoggerComponent } from '../../../core/logger/LoggerComponent';
 import { AuthenticationService } from '../../../auth/authentication.service';
 import { Message } from 'primeng/primeng';
 import { LoadableComponent } from '../../../core/components/componentLoader';
@@ -52,7 +52,7 @@ export class UploadFileComponent extends LoadableComponent implements OnInit {
 
   constructor(
     private translate: TranslateService,
-    private _logger: Logger,
+    private _logger: LoggerComponent,
     private _state: GlobalState,
     private authenticationService: AuthenticationService,
     private uploadService: UploadService,

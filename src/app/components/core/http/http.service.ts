@@ -19,12 +19,12 @@ import { Injectable } from '@angular/core';
 import { AuthenticationService } from '../../auth/authentication.service';
 import { environment } from '../../../../environments/environment';
 import 'rxjs/add/operator/toPromise';
-import { Logger } from 'angular2-logger/core';
 import { GlobalState } from '../../../global.state';
 import { TranslateService } from '@ngx-translate/core';
 import { Router } from '@angular/router';
 import { Message } from 'primeng/primeng';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { LoggerComponent } from '../logger/LoggerComponent';
 
 @Injectable()
 export abstract class HttpService {
@@ -39,7 +39,7 @@ export abstract class HttpService {
   constructor (
     protected http: HttpClient,
     private authenticationService: AuthenticationService,
-    private _logger: Logger,
+    private _logger: LoggerComponent,
     private _state: GlobalState,
     private translate: TranslateService,
     private router: Router,

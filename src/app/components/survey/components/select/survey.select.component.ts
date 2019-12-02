@@ -17,10 +17,10 @@
 
 import { Component, Output, EventEmitter, Input, OnInit } from '@angular/core';
 import { SelectItem } from 'primeng/primeng';
-import { Logger } from 'angular2-logger/core';
+import { LoggerComponent } from '../../../core/logger/LoggerComponent';
 import { Survey } from '../../survey';
 import { SurveyService } from '../../survey.service';
-import { LoadableComponent } from '../../../core/components/componentLoader/LoadableComponent';
+import { LoadableComponent } from '../../../core/components/componentLoader';
 
 @Component({
   selector: 'nga-select-surveys',
@@ -39,7 +39,7 @@ export class SurveySelectComponent extends LoadableComponent implements OnInit {
 
   constructor (
     private surveysService: SurveyService,
-    private _logger: Logger,
+    private _logger: LoggerComponent,
   ) {
     super();
   }

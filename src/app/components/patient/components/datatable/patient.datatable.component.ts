@@ -21,7 +21,7 @@ import { PatientsService } from '../../patients.service';
 import { DateHelper } from '../../../../helpers/date.helper';
 import { Patient } from '../../patient';
 import { LoadingComponent } from '../../../core/components/componentLoader';
-import { Logger } from 'angular2-logger/core';
+import { LoggerComponent } from '../../../core/logger/LoggerComponent';
 import { GlobalState } from '../../../../global.state';
 import { SlimLoadingBarService } from 'ng2-slim-loading-bar';
 import { PatientEditorComponent } from '../editor/patient.editor.component';
@@ -52,7 +52,7 @@ export class PatientDatatableComponent extends LoadingComponent implements OnIni
   displayDialog: boolean = false;
 
   constructor(
-    protected _logger: Logger,
+    protected _logger: LoggerComponent,
     protected _state: GlobalState,
     protected loadingBar: SlimLoadingBarService,
     private translateService: TranslateService,

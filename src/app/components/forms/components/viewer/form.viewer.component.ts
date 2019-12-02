@@ -17,7 +17,7 @@
 
 import { Component, ElementRef, EventEmitter, Input, Output, ViewChild } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { Logger } from 'angular2-logger/core';
+import { LoggerComponent } from '../../../core/logger/LoggerComponent';
 import { SlimLoadingBarService } from 'ng2-slim-loading-bar';
 import { GlobalState } from '../../../../global.state';
 import { LoadableComponent } from '../../../core/components/componentLoader';
@@ -103,7 +103,7 @@ export class FormViewerComponent extends LoadableComponent {
 
   constructor(
     protected loadingBar: SlimLoadingBarService,
-    protected _logger: Logger,
+    protected _logger: LoggerComponent,
     protected _state: GlobalState,
     protected translateService: TranslateService,
     protected formService: FormService,

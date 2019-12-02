@@ -17,7 +17,7 @@
 
 import { Component, Output, EventEmitter, Input, OnInit } from '@angular/core';
 import { SelectItem } from 'primeng/primeng';
-import { Logger } from 'angular2-logger/core';
+import { LoggerComponent } from '../../../core/logger/LoggerComponent';
 import { Patient } from '../../patient';
 import { PatientsService } from '../../patients.service';
 import { LoadableComponent } from '../../../core/components/componentLoader';
@@ -42,7 +42,7 @@ export class PatientSelectComponent extends LoadableComponent implements OnInit 
 
   constructor (
     private patientService: PatientsService,
-    private _logger: Logger,
+    private _logger: LoggerComponent,
   ) {
     super();
   }

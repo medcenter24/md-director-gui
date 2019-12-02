@@ -22,9 +22,9 @@ import {
   MissingTranslationHandlerParams,
 } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
-import { Logger } from 'angular2-logger/core';
 import { GlobalState } from './global.state';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { LoggerComponent } from './components/core/logger/LoggerComponent';
 
 export function createTranslateLoader (http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -32,7 +32,7 @@ export function createTranslateLoader (http: HttpClient) {
 
 @NgModule()
 export class MyDocMissingTranslationHandler implements MissingTranslationHandler {
-  constructor (private _logger: Logger) {
+  constructor (private _logger: LoggerComponent) {
   }
 
   handle (params: MissingTranslationHandlerParams) {

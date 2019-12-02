@@ -33,7 +33,7 @@ import { ExtensionsService } from '../../../extensions/extensions.service';
 import { LoadingComponent } from '../../../core/components/componentLoader';
 import { GlobalState } from '../../../../global.state';
 import { SlimLoadingBarService } from 'ng2-slim-loading-bar';
-import { Logger } from 'angular2-logger/core';
+import { LoggerComponent } from '../../../core/logger/LoggerComponent';
 
 @Component({
   selector: 'nga-case-datatable',
@@ -63,7 +63,7 @@ export class CaseDatatableComponent extends LoadingComponent implements OnInit {
     private extensionsService: ExtensionsService,
     protected _state: GlobalState,
     protected loadingBar: SlimLoadingBarService,
-    protected _logger: Logger,
+    protected _logger: LoggerComponent,
   ) {
     super();
   }

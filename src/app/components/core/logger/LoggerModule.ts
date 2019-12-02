@@ -15,16 +15,21 @@
  * Copyright (c) 2019 (original work) MedCenter24.com;
  */
 
-
 import { NgModule } from '@angular/core';
-import { GlobalState } from '../../global.state';
-import { LoggerComponent } from '../../components/core/logger/LoggerComponent';
+import { LoggerModule as NgxLoggerModule, NgxLoggerLevel } from 'ngx-logger';
+import { LoggerComponent } from './LoggerComponent';
 
 @NgModule({
-  providers: [
+  imports: [
+    NgxLoggerModule.forRoot({ level: NgxLoggerLevel.ERROR, serverLogLevel: NgxLoggerLevel.FATAL }),
+  ],
+  declarations: [
     LoggerComponent,
-    GlobalState,
+  ],
+  exports: [
+    LoggerComponent,
   ],
 })
-export class SharedModule {
+export class LoggerModule {
+
 }

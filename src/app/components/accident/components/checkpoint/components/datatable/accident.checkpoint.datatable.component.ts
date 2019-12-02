@@ -19,7 +19,6 @@ import { Component, ViewChild } from '@angular/core';
 import { DatatableCol } from '../../../../../ui/datatable';
 import { DatatableAction } from '../../../../../ui/datatable';
 import { TranslateService } from '@ngx-translate/core';
-import { Logger } from 'angular2-logger/core';
 import { GlobalState } from '../../../../../../global.state';
 import { SlimLoadingBarService } from 'ng2-slim-loading-bar';
 import { DatatableComponent } from '../../../../../ui/datatable';
@@ -28,6 +27,7 @@ import { AccidentCheckpointsService } from '../../checkpoints.service';
 import { AbstractDatatableController } from '../../../../../ui/tables/abstract.datatable.controller';
 import { ConfirmationService } from 'primeng/api';
 import { LoadableServiceInterface } from '../../../../../core/loadable';
+import { LoggerComponent } from '../../../../../core/logger/LoggerComponent';
 
 @Component({
   selector: 'nga-accident-checkpoint-datatable',
@@ -41,7 +41,7 @@ export class AccidentCheckpointDatatableComponent extends AbstractDatatableContr
     private checkpointDatatableComponent: DatatableComponent;
 
   constructor(
-    protected _logger: Logger,
+    protected _logger: LoggerComponent,
     protected _state: GlobalState,
     protected loadingBar: SlimLoadingBarService,
     private translateService: TranslateService,

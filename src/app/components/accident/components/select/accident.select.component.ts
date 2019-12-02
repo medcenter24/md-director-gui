@@ -16,10 +16,10 @@
  */
 
 import { Component, Output, EventEmitter, Input, OnInit } from '@angular/core';
-import { Logger } from 'angular2-logger/core';
 import { Accident } from '../../accident';
 import { AccidentsService } from '../../accidents.service';
-import { LoadableComponent } from '../../../core/components/componentLoader/LoadableComponent';
+import { LoggerComponent } from '../../../core/logger/LoggerComponent';
+import { LoadableComponent } from '../../../core/components/componentLoader';
 
 @Component({
   selector: 'nga-select-accident',
@@ -38,7 +38,7 @@ export class AccidentSelectComponent extends LoadableComponent implements OnInit
 
   constructor (
     private accidentService: AccidentsService,
-    private _logger: Logger,
+    private _logger: LoggerComponent,
   ) {
     super();
   }

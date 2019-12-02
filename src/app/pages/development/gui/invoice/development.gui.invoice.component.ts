@@ -16,15 +16,12 @@
  */
 
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { Logger } from 'angular2-logger/core';
 import { SlimLoadingBarService } from 'ng2-slim-loading-bar';
 import { LoadingComponent } from '../../../../components/core/components/componentLoader';
-import { Form } from '../../../../components/forms';
 import { InvoiceEditorComponent } from '../../../../components/invoice/components/editor';
 import { Invoice } from '../../../../components/invoice/invoice';
-import { InvoiceService } from '../../../../components/invoice/invoice.service';
-import { Upload } from '../../../../components/upload/upload';
 import { GlobalState } from '../../../../global.state';
+import { LoggerComponent } from '../../../../components/core/logger/LoggerComponent';
 
 @Component({
   selector: 'nga-development-gui-invoice',
@@ -40,7 +37,7 @@ export class DevelopmentGuiInvoiceComponent extends LoadingComponent implements 
   invoiceFile: Invoice = new Invoice(0, 35.44, 'file', 'Test file invoice');
 
   constructor(
-    protected _logger: Logger,
+    protected _logger: LoggerComponent,
     protected _state: GlobalState,
     protected loadingBar: SlimLoadingBarService,
   ) {

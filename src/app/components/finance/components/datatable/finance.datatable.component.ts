@@ -19,7 +19,6 @@ import { Component, ViewChild } from '@angular/core';
 import { AbstractDatatableController } from '../../../ui/tables/abstract.datatable.controller';
 import { GlobalState } from '../../../../global.state';
 import { SlimLoadingBarService } from 'ng2-slim-loading-bar';
-import { Logger } from 'angular2-logger/core';
 import { TranslateService } from '@ngx-translate/core';
 import { FinanceService } from '../../finance.service';
 import { LoadableServiceInterface } from '../../../core/loadable';
@@ -27,6 +26,7 @@ import { FinanceRule } from '../../finance.rule';
 import { DatatableAction, DatatableCol, DatatableComponent, DatatableTransformer } from '../../../ui/datatable';
 import { ConfirmationService } from 'primeng/api';
 import { Router } from '@angular/router';
+import { LoggerComponent } from '../../../core/logger/LoggerComponent';
 
 @Component({
   selector: 'nga-finance-datatable',
@@ -40,7 +40,7 @@ export class FinanceDatatableComponent extends AbstractDatatableController {
 
   constructor (
     protected loadingBar: SlimLoadingBarService,
-    protected _logger: Logger,
+    protected _logger: LoggerComponent,
     protected _state: GlobalState,
     protected translateService: TranslateService,
     private financeService: FinanceService,

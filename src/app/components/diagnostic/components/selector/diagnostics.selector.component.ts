@@ -18,9 +18,9 @@
 import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { Diagnostic } from '../../diagnostic';
 import { CasesService } from '../../../case/cases.service';
-import { Logger } from 'angular2-logger/core';
 import { DiagnosticSelectComponent } from '../select/diagnostic.select.component';
 import { LoadableComponent } from '../../../core/components/componentLoader';
+import { LoggerComponent } from '../../../core/logger/LoggerComponent';
 
 @Component({
   selector: 'nga-diagnostics-selector',
@@ -40,7 +40,7 @@ export class DiagnosticsSelectorComponent extends LoadableComponent implements O
 
   constructor (
     private casesService: CasesService,
-    private _logger: Logger,
+    private _logger: LoggerComponent,
   ) {
     super();
   }

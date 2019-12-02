@@ -15,7 +15,6 @@
  * Copyright (c) 2019 (original work) MedCenter24.com;
  */
 
-import { Level } from 'angular2-logger/core';
 import { env } from '../../../settings/guiDirector/environments/environment.prod';
 
 export const environment = {
@@ -24,6 +23,6 @@ export const environment = {
   projectName: env.projectName || 'MedCenter24',
   doctorLink: env.doctorLink || 'https://doctor.medcenter24.com',
   logger: {
-    level: Level.WARN,
+    level: 'warn',
   },
 };
