@@ -25,7 +25,7 @@ import { StatusColorMapService } from '../../../components/accident/components/s
   selector: 'nga-calendar',
   templateUrl: './calendar.html',
   styleUrls: ['./calendar.scss'],
-  encapsulation: ViewEncapsulation.Native,
+  encapsulation: ViewEncapsulation.ShadowDom,
 })
 export class CalendarComponent implements OnInit {
 
