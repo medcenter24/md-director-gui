@@ -42,6 +42,9 @@ export class StatusColorMapService {
       case 'new':
         color = this._baConfig.get().colors.success;
         break;
+      case 'imported':
+        color = this._baConfig.get().colors.infoLight;
+        break;
       case 'in_progress':
         color = this._baConfig.get().colors.info;
         break;

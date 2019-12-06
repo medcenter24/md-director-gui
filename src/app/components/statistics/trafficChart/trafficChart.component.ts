@@ -53,6 +53,7 @@ export class TrafficChartComponent extends LoadableComponent implements OnInit {
   }
 
   private transformTrafficChartData(data: TrafficChartData[]): Object {
+    this.infoData = [];
     this.total = 0;
     data.forEach(row => this.total += +row.casesCount);
     let index = 0;

@@ -1,4 +1,4 @@
-/*!
+/*
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; under version 2
@@ -15,31 +15,24 @@
  * Copyright (c) 2019 (original work) MedCenter24.com;
  */
 
-@media screen and (min-width: 1620px) {
-  .row.shift-up {
-    > * {
-      margin-top: -573px;
-    }
-  }
-}
+import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { DropdownModule } from 'primeng/primeng';
+import { FormsModule } from '@angular/forms';
+import { UiDateYearDropdownComponent } from './ui.date.year.dropdown.component';
 
-@media screen and (max-width: 1620px) {
-  .card.feed-panel.large-card {
-    height: 824px;
-  }
-}
-
-.user-stats-card {
-  .card-title {
-    padding: 0 0 15px;
-  }
-}
-
-.blurCalendar {
-  height: 475px;
-}
-
-.year-selector {
-  float: right;
-  padding-top: 2em;
+@NgModule({
+  imports: [
+    CommonModule,
+    FormsModule,
+    DropdownModule,
+  ],
+  declarations: [
+    UiDateYearDropdownComponent,
+  ],
+  exports: [
+    UiDateYearDropdownComponent,
+  ],
+})
+export class UiDateYearDropdownModule {
 }

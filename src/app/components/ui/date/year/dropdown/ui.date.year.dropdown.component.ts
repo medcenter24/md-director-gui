@@ -1,4 +1,4 @@
-/*!
+/*
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; under version 2
@@ -15,31 +15,29 @@
  * Copyright (c) 2019 (original work) MedCenter24.com;
  */
 
-@media screen and (min-width: 1620px) {
-  .row.shift-up {
-    > * {
-      margin-top: -573px;
-    }
+import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { YearsList } from '../../../../statistics/years/yearsList';
+
+@Component({
+  selector: 'nga-date-year-dropdown',
+  template: `
+      <p-dropdown [options]="years"
+                  [style]="{'width':'100px'}"
+                  appendTo="body"
+                  [(ngModel)]="selectedYear"
+                  (onChange)="changed($event)"
+                  filter="true"
+      ></p-dropdown>
+  `,
+})
+export class UiDateYearDropdownComponent {
+
+  @Input() years: any[] = [];
+  @Input() selectedYear: string = '';
+  @Output() change: EventEmitter<string> = new EventEmitter<string>();
+
+  changed(event): void {
+    this.change.emit(event.value);
   }
-}
 
-@media screen and (max-width: 1620px) {
-  .card.feed-panel.large-card {
-    height: 824px;
-  }
-}
-
-.user-stats-card {
-  .card-title {
-    padding: 0 0 15px;
-  }
-}
-
-.blurCalendar {
-  height: 475px;
-}
-
-.year-selector {
-  float: right;
-  padding-top: 2em;
 }

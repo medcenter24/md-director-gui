@@ -1,9 +1,8 @@
-/*!
+/*
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; under version 2
  * of the License (non-upgradable).
- *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
@@ -15,31 +14,8 @@
  * Copyright (c) 2019 (original work) MedCenter24.com;
  */
 
-@media screen and (min-width: 1620px) {
-  .row.shift-up {
-    > * {
-      margin-top: -573px;
-    }
-  }
-}
-
-@media screen and (max-width: 1620px) {
-  .card.feed-panel.large-card {
-    height: 824px;
-  }
-}
-
-.user-stats-card {
-  .card-title {
-    padding: 0 0 15px;
-  }
-}
-
-.blurCalendar {
-  height: 475px;
-}
-
-.year-selector {
-  float: right;
-  padding-top: 2em;
+export class YearsList {
+  constructor (
+    public year: string = '',
+  ) {}
 }
