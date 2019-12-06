@@ -65,7 +65,7 @@
           [icon]="action.icon"
           (click)="action.run()"
           [label]="action.title"
-          class="pull-left mr-1"
+          [class]="'pull-left mr-1' + (action.visible ? '' : ' invisible')"
         ></button>
       </div>
     </div>

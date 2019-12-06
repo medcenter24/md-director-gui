@@ -20,5 +20,6 @@ export class DatatableAction {
     public title: string = '',
     public icon: string = '',
     public run: Function = function () {},
+    public visible: Boolean = true,
   ) { }
 }

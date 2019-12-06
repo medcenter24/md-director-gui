@@ -116,23 +116,19 @@ export class CaseDatatableComponent extends LoadingComponent implements OnInit {
         },
         cols,
         refreshTitle: this.translateService.instant('Refresh'),
-        captionPanelActions: () => {
-          const actions = [];
-
-          if (this.isImporterConfigured) {
-            actions.push( new DatatableAction( this.translateService.instant( 'Company Case Import' ),
-              'fa fa-upload',
-              () => {
+        captionPanelActions: [
+          new DatatableAction( this.translateService.instant( 'Company Case Import' ),
+            'fa fa-upload',
+            () => {
+              if (this.isImporterConfigured) {
                 this.importer.showImporter();
-              } ),
-            );
-          }
+              }
+          }, this.isImporterConfigured),
 
-          actions.push(new DatatableAction(this.translateService.instant('Cases Export'), 'fa fa-download', () => {
+          new DatatableAction(this.translateService.instant('Cases Export'), 'fa fa-download', () => {
             this.exporterService.exportCases({});
-          }));
-          return actions;
-        },
+          }),
+        ],
         controlPanel: true,
         captionPanel: true,
         csvExportAll: true,
