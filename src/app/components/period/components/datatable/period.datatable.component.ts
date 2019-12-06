@@ -25,7 +25,7 @@ import { DatatableAction } from '../../../ui/datatable';
 import { DatatableComponent } from '../../../ui/datatable';
 import { SlimLoadingBarService } from 'ng2-slim-loading-bar';
 import { GlobalState } from '../../../../global.state';
-import { Logger } from 'angular2-logger/core';
+import { LoggerComponent } from '../../../core/logger/LoggerComponent';
 import { UiDateDowDropdownComponent } from '../../../ui/date/dow/dropdown/ui.date.dow.dropdown.component';
 import { TranslateService } from '@ngx-translate/core';
 import { ObjectHelper } from '../../../../helpers/object.helper';
@@ -58,7 +58,7 @@ export class PeriodDatatableComponent extends LoadingComponent implements OnInit
   constructor(
     protected loadingBar: SlimLoadingBarService,
     private datePeriodService: PeriodService,
-    protected _logger: Logger,
+    protected _logger: LoggerComponent,
     protected _state: GlobalState,
     protected translateService: TranslateService,
   ) {

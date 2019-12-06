@@ -17,9 +17,9 @@
 
 import { Injectable } from '@angular/core';
 import { LoadableComponent } from './LoadableComponent';
-import { Logger } from 'angular2-logger/core';
 import { SlimLoadingBarService } from 'ng2-slim-loading-bar';
 import { GlobalState } from '../../../../global.state';
+import { LoggerComponent } from '../../logger/LoggerComponent';
 
 /**
  * Pages could implement this realization to wait till all components will be loaded
@@ -31,7 +31,7 @@ import { GlobalState } from '../../../../global.state';
 export abstract class LoadingComponent extends LoadableComponent {
     protected abstract componentName;
 
-    protected abstract _logger: Logger;
+    protected abstract _logger: LoggerComponent;
     protected abstract loadingBar: SlimLoadingBarService;
     protected abstract _state: GlobalState;
     protected onComponentsLoadingCompleted(): void { }

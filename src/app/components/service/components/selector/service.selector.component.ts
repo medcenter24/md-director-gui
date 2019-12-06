@@ -18,7 +18,7 @@
 import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { Service } from '../../service';
 import { CasesService } from '../../../case/cases.service';
-import { Logger } from 'angular2-logger/core';
+import { LoggerComponent } from '../../../core/logger/LoggerComponent';
 import { LoadableComponent } from '../../../core/components/componentLoader';
 import { SelectServicesComponent } from '../select';
 
@@ -40,7 +40,7 @@ export class ServiceSelectorComponent extends LoadableComponent implements OnIni
 
   constructor (
     private casesService: CasesService,
-    private _logger: Logger,
+    private _logger: LoggerComponent,
   ) {
     super();
   }

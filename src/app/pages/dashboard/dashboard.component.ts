@@ -19,9 +19,9 @@ import { Component, OnInit } from '@angular/core';
 import { TrafficChartData } from '../../components/statistics/trafficChart/trafficChart.data';
 import { LoadingComponent } from '../../components/core/components/componentLoader';
 import { StatisticsService } from '../../components/statistics/statistics.service';
-import { Logger } from 'angular2-logger/core';
 import { SlimLoadingBarService } from 'ng2-slim-loading-bar';
 import { GlobalState } from '../../global.state';
+import { LoggerComponent } from '../../components/core/logger/LoggerComponent';
 
 @Component({
   selector: 'nga-dashboard',
@@ -43,7 +43,7 @@ export class DashboardComponent extends LoadingComponent implements OnInit {
 
   constructor(
     private _statService: StatisticsService,
-    protected _logger: Logger,
+    protected _logger: LoggerComponent,
     protected loadingBar: SlimLoadingBarService,
     protected _state: GlobalState,
   ) {

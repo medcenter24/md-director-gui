@@ -53,7 +53,6 @@
     "amcharts3": "^3.21.14",
     "ammap3": "^3.21.14",
     "angular-calendar": "^0.26.6",
-    "angular2-logger": "^0.7.0",
     "animate.css": "^3.7.0",
     "bootstrap": "^4.3.1",
     "bourbon": "^5.1.0",
@@ -77,6 +76,7 @@
     "ng2-handsontable": "^2.1.0-rc.3",
     "ng2-slim-loading-bar": "^4.0.0",
     "ng2-tree": "^2.0.0-rc.11",
+    "ngx-logger": "^4.0.7",
     "ngx-uploader": "^7.1.0",
     "normalize.css": "^8.0.1",
     "pace-js": "^1.0.2",
@@ -88,7 +88,6 @@
     "rxjs-compat": "^6.4.0",
     "tether": "^1.4.5",
     "typeface-exo": "^0.0.61",
-    "webpack": "^4.29.5",
     "zone.js": "^0.8.29"
   },
   "devDependencies": {
@@ -123,7 +122,6 @@
     "typescript": "3.2.4",
     "typogr": "^0.6.8",
     "underscore": "^1.9.1",
-    "webpack-cli": "^3.2.3",
     "wintersmith": "^2.5.0",
     "wintersmith-sassy": "^1.2.0"
   }

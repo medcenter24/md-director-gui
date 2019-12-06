@@ -16,7 +16,6 @@
  */
 
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { Logger } from 'angular2-logger/core';
 import { TranslateService } from '@ngx-translate/core';
 import { SlimLoadingBarService } from 'ng2-slim-loading-bar';
 import { GlobalState } from '../../../../../../global.state';
@@ -30,6 +29,7 @@ import {
 } from '../../../../../ui/datatable';
 import { FinanceCurrency } from '../../finance.currency';
 import { FinanceCurrencyService } from '../../finance.currency.service';
+import { LoggerComponent } from '../../../../../core/logger/LoggerComponent';
 
 @Component({
   selector: 'nga-currency-datatable',
@@ -49,7 +49,7 @@ export class FinanceCurrencyDatatableComponent extends LoadingComponent implemen
 
   constructor(
     protected loadingBar: SlimLoadingBarService,
-    protected _logger: Logger,
+    protected _logger: LoggerComponent,
     protected _state: GlobalState,
     protected translateService: TranslateService,
     private financeCurrencyService: FinanceCurrencyService,

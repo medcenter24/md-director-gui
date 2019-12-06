@@ -19,7 +19,6 @@ import { Component, ViewChild } from '@angular/core';
 import { DatatableCol } from '../../../ui/datatable';
 import { DatatableAction } from '../../../ui/datatable';
 import { TranslateService } from '@ngx-translate/core';
-import { Logger } from 'angular2-logger/core';
 import { GlobalState } from '../../../../global.state';
 import { SlimLoadingBarService } from 'ng2-slim-loading-bar';
 import { DatatableComponent } from '../../../ui/datatable';
@@ -28,6 +27,7 @@ import { AssistantsService } from '../../assistant.service';
 import { AbstractDatatableController } from '../../../ui/tables/abstract.datatable.controller';
 import { LoadableServiceInterface } from '../../../core/loadable';
 import { Assistant } from '../../assistant';
+import { LoggerComponent } from '../../../core/logger/LoggerComponent';
 
 @Component({
   selector: 'nga-assistant-datatable',
@@ -43,7 +43,7 @@ export class AssistantDatatableComponent extends AbstractDatatableController {
     private editAssistantForm: AssistantEditorComponent;
 
   constructor(
-    protected _logger: Logger,
+    protected _logger: LoggerComponent,
     protected _state: GlobalState,
     protected loadingBar: SlimLoadingBarService,
     private translateService: TranslateService,

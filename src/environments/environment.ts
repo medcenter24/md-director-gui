@@ -19,9 +19,6 @@
 // The build system defaults to the dev environment which uses `environment.ts`, but if you do
 // `ng build --env=prod` then `environment.prod.ts` will be used instead.
 // The list of which env maps to which file can be found in `.angular-cli.json`.
-
-import { Level } from 'angular2-logger/core';
-
 // I need this to rewrite clients settings, please use dev for development
 // you can comment it and use const env = {};
 import { env } from '../../../settings/guiDirector/environments/environment';
@@ -32,6 +29,6 @@ export const environment = {
   projectName: env.projectName || 'MedCenter24',
   doctorLink: env.doctorLink || 'http://localhost:8080',
   logger: {
-    level: Level.DEBUG,
+    level: 'debug',
   },
 };

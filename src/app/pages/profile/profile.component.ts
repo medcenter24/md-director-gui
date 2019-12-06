@@ -26,9 +26,9 @@ import { AuthenticationService } from '../../components/auth/authentication.serv
 import { Message } from 'primeng/primeng';
 import { Company } from '../../components/company/company';
 import { LoadingComponent } from '../../components/core/components/componentLoader';
-import { Logger } from 'angular2-logger/core';
 import { LocalStorageHelper } from '../../helpers/local.storage.helper';
 import { UploaderOptions, UploadInput } from 'ngx-uploader';
+import { LoggerComponent } from '../../components/core/logger/LoggerComponent';
 
 @Component({
   selector: 'nga-profile',
@@ -54,7 +54,7 @@ export class ProfileComponent extends LoadingComponent implements OnInit {
   constructor (
                protected loadingBar: SlimLoadingBarService,
                protected _state: GlobalState,
-               protected _logger: Logger,
+               protected _logger: LoggerComponent,
                private translateService: TranslateService,
                private usersService: UsersService,
                private loggedUserService: LoggedUserService,

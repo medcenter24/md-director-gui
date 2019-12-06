@@ -16,12 +16,12 @@
  */
 
 import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
-import { Logger } from 'angular2-logger/core';
 import { LoadableComponent } from '../../../../../core/components/componentLoader';
 import { AccidentScenario } from '../../scenario';
 import 'rxjs/add/operator/map';
 import 'style-loader!./line.scss';
 import { CasesService } from '../../../../../case/cases.service';
+import { LoggerComponent } from '../../../../../core/logger/LoggerComponent';
 
 @Component({
   selector: 'nga-accident-scenario',
@@ -38,7 +38,7 @@ export class AccidentScenarioLineComponent extends LoadableComponent implements 
   protected componentName: string = 'AccidentScenarioComponent';
 
   constructor (private caseService: CasesService,
-               private _logger: Logger) {
+               private _logger: LoggerComponent) {
     super();
   }
 

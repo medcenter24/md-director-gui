@@ -15,16 +15,4 @@
  * Copyright (c) 2019 (original work) MedCenter24.com;
  */
 
-
-import { NgModule } from '@angular/core';
-import { GlobalState } from '../../global.state';
-import { LoggerComponent } from '../../components/core/logger/LoggerComponent';
-
-@NgModule({
-  providers: [
-    LoggerComponent,
-    GlobalState,
-  ],
-})
-export class SharedModule {
-}
+export * from './LoggerModule';
