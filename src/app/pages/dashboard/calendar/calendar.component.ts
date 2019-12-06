@@ -31,6 +31,7 @@ export class CalendarComponent implements OnInit {
 
   calendarConfiguration: any = false;
   private _calendar: Object;
+  private eventsTimerId: any = false;
 
   constructor(
     private _calendarService: CalendarService,
@@ -69,12 +70,22 @@ export class CalendarComponent implements OnInit {
         eventLimit: false,
         timeFormat: 'H(:mm)',
         events: (start, end, timezone, callback) => {
-          this._calendarService
-            .loadEvents(start, end)
-            .then(events => {
-              statistics = [];
-              callback(events);
-            });
+
+          // prevent loading of the results too many times
+          if (this.eventsTimerId) {
+            clearTimeout(this.eventsTimerId);
+          }
+
+          this.eventsTimerId = setTimeout(() => {
+            this._calendarService
+              .loadEvents(start, end)
+              .then(events => {
+                statistics = [];
+                this.eventsTimerId = false;
+                callback(events);
+              });
+          }, 1000);
+
         },
         eventDataTransform: (event) => {
           return {
