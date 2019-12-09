@@ -20,6 +20,7 @@ import { CalendarService } from './calendar.service';
 import * as jQuery from 'jquery';
 import { TranslateService } from '@ngx-translate/core';
 import { StatusColorMapService } from '../../../components/accident/components/status/colormap.service';
+import { SlimLoadingBarService } from 'ng2-slim-loading-bar';
 
 @Component({
   selector: 'nga-calendar',
@@ -34,6 +35,7 @@ export class CalendarComponent implements OnInit {
   private eventsTimerId: any = false;
 
   constructor(
+    private _loadingBar: SlimLoadingBarService,
     private _calendarService: CalendarService,
     private _translateService: TranslateService,
     private _statusColorService: StatusColorMapService,
@@ -73,17 +75,21 @@ export class CalendarComponent implements OnInit {
 
           // prevent loading of the results too many times
           if (this.eventsTimerId) {
+            this._loadingBar.complete();
             clearTimeout(this.eventsTimerId);
           }
 
+          this._loadingBar.start();
           this.eventsTimerId = setTimeout(() => {
             this._calendarService
               .loadEvents(start, end)
               .then(events => {
+                this._loadingBar.complete();
                 statistics = [];
                 this.eventsTimerId = false;
                 callback(events);
-              });
+              })
+              .catch(this._loadingBar.complete);
           }, 1000);
 
         },
