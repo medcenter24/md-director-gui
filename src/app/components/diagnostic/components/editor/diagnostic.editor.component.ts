@@ -24,6 +24,7 @@ import { DiagnosticCategory } from '../../category/category';
 import { DiagnosticCategoryEditorComponent } from '../../category/components/editor';
 import { GlobalState } from '../../../../global.state';
 import { TranslateService } from '@ngx-translate/core';
+import { LoggerComponent } from '../../../core/logger/LoggerComponent';
 
 @Component({
   selector: 'nga-diagnostic-editor',
@@ -43,11 +44,13 @@ export class DiagnosticEditorComponent extends LoadableComponent {
     private diagnosticCategoryEditor: DiagnosticCategoryEditorComponent;
 
   showEditor: boolean = false;
+  isActive: boolean = true;
 
   constructor(
     private service: DiagnosticService,
     protected _state: GlobalState,
     private translateService: TranslateService,
+    protected _logger: LoggerComponent,
   ) {
     super();
   }
@@ -55,12 +58,21 @@ export class DiagnosticEditorComponent extends LoadableComponent {
   onSubmit(): void {
     const opName = 'UpdateDiagnostic';
     this.startLoader(opName);
+    this.diagnostic.status = this.isActive ? 'active' : 'disabled';
     this.service.save(this.diagnostic).then((diagnostic: Diagnostic) => {
-      this.diagnostic = diagnostic;
-      this.diagnosticSaved.emit(this.diagnostic);
-      this.close.emit();
       this.stopLoader(opName);
-    }).catch(() => this.stopLoader(opName));
+      this.diagnostic = diagnostic;
+      this.checkStatus();
+      this.diagnosticSaved.emit(this.diagnostic);
+      this.closeEditor();
+    }).catch((e) => {
+      this._logger.error(e);
+      this.stopLoader(opName);
+    });
+  }
+
+  private checkStatus(): void {
+    this.isActive = this.diagnostic && this.diagnostic.status === 'active';
   }
 
   onDelete(): void {
@@ -76,7 +88,7 @@ export class DiagnosticEditorComponent extends LoadableComponent {
             .then(() => {
               this.stopLoader(postfix);
               this.diagnosticSaved.emit(null);
-              this.close.emit();
+              this.closeEditor();
             })
             .catch(() => {
               this.stopLoader(postfix);

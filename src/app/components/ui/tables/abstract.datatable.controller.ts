@@ -62,6 +62,8 @@ export abstract class AbstractDatatableController extends LoadingComponent imple
         refreshTitle: this.getTranslateService().instant('Refresh'),
         controlPanel: true,
         controlPanelActions: this.getActions(),
+        captionPanel: this.hasCaptionPanel(),
+        captionPanelActions: this.getCaptionActions(),
         onRowSelect: event => {
           this.onRowSelect(event);
         },
@@ -69,6 +71,14 @@ export abstract class AbstractDatatableController extends LoadingComponent imple
         transformers: this.getTransformers(),
       });
     });
+  }
+
+  protected hasCaptionPanel(): boolean {
+    return false;
+  }
+
+  protected getCaptionActions(): DatatableAction[] {
+    return [];
   }
 
   protected setModel(model: Object = null): void {

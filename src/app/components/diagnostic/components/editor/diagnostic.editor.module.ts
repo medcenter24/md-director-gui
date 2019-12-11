@@ -25,6 +25,7 @@ import { NgaModule } from '../../../../theme/nga.module';
 import { DiagnosticService } from '../../diagnostic.service';
 import { DiagnosticCategorySelectModule } from '../../category/components/select';
 import { ButtonModule } from 'primeng/button';
+import { InputSwitchModule } from 'primeng/inputswitch';
 
 @NgModule({
   imports: [
@@ -35,6 +36,7 @@ import { ButtonModule } from 'primeng/button';
     NgaModule,
     DiagnosticCategorySelectModule,
     ButtonModule,
+    InputSwitchModule,
   ],
   providers: [
     DiagnosticService,

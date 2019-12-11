@@ -17,7 +17,7 @@
 
 import { Component, Input, ChangeDetectorRef, ViewChild, OnInit } from '@angular/core';
 import { LoadableComponent } from '../../core/components/componentLoader';
-import { DataTable, LazyLoadEvent } from 'primeng/primeng';
+import { LazyLoadEvent } from 'primeng/primeng';
 import { DatatableConfig } from './datatable.config';
 import { DatatableResponse } from './datatable.response';
 import { DatatableAction } from './datatable.action';
@@ -39,7 +39,7 @@ export class DatatableComponent extends LoadableComponent implements OnInit {
    * to use it from elsewhere outside we need to to use this.refresh method (facade)
    */
   @ViewChild('datatable')
-    private datatable: DataTable;
+    private datatable: any;
 
   data: any[];
   loading: boolean = false;

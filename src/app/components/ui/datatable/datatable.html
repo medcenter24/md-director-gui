@@ -63,7 +63,7 @@
           *ngFor="let action of config.captionPanelActions"
           pButton
           [icon]="action.icon"
-          (click)="action.run()"
+          (click)="action.run($event)"
           [label]="action.title"
           [class]="'pull-left mr-1' + (action.visible ? '' : ' invisible')"
         ></button>

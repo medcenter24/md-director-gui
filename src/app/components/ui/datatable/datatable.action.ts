@@ -19,7 +19,7 @@ export class DatatableAction {
   constructor (
     public title: string = '',
     public icon: string = '',
-    public run: Function = function () {},
+    public run: Function = () => {},
     public visible: Boolean = true,
   ) { }
 }

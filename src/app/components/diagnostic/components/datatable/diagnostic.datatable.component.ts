@@ -112,4 +112,24 @@ export class DiagnosticDatatableComponent extends AbstractDatatableController {
     this.closeDiagnosticEditor();
   }
 
+  protected hasCaptionPanel (): boolean {
+    return true;
+  }
+
+  protected getCaptionActions (): DatatableAction[] {
+    return [
+      new DatatableAction(this.translateService.instant('Show hidden'), 'fa fa-toggle-on', event => {
+        const btnEl = event.target.parentNode;
+        let st = btnEl.className;
+        if (st.includes('ui-button-success')) {
+          st = st.replace('ui-button-success', '');
+          st = st.trim();
+        } else {
+          st += ' ui-button-success';
+        }
+        console.log(st)
+        btnEl.className = st;
+      }),
+    ];
+  }
 }
