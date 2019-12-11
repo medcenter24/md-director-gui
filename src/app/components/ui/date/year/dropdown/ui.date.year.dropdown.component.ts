@@ -16,7 +16,6 @@
  */
 
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { YearsList } from '../../../../statistics/years/yearsList';
 
 @Component({
   selector: 'nga-date-year-dropdown',
@@ -39,5 +38,4 @@ export class UiDateYearDropdownComponent {
   changed(event): void {
     this.change.emit(event.value);
   }
-
 }

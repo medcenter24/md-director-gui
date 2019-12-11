@@ -56,6 +56,9 @@ export class DashboardComponent extends LoadingComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    const year = `${(new Date()).getFullYear()}`;
+    this.currentDocYear = year;
+    this.currentAssistYear = year;
     this.loadDoctorsTraffic();
     this.loadAssistantTraffic();
     this.loadActiveYears();

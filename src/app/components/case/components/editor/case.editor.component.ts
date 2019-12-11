@@ -198,15 +198,11 @@ export class CaseEditorComponent extends LoadingComponent implements OnInit {
 
         if (+params[ 'id' ]) {
           // start of loading data and the page
-          this.startLoader();
+          const mainPostfix = 'main';
+          this.startLoader(mainPostfix);
           this.accidentsService.getAccident(+params[ 'id' ]).then((accident: Accident) => {
-            // it has no sense to move it to the end of function, because components load asynchronously
-            this.stopLoader();
-
             this._state.notifyDataChanged('menu.activeLink', { title: 'Cases' });
-
             this.showToolbox();
-
             this.accident = accident ? accident : new Accident();
             if (this.accident.handlingTime && this.accident.handlingTime.length) {
               this.handlingTime = this.dateHelper.toEuropeFormatWithTime(this.accident.handlingTime);
@@ -229,22 +225,22 @@ export class CaseEditorComponent extends LoadingComponent implements OnInit {
             if (this.accident.cityId) {
               this.cityAutocompleter.selectItems(this.accident.cityId);
             }
-            if (this.accident.formReportId) {
+            if (this.accident.formReportId && this.accidentReportFormAutocompleter) {
               this.accidentReportFormAutocompleter.selectItems(this.accident.formReportId);
             }
-
             // cheating to not make extra request
             if (+this.accident.assistantGuaranteeId) {
               this.assistantGuaranteeFile = new Upload(this.accident.assistantGuaranteeId);
             }
             this.assistantInvoice = new Invoice(accident.assistantInvoiceId, 0, 'form');
-
             this.loadCaseable();
             this.loadDocuments();
             this.loadCheckpoints();
             this.loadPatient();
+            // it has to be at the end, because on any error it will be stopped second time (in the catch section)
+            this.stopLoader(mainPostfix);
           }).catch((err) => {
-            this.stopLoader();
+            this.stopLoader(mainPostfix);
             if (err.status === 404) {
               this._logger.error('Resource not found');
               this.growlError('Error', 'Resource not found');
