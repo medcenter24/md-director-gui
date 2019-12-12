@@ -34,6 +34,7 @@ import { LoadingComponent } from '../../../core/components/componentLoader';
 import { GlobalState } from '../../../../global.state';
 import { SlimLoadingBarService } from 'ng2-slim-loading-bar';
 import { LoggerComponent } from '../../../core/logger/LoggerComponent';
+import { UrlHelper } from '../../../../helpers/url.helper';
 
 @Component({
   selector: 'nga-case-datatable',
@@ -109,6 +110,13 @@ export class CaseDatatableComponent extends LoadingComponent implements OnInit {
         new DatatableCol('price', this.translateService.instant('Price')),
         new DatatableCol('caseType', this.translateService.instant('Case Type')),
       ];
+
+      // update paginator from the request
+
+      /*event.first = +UrlHelper.get(this.getCurrentUrl(), 'first', this.config.offset);
+      event.rows = +UrlHelper.get(this.getCurrentUrl(), 'rows', this.config.rows);
+      this.datatable.first = event.first;
+      this.datatable.rows = event.rows;*/
 
       this.datatableConfig = DatatableConfig.factory({
         dataProvider: (filters: Object) => {

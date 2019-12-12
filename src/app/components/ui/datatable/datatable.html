@@ -21,6 +21,7 @@
   [value]="data"
   [lazy]="config.lazy"
   (onLazyLoad)="loadLazy($event)"
+  (onPage)="onPageChanged($event)"
   [paginator]="config.paginator"
   [rows]="config.rows"
   [totalRecords]="total"
@@ -34,12 +35,12 @@
     <div class="ui-helper-clearfix">
       <button
         *ngIf="config.csvExportAll"
-        class="mr-1"
+        class="mr-1 pull-left"
         type="button" pButton
         icon="fa fa-file-o" iconPos="left"
         [label]="config.csvExportAllTitle"
         (click)="datatable.exportCSV()"
-        class="pull-left"></button>
+      ></button>
 
       <button
         *ngIf="config.csvExportSelections"

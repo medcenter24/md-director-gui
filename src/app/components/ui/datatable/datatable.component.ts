@@ -23,6 +23,8 @@ import { DatatableResponse } from './datatable.response';
 import { DatatableAction } from './datatable.action';
 import { DatatableTransformer } from './datatable.transformer';
 import { DatatableCol } from './datatable.col';
+import { Location } from '@angular/common';
+import { UrlHelper } from '../../../helpers/url.helper';
 
 @Component({
   selector: 'nga-datatable',
@@ -45,9 +47,11 @@ export class DatatableComponent extends LoadableComponent implements OnInit {
   loading: boolean = false;
   selectedData: any;
   total: number = 0;
+  lazyLoadEvent: LazyLoadEvent;
 
   constructor (
     private cdr: ChangeDetectorRef,
+    private location: Location,
   ) {
     super();
   }
@@ -58,9 +62,20 @@ export class DatatableComponent extends LoadableComponent implements OnInit {
         this.refresh();
       }));
     }
+
+    const rows = +UrlHelper.get(this.getCurrentUrl(), 'rows', 25);
+    const first = +UrlHelper.get(this.getCurrentUrl(), 'first', 0);
+    const sortField = UrlHelper.get(this.getCurrentUrl(), 'sortField', this.config.sortBy);
+    const sortOrder = +UrlHelper.get(this.getCurrentUrl(), 'sortOrder', this.config.sortOrder);
+    this.datatable.first = first;
+    this.pagedLoadLazy({ rows, first, sortField, sortOrder });
   }
 
   loadLazy(event: LazyLoadEvent) {
+    this.lazyLoadEvent = event;
+  }
+
+  pagedLoadLazy(event: LazyLoadEvent) {
     // in a real application, make a remote request to load data using state metadata from event
     // event.first = First row offset
     // event.rows = Number of rows per page
@@ -74,10 +89,11 @@ export class DatatableComponent extends LoadableComponent implements OnInit {
       event.sortOrder = this.config.sortOrder;
     }
 
-    this.config.dataProvider(event).then((response: DatatableResponse) => {
-      this.setLoading(false);
-      this.data = response.data;
-      this.total = response.meta.pagination.total;
+    this.config.dataProvider(event)
+      .then((response: DatatableResponse) => {
+        this.setLoading(false);
+        this.data = response.data;
+        this.total = response.meta.pagination.total;
     }).catch(() => {
       this.setLoading(false);
     });
@@ -143,5 +159,38 @@ export class DatatableComponent extends LoadableComponent implements OnInit {
       }
     });
     return found;
+  }
+
+  private getCurrentUrl(): string {
+    return this.location.path(true);
+  }
+
+  onPageChanged(event): void {
+    // I need to update request data (to have correct url)
+    let location = this.getCurrentUrl();
+    let first = this.config.offset;
+    let rows = this.config.rows;
+    if (+event.first) {
+      first = event.first;
+    }
+
+    if (+event.rows) {
+      rows = event.rows;
+    }
+
+    if (first && rows) {
+      location = UrlHelper.replaceOrAdd( location, 'first', `${first}` );
+      location = UrlHelper.replaceOrAdd( location, 'rows', `${rows}` );
+    } else {
+      location = UrlHelper.replaceOrAdd( location, 'first', `` );
+      location = UrlHelper.replaceOrAdd( location, 'rows', `` );
+    }
+    this.location.replaceState(location);
+    if (this.lazyLoadEvent) {
+      const llEvent = this.lazyLoadEvent;
+      llEvent.first = +first;
+      llEvent.rows = +rows;
+      this.pagedLoadLazy(llEvent);
+    }
   }
 }

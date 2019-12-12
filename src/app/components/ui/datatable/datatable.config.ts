@@ -18,6 +18,7 @@
 import { DatatableAction } from './datatable.action';
 import { DatatableCol } from './datatable.col';
 import { DatatableTransformer } from './datatable.transformer';
+import { Location } from '@angular/common';
 
 export class DatatableConfig {
 
@@ -69,6 +70,7 @@ export class DatatableConfig {
      * @type {null}
      */
     public sortable: string[] = null,
+    public location: Location = null,
   ) { }
 
   /**
