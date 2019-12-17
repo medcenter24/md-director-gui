@@ -15,7 +15,7 @@
  * Copyright (c) 2019 (original work) MedCenter24.com;
  */
 
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, ViewChild } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { GlobalState } from '../../../../global.state';
 import { SlimLoadingBarService } from 'ng2-slim-loading-bar';
@@ -27,6 +27,7 @@ import { DiagnosticEditorComponent } from '../editor';
 import { DiagnosticService } from '../../diagnostic.service';
 import { Diagnostic } from '../../diagnostic';
 import { LoggerComponent } from '../../../core/logger/LoggerComponent';
+import { FilterMetadata } from 'primeng/api';
 
 @Component({
   selector: 'nga-diagnostic-datatable',
@@ -96,6 +97,11 @@ export class DiagnosticDatatableComponent extends AbstractDatatableController {
     return 'name';
   }
 
+  getFilters(): { [s: string]: FilterMetadata } {
+    const status = { value: 'active', matchMode: 'eq' } as FilterMetadata;
+    return { status };
+  }
+
   closeDiagnosticEditor(): void {
     this.displayDialog = false;
   }
@@ -121,15 +127,29 @@ export class DiagnosticDatatableComponent extends AbstractDatatableController {
       new DatatableAction(this.translateService.instant('Show hidden'), 'fa fa-toggle-on', event => {
         const btnEl = event.target.parentNode;
         let st = btnEl.className;
-        if (st.includes('ui-button-success')) {
+        const filters = this.getFiltersWithoutStatus();
+        if (st.includes('ui-button-success')) { // show hidden
           st = st.replace('ui-button-success', '');
           st = st.trim();
+          filters['status'] = { value: 'active', matchMode: 'eq' } as FilterMetadata;
         } else {
+          // hide hidden
           st += ' ui-button-success';
         }
-        console.log(st)
+        this.applyFilters(filters);
         btnEl.className = st;
       }),
     ];
+  }
+
+  private getFiltersWithoutStatus(): Object {
+    const newFilters = {};
+    const filters = this.getDatatableComponent().getConfig().get('filters');
+    Object.keys(filters).forEach(function (item: string) {
+      if (item !== 'status') {
+        newFilters[ item ] = filters[ item ];
+      }
+    });
+    return newFilters;
   }
 }

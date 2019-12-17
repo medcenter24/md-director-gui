@@ -25,13 +25,16 @@ import { ServicesService } from '../../services.service';
 import { LoadableServiceInterface } from '../../../core/loadable';
 import { Service } from '../../service';
 import { DatatableAction, DatatableCol, DatatableComponent } from '../../../ui/datatable';
-import { ConfirmationService } from 'primeng/api';
+import { ConfirmationService, FilterMetadata } from 'primeng/api';
 
 @Component({
   selector: 'nga-service-datatable',
   templateUrl: './service.datatable.html',
 })
 export class ServiceDatatableComponent extends AbstractDatatableController {
+
+  isActive: boolean = true;
+
   protected componentName: string = 'ServiceDatatableComponent';
 
   @ViewChild('servicesDatatable')
@@ -46,6 +49,11 @@ export class ServiceDatatableComponent extends AbstractDatatableController {
     private confirmationService: ConfirmationService,
   ) {
     super();
+  }
+
+  save () {
+    this.model.status = this.isActive ? 'active' : 'disabled';
+    super.save();
   }
 
   protected getTranslateService (): TranslateService {
@@ -94,5 +102,45 @@ export class ServiceDatatableComponent extends AbstractDatatableController {
         this.delete();
       },
     });
+  }
+
+  private getFiltersWithoutStatus(): Object {
+    const newFilters = {};
+    const filters = this.getDatatableComponent().getConfig().get('filters');
+    Object.keys(filters).forEach(function (item: string) {
+      if (item !== 'status') {
+        newFilters[ item ] = filters[ item ];
+      }
+    });
+    return newFilters;
+  }
+
+  protected hasCaptionPanel (): boolean {
+    return true;
+  }
+
+  protected getCaptionActions (): DatatableAction[] {
+    return [
+      new DatatableAction(this.translateService.instant('Show hidden'), 'fa fa-toggle-on', event => {
+        const btnEl = event.target.parentNode;
+        let st = btnEl.className;
+        const filters = this.getFiltersWithoutStatus();
+        if (st.includes('ui-button-success')) { // show hidden
+          st = st.replace('ui-button-success', '');
+          st = st.trim();
+          filters['status'] = { value: 'active', matchMode: 'eq' } as FilterMetadata;
+        } else {
+          // hide hidden
+          st += ' ui-button-success';
+        }
+        this.applyFilters(filters);
+        btnEl.className = st;
+      }),
+    ];
+  }
+
+  protected setModel ( model: Object = null ): void {
+    this.isActive = model['status'] === 'active';
+    super.setModel( model );
   }
 }

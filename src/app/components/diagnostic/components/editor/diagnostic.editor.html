@@ -59,7 +59,7 @@
           </div>
           <div class="col-sm-6">
             <div class="form-group">
-              <label translate>Active</label>
+              <label translate>{{ isActive ? 'Active' : 'Inactive' }}</label>
               <div>
                 <p-inputSwitch [(ngModel)]="isActive"></p-inputSwitch>
               </div>

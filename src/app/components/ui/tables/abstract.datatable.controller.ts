@@ -25,6 +25,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { LoadingComponent } from '../../core/components/componentLoader';
 import { ObjectHelper } from '../../../helpers/object.helper';
 import { LoadableServiceInterface } from '../../core/loadable';
+import { FilterMetadata } from 'primeng/components/common/filtermetadata';
 
 export abstract class AbstractDatatableController extends LoadingComponent implements OnInit {
   displayDialog: boolean;
@@ -43,6 +44,10 @@ export abstract class AbstractDatatableController extends LoadingComponent imple
   abstract getActions(): DatatableAction[];
   abstract getSortBy(): string;
   abstract getEmptyModel(): Object;
+
+  getFilters(): { [s: string]: FilterMetadata } {
+    return {};
+  }
 
   /**
    * @return {DatatableTransformer[]}
@@ -69,6 +74,7 @@ export abstract class AbstractDatatableController extends LoadingComponent imple
         },
         sortBy: this.getSortBy(),
         transformers: this.getTransformers(),
+        filters: this.getFilters(), // default filters
       });
     });
   }
@@ -141,5 +147,15 @@ export abstract class AbstractDatatableController extends LoadingComponent imple
         this.getDatatableComponent().refresh();
       })
       .catch(() => this.stopLoader(postfix));
+  }
+
+  /**
+   * Change filters and reload table data
+   * @param filters
+   */
+  protected applyFilters(filters: Object): void {
+    this.datatableConfig = this.getDatatableComponent().getConfig();
+    this.datatableConfig.update( 'filters', { filters } );
+    this.getDatatableComponent().refresh();
   }
 }

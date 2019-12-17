@@ -15,7 +15,7 @@
  * Copyright (c) 2019 (original work) MedCenter24.com;
  */
 
-import { Component, Input, Output, EventEmitter, ViewChild } from '@angular/core';
+import { Component, Input, Output, EventEmitter, ViewChild, OnInit } from '@angular/core';
 import { Diagnostic } from '../../diagnostic';
 import { DiagnosticService } from '../../diagnostic.service';
 import { LoadableComponent } from '../../../core/components/componentLoader';
@@ -30,7 +30,7 @@ import { LoggerComponent } from '../../../core/logger/LoggerComponent';
   selector: 'nga-diagnostic-editor',
   templateUrl: './diagnostic.editor.html',
 })
-export class DiagnosticEditorComponent extends LoadableComponent {
+export class DiagnosticEditorComponent extends LoadableComponent implements OnInit {
   protected componentName: string = 'DiagnosticEditorComponent';
 
   @Input() diagnostic: Diagnostic = new Diagnostic();
@@ -53,6 +53,10 @@ export class DiagnosticEditorComponent extends LoadableComponent {
     protected _logger: LoggerComponent,
   ) {
     super();
+  }
+
+  ngOnInit(): void {
+    this.isActive = this.diagnostic.status === 'active';
   }
 
   onSubmit(): void {
@@ -114,7 +118,7 @@ export class DiagnosticEditorComponent extends LoadableComponent {
     this.close.emit();
   }
 
-  onDiagnosticCategoryChanged(diagnosticCategory: DiagnosticCategory): void {
+  onDiagnosticCategoryChanged(diagnosticCategory: any): void {
     if (this.diagnostic.diagnosticCategoryId !== diagnosticCategory.id && this.showEditor) {
       this.showEditor = false;
     }

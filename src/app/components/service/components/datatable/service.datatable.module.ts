@@ -26,6 +26,7 @@ import { DatatableModule } from '../../../ui/datatable';
 import { ConfirmDialogModule, InputMaskModule } from 'primeng/primeng';
 import { ServicesService } from '../../services.service';
 import { ServiceDatatableComponent } from './service.datatable.component';
+import { InputSwitchModule } from 'primeng/inputswitch';
 
 @NgModule({
   imports: [
@@ -37,7 +38,8 @@ import { ServiceDatatableComponent } from './service.datatable.component';
     DatatableModule,
     InputMaskModule,
     ConfirmDialogModule,
-],
+    InputSwitchModule,
+  ],
   providers: [
     ServicesService,
   ],

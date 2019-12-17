@@ -25,6 +25,7 @@ import { DatatableTransformer } from './datatable.transformer';
 import { DatatableCol } from './datatable.col';
 import { Location } from '@angular/common';
 import { UrlHelper } from '../../../helpers/url.helper';
+import { Table } from 'primeng/table';
 
 @Component({
   selector: 'nga-datatable',
@@ -41,7 +42,7 @@ export class DatatableComponent extends LoadableComponent implements OnInit {
    * to use it from elsewhere outside we need to to use this.refresh method (facade)
    */
   @ViewChild('datatable')
-    private datatable: any;
+    private datatable: Table;
 
   data: any[];
   loading: boolean = false;
@@ -63,12 +64,8 @@ export class DatatableComponent extends LoadableComponent implements OnInit {
       }));
     }
 
-    const rows = +UrlHelper.get(this.getCurrentUrl(), 'rows', 25);
-    const first = +UrlHelper.get(this.getCurrentUrl(), 'first', 0);
-    const sortField = UrlHelper.get(this.getCurrentUrl(), 'sortField', this.config.sortBy);
-    const sortOrder = +UrlHelper.get(this.getCurrentUrl(), 'sortOrder', this.config.sortOrder);
-    this.datatable.first = first;
-    this.pagedLoadLazy({ rows, first, sortField, sortOrder });
+    // first loading of the table
+    this.refresh();
   }
 
   loadLazy(event: LazyLoadEvent) {
@@ -76,18 +73,16 @@ export class DatatableComponent extends LoadableComponent implements OnInit {
   }
 
   pagedLoadLazy(event: LazyLoadEvent) {
-    // in a real application, make a remote request to load data using state metadata from event
     // event.first = First row offset
     // event.rows = Number of rows per page
-    // event.sortField = Field name to sort with
-    // event.sortOrder = Sort order as number, 1 for asc and -1 for dec
-    // filters: FilterMetadata object having field as key and filter value, filter matchMode as value
+    // event.sortField = Field name to sort in single sort mode
+    // event.sortOrder = Sort order as number, 1 for asc and -1 for dec in single sort mode
+    // multiSortMeta: An array of SortMeta objects used in multiple columns sorting.
+    //     Each SortMeta has field and order properties.
+    // filters: Filters object having field as key and filter value, filter matchMode as value
+    // filtersActions // If i need to add filters as an extra row with html
+    // globalFilter: Value of the global filter if available
     this.setLoading(true);
-
-    if (!event.sortField && this.config.sortBy) {
-      event.sortField = this.config.sortBy;
-      event.sortOrder = this.config.sortOrder;
-    }
 
     this.config.dataProvider(event)
       .then((response: DatatableResponse) => {
@@ -114,7 +109,15 @@ export class DatatableComponent extends LoadableComponent implements OnInit {
   }
 
   refresh(): void {
-    this.datatable.reset();
+    // from url by query
+    const rows = +UrlHelper.get(this.getCurrentUrl(), 'rows', this.config.rows);
+    const first = +UrlHelper.get(this.getCurrentUrl(), 'first', this.config.offset);
+    const sortField = UrlHelper.get(this.getCurrentUrl(), 'sortField', this.config.sortBy);
+    const sortOrder = +UrlHelper.get(this.getCurrentUrl(), 'sortOrder', this.config.sortOrder);
+    // while I don't know how to take it from the query
+    const filters = this.config.filters;
+    this.datatable.first = first; // to change the current page in the paginator
+    this.pagedLoadLazy({ rows, first, sortField, sortOrder, filters });
   }
 
   showData(rowData: string[], col: DatatableCol): string {
@@ -187,10 +190,16 @@ export class DatatableComponent extends LoadableComponent implements OnInit {
     }
     this.location.replaceState(location);
     if (this.lazyLoadEvent) {
-      const llEvent = this.lazyLoadEvent;
-      llEvent.first = +first;
-      llEvent.rows = +rows;
-      this.pagedLoadLazy(llEvent);
+      this.getConfig().update('first', { first });
+      this.getConfig().update('rows', { rows });
+      this.refresh();
     }
+  }
+
+  /**
+   * To get current datatable configuration
+   */
+  getConfig(): DatatableConfig {
+    return this.config;
   }
 }
