@@ -21,7 +21,7 @@ import { FormsModule } from '@angular/forms';
 import { NgaModule } from '../../theme/nga.module';
 import { DashboardComponent } from './dashboard.component';
 import { routing } from './dashboard.routing';
-import { PopularApp } from './popularApp';
+import { PopularAppComponent } from './popularApp';
 import { PieChart } from './pieChart';
 import { Feed } from './feed';
 import { Todo } from './todo';
@@ -46,7 +46,7 @@ import { UiDateYearDropdownModule } from '../../components/ui/date/year/dropdown
     UiDateYearDropdownModule,
   ],
   declarations: [
-    PopularApp,
+    PopularAppComponent,
     PieChart,
     TrafficChartComponent,
     Feed,

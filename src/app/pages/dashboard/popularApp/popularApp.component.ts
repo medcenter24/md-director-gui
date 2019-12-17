@@ -15,15 +15,13 @@
  * Copyright (c) 2019 (original work) MedCenter24.com;
  */
 
-import {Component} from '@angular/core';
+import { Component } from '@angular/core';
 import 'style-loader!./popularApp.scss';
 
 @Component({
-  selector: 'popular-app',
-  templateUrl: './popularApp.html'
+  selector: 'nga-popular-app',
+  templateUrl: './popularApp.html',
 })
-export class PopularApp {
+export class PopularAppComponent {
 
-  ngOnInit() {
-  }
 }
