@@ -24,8 +24,8 @@ import { TranslateService } from '@ngx-translate/core';
 import { SurveyService } from '../../survey.service';
 import { LoadableServiceInterface } from '../../../core/loadable';
 import { Survey } from '../../survey';
-import { DatatableAction, DatatableCol, DatatableComponent } from '../../../ui/datatable';
-import { ConfirmationService } from 'primeng/api';
+import { DatatableAction, DatatableCol, DatatableComponent, DatatableTransformer } from '../../../ui/datatable';
+import { ConfirmationService, FilterMetadata } from 'primeng/api';
 
 @Component({
   selector: 'nga-survey-datatable',
@@ -33,6 +33,8 @@ import { ConfirmationService } from 'primeng/api';
 })
 export class SurveyDatatableComponent extends AbstractDatatableController {
   protected componentName: string = 'SurveyDatatableComponent';
+
+  isActive: boolean = true;
 
   @ViewChild('surveyDatatableComponent')
     private surveyDatatableComponent: DatatableComponent;
@@ -91,5 +93,67 @@ export class SurveyDatatableComponent extends AbstractDatatableController {
         this.delete();
       },
     });
+  }
+
+  private getFiltersWithoutStatus(): Object {
+    const newFilters = {};
+    const filters = this.getDatatableComponent().getConfig().get('filters');
+    Object.keys(filters).forEach(function (item: string) {
+      if (item !== 'status') {
+        newFilters[ item ] = filters[ item ];
+      }
+    });
+    return newFilters;
+  }
+
+  protected hasCaptionPanel (): boolean {
+    return true;
+  }
+
+  getFilters(): { [s: string]: FilterMetadata } {
+    const status = { value: 'active', matchMode: 'eq' } as FilterMetadata;
+    return { status };
+  }
+
+  protected getCaptionActions (): DatatableAction[] {
+    return [
+      new DatatableAction(this.translateService.instant('Show hidden'), 'fa fa-toggle-on', event => {
+        const btnEl = event.target.parentNode;
+        let st = btnEl.className;
+        const filters = this.getFiltersWithoutStatus();
+        if (st.includes('ui-button-success')) { // show hidden
+          st = st.replace('ui-button-success', '');
+          st = st.trim();
+          filters['status'] = { value: 'active', matchMode: 'eq' } as FilterMetadata;
+        } else {
+          // hide hidden
+          st += ' ui-button-success';
+        }
+        this.applyFilters(filters);
+        btnEl.className = st;
+      }),
+    ];
+  }
+
+  protected setModel ( model: Object = null ): void {
+    this.isActive = model && model.hasOwnProperty('status') && model['status'] === 'active';
+    super.setModel( model );
+  }
+
+  getTransformers (): DatatableTransformer[] {
+    const transformers = super.getTransformers();
+    transformers.push(new DatatableTransformer('title', (val, row) => {
+      if (row.status !== 'active') {
+        const inactive = this.translateService.instant('Inactive');
+        return `<span class="text-danger" title="${inactive}">${val}</span>`;
+      }
+      return val;
+    }));
+    return transformers;
+  }
+
+  save () {
+    this.model.status = this.isActive ? 'active' : 'disabled';
+    super.save();
   }
 }

@@ -21,5 +21,6 @@ export class Survey {
         public title: string = '',
         public description: string = '',
         public type: string = '',
+        public status: string = 'active',
     ) {}
 }

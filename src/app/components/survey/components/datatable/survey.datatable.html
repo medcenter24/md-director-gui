@@ -27,7 +27,7 @@
   [responsive]="true"
   showEffect="fade"
   [modal]="true"
-  [width]="400">
+  [style]="{width : '400px'}">
 
   <div class="ui-g ui-fluid" *ngIf="model">
     <div class="ui-g-12">
@@ -52,6 +52,14 @@
           [(ngModel)]="model.description"
           autocomplete="off"
         />
+      </div>
+    </div>
+    <div class="ui-g-12">
+      <div class="ui-g-3">
+        <label translate>{{ isActive ? 'Active' : 'Inactive' }}</label>
+      </div>
+      <div class="ui-g-9">
+        <p-inputSwitch [(ngModel)]="isActive"></p-inputSwitch>
       </div>
     </div>
   </div>

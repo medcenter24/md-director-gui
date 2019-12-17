@@ -22,6 +22,7 @@
         [draggable]="false"
         [responsive]="true"
         style="width: 800px; height: 600px"
+        [style]="{width : '800px', height: '600px'}"
         modal="true"
         class="importer"
 >
@@ -70,8 +71,8 @@
     <p-footer *ngIf="selectedFiles.length">
         <div class="ui-dialog-buttonpane ui-helper-clearfix">
             <button pButton [disabled]="true" class="mr-2" label="{{ selectedFiles.length }}"></button>
-            <button pButton (click)="importFile()" class="mr-2" type="button" icon="fa fa-download" label="{{ 'Import' | translate }}"></button>
-            <button pButton (click)="deleteFile()" type="button" icon="fa fa-trash" label="{{ 'Delete' | translate }}"></button>
+            <button pButton (click)="importFile($event)" class="mr-2" type="button" icon="fa fa-download" label="{{ 'Import' | translate }}"></button>
+            <button pButton (click)="deleteFile($event)" type="button" icon="fa fa-trash" label="{{ 'Delete' | translate }}"></button>
         </div>
     </p-footer>
 </p-dialog>
