@@ -20,7 +20,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { GlobalState } from '../../../../global.state';
 import { SlimLoadingBarService } from 'ng2-slim-loading-bar';
 import { AbstractDatatableController } from '../../../ui/tables/abstract.datatable.controller';
-import { DatatableAction, DatatableCol, DatatableComponent } from '../../../ui/datatable';
+import { DatatableAction, DatatableCol, DatatableComponent, DatatableTransformer } from '../../../ui/datatable';
 import { ObjectHelper } from '../../../../helpers/object.helper';
 import { LoadableServiceInterface } from '../../../core/loadable';
 import { DiagnosticEditorComponent } from '../editor';
@@ -151,5 +151,17 @@ export class DiagnosticDatatableComponent extends AbstractDatatableController {
       }
     });
     return newFilters;
+  }
+
+  getTransformers (): DatatableTransformer[] {
+    const transformers = super.getTransformers();
+    transformers.push(new DatatableTransformer('title', (val, row) => {
+      if (row.status !== 'active') {
+        const inactive = this.translateService.instant('Inactive');
+        return `<span class="text-danger" title="${inactive}">${val}</span>`;
+      }
+      return val;
+    }));
+    return transformers;
   }
 }

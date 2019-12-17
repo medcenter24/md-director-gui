@@ -24,7 +24,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { ServicesService } from '../../services.service';
 import { LoadableServiceInterface } from '../../../core/loadable';
 import { Service } from '../../service';
-import { DatatableAction, DatatableCol, DatatableComponent } from '../../../ui/datatable';
+import { DatatableAction, DatatableCol, DatatableComponent, DatatableTransformer } from '../../../ui/datatable';
 import { ConfirmationService, FilterMetadata } from 'primeng/api';
 
 @Component({
@@ -147,5 +147,17 @@ export class ServiceDatatableComponent extends AbstractDatatableController {
   protected setModel ( model: Object = null ): void {
     this.isActive = model && model.hasOwnProperty('status') && model['status'] === 'active';
     super.setModel( model );
+  }
+
+  getTransformers (): DatatableTransformer[] {
+    const transformers = super.getTransformers();
+    transformers.push(new DatatableTransformer('title', (val, row) => {
+      if (row.status !== 'active') {
+        const inactive = this.translateService.instant('Inactive');
+        return `<span class="text-danger" title="${inactive}">${val}</span>`;
+      }
+      return val;
+    }));
+    return transformers;
   }
 }
