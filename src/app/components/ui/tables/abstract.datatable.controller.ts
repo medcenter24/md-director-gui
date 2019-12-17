@@ -96,7 +96,6 @@ export abstract class AbstractDatatableController extends LoadingComponent imple
     this.startLoader(postfix);
     this.getService().save(this.model)
       .then((model: Object) => {
-        this.stopLoader(postfix);
         this.displayDialog = false;
         if (!this.model.id) {
           // refresh on adding
@@ -106,6 +105,7 @@ export abstract class AbstractDatatableController extends LoadingComponent imple
         }
         // to close popup
         this.setModel();
+        this.stopLoader(postfix);
       })
       .catch(e => {
         console.error(e);

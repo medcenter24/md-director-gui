@@ -119,6 +119,11 @@ export class ServiceDatatableComponent extends AbstractDatatableController {
     return true;
   }
 
+  getFilters(): { [s: string]: FilterMetadata } {
+    const status = { value: 'active', matchMode: 'eq' } as FilterMetadata;
+    return { status };
+  }
+
   protected getCaptionActions (): DatatableAction[] {
     return [
       new DatatableAction(this.translateService.instant('Show hidden'), 'fa fa-toggle-on', event => {
@@ -140,7 +145,7 @@ export class ServiceDatatableComponent extends AbstractDatatableController {
   }
 
   protected setModel ( model: Object = null ): void {
-    this.isActive = model['status'] === 'active';
+    this.isActive = model && model.hasOwnProperty('status') && model['status'] === 'active';
     super.setModel( model );
   }
 }

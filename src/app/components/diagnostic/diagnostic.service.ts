@@ -19,6 +19,7 @@ import { Injectable } from '@angular/core';
 import { Diagnostic } from './diagnostic';
 import { HttpService } from '../core/http/http.service';
 import { LoadableServiceInterface } from '../core/loadable';
+import { FilterMetadata } from 'primeng/api';
 
 @Injectable()
 export class DiagnosticService extends HttpService implements LoadableServiceInterface {
@@ -27,8 +28,8 @@ export class DiagnosticService extends HttpService implements LoadableServiceInt
     return 'director/diagnostics';
   }
 
-  getDiagnostics(): Promise<Diagnostic[]> {
-    return this.get().then(response => response.data as Diagnostic[]);
+  getDiagnostics(filters: Object): Promise<Diagnostic[]> {
+    return this.search(filters).then(response => response.data as Diagnostic[]);
   }
 
   delete(id: number): Promise<void> {

@@ -46,7 +46,7 @@ export class DiagnosticSelectComponent extends LoadableComponent implements OnIn
 
   ngOnInit () {
     this.startLoader();
-    this.diagnosticsService.getDiagnostics().then(diagnostics => {
+    this.diagnosticsService.getDiagnostics({ status: { value: 'active', matchMode: 'eq' } }).then(diagnostics => {
       this.diagnostics = diagnostics;
       this.dataDiagnostics = diagnostics.map(x => {
         return {

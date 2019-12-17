@@ -27,8 +27,8 @@ export class ServicesService extends HttpService implements LoadableServiceInter
     return 'director/services';
   }
 
-  getServices(): Promise<Service[]> {
-    return this.get().then(response => response.data as Service[]);
+  getServices(filters: Object): Promise<Service[]> {
+    return this.search(filters).then(response => response.data as Service[]);
   }
 
   getService(id: number): Promise<Service> {

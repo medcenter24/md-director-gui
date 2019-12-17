@@ -46,7 +46,8 @@ export class SelectServicesComponent extends LoadableComponent implements OnInit
 
   ngOnInit () {
     this.startLoader();
-    this.servicesService.getServices().then(services => {
+    const statusFilter = { status: { value: 'active', matchMode: 'eq' } };
+    this.servicesService.getServices(statusFilter).then(services => {
       this.stopLoader();
       this.services = services;
       this.dataServices = services.map(x => {
