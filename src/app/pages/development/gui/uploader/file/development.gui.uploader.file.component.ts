@@ -16,12 +16,12 @@
  */
 
 import { Component } from '@angular/core';
-import { Logger } from 'angular2-logger/core';
 import { SlimLoadingBarService } from 'ng2-slim-loading-bar';
 import { LoadingComponent } from '../../../../../components/core/components/componentLoader';
 import { Upload } from '../../../../../components/upload/upload';
 import { GlobalState } from '../../../../../global.state';
 import { SimpleSearchProviderMock } from '../../../../../test/samples/providers';
+import { LoggerComponent } from '../../../../../components/core/logger/LoggerComponent';
 
 @Component({
   selector: 'nga-development-gui-uploader-file',
@@ -33,7 +33,7 @@ export class DevelopmentGuiUploaderFileComponent extends LoadingComponent {
   file: Upload;
 
   constructor(
-    protected _logger: Logger,
+    protected _logger: LoggerComponent,
     protected _state: GlobalState,
     protected loadingBar: SlimLoadingBarService,
     protected simpleSearch: SimpleSearchProviderMock,

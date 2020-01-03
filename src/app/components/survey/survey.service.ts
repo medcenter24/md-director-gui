@@ -30,8 +30,8 @@ export class SurveyService extends HttpService implements LoadableServiceInterfa
     return 'director/surveys';
   }
 
-  getSurveys(): Promise<Survey[]> {
-    return this.get().then(response => response.data as Survey[]);
+  getSurveys(filters: Object): Promise<Survey[]> {
+    return this.search(filters).then(response => response.data as Survey[]);
   }
 
   getSurvey(id: number): Promise<Survey> {

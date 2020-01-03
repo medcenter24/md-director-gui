@@ -1,4 +1,8 @@
 {
+  "Inactive": "Inactive",
+  "Show hidden": "Show hidden",
+  "Active": "Active",
+  "imported": "imported",
   "Form not selected": "Form not selected",
   "Resource not found": "Resource not found",
   "The case has unsaved changes, would you like to save it?": "The case has unsaved changes, would you like to save it?",

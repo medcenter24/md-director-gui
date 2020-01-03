@@ -19,7 +19,7 @@ import { Component, Output, EventEmitter, Input, OnInit } from '@angular/core';
 import { ServicesService } from '../../services.service';
 import { SelectItem } from 'primeng/primeng';
 import { Service } from '../../service';
-import { Logger } from 'angular2-logger/core';
+import { LoggerComponent } from '../../../core/logger/LoggerComponent';
 import { LoadableComponent } from '../../../core/components/componentLoader';
 
 @Component({
@@ -39,14 +39,15 @@ export class SelectServicesComponent extends LoadableComponent implements OnInit
 
   constructor (
     private servicesService: ServicesService,
-    private _logger: Logger,
+    private _logger: LoggerComponent,
   ) {
     super();
   }
 
   ngOnInit () {
     this.startLoader();
-    this.servicesService.getServices().then(services => {
+    const statusFilter = { status: { value: 'active', matchMode: 'eq' } };
+    this.servicesService.getServices(statusFilter).then(services => {
       this.stopLoader();
       this.services = services;
       this.dataServices = services.map(x => {

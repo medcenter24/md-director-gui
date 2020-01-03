@@ -23,6 +23,6 @@
 export class DatatableTransformer {
   constructor(
     public field: string = '',
-    public transform: Function = function (value) { return value; },
+    public transform: Function = function (value, rowData) { return value; },
   ) { }
 }

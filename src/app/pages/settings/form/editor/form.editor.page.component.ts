@@ -17,10 +17,10 @@
 
 import { Component } from '@angular/core';
 import { LoadingComponent } from '../../../../components/core/components/componentLoader';
-import { Logger } from 'angular2-logger/core';
 import { SlimLoadingBarService } from 'ng2-slim-loading-bar';
 import { GlobalState } from '../../../../global.state';
 import { TranslateService } from '@ngx-translate/core';
+import { LoggerComponent } from '../../../../components/core/logger/LoggerComponent';
 
 @Component({
   selector: 'nga-form-editor-page',
@@ -36,7 +36,7 @@ export class FormEditorPageComponent extends LoadingComponent {
 
   constructor (
     protected loadingBar: SlimLoadingBarService,
-    protected _logger: Logger,
+    protected _logger: LoggerComponent,
     protected _state: GlobalState,
     protected translateService: TranslateService,
   ) {

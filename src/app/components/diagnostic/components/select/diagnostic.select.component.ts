@@ -19,8 +19,8 @@ import { Component, Output, EventEmitter, Input, OnInit } from '@angular/core';
 import { DiagnosticService } from '../../diagnostic.service';
 import { SelectItem } from 'primeng/primeng';
 import { Diagnostic } from '../../diagnostic';
-import { Logger } from 'angular2-logger/core';
 import { LoadableComponent } from '../../../core/components/componentLoader';
+import { LoggerComponent } from '../../../core/logger/LoggerComponent';
 
 @Component({
   selector: 'nga-select-diagnostics',
@@ -39,14 +39,14 @@ export class DiagnosticSelectComponent extends LoadableComponent implements OnIn
 
   constructor (
     private diagnosticsService: DiagnosticService,
-    private _logger: Logger,
+    private _logger: LoggerComponent,
   ) {
     super();
   }
 
   ngOnInit () {
     this.startLoader();
-    this.diagnosticsService.getDiagnostics().then(diagnostics => {
+    this.diagnosticsService.getDiagnostics({ status: { value: 'active', matchMode: 'eq' } }).then(diagnostics => {
       this.diagnostics = diagnostics;
       this.dataDiagnostics = diagnostics.map(x => {
         return {

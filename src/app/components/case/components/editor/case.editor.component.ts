@@ -23,7 +23,6 @@ import { Message } from 'primeng/primeng';
 import { SlimLoadingBarService } from 'ng2-slim-loading-bar';
 import { TranslateService } from '@ngx-translate/core';
 import { AccidentType } from '../../../accident/components/type/type';
-import { Logger } from 'angular2-logger/core';
 import { GlobalState } from '../../../../global.state';
 import { DoctorAccident } from '../../../doctorAccident/doctorAccident';
 import { FormService } from '../../../forms';
@@ -55,6 +54,7 @@ import { CitiesService } from '../../../city';
 import { Hospital, HospitalsService } from '../../../hospital';
 import { BaToolboxAction } from '../../../../theme/components/baToolbox';
 import { FormViewerComponent } from '../../../forms/components/viewer';
+import { LoggerComponent } from '../../../core/logger/LoggerComponent';
 
 @Component({
   selector: 'nga-case-editor',
@@ -138,7 +138,7 @@ export class CaseEditorComponent extends LoadingComponent implements OnInit {
   constructor (private route: ActivatedRoute,
                protected loadingBar: SlimLoadingBarService,
                private translate: TranslateService,
-               protected _logger: Logger,
+               protected _logger: LoggerComponent,
                protected _state: GlobalState,
                public accidentsService: AccidentsService,
                private caseService: CasesService,
@@ -198,15 +198,11 @@ export class CaseEditorComponent extends LoadingComponent implements OnInit {
 
         if (+params[ 'id' ]) {
           // start of loading data and the page
-          this.startLoader();
+          const mainPostfix = 'main';
+          this.startLoader(mainPostfix);
           this.accidentsService.getAccident(+params[ 'id' ]).then((accident: Accident) => {
-            // it has no sense to move it to the end of function, because components load asynchronously
-            this.stopLoader();
-
             this._state.notifyDataChanged('menu.activeLink', { title: 'Cases' });
-
             this.showToolbox();
-
             this.accident = accident ? accident : new Accident();
             if (this.accident.handlingTime && this.accident.handlingTime.length) {
               this.handlingTime = this.dateHelper.toEuropeFormatWithTime(this.accident.handlingTime);
@@ -229,22 +225,22 @@ export class CaseEditorComponent extends LoadingComponent implements OnInit {
             if (this.accident.cityId) {
               this.cityAutocompleter.selectItems(this.accident.cityId);
             }
-            if (this.accident.formReportId) {
+            if (this.accident.formReportId && this.accidentReportFormAutocompleter) {
               this.accidentReportFormAutocompleter.selectItems(this.accident.formReportId);
             }
-
             // cheating to not make extra request
             if (+this.accident.assistantGuaranteeId) {
               this.assistantGuaranteeFile = new Upload(this.accident.assistantGuaranteeId);
             }
             this.assistantInvoice = new Invoice(accident.assistantInvoiceId, 0, 'form');
-
             this.loadCaseable();
             this.loadDocuments();
             this.loadCheckpoints();
             this.loadPatient();
+            // it has to be at the end, because on any error it will be stopped second time (in the catch section)
+            this.stopLoader(mainPostfix);
           }).catch((err) => {
-            this.stopLoader();
+            this.stopLoader(mainPostfix);
             if (err.status === 404) {
               this._logger.error('Resource not found');
               this.growlError('Error', 'Resource not found');

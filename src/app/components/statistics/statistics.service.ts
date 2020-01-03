@@ -18,6 +18,7 @@
 import { Injectable } from '@angular/core';
 import { TrafficChartData } from './trafficChart/trafficChart.data';
 import { HttpService } from '../core/http/http.service';
+import { YearsList } from './years/yearsList';
 
 @Injectable()
 export class StatisticsService extends HttpService {
@@ -27,6 +28,7 @@ export class StatisticsService extends HttpService {
   }
 
   /**
+   * Loading doctors statistics
    * @returns {Promise<any>}
    */
   loadDoctorsTraffic(year: string = ''): Promise<TrafficChartData[]> {
@@ -34,8 +36,19 @@ export class StatisticsService extends HttpService {
       .then(response => response.data as TrafficChartData[]);
   }
 
+  /**
+   * Loading assistants stats
+   * @param year
+   */
   loadAssistantsTraffic(year: string = ''): Promise<TrafficChartData[]> {
     return this.get('assistantsTraffic', { year })
       .then(response => response.data as TrafficChartData[]);
+  }
+
+  /**
+   * Loading valid years
+   */
+  loadYears(): Promise<YearsList[]> {
+    return this.get('years').then(response => response.data as YearsList[]);
   }
 }

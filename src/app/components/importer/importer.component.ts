@@ -20,9 +20,10 @@ import { ConfirmationService, Message } from 'primeng/primeng';
 import { SlimLoadingBarService } from 'ng2-slim-loading-bar';
 import { TranslateService } from '@ngx-translate/core';
 import { GlobalState } from '../../global.state';
-import { Logger } from 'angular2-logger/core';
 import { AuthenticationService } from '../auth/authentication.service';
 import { ImporterService } from './importer.service';
+import { LoggerComponent } from '../core/logger/LoggerComponent';
+
 @Component({
   selector: 'nga-importer',
   templateUrl: './importer.html',
@@ -49,7 +50,7 @@ export class ImporterComponent implements OnInit {
   private importerCounter: number = 0;
 
   constructor (private loadingBar: SlimLoadingBarService, private translate: TranslateService,
-               private _logger: Logger, private _state: GlobalState,
+               private _logger: LoggerComponent, private _state: GlobalState,
                private authenticationService: AuthenticationService,
                private importerService: ImporterService,
                private confirmationService: ConfirmationService,

@@ -18,11 +18,12 @@
 import { DatatableAction } from './datatable.action';
 import { DatatableCol } from './datatable.col';
 import { DatatableTransformer } from './datatable.transformer';
+import { FilterMetadata } from 'primeng/components/common/filtermetadata';
 
 export class DatatableConfig {
 
   constructor (
-    public dataProvider: Function = function (filters: Object) {},
+    public dataProvider: Function = function () {},
     public lazy: boolean = true,
     public paginator: boolean = true,
     public rows: number = 25,
@@ -38,7 +39,7 @@ export class DatatableConfig {
     public csvExportSelections: boolean = false,
     public csvExportSelectionsTitle: string = 'Selection Only',
     public cols: DatatableCol[] = null,
-    public onRowSelect: Function = function (event) {},
+    public onRowSelect: Function = function() { },
     public showTotal: boolean = true,
     public refreshBtnTitle: string = 'Refresh',
     public showRefreshBtn: boolean = true,
@@ -49,7 +50,7 @@ export class DatatableConfig {
      */
     public sortMode: string = 'single',
     /**
-     * it turns sorting on|off
+     * boolean it turns sorting on|off
      * @type {boolean}
      */
     public sort: boolean = false,
@@ -59,7 +60,7 @@ export class DatatableConfig {
      */
     public sortBy: string = null,
     /**
-     * 1 - asc
+     * number 1 - asc
      * -1 - desc
      * @type {number}
      */
@@ -69,6 +70,15 @@ export class DatatableConfig {
      * @type {null}
      */
     public sortable: string[] = null,
+    /**
+     * { [s: string]: FilterMetadata } filtering of the data
+     * @type {null|{ [s: string]: FilterMetadata }}
+     */
+    public filters: { [s: string]: FilterMetadata } = null,
+    /**
+     * Array of filter fields
+     */
+    public filterActions: any [] = null,
   ) { }
 
   /**
@@ -103,6 +113,7 @@ export class DatatableConfig {
       config.update('sortBy', configuration);
       config.update('sortOrder', configuration);
       config.update('sortable', configuration);
+      config.update('filters', configuration);
     }
     return config;
   }
@@ -111,5 +122,9 @@ export class DatatableConfig {
     if (fromConf.hasOwnProperty(key)) {
       this[key] = fromConf[key];
     }
+  }
+
+  get(key: string): any {
+    return this[key];
   }
 }

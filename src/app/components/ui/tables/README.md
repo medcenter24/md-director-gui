@@ -1,5 +1,5 @@
 Usage Example
-```php
+```
 @Component({
   selector: 'nga-diagnostic-datatable',
   templateUrl: './diagnostic.datatable.html',
@@ -12,7 +12,7 @@ export class DiagnosticDatatableComponent extends AbstractDatatableController {
 
   constructor (
     protected loadingBar: SlimLoadingBarService,
-    protected _logger: Logger,
+    protected _logger: LoggerComponent,
     protected _state: GlobalState,
     protected translateService: TranslateService,
     private diagnosticService: DiagnosticService,
@@ -63,6 +63,18 @@ export class DiagnosticDatatableComponent extends AbstractDatatableController {
     }
     this.setModel(ObjectHelper.clone(diagnostic, this.getEmptyModel()));
     this.displayDialog = false;
+  }
+
+  protected hasCaptionPanel (): boolean {
+    return true;
+  }
+
+  protected getCaptionActions (): DatatableAction[] {
+    return [
+      new DatatableAction(this.translateService.instant('Show hidden'), 'fa fa-toggle-on', (event) => {
+        console.log('here')
+      }),
+    ];
   }
 
 }

@@ -17,12 +17,12 @@
 
 
 import { NgModule } from '@angular/core';
-import { Logger } from 'angular2-logger/core';
 import { GlobalState } from '../../global.state';
+import { LoggerComponent } from '../../components/core/logger/LoggerComponent';
 
 @NgModule({
   providers: [
-    Logger,
+    LoggerComponent,
     GlobalState,
   ],
 })

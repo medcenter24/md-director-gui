@@ -23,7 +23,7 @@ import { ButtonModule } from 'primeng/button';
 import { AppTranslationModule } from '../../../../app.translation.module';
 import { CommonModule } from '@angular/common';
 import { DatatableModule } from '../../../ui/datatable';
-import { ConfirmDialogModule, InputMaskModule } from 'primeng/primeng';
+import { ConfirmDialogModule, InputMaskModule, InputSwitchModule } from 'primeng/primeng';
 import { SurveyService } from '../../survey.service';
 import { SurveyDatatableComponent } from './survey.datatable.component';
 
@@ -37,6 +37,7 @@ import { SurveyDatatableComponent } from './survey.datatable.component';
     DatatableModule,
     InputMaskModule,
     ConfirmDialogModule,
+    InputSwitchModule,
 ],
   providers: [
     SurveyService,

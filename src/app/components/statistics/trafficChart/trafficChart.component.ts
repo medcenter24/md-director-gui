@@ -15,7 +15,7 @@
  * Copyright (c) 2019 (original work) MedCenter24.com;
  */
 
-import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, Input, ViewChild } from '@angular/core';
 import * as Chart from 'chart.js';
 import 'style-loader!./trafficChart.scss';
 import { TrafficChartData } from './trafficChart.data';
@@ -27,17 +27,22 @@ import { LoadableComponent } from '../../core/components/componentLoader';
   templateUrl: './trafficChart.html',
 })
 
-export class TrafficChartComponent extends LoadableComponent implements OnInit {
+export class TrafficChartComponent extends LoadableComponent {
 
   protected componentName: string = 'TrafficChartComponent';
 
   infoData: Object[] = [];
   total: number = 0;
   private transformedData: any;
+  private chart: any;
 
   @Input() prefix: string = '';
   @Input() set setData(data: TrafficChartData[] ) {
     this.transformedData = this.transformTrafficChartData(data);
+    if (this.chart) {
+      this.chart.destroy();
+    }
+    this.chart = this._loadDoughnutCharts(this.transformedData);
   }
 
   @ViewChild('canvasChart')
@@ -48,11 +53,8 @@ export class TrafficChartComponent extends LoadableComponent implements OnInit {
     super();
   }
 
-  ngOnInit(): void {
-    this._loadDoughnutCharts(this.transformedData);
-  }
-
   private transformTrafficChartData(data: TrafficChartData[]): Object {
+    this.infoData = [];
     this.total = 0;
     data.forEach(row => this.total += +row.casesCount);
     let index = 0;
@@ -127,6 +129,10 @@ export class TrafficChartComponent extends LoadableComponent implements OnInit {
         responsive: true,
         legend: {
           display: false,
+        },
+        tooltips: {
+          yAlign: 'bottom',
+          position: 'average',
         },
       },
     });

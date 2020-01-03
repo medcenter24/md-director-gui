@@ -19,9 +19,9 @@ import { Component, OnInit } from '@angular/core';
 import { SelectorConfig } from '../../../../components/ui/selector/selector.config';
 import { SimpleSearchProviderMock } from '../../../../test/samples/providers';
 import { LoadingComponent } from '../../../../components/core/components/componentLoader';
-import { Logger } from 'angular2-logger/core';
 import { SlimLoadingBarService } from 'ng2-slim-loading-bar';
 import { GlobalState } from '../../../../global.state';
+import { LoggerComponent } from '../../../../components/core/logger/LoggerComponent';
 
 @Component({
   selector: 'nga-development-gui-multiselect',
@@ -36,7 +36,7 @@ export class DevelopmentGuiMultiselectComponent extends LoadingComponent impleme
   items;
 
   constructor(
-    protected _logger: Logger,
+    protected _logger: LoggerComponent,
     protected _state: GlobalState,
     protected loadingBar: SlimLoadingBarService,
   ) {

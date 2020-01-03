@@ -20,13 +20,12 @@ import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { AppComponent } from './app.component';
-import { AppState, InternalStateType } from './app.service';
+import { AppState } from './app.service';
 import { GlobalState } from './global.state';
 import { NgaModule } from './theme/nga.module';
 import { PagesModule } from './pages/pages.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { SlimLoadingBarModule } from 'ng2-slim-loading-bar';
-import { Logger, Options } from 'angular2-logger/core';
 import { BlockUIModule, ConfirmationService, ConfirmDialogModule, GrowlModule } from 'primeng/primeng';
 import { environment } from '../environments/environment';
 import { routing } from './app.routing';
@@ -36,29 +35,31 @@ import { LocalStorageHelper } from './helpers/local.storage.helper';
 import { HttpClientModule } from '@angular/common/http';
 import { JwtModule } from '@auth0/angular-jwt';
 import { AuthGuard } from './components/auth/auth.guard';
+import { LoggerModule } from './components/core/logger';
+import { LoggerComponent } from './components/core/logger/LoggerComponent';
 
 // Application wide providers
 const APP_PROVIDERS = [
   AppState,
   GlobalState,
-  Logger,
-  Options,
   ConfirmationService,
   ApiErrorService,
   LocalStorageHelper,
   AuthGuard,
+  LoggerComponent,
 ];
 
 export function tokenGetter() {
   const storage = new LocalStorageHelper();
   return storage.getItem('token');
 }
-
+/*
+@todo remove if not used or works without that
 export type StoreType = {
   state: InternalStateType,
   restoreInputValues: () => void,
   disposeOldHosts: () => void,
-};
+};*/
 
 /**
  * `AppModule` is the main entry point into Angular2's bootstraping process
@@ -90,6 +91,7 @@ export type StoreType = {
         // blacklistedRoutes: ['localhost:3001/auth/']
       },
     }),
+    LoggerModule,
   ],
   exports: [],
   providers: [ // expose our Services and Providers into Angular's dependency injection
@@ -98,8 +100,8 @@ export type StoreType = {
 })
 
 export class AppModule {
-
-  constructor(public appState: AppState, private _logger: Logger) {
-    this._logger.level = environment.logger.level;
+  constructor(public appState: AppState, private _logger: LoggerComponent) {
+    this.appState.set('appStatus', 'initialized');
+    this._logger.setLevel(environment.logger.level);
   }
 }

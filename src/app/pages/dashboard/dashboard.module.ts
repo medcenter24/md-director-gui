@@ -19,11 +19,9 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { NgaModule } from '../../theme/nga.module';
-
 import { DashboardComponent } from './dashboard.component';
 import { routing } from './dashboard.routing';
-
-import { PopularApp } from './popularApp';
+import { PopularAppComponent } from './popularApp';
 import { PieChart } from './pieChart';
 import { Feed } from './feed';
 import { Todo } from './todo';
@@ -36,6 +34,7 @@ import { AppTranslationModule } from '../../app.translation.module';
 import { StatusColorMapService } from '../../components/accident/components/status/colormap.service';
 import { TrafficChartComponent } from '../../components/statistics/trafficChart';
 import { StatisticsService } from '../../components/statistics/statistics.service';
+import { UiDateYearDropdownModule } from '../../components/ui/date/year/dropdown';
 
 @NgModule({
   imports: [
@@ -44,9 +43,10 @@ import { StatisticsService } from '../../components/statistics/statistics.servic
     NgaModule,
     routing,
     AppTranslationModule,
+    UiDateYearDropdownModule,
   ],
   declarations: [
-    PopularApp,
+    PopularAppComponent,
     PieChart,
     TrafficChartComponent,
     Feed,

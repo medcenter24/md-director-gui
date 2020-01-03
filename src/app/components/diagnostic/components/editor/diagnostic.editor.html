@@ -15,79 +15,83 @@
   ~ Copyright (c) 2019 (original work) MedCenter24.com;
   -->
 <div class="row">
-    <div class="col-12">
-        <ba-card *ngIf="diagnostic" baCardClass="with-scroll" class="edit-form-container mb-2" [closeable]="true" (close)="closeEditor()">
-            <div>
-                <div class="row">
-                    <div class="col-sm-6">
-                        <div class="form-group">
-                            <label for="inputTitle" translate>Title</label>
-                            <input type="text" class="form-control" id="inputTitle"
-                                   required
-                                   [(ngModel)]="diagnostic.title" name="title"
-                                   #title="ngModel"
-                                   placeholder="{{ 'Title' | translate }}" maxlength="70"
-                            >
-                            <div [hidden]="title.valid || title.pristine"
-                                 class="alert alert-danger"
-                                 translate>Title is required</div>
-                        </div>
-                    </div>
-                    <div class="col-sm-6">
-                        <div class="form-group">
-                            <label for="inputComment" translate>Disease Code</label>
-                            <input type="text" class="form-control" id="inputComment"
-                                   [(ngModel)]="diagnostic.diseaseCode" name="disease_code"
-                                   #comment="ngModel"
-                                   placeholder="{{ 'Disease Code' | translate }}" maxlength="70"
-                            >
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-sm-6">
-                        <div class="form-group">
-                            <label for="inputDescription" translate>Description</label>
-                            <textarea class="form-control" id="inputDescription" placeholder="{{ 'Diagnostic description' | translate }}"
-                                      [(ngModel)]="diagnostic.description" name="description"
-                                      #description="ngModel"
-                                      maxlength="255"
-                                      [innerHTML]="diagnostic ? diagnostic.description : ''"
-                            ></textarea>
-                            <div [hidden]="description.valid || description.pristine"
-                                 class="alert alert-danger"
-                                 translate>Description is required</div>
-                        </div>
-                    </div>
-                    <div class="col-sm-6">
-                        <div class="form-group">
-
-                            <nga-diagnostic-category-select
-                                    [selectPreloaded]="diagnostic.diagnosticCategoryId"
-                                    (selected)="onDiagnosticCategoryChanged($event)"
-                                    (init)="startLoader($event)"
-                                    (loaded)="stopLoader($event)"
-                            ></nga-diagnostic-category-select>
-
-                            <a (click)="toggleEditor()"
-                               *ngIf="showEditor" class="editor-toggle" translate>Close categories editor</a>
-                            <a (click)="toggleEditor()"
-                               *ngIf="!showEditor" class="editor-toggle" translate>Open categories editor</a>
-                        </div>
-                    </div>
-                </div>
-                <button type="submit" pButton (click)="onSubmit()" [label]="'Save' | translate"></button>
-                <button pButton class="ml-2" (click)="onDelete()" *ngIf="diagnostic.id" [label]="'Delete' | translate"></button>
+  <div class="col-12">
+    <ba-card *ngIf="diagnostic" baCardClass="with-scroll" class="edit-form-container mb-2" [closeable]="true"
+             (close)="closeEditor()">
+      <div>
+        <div class="row">
+          <div class="col-sm-6">
+            <div class="form-group">
+              <label for="inputTitle" translate>Title</label>
+              <input type="text" class="form-control" id="inputTitle"
+                     required
+                     [(ngModel)]="diagnostic.title" name="title"
+                     #title="ngModel"
+                     placeholder="{{ 'Title' | translate }}" maxlength="70"
+              >
+              <div [hidden]="title.valid || title.pristine" class="alert alert-danger" translate>Title is required</div>
             </div>
-        </ba-card>
-    </div>
-    <div class="col-12 mt-2">
-        <nga-diagnostic-category-editor
-                *ngIf="showEditor"
-                [categoryId]="diagnostic.diagnosticCategoryId"
+          </div>
+          <div class="col-sm-6">
+            <div class="form-group">
+              <label for="inputComment" translate>Disease Code</label>
+              <input type="text" class="form-control" id="inputComment"
+                     [(ngModel)]="diagnostic.diseaseCode" name="disease_code"
+                     #comment="ngModel"
+                     placeholder="{{ 'Disease Code' | translate }}" maxlength="70"
+              >
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-sm-6">
+            <div class="form-group">
+              <label for="inputDescription" translate>Description</label>
+              <textarea class="form-control" id="inputDescription"
+                        placeholder="{{ 'Diagnostic description' | translate }}"
+                        [(ngModel)]="diagnostic.description" name="description"
+                        #description="ngModel"
+                        maxlength="255"
+                        [innerHTML]="diagnostic ? diagnostic.description : ''"
+              ></textarea>
+              <div [hidden]="description.valid || description.pristine" class="alert alert-danger" translate>Description is required</div>
+            </div>
+          </div>
+          <div class="col-sm-6">
+            <div class="form-group">
+              <label translate>{{ isActive ? 'Active' : 'Inactive' }}</label>
+              <div>
+                <p-inputSwitch [(ngModel)]="isActive"></p-inputSwitch>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <nga-diagnostic-category-select
+                [selectPreloaded]="diagnostic.diagnosticCategoryId"
+                (selected)="onDiagnosticCategoryChanged($event)"
                 (init)="startLoader($event)"
                 (loaded)="stopLoader($event)"
-                (updated)="onDiagnosticCategorySubmit($event)"
-        ></nga-diagnostic-category-editor>
-    </div>
+              ></nga-diagnostic-category-select>
+
+              <a (click)="toggleEditor()"
+                 *ngIf="showEditor" class="editor-toggle" translate>Close categories editor</a>
+              <a (click)="toggleEditor()"
+                 *ngIf="!showEditor" class="editor-toggle" translate>Open categories editor</a>
+            </div>
+          </div>
+        </div>
+        <button type="submit" pButton (click)="onSubmit()" [label]="'Save' | translate"></button>
+        <button pButton class="ml-2" (click)="onDelete()" *ngIf="diagnostic.id" [label]="'Delete' | translate"></button>
+      </div>
+    </ba-card>
+  </div>
+  <div class="col-12 mt-2">
+    <nga-diagnostic-category-editor
+      *ngIf="showEditor"
+      [categoryId]="diagnostic.diagnosticCategoryId"
+      (init)="startLoader($event)"
+      (loaded)="stopLoader($event)"
+      (updated)="onDiagnosticCategorySubmit($event)"
+    ></nga-diagnostic-category-editor>
+  </div>
 </div>

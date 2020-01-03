@@ -21,6 +21,8 @@ export class Service {
                public description: string = '',
                public diseaseCode: string = '',
                // who created ^ doctor or director
-               public type: string = '') {
+               public type: string = '',
+               public status: string = 'active',
+  ) {
   }
 }

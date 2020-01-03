@@ -39,7 +39,8 @@
             "scripts": [
               "node_modules/jquery/dist/jquery.js",
               "node_modules/pace-js/pace.min.js",
-              "node_modules/chart.js/dist/Chart.min.js"
+              "node_modules/chart.js/dist/Chart.min.js",
+              "node_modules/quill/dist/quill.js"
             ]
           },
           "configurations": {

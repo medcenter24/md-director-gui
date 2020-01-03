@@ -25,6 +25,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { LoadingComponent } from '../../core/components/componentLoader';
 import { ObjectHelper } from '../../../helpers/object.helper';
 import { LoadableServiceInterface } from '../../core/loadable';
+import { FilterMetadata } from 'primeng/components/common/filtermetadata';
 
 export abstract class AbstractDatatableController extends LoadingComponent implements OnInit {
   displayDialog: boolean;
@@ -44,6 +45,10 @@ export abstract class AbstractDatatableController extends LoadingComponent imple
   abstract getSortBy(): string;
   abstract getEmptyModel(): Object;
 
+  getFilters(): { [s: string]: FilterMetadata } {
+    return {};
+  }
+
   /**
    * @return {DatatableTransformer[]}
    */
@@ -62,13 +67,24 @@ export abstract class AbstractDatatableController extends LoadingComponent imple
         refreshTitle: this.getTranslateService().instant('Refresh'),
         controlPanel: true,
         controlPanelActions: this.getActions(),
+        captionPanel: this.hasCaptionPanel(),
+        captionPanelActions: this.getCaptionActions(),
         onRowSelect: event => {
           this.onRowSelect(event);
         },
         sortBy: this.getSortBy(),
         transformers: this.getTransformers(),
+        filters: this.getFilters(), // default filters
       });
     });
+  }
+
+  protected hasCaptionPanel(): boolean {
+    return false;
+  }
+
+  protected getCaptionActions(): DatatableAction[] {
+    return [];
   }
 
   protected setModel(model: Object = null): void {
@@ -80,7 +96,6 @@ export abstract class AbstractDatatableController extends LoadingComponent imple
     this.startLoader(postfix);
     this.getService().save(this.model)
       .then((model: Object) => {
-        this.stopLoader(postfix);
         this.displayDialog = false;
         if (!this.model.id) {
           // refresh on adding
@@ -90,6 +105,7 @@ export abstract class AbstractDatatableController extends LoadingComponent imple
         }
         // to close popup
         this.setModel();
+        this.stopLoader(postfix);
       })
       .catch(e => {
         console.error(e);
@@ -131,5 +147,15 @@ export abstract class AbstractDatatableController extends LoadingComponent imple
         this.getDatatableComponent().refresh();
       })
       .catch(() => this.stopLoader(postfix));
+  }
+
+  /**
+   * Change filters and reload table data
+   * @param filters
+   */
+  protected applyFilters(filters: Object): void {
+    this.datatableConfig = this.getDatatableComponent().getConfig();
+    this.datatableConfig.update( 'filters', { filters } );
+    this.getDatatableComponent().refresh();
   }
 }

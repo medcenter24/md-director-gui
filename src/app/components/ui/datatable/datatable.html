@@ -21,6 +21,7 @@
   [value]="data"
   [lazy]="config.lazy"
   (onLazyLoad)="loadLazy($event)"
+  (onPage)="onPageChanged($event)"
   [paginator]="config.paginator"
   [rows]="config.rows"
   [totalRecords]="total"
@@ -34,12 +35,12 @@
     <div class="ui-helper-clearfix">
       <button
         *ngIf="config.csvExportAll"
-        class="mr-1"
+        class="mr-1 pull-left"
         type="button" pButton
         icon="fa fa-file-o" iconPos="left"
         [label]="config.csvExportAllTitle"
         (click)="datatable.exportCSV()"
-        class="pull-left"></button>
+      ></button>
 
       <button
         *ngIf="config.csvExportSelections"
@@ -63,9 +64,9 @@
           *ngFor="let action of config.captionPanelActions"
           pButton
           [icon]="action.icon"
-          (click)="action.run()"
+          (click)="action.run($event)"
           [label]="action.title"
-          class="pull-left mr-1"
+          [class]="'pull-left mr-1' + (action.visible ? '' : ' invisible')"
         ></button>
       </div>
     </div>
@@ -83,7 +84,7 @@
       </th>
     </tr>
     <tr
-      *ngIf="config.filters && config.filterActions.length"
+      *ngIf="config.filters && config.filterActions"
     >
       <th
         *ngFor="let col of columns"

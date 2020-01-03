@@ -16,7 +16,7 @@
  */
 
 import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
-import { Logger } from 'angular2-logger/core';
+import { LoggerComponent } from '../../../core/logger/LoggerComponent';
 import { Survey } from '../../survey';
 import { CasesService } from '../../../case/cases.service';
 import { LoadableComponent } from '../../../core/components/componentLoader/LoadableComponent';
@@ -41,7 +41,7 @@ export class SurveysSelectorComponent extends LoadableComponent implements OnIni
 
   constructor (
     private casesService: CasesService,
-    private _logger: Logger,
+    private _logger: LoggerComponent,
   ) {
     super();
   }

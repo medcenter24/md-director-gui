@@ -33,7 +33,8 @@ import { ExtensionsService } from '../../../extensions/extensions.service';
 import { LoadingComponent } from '../../../core/components/componentLoader';
 import { GlobalState } from '../../../../global.state';
 import { SlimLoadingBarService } from 'ng2-slim-loading-bar';
-import { Logger } from 'angular2-logger/core';
+import { LoggerComponent } from '../../../core/logger/LoggerComponent';
+import { UrlHelper } from '../../../../helpers/url.helper';
 
 @Component({
   selector: 'nga-case-datatable',
@@ -63,7 +64,7 @@ export class CaseDatatableComponent extends LoadingComponent implements OnInit {
     private extensionsService: ExtensionsService,
     protected _state: GlobalState,
     protected loadingBar: SlimLoadingBarService,
-    protected _logger: Logger,
+    protected _logger: LoggerComponent,
   ) {
     super();
   }
@@ -110,29 +111,32 @@ export class CaseDatatableComponent extends LoadingComponent implements OnInit {
         new DatatableCol('caseType', this.translateService.instant('Case Type')),
       ];
 
+      // update paginator from the request
+
+      /*event.first = +UrlHelper.get(this.getCurrentUrl(), 'first', this.config.offset);
+      event.rows = +UrlHelper.get(this.getCurrentUrl(), 'rows', this.config.rows);
+      this.datatable.first = event.first;
+      this.datatable.rows = event.rows;*/
+
       this.datatableConfig = DatatableConfig.factory({
         dataProvider: (filters: Object) => {
           return this.caseService.search(filters);
         },
         cols,
         refreshTitle: this.translateService.instant('Refresh'),
-        captionPanelActions: () => {
-          const actions = [];
-
-          if (this.isImporterConfigured) {
-            actions.push( new DatatableAction( this.translateService.instant( 'Company Case Import' ),
-              'fa fa-upload',
-              () => {
+        captionPanelActions: [
+          new DatatableAction( this.translateService.instant( 'Company Case Import' ),
+            'fa fa-upload',
+            () => {
+              if (this.isImporterConfigured) {
                 this.importer.showImporter();
-              } ),
-            );
-          }
+              }
+          }, this.isImporterConfigured),
 
-          actions.push(new DatatableAction(this.translateService.instant('Cases Export'), 'fa fa-download', () => {
+          new DatatableAction(this.translateService.instant('Cases Export'), 'fa fa-download', () => {
             this.exporterService.exportCases({});
-          }));
-          return actions;
-        },
+          }),
+        ],
         controlPanel: true,
         captionPanel: true,
         csvExportAll: true,

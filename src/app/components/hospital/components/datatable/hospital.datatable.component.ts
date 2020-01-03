@@ -17,7 +17,7 @@
 
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { LoadingComponent } from '../../../core/components/componentLoader';
-import { Logger } from 'angular2-logger/core';
+import { LoggerComponent } from '../../../core/logger/LoggerComponent';
 import { TranslateService } from '@ngx-translate/core';
 import { GlobalState } from '../../../../global.state';
 import { SlimLoadingBarService } from 'ng2-slim-loading-bar';
@@ -43,7 +43,7 @@ export class HospitalDatatableComponent extends LoadingComponent implements OnIn
 
   constructor(
     protected loadingBar: SlimLoadingBarService,
-    protected _logger: Logger,
+    protected _logger: LoggerComponent,
     protected _state: GlobalState,
     protected translateService: TranslateService,
     private hospitalService: HospitalsService,
