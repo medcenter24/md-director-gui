@@ -46,7 +46,8 @@ export class SurveySelectComponent extends LoadableComponent implements OnInit {
 
   ngOnInit () {
     this.startLoader();
-    this.surveysService.getSurveys().then(surveys => {
+    const statusFilter = { status: { value: 'active', matchMode: 'eq' } };
+    this.surveysService.getSurveys(statusFilter).then(surveys => {
       this.stopLoader();
       this.surveys = surveys;
       this.dataSurveys = surveys.map(x => {
