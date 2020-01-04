@@ -204,7 +204,7 @@ export class DatatableComponent extends LoadableComponent {
   private updateFiltersByConfig(): any {
     const filters = this.getConfig().get('filters');
     let location = this.getCurrentUrl();
-    const _filters = Object.keys(filters).length ? encodeURIComponent(`${JSON.stringify(filters)}`) : '';
+    const _filters = filters && Object.keys(filters).length ? encodeURIComponent(`${JSON.stringify(filters)}`) : '';
     location = UrlHelper.replaceOrAdd(location, 'filters', _filters);
     this.location.replaceState(location);
   }
