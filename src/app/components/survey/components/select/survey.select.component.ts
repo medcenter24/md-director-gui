@@ -57,7 +57,7 @@ export class SurveySelectComponent extends LoadableComponent implements OnInit {
         };
       });
 
-      if (!this.selectedSurveys.length) {
+      if (!this.selectedSurveys) {
         // to show placeholder
         this.selectedSurveys = [];
       }

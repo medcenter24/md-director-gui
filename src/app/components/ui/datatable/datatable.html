@@ -17,51 +17,51 @@
 
 <p-table
   #datatable
-  [columns]="config.cols"
+  [columns]="getConfig().get('cols')"
   [value]="data"
-  [lazy]="config.lazy"
+  [lazy]="getConfig().get('lazy')"
   (onLazyLoad)="loadLazy($event)"
   (onPage)="onPageChanged($event)"
-  [paginator]="config.paginator"
-  [rows]="config.rows"
+  [paginator]="getConfig().get('paginator')"
+  [rows]="getConfig().get('rows')"
   [totalRecords]="total"
   [loading]="loading"
   (onRowSelect)="onRowSelect($event)"
-  [selectionMode]="config.selectionMode"
+  [selectionMode]="getConfig().get('selectionMode')"
   [(selection)]="selectedData"
-  [sortMode]="config.sort && config.sortMode"
+  [sortMode]="getConfig().get('sort') && getConfig().get('sortMode')"
 >
-  <ng-template pTemplate="caption" *ngIf="config.captionPanel">
+  <ng-template pTemplate="caption" *ngIf="getConfig().get('captionPanel')">
     <div class="ui-helper-clearfix">
       <button
-        *ngIf="config.csvExportAll"
+        *ngIf="getConfig().get('csvExportAll')"
         class="mr-1 pull-left"
         type="button" pButton
         icon="fa fa-file-o" iconPos="left"
-        [label]="config.csvExportAllTitle"
+        [label]="getConfig().get('csvExportAllTitle')"
         (click)="datatable.exportCSV()"
       ></button>
 
       <button
-        *ngIf="config.csvExportSelections"
+        *ngIf="getConfig().get('csvExportSelections')"
         type="button"
         pButton icon="fa fa-file"
         iconPos="left"
-        [label]="config.csvExportSelectionsTitle"
+        [label]="getConfig().get('csvExportSelectionsTitle')"
         (click)="datatable.exportCSV({selectionOnly:true})"
         class="pull-left"
       ></button>
 
       <div
-        *ngIf="config.captionPanelActions && config.captionPanelActions.length"
+        *ngIf="getConfig().get('captionPanelActions') && getConfig().get('captionPanelActions').length"
         class="pull-left"
       >
         <i
-          *ngIf="config.csvExportAll || config.csvExportSelections"
+          *ngIf="getConfig().get('csvExportAll') || getConfig().get('csvExportSelections')"
           class="fa fa-bars pull-left pr-2 pl-2"
         ></i>
         <button
-          *ngFor="let action of config.captionPanelActions"
+          *ngFor="let action of getConfig().get('captionPanelActions')"
           pButton
           [icon]="action.icon"
           (click)="action.run($event)"
@@ -84,7 +84,7 @@
       </th>
     </tr>
     <tr
-      *ngIf="config.filters && config.filterActions"
+      *ngIf="getConfig().get('filters') && getConfig().get('filterActions')"
     >
       <th
         *ngFor="let col of columns"
@@ -96,18 +96,18 @@
       <td *ngFor="let col of columns" [innerHTML]="showData(rowData, col)"></td>
     </tr>
   </ng-template>
-  <ng-template pTemplate="summary" let-rowData *ngIf="config.controlPanel">
+  <ng-template pTemplate="summary" let-rowData *ngIf="getConfig().get('controlPanel')">
     <div class="text-left">
       <button type="button"
               class="mr-1"
-              *ngFor="let action of config.controlPanelActions"
+              *ngFor="let action of getConfig().get('controlPanelActions')"
               pButton
               [icon]="action.icon"
               (click)="action.run()"
               [label]="action.title"></button>
     </div>
     <div class="text-center"
-         *ngIf="config.showTotal"
+         *ngIf="getConfig().get('showTotal')"
          translate [translateParams]="{value: total}">There are ? records</div>
   </ng-template>
 </p-table>

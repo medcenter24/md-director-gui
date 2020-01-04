@@ -34,7 +34,7 @@ import { LoadingComponent } from '../../../core/components/componentLoader';
 import { GlobalState } from '../../../../global.state';
 import { SlimLoadingBarService } from 'ng2-slim-loading-bar';
 import { LoggerComponent } from '../../../core/logger/LoggerComponent';
-import { UrlHelper } from '../../../../helpers/url.helper';
+import { FilterMetadata } from 'primeng/api';
 
 @Component({
   selector: 'nga-case-datatable',
@@ -87,11 +87,8 @@ export class CaseDatatableComponent extends LoadingComponent implements OnInit {
 
   private assignGlobalSeeker(): void {
     this._state.subscribe('seeker', (text: string) => {
-      this.datatableConfig.dataProvider = (params: Object) => {
-        params['filters']['find'] = text;
-        return this.caseService.search(params);
-      };
-      this.datatableComponent.refresh();
+      const refKey = { value: text, matchMode: 'eq' } as FilterMetadata;
+      this.applyFilters({ refKey });
     });
   }
 
@@ -110,13 +107,6 @@ export class CaseDatatableComponent extends LoadingComponent implements OnInit {
         new DatatableCol('price', this.translateService.instant('Price')),
         new DatatableCol('caseType', this.translateService.instant('Case Type')),
       ];
-
-      // update paginator from the request
-
-      /*event.first = +UrlHelper.get(this.getCurrentUrl(), 'first', this.config.offset);
-      event.rows = +UrlHelper.get(this.getCurrentUrl(), 'rows', this.config.rows);
-      this.datatable.first = event.first;
-      this.datatable.rows = event.rows;*/
 
       this.datatableConfig = DatatableConfig.factory({
         dataProvider: (filters: Object) => {
@@ -161,11 +151,17 @@ export class CaseDatatableComponent extends LoadingComponent implements OnInit {
                 </div>
             `),
         ],
-        filters: true,
+        filters: [], // this.getFilters(),
         filterActions: [],
         // todo sorting by this table is harder than that, I need to think more how to implement it
         // sort: true,
       });
     });
+  }
+
+  protected applyFilters(filters: Object): void {
+    this.datatableConfig = this.datatableComponent.getConfig();
+    this.datatableConfig.update( 'filters', { filters } );
+    this.datatableComponent.refresh();
   }
 }
