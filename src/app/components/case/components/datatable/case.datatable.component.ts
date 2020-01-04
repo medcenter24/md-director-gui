@@ -35,6 +35,7 @@ import { GlobalState } from '../../../../global.state';
 import { SlimLoadingBarService } from 'ng2-slim-loading-bar';
 import { LoggerComponent } from '../../../core/logger/LoggerComponent';
 import { FilterMetadata } from 'primeng/api';
+import { Breadcrumb } from '../../../../theme/components/baContentTop/breadcrumb';
 
 @Component({
   selector: 'nga-case-datatable',
@@ -87,14 +88,18 @@ export class CaseDatatableComponent extends LoadingComponent implements OnInit {
 
   private assignGlobalSeeker(): void {
     this._state.subscribe('seeker', (text: string) => {
-      const refKey = { value: text, matchMode: 'eq' } as FilterMetadata;
-      this.applyFilters({ refKey });
+      const refKey = { value: `%${text}%`, matchMode: 'like' } as FilterMetadata;
+      this.applyFilters({ ref_num: refKey });
     });
   }
 
   private loadDatatable(): void {
     this.translateService.get('Yes').subscribe(() => {
       this.langLoaded = true;
+
+      const breadcrumbs = [];
+      breadcrumbs.push(new Breadcrumb('Cases', '/pages/cases', true));
+      this._state.notifyDataChanged('menu.activeLink', breadcrumbs);
 
       const cols = [
         new DatatableCol('patientName', this.translateService.instant('Patient Name')),
@@ -104,7 +109,7 @@ export class CaseDatatableComponent extends LoadingComponent implements OnInit {
         new DatatableCol('status', this.translateService.instant('Status')),
         new DatatableCol('checkpoints', this.translateService.instant('Checkpoints')),
         new DatatableCol('doctorsFee', this.translateService.instant('Doctors Fee')),
-        new DatatableCol('price', this.translateService.instant('Price')),
+        new DatatableCol('price', this.translateService.instant('Income')),
         new DatatableCol('caseType', this.translateService.instant('Case Type')),
       ];
 
