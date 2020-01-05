@@ -23,12 +23,14 @@ import { ImporterModule } from '../../../importer/importer.module';
 import { ExporterService } from '../../../exporter/exporter.service';
 import { CasesService } from '../../cases.service';
 import { ExtensionsService } from '../../../extensions/extensions.service';
+import { InputTextModule } from 'primeng/inputtext';
 
 @NgModule({
   imports: [
     CommonModule,
     DatatableModule,
     ImporterModule,
+    InputTextModule,
   ],
   declarations: [
     CaseDatatableComponent,

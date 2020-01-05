@@ -36,6 +36,7 @@ import { SlimLoadingBarService } from 'ng2-slim-loading-bar';
 import { LoggerComponent } from '../../../core/logger/LoggerComponent';
 import { FilterMetadata } from 'primeng/api';
 import { Breadcrumb } from '../../../../theme/components/baContentTop/breadcrumb';
+import { CaseDatatableFilter } from '../filter/case.datatable.filter';
 
 @Component({
   selector: 'nga-case-datatable',
@@ -53,6 +54,8 @@ export class CaseDatatableComponent extends LoadingComponent implements OnInit {
   datatableConfig: DatatableConfig;
   langLoaded: boolean = false;
   isImporterConfigured: boolean = false;
+
+  filter: CaseDatatableFilter;
 
   private datatableLoaderPrefix = 'Table';
 

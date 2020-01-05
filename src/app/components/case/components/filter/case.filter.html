@@ -3,7 +3,6 @@
   ~ modify it under the terms of the GNU General Public License
   ~ as published by the Free Software Foundation; under version 2
   ~ of the License (non-upgradable).
-  ~
   ~ This program is distributed in the hope that it will be useful,
   ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
   ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
@@ -12,18 +11,20 @@
   ~ along with this program; if not, write to the Free Software
   ~ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
   ~
-  ~ Copyright (c) 2019 (original work) MedCenter24.com;
+  ~ Copyright (c) 2020 (original work) MedCenter24.com;
   -->
-<nga-datatable
-        #datatableComponent
-  *ngIf="langLoaded"
-  [config]="datatableConfig"
-  (init)="beforeDatatableLoad()"
-  (loaded)="onDatatableLoaded()"
-></nga-datatable>
 
-<nga-importer
-  #importer
-  *ngIf="isImporterConfigured"
-  [url]="caseService.getImportUrl()"
-></nga-importer>
+<div class="row mb-3" *ngIf="filter">
+  <div class="col-md-4">
+    <div class="form-control">
+      <div class="row">
+        <div class="col-5">
+          <label for="refNumFilter" translate>Ref. Num</label>
+        </div>
+        <div class="col-7">
+          <input id="refNumFilter" pInputText type="text" class="form-control" [(ngModel)]="filter.refNum">
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
