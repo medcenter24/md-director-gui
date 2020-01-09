@@ -55,7 +55,7 @@ export class CaseDatatableComponent extends LoadingComponent implements OnInit {
   langLoaded: boolean = false;
   isImporterConfigured: boolean = false;
 
-  filter: CaseDatatableFilter;
+  filter: CaseDatatableFilter; // todo add filter form = new CaseDatatableFilter();
 
   private datatableLoaderPrefix = 'Table';
 
@@ -169,7 +169,12 @@ export class CaseDatatableComponent extends LoadingComponent implements OnInit {
 
   protected applyFilters(filters: Object): void {
     this.datatableConfig = this.datatableComponent.getConfig();
+    this.filter.refNum = filters.hasOwnProperty('refNum') ? filters['refNum'] : '';
     this.datatableConfig.update( 'filters', { filters } );
     this.datatableComponent.refresh();
+  }
+
+  onFilter(filter: CaseDatatableFilter): void {
+    // console.log('filter', filter)
   }
 }

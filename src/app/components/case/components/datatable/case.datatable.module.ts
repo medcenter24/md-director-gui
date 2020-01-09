@@ -24,6 +24,7 @@ import { ExporterService } from '../../../exporter/exporter.service';
 import { CasesService } from '../../cases.service';
 import { ExtensionsService } from '../../../extensions/extensions.service';
 import { InputTextModule } from 'primeng/inputtext';
+import { CaseFilterModule } from '../filter';
 
 @NgModule({
   imports: [
@@ -31,6 +32,7 @@ import { InputTextModule } from 'primeng/inputtext';
     DatatableModule,
     ImporterModule,
     InputTextModule,
+    CaseFilterModule,
   ],
   declarations: [
     CaseDatatableComponent,

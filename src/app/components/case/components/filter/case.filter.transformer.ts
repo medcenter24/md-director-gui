@@ -14,29 +14,7 @@
  * Copyright (c) 2020 (original work) MedCenter24.com;
  */
 
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
-import { AppTranslationModule } from '../../../../app.translation.module';
-import { CaseFilterComponent } from './case.filter.component';
-import { NgaModule } from '../../../../theme/nga.module';
-import { ButtonModule } from 'primeng/button';
-
-@NgModule({
-  imports: [
-    CommonModule,
-    FormsModule,
-    AppTranslationModule,
-    NgaModule,
-    ButtonModule,
-  ],
-  declarations: [
-    CaseFilterComponent,
-  ],
-  exports: [
-    CaseFilterComponent,
-  ],
-})
-export class CaseFilterModule {
-
+export class CaseFilterTransformer {
+  toFilter(val): void {}
+  toQuery(val): void {}
 }
