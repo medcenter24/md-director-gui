@@ -18,7 +18,8 @@ export class UrlHelper {
 
   static replaceOrAdd (location: string, name: string, value: string): string {
     try {
-      const regEx = new RegExp(`${name}=\\d+`);
+      // const regEx = new RegExp(`${name}=\\d+`);
+      const regEx = new RegExp(`${name}=[^&]+`);
       const newVal = value === '' ? '' : `${name}=${value}`;
 
       if (location.includes(`${name}=`)) {
@@ -41,7 +42,8 @@ export class UrlHelper {
     location = location.replace(/&+/g, '&');
 
     // delete ?& at the and of string
-    location = location.replace(/^\?&|\?&$/, '');
+    location = location.replace(/\?&/, '?');
+    location = location.replace(/^[?&]|[?&]$/, '');
 
     return location;
   }

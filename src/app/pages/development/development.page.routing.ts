@@ -26,6 +26,7 @@ import { DevelopmentGuiAutocompleterComponent } from './gui/autocompleter';
 import { GuiPaymentBlockComponent } from './gui/payment/block';
 import { DevelopmentGuiUploaderFileComponent } from './gui/uploader/file';
 import { GuiDialogDeleteComponent } from './gui/dialog/delete';
+import { DevelopmentDatatablePreviewComponent } from './gui/datatable';
 
 // noinspection TypeScriptValidateTypes
 const routes: Routes = [
@@ -41,6 +42,7 @@ const routes: Routes = [
       { path: 'gui/invoice', component: DevelopmentGuiInvoiceComponent },
       { path: 'gui/payment/block', component: GuiPaymentBlockComponent },
       { path: 'gui/dialog/delete', component: GuiDialogDeleteComponent },
+      { path: 'gui/datatable/preview', component: DevelopmentDatatablePreviewComponent },
     ],
   },
 ];

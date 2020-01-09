@@ -3,7 +3,6 @@
   ~ modify it under the terms of the GNU General Public License
   ~ as published by the Free Software Foundation; under version 2
   ~ of the License (non-upgradable).
-  ~
   ~ This program is distributed in the hope that it will be useful,
   ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
   ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
@@ -12,25 +11,25 @@
   ~ along with this program; if not, write to the Free Software
   ~ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
   ~
-  ~ Copyright (c) 2019 (original work) MedCenter24.com;
+  ~ Copyright (c) 2020 (original work) MedCenter24.com;
   -->
 
-<nga-case-filter
-  #filterComponent
-  [filter]="filter"
-  (runFilter)="onFilter($event)"
-></nga-case-filter>
-
-<nga-datatable
-        #datatableComponent
-  *ngIf="langLoaded"
-  [config]="datatableConfig"
-  (init)="beforeDatatableLoad()"
-  (loaded)="onDatatableLoaded()"
-></nga-datatable>
-
-<nga-importer
-  #importer
-  *ngIf="isImporterConfigured"
-  [url]="caseService.getImportUrl()"
-></nga-importer>
+<ba-card class="col-lg-7" *ngIf="filter">
+  <div class="row mb-3">
+    <div class="col-md-4">
+      <div class="row mb-2">
+        <div class="col-5">
+          <label for="refNumFilter" translate>Ref. Number</label>
+        </div>
+        <div class="col-7">
+          <input id="refNumFilter" pInputText type="text" class="form-control" [(ngModel)]="filter.refNum">
+        </div>
+      </div>
+      <div class="row mb-2">
+        <div class="col-5">
+          <button pButton (click)="onFilter()" class="ui-button-success" type="button" label="{{ 'Find' | translate }}"></button>
+        </div>
+      </div>
+    </div>
+  </div>
+</ba-card>

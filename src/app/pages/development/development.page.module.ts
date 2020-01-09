@@ -26,6 +26,7 @@ import { DevelopmentGuiAutocompleterModule } from './gui/autocompleter';
 import { GuiPaymentBlockModule } from './gui/payment/block';
 import { DevelopmentGuiUploaderFileModule } from './gui/uploader/file';
 import { GuiDialogDeleteModule } from './gui/dialog/delete';
+import { DevelopmentDatatablePreviewModule } from './gui/datatable';
 
 @NgModule({
   imports: [
@@ -38,6 +39,7 @@ import { GuiDialogDeleteModule } from './gui/dialog/delete';
     DevelopmentGuiInvoiceModule,
     GuiPaymentBlockModule,
     GuiDialogDeleteModule,
+    DevelopmentDatatablePreviewModule,
   ],
   declarations: [
     DevelopmentPageComponent,
