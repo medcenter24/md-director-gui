@@ -16,12 +16,20 @@
   -->
 
 <div class="content-top clearfix">
-  <h1 class="al-title" translate>{{ activePageTitle }}</h1>
+  <h1 *ngIf="translate" class="al-title" translate>{{ activePageTitle }}</h1>
+  <h1 *ngIf="!translate" class="al-title">{{ activePageTitle }}</h1>
 
   <ul class="breadcrumb al-breadcrumb">
     <li class="breadcrumb-item">
       <a routerLink="/pages/dashboard" translate>Home</a>
     </li>
-    <li class="breadcrumb-item active" translate>{{ activePageTitle }}</li>
+    <li *ngIf="!breadcrumbs.length && translate" class="breadcrumb-item active" translate>{{ activePageTitle }}</li>
+    <li *ngIf="!breadcrumbs.length && !translate" class="breadcrumb-item active">{{ activePageTitle }}</li>
+    <li class="breadcrumb-item{{ item.active ? ' active' : '' }}" *ngFor="let item of breadcrumbs">
+      <a [routerLink]="item.link" *ngIf="!item.active && !translate">{{ item.title }}</a>
+      <a [routerLink]="item.link" *ngIf="!item.active && translate">{{ item.title | translate }}</a>
+      <b *ngIf="item.active && translate">{{ item.title | translate }}</b>
+      <b *ngIf="item.active && !translate">{{ item.title }}</b>
+    </li>
   </ul>
 </div>

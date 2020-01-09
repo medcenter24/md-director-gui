@@ -3,7 +3,6 @@
   ~ modify it under the terms of the GNU General Public License
   ~ as published by the Free Software Foundation; under version 2
   ~ of the License (non-upgradable).
-  ~
   ~ This program is distributed in the hope that it will be useful,
   ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
   ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
@@ -12,25 +11,11 @@
   ~ along with this program; if not, write to the Free Software
   ~ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
   ~
-  ~ Copyright (c) 2019 (original work) MedCenter24.com;
+  ~ Copyright (c) 2020 (original work) MedCenter24.com;
   -->
 
-<nga-case-filter
-  #filterComponent
-  [filter]="filter"
-  (runFilter)="onFilter($event)"
-></nga-case-filter>
-
 <nga-datatable
-        #datatableComponent
+  #datatableComponentView
   *ngIf="langLoaded"
   [config]="datatableConfig"
-  (init)="beforeDatatableLoad()"
-  (loaded)="onDatatableLoaded()"
 ></nga-datatable>
-
-<nga-importer
-  #importer
-  *ngIf="isImporterConfigured"
-  [url]="caseService.getImportUrl()"
-></nga-importer>

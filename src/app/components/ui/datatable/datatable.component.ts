@@ -1,4 +1,4 @@
-/*
+/**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; under version 2
@@ -15,7 +15,7 @@
  * Copyright (c) 2019 (original work) MedCenter24.com;
  */
 
-import { Component, Input, ChangeDetectorRef, ViewChild, OnInit } from '@angular/core';
+import { Component, Input, ChangeDetectorRef, ViewChild } from '@angular/core';
 import { LoadableComponent } from '../../core/components/componentLoader';
 import { LazyLoadEvent } from 'primeng/primeng';
 import { DatatableConfig } from './datatable.config';
@@ -26,15 +26,25 @@ import { DatatableCol } from './datatable.col';
 import { Location } from '@angular/common';
 import { UrlHelper } from '../../../helpers/url.helper';
 import { Table } from 'primeng/table';
+import { FilterMetadata } from 'primeng/api';
 
 @Component({
   selector: 'nga-datatable',
   templateUrl: './datatable.html',
 })
-export class DatatableComponent extends LoadableComponent implements OnInit {
+export class DatatableComponent extends LoadableComponent {
   protected componentName: string = 'DatatableComponent';
 
-  @Input() config: DatatableConfig;
+  private _config: DatatableConfig ;
+  @Input() set config(config: DatatableConfig) {
+
+    if (!config) {
+      throw new Error('Configuration is not set');
+    } else {
+      this._config = config;
+      this.initialize();
+    }
+  }
 
   /**
    * it is used by this component only
@@ -57,12 +67,18 @@ export class DatatableComponent extends LoadableComponent implements OnInit {
     super();
   }
 
-  ngOnInit(): void {
-    if (this.config.showRefreshBtn) {
-      this.config.controlPanelActions.push(new DatatableAction(this.config.refreshBtnTitle, 'fa fa-refresh', () => {
-        this.refresh();
+  private initialize() {
+    if (this.getConfig() && this.getConfig().get('showRefreshBtn')) {
+      this.getConfig().controlPanelActions.push(new DatatableAction(
+        this.getConfig().refreshBtnTitle,
+        'fa fa-refresh',
+        () => {
+          this.refresh();
       }));
     }
+
+    // filters
+    this.updateFiltersByQuery();
 
     // first loading of the table
     this.refresh();
@@ -83,8 +99,7 @@ export class DatatableComponent extends LoadableComponent implements OnInit {
     // filtersActions // If i need to add filters as an extra row with html
     // globalFilter: Value of the global filter if available
     this.setLoading(true);
-
-    this.config.dataProvider(event)
+    this.getConfig().dataProvider(event)
       .then((response: DatatableResponse) => {
         this.setLoading(false);
         this.data = response.data;
@@ -105,17 +120,17 @@ export class DatatableComponent extends LoadableComponent implements OnInit {
   }
 
   onRowSelect (event): void {
-    this.config.onRowSelect(event);
+    this.getConfig().onRowSelect(event);
   }
 
   refresh(): void {
     // from url by query
-    const rows = +UrlHelper.get(this.getCurrentUrl(), 'rows', this.config.rows);
-    const first = +UrlHelper.get(this.getCurrentUrl(), 'first', this.config.offset);
-    const sortField = UrlHelper.get(this.getCurrentUrl(), 'sortField', this.config.sortBy);
-    const sortOrder = +UrlHelper.get(this.getCurrentUrl(), 'sortOrder', this.config.sortOrder);
-    // while I don't know how to take it from the query
-    const filters = this.config.filters;
+    const rows = +UrlHelper.get(this.getCurrentUrl(), 'rows', this.getConfig().get('rows'));
+    const first = +UrlHelper.get(this.getCurrentUrl(), 'first', this.getConfig().get('offset'));
+    const sortField = UrlHelper.get(this.getCurrentUrl(), 'sortField', this.getConfig().get('sortBy'));
+    const sortOrder = +UrlHelper.get(this.getCurrentUrl(), 'sortOrder', this.getConfig().get('sortOrder'));
+    this.updateFiltersByConfig();
+    const filters = this.getConfig().get('filters');
     this.datatable.first = first; // to change the current page in the paginator
     this.pagedLoadLazy({ rows, first, sortField, sortOrder, filters });
   }
@@ -127,8 +142,8 @@ export class DatatableComponent extends LoadableComponent implements OnInit {
 
   private getTransformer(col: DatatableCol): DatatableTransformer {
     let transformer;
-    if (this.config.transformers) {
-      transformer = this.config.transformers.find(tr => tr.field === col.field);
+    if (this.getConfig().transformers) {
+      transformer = this.getConfig().transformers.find(tr => tr.field === col.field);
     }
 
     return transformer || new DatatableTransformer(col.field);
@@ -140,9 +155,9 @@ export class DatatableComponent extends LoadableComponent implements OnInit {
    * @returns {boolean}
    */
   isSortable(field: string): boolean {
-    return this.config.sort && (!this.config.sortable
-      || !this.config.sortable.length
-      || this.config.sortable.indexOf(field) !== -1);
+    return this.getConfig().sort && (!this.getConfig().sortable
+      || !this.getConfig().sortable.length
+      || this.getConfig().sortable.indexOf(field) !== -1);
   }
 
   /**
@@ -168,11 +183,37 @@ export class DatatableComponent extends LoadableComponent implements OnInit {
     return this.location.path(true);
   }
 
+  /**
+   * set to config from query
+   */
+  private updateFiltersByQuery(): any {
+    const queryFilters = JSON.parse(UrlHelper.get(this.getCurrentUrl(), 'filters', '{}'));
+    const queryFiltersKeys = Object.keys(queryFilters);
+    if (queryFiltersKeys.length) {
+      const _filters = {};
+      queryFiltersKeys.forEach(k => {
+        _filters[k] = { value: queryFilters[k]['value'], matchMode: queryFilters[k]['matchMode'] } as FilterMetadata;
+      });
+      this.getConfig().update('filters', _filters);
+    }
+  }
+
+  /**
+   * set to query from config
+   */
+  private updateFiltersByConfig(): any {
+    const filters = this.getConfig().get('filters');
+    let location = this.getCurrentUrl();
+    const _filters = filters && Object.keys(filters).length ? encodeURIComponent(`${JSON.stringify(filters)}`) : '';
+    location = UrlHelper.replaceOrAdd(location, 'filters', _filters);
+    this.location.replaceState(location);
+  }
+
   onPageChanged(event): void {
     // I need to update request data (to have correct url)
     let location = this.getCurrentUrl();
-    let first = this.config.offset;
-    let rows = this.config.rows;
+    let first = this.getConfig().offset;
+    let rows = this.getConfig().rows;
     if (+event.first) {
       first = event.first;
     }
@@ -200,6 +241,6 @@ export class DatatableComponent extends LoadableComponent implements OnInit {
    * To get current datatable configuration
    */
   getConfig(): DatatableConfig {
-    return this.config;
+    return this._config;
   }
 }

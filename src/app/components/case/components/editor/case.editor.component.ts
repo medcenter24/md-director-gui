@@ -55,6 +55,7 @@ import { Hospital, HospitalsService } from '../../../hospital';
 import { BaToolboxAction } from '../../../../theme/components/baToolbox';
 import { FormViewerComponent } from '../../../forms/components/viewer';
 import { LoggerComponent } from '../../../core/logger/LoggerComponent';
+import { Breadcrumb } from '../../../../theme/components/baContentTop/breadcrumb';
 
 @Component({
   selector: 'nga-case-editor',
@@ -200,8 +201,12 @@ export class CaseEditorComponent extends LoadingComponent implements OnInit {
           // start of loading data and the page
           const mainPostfix = 'main';
           this.startLoader(mainPostfix);
+
           this.accidentsService.getAccident(+params[ 'id' ]).then((accident: Accident) => {
-            this._state.notifyDataChanged('menu.activeLink', { title: 'Cases' });
+            const breadcrumbs = [];
+            breadcrumbs.push(new Breadcrumb('Cases', '/pages/cases'));
+            breadcrumbs.push(new Breadcrumb(accident.refNum, `/pages/cases/${accident.id}`, true, false));
+            this._state.notifyDataChanged('menu.activeLink', breadcrumbs);
             this.showToolbox();
             this.accident = accident ? accident : new Accident();
             if (this.accident.handlingTime && this.accident.handlingTime.length) {

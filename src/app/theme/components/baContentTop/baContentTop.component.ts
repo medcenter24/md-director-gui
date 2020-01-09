@@ -17,6 +17,7 @@
 
 import { Component } from '@angular/core';
 import { GlobalState } from '../../../global.state';
+import { Breadcrumb } from './breadcrumb';
 
 @Component({
   selector: 'nga-content-top',
@@ -26,11 +27,22 @@ import { GlobalState } from '../../../global.state';
 export class BaContentTopComponent {
 
   activePageTitle: string = '';
+  breadcrumbs: Breadcrumb[] = [];
+  translate: boolean = false;
 
   constructor(private _state: GlobalState) {
     this._state.subscribe('menu.activeLink', (activeLink) => {
       if (activeLink) {
-        this.activePageTitle = activeLink.title;
+        if (!Array.isArray(activeLink)) {
+          this.activePageTitle = activeLink.title;
+        } else {
+          this.breadcrumbs = activeLink;
+          const active = this.breadcrumbs.find((b: Breadcrumb) => b.active);
+          if (active) {
+            this.activePageTitle = active.title;
+            this.translate = active.translate;
+          }
+        }
       }
     });
   }

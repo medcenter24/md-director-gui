@@ -3,7 +3,6 @@
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; under version 2
  * of the License (non-upgradable).
- *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
@@ -12,39 +11,35 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2019 (original work) MedCenter24.com;
+ * Copyright (c) 2020 (original work) MedCenter24.com;
  */
 
 import { NgModule } from '@angular/core';
-import { CaseDatatableComponent } from './case.datatable.component';
-import { DatatableModule } from '../../../ui/datatable';
+import { FormsModule } from '@angular/forms';
+import { ButtonModule } from 'primeng/button';
+import { AppTranslationModule } from '../../../../app.translation.module';
 import { CommonModule } from '@angular/common';
-import { ImporterModule } from '../../../importer/importer.module';
-import { ExporterService } from '../../../exporter/exporter.service';
-import { CasesService } from '../../cases.service';
-import { ExtensionsService } from '../../../extensions/extensions.service';
-import { InputTextModule } from 'primeng/inputtext';
-import { CaseFilterModule } from '../filter';
+import { DatatableModule } from '../../../../components/ui/datatable';
+import { DevelopmentDatatablePreviewComponent } from './development.datatable.preview.component';
+import { PreviewDataService } from './preview.data.service';
 
 @NgModule({
   imports: [
     CommonModule,
+    FormsModule,
+    AppTranslationModule,
+    ButtonModule,
     DatatableModule,
-    ImporterModule,
-    InputTextModule,
-    CaseFilterModule,
-  ],
-  declarations: [
-    CaseDatatableComponent,
   ],
   providers: [
-    ExporterService,
-    CasesService,
-    ExtensionsService,
+    PreviewDataService,
+  ],
+  declarations: [
+    DevelopmentDatatablePreviewComponent,
   ],
   exports: [
-    CaseDatatableComponent,
+    DevelopmentDatatablePreviewComponent,
   ],
 })
-export class CaseDatatableModule {
+export class DevelopmentDatatablePreviewModule {
 }

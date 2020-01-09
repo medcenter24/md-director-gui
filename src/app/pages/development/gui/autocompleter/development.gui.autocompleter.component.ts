@@ -28,7 +28,9 @@ import { LoggerComponent } from '../../../../components/core/logger/LoggerCompon
 })
 export class DevelopmentGuiAutocompleterComponent extends LoadingComponent {
   protected componentName: string = 'DevelopmentGuiAutocompleterComponent';
+
   item;
+
   constructor(
     protected _logger: LoggerComponent,
     protected _state: GlobalState,
