@@ -24,6 +24,8 @@ import { Message } from 'primeng/primeng';
 import { LoadableComponent } from '../../../core/components/componentLoader';
 import { Upload } from '../../upload';
 import { UploadService } from '../../upload.service';
+import { HttpHeaders } from '@angular/common/http';
+import { forEach } from '@angular/router/src/utils/collection';
 
 @Component({
   selector: 'nga-file-upload',
@@ -37,7 +39,8 @@ import { UploadService } from '../../upload.service';
               (onUpload)="handleUpload($event)"
               (onError)="handleError($event)"
               (onBeforeUpload)="handleBeforeUpload()"
-              (onBeforeSend)="handleBeforeSend($event)"
+              [headers]="httpHeaders"
+              [withCredentials]="true"
               auto="true"
               [chooseLabel]="'Browse' | translate"></p-fileUpload>`,
 })
@@ -46,8 +49,9 @@ export class UploadFileComponent extends LoadableComponent implements OnInit {
 
   msgs: Message[] = [];
   url: string = '';
-
+  httpHeaders: HttpHeaders;
   file: Upload;
+
   @Output() changed: EventEmitter<Upload> = new EventEmitter<Upload>();
 
   constructor(
@@ -58,6 +62,7 @@ export class UploadFileComponent extends LoadableComponent implements OnInit {
     private uploadService: UploadService,
   ) {
     super();
+    this.httpHeaders = new HttpHeaders().set('Authorization', `Bearer ${this.authenticationService.getToken()}`);
   }
 
   ngOnInit(): void {
@@ -70,15 +75,14 @@ export class UploadFileComponent extends LoadableComponent implements OnInit {
     this.startLoader('Uploader');
   }
 
-  handleBeforeSend(event): void {
-    event.xhr.setRequestHeader('Authorization', `Bearer ${this.authenticationService.getToken()}`);
-  }
-
   handleUpload(event): void {
     this.stopLoader('Uploader');
     this.msgs = [];
-    this.file = JSON.parse(event.xhr.response) as Upload;
-    this.msgs.push({ severity: 'info', summary: 'this.translateLoaded', detail: this.file.name });
+    this.file = event.originalEvent.body as Upload;
+    /*event.files.forEach((file: File) => {
+      this.file = file;
+      this.msgs.push({ severity: 'info', summary: 'this.translateLoaded', detail: this.file.name });
+    });*/
     this._state.notifyDataChanged('growl', this.msgs);
     this.changed.emit(this.file);
   }
@@ -89,8 +93,12 @@ export class UploadFileComponent extends LoadableComponent implements OnInit {
       this.msgs.push({ severity: 'error', summary: 'this.translateErrorLoad', detail: file.name });
     }
     this._state.notifyDataChanged('growl', this.msgs);
-    this._logger.error(`Error: Upload to ${event.xhr.responseURL}
-        [${event.xhr.status}: ${event.xhr.statusText}]`);
+    if (event.hasOwnProperty('xhr')) {
+      this._logger.error( `Error: Upload to ${event.xhr.responseURL}
+        [${event.xhr.status}: ${event.xhr.statusText}]` );
+    } else {
+      this._logger.error(event.message);
+    }
     this.stopLoader('Uploader');
   }
 }
