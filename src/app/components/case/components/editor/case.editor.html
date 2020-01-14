@@ -513,6 +513,17 @@
                 </div>
                 <!-- /Assistant Invoice -->
 
+                <!-- Assistant Invoice Viewer -->
+                <div class="row" *ngIf="assistantInvoice && assistantInvoice.id">
+                  <div class="col-12">
+                    <nga-form-viewer
+                      [formId]="assistantInvoice.id"
+                      [formableId]="accident.id"
+                    ></nga-form-viewer>
+                  </div>
+                </div>
+                <!-- /Assistant Invoice Viewer -->
+
                 <!-- Documents -->
                 <div class="row mt-2">
                   <div class="col-12">

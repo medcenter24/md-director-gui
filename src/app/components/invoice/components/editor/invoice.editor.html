@@ -61,11 +61,11 @@
             (init)="startLoader($event)"
         ></nga-ui-status-select>
     </div>
-    <div class="col-2" *ngIf="!autosave">
+    <div class="col-sm-2" *ngIf="!autosave">
         <label class="label separate">{{ 'Action' | translate }}</label>
         <button pButton [label]="'Save' | translate" (click)="save()" class="ui-button-success"></button>
     </div>
-    <div class="col-2" *ngIf="autosave">
+    <div class="col-sm-2 ml-4 mt-2" *ngIf="autosave">
         <label class="label separate">&nbsp;</label>
         <span class="fa fa-check text-success" *ngIf="!saving"></span>
         <span class="fa fa-spinner fa-spin" *ngIf="saving"></span>
