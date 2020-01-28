@@ -3,7 +3,6 @@
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; under version 2
  * of the License (non-upgradable).
- *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
@@ -12,18 +11,22 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2019 (original work) MedCenter24.com;
+ * Copyright (c) 2020 (original work) MedCenter24.com;
  */
 
 import { DatatableAction } from './datatable.action';
 import { DatatableCol } from './datatable.col';
 import { DatatableTransformer } from './datatable.transformer';
 import { FilterMetadata } from 'primeng/components/common/filtermetadata';
+import { SortEvent } from 'primeng/api';
+import { HttpService } from '../../../core/http/http.service';
+import { DatatableRequestBuilder } from '../request/datatable.request.builder';
 
 export class DatatableConfig {
 
   constructor (
-    public dataProvider: Function = function () {},
+    public dataProvider: HttpService = null,
+    public requestBuilder: DatatableRequestBuilder = null,
     public lazy: boolean = true,
     public paginator: boolean = true,
     public rows: number = 25,
@@ -44,41 +47,19 @@ export class DatatableConfig {
     public refreshBtnTitle: string = 'Refresh',
     public showRefreshBtn: boolean = true,
     /**
-     * https://www.primefaces.org/primeng/#/table/sort
-     * 'single', 'multiple'
-     * @type {string}
+     * List of columns to be sorted by
      */
-    public sortMode: string = 'single',
-    /**
-     * boolean it turns sorting on|off
-     * @type {boolean}
-     */
-    public sort: boolean = false,
-    /**
-     * field to sort by on the init
-     * @type {null}
-     */
-    public sortBy: string = null,
-    /**
-     * number 1 - asc
-     * -1 - desc
-     * @type {number}
-     */
-    public sortOrder: number = 1,
-    /**
-     * if present then will be shown sorting on that fields
-     * @type {null}
-     */
-    public sortable: string[] = null,
+    public sortBy: SortEvent[] = null,
     /**
      * { [s: string]: FilterMetadata } filtering of the data
      * @type {null|{ [s: string]: FilterMetadata }}
      */
     public filters: { [s: string]: FilterMetadata } = null,
     /**
-     * Array of filter fields
+     * to Show filters next to the head column
+     * @type boolean
      */
-    public filterActions: any [] = null,
+    public showColumnFilters: boolean = false,
   ) { }
 
   /**
@@ -88,32 +69,7 @@ export class DatatableConfig {
   static factory(configuration: Object) {
     const config = new DatatableConfig();
     if (configuration) {
-      config.update('dataProvider', configuration);
-      config.update('lazy', configuration);
-      config.update('paginator', configuration);
-      config.update('rows', configuration);
-      config.update('offset', configuration);
-      config.update('selectionMode', configuration);
-      config.update('controlPanel', configuration);
-      config.update('captionPanel', configuration);
-      config.update('controlPanelActions', configuration);
-      config.update('captionPanelActions', configuration);
-      config.update('csvExportAll', configuration);
-      config.update('csvExportAllTitle', configuration);
-      config.update('csvExportSelections', configuration);
-      config.update('csvExportSelectionsTitle', configuration);
-      config.update('cols', configuration);
-      config.update('onRowSelect', configuration);
-      config.update('showTotal', configuration);
-      config.update('refreshBtnTitle', configuration);
-      config.update('showRefreshBtn', configuration);
-      config.update('transformers', configuration);
-      config.update('sortMode', configuration);
-      config.update('sort', configuration);
-      config.update('sortBy', configuration);
-      config.update('sortOrder', configuration);
-      config.update('sortable', configuration);
-      config.update('filters', configuration);
+      Object.keys(config).forEach((prop: string) => config.update(prop, configuration));
     }
     return config;
   }

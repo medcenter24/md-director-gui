@@ -18,15 +18,11 @@
 import { Component, Input, ChangeDetectorRef, ViewChild } from '@angular/core';
 import { LoadableComponent } from '../../core/components/componentLoader';
 import { LazyLoadEvent } from 'primeng/primeng';
-import { DatatableConfig } from './datatable.config';
-import { DatatableResponse } from './datatable.response';
-import { DatatableAction } from './datatable.action';
-import { DatatableTransformer } from './datatable.transformer';
-import { DatatableCol } from './datatable.col';
+import { DatatableAction, DatatableCol, DatatableConfig, DatatableResponse, DatatableTransformer } from './entities';
 import { Location } from '@angular/common';
 import { UrlHelper } from '../../../helpers/url.helper';
 import { Table } from 'primeng/table';
-import { FilterMetadata } from 'primeng/api';
+import { RequestBuilder } from '../../core/http/request/request.builder';
 
 @Component({
   selector: 'nga-datatable',
@@ -36,6 +32,8 @@ export class DatatableComponent extends LoadableComponent {
   protected componentName: string = 'DatatableComponent';
 
   private _config: DatatableConfig ;
+  private preloadDelay;
+
   @Input() set config(config: DatatableConfig) {
 
     if (!config) {
@@ -77,9 +75,6 @@ export class DatatableComponent extends LoadableComponent {
       }));
     }
 
-    // filters
-    this.updateFiltersByQuery();
-
     // first loading of the table
     this.refresh();
   }
@@ -88,7 +83,11 @@ export class DatatableComponent extends LoadableComponent {
     this.lazyLoadEvent = event;
   }
 
-  pagedLoadLazy(event: LazyLoadEvent) {
+  pagedLoadLazy(requestBuilder: RequestBuilder): void {
+    if (!this.getConfig().get('dataProvider')) {
+      return;
+    }
+    console.log(this.getConfig().get('dataProvider'))
     // event.first = First row offset
     // event.rows = Number of rows per page
     // event.sortField = Field name to sort in single sort mode
@@ -96,17 +95,22 @@ export class DatatableComponent extends LoadableComponent {
     // multiSortMeta: An array of SortMeta objects used in multiple columns sorting.
     //     Each SortMeta has field and order properties.
     // filters: Filters object having field as key and filter value, filter matchMode as value
-    // filtersActions // If i need to add filters as an extra row with html
-    // globalFilter: Value of the global filter if available
-    this.setLoading(true);
-    this.getConfig().dataProvider(event)
-      .then((response: DatatableResponse) => {
+    if (this.preloadDelay) {
+      // to avoid quick updates
+      clearTimeout(this.preloadDelay);
+    }
+
+    this.preloadDelay = setTimeout(() => {
+      this.setLoading(true);
+      this.getConfig().get('dataProvider').search(requestBuilder)
+        .then((response: DatatableResponse) => {
+          this.setLoading(false);
+          this.data = response.data;
+          this.total = response.meta.pagination.total;
+        }).catch(() => {
         this.setLoading(false);
-        this.data = response.data;
-        this.total = response.meta.pagination.total;
-    }).catch(() => {
-      this.setLoading(false);
-    });
+      });
+    }, 500);
   }
 
   private setLoading(state: boolean): void {
@@ -124,15 +128,19 @@ export class DatatableComponent extends LoadableComponent {
   }
 
   refresh(): void {
-    // from url by query
-    const rows = +UrlHelper.get(this.getCurrentUrl(), 'rows', this.getConfig().get('rows'));
-    const first = +UrlHelper.get(this.getCurrentUrl(), 'first', this.getConfig().get('offset'));
-    const sortField = UrlHelper.get(this.getCurrentUrl(), 'sortField', this.getConfig().get('sortBy'));
-    const sortOrder = +UrlHelper.get(this.getCurrentUrl(), 'sortOrder', this.getConfig().get('sortOrder'));
-    this.updateFiltersByConfig();
-    const filters = this.getConfig().get('filters');
-    this.datatable.first = first; // to change the current page in the paginator
-    this.pagedLoadLazy({ rows, first, sortField, sortOrder, filters });
+    const requestBuilder = this.getConfig().get('requestBuilder');
+    if (requestBuilder) {
+      const limit = +UrlHelper.get( this.getCurrentUrl(), 'rows', requestBuilder.get( 'paginator' ).get( 'limit' ) );
+      const offset = +UrlHelper.get( this.getCurrentUrl(), 'first', requestBuilder.get( 'paginator' ).get( 'offset' ) );
+
+      requestBuilder.get( 'paginator' ).set( 'offset', offset );
+      requestBuilder.get( 'paginator' ).set( 'limit', limit );
+
+      this.datatable.first = offset; // to change the current page in the paginator
+      this.pagedLoadLazy(requestBuilder);
+    } else {
+      throw new Error('Datatable RequestBuilder not initialized, so can not load any data');
+    }
   }
 
   showData(rowData: string[], col: DatatableCol): string {
@@ -149,15 +157,13 @@ export class DatatableComponent extends LoadableComponent {
     return transformer || new DatatableTransformer(col.field);
   }
 
-  /**
-   * Checks that field could be sorted
-   * @param {string} field
-   * @returns {boolean}
-   */
-  isSortable(field: string): boolean {
-    return this.getConfig().sort && (!this.getConfig().sortable
-      || !this.getConfig().sortable.length
-      || this.getConfig().sortable.indexOf(field) !== -1);
+  sort(requestBuilder: RequestBuilder) {
+    console.log('customSort', requestBuilder);
+    // todo run request (delayed to 3 sec in the request itself, to avoid fast clicking events)
+  }
+
+  filter(filterStatus: RequestBuilder) {
+    console.log('filterStatus', filterStatus);
   }
 
   /**
@@ -179,34 +185,24 @@ export class DatatableComponent extends LoadableComponent {
     return found;
   }
 
+  // todo remove this
   private getCurrentUrl(): string {
     return this.location.path(true);
   }
 
   /**
    * set to config from query
+   * todo move it to the datatable.filters.component
    */
   private updateFiltersByQuery(): any {
-    const queryFilters = JSON.parse(UrlHelper.get(this.getCurrentUrl(), 'filters', '{}'));
-    const queryFiltersKeys = Object.keys(queryFilters);
-    if (queryFiltersKeys.length) {
-      const _filters = {};
-      queryFiltersKeys.forEach(k => {
-        _filters[k] = { value: queryFilters[k]['value'], matchMode: queryFilters[k]['matchMode'] } as FilterMetadata;
-      });
-      this.getConfig().update('filters', _filters);
-    }
+    // todo delete me
   }
 
   /**
    * set to query from config
    */
   private updateFiltersByConfig(): any {
-    const filters = this.getConfig().get('filters');
-    let location = this.getCurrentUrl();
-    const _filters = filters && Object.keys(filters).length ? encodeURIComponent(`${JSON.stringify(filters)}`) : '';
-    location = UrlHelper.replaceOrAdd(location, 'filters', _filters);
-    this.location.replaceState(location);
+    // todo delete me
   }
 
   onPageChanged(event): void {

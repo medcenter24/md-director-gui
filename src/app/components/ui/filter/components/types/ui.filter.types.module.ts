@@ -3,7 +3,6 @@
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; under version 2
  * of the License (non-upgradable).
- *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
@@ -12,39 +11,24 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2019 (original work) MedCenter24.com;
+ * Copyright (c) 2020 (original work) MedCenter24.com;
  */
 
 import { NgModule } from '@angular/core';
-import { CaseDatatableComponent } from './case.datatable.component';
-import { DatatableModule } from '../../../ui/datatable';
-import { CommonModule } from '@angular/common';
-import { ImporterModule } from '../../../importer/importer.module';
-import { ExporterService } from '../../../exporter/exporter.service';
-import { CasesService } from '../../cases.service';
-import { ExtensionsService } from '../../../extensions/extensions.service';
 import { InputTextModule } from 'primeng/inputtext';
-import { AccidentStatusService } from '../../../accident/components/status';
+import { CommonModule } from '@angular/common';
+import { UiFilterTypesComponent } from './ui.filter.types.component';
 
 @NgModule({
   imports: [
-    CommonModule,
-    DatatableModule,
-    ImporterModule,
     InputTextModule,
-  ],
-  declarations: [
-    CaseDatatableComponent,
-  ],
-  providers: [
-    ExporterService,
-    CasesService,
-    ExtensionsService,
-    AccidentStatusService,
+    CommonModule,
   ],
   exports: [
-    CaseDatatableComponent,
+    UiFilterTypesComponent,
+  ],
+  declarations: [
+    UiFilterTypesComponent,
   ],
 })
-export class CaseDatatableModule {
-}
+export class UiFilterTypeModule {}

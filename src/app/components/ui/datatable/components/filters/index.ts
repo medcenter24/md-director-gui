@@ -3,7 +3,6 @@
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; under version 2
  * of the License (non-upgradable).
- *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
@@ -12,13 +11,8 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2019 (original work) MedCenter24.com;
+ * Copyright (c) 2020 (original work) MedCenter24.com;
  */
 
-export * from './entities/datatable.action';
-export * from './entities/datatable.col';
-export * from './datatable.component';
-export * from './entities/datatable.config';
-export * from './datatable.module';
-export * from './entities/datatable.response';
-export * from './entities/datatable.transformer';
+export * from './datatable.filters.component';
+export * from './datatable.filters.module';

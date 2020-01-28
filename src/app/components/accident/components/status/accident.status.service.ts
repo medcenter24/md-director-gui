@@ -14,5 +14,13 @@
  * Copyright (c) 2020 (original work) MedCenter24.com;
  */
 
-export * from './case.filter.component';
-export * from './case.filter.module';
+import { Injectable } from '@angular/core';
+import { HttpService } from '../../../core/http/http.service';
+
+@Injectable()
+export class AccidentStatusService extends HttpService {
+
+  protected getPrefix (): string {
+    return 'director/accident/statuses';
+  }
+}

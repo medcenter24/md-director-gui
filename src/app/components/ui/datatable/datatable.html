@@ -29,7 +29,6 @@
   (onRowSelect)="onRowSelect($event)"
   [selectionMode]="getConfig().get('selectionMode')"
   [(selection)]="selectedData"
-  [sortMode]="getConfig().get('sort') && getConfig().get('sortMode')"
 >
   <ng-template pTemplate="caption" *ngIf="getConfig().get('captionPanel')">
     <div class="ui-helper-clearfix">
@@ -75,20 +74,28 @@
     <tr>
       <th
         *ngFor="let col of columns"
-        [pSortableColumn]="col.field"
       >
         {{col.header}}
-        <p-sortIcon
-          *ngIf="isSortable(col.field)"
-          [field]="col.field"></p-sortIcon>
+        <!-- Data sorting by the field -->
+        <nga-datatable-sort
+          [field]="col.field"
+          [config]="getConfig()"
+          (sorted)="sort($event)"
+        ></nga-datatable-sort>
       </th>
     </tr>
     <tr
-      *ngIf="getConfig().get('filters') && getConfig().get('filterActions')"
+      *ngIf="getConfig().get('filters') && getConfig().get('showColumnFilters')"
     >
       <th
         *ngFor="let col of columns"
-      >filter for {{col.header}}</th>
+      >
+        <nga-datatable-filter
+          [field]="col.field"
+          [config]="getConfig()"
+          (changed)="filter($event)"
+        ></nga-datatable-filter>
+      </th>
     </tr>
   </ng-template>
   <ng-template pTemplate="body" let-rowData let-columns="columns">

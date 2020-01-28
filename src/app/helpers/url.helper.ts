@@ -18,7 +18,6 @@ export class UrlHelper {
 
   static replaceOrAdd (location: string, name: string, value: string): string {
     try {
-      // const regEx = new RegExp(`${name}=\\d+`);
       const regEx = new RegExp(`${name}=[^&]+`);
       const newVal = value === '' ? '' : `${name}=${value}`;
 
@@ -55,6 +54,31 @@ export class UrlHelper {
     if (query) {
       res = decodeURIComponent(query[1]);
     }
+    return res;
+  }
+
+  static getQueryVariables(location: string): Object[] {
+    const res = [];
+    const parts = location.split('?');
+    let varParts = location;
+    if (parts.length > 1) {
+      varParts = parts[1];
+    }
+    const vars = varParts.split( '&' );
+    vars.forEach(value => {
+      const val = value.split('=');
+      let valMe = '';
+      let valName = '';
+      if (val.length > 1) {
+        valName = decodeURIComponent(val[0]);
+        valMe = decodeURIComponent(val[1]);
+      } else {
+        valName = decodeURIComponent(value);
+      }
+      const obj = {};
+      obj[valName] = valMe;
+      res.push(obj);
+    });
     return res;
   }
 }

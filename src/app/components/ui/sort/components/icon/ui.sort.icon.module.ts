@@ -14,9 +14,21 @@
  * Copyright (c) 2020 (original work) MedCenter24.com;
  */
 
-export class CaseDatatableFilter {
-  constructor (
-    public refNum: string = '',
-  ) {
-  }
+import { NgModule } from '@angular/core';
+import { UiSortIconComponent } from './ui.sort.icon.component';
+import { CommonModule } from '@angular/common';
+
+@NgModule( {
+  imports: [
+    CommonModule,
+  ],
+  declarations: [
+    UiSortIconComponent,
+  ],
+  exports: [
+    UiSortIconComponent,
+  ],
+})
+export class UiSortIconModule {
+
 }

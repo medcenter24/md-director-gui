@@ -34,9 +34,10 @@ import { LoadingComponent } from '../../../core/components/componentLoader';
 import { GlobalState } from '../../../../global.state';
 import { SlimLoadingBarService } from 'ng2-slim-loading-bar';
 import { LoggerComponent } from '../../../core/logger/LoggerComponent';
-import { FilterMetadata } from 'primeng/api';
 import { Breadcrumb } from '../../../../theme/components/baContentTop/breadcrumb';
-import { CaseDatatableFilter } from '../filter/case.datatable.filter';
+import { AccidentStatusService } from '../../../accident/components/status';
+import { RequestBuilder } from '../../../core/http/request';
+import { FilterRequestField, SortRequestField } from '../../../core/http/request/fields';
 
 @Component({
   selector: 'nga-case-datatable',
@@ -55,8 +56,6 @@ export class CaseDatatableComponent extends LoadingComponent implements OnInit {
   langLoaded: boolean = false;
   isImporterConfigured: boolean = false;
 
-  filter: CaseDatatableFilter; // todo add filter form = new CaseDatatableFilter();
-
   private datatableLoaderPrefix = 'Table';
 
   constructor(
@@ -69,6 +68,7 @@ export class CaseDatatableComponent extends LoadingComponent implements OnInit {
     protected _state: GlobalState,
     protected loadingBar: SlimLoadingBarService,
     protected _logger: LoggerComponent,
+    protected accidentStatusProvider: AccidentStatusService,
   ) {
     super();
   }
@@ -85,16 +85,16 @@ export class CaseDatatableComponent extends LoadingComponent implements OnInit {
   }
 
   onDatatableLoaded(): void {
-    this.assignGlobalSeeker();
+    // this.assignGlobalSeeker();
     this.stopLoader(this.datatableLoaderPrefix);
   }
 
-  private assignGlobalSeeker(): void {
+  /*private assignGlobalSeeker(): void {
     this._state.subscribe('seeker', (text: string) => {
       const refKey = { value: `%${text}%`, matchMode: 'like' } as FilterMetadata;
       this.applyFilters({ ref_num: refKey });
     });
-  }
+  }*/
 
   private loadDatatable(): void {
     this.translateService.get('Yes').subscribe(() => {
@@ -117,9 +117,7 @@ export class CaseDatatableComponent extends LoadingComponent implements OnInit {
       ];
 
       this.datatableConfig = DatatableConfig.factory({
-        dataProvider: (filters: Object) => {
-          return this.caseService.search(filters);
-        },
+        dataProvider: this.caseService,
         cols,
         refreshTitle: this.translateService.instant('Refresh'),
         captionPanelActions: [
@@ -159,22 +157,19 @@ export class CaseDatatableComponent extends LoadingComponent implements OnInit {
                 </div>
             `),
         ],
-        filters: [], // this.getFilters(),
-        filterActions: [],
-        // todo sorting by this table is harder than that, I need to think more how to implement it
-        // sort: true,
+        showColumnFilters: true,
+        filters: new RequestBuilder([
+          new FilterRequestField('patientName', null, '%like%', 'text'),
+          new FilterRequestField('refNum', null, 'like%', 'text'),
+          new FilterRequestField('assistantRefNum', null, 'like%', 'text'),
+          new FilterRequestField('createdAt', null, 'eq', 'rangeDate'),
+          new FilterRequestField('status', null, 'eq', 'select', this.accidentStatusProvider),
+        ]),
+        sortBy: new RequestBuilder([
+          new SortRequestField('patientName'),
+          new SortRequestField('refNum'),
+        ]),
       });
     });
-  }
-
-  protected applyFilters(filters: Object): void {
-    this.datatableConfig = this.datatableComponent.getConfig();
-    this.filter.refNum = filters.hasOwnProperty('refNum') ? filters['refNum'] : '';
-    this.datatableConfig.update( 'filters', { filters } );
-    this.datatableComponent.refresh();
-  }
-
-  onFilter(filter: CaseDatatableFilter): void {
-    // console.log('filter', filter)
   }
 }

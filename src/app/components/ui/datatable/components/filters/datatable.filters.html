@@ -14,22 +14,13 @@
   ~ Copyright (c) 2020 (original work) MedCenter24.com;
   -->
 
-<ba-card class="col-lg-7" *ngIf="filter">
-  <div class="row mb-3">
-    <div class="col-md-4">
-      <div class="row mb-2">
-        <div class="col-5">
-          <label for="refNumFilter" translate>Ref. Number</label>
-        </div>
-        <div class="col-7">
-          <input id="refNumFilter" pInputText type="text" class="form-control" [(ngModel)]="filter.refNum">
-        </div>
-      </div>
-      <div class="row mb-2">
-        <div class="col-5">
-          <button pButton (click)="onFilter()" class="ui-button-success" type="button" label="{{ 'Find' | translate }}"></button>
-        </div>
-      </div>
-    </div>
+<div class="datatable-filters-container">
+  <div *ngIf="currentFilter">
+    <input type="text" *ngIf="currentFilter.isTextType()" class="filter filter-input"
+           (input)="fillFilter($event.target.value)">
+    <!--<div class="ui-inputgroup" *ngIf="currentFilter.isTextType()">
+
+      <button pButton type="button" icon="pi pi-refresh" class="ui-button-warn"></button>
+    </div>-->
   </div>
-</ba-card>
+</div>

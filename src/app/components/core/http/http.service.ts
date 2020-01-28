@@ -76,6 +76,7 @@ export abstract class HttpService {
    * @returns {Promise<any>}
    */
   search (filters: Object): Promise<any> {
+    filters = {}; // todo remove mock
     return this.http.post(this.getUrl('search'), JSON.stringify(filters), { headers: this.getAuthHeaders() })
       .toPromise()
       .then(response => {

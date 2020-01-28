@@ -26,6 +26,7 @@ import { LoadingComponent } from '../../core/components/componentLoader';
 import { ObjectHelper } from '../../../helpers/object.helper';
 import { LoadableServiceInterface } from '../../core/loadable';
 import { FilterMetadata } from 'primeng/components/common/filtermetadata';
+import { DatatableRequestBuilder } from '../datatable/request/datatable.request.builder';
 
 export abstract class AbstractDatatableController extends LoadingComponent implements OnInit {
   displayDialog: boolean;
@@ -44,6 +45,10 @@ export abstract class AbstractDatatableController extends LoadingComponent imple
   abstract getActions(): DatatableAction[];
   abstract getSortBy(): string;
   abstract getEmptyModel(): Object;
+
+  getRequestBuilder(): DatatableRequestBuilder {
+    return new DatatableRequestBuilder();
+  }
 
   getFilters(): { [s: string]: FilterMetadata } {
     return {};
@@ -75,6 +80,7 @@ export abstract class AbstractDatatableController extends LoadingComponent imple
         sortBy: this.getSortBy(),
         transformers: this.getTransformers(),
         filters: this.getFilters(), // default filters
+        requestBuilder: this.getRequestBuilder(),
       });
     });
   }

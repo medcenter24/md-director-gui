@@ -23,9 +23,7 @@ import { DoctorAccident } from '../doctorAccident/doctorAccident';
 import { HospitalAccident } from '../hospitalAccident/hospitalAccident';
 import { Diagnostic } from '../diagnostic/diagnostic';
 import { HttpService } from '../core/http/http.service';
-// import { ExtendCaseAccident } from './extendCaseAccident';
 import { Document } from '../document/document';
-// import { CaseAccident } from './case';
 import { AccidentCheckpoint } from '../accident/components/checkpoint/checkpoint';
 import { AccidentScenario } from '../accident/components/scenario/scenario';
 import { Survey } from '../survey/survey';
@@ -40,12 +38,6 @@ export class CasesService extends HttpService {
     return 'director/cases';
   }
 
-  // todo check if I'm using it
-  /*getExtendedCase(id: number): Promise<ExtendCaseAccident[]> {
-    return this.get()
-      .then(response => response.data as ExtendCaseAccident[]);
-  }*/
-
   getDocumentsUrl(id): string {
     return `${this.getUrl()}/${id}/documents`;
   }
@@ -54,11 +46,6 @@ export class CasesService extends HttpService {
     return this.get(`${id}/documents`)
       .then(response => response.data as Document[]);
   }
-
-  // todo delete, seems that not used
-  /*getCases(params): Promise<any> {
-    return this.get(null, params).then(response => response as CaseAccident[]);
-  }*/
 
   getCaseServices(id: number): Promise<Service[]> {
     return this.get(`${id}/services`).then(response => response.data as Service[]);

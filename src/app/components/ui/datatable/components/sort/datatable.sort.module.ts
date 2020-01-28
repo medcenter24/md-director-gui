@@ -14,7 +14,21 @@
  * Copyright (c) 2020 (original work) MedCenter24.com;
  */
 
-export class CaseFilterTransformer {
-  toFilter(val): void {}
-  toQuery(val): void {}
+import { NgModule } from '@angular/core';
+import { DatatableSortComponent } from './datatable.sort.component';
+import { UiSortIconModule } from '../../../sort/components/icon';
+
+@NgModule( {
+  imports: [
+    UiSortIconModule,
+  ],
+  declarations: [
+    DatatableSortComponent,
+  ],
+  exports: [
+    DatatableSortComponent,
+  ],
+})
+export class DatatableSortModule {
+
 }

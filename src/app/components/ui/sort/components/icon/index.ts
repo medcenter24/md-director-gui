@@ -14,22 +14,5 @@
  * Copyright (c) 2020 (original work) MedCenter24.com;
  */
 
-import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { LoadableComponent } from '../../../core/components/componentLoader';
-import { CaseDatatableFilter } from './case.datatable.filter';
-
-@Component({
-  selector: 'nga-case-filter',
-  templateUrl: './case.filter.html',
-})
-export class CaseFilterComponent extends LoadableComponent {
-
-  protected componentName: string = 'CaseFilterComponent';
-
-  @Output() protected runFilter: EventEmitter<CaseDatatableFilter> = new EventEmitter<CaseDatatableFilter>();
-  @Input() filter: CaseDatatableFilter;
-
-  onFilter(): void {
-    this.runFilter.emit(this.filter);
-  }
-}
+export * from './ui.sort.icon.component';
+export * from './ui.sort.icon.module';

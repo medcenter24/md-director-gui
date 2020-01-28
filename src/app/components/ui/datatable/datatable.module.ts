@@ -21,6 +21,9 @@ import { AppTranslationModule } from '../../../app.translation.module';
 import { TableModule } from 'primeng/table';
 import { ButtonModule } from 'primeng/button';
 import { DatatableComponent } from './datatable.component';
+import { UiSortIconModule } from '../sort/components/icon';
+import { DatatableSortModule } from './components/sort';
+import { DatatableFiltersModule } from './components/filters';
 
 @NgModule({
   imports: [
@@ -28,6 +31,9 @@ import { DatatableComponent } from './datatable.component';
     AppTranslationModule,
     TableModule,
     ButtonModule,
+    UiSortIconModule,
+    DatatableSortModule,
+    DatatableFiltersModule,
   ],
   declarations: [
     DatatableComponent,
