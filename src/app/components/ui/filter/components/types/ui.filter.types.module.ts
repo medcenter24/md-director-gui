@@ -18,11 +18,19 @@ import { NgModule } from '@angular/core';
 import { InputTextModule } from 'primeng/inputtext';
 import { CommonModule } from '@angular/common';
 import { UiFilterTypesComponent } from './ui.filter.types.component';
+import { TranslateModule } from '@ngx-translate/core';
+import { ButtonModule } from 'primeng/button';
+import { FormsModule } from '@angular/forms';
+import { UiDatePickerModule } from '../../../date/picker';
 
 @NgModule({
   imports: [
     InputTextModule,
     CommonModule,
+    TranslateModule,
+    ButtonModule,
+    FormsModule,
+    UiDatePickerModule,
   ],
   exports: [
     UiFilterTypesComponent,

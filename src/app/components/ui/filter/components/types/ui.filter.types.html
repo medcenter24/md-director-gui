@@ -15,6 +15,12 @@
   -->
 
 <div class="filter-component">
-  <input pInputText *ngIf="type === 'text'">
-  asdf
+  <span *ngIf="isUndefined()" class="text-warning" translate>Undefined</span>
+
+  <div *ngIf="isText()" class="ui-inputgroup">
+    <input type="text" pInputText [(ngModel)]="value" placeholder="Keyword">
+    <button pButton type="button" icon="pi pi-search" class="ui-button-warn" (click)="onSearch(value)"></button>
+  </div>
+
+  <nga-ui-date-picker [value]="value" [config]="datePickerConfig" *ngIf="isDateRange()" (changed)="onSearch($event)"></nga-ui-date-picker>
 </div>

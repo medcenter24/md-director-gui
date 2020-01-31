@@ -15,46 +15,36 @@
  */
 
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { SortRequestField } from '../../../../core/http/request/fields';
-import { RequestBuilder } from '../../../../core/http/request';
 
 @Component( {
-  selector: 'nga-sort',
-  template: `<span *ngIf="visible()" class="c-pointer" [ngClass]="directionClass" (click)="sort()"></span>`,
+  selector: 'nga-ui-sort-icon',
+  template: `
+    <span
+      class="c-pointer"
+      [ngClass]="directionClass"
+      (click)="onClick()"
+    ></span>`,
 })
-export class UiSortIconComponent implements OnInit {
+export class UiSortIconComponent {
 
-  @Input() status: RequestBuilder;
   @Input() fieldName: string = '';
+  @Input() set state(icon: string) {
+    this.setIcon(icon);
+  }
 
-  @Output() sorted: EventEmitter<RequestBuilder> = new EventEmitter<RequestBuilder>();
+  @Output() click: EventEmitter<null> = new EventEmitter<null>();
+
+  private currentIcon: string = '';
 
   directionClass: string = 'fa fa-spinner fa-spin';
-  uiSort: SortRequestField;
 
-  ngOnInit (): void {
-    this.initUiSort();
-    this.setIcon();
+  onClick(): void {
+    this.click.emit();
   }
 
-  visible(): boolean {
-    return this.status.hasField(this.fieldName);
-  }
-
-  sort(): void {
-    this.nextState();
-    this.setIcon();
-    this.sorted.emit(this.status);
-  }
-
-  initUiSort(): void {
-    this.uiSort = this.status.hasField( this.fieldName )
-      ? <SortRequestField>this.status.getRequestField( this.fieldName )
-      : null;
-  }
-
-  private setIcon(): void {
-    switch (this.uiSort && this.uiSort.getValue()) {
+  private setIcon(icon: string): void {
+    this.currentIcon = icon;
+    switch (this.currentIcon) {
       case 'asc':
         this.directionClass = 'fa fa-sort-amount-asc';
         break;
@@ -63,11 +53,8 @@ export class UiSortIconComponent implements OnInit {
         break;
       case 'none':
       default:
+        this.currentIcon = 'none';
         this.directionClass = 'fa fa-sort';
     }
-  }
-
-  private nextState(): void {
-    this.uiSort.moveNext();
   }
 }

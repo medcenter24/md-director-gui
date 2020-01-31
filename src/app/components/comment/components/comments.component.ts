@@ -47,7 +47,7 @@ export class CommentsComponent extends LoadableComponent {
   }
 
   applyComment(comment: Commentary) {
-    comment.created_at = this.dateHelper.toEuropeFormatWithTime(comment.created_at);
+    comment.created_at = DateHelper.toEuropeFormatWithTime(comment.created_at);
     this.comments.push(comment);
   }
 }

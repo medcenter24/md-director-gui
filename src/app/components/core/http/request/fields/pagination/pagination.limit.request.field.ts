@@ -23,6 +23,7 @@ export class PaginationLimitRequestField extends RequestField {
 
   constructor (
     public value: string = '',
+    public defaultValue: number = 25,
   ) {
     super(PaginationLimitRequestField.FIELD_NAME, value);
   }
@@ -34,6 +35,11 @@ export class PaginationLimitRequestField extends RequestField {
   setValue ( val: string ): void {
     const nVal = +val;
     super.setValue( `${nVal}` );
+  }
+
+  getValue (): string {
+    const value = super.getValue();
+    return value ? value : `${this.defaultValue}`;
   }
 
   toUrl(): string {

@@ -17,20 +17,20 @@
 import { DatatableAction } from './datatable.action';
 import { DatatableCol } from './datatable.col';
 import { DatatableTransformer } from './datatable.transformer';
-import { FilterMetadata } from 'primeng/components/common/filtermetadata';
-import { SortEvent } from 'primeng/api';
-import { HttpService } from '../../../core/http/http.service';
 import { DatatableRequestBuilder } from '../request/datatable.request.builder';
+import { DatatableDataProvider } from './datatable.data.provider';
 
 export class DatatableConfig {
 
   constructor (
-    public dataProvider: HttpService = null,
+    /**
+     * dataProvider it is HttpService or any service that has search() method
+     * to get the data
+     */
+    public dataProvider: DatatableDataProvider = null,
     public requestBuilder: DatatableRequestBuilder = null,
     public lazy: boolean = true,
     public paginator: boolean = true,
-    public rows: number = 25,
-    public offset: number = 0,
     public selectionMode: string = 'single',
     public controlPanel: boolean = false,
     public controlPanelActions: DatatableAction[] = null,
@@ -46,15 +46,6 @@ export class DatatableConfig {
     public showTotal: boolean = true,
     public refreshBtnTitle: string = 'Refresh',
     public showRefreshBtn: boolean = true,
-    /**
-     * List of columns to be sorted by
-     */
-    public sortBy: SortEvent[] = null,
-    /**
-     * { [s: string]: FilterMetadata } filtering of the data
-     * @type {null|{ [s: string]: FilterMetadata }}
-     */
-    public filters: { [s: string]: FilterMetadata } = null,
     /**
      * to Show filters next to the head column
      * @type boolean
@@ -82,5 +73,9 @@ export class DatatableConfig {
 
   get(key: string): any {
     return this[key];
+  }
+
+  getDatatableRequestBuilder(): DatatableRequestBuilder {
+    return this.get('requestBuilder');
   }
 }

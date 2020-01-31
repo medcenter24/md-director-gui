@@ -15,22 +15,28 @@
  */
 
 import { NgModule } from '@angular/core';
-import { DatatableSortComponent } from './datatable.sort.component';
-import { UiSortIconModule } from '../../../sort/components/icon';
+import { Ng2FlatpickrModule } from 'ng2-flatpickr';
+import { UiDatePickerComponent } from './ui.date.picker.component';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { InputTextModule } from 'primeng/inputtext';
+import { ButtonModule } from 'primeng/button';
 
-@NgModule( {
+@NgModule({
   imports: [
-    UiSortIconModule,
+    Ng2FlatpickrModule,
     CommonModule,
+    FormsModule,
+    InputTextModule,
+    ButtonModule,
   ],
   declarations: [
-    DatatableSortComponent,
+    UiDatePickerComponent,
   ],
   exports: [
-    DatatableSortComponent,
+    UiDatePickerComponent,
   ],
 })
-export class DatatableSortModule {
+export class UiDatePickerModule {
 
 }

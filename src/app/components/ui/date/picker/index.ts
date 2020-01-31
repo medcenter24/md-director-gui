@@ -14,23 +14,5 @@
  * Copyright (c) 2020 (original work) MedCenter24.com;
  */
 
-import { NgModule } from '@angular/core';
-import { DatatableSortComponent } from './datatable.sort.component';
-import { UiSortIconModule } from '../../../sort/components/icon';
-import { CommonModule } from '@angular/common';
-
-@NgModule( {
-  imports: [
-    UiSortIconModule,
-    CommonModule,
-  ],
-  declarations: [
-    DatatableSortComponent,
-  ],
-  exports: [
-    DatatableSortComponent,
-  ],
-})
-export class DatatableSortModule {
-
-}
+export * from './ui.date.picker.component';
+export * from './ui.date.picker.module';

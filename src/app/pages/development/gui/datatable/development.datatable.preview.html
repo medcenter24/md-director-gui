@@ -18,4 +18,7 @@
   #datatableComponentView
   *ngIf="langLoaded"
   [config]="datatableConfig"
+  (sorted)="onSort()"
+  (filtered)="onFilter()"
+  (pagination)="onPaginate()"
 ></nga-datatable>

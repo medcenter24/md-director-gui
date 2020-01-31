@@ -21,9 +21,9 @@
   [value]="data"
   [lazy]="getConfig().get('lazy')"
   (onLazyLoad)="loadLazy($event)"
-  (onPage)="onPageChanged($event)"
+  (onPage)="onPageChange($event)"
   [paginator]="getConfig().get('paginator')"
-  [rows]="getConfig().get('rows')"
+  [rows]="paginationService.getLimit()"
   [totalRecords]="total"
   [loading]="loading"
   (onRowSelect)="onRowSelect($event)"
@@ -78,22 +78,22 @@
         {{col.header}}
         <!-- Data sorting by the field -->
         <nga-datatable-sort
-          [field]="col.field"
-          [config]="getConfig()"
-          (sorted)="sort($event)"
+          [fieldName]="col.field"
+          [sortRequestBuilder]="getConfig().getDatatableRequestBuilder().getSorter()"
+          (changed)="onSorted()"
         ></nga-datatable-sort>
       </th>
     </tr>
     <tr
-      *ngIf="getConfig().get('filters') && getConfig().get('showColumnFilters')"
+      *ngIf="getConfig().get('showColumnFilters')"
     >
       <th
         *ngFor="let col of columns"
       >
         <nga-datatable-filter
-          [field]="col.field"
-          [config]="getConfig()"
-          (changed)="filter($event)"
+          [fieldName]="col.field"
+          [filterRequestBuilder]="getConfig().getDatatableRequestBuilder().getFilter()"
+          (changed)="onFilter()"
         ></nga-datatable-filter>
       </th>
     </tr>

@@ -57,7 +57,6 @@ export class PatientDatatableComponent extends LoadingComponent implements OnIni
     protected loadingBar: SlimLoadingBarService,
     private translateService: TranslateService,
     private patientService: PatientsService,
-    private dateHelper: DateHelper,
   ) {
     super();
   }
@@ -85,7 +84,7 @@ export class PatientDatatableComponent extends LoadingComponent implements OnIni
           }),
         ],
         transformers: [
-          new DatatableTransformer('birthday', val => this.dateHelper.toEuropeFormat(val)),
+          new DatatableTransformer('birthday', val => DateHelper.toEuropeFormat(val)),
         ],
         onRowSelect: event => {
           this.onRowSelect(event);

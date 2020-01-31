@@ -63,7 +63,6 @@ export class CaseDatatableComponent extends LoadingComponent implements OnInit {
     private translateService: TranslateService,
     private router: Router,
     private exporterService: ExporterService,
-    private dateHelper: DateHelper,
     private extensionsService: ExtensionsService,
     protected _state: GlobalState,
     protected loadingBar: SlimLoadingBarService,
@@ -146,7 +145,7 @@ export class CaseDatatableComponent extends LoadingComponent implements OnInit {
           this.router.navigate(['pages/cases/', event.data.id]).then();
         },
         transformers: [
-          new DatatableTransformer('createdAt', val => this.dateHelper.toEuropeFormatWithTime(val)),
+          new DatatableTransformer('createdAt', val => DateHelper.toEuropeFormatWithTime(val)),
           new DatatableTransformer('caseType', val => `
                 <div>
                     <div class="circle-icon m-auto ${val === 'medcenter24\\mcCore\\App\\DoctorAccident'

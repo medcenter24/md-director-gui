@@ -15,42 +15,42 @@
  */
 
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { DatatableConfig } from '../../entities/datatable.config';
-import { RequestBuilder } from '../../../../core/http/request/request.builder';
+import { RequestBuilder } from '../../../../core/http/request';
+import { SortRequestField } from '../../../../core/http/request/fields';
 
 @Component({
   selector: 'nga-datatable-sort',
-  template: `<nga-sort
-      [fieldName]="field"
-      [status]="config.get('sortBy')"
-      (sorted)="sort($event)"
-    ></nga-sort>`,
+  template: `
+    <nga-ui-sort-icon
+      *ngIf="isSortable"
+      [fieldName]="fieldName"
+      [state]="sortState"
+      (click)="onClick()"
+    ></nga-ui-sort-icon>`,
 })
 export class DatatableSortComponent implements OnInit {
 
-  @Input() field: string;
-  @Input() config: DatatableConfig;
+  @Input() fieldName: string;
+  @Input() sortRequestBuilder: RequestBuilder;
 
-  @Output() sorted: EventEmitter<RequestBuilder> = new EventEmitter<RequestBuilder>();
+  @Output() changed: EventEmitter<SortRequestField> = new EventEmitter<SortRequestField>();
 
-  private sortStatus: RequestBuilder;
+  sortState: string = '';
+  private sortRequestField: SortRequestField;
+
+  isSortable: boolean = false;
 
   ngOnInit (): void {
-    this.sortStatus = this.config.get('sortBy');
-    this.updateFromUri();
+    this.isSortable = this.sortRequestBuilder.hasField( this.fieldName );
+    this.sortRequestField = this.isSortable
+      ? <SortRequestField>this.sortRequestBuilder.getRequestField( this.fieldName )
+      : null;
+    this.sortState = this.isSortable ? this.sortRequestField.getValue() : '';
   }
 
-  // todo we need to run this sorting in order, what was pressed firstly
-  sort(sortStatus: RequestBuilder): void {
-    this.changeUri();
-    this.sorted.emit(sortStatus);
-  }
-
-  private changeUri(): void {
-    // todo
-  }
-
-  private updateFromUri(): void {
-    // todo
+  onClick(): void {
+    this.sortRequestField = this.sortRequestField.moveNext();
+    this.sortState = this.sortRequestField.getValue();
+    this.changed.emit(this.sortRequestField);
   }
 }

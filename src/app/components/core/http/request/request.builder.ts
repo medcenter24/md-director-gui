@@ -24,6 +24,10 @@ export class RequestBuilder {
   ) {
   }
 
+  getFields(): RequestField[] {
+    return this.fields;
+  }
+
   hasField(name: string): boolean {
     return !!this.getRequestField( name );
   }
@@ -46,7 +50,7 @@ export class RequestBuilder {
   }
 
   getRequestField( name: string): RequestField {
-    const res = this.fields.filter((rf: RequestField) => rf.getField() === name);
+    const res = this.fields.filter((rf: RequestField) => rf.getField() === `${rf.getFieldPrefix()}${name}`);
     return res.length ? res.pop() : null;
   }
 

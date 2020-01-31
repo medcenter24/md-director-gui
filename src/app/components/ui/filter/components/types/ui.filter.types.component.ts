@@ -14,12 +14,46 @@
  * Copyright (c) 2020 (original work) MedCenter24.com;
  */
 
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 @Component({
   selector: 'nga-ui-filter',
   templateUrl: './ui.filter.types.html',
 })
 export class UiFilterTypesComponent {
-  type: string;
+
+  @Input() type: string;
+  @Input() value: string;
+
+  @Output() changed: EventEmitter<string> = new EventEmitter<string>();
+
+  static TYPE_TEXT = 'text';
+  static TYPE_DATE_RANGE = 'dateRange';
+
+  datePickerConfig: Object = {
+    mode: 'range',
+  };
+
+  onChange(newVal: string): void {
+    this.changed.emit(newVal);
+  }
+
+  isText(): boolean {
+    return this.type === UiFilterTypesComponent.TYPE_TEXT;
+  }
+
+  isDateRange(): boolean {
+    return this.type === UiFilterTypesComponent.TYPE_DATE_RANGE;
+  }
+
+  isUndefined(): boolean {
+    return ![
+      UiFilterTypesComponent.TYPE_TEXT,
+      UiFilterTypesComponent.TYPE_DATE_RANGE,
+    ].includes(this.type);
+  }
+
+  onSearch(val: string): void {
+    this.changed.emit(val);
+  }
 }

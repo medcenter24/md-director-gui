@@ -29,6 +29,8 @@ export class FilterRequestField extends RequestField {
     'lte', // <=
     'gt', // >
     'gte', // >=
+    'in', // in ('val1', 'val2')
+    'between', // between val1 and val2
   ];
 
   static DEFAULT_MATCH = 'eq';
@@ -46,7 +48,7 @@ export class FilterRequestField extends RequestField {
 
   constructor (
     public field: string,
-    public value: string = null,
+    public value: string = '',
     public match: string = 'eq',
     public elType: string = 'text', // type of filtering @see getType() method
     public dataProvider: HttpService = null, // for elType select or multipleSelect
@@ -65,10 +67,6 @@ export class FilterRequestField extends RequestField {
 
   getElType(): string {
     return FilterRequestField.EL_TYPES.includes(this.elType) ? this.elType : FilterRequestField.DEFAULT_EL_TYPE;
-  }
-
-  isTextType(): boolean {
-    return this.getElType() === 'text';
   }
 
   isActive (): boolean {

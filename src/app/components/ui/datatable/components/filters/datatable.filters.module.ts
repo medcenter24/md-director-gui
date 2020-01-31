@@ -19,12 +19,14 @@ import { DatatableFiltersComponent } from './datatable.filters.component';
 import { CommonModule } from '@angular/common';
 import { InputTextModule } from 'primeng/inputtext';
 import { ButtonModule } from 'primeng/button';
+import { UiFilterTypeModule } from '../../../filter/components/types';
 
 @NgModule( {
   imports: [
     CommonModule,
     InputTextModule,
-    ButtonModule
+    ButtonModule,
+    UiFilterTypeModule
   ],
   declarations: [
     DatatableFiltersComponent,

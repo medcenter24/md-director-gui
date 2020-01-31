@@ -14,102 +14,48 @@
  * Copyright (c) 2020 (original work) MedCenter24.com;
  */
 
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { UrlHelper } from '../../../../../helpers/url.helper';
-import { Location } from '@angular/common';
-import { DatatableConfig } from '../../entities';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { RequestBuilder } from '../../../../core/http/request';
 import { FilterRequestField } from '../../../../core/http/request/fields';
 
 @Component({
   selector: 'nga-datatable-filter',
-  templateUrl: './datatable.filters.html',
+  template: `
+    <nga-ui-filter
+      *ngIf="isFilterable"
+      [type]="fieldType"
+      [value]="fieldValue"
+      (changed)="onChange($event)"
+    ></nga-ui-filter>
+  `,
   styleUrls: ['./datatable.filters.scss'],
 })
-export class DatatableFiltersComponent implements OnInit {
+export class DatatableFiltersComponent {
   /**
    * ID of the filter
    */
-  @Input() field: string;
-
-  private datatableConfig: DatatableConfig;
-
-  /**
-   * Datatable configuration
-   * @param config
-   */
-  @Input() set config(config: DatatableConfig) {
-
-    if (!config) {
-      throw new Error('Configuration is not set');
-    } else {
-      this.datatableConfig = config;
+  @Input() fieldName: string;
+  @Input() set filterRequestBuilder (rb: RequestBuilder) {
+    this.isFilterable = rb.hasField( this.fieldName );
+    if (this.isFilterable) {
+      this.filterRequestField = <FilterRequestField>rb.getRequestField( this.fieldName );
+      this.fieldType = this.filterRequestField.getElType();
+      this.fieldValue = this.filterRequestField.getValue();
     }
-
-    // filters
-    this.updateFromUri();
   }
 
   /**
    * emit when needs to be filtered
    */
-  @Output() changed: EventEmitter<RequestBuilder> = new EventEmitter<RequestBuilder>();
+  @Output() changed: EventEmitter<void> = new EventEmitter<void>();
 
-  /**
-   * All filters for current search process
-   */
-  private filtersStatus: RequestBuilder;
-  /**
-   * Current Filter Object
-   */
-  protected currentFilter: FilterRequestField;
-  /**
-   * Entered or selected value
-   */
-  private searchString: string = '';
+  fieldType: string = '';
+  fieldValue: string = '';
+  isFilterable: boolean = false;
+  private filterRequestField: FilterRequestField;
 
-  constructor (
-    private location: Location,
-  ) {
-  }
-
-  ngOnInit (): void {
-    this.filtersStatus = this.datatableConfig.get('filters');
-    this.currentFilter = <FilterRequestField>this.filtersStatus.getRequestField(this.field);
-    console.log(this.currentFilter)
-    this.updateFromUri();
-  }
-
-  private changeUri(): void {
-    // todo
-  }
-
-  private updateFromUri(): void {
-    const queryFilters = UrlHelper.get(this.getCurrentUrl(), 'filters', '');
-    console.log(queryFilters);
-    /*const queryFiltersKeys = Object.keys(queryFilters);
-    if (queryFiltersKeys.length) {
-      const _filters = {};
-      queryFiltersKeys.forEach(k => {
-        _filters[k] = { value: queryFilters[k]['value'], matchMode: queryFilters[k]['matchMode'] } as FilterMetadata;
-      });
-      this.datatableConfig.update('filters', _filters);
-    }*/
-  }
-
-  private getCurrentUrl(): string {
-    return this.location.path(true);
-  }
-
-  private updateFromConfig(): void {
-    const filters = this.datatableConfig.get('filters');
-    let location = this.getCurrentUrl();
-    const _filters = filters && Object.keys(filters).length ? encodeURIComponent(`${JSON.stringify(filters)}`) : '';
-    location = UrlHelper.replaceOrAdd(location, 'filters', _filters);
-    this.location.replaceState(location);
-  }
-
-  fillFilter(val: string): void {
-    this.searchString = val;
+  onChange(newVal: string): void {
+    this.filterRequestField.setValue(newVal);
+    this.changed.emit();
   }
 }

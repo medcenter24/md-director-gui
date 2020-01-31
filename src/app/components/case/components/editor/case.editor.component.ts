@@ -145,7 +145,6 @@ export class CaseEditorComponent extends LoadingComponent implements OnInit {
                private caseService: CasesService,
                public doctorService: DoctorsService,
                private router: Router,
-               private dateHelper: DateHelper,
                private patientService: PatientsService,
                private tabStopper: CaseEditorTabsService,
                public assistantService: AssistantsService,
@@ -210,19 +209,19 @@ export class CaseEditorComponent extends LoadingComponent implements OnInit {
             this.showToolbox();
             this.accident = accident ? accident : new Accident();
             if (this.accident.handlingTime && this.accident.handlingTime.length) {
-              this.handlingTime = this.dateHelper.toEuropeFormatWithTime(this.accident.handlingTime);
+              this.handlingTime = DateHelper.toEuropeFormatWithTime(this.accident.handlingTime);
             }
             if (this.accident.createdAt.length) {
-              this.createdTime = this.dateHelper.toEuropeFormatWithTime(this.accident.createdAt);
+              this.createdTime = DateHelper.toEuropeFormatWithTime(this.accident.createdAt);
             }
             if (this.accident.updatedAt && this.accident.updatedAt.length) {
-              this.updatedTime = this.dateHelper.toEuropeFormatWithTime(this.accident.updatedAt);
+              this.updatedTime = DateHelper.toEuropeFormatWithTime(this.accident.updatedAt);
             }
             if (this.accident.deletedAt && this.accident.deletedAt.length) {
-              this.deletedTime = this.dateHelper.toEuropeFormatWithTime(this.accident.deletedAt);
+              this.deletedTime = DateHelper.toEuropeFormatWithTime(this.accident.deletedAt);
             }
             if (this.accident.closedAt && this.accident.closedAt.length) {
-              this.closedTime = this.dateHelper.toEuropeFormatWithTime(this.accident.closedAt);
+              this.closedTime = DateHelper.toEuropeFormatWithTime(this.accident.closedAt);
             }
             if (this.accident.assistantId) {
               this.assistantAutocompleter.selectItems(this.accident.assistantId);
@@ -255,7 +254,7 @@ export class CaseEditorComponent extends LoadingComponent implements OnInit {
             }
           });
         } else {
-          this.handlingTime = this.dateHelper.toEuropeFormatWithTime(Date().toString());
+          this.handlingTime = DateHelper.toEuropeFormatWithTime(Date().toString());
           setTimeout(() => {
             this._state.notifyDataChanged('menu.activeLink', { title: 'Cases' });
           }, 100);
@@ -333,11 +332,11 @@ export class CaseEditorComponent extends LoadingComponent implements OnInit {
 
   onSave(): void {
     this.accident.handlingTime = this.handlingTime && this.handlingTime.length
-      ? this.dateHelper.getUnixDateWithTime(this.dateHelper.parseDateFromFormat(this.handlingTime))
+      ? DateHelper.getUnixDateWithTime(DateHelper.parseDateFromFormat(this.handlingTime))
       : '';
 
     this.doctorAccident.visitTime = this.appliedTime && this.appliedTime.length
-      ? this.dateHelper.getUnixDateWithTime(this.dateHelper.parseDateFromFormat(this.appliedTime))
+      ? DateHelper.getUnixDateWithTime(DateHelper.parseDateFromFormat(this.appliedTime))
       : '';
 
     const data = {
@@ -615,7 +614,7 @@ export class CaseEditorComponent extends LoadingComponent implements OnInit {
           this.doctorAutocompleter.selectItems(+this.doctorAccident.doctorId);
         }
         if (doctorAccident.visitTime) {
-          this.appliedTime = this.dateHelper.toEuropeFormatWithTime(doctorAccident.visitTime);
+          this.appliedTime = DateHelper.toEuropeFormatWithTime(doctorAccident.visitTime);
         }
         this.stopLoader(postfix);
       }).catch(err => {

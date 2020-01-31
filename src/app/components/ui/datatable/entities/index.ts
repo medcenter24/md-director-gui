@@ -19,3 +19,5 @@ export * from './datatable.col';
 export * from './datatable.config';
 export * from './datatable.response';
 export * from './datatable.transformer';
+export * from '../services/datatable.pagination.service';
+export * from './datatable.data.provider';

@@ -136,7 +136,8 @@ export class DiagnosticDatatableComponent extends AbstractDatatableController {
           // hide hidden
           st += ' ui-button-success';
         }
-        this.applyFilters(filters);
+        // todo replace it with new filtering model
+        // this.applyFilters(filters);
         btnEl.className = st;
       }),
     ];

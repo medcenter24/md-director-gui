@@ -26,18 +26,33 @@ import {
 
 export class DatatableRequestBuilder {
   constructor (
-    public sorter: RequestBuilder = null,
-    public filter: RequestBuilder = null,
-    public paginator: RequestBuilder = null,
+    public sorter: RequestBuilder = new RequestBuilder(),
+    public filter: RequestBuilder = new RequestBuilder(),
+    public paginator: RequestBuilder = new RequestBuilder([
+      new PaginationOffsetRequestField(),
+      new PaginationLimitRequestField(),
+    ]),
   ) {
+  }
+
+  getPaginator(): RequestBuilder {
+    return this.paginator;
   }
 
   setPaginator(builder: RequestBuilder): void {
     this.paginator = builder;
   }
 
+  getFilter(): RequestBuilder {
+    return this.filter;
+  }
+
   setFilter(builder: RequestBuilder): void {
     this.filter = builder;
+  }
+
+  getSorter(): RequestBuilder {
+    return this.sorter;
   }
 
   setSorter(builder: RequestBuilder): void {
@@ -73,7 +88,6 @@ export class DatatableRequestBuilder {
           paginators.push(new PaginationLimitRequestField(obj[key]));
         } else if (key.startsWith(PaginationOffsetRequestField.FIELD_PREFIX)) {
           paginators.push(new PaginationOffsetRequestField(obj[key]));
-
         }
       });
     });

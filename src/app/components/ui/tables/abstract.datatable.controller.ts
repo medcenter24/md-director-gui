@@ -25,8 +25,8 @@ import { TranslateService } from '@ngx-translate/core';
 import { LoadingComponent } from '../../core/components/componentLoader';
 import { ObjectHelper } from '../../../helpers/object.helper';
 import { LoadableServiceInterface } from '../../core/loadable';
-import { FilterMetadata } from 'primeng/components/common/filtermetadata';
 import { DatatableRequestBuilder } from '../datatable/request/datatable.request.builder';
+import { DatatableDataProvider } from '../datatable/entities';
 
 export abstract class AbstractDatatableController extends LoadingComponent implements OnInit {
   displayDialog: boolean;
@@ -43,15 +43,12 @@ export abstract class AbstractDatatableController extends LoadingComponent imple
   abstract getService(): LoadableServiceInterface;
   abstract getColumns(): DatatableCol[];
   abstract getActions(): DatatableAction[];
-  abstract getSortBy(): string;
   abstract getEmptyModel(): Object;
+
+  private datatableDataProvider: DatatableDataProvider;
 
   getRequestBuilder(): DatatableRequestBuilder {
     return new DatatableRequestBuilder();
-  }
-
-  getFilters(): { [s: string]: FilterMetadata } {
-    return {};
   }
 
   /**
@@ -61,13 +58,21 @@ export abstract class AbstractDatatableController extends LoadingComponent imple
     return [];
   }
 
+  getDatatableDataProvider(): DatatableDataProvider {
+    if (!this.datatableDataProvider) {
+      this.datatableDataProvider = new DatatableDataProvider(
+        this.datatableConfig,
+        this.getService(),
+      );
+    }
+    return this.datatableDataProvider;
+  }
+
   ngOnInit() {
     this.getTranslateService().get('Yes').subscribe(() => {
       this.langLoaded = true;
       this.datatableConfig = DatatableConfig.factory({
-        dataProvider: (filters: any) => {
-          return this.getService().search(filters);
-        },
+        dataProvider: this.getDatatableDataProvider(),
         cols: this.getColumns(),
         refreshTitle: this.getTranslateService().instant('Refresh'),
         controlPanel: true,
@@ -77,12 +82,15 @@ export abstract class AbstractDatatableController extends LoadingComponent imple
         onRowSelect: event => {
           this.onRowSelect(event);
         },
-        sortBy: this.getSortBy(),
         transformers: this.getTransformers(),
-        filters: this.getFilters(), // default filters
         requestBuilder: this.getRequestBuilder(),
+        showColumnFilters: this.getShowColumnFilters(),
       });
     });
+  }
+
+  protected getShowColumnFilters(): boolean {
+    return false;
   }
 
   protected hasCaptionPanel(): boolean {
@@ -153,15 +161,5 @@ export abstract class AbstractDatatableController extends LoadingComponent imple
         this.getDatatableComponent().refresh();
       })
       .catch(() => this.stopLoader(postfix));
-  }
-
-  /**
-   * Change filters and reload table data
-   * @param filters
-   */
-  protected applyFilters(filters: Object): void {
-    this.datatableConfig = this.getDatatableComponent().getConfig();
-    this.datatableConfig.update( 'filters', { filters } );
-    this.getDatatableComponent().refresh();
   }
 }

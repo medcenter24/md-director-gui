@@ -29,7 +29,9 @@ import { LoadableServiceInterface } from '../../../../components/core/loadable';
 import { TranslateService } from '@ngx-translate/core';
 import { PreviewDataService } from './preview.data.service';
 import { Breadcrumb } from '../../../../theme/components/baContentTop/breadcrumb';
-import { FilterMetadata } from 'primeng/api';
+import { DatatableRequestBuilder } from '../../../../components/ui/datatable/request/datatable.request.builder';
+import { FilterRequestField, SortRequestField } from '../../../../components/core/http/request/fields';
+import { RequestBuilder } from '../../../../components/core/http/request';
 
 @Component({
   selector: 'nga-development-datatable-preview',
@@ -60,6 +62,19 @@ export class DevelopmentDatatablePreviewComponent extends AbstractDatatableContr
     return this.translateService;
   }
 
+  getRequestBuilder (): DatatableRequestBuilder {
+    const requestBuilder = super.getRequestBuilder();
+    requestBuilder.setSorter(new RequestBuilder([
+      new SortRequestField('title'),
+      new SortRequestField('icon'),
+    ]));
+    requestBuilder.setFilter(new RequestBuilder([
+      new FilterRequestField('title'),
+      new FilterRequestField('value', '', 'between', 'dateRange'),
+    ]));
+    return requestBuilder;
+  }
+
   getDatatableComponent(): DatatableComponent {
     return this.datatableComponentView;
   }
@@ -81,12 +96,13 @@ export class DevelopmentDatatablePreviewComponent extends AbstractDatatableContr
       new DatatableAction('Action', 'fa fa-plus', () => {
         this.setModel(this.getEmptyModel());
         this.displayDialog = true;
+        this._state.notifyDataChanged( 'growl', [{
+          severity: 'info',
+          summary: 'Not configured',
+          detail: 'That is the test, real action was not run',
+        }]);
       }),
     ];
-  }
-
-  getSortBy(): string {
-    return 'title';
   }
 
   getEmptyModel(): Object {
@@ -95,10 +111,14 @@ export class DevelopmentDatatablePreviewComponent extends AbstractDatatableContr
 
   getTransformers (): DatatableTransformer[] {
     const transformers = super.getTransformers();
-    transformers.push(new DatatableTransformer('icon', (val, row) => {
+    transformers.push( new DatatableTransformer( 'icon', ( val, row ) => {
       return `<span class="text-danger" >${val}, ${row.title}</span>`;
-    }));
+    } ) );
     return transformers;
+  }
+
+  protected getShowColumnFilters (): boolean {
+    return true;
   }
 
   protected hasCaptionPanel(): boolean {
@@ -108,14 +128,36 @@ export class DevelopmentDatatablePreviewComponent extends AbstractDatatableContr
   protected getCaptionActions(): DatatableAction[] {
     return [
       new DatatableAction('Action', 'fa fa-download', () => {
-      }),
-      new DatatableAction('Setup filter', 'fa fa-gears', () => {
-        const filter = { value: 'text', matchMode: 'eq' } as FilterMetadata;
-        this.applyFilters({ filter });
-      }),
-      new DatatableAction('Clean filter', 'fa fa-gears', () => {
-        this.applyFilters({});
+        this._state.notifyDataChanged( 'growl', [{
+          severity: 'info',
+          summary: 'Not configured',
+          detail: 'That is the test, real action was not run',
+        }]);
       }),
     ];
+  }
+
+  onSort(): void {
+    this._state.notifyDataChanged( 'growl', [{
+      severity: 'info',
+      summary: 'Not configured',
+      detail: 'That is the test, real sorting is not working',
+    }]);
+  }
+
+  onFilter(): void {
+    this._state.notifyDataChanged( 'growl', [{
+      severity: 'info',
+      summary: 'Not configured',
+      detail: 'That is the test, real filtering is not working',
+    }]);
+  }
+
+  onPaginate(): void {
+    this._state.notifyDataChanged( 'growl', [{
+      severity: 'info',
+      summary: 'Not configured',
+      detail: 'That is the test, real pagination is not working',
+    }]);
   }
 }
