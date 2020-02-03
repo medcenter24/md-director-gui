@@ -29,8 +29,6 @@ import {
   DatatableConfig,
   DatatableTransformer,
 } from '../../../ui/datatable';
-import { ExtensionsService } from '../../../extensions/extensions.service';
-import { LoadingComponent } from '../../../core/components/componentLoader';
 import { GlobalState } from '../../../../global.state';
 import { SlimLoadingBarService } from 'ng2-slim-loading-bar';
 import { LoggerComponent } from '../../../core/logger/LoggerComponent';
@@ -38,12 +36,18 @@ import { Breadcrumb } from '../../../../theme/components/baContentTop/breadcrumb
 import { AccidentStatusService } from '../../../accident/components/status';
 import { RequestBuilder } from '../../../core/http/request';
 import { FilterRequestField, SortRequestField } from '../../../core/http/request/fields';
+import { AbstractDatatableController } from '../../../ui/tables/abstract.datatable.controller';
+import { LoadableServiceInterface } from '../../../core/loadable';
+import { CaseAccident } from '../../case';
+import { DatatableRequestBuilder } from '../../../ui/datatable/request/datatable.request.builder';
+import { AutoCompleteSrcConfig } from '../../../ui/autosuggest/src';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'nga-case-datatable',
   templateUrl: './case.datatable.html',
 })
-export class CaseDatatableComponent extends LoadingComponent implements OnInit {
+export class CaseDatatableComponent extends AbstractDatatableController implements OnInit {
   protected componentName: string = 'CaseDatatableComponent';
 
   @ViewChild('importer')
@@ -63,112 +67,170 @@ export class CaseDatatableComponent extends LoadingComponent implements OnInit {
     private translateService: TranslateService,
     private router: Router,
     private exporterService: ExporterService,
-    private extensionsService: ExtensionsService,
     protected _state: GlobalState,
     protected loadingBar: SlimLoadingBarService,
     protected _logger: LoggerComponent,
     protected accidentStatusProvider: AccidentStatusService,
+    private location: Location,
   ) {
     super();
   }
 
-  ngOnInit() {
-    this.extensionsService.isPackageInstalled('McImport').then((state: boolean) => {
-      this.isImporterConfigured = state;
-      this.loadDatatable();
-    });
+  protected onLangLoaded () {
+    super.onLangLoaded();
+    const breadcrumbs = [];
+    breadcrumbs.push(new Breadcrumb('Cases', '/pages/cases', true));
+    this._state.notifyDataChanged('menu.activeLink', breadcrumbs);
+  }
+
+  protected getTranslateService (): TranslateService {
+    return this.translateService;
+  }
+
+  getDatatableComponent(): DatatableComponent {
+    return this.datatableComponent;
+  }
+
+  getService(): LoadableServiceInterface {
+    return this.caseService;
+  }
+
+  getColumns(): DatatableCol[] {
+    return [
+      new DatatableCol('patientName', this.translateService.instant('Patient Name')),
+      new DatatableCol('refNum', this.translateService.instant('Ref. Number')),
+      new DatatableCol('assistantRefNum', this.translateService.instant('Assistant Ref Num')),
+      new DatatableCol('createdAt', this.translateService.instant('Created At')),
+      new DatatableCol('status', this.translateService.instant('Status')),
+      // new DatatableCol('checkpoints', this.translateService.instant('Checkpoints')),
+      // new DatatableCol('doctorsFee', this.translateService.instant('Doctors Fee')),
+      new DatatableCol('price', this.translateService.instant('Income')),
+      new DatatableCol('caseType', this.translateService.instant('Case Type')),
+    ];
+  }
+
+  getEmptyModel (): Object {
+    return new CaseAccident();
   }
 
   beforeDatatableLoad(): void {
+    const breadcrumbs = [];
+    breadcrumbs.push(new Breadcrumb('Loading'));
+    this._state.notifyDataChanged('menu.activeLink', breadcrumbs);
     this.startLoader(this.datatableLoaderPrefix);
   }
 
   onDatatableLoaded(): void {
-    // this.assignGlobalSeeker();
+    const breadcrumbs = [];
+    breadcrumbs.push(new Breadcrumb('Cases', '/pages/cases', true));
+    this._state.notifyDataChanged('menu.activeLink', breadcrumbs);
     this.stopLoader(this.datatableLoaderPrefix);
   }
 
-  /*private assignGlobalSeeker(): void {
-    this._state.subscribe('seeker', (text: string) => {
-      const refKey = { value: `%${text}%`, matchMode: 'like' } as FilterMetadata;
-      this.applyFilters({ ref_num: refKey });
-    });
-  }*/
+  protected hasControlPanel (): boolean {
+    return true;
+  }
 
-  private loadDatatable(): void {
-    this.translateService.get('Yes').subscribe(() => {
-      this.langLoaded = true;
+  getActions (): DatatableAction[] {
+    return [
+      new DatatableAction(this.translateService.instant('Add'), 'fa fa-plus', () => {
+        this.router.navigate(['pages/cases/new'])
+          .then().catch();
+      }),
+    ];
+  }
 
-      const breadcrumbs = [];
-      breadcrumbs.push(new Breadcrumb('Cases', '/pages/cases', true));
-      this._state.notifyDataChanged('menu.activeLink', breadcrumbs);
+  protected onRowSelect(event): void {
+    this.router.navigate(['pages/cases/', event.data.id]).then();
+  }
 
-      const cols = [
-        new DatatableCol('patientName', this.translateService.instant('Patient Name')),
-        new DatatableCol('refNum', this.translateService.instant('Ref. Number')),
-        new DatatableCol('assistantRefNum', this.translateService.instant('Assistant Ref Num')),
-        new DatatableCol('createdAt', this.translateService.instant('Created At')),
-        new DatatableCol('status', this.translateService.instant('Status')),
-        new DatatableCol('checkpoints', this.translateService.instant('Checkpoints')),
-        new DatatableCol('doctorsFee', this.translateService.instant('Doctors Fee')),
-        new DatatableCol('price', this.translateService.instant('Income')),
-        new DatatableCol('caseType', this.translateService.instant('Case Type')),
-      ];
+  protected hasCaptionPanel (): boolean {
+    return true;
+  }
 
-      this.datatableConfig = DatatableConfig.factory({
-        dataProvider: this.caseService,
-        cols,
-        refreshTitle: this.translateService.instant('Refresh'),
-        captionPanelActions: [
-          new DatatableAction( this.translateService.instant( 'Company Case Import' ),
-            'fa fa-upload',
-            () => {
-              if (this.isImporterConfigured) {
-                this.importer.showImporter();
-              }
+  protected getCaptionActions (): DatatableAction[] {
+    const actions = [];
+    if (this.isImporterConfigured) {
+      actions.push(
+        new DatatableAction( this.translateService.instant( 'Company Case Import' ),
+          'fa fa-upload',
+          () => {
+            this.importer.showImporter();
           }, this.isImporterConfigured),
+      );
+    }
 
-          new DatatableAction(this.translateService.instant('Cases Export'), 'fa fa-download', () => {
-            this.exporterService.exportCases({});
-          }),
-        ],
-        controlPanel: true,
-        captionPanel: true,
-        csvExportAll: true,
-        controlPanelActions: [
-          new DatatableAction(this.translateService.instant('Add'), 'fa fa-plus', () => {
-            this.router.navigate(['pages/cases/new'])
-              .then().catch();
-          }),
-        ],
-        onRowSelect: event => {
-          this.router.navigate(['pages/cases/', event.data.id]).then();
-        },
-        transformers: [
-          new DatatableTransformer('createdAt', val => DateHelper.toEuropeFormatWithTime(val)),
-          new DatatableTransformer('caseType', val => `
+    actions.push(
+      new DatatableAction(this.translateService.instant('Cases Export'), 'fa fa-download', () => {
+        this.exporterService.exportCases({});
+      }),
+    );
+
+    return actions;
+  }
+
+  private getHtmlState( val: string): string {
+    const title = this.translateService.instant(val);
+    return `<span>${title}</span>`;
+  }
+
+  private static getHtmlCaseType( val: string): string {
+    return `
                 <div>
                     <div class="circle-icon m-auto ${val === 'medcenter24\\mcCore\\App\\DoctorAccident'
-            ? 'doctor' : 'hospital'}">
+      ? 'doctor' : 'hospital'}">
                         <span class="fa fa-${val === 'medcenter24\\mcCore\\App\\DoctorAccident'
-            ? 'user-md' : 'hospital-o'}"></span>
+      ? 'user-md' : 'hospital-o'}"></span>
                     </div>
                 </div>
-            `),
-        ],
-        showColumnFilters: true,
-        filters: new RequestBuilder([
-          new FilterRequestField('patientName', null, '%like%', 'text'),
-          new FilterRequestField('refNum', null, 'like%', 'text'),
-          new FilterRequestField('assistantRefNum', null, 'like%', 'text'),
-          new FilterRequestField('createdAt', null, 'eq', 'rangeDate'),
-          new FilterRequestField('status', null, 'eq', 'select', this.accidentStatusProvider),
-        ]),
-        sortBy: new RequestBuilder([
-          new SortRequestField('patientName'),
-          new SortRequestField('refNum'),
-        ]),
-      });
+            `;
+  }
+
+  protected getTransformers (): DatatableTransformer[] {
+    return [
+      new DatatableTransformer('createdAt', val => DateHelper.toEuropeFormatWithTime(val)),
+      new DatatableTransformer('caseType', val => CaseDatatableComponent.getHtmlCaseType(val)),
+      new DatatableTransformer('status', val => this.getHtmlState(val)),
+    ];
+  }
+
+  protected hasColumnFilters (): boolean {
+    return true;
+  }
+
+  getRequestBuilder (): DatatableRequestBuilder {
+    const urlRequestBuilder = DatatableRequestBuilder.fromUrl(this.location.path(true));
+    const sorter = urlRequestBuilder.getSorter();
+    ['patientName', 'createdAt'].forEach((v: string) => {
+      if (!sorter.hasField(v)) {
+        sorter.appendField(new SortRequestField(v));
+      }
     });
+
+    const filter = urlRequestBuilder.getFilter();
+
+    [
+      new FilterRequestField('patientName', null, '%like%', 'text'),
+      new FilterRequestField('refNum', null, 'like%', 'text'),
+      new FilterRequestField('assistantRefNum', null, 'like%', 'text'),
+      new FilterRequestField('createdAt', null, 'eq', 'rangeDate'),
+      new FilterRequestField('status', null, 'eq', 'select',
+        new AutoCompleteSrcConfig(
+          (filters) => this.accidentStatusProvider.search(filters),
+          1,
+          25,
+          this.translateService.instant('Status'),
+          'title',
+          'static',
+          true,
+        ),
+      ),
+    ].forEach((field: FilterRequestField) => {
+      if (!filter.hasField(field.field)) {
+        filter.appendField(field);
+      }
+    });
+
+    return urlRequestBuilder;
   }
 }

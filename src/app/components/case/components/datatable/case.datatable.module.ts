@@ -22,7 +22,6 @@ import { CommonModule } from '@angular/common';
 import { ImporterModule } from '../../../importer/importer.module';
 import { ExporterService } from '../../../exporter/exporter.service';
 import { CasesService } from '../../cases.service';
-import { ExtensionsService } from '../../../extensions/extensions.service';
 import { InputTextModule } from 'primeng/inputtext';
 import { AccidentStatusService } from '../../../accident/components/status';
 
@@ -39,7 +38,6 @@ import { AccidentStatusService } from '../../../accident/components/status';
   providers: [
     ExporterService,
     CasesService,
-    ExtensionsService,
     AccidentStatusService,
   ],
   exports: [

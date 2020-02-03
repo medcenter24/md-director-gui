@@ -30,9 +30,10 @@ import { Survey } from '../survey/survey';
 import { Accident } from '../accident/accident';
 import { AccidentHistory } from '../accident/components/history/history';
 import { Commentary } from '../comment/commentary';
+import { LoadableServiceInterface } from '../core/loadable';
 
 @Injectable()
-export class CasesService extends HttpService {
+export class CasesService extends HttpService implements LoadableServiceInterface {
 
   protected getPrefix(): string {
     return 'director/cases';

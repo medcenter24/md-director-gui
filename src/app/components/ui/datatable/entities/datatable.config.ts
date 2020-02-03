@@ -50,7 +50,7 @@ export class DatatableConfig {
      * to Show filters next to the head column
      * @type boolean
      */
-    public showColumnFilters: boolean = false,
+    public hasColumnFilters: boolean = false,
   ) { }
 
   /**

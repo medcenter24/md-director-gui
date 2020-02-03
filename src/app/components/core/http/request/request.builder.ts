@@ -38,6 +38,10 @@ export class RequestBuilder {
     return field;
   }
 
+  appendField(field: RequestField) {
+    this.fields.push(field);
+  }
+
   setValue(name: string = '', value: string = ''): void {
     const activeField = this.getRequestField(name);
     if (!activeField) {

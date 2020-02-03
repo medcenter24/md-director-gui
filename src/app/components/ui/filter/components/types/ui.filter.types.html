@@ -22,5 +22,13 @@
     <button pButton type="button" icon="pi pi-search" class="ui-button-warn" (click)="onSearch(value)"></button>
   </div>
 
+  <nga-auto-complete
+    *ngIf="isSelect() && autoCompleteConfig"
+    [config]="autoCompleteConfig"
+    (changed)="onAutoCompleteSearch($event)"
+  ></nga-auto-complete>
+
   <nga-ui-date-picker [value]="value" [config]="datePickerConfig" *ngIf="isDateRange()" (changed)="onSearch($event)"></nga-ui-date-picker>
+
+  <span *ngIf="loading" class="fa fa-spinner fa-spin"></span>
 </div>

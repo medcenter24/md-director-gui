@@ -1,10 +1,11 @@
 {
+  "Loading": "Загрузка",
   "Undefined": "Неопределенно",
   "Find": "Найти",
   "Inactive": "Неактивна",
   "Show hidden": "Показывать скрытые",
   "Active": "Активно",
-  "imported": "импортировано",
+  "imported": "Импортировано",
   "Form not selected": "Форма не выбрана",
   "Resource not found": "Ресурс не найден",
   "Are you sure that you want to DELETE case? After that this case won't be restored.":  "Вы хотите удалить дело?<br><br>Дело будет недоступно и удалено из поиска.",

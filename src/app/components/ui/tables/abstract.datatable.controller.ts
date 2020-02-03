@@ -40,25 +40,28 @@ export abstract class AbstractDatatableController extends LoadingComponent imple
 
   protected abstract getTranslateService(): TranslateService;
   protected abstract getDatatableComponent(): DatatableComponent;
-  abstract getService(): LoadableServiceInterface;
-  abstract getColumns(): DatatableCol[];
-  abstract getActions(): DatatableAction[];
-  abstract getEmptyModel(): Object;
+  protected abstract getService(): LoadableServiceInterface;
+  protected abstract getColumns(): DatatableCol[];
+  protected abstract getEmptyModel(): Object;
 
   private datatableDataProvider: DatatableDataProvider;
 
-  getRequestBuilder(): DatatableRequestBuilder {
+  protected getRequestBuilder(): DatatableRequestBuilder {
     return new DatatableRequestBuilder();
+  }
+
+  protected getControlPanelActions(): DatatableAction[] {
+    return [];
   }
 
   /**
    * @return {DatatableTransformer[]}
    */
-  getTransformers(): DatatableTransformer[] {
+  protected getTransformers(): DatatableTransformer[] {
     return [];
   }
 
-  getDatatableDataProvider(): DatatableDataProvider {
+  protected getDatatableDataProvider(): DatatableDataProvider {
     if (!this.datatableDataProvider) {
       this.datatableDataProvider = new DatatableDataProvider(
         this.datatableConfig,
@@ -68,15 +71,26 @@ export abstract class AbstractDatatableController extends LoadingComponent imple
     return this.datatableDataProvider;
   }
 
+  /**
+   * after the language was loaded, but datatable is not initialized
+   */
+  protected onLangLoaded() {
+  }
+
+  protected hasControlPanel(): boolean {
+    return false;
+  }
+
   ngOnInit() {
     this.getTranslateService().get('Yes').subscribe(() => {
       this.langLoaded = true;
+      this.onLangLoaded();
       this.datatableConfig = DatatableConfig.factory({
         dataProvider: this.getDatatableDataProvider(),
         cols: this.getColumns(),
         refreshTitle: this.getTranslateService().instant('Refresh'),
-        controlPanel: true,
-        controlPanelActions: this.getActions(),
+        controlPanel: this.hasControlPanel(),
+        controlPanelActions: this.getControlPanelActions(),
         captionPanel: this.hasCaptionPanel(),
         captionPanelActions: this.getCaptionActions(),
         onRowSelect: event => {
@@ -84,12 +98,12 @@ export abstract class AbstractDatatableController extends LoadingComponent imple
         },
         transformers: this.getTransformers(),
         requestBuilder: this.getRequestBuilder(),
-        showColumnFilters: this.getShowColumnFilters(),
+        hasColumnFilters: this.hasColumnFilters(),
       });
     });
   }
 
-  protected getShowColumnFilters(): boolean {
+  protected hasColumnFilters(): boolean {
     return false;
   }
 
@@ -105,7 +119,7 @@ export abstract class AbstractDatatableController extends LoadingComponent imple
     this.model = model;
   }
 
-  save() {
+  protected save() {
     const postfix = 'Save';
     this.startLoader(postfix);
     this.getService().save(this.model)
@@ -142,15 +156,15 @@ export abstract class AbstractDatatableController extends LoadingComponent imple
     return cloned;
   }
 
-  refresh(): void {
+  protected refresh(): void {
     this.getDatatableComponent().refresh();
   }
 
-  updateModel(model: Object): boolean {
+  protected updateModel(model: Object): boolean {
     return this.getDatatableComponent().updateModel(model);
   }
 
-  delete(): void {
+  protected delete(): void {
     const postfix = 'Delete';
     this.startLoader(postfix);
     this.getService().destroy(this.model)

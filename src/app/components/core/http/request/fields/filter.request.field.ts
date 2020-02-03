@@ -15,7 +15,7 @@
  */
 
 import { RequestField } from '../request.field';
-import { HttpService } from '../../http.service';
+import { AutoCompleteSrcConfig } from '../../../../ui/autosuggest/src';
 
 export class FilterRequestField extends RequestField {
 
@@ -51,7 +51,7 @@ export class FilterRequestField extends RequestField {
     public value: string = '',
     public match: string = 'eq',
     public elType: string = 'text', // type of filtering @see getType() method
-    public dataProvider: HttpService = null, // for elType select or multipleSelect
+    public autoCompleteConf: AutoCompleteSrcConfig = null, // for elType select or multipleSelect
   ) {
     super(field, value);
   }
@@ -61,7 +61,6 @@ export class FilterRequestField extends RequestField {
   }
 
   getMatch(): string {
-
     return FilterRequestField.MATCHES.includes(this.match) ? this.match : FilterRequestField.DEFAULT_MATCH;
   }
 
@@ -71,5 +70,9 @@ export class FilterRequestField extends RequestField {
 
   isActive (): boolean {
     return this.getValue() !== '';
+  }
+
+  getAutoCompleteConf(): AutoCompleteSrcConfig {
+    return this.autoCompleteConf;
   }
 }

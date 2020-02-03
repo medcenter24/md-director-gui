@@ -40,11 +40,19 @@ export class AccidentsService extends HttpService {
     return this.remove(id);
   }
 
+  destroy ( model: Accident ): Promise<any> {
+    return this.delete(model.id);
+  }
+
   create(accident: Accident): Promise<Accident> {
     return this.store(accident).then(res => res.data as Accident);
   }
 
   update(accident: Accident): Promise<Accident> {
     return this.put(accident.id, accident);
+  }
+
+  save ( model: Accident ): Promise<any> {
+    return model.id ? this.update(model) : this.create(model);
   }
 }

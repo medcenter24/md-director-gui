@@ -17,6 +17,8 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { RequestBuilder } from '../../../../core/http/request';
 import { FilterRequestField } from '../../../../core/http/request/fields';
+import { AutoCompleteSrcConfig } from '../../../autosuggest/src';
+import { UiFilterTypesComponent } from '../../../filter/components/types';
 
 @Component({
   selector: 'nga-datatable-filter',
@@ -25,6 +27,7 @@ import { FilterRequestField } from '../../../../core/http/request/fields';
       *ngIf="isFilterable"
       [type]="fieldType"
       [value]="fieldValue"
+      [autoCompleteConfig]="autoCompleteConf"
       (changed)="onChange($event)"
     ></nga-ui-filter>
   `,
@@ -41,6 +44,12 @@ export class DatatableFiltersComponent {
       this.filterRequestField = <FilterRequestField>rb.getRequestField( this.fieldName );
       this.fieldType = this.filterRequestField.getElType();
       this.fieldValue = this.filterRequestField.getValue();
+      if ([
+        UiFilterTypesComponent.TYPE_SELECT,
+        UiFilterTypesComponent.TYPE_MULTIPLE_SELECT,
+      ].includes(this.filterRequestField.getElType())) {
+        this.autoCompleteConf = this.filterRequestField.getAutoCompleteConf();
+      }
     }
   }
 
@@ -52,6 +61,7 @@ export class DatatableFiltersComponent {
   fieldType: string = '';
   fieldValue: string = '';
   isFilterable: boolean = false;
+  autoCompleteConf: AutoCompleteSrcConfig;
   private filterRequestField: FilterRequestField;
 
   onChange(newVal: string): void {

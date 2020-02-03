@@ -32,7 +32,7 @@ export class RequestField {
       throw new Error('Undefined field property');
     }
     const uriValue = encodeURIComponent(this.getValue());
-    return `${uriField}=${uriValue}`;
+    return uriValue && uriValue !== 'null' ? `${uriField}=${uriValue}` : '';
   }
 
   getField(): string {

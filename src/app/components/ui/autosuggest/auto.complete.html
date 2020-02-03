@@ -21,11 +21,11 @@
   [suggestions]="provider.filtered"
   [dropdown]="true"
   (completeMethod)="provider.filter($event)"
-  (onSelect)="onSelect($event)"
+  (onSelect)="onSelect()"
   [placeholder]="conf.placeholder"
   [field]="conf.fieldKey"
   [minLength]="conf.minLength"
   [multiple]="conf.isMultiple"
-  (onUnselect)="onSelect($event)"
+  (onUnselect)="onSelect()"
   appendTo="body"
 ></p-autoComplete>

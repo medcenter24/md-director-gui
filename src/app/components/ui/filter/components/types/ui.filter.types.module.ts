@@ -22,6 +22,9 @@ import { TranslateModule } from '@ngx-translate/core';
 import { ButtonModule } from 'primeng/button';
 import { FormsModule } from '@angular/forms';
 import { UiDatePickerModule } from '../../../date/picker';
+import { AutocompleterModule } from '../../../selector/components/autocompleter';
+import { SelectorProviderMultipleModule } from '../../../selector/provider/multiple';
+import { AutoCompleteModule } from '../../../autosuggest';
 
 @NgModule({
   imports: [
@@ -31,6 +34,9 @@ import { UiDatePickerModule } from '../../../date/picker';
     ButtonModule,
     FormsModule,
     UiDatePickerModule,
+    AutocompleterModule,
+    SelectorProviderMultipleModule,
+    AutoCompleteModule,
   ],
   exports: [
     UiFilterTypesComponent,

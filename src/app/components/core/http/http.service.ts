@@ -25,9 +25,10 @@ import { Router } from '@angular/router';
 import { Message } from 'primeng/primeng';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { LoggerComponent } from '../logger/LoggerComponent';
+import { LoadableServiceInterface } from '../loadable';
 
 @Injectable()
-export abstract class HttpService {
+export abstract class HttpService implements LoadableServiceInterface {
 
   private errorText: string = '';
   private httpErrorMessage: string = '';
@@ -181,5 +182,21 @@ export abstract class HttpService {
     this.msgs.push({ severity: 'success', summary: self.successText,
       detail: message });
     this._state.notifyDataChanged('growl', this.msgs);
+  }
+
+  /**
+   * Should be implemented if needed
+   * @param model
+   */
+  destroy ( model: Object ): Promise<any> {
+    return undefined;
+  }
+
+  /**
+   * Should be implemented if needed
+   * @param model
+   */
+  save ( model: Object ): Promise<any> {
+    return undefined;
   }
 }

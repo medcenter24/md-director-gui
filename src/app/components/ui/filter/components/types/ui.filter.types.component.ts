@@ -15,6 +15,7 @@
  */
 
 import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { AutoCompleteSrcConfig } from '../../../autosuggest/src';
 
 @Component({
   selector: 'nga-ui-filter',
@@ -24,15 +25,20 @@ export class UiFilterTypesComponent {
 
   @Input() type: string;
   @Input() value: string;
+  @Input() autoCompleteConfig: AutoCompleteSrcConfig;
 
   @Output() changed: EventEmitter<string> = new EventEmitter<string>();
 
   static TYPE_TEXT = 'text';
+  static TYPE_SELECT = 'select';
+  static TYPE_MULTIPLE_SELECT = 'select';
   static TYPE_DATE_RANGE = 'dateRange';
 
   datePickerConfig: Object = {
     mode: 'range',
   };
+
+  loading: boolean = false;
 
   onChange(newVal: string): void {
     this.changed.emit(newVal);
@@ -46,14 +52,39 @@ export class UiFilterTypesComponent {
     return this.type === UiFilterTypesComponent.TYPE_DATE_RANGE;
   }
 
+  isSelect(): boolean {
+    return this.type === UiFilterTypesComponent.TYPE_SELECT;
+  }
+
   isUndefined(): boolean {
     return ![
       UiFilterTypesComponent.TYPE_TEXT,
       UiFilterTypesComponent.TYPE_DATE_RANGE,
+      UiFilterTypesComponent.TYPE_SELECT,
+      UiFilterTypesComponent.TYPE_MULTIPLE_SELECT,
     ].includes(this.type);
   }
 
   onSearch(val: string): void {
     this.changed.emit(val);
+  }
+
+  onAutoCompleteSearch(event): void {
+    const key = this.autoCompleteConfig.fieldKey;
+    const res = [];
+    if (event.length) {
+      event.forEach( v => {
+        res.push(v[key]);
+      } );
+    }
+    this.onSearch(res.join(','));
+  }
+
+  startLoader(): void {
+    this.loading = true;
+  }
+
+  stopLoader(): void {
+    this.loading = false;
   }
 }

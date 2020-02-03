@@ -74,36 +74,37 @@ export class DatatableRequestBuilder {
 
     const sorters = [];
     const filters = [];
-    const paginators = [];
+    let paginators = [];
 
     UrlHelper.getQueryVariables(url).forEach(obj => {
       ObjectHelper.eachProp(obj, key => {
-        if (key.startsWith(SortRequestField.FIELD_PREFIX)) {
-          const k = key.replace(SortRequestField.FIELD_PREFIX, '');
-          sorters.push(new SortRequestField(k, obj[key]));
-        } else if (key.startsWith(FilterRequestField.FIELD_PREFIX)) {
-          const k = key.replace(FilterRequestField.FIELD_PREFIX, '');
-          filters.push(new FilterRequestField(k, obj[key]));
-        } else if (key.startsWith(PaginationLimitRequestField.FIELD_PREFIX)) {
-          paginators.push(new PaginationLimitRequestField(obj[key]));
-        } else if (key.startsWith(PaginationOffsetRequestField.FIELD_PREFIX)) {
-          paginators.push(new PaginationOffsetRequestField(obj[key]));
+        if (obj[key] && obj[key] !== 'null') {
+          if (key.startsWith( SortRequestField.FIELD_PREFIX )) {
+            const k = key.replace( SortRequestField.FIELD_PREFIX, '' );
+            sorters.push( new SortRequestField( k, obj[ key ] ) );
+          } else if (key.startsWith( FilterRequestField.FIELD_PREFIX )) {
+            const k = key.replace( FilterRequestField.FIELD_PREFIX, '' );
+            filters.push( new FilterRequestField( k, obj[ key ] ) );
+          } else if (key.startsWith( PaginationLimitRequestField.FIELD_PREFIX )) {
+            paginators.push( new PaginationLimitRequestField( obj[ key ] ) );
+          } else if (key.startsWith( PaginationOffsetRequestField.FIELD_PREFIX )) {
+            paginators.push( new PaginationOffsetRequestField( obj[ key ] ) );
+          }
         }
       });
     });
 
-    if (sorters.length) {
-      requestBuilder.setSorter( new RequestBuilder( sorters ) );
+    if (!paginators.length) {
+      paginators = [
+        new PaginationOffsetRequestField(),
+        new PaginationLimitRequestField(),
+      ];
     }
 
-    if (filters.length) {
-      requestBuilder.setFilter(new RequestBuilder(filters));
-    }
-
-    if (paginators.length) {
-      requestBuilder.setPaginator(new RequestBuilder(paginators));
-    }
-
+    requestBuilder.setSorter(new RequestBuilder(sorters));
+    requestBuilder.setFilter(new RequestBuilder(filters));
+    requestBuilder.setPaginator(new RequestBuilder(paginators));
+    console.log(requestBuilder)
     return requestBuilder;
   }
 }

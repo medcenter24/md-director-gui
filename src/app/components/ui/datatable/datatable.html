@@ -85,7 +85,7 @@
       </th>
     </tr>
     <tr
-      *ngIf="getConfig().get('showColumnFilters')"
+      *ngIf="getConfig().get('hasColumnFilters')"
     >
       <th
         *ngFor="let col of columns"

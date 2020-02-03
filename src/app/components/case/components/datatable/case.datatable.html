@@ -17,10 +17,10 @@
 
 <nga-datatable
         #datatableComponent
-  *ngIf="datatableConfig"
-  [config]="datatableConfig"
-  (init)="beforeDatatableLoad()"
-  (loaded)="onDatatableLoaded()"
+        *ngIf="datatableConfig"
+        [config]="datatableConfig"
+        (init)="beforeDatatableLoad()"
+        (loaded)="onDatatableLoaded()"
 ></nga-datatable>
 
 <nga-importer

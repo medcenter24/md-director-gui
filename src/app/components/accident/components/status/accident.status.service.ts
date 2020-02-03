@@ -21,6 +21,6 @@ import { HttpService } from '../../../core/http/http.service';
 export class AccidentStatusService extends HttpService {
 
   protected getPrefix (): string {
-    return 'director/accident/statuses';
+    return 'director/statuses';
   }
 }

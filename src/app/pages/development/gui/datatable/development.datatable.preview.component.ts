@@ -91,6 +91,10 @@ export class DevelopmentDatatablePreviewComponent extends AbstractDatatableContr
     ];
   }
 
+  protected hasControlPanel (): boolean {
+    return true;
+  }
+
   getActions(): DatatableAction[] {
     return [
       new DatatableAction('Action', 'fa fa-plus', () => {
@@ -117,7 +121,7 @@ export class DevelopmentDatatablePreviewComponent extends AbstractDatatableContr
     return transformers;
   }
 
-  protected getShowColumnFilters (): boolean {
+  protected hasColumnFilters (): boolean {
     return true;
   }
 
