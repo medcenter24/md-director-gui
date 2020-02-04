@@ -33,7 +33,7 @@ describe('Request builder test', () => {
 
   it( 'should convert to URL', () => {
     expect(requestBuilder.toUrl())
-      .toEqual('a=b&c=d&e%20f=%20g%20h%20&c!%26%23=d%3F%23&cde=');
+      .toEqual('a=b&c=d&e%20f=%20g%20h%20&c!%26%23=d%3F%23');
   });
 
   it( 'should convert from URL', () => {

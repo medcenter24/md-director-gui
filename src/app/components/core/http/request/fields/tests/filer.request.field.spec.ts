@@ -15,6 +15,7 @@
  */
 
 import { FilterRequestField } from '../filter.request.field';
+import { AutoCompleteSrcConfig } from '../../../../../ui/autosuggest/src';
 
 class DataProvider {
   constructor (
@@ -46,7 +47,7 @@ describe('Service: Filter Request Field', () => {
   } );
 
   it( 'should return correct match', () => {
-    const exp = ['eq', 'like', 'like%', 'gt', 'lt'];
+    const exp = FilterRequestField.MATCHES;
     exp.forEach((op: string) => {
       expect(new FilterRequestField('a', 'b', op).getMatch())
         .toEqual(op, `Operate not found ${op}`);
@@ -56,4 +57,16 @@ describe('Service: Filter Request Field', () => {
     expect(new FilterRequestField('a', 'b').getMatch())
       .toEqual('eq', 'Default always eq');
   } );
+
+  it( 'should be select filter', () => {
+    const selectFilter = new FilterRequestField(
+      'aaa',
+      'a,b,c',
+      FilterRequestField.MATCH_IN,
+      FilterRequestField.TYPE_SELECT,
+      new AutoCompleteSrcConfig(() => ['a']),
+    );
+    const uri = '_fl_aaa=a%2Cb%2Cc';
+    expect(selectFilter.toUrl()).toEqual(uri);
+  });
 });

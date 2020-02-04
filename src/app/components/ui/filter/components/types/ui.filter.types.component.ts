@@ -16,6 +16,7 @@
 
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { AutoCompleteSrcConfig } from '../../../autosuggest/src';
+import { FilterRequestField } from '../../../../core/http/request/fields';
 
 @Component({
   selector: 'nga-ui-filter',
@@ -29,11 +30,6 @@ export class UiFilterTypesComponent {
 
   @Output() changed: EventEmitter<string> = new EventEmitter<string>();
 
-  static TYPE_TEXT = 'text';
-  static TYPE_SELECT = 'select';
-  static TYPE_MULTIPLE_SELECT = 'select';
-  static TYPE_DATE_RANGE = 'dateRange';
-
   datePickerConfig: Object = {
     mode: 'range',
   };
@@ -45,23 +41,22 @@ export class UiFilterTypesComponent {
   }
 
   isText(): boolean {
-    return this.type === UiFilterTypesComponent.TYPE_TEXT;
+    return this.type === FilterRequestField.TYPE_TEXT;
   }
 
   isDateRange(): boolean {
-    return this.type === UiFilterTypesComponent.TYPE_DATE_RANGE;
+    return this.type === FilterRequestField.TYPE_DATE_RANGE;
   }
 
   isSelect(): boolean {
-    return this.type === UiFilterTypesComponent.TYPE_SELECT;
+    return this.type === FilterRequestField.TYPE_SELECT;
   }
 
   isUndefined(): boolean {
     return ![
-      UiFilterTypesComponent.TYPE_TEXT,
-      UiFilterTypesComponent.TYPE_DATE_RANGE,
-      UiFilterTypesComponent.TYPE_SELECT,
-      UiFilterTypesComponent.TYPE_MULTIPLE_SELECT,
+      FilterRequestField.TYPE_TEXT,
+      FilterRequestField.TYPE_DATE_RANGE,
+      FilterRequestField.TYPE_SELECT,
     ].includes(this.type);
   }
 

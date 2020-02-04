@@ -45,8 +45,7 @@ export class DatatableFiltersComponent {
       this.fieldType = this.filterRequestField.getElType();
       this.fieldValue = this.filterRequestField.getValue();
       if ([
-        UiFilterTypesComponent.TYPE_SELECT,
-        UiFilterTypesComponent.TYPE_MULTIPLE_SELECT,
+        FilterRequestField.TYPE_SELECT,
       ].includes(this.filterRequestField.getElType())) {
         this.autoCompleteConf = this.filterRequestField.getAutoCompleteConf();
       }

@@ -22,6 +22,8 @@ export class PaginationOffsetRequestField extends RequestField {
 
   static FIELD_PREFIX = '_pno_';
 
+  static DEFAULT_VALUE = 0;
+
   constructor (
     public value: string = '',
   ) {
@@ -44,6 +46,11 @@ export class PaginationOffsetRequestField extends RequestField {
     }
 
     const uriValue = encodeURIComponent(this.getValue());
-    return uriValue ? `${uriField}=${uriValue}` : '';
+    return PaginationOffsetRequestField.hasUriValue(uriValue) ? `${uriField}=${uriValue}` : '';
+  }
+
+  private static hasUriValue( uriValue: string): boolean {
+    const intUriValue = +uriValue;
+    return intUriValue && intUriValue !== PaginationOffsetRequestField.DEFAULT_VALUE;
   }
 }

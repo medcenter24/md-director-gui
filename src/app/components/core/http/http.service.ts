@@ -26,6 +26,7 @@ import { Message } from 'primeng/primeng';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { LoggerComponent } from '../logger/LoggerComponent';
 import { LoadableServiceInterface } from '../loadable';
+import { ObjectHelper } from '../../../helpers/object.helper';
 
 @Injectable()
 export abstract class HttpService implements LoadableServiceInterface {
@@ -77,7 +78,7 @@ export abstract class HttpService implements LoadableServiceInterface {
    * @returns {Promise<any>}
    */
   search (filters: Object): Promise<any> {
-    filters = {}; // todo remove mock
+    filters = ObjectHelper.extend({}, filters);
     return this.http.post(this.getUrl('search'), JSON.stringify(filters), { headers: this.getAuthHeaders() })
       .toPromise()
       .then(response => {

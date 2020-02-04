@@ -20,10 +20,11 @@ export class PaginationLimitRequestField extends RequestField {
 
   static FIELD_NAME = 'limit';
   static FIELD_PREFIX = '_pnl_';
+  static DEFAULT_VALUE = 25;
 
   constructor (
     public value: string = '',
-    public defaultValue: number = 25,
+    public defaultValue: number = PaginationLimitRequestField.DEFAULT_VALUE,
   ) {
     super(PaginationLimitRequestField.FIELD_NAME, value);
   }
@@ -49,6 +50,11 @@ export class PaginationLimitRequestField extends RequestField {
     }
 
     const uriValue = encodeURIComponent(this.getValue());
-    return uriValue ? `${uriField}=${uriValue}` : '';
+    return PaginationLimitRequestField.hasUriValue(uriValue) ? `${uriField}=${uriValue}` : '';
+  }
+
+  private static hasUriValue( uriValue: string): boolean {
+    const intUriValue = +uriValue;
+    return intUriValue && intUriValue !== PaginationLimitRequestField.DEFAULT_VALUE;
   }
 }

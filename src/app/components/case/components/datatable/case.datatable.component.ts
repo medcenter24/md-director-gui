@@ -34,7 +34,6 @@ import { SlimLoadingBarService } from 'ng2-slim-loading-bar';
 import { LoggerComponent } from '../../../core/logger/LoggerComponent';
 import { Breadcrumb } from '../../../../theme/components/baContentTop/breadcrumb';
 import { AccidentStatusService } from '../../../accident/components/status';
-import { RequestBuilder } from '../../../core/http/request';
 import { FilterRequestField, SortRequestField } from '../../../core/http/request/fields';
 import { AbstractDatatableController } from '../../../ui/tables/abstract.datatable.controller';
 import { LoadableServiceInterface } from '../../../core/loadable';
@@ -42,6 +41,7 @@ import { CaseAccident } from '../../case';
 import { DatatableRequestBuilder } from '../../../ui/datatable/request/datatable.request.builder';
 import { AutoCompleteSrcConfig } from '../../../ui/autosuggest/src';
 import { Location } from '@angular/common';
+import { RequestBuilder } from '../../../core/http/request';
 
 @Component({
   selector: 'nga-case-datatable',
@@ -199,22 +199,19 @@ export class CaseDatatableComponent extends AbstractDatatableController implemen
   }
 
   getRequestBuilder (): DatatableRequestBuilder {
-    const urlRequestBuilder = DatatableRequestBuilder.fromUrl(this.location.path(true));
-    const sorter = urlRequestBuilder.getSorter();
-    ['patientName', 'createdAt'].forEach((v: string) => {
-      if (!sorter.hasField(v)) {
-        sorter.appendField(new SortRequestField(v));
-      }
-    });
 
-    const filter = urlRequestBuilder.getFilter();
-
-    [
-      new FilterRequestField('patientName', null, '%like%', 'text'),
-      new FilterRequestField('refNum', null, 'like%', 'text'),
-      new FilterRequestField('assistantRefNum', null, 'like%', 'text'),
-      new FilterRequestField('createdAt', null, 'eq', 'rangeDate'),
-      new FilterRequestField('status', null, 'eq', 'select',
+    const requestBuilder = super.getRequestBuilder();
+    requestBuilder.setSorter(new RequestBuilder([
+      new SortRequestField('patientName'),
+      new SortRequestField('createdAt'),
+    ]));
+    requestBuilder.setFilter(new RequestBuilder([
+      new FilterRequestField('patientName', null, FilterRequestField.MATCH_CONTENTS, FilterRequestField.TYPE_TEXT),
+      new FilterRequestField('refNum', null, FilterRequestField.MATCH_START_WITH, FilterRequestField.TYPE_TEXT),
+      new FilterRequestField('assistantRefNum', null,
+        FilterRequestField.MATCH_START_WITH, FilterRequestField.TYPE_TEXT),
+      new FilterRequestField('createdAt', null, FilterRequestField.MATCH_EQ, FilterRequestField.TYPE_DATE_RANGE),
+      new FilterRequestField('status', null, FilterRequestField.MATCH_IN, FilterRequestField.TYPE_SELECT,
         new AutoCompleteSrcConfig(
           (filters) => this.accidentStatusProvider.search(filters),
           1,
@@ -225,11 +222,11 @@ export class CaseDatatableComponent extends AbstractDatatableController implemen
           true,
         ),
       ),
-    ].forEach((field: FilterRequestField) => {
-      if (!filter.hasField(field.field)) {
-        filter.appendField(field);
-      }
-    });
+    ]));
+
+    const urlRequestBuilder = DatatableRequestBuilder.fromUrl(this.location.path(true));
+
+    urlRequestBuilder.propagate(requestBuilder);
 
     return urlRequestBuilder;
   }

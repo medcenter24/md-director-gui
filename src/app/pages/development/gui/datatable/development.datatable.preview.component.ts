@@ -70,7 +70,7 @@ export class DevelopmentDatatablePreviewComponent extends AbstractDatatableContr
     ]));
     requestBuilder.setFilter(new RequestBuilder([
       new FilterRequestField('title'),
-      new FilterRequestField('value', '', 'between', 'dateRange'),
+      new FilterRequestField('value', '', 'between', FilterRequestField.TYPE_DATE_RANGE),
     ]));
     return requestBuilder;
   }

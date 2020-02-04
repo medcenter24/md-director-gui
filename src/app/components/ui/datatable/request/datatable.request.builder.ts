@@ -104,7 +104,26 @@ export class DatatableRequestBuilder {
     requestBuilder.setSorter(new RequestBuilder(sorters));
     requestBuilder.setFilter(new RequestBuilder(filters));
     requestBuilder.setPaginator(new RequestBuilder(paginators));
-    console.log(requestBuilder)
     return requestBuilder;
+  }
+
+  /**
+   *
+   * @param datatableRequestBuilder describe all models and fields as they should be
+   */
+  propagate(datatableRequestBuilder: DatatableRequestBuilder): void {
+
+    const dataFilters = this.getFilter();
+    const filterDeclarations = datatableRequestBuilder.getFilter();
+
+    filterDeclarations.getFields().forEach((field: FilterRequestField) => {
+      if (dataFilters.hasField(field.field)) {
+        field.setValue(dataFilters.getRequestField(field.field).getValue());
+      }
+    });
+
+    this.setFilter(filterDeclarations);
+    this.setSorter(datatableRequestBuilder.getSorter());
+    this.setPaginator(datatableRequestBuilder.getPaginator());
   }
 }
