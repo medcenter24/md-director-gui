@@ -16,7 +16,6 @@
 
 import { RequestField } from '../request.field';
 import { AutoCompleteSrcConfig } from '../../../../ui/autosuggest/src';
-import { ObjectHelper } from '../../../../../helpers/object.helper';
 
 export class FilterRequestField extends RequestField {
 
