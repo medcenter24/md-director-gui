@@ -131,21 +131,19 @@ export class CaseDatatableComponent extends AbstractDatatableController implemen
     return true;
   }
 
-  getActions (): DatatableAction[] {
-    return [
-      new DatatableAction(this.translateService.instant('Add'), 'fa fa-plus', () => {
-        this.router.navigate(['pages/cases/new'])
-          .then().catch();
-      }),
-    ];
-  }
-
   protected onRowSelect(event): void {
     this.router.navigate(['pages/cases/', event.data.id]).then();
   }
 
   protected hasCaptionPanel (): boolean {
     return true;
+  }
+
+  protected getControlPanelActions (): DatatableAction[] {
+    return [new DatatableAction(this.translateService.instant('Add'), 'fa fa-plus', () => {
+      this.router.navigate(['pages/cases/new'])
+        .then().catch();
+    })];
   }
 
   protected getCaptionActions (): DatatableAction[] {
@@ -165,6 +163,11 @@ export class CaseDatatableComponent extends AbstractDatatableController implemen
         this.exporterService.exportCases({});
       }),
     );
+
+    actions.push(new DatatableAction(this.translateService.instant('Add'), 'fa fa-plus', () => {
+      this.router.navigate(['pages/cases/new'])
+        .then().catch();
+    }));
 
     return actions;
   }
