@@ -52,7 +52,8 @@ export class DateHelper {
   static getUnixDate ( d: Date ): string {
     let res = '';
     if (d) {
-      const parsed = DateHelper.parseDate( d );
+      // changed to use month and day with lead zero (required by datatable filters)
+      const parsed = DateHelper.parseDateAsFormattedString( d );
       res = `${parsed.year}-${parsed.month}-${parsed.day}`;
     }
     return res;

@@ -32,6 +32,7 @@ export class UiFilterTypesComponent {
 
   datePickerConfig: Object = {
     mode: 'range',
+    dateFormat: 'Y-m-d',
   };
 
   loading: boolean = false;

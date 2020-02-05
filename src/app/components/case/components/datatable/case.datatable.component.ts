@@ -213,7 +213,8 @@ export class CaseDatatableComponent extends AbstractDatatableController implemen
       new FilterRequestField('refNum', null, FilterRequestField.MATCH_START_WITH, FilterRequestField.TYPE_TEXT),
       new FilterRequestField('assistantRefNum', null,
         FilterRequestField.MATCH_START_WITH, FilterRequestField.TYPE_TEXT),
-      new FilterRequestField('createdAt', null, FilterRequestField.MATCH_EQ, FilterRequestField.TYPE_DATE_RANGE),
+      new FilterRequestField('createdAt', null, FilterRequestField.MATCH_GREATER_EQUAL,
+        FilterRequestField.TYPE_DATE_RANGE),
       new FilterRequestField('status', null, FilterRequestField.MATCH_IN, FilterRequestField.TYPE_SELECT,
         new AutoCompleteSrcConfig(
           (filters) => this.accidentStatusProvider.search(filters),
