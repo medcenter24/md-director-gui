@@ -31,6 +31,7 @@ import { UrlHelper } from '../../../helpers/url.helper';
 import { Table } from 'primeng/table';
 import { DatatableRequestBuilder } from './request/datatable.request.builder';
 import { DatatableSortService } from './services/datatable.sort.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'nga-datatable',
@@ -83,6 +84,7 @@ export class DatatableComponent extends LoadableComponent {
   constructor (
     private cdr: ChangeDetectorRef,
     private location: Location,
+    private router: Router,
   ) {
     super();
   }
@@ -159,7 +161,12 @@ export class DatatableComponent extends LoadableComponent {
         });
       });
 
-    this.location.replaceState(location);
+    if (location.includes('?')) {
+      const queryParams = { queryParams: UrlHelper.getQueryVarsAsObject(location) };
+      this.router.navigate([`${location.split('?')[0]}`], queryParams);
+    } else {
+      this.router.navigate([location]);
+    }
   }
 
   private setLoading(state: boolean): void {

@@ -57,8 +57,7 @@ export class UrlHelper {
     return res;
   }
 
-  static getQueryVariables(location: string): Object[] {
-    const res = [];
+  static eachQueryVariable(location: string, func: Function): void {
     const parts = location.split('?');
     let varParts = location;
     if (parts.length > 1) {
@@ -75,9 +74,26 @@ export class UrlHelper {
       } else {
         valName = decodeURIComponent(value);
       }
+
+      func(valName, valMe);
+    });
+  }
+
+  static getQueryVariables(location: string): Object[] {
+
+    const res = [];
+    UrlHelper.eachQueryVariable(location, (name: string, val: string) => {
       const obj = {};
-      obj[valName] = valMe;
+      obj[name] = val;
       res.push(obj);
+    });
+    return res;
+  }
+
+  static getQueryVarsAsObject(location: string): Object {
+    const res = {};
+    UrlHelper.eachQueryVariable(location, (name: string, val: string) => {
+      res[name] = val;
     });
     return res;
   }

@@ -23,7 +23,7 @@ import { ConfirmationService, Message } from 'primeng/primeng';
 import { ApiErrorService } from './components/ui/apiError.service';
 import { LocalStorageHelper } from './helpers/local.storage.helper';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { NavigationStart, Router } from '@angular/router';
+import { NavigationEnd, NavigationStart, Router } from '@angular/router';
 
 /*
  * App Component
@@ -117,6 +117,11 @@ export class AppComponent implements AfterViewInit {
         if (event instanceof NavigationStart) {
           this._state.notifyDataChanged('routerMove', 'NavigationStart');
           this._state.notifyDataChanged('blocker', false);
+        }
+        if (event instanceof NavigationEnd) {
+          if (event.url !== '/login') {
+            this._state.notifyDataChanged( 'changeUri', event.url );
+          }
         }
         // NavigationCancel
       });
