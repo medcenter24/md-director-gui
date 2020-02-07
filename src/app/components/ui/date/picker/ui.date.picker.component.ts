@@ -44,23 +44,25 @@ export class UiDatePickerComponent {
   initialized: boolean = false;
 
   @Input() set value(val: string) {
-    const dates = [];
-    let defaultDate: Date | string = '';
-    if (val.includes('>')) {
-      val.split('>').forEach((sDate: string, k: number) => {
-        dates.push(DateHelper.getDate(sDate));
-        defaultDate += k ? ' — ' : '';
-        defaultDate += DateHelper.toEuropeFormat(sDate);
-      });
-    } else {
-      const dt = DateHelper.getDate(val);
-      dates.push(dt);
-      defaultDate = dt;
+    if (val && val.length) {
+      const dates = [];
+      let defaultDate: Date | string = '';
+      if (val.includes( '>' )) {
+        val.split( '>' ).forEach( ( sDate: string, k: number ) => {
+          dates.push( DateHelper.getDate( sDate ) );
+          defaultDate += k ? ' — ' : '';
+          defaultDate += DateHelper.toEuropeFormat( sDate );
+        } );
+      } else {
+        const dt = DateHelper.getDate( val );
+        dates.push( dt );
+        defaultDate = dt;
+      }
+      if (defaultDate) {
+        this.datePickerOptions[ 'defaultDate' ] = defaultDate;
+      }
+      this.pickedDate = dates;
     }
-    if (defaultDate) {
-      this.datePickerOptions[ 'defaultDate' ] = defaultDate;
-    }
-    this.pickedDate = dates;
     this.initialized = true;
   }
 
