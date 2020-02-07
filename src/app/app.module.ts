@@ -37,6 +37,8 @@ import { JwtModule } from '@auth0/angular-jwt';
 import { AuthGuard } from './components/auth/auth.guard';
 import { LoggerModule } from './components/core/logger';
 import { LoggerComponent } from './components/core/logger/LoggerComponent';
+import { UiToastModule } from './components/ui/toast';
+import { UiToastService } from './components/ui/toast/ui.toast.service';
 
 // Application wide providers
 const APP_PROVIDERS = [
@@ -47,19 +49,13 @@ const APP_PROVIDERS = [
   LocalStorageHelper,
   AuthGuard,
   LoggerComponent,
+  UiToastService,
 ];
 
 export function tokenGetter() {
   const storage = new LocalStorageHelper();
   return storage.getItem('token');
 }
-/*
-@todo remove if not used or works without that
-export type StoreType = {
-  state: InternalStateType,
-  restoreInputValues: () => void,
-  disposeOldHosts: () => void,
-};*/
 
 /**
  * `AppModule` is the main entry point into Angular2's bootstraping process
@@ -84,14 +80,15 @@ export type StoreType = {
     ConfirmDialogModule,
     BlockUIModule,
     AppTranslationModule,
-    JwtModule.forRoot({
+    JwtModule.forRoot( {
       config: {
         tokenGetter,
         // whitelistedDomains: ['localhost:3001']
         // blacklistedRoutes: ['localhost:3001/auth/']
       },
-    }),
+    } ),
     LoggerModule,
+    UiToastModule,
   ],
   exports: [],
   providers: [ // expose our Services and Providers into Angular's dependency injection

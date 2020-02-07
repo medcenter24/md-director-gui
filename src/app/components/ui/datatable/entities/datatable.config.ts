@@ -28,7 +28,7 @@ export class DatatableConfig {
      * to get the data
      */
     public dataProvider: DatatableDataProvider = null,
-    public requestBuilder: DatatableRequestBuilder = null,
+    public requestBuilder: DatatableRequestBuilder = new DatatableRequestBuilder(),
     public lazy: boolean = true,
     public paginator: boolean = true,
     public selectionMode: string = 'single',

@@ -202,10 +202,14 @@ export class CaseEditorComponent extends LoadingComponent implements OnInit {
           this.startLoader(mainPostfix);
 
           this.accidentsService.getAccident(+params[ 'id' ]).then((accident: Accident) => {
-            const breadcrumbs = [];
-            breadcrumbs.push(new Breadcrumb('Cases', '/pages/cases'));
-            breadcrumbs.push(new Breadcrumb(accident.refNum, `/pages/cases/${accident.id}`, true, false));
-            this._state.notifyDataChanged('menu.activeLink', breadcrumbs);
+
+            this.translate.get('Cases').subscribe((trans: string) => {
+              const breadcrumbs = [];
+              breadcrumbs.push(new Breadcrumb(trans, '/pages/cases'));
+              breadcrumbs.push(new Breadcrumb(accident.refNum, `/pages/cases/${accident.id}`, true, false));
+              this._state.notifyDataChanged('menu.activeLink', breadcrumbs);
+            });
+
             this.showToolbox();
             this.accident = accident ? accident : new Accident();
             if (this.accident.handlingTime && this.accident.handlingTime.length) {
@@ -438,8 +442,8 @@ export class CaseEditorComponent extends LoadingComponent implements OnInit {
       this.msgs = [];
       this.msgs.push({ severity: 'success', summary: this.translate.instant('Saved'),
         detail: this.translate.instant('Successfully saved') });
-      this.hasChangedData = false;
       this._state.notifyDataChanged('growl', this.msgs);
+      this.hasChangedData = false;
       if (!data.accident.id) {
         this.router.navigate([`pages/cases/${response.accident.id}`]).then(() => this.stopLoader(postfix));
       } else {

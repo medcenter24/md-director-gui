@@ -27,6 +27,7 @@ import { DatatableAction, DatatableCol, DatatableComponent, DatatableTransformer
 import { ConfirmationService } from 'primeng/api';
 import { Router } from '@angular/router';
 import { LoggerComponent } from '../../../core/logger/LoggerComponent';
+import { Breadcrumb } from '../../../../theme/components/baContentTop/breadcrumb';
 
 @Component({
   selector: 'nga-finance-datatable',
@@ -48,6 +49,13 @@ export class FinanceDatatableComponent extends AbstractDatatableController {
     private router: Router,
   ) {
     super();
+  }
+
+  protected onLangLoaded () {
+    super.onLangLoaded();
+    const breadcrumbs = [];
+    breadcrumbs.push(new Breadcrumb('Conditions', '/pages/finance/conditions', true));
+    this._state.notifyDataChanged('menu.activeLink', breadcrumbs);
   }
 
   protected getDatatableComponent (): DatatableComponent {
@@ -99,7 +107,7 @@ export class FinanceDatatableComponent extends AbstractDatatableController {
     return res;
   }
 
-  getActions(): DatatableAction[] {
+  getControlPanelActions(): DatatableAction[] {
     return [
       new DatatableAction(this.translateService.instant('Add'), 'fa fa-plus', () => {
         this.setModel(this.getEmptyModel());

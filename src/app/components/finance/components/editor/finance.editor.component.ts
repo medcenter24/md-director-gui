@@ -30,6 +30,7 @@ import { ServicesService } from '../../../service';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { GlobalState } from '../../../../global.state';
 import { FinanceCurrencyService } from '../currency/finance.currency.service';
+import { Breadcrumb } from '../../../../theme/components/baContentTop/breadcrumb';
 
 @Component({
   selector: 'nga-finance-editor',
@@ -81,6 +82,14 @@ export class FinanceEditorComponent extends LoadableComponent implements OnInit 
           this.startLoader();
           this.financeService.getFinanceRule(id).then((financeRule: FinanceRule) => {
             this.stopLoader();
+
+            this.translateService.get('Finance').subscribe((trans: string) => {
+              const breadcrumbs = [];
+              breadcrumbs.push(new Breadcrumb(trans, '/pages/finance/conditions'));
+              breadcrumbs.push(new Breadcrumb(financeRule.title, `/pages/cases/${financeRule.id}`, true, false));
+              this._state.notifyDataChanged('menu.activeLink', breadcrumbs);
+            });
+
             this.rule = financeRule;
             this.isLoaded = true;
           }).catch(() => this.stopLoader());

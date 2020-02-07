@@ -15,7 +15,7 @@
  * Copyright (c) 2019 (original work) MedCenter24.com;
  */
 
-import { AfterViewInit, ChangeDetectorRef, Component, ViewContainerRef } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, ViewChild, ViewContainerRef } from '@angular/core';
 import { GlobalState } from './global.state';
 import { BaImageLoaderService, BaThemePreloader, BaThemeSpinner } from './theme/services';
 import { BaThemeConfig } from './theme';
@@ -24,6 +24,8 @@ import { ApiErrorService } from './components/ui/apiError.service';
 import { LocalStorageHelper } from './helpers/local.storage.helper';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { NavigationEnd, NavigationStart, Router } from '@angular/router';
+import { UiToastComponent } from './components/ui/toast';
+import { UiToastService } from './components/ui/toast/ui.toast.service';
 
 /*
  * App Component
@@ -42,6 +44,9 @@ export class AppComponent implements AfterViewInit {
   // global window block
   blocked: boolean = false;
 
+  @ViewChild('uiToastComponent')
+    uiToastComponent: UiToastComponent;
+
   constructor(private _state: GlobalState,
               private _imageLoader: BaImageLoaderService,
               private _spinner: BaThemeSpinner,
@@ -53,8 +58,8 @@ export class AppComponent implements AfterViewInit {
               public http: HttpClient,
               private router: Router,
               protected cdRef: ChangeDetectorRef,
+              public uiToastService: UiToastService,
   ) {
-
     themeConfig.config();
 
     this._loadImages();
@@ -132,6 +137,8 @@ export class AppComponent implements AfterViewInit {
     BaThemePreloader.load().then((values) => {
       this._spinner.hide();
     });
+
+    this.uiToastService.setComponent(this.uiToastComponent);
   }
 
   private _loadImages(): void {
