@@ -26,14 +26,43 @@ import { DateHelper } from '../../../../helpers/date.helper';
   selector: 'nga-ui-date-picker',
   template: `
     <div class="ui-inputgroup">
-      <ng2-flatpickr [setDate]="value" [config]="datePickerOptions" [(ngModel)]="pickedDate" addClass="ui-inputtext"></ng2-flatpickr>
+      <ng2-flatpickr
+        *ngIf="initialized"
+        [config]="datePickerOptions"
+        [(ngModel)]="pickedDate"
+        addClass="ui-inputtext"></ng2-flatpickr>
       <button pButton type="button" icon="pi pi-search" class="ui-button-warn" (click)="onSearch()"></button>
     </div>
   `,
 })
 export class UiDatePickerComponent {
+  visible: boolean = false;
+  datePickerOptions: FlatpickrOptions = {
+    dateFormat: DateHelper.defaultFormat,
+  };
+  pickedDate: any;
+  initialized: boolean = false;
 
-  @Input() value: string = '';
+  @Input() set value(val: string) {
+    const dates = [];
+    let defaultDate: Date | string = '';
+    if (val.includes('>')) {
+      val.split('>').forEach((sDate: string, k: number) => {
+        dates.push(DateHelper.getDate(sDate));
+        defaultDate += k ? ' — ' : '';
+        defaultDate += DateHelper.toEuropeFormat(sDate);
+      });
+    } else {
+      const dt = DateHelper.getDate(val);
+      dates.push(dt);
+      defaultDate = dt;
+    }
+    if (defaultDate) {
+      this.datePickerOptions[ 'defaultDate' ] = defaultDate;
+    }
+    this.pickedDate = dates;
+    this.initialized = true;
+  }
 
   @Input() set config(datePickerConf: Object) {
     ObjectHelper.eachProp(datePickerConf, (prop) => {
@@ -42,10 +71,6 @@ export class UiDatePickerComponent {
   }
 
   @Output() changed: EventEmitter<string> = new EventEmitter<string>();
-
-  visible: boolean = false;
-  datePickerOptions: FlatpickrOptions = {};
-  pickedDate: any;
 
   constructor (
     private translateService: TranslateService,
@@ -66,9 +91,11 @@ export class UiDatePickerComponent {
   onSearch(): void {
     let val = '';
     if (this.pickedDate && this.pickedDate.length) {
-      const from = DateHelper.getUnixDate( this.pickedDate[ 0 ] );
-      const to = DateHelper.getUnixDate( this.pickedDate[ 1 ] );
-      val = `${from}>${to}`;
+      val = DateHelper.getUnixDate( this.pickedDate[ 0 ] );
+      if (this.pickedDate.length > 1) {
+        const to = DateHelper.getUnixDate( this.pickedDate[ 1 ] );
+        val += `>${to}`;
+      }
     }
     this.changed.emit(val);
   }

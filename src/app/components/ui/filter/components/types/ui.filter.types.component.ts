@@ -17,6 +17,7 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { AutoCompleteSrcConfig } from '../../../autosuggest/src';
 import { FilterRequestField } from '../../../../core/http/request/fields';
+import { DateHelper } from '../../../../../helpers/date.helper';
 
 @Component({
   selector: 'nga-ui-filter',
@@ -32,7 +33,7 @@ export class UiFilterTypesComponent {
 
   datePickerConfig: Object = {
     mode: 'range',
-    dateFormat: 'Y-m-d',
+    dateFormat: DateHelper.EUROPE_DATE_FORMAT,
   };
 
   loading: boolean = false;

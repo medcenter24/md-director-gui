@@ -18,6 +18,7 @@
 export class DateHelper {
 
   static defaultFormat: 'd.m.Y H:i';
+  static EUROPE_DATE_FORMAT = 'd.m.Y';
 
   static getDate ( strDate: string ): Date {
     const timestamp = Date.parse( strDate );
