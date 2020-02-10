@@ -15,7 +15,7 @@
  * Copyright (c) 2019 (original work) MedCenter24.com;
  */
 
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { LoadingComponent } from '../../../core/components/componentLoader';
 import { Period } from '../../period';
 import { PeriodService } from '../../period.service';
@@ -29,12 +29,15 @@ import { LoggerComponent } from '../../../core/logger/LoggerComponent';
 import { UiDateDowDropdownComponent } from '../../../ui/date/dow/dropdown/ui.date.dow.dropdown.component';
 import { TranslateService } from '@ngx-translate/core';
 import { ObjectHelper } from '../../../../helpers/object.helper';
+import { AbstractDatatableController } from '../../../ui/tables/abstract.datatable.controller';
+import { LoadableServiceInterface } from '../../../core/loadable';
+import { Breadcrumb } from '../../../../theme/components/baContentTop/breadcrumb';
 
 @Component({
   selector: 'nga-period-datatable',
   templateUrl: './period.datatable.html',
 })
-export class PeriodDatatableComponent extends LoadingComponent implements OnInit {
+export class PeriodDatatableComponent extends AbstractDatatableController {
   protected componentName: string = 'PeriodListComponent';
 
   @ViewChild('dowFrom')
@@ -66,30 +69,47 @@ export class PeriodDatatableComponent extends LoadingComponent implements OnInit
     this.datePeriod = new Period();
   }
 
-  ngOnInit() {
-    this.translateService.get('Yes').subscribe(() => {
-      this.langLoaded = true;
-      this.datatableConfig = DatatableConfig.factory({
-        dataProvider: (filters: Object) => {
-          return this.datePeriodService.search(filters);
-        },
-        cols: [
-          new DatatableCol('title', this.translateService.instant('Title')),
-          new DatatableCol('from', this.translateService.instant('From')),
-          new DatatableCol('to', this.translateService.instant('To')),
-        ],
-        refreshTitle: this.translateService.instant('Refresh'),
-        controlPanel: true,
-        controlPanelActions: [
-          new DatatableAction(this.translateService.instant('Add'), 'fa fa-plus', () => {
-            this.showDialogToAdd();
-          }),
-        ],
-        onRowSelect: event => {
-          this.onRowSelect(event);
-        },
-      });
-    });
+  protected onLangLoaded () {
+    super.onLangLoaded();
+    const breadcrumbs = [];
+    breadcrumbs.push(new Breadcrumb('Date Periods', '/pages/settings/periods', true));
+    this._state.notifyDataChanged('menu.activeLink', breadcrumbs);
+  }
+
+  protected getTranslateService (): TranslateService {
+    return this.translateService;
+  }
+
+  protected getDatatableComponent (): DatatableComponent {
+    return this.periodDatatable;
+  }
+
+  protected getService (): LoadableServiceInterface {
+    return this.datePeriodService;
+  }
+
+  protected getEmptyModel (): Object {
+    return new Period();
+  }
+
+  protected getColumns (): DatatableCol[] {
+    return [
+      new DatatableCol('title', this.translateService.instant('Title')),
+      new DatatableCol('from', this.translateService.instant('From')),
+      new DatatableCol('to', this.translateService.instant('To')),
+    ];
+  }
+
+  protected hasControlPanel (): boolean {
+    return true;
+  }
+
+  protected getControlPanelActions (): DatatableAction[] {
+    return [
+      new DatatableAction(this.translateService.instant('Add'), 'fa fa-plus', () => {
+        this.showDialogToAdd();
+      }),
+    ];
   }
 
   showDialogToAdd() {

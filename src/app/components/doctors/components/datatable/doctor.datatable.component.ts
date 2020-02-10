@@ -27,12 +27,13 @@ import { ObjectHelper } from '../../../../helpers/object.helper';
 import { DoctorEditorComponent } from '../editor';
 import { LoadableServiceInterface } from '../../../core/loadable';
 import { LoggerComponent } from '../../../core/logger/LoggerComponent';
+import { Breadcrumb } from '../../../../theme/components/baContentTop/breadcrumb';
 
 @Component({
   selector: 'nga-doctor-datatable',
   templateUrl: './doctor.datatable.html',
 })
-export class DoctorDatatableComponent extends AbstractDatatableController implements OnInit {
+export class DoctorDatatableComponent extends AbstractDatatableController {
   protected componentName: string = 'DoctorDatatableComponent';
 
   @ViewChild('doctorEditor')
@@ -49,6 +50,13 @@ export class DoctorDatatableComponent extends AbstractDatatableController implem
     private doctorsService: DoctorsService,
   ) {
     super();
+  }
+
+  protected onLangLoaded () {
+    super.onLangLoaded();
+    const breadcrumbs = [];
+    breadcrumbs.push(new Breadcrumb('Stuff', '/pages/doctors/stuff', true));
+    this._state.notifyDataChanged('menu.activeLink', breadcrumbs);
   }
 
   protected getDatatableComponent (): DatatableComponent {
@@ -82,17 +90,17 @@ export class DoctorDatatableComponent extends AbstractDatatableController implem
     }
   }
 
-  getActions(): DatatableAction[] {
+  protected hasControlPanel (): boolean {
+    return true;
+  }
+
+  protected getControlPanelActions (): DatatableAction[] {
     return [
       new DatatableAction(this.translateService.instant('Add'), 'fa fa-plus', () => {
         this.setModel(this.getEmptyModel());
         this.displayDialog = true;
       }),
     ];
-  }
-
-  getSortBy(): string {
-    return 'name';
   }
 
   closeDoctorEditor(): void {

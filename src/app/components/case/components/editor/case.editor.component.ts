@@ -425,7 +425,6 @@ export class CaseEditorComponent extends LoadingComponent implements OnInit {
     this.startLoader(postfix);
     this.caseService.saveCase(data).then(response => {
       this.doctorBeforeSave = +this.doctorAccident.doctorId;
-      this.uiToastService.saved();
       this.hasChangedData = false;
       if (!data.accident.id) {
         this.router.navigate([`pages/cases/${response.accident.id}`]).then(() => this.stopLoader(postfix));

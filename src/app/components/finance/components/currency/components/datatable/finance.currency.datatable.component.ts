@@ -15,7 +15,7 @@
  * Copyright (c) 2019 (original work) MedCenter24.com;
  */
 
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { SlimLoadingBarService } from 'ng2-slim-loading-bar';
 import { GlobalState } from '../../../../../../global.state';
@@ -56,7 +56,6 @@ export class FinanceCurrencyDatatableComponent extends AbstractDatatableControll
     protected _state: GlobalState,
     protected translateService: TranslateService,
     private financeCurrencyService: FinanceCurrencyService,
-    private uiToastService: UiToastService,
   ) {
     super();
   }
@@ -99,6 +98,10 @@ export class FinanceCurrencyDatatableComponent extends AbstractDatatableControll
     ];
   }
 
+  protected hasControlPanel (): boolean {
+    return true;
+  }
+
   protected getControlPanelActions (): DatatableAction[] {
     return [
       new DatatableAction(this.translateService.instant('Add'), 'fa fa-plus', () => {
@@ -124,7 +127,6 @@ export class FinanceCurrencyDatatableComponent extends AbstractDatatableControll
         this.stopLoader(postfix);
         this.setObject();
         this.displayDialog = false;
-        this.uiToastService.saved();
         this.datatable.refresh();
       })
       .catch((e) => {

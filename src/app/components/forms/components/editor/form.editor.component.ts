@@ -27,7 +27,7 @@ import { Form } from '../../form';
 import { TranslateService } from '@ngx-translate/core';
 import { FormOption } from '../options/form.option';
 import { BaToolboxAction } from '../../../../theme/components/baToolbox';
-import { UiToastService } from '../../../ui/toast/ui.toast.service';
+import { Breadcrumb } from '../../../../theme/components/baContentTop/breadcrumb';
 declare var $: any;
 
 @Component({
@@ -52,7 +52,6 @@ export class FormEditorComponent extends LoadableComponent implements OnInit {
     protected _state: GlobalState,
     private translateService: TranslateService,
     private router: Router,
-    private uiToastService: UiToastService,
   ) {
     super();
   }
@@ -61,7 +60,9 @@ export class FormEditorComponent extends LoadableComponent implements OnInit {
     this.translateService.get('Form content is here').subscribe(() => {
       this.route.params
         .subscribe((params: Params) => {
-          this._state.notifyDataChanged('menu.activeLink', { title: 'Forms' });
+          const breadcrumbs = [];
+          breadcrumbs.push(new Breadcrumb('Forms', '/pages/settings/forms', true));
+          this._state.notifyDataChanged('menu.activeLink', breadcrumbs);
 
           this.showToolbox();
 
@@ -152,7 +153,6 @@ export class FormEditorComponent extends LoadableComponent implements OnInit {
     this.formService.save(form)
       .then(savedForm => {
         this.stopLoader(postfix);
-        this.uiToastService.saved();
         if (!previousId) {
           this.router.navigate([`pages/settings/forms/${savedForm.id}`]).then();
         }

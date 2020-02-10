@@ -26,6 +26,7 @@ import { Router } from '@angular/router';
 import { FormService } from '../../form.service';
 import { Form } from '../../form';
 import { LoggerComponent } from '../../../core/logger/LoggerComponent';
+import { Breadcrumb } from '../../../../theme/components/baContentTop/breadcrumb';
 
 @Component({
   selector: 'nga-form-datatable',
@@ -46,6 +47,13 @@ export class FormDatatableComponent extends AbstractDatatableController {
     private router: Router,
   ) {
     super();
+  }
+
+  protected onLangLoaded () {
+    super.onLangLoaded();
+    const breadcrumbs = [];
+    breadcrumbs.push(new Breadcrumb('Templates', '/pages/settings/forms', true));
+    this._state.notifyDataChanged('menu.activeLink', breadcrumbs);
   }
 
   protected getDatatableComponent (): DatatableComponent {
@@ -71,7 +79,11 @@ export class FormDatatableComponent extends AbstractDatatableController {
     ];
   }
 
-  getActions(): DatatableAction[] {
+  protected hasControlPanel (): boolean {
+    return true;
+  }
+
+  protected getControlPanelActions (): DatatableAction[] {
     return [
       new DatatableAction(this.translateService.instant('Add'), 'fa fa-plus', () => {
         this.setModel(this.getEmptyModel());
@@ -82,9 +94,5 @@ export class FormDatatableComponent extends AbstractDatatableController {
 
   protected onRowSelect(event): void {
     this.router.navigate([`pages/settings/forms/${event.data.id}`]);
-  }
-
-  getSortBy(): string {
-    return 'title';
   }
 }

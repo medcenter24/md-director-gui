@@ -28,6 +28,7 @@ import { AbstractDatatableController } from '../../../ui/tables/abstract.datatab
 import { LoadableServiceInterface } from '../../../core/loadable';
 import { Assistant } from '../../assistant';
 import { LoggerComponent } from '../../../core/logger/LoggerComponent';
+import { Breadcrumb } from '../../../../theme/components/baContentTop/breadcrumb';
 
 @Component({
   selector: 'nga-assistant-datatable',
@@ -50,6 +51,13 @@ export class AssistantDatatableComponent extends AbstractDatatableController {
     private assistantService: AssistantsService,
   ) {
     super();
+  }
+
+  protected onLangLoaded () {
+    super.onLangLoaded();
+    const breadcrumbs = [];
+    breadcrumbs.push(new Breadcrumb('Assistants', '/pages/companions/assistants', true));
+    this._state.notifyDataChanged('menu.activeLink', breadcrumbs);
   }
 
   protected getTranslateService (): TranslateService {
@@ -77,7 +85,11 @@ export class AssistantDatatableComponent extends AbstractDatatableController {
     ];
   }
 
-  getActions (): DatatableAction[] {
+  protected hasControlPanel (): boolean {
+    return true;
+  }
+
+  protected getControlPanelActions (): DatatableAction[] {
     return [
       new DatatableAction(this.translateService.instant('Add'), 'fa fa-plus', () => {
         this.setModel(this.getEmptyModel());
@@ -86,11 +98,7 @@ export class AssistantDatatableComponent extends AbstractDatatableController {
     ];
   }
 
-  getSortBy(): string {
-    return 'title';
-  }
-
-  onChanged(assistant: Assistant): void {
+  onChanged(): void {
     this.displayDialog = false;
     this.getDatatableComponent().refresh();
   }

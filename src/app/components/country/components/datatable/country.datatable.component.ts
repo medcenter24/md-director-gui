@@ -27,6 +27,7 @@ import { AbstractDatatableController } from '../../../ui/tables/abstract.datatab
 import { LoadableServiceInterface } from '../../../core/loadable';
 import { ConfirmationService } from 'primeng/api';
 import { LoggerComponent } from '../../../core/logger/LoggerComponent';
+import { Breadcrumb } from '../../../../theme/components/baContentTop/breadcrumb';
 
 @Component({
   selector: 'nga-country-datatable',
@@ -47,6 +48,13 @@ export class CountryDatatableComponent extends AbstractDatatableController {
     private confirmationService: ConfirmationService,
   ) {
     super();
+  }
+
+  protected onLangLoaded () {
+    super.onLangLoaded();
+    const breadcrumbs = [];
+    breadcrumbs.push(new Breadcrumb('Countries', '/pages/geo/countries', true));
+    this._state.notifyDataChanged('menu.activeLink', breadcrumbs);
   }
 
   getService (): LoadableServiceInterface {
@@ -71,17 +79,17 @@ export class CountryDatatableComponent extends AbstractDatatableController {
     ];
   }
 
-  getActions (): DatatableAction[] {
+  protected hasControlPanel (): boolean {
+    return true;
+  }
+
+  protected getControlPanelActions (): DatatableAction[] {
     return [
       new DatatableAction(this.translateService.instant('Add'), 'fa fa-plus', () => {
         this.setModel(this.getEmptyModel());
         this.displayDialog = true;
       }),
     ];
-  }
-
-  getSortBy(): string {
-    return 'title';
   }
 
   confirmDelete(): void {

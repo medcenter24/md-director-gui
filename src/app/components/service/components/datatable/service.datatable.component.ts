@@ -26,6 +26,7 @@ import { LoadableServiceInterface } from '../../../core/loadable';
 import { Service } from '../../service';
 import { DatatableAction, DatatableCol, DatatableComponent, DatatableTransformer } from '../../../ui/datatable';
 import { ConfirmationService, FilterMetadata } from 'primeng/api';
+import { Breadcrumb } from '../../../../theme/components/baContentTop/breadcrumb';
 
 @Component({
   selector: 'nga-service-datatable',
@@ -49,6 +50,13 @@ export class ServiceDatatableComponent extends AbstractDatatableController {
     private confirmationService: ConfirmationService,
   ) {
     super();
+  }
+
+  protected onLangLoaded () {
+    super.onLangLoaded();
+    const breadcrumbs = [];
+    breadcrumbs.push(new Breadcrumb('Services', '/pages/doctors/services', true));
+    this._state.notifyDataChanged('menu.activeLink', breadcrumbs);
   }
 
   save () {
@@ -81,17 +89,17 @@ export class ServiceDatatableComponent extends AbstractDatatableController {
     ];
   }
 
-  getActions(): DatatableAction[] {
+  protected hasControlPanel (): boolean {
+    return true;
+  }
+
+  protected getControlPanelActions (): DatatableAction[] {
     return [
       new DatatableAction(this.translateService.instant('Add'), 'fa fa-plus', () => {
         this.setModel(this.getEmptyModel());
         this.displayDialog = true;
       }),
     ];
-  }
-
-  getSortBy(): string {
-    return 'title';
   }
 
   confirmDelete(): void {

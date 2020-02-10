@@ -132,7 +132,6 @@ export class ProfileComponent extends LoadingComponent implements OnInit {
     this.usersService.update(this.loggedUser)
       .then(() => {
         this.stopLoader(opName);
-        this.uiToastService.saved();
       })
       .catch(() => {
         this.stopLoader(opName);

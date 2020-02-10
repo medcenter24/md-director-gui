@@ -25,7 +25,6 @@ import { LoadableComponent } from '../../../core/components/componentLoader';
 import { Upload } from '../../upload';
 import { UploadService } from '../../upload.service';
 import { HttpHeaders } from '@angular/common/http';
-import { forEach } from '@angular/router/src/utils/collection';
 import { UiToastService } from '../../../ui/toast/ui.toast.service';
 
 @Component({

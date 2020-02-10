@@ -31,7 +31,7 @@
   <nga-assistant-editor
     #editAssistantForm
     [assistant]="model"
-    (assistantSaved)="onChanged($event)"
+    (assistantSaved)="onChanged()"
     (init)="startLoader($event)"
     (loaded)="stopLoader($event)"
   ></nga-assistant-editor>

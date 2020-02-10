@@ -78,7 +78,6 @@ export class PatientEditorComponent extends LoadableComponent {
         this.patient = patient;
       }
       this.changed.emit(this.patient);
-      this.uiToastService.saved();
     }).catch(() => this.stopLoader(postfix));
   }
 

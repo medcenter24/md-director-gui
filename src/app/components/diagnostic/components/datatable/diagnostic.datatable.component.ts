@@ -28,6 +28,7 @@ import { DiagnosticService } from '../../diagnostic.service';
 import { Diagnostic } from '../../diagnostic';
 import { LoggerComponent } from '../../../core/logger/LoggerComponent';
 import { FilterMetadata } from 'primeng/api';
+import { Breadcrumb } from '../../../../theme/components/baContentTop/breadcrumb';
 
 @Component({
   selector: 'nga-diagnostic-datatable',
@@ -51,6 +52,13 @@ export class DiagnosticDatatableComponent extends AbstractDatatableController {
     protected datatable: ElementRef,
   ) {
     super();
+  }
+
+  protected onLangLoaded () {
+    super.onLangLoaded();
+    const breadcrumbs = [];
+    breadcrumbs.push(new Breadcrumb('Diagnostics', '/pages/doctors/diagnostics', true));
+    this._state.notifyDataChanged('menu.activeLink', breadcrumbs);
   }
 
   protected getDatatableComponent (): DatatableComponent {
@@ -84,7 +92,11 @@ export class DiagnosticDatatableComponent extends AbstractDatatableController {
     }
   }
 
-  getActions(): DatatableAction[] {
+  protected hasControlPanel (): boolean {
+    return true;
+  }
+
+  protected getControlPanelActions (): DatatableAction[] {
     return [
       new DatatableAction(this.translateService.instant('Add'), 'fa fa-plus', () => {
         this.setModel(this.getEmptyModel());
