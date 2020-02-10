@@ -29,6 +29,7 @@ import { LoadingComponent } from '../../components/core/components/componentLoad
 import { LocalStorageHelper } from '../../helpers/local.storage.helper';
 import { UploaderOptions, UploadInput } from 'ngx-uploader';
 import { LoggerComponent } from '../../components/core/logger/LoggerComponent';
+import { UiToastService } from '../../components/ui/toast/ui.toast.service';
 
 @Component({
   selector: 'nga-profile',
@@ -60,6 +61,7 @@ export class ProfileComponent extends LoadingComponent implements OnInit {
                private loggedUserService: LoggedUserService,
                private authService: AuthenticationService,
                private storage: LocalStorageHelper,
+               private uiToastService: UiToastService,
   ) {
     super();
   }
@@ -130,19 +132,11 @@ export class ProfileComponent extends LoadingComponent implements OnInit {
     this.usersService.update(this.loggedUser)
       .then(() => {
         this.stopLoader(opName);
-        this.msgs = [];
-        this.msgs.push({ severity: 'success',
-            summary: this.translateService.instant('Success'),
-            detail: this.translateService.instant('Saved') });
-        this._state.notifyDataChanged('growl', this.msgs);
+        this.uiToastService.saved();
       })
       .catch(() => {
         this.stopLoader(opName);
-        this.msgs = [];
-        this.msgs.push({ severity: 'error',
-            summary: this.translateService.instant('error'),
-            detail: this.translateService.instant('Data not saved') });
-        this._state.notifyDataChanged('growl', this.msgs);
+        this.uiToastService.error();
       });
   }
 
@@ -164,10 +158,7 @@ export class ProfileComponent extends LoadingComponent implements OnInit {
 
   endPhotoUpload(event): void {
     this.stopLoader('PhotoUpload');
-    this.msgs.push({ severity: 'success',
-      summary: this.translateService.instant('Success'),
-      detail: this.translateService.instant('Saved') });
-    this._state.notifyDataChanged('growl', this.msgs);
+    this.uiToastService.saved();
 
     const opName: string = 'LoadUser';
     this.startLoader(opName);
@@ -185,17 +176,11 @@ export class ProfileComponent extends LoadingComponent implements OnInit {
     this.usersService.deletePhoto(this.loggedUser.id)
     .then(() => {
       this.stopLoader(opName);
-      this.msgs.push({ severity: 'success',
-        summary: this.translateService.instant('Success'),
-        detail: this.translateService.instant('Saved') });
-      this._state.notifyDataChanged('growl', this.msgs);
+      this.uiToastService.saved();
     })
     .catch(() => {
       this.stopLoader(opName);
-      this.msgs.push({ severity: 'error',
-        summary: this.translateService.instant('error'),
-        detail: this.translateService.instant('Data not saved') });
-      this._state.notifyDataChanged('growl', this.msgs);
+      this.uiToastService.error();
     });
   }
 

@@ -32,6 +32,7 @@ import { Breadcrumb } from '../../../../theme/components/baContentTop/breadcrumb
 import { DatatableRequestBuilder } from '../../../../components/ui/datatable/request/datatable.request.builder';
 import { FilterRequestField, SortRequestField } from '../../../../components/core/http/request/fields';
 import { RequestBuilder } from '../../../../components/core/http/request';
+import { UiToastService } from '../../../../components/ui/toast/ui.toast.service';
 
 @Component({
   selector: 'nga-development-datatable-preview',
@@ -50,6 +51,7 @@ export class DevelopmentDatatablePreviewComponent extends AbstractDatatableContr
     protected _state: GlobalState,
     private previewDataService: PreviewDataService,
     protected translateService: TranslateService,
+    private uiToastService: UiToastService,
   ) {
     super();
     const breadcrumbs = [];
@@ -100,11 +102,7 @@ export class DevelopmentDatatablePreviewComponent extends AbstractDatatableContr
       new DatatableAction('Action', 'fa fa-plus', () => {
         this.setModel(this.getEmptyModel());
         this.displayDialog = true;
-        this._state.notifyDataChanged( 'growl', [{
-          severity: 'info',
-          summary: 'Not configured',
-          detail: 'That is the test, real action was not run',
-        }]);
+        this.uiToastService.infoMessage('That is the test, real action was not run');
       }),
     ];
   }
@@ -132,36 +130,20 @@ export class DevelopmentDatatablePreviewComponent extends AbstractDatatableContr
   protected getCaptionActions(): DatatableAction[] {
     return [
       new DatatableAction('Action', 'fa fa-download', () => {
-        this._state.notifyDataChanged( 'growl', [{
-          severity: 'info',
-          summary: 'Not configured',
-          detail: 'That is the test, real action was not run',
-        }]);
+        this.uiToastService.infoMessage('That is the test, real action was not run');
       }),
     ];
   }
 
   onSort(): void {
-    this._state.notifyDataChanged( 'growl', [{
-      severity: 'info',
-      summary: 'Not configured',
-      detail: 'That is the test, real sorting is not working',
-    }]);
+    this.uiToastService.infoMessage('That is the test, real action was not run');
   }
 
   onFilter(): void {
-    this._state.notifyDataChanged( 'growl', [{
-      severity: 'info',
-      summary: 'Not configured',
-      detail: 'That is the test, real filtering is not working',
-    }]);
+    this.uiToastService.infoMessage('That is the test, real action was not run');
   }
 
   onPaginate(): void {
-    this._state.notifyDataChanged( 'growl', [{
-      severity: 'info',
-      summary: 'Not configured',
-      detail: 'That is the test, real pagination is not working',
-    }]);
+    this.uiToastService.infoMessage('That is the test, real action was not run');
   }
 }

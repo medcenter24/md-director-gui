@@ -31,6 +31,7 @@ import { ActivatedRoute, Params, Router } from '@angular/router';
 import { GlobalState } from '../../../../global.state';
 import { FinanceCurrencyService } from '../currency/finance.currency.service';
 import { Breadcrumb } from '../../../../theme/components/baContentTop/breadcrumb';
+import { UiToastService } from '../../../ui/toast/ui.toast.service';
 
 @Component({
   selector: 'nga-finance-editor',
@@ -67,6 +68,7 @@ export class FinanceEditorComponent extends LoadableComponent implements OnInit 
     protected translateService: TranslateService,
     public currencyService: FinanceCurrencyService,
     public hospitalService: HospitalsService,
+    private uiToastService: UiToastService,
   ) {
     super();
   }

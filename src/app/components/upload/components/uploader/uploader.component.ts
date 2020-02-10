@@ -24,6 +24,7 @@ import { AuthenticationService } from '../../../auth/authentication.service';
 import { DocumentsService } from '../../../document/documents.service';
 import { Document } from '../../../document/document';
 import { LoadableComponent } from '../../../core/components/componentLoader/LoadableComponent';
+import { UiToastService } from '../../../ui/toast/ui.toast.service';
 
 
 // todo needs to be moved to documents
@@ -49,7 +50,9 @@ export class FileUploaderComponent extends LoadableComponent implements OnInit {
               private translate: TranslateService,
               private _logger: LoggerComponent, private _state: GlobalState,
               private authenticationService: AuthenticationService,
-              private documentsService: DocumentsService) {
+              private documentsService: DocumentsService,
+              private uiToastService: UiToastService,
+  ) {
     super();
   }
 
@@ -63,8 +66,6 @@ export class FileUploaderComponent extends LoadableComponent implements OnInit {
   }
 
   handleBeforeUpload(event): void {
-    this.msgs = [];
-    this._state.notifyDataChanged('growl', this.msgs);
     this.startLoader('Uploader');
   }
 
@@ -73,23 +74,14 @@ export class FileUploaderComponent extends LoadableComponent implements OnInit {
   }
 
   handleUpload(event): void {
-    this.msgs = [];
-    const loadedFiles = JSON.parse(event.xhr.response).data as Document[];
-    for (const file of loadedFiles) {
-      this.documents.push(file);
-      this.msgs.push({ severity: 'info', summary: this.translateLoaded, detail: file.title });
-    }
-    this._state.notifyDataChanged('growl', this.msgs);
+    this.uiToastService.saved();
     this.changed.emit(this.documents);
     this.stopLoader('Uploader');
   }
 
   // used by the template uploader.html
   handleError(event): void {
-      for (const file of event.files) {
-          this.msgs.push({ severity: 'error', summary: this.translateErrorLoad, detail: file.name });
-      }
-      this._state.notifyDataChanged('growl', this.msgs);
+      this.uiToastService.error();
       this._logger.error(`Error: Upload to ${event.xhr.responseURL}
         [${event.xhr.status}: ${event.xhr.statusText}]`);
       this.stopLoader('Uploader');

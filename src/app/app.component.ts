@@ -38,8 +38,6 @@ import { UiToastService } from './components/ui/toast/ui.toast.service';
 })
 export class AppComponent implements AfterViewInit {
 
-  // growl messages
-  msgs: Message[] = [];
   isMenuCollapsed: boolean = false;
   // global window block
   blocked: boolean = false;
@@ -67,11 +65,6 @@ export class AppComponent implements AfterViewInit {
     this._state.subscribe('menu.isCollapsed', (isCollapsed) => {
       this.isMenuCollapsed = isCollapsed;
     });
-
-    /**
-     * Messages on the top right
-     */
-    this._state.subscribe('growl', (msgs: Message[]) => this.msgs = msgs);
 
     /**
      * Dialogs to have opportunity to do it quickly

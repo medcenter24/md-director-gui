@@ -27,6 +27,8 @@ import { Message } from 'primeng/primeng';
 import { Router } from '@angular/router';
 import { LocalStorageHelper } from '../../helpers/local.storage.helper';
 import { JwtHelperService } from '@auth0/angular-jwt';
+import { LoggerComponent } from '../core/logger/LoggerComponent';
+import { UiToastService } from '../ui/toast/ui.toast.service';
 
 /**
  * I met a lot of issues with tokens, so make it as simple as possible
@@ -60,6 +62,8 @@ export class AuthenticationService {
     private router: Router,
     private storage: LocalStorageHelper,
     private jwtHelper: JwtHelperService,
+    private _logger: LoggerComponent,
+    private uiToastService: UiToastService,
   ) {
   }
 
@@ -91,9 +95,8 @@ export class AuthenticationService {
             this.logout();
             this.router.navigate(['login']);
           } else {
-            this.msgs = [];
-            this.msgs.push({ severity: 'error', summary: this.translate.instant('Error'), detail: err });
-            this._state.notifyDataChanged('growl', this.msgs);
+            this._logger.error(err.toString());
+            this.uiToastService.error();
           }
         },
       );

@@ -27,6 +27,7 @@ import { Form } from '../../form';
 import { TranslateService } from '@ngx-translate/core';
 import { FormOption } from '../options/form.option';
 import { BaToolboxAction } from '../../../../theme/components/baToolbox';
+import { UiToastService } from '../../../ui/toast/ui.toast.service';
 declare var $: any;
 
 @Component({
@@ -51,6 +52,7 @@ export class FormEditorComponent extends LoadableComponent implements OnInit {
     protected _state: GlobalState,
     private translateService: TranslateService,
     private router: Router,
+    private uiToastService: UiToastService,
   ) {
     super();
   }
@@ -150,10 +152,7 @@ export class FormEditorComponent extends LoadableComponent implements OnInit {
     this.formService.save(form)
       .then(savedForm => {
         this.stopLoader(postfix);
-        this.msgs = [];
-        this.msgs.push({ severity: 'success', summary: this.translateService.instant('Saved'),
-          detail: this.translateService.instant('Successfully saved') });
-        this._state.notifyDataChanged('growl', this.msgs);
+        this.uiToastService.saved();
         if (!previousId) {
           this.router.navigate([`pages/settings/forms/${savedForm.id}`]).then();
         }

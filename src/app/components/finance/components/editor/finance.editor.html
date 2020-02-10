@@ -23,9 +23,9 @@
           <label class="label required separate" for="title" translate>Title</label>
           <input type="text" pInputText
                  id="title"
-                 [(value)]="rule.title"
+                 [value]="rule.title"
                  size="30"
-                 (input)="rule.title = $event.target.value"
+                 (input)="rule.title = $event.target['value']"
                  autocomplete="off"
                  required/>
         </div>
@@ -126,7 +126,7 @@
           <label class="label required separate" for="price"><b translate>Set Amount</b></label>
           <input type="text" pInputText
                  id="price"
-                 [(value)]="rule.value"
+                 [value]="rule.value"
                  size="30"
                  (input)="onPriceAmountChanged($event)"
                  (change)="priceAmountToFixed($event)"
@@ -173,7 +173,7 @@
     <div class="col-12 col-lg-6 col-xlg-8 mt-3">
       <div class="alert alert-warning" role="alert">
         <nga-finance-info
-                [(financeRule)]="rule"
+                [financeRule]="rule"
                 (init)="startLoader($event)"
                 (loaded)="stopLoader($event)"
         ></nga-finance-info>

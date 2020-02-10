@@ -26,7 +26,7 @@ import { NgaModule } from './theme/nga.module';
 import { PagesModule } from './pages/pages.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { SlimLoadingBarModule } from 'ng2-slim-loading-bar';
-import { BlockUIModule, ConfirmationService, ConfirmDialogModule, GrowlModule } from 'primeng/primeng';
+import { BlockUIModule, ConfirmationService, ConfirmDialogModule } from 'primeng/primeng';
 import { environment } from '../environments/environment';
 import { routing } from './app.routing';
 import { ApiErrorService } from './components/ui/apiError.service';
@@ -76,7 +76,6 @@ export function tokenGetter() {
     PagesModule,
     routing,
     SlimLoadingBarModule.forRoot(),
-    GrowlModule,
     ConfirmDialogModule,
     BlockUIModule,
     AppTranslationModule,
@@ -89,6 +88,7 @@ export function tokenGetter() {
     } ),
     LoggerModule,
     UiToastModule,
+    NgaModule,
   ],
   exports: [],
   providers: [ // expose our Services and Providers into Angular's dependency injection

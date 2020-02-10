@@ -26,6 +26,7 @@ import { Upload } from '../../upload';
 import { UploadService } from '../../upload.service';
 import { HttpHeaders } from '@angular/common/http';
 import { forEach } from '@angular/router/src/utils/collection';
+import { UiToastService } from '../../../ui/toast/ui.toast.service';
 
 @Component({
   selector: 'nga-file-upload',
@@ -60,6 +61,7 @@ export class UploadFileComponent extends LoadableComponent implements OnInit {
     private _state: GlobalState,
     private authenticationService: AuthenticationService,
     private uploadService: UploadService,
+    private uiToastService: UiToastService,
   ) {
     super();
     this.httpHeaders = new HttpHeaders().set('Authorization', `Bearer ${this.authenticationService.getToken()}`);
@@ -70,8 +72,6 @@ export class UploadFileComponent extends LoadableComponent implements OnInit {
   }
 
   handleBeforeUpload(): void {
-    this.msgs = [];
-    this._state.notifyDataChanged('growl', this.msgs);
     this.startLoader('Uploader');
   }
 
@@ -79,20 +79,13 @@ export class UploadFileComponent extends LoadableComponent implements OnInit {
     this.stopLoader('Uploader');
     this.msgs = [];
     this.file = event.originalEvent.body as Upload;
-    /*event.files.forEach((file: File) => {
-      this.file = file;
-      this.msgs.push({ severity: 'info', summary: 'this.translateLoaded', detail: this.file.name });
-    });*/
-    this._state.notifyDataChanged('growl', this.msgs);
+    this.uiToastService.saved();
     this.changed.emit(this.file);
   }
 
   // used by the template uploader.html
   handleError(event): void {
-    for (const file of event.files) {
-      this.msgs.push({ severity: 'error', summary: 'this.translateErrorLoad', detail: file.name });
-    }
-    this._state.notifyDataChanged('growl', this.msgs);
+    this.uiToastService.error();
     if (event.hasOwnProperty('xhr')) {
       this._logger.error( `Error: Upload to ${event.xhr.responseURL}
         [${event.xhr.status}: ${event.xhr.statusText}]` );

@@ -29,4 +29,36 @@ export class UiToastService {
   saved(): void {
     this.component.saved();
   }
+
+  deleted(): void {
+    this.component.deleted();
+  }
+
+  created(): void {
+    this.component.created();
+  }
+
+  httpError(): void {
+    this.component.httpError();
+  }
+
+  error(): void {
+    this.component.error();
+  }
+
+  errorMessage(message: string): void {
+    this.component.errorMessage(message);
+  }
+
+  notFound(): void {
+    this.component.notFound();
+  }
+
+  successMessage(message: string): void {
+    this.component.successMessage(message);
+  }
+
+  infoMessage(message: string): void {
+    this.component.infoMessage(message);
+  }
 }

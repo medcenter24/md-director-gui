@@ -56,6 +56,7 @@ import { BaToolboxAction } from '../../../../theme/components/baToolbox';
 import { FormViewerComponent } from '../../../forms/components/viewer';
 import { LoggerComponent } from '../../../core/logger/LoggerComponent';
 import { Breadcrumb } from '../../../../theme/components/baContentTop/breadcrumb';
+import { UiToastService } from '../../../ui/toast/ui.toast.service';
 
 @Component({
   selector: 'nga-case-editor',
@@ -151,6 +152,7 @@ export class CaseEditorComponent extends LoadingComponent implements OnInit {
                public cityService: CitiesService,
                public hospitalService: HospitalsService,
                public formService: FormService,
+               private uiToastService: UiToastService,
   ) {
     super();
   }
@@ -251,7 +253,7 @@ export class CaseEditorComponent extends LoadingComponent implements OnInit {
             this.stopLoader(mainPostfix);
             if (err.status === 404) {
               this._logger.error('Resource not found');
-              this.growlError('Error', 'Resource not found');
+              this.uiToastService.notFound();
               this.router.navigate(['pages/cases']).then();
             } else {
               this._logger.error(err);
@@ -292,26 +294,16 @@ export class CaseEditorComponent extends LoadingComponent implements OnInit {
     this.tabStopper.init();
   }
 
-  private growlError(title: string, msg: string): void {
-    this.translate.get('Save').subscribe(() => {
-      this._state.notifyDataChanged( 'growl', [{
-        severity: 'error',
-        summary: this.translate.instant( title ),
-        detail: this.translate.instant( msg ),
-      }]);
-    });
-  }
-
   previewCase(): void {
     this.requireSave().then(() => {
       if (this.formViewerComponent && typeof this.formViewerComponent['preview'] === 'function') {
         this.formViewerComponent.preview(true);
       } else {
-        this.growlError('Error', 'Form not selected');
+        this.uiToastService.errorMessage(this.translate.instant('Form not selected'));
       }
     }).catch((e) => {
       this._logger.error(e);
-      this.growlError('Console Error', e.message);
+      this.uiToastService.error();
     });
   }
 
@@ -320,7 +312,7 @@ export class CaseEditorComponent extends LoadingComponent implements OnInit {
       this.formViewerComponent.downloadPdf(true);
     }).catch((e) => {
       this._logger.error(e);
-      this.growlError('Console Error', e.message);
+      this.uiToastService.error();
     });
   }
 
@@ -330,7 +322,7 @@ export class CaseEditorComponent extends LoadingComponent implements OnInit {
     }).catch((e) => {
       // have to be defined, otherwise won't work
       this._logger.error(e);
-      this.growlError('Console Error', e.message);
+      this.uiToastService.error();
     });
   }
 
@@ -380,18 +372,15 @@ export class CaseEditorComponent extends LoadingComponent implements OnInit {
           const postfix = 'caseClosing';
           this.startLoader(postfix);
           this.caseService.closeCase(this.accident.id).then(() => {
-            this.msgs = [];
-            this.msgs.push({ severity: 'success', summary: this.translate.instant('Success'),
-              detail: 'Case closed.' });
-            this._state.notifyDataChanged('growl', this.msgs);
+            this.uiToastService.successMessage(this.translate.instant('Case closed.'));
             this.scenarioComponent.reload();
             this.stopLoader(postfix);
           }).catch(err => {
             if (err.status === 404) {
-              this.growlError('Error', 'Resource not found');
+              this.uiToastService.notFound();
             } else {
               this._logger.error(err);
-              this.growlError('Console Error', err.message);
+              this.uiToastService.error();
               this.stopLoader(postfix);
             }
           });
@@ -418,10 +407,7 @@ export class CaseEditorComponent extends LoadingComponent implements OnInit {
             this.goToList().then(() => this.stopLoader(postfix));
           }).catch(err => {
             if (err.status === 404) {
-              this.msgs = [];
-              this.msgs.push({ severity: 'error', summary: this.translate.instant('Error'),
-                detail: this.translate.instant('404 Not Found') });
-              this._state.notifyDataChanged('growl', this.msgs);
+              this.uiToastService.notFound();
               this.router.navigate(['pages/cases']).then(() => this.stopLoader(postfix));
             } else {
               this._logger.error(err);
@@ -439,10 +425,7 @@ export class CaseEditorComponent extends LoadingComponent implements OnInit {
     this.startLoader(postfix);
     this.caseService.saveCase(data).then(response => {
       this.doctorBeforeSave = +this.doctorAccident.doctorId;
-      this.msgs = [];
-      this.msgs.push({ severity: 'success', summary: this.translate.instant('Saved'),
-        detail: this.translate.instant('Successfully saved') });
-      this._state.notifyDataChanged('growl', this.msgs);
+      this.uiToastService.saved();
       this.hasChangedData = false;
       if (!data.accident.id) {
         this.router.navigate([`pages/cases/${response.accident.id}`]).then(() => this.stopLoader(postfix));
@@ -453,18 +436,10 @@ export class CaseEditorComponent extends LoadingComponent implements OnInit {
       }
     }).catch(err => {
       if (err.status === 404) {
-        this.msgs = [];
-        this.msgs.push({ severity: 'error', summary: this.translate.instant('Error'),
-          detail: this.translate.instant('404 Not Found') });
-        this._state.notifyDataChanged('growl', this.msgs);
+        this.uiToastService.notFound();
         this.goToList().then(() => this.stopLoader(postfix));
       } else if (err.status === 403) {
-        this.msgs = [];
-        this.msgs.push({
-          severity: 'error', summary: this.translate.instant('Error'),
-          detail: this.translate.instant('This case was closed'),
-        });
-        this._state.notifyDataChanged('growl', this.msgs);
+        this.uiToastService.successMessage(this.translate.instant('This case was closed'));
         this.stopLoader(postfix);
       } else {
         this._logger.error(err);

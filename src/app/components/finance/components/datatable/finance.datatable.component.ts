@@ -107,6 +107,10 @@ export class FinanceDatatableComponent extends AbstractDatatableController {
     return res;
   }
 
+  protected hasControlPanel (): boolean {
+    return true;
+  }
+
   getControlPanelActions(): DatatableAction[] {
     return [
       new DatatableAction(this.translateService.instant('Add'), 'fa fa-plus', () => {

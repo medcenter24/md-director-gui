@@ -23,6 +23,7 @@ import { GlobalState } from '../../../../global.state';
 import { TranslateService } from '@ngx-translate/core';
 import { Message } from 'primeng/primeng';
 import { LoadableComponent } from '../../../core/components/componentLoader';
+import { UiToastService } from '../../../ui/toast/ui.toast.service';
 
 @Component({
   selector: 'nga-patient-editor',
@@ -44,6 +45,7 @@ export class PatientEditorComponent extends LoadableComponent {
     private patientService: PatientsService,
     private _state: GlobalState,
     private translate: TranslateService,
+    private uiToastService: UiToastService,
   ) {
     super();
   }
@@ -76,12 +78,7 @@ export class PatientEditorComponent extends LoadableComponent {
         this.patient = patient;
       }
       this.changed.emit(this.patient);
-      this.msgs = [];
-      this.msgs.push({
-        severity: 'success', summary: this.translate.instant('Saved'),
-        detail: this.translate.instant('Successfully saved'),
-      });
-      this._state.notifyDataChanged('growl', this.msgs);
+      this.uiToastService.saved();
     }).catch(() => this.stopLoader(postfix));
   }
 
