@@ -26,7 +26,8 @@
   [(visible)]="displayDialog"
   [responsive]="true"
   [modal]="true"
-  appendTo="body">
+  appendTo="body"
+  (onHide)="deselectAll()">
 
   <nga-patient-editor
     #editPatientForm

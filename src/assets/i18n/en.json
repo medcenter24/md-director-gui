@@ -1,4 +1,7 @@
 {
+  "ID": "ID",
+  "Disease Description": "Disease Description",
+  "Diseases": "Diseases",
   "HTTP Error Occurred": "HTTP Error Occurred",
   "Undefined": "Undefined",
   "Find": "Find",

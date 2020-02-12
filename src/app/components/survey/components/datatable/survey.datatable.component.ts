@@ -25,8 +25,13 @@ import { SurveyService } from '../../survey.service';
 import { LoadableServiceInterface } from '../../../core/loadable';
 import { Survey } from '../../survey';
 import { DatatableAction, DatatableCol, DatatableComponent, DatatableTransformer } from '../../../ui/datatable';
-import { ConfirmationService, FilterMetadata } from 'primeng/api';
+import { ConfirmationService } from 'primeng/api';
 import { Breadcrumb } from '../../../../theme/components/baContentTop/breadcrumb';
+import { DatatableRequestBuilder } from '../../../ui/datatable/request/datatable.request.builder';
+import { RequestBuilder } from '../../../core/http/request';
+import { FilterRequestField, SortRequestField } from '../../../core/http/request/fields';
+import { AutoCompleteSrcConfig } from '../../../ui/autosuggest/src';
+import { SurveyStatusService } from '../../survey.status.service';
 
 @Component({
   selector: 'nga-survey-datatable',
@@ -47,6 +52,7 @@ export class SurveyDatatableComponent extends AbstractDatatableController {
     protected translateService: TranslateService,
     private surveyService: SurveyService,
     private confirmationService: ConfirmationService,
+    private surveyStatusProvider: SurveyStatusService,
   ) {
     super();
   }
@@ -78,6 +84,7 @@ export class SurveyDatatableComponent extends AbstractDatatableController {
     return [
       new DatatableCol('title', this.translateService.instant('Title')),
       new DatatableCol('description', this.translateService.instant('Description')),
+      new DatatableCol('status', this.translateService.instant('Status')),
     ];
   }
 
@@ -103,45 +110,31 @@ export class SurveyDatatableComponent extends AbstractDatatableController {
     });
   }
 
-  private getFiltersWithoutStatus(): Object {
-    const newFilters = {};
-    const filters = this.getDatatableComponent().getConfig().get('filters');
-    Object.keys(filters).forEach(function (item: string) {
-      if (item !== 'status') {
-        newFilters[ item ] = filters[ item ];
-      }
-    });
-    return newFilters;
-  }
-
-  protected hasCaptionPanel (): boolean {
+  protected hasFilterRow (): boolean {
     return true;
   }
 
-  getFilters(): { [s: string]: FilterMetadata } {
-    const status = { value: 'active', matchMode: 'eq' } as FilterMetadata;
-    return { status };
-  }
-
-  protected getCaptionActions (): DatatableAction[] {
-    return [
-      new DatatableAction(this.translateService.instant('Show hidden'), 'fa fa-toggle-on', event => {
-        const btnEl = event.target.parentNode;
-        let st = btnEl.className;
-        const filters = this.getFiltersWithoutStatus();
-        if (st.includes('ui-button-success')) { // show hidden
-          st = st.replace('ui-button-success', '');
-          st = st.trim();
-          filters['status'] = { value: 'active', matchMode: 'eq' } as FilterMetadata;
-        } else {
-          // hide hidden
-          st += ' ui-button-success';
-        }
-        // todo replace it with new filtering
-        // this.applyFilters(filters);
-        btnEl.className = st;
-      }),
-    ];
+  protected getRequestBuilder (): DatatableRequestBuilder {
+    const requestBuilder = super.getRequestBuilder();
+    requestBuilder.setSorter(new RequestBuilder([
+      new SortRequestField('title'),
+      new SortRequestField('status'),
+    ]));
+    requestBuilder.setFilter(new RequestBuilder([
+      new FilterRequestField('title', null, FilterRequestField.MATCH_CONTENTS, FilterRequestField.TYPE_TEXT),
+      new FilterRequestField('status', null, FilterRequestField.MATCH_IN, FilterRequestField.TYPE_SELECT,
+        new AutoCompleteSrcConfig(
+          (filters) => this.surveyStatusProvider.search(filters),
+          1,
+          25,
+          this.translateService.instant('Status'),
+          'title',
+          'static',
+          true,
+        ),
+      ),
+    ]));
+    return requestBuilder;
   }
 
   protected setModel ( model: Object = null ): void {

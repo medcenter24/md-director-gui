@@ -105,17 +105,9 @@ export class DiagnosticDatatableComponent extends AbstractDatatableController {
     ];
   }
 
-  getSortBy(): string {
-    return 'name';
-  }
-
-  getFilters(): { [s: string]: FilterMetadata } {
-    const status = { value: 'active', matchMode: 'eq' } as FilterMetadata;
-    return { status };
-  }
-
   closeDiagnosticEditor(): void {
     this.displayDialog = false;
+    this.deselectAll();
   }
 
   onDiagnosticChanged(diagnostic: Diagnostic): void {

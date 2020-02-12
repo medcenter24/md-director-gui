@@ -42,6 +42,7 @@ import { DatatableRequestBuilder } from '../../../ui/datatable/request/datatable
 import { AutoCompleteSrcConfig } from '../../../ui/autosuggest/src';
 import { Location } from '@angular/common';
 import { RequestBuilder } from '../../../core/http/request';
+import { AccidentTemplateHelper } from '../../../accident/accident.template.helper';
 
 @Component({
   selector: 'nga-case-datatable',
@@ -97,6 +98,7 @@ export class CaseDatatableComponent extends AbstractDatatableController implemen
 
   getColumns(): DatatableCol[] {
     return [
+      new DatatableCol('id', this.translateService.instant('ID')),
       new DatatableCol('patientName', this.translateService.instant('Patient Name')),
       new DatatableCol('refNum', this.translateService.instant('Ref. Number')),
       new DatatableCol('assistantRefNum', this.translateService.instant('Assistant Ref Num')),
@@ -177,27 +179,15 @@ export class CaseDatatableComponent extends AbstractDatatableController implemen
     return `<span>${title}</span>`;
   }
 
-  private static getHtmlCaseType( val: string): string {
-    return `
-                <div>
-                    <div class="circle-icon m-auto ${val === 'medcenter24\\mcCore\\App\\DoctorAccident'
-      ? 'doctor' : 'hospital'}">
-                        <span class="fa fa-${val === 'medcenter24\\mcCore\\App\\DoctorAccident'
-      ? 'user-md' : 'hospital-o'}"></span>
-                    </div>
-                </div>
-            `;
-  }
-
   protected getTransformers (): DatatableTransformer[] {
     return [
       new DatatableTransformer('createdAt', val => DateHelper.toEuropeFormatWithTime(val)),
-      new DatatableTransformer('caseType', val => CaseDatatableComponent.getHtmlCaseType(val)),
+      new DatatableTransformer('caseType', val => AccidentTemplateHelper.getHtmlAccidentType(val)),
       new DatatableTransformer('status', val => this.getHtmlState(val)),
     ];
   }
 
-  protected hasColumnFilters (): boolean {
+  protected hasFilterRow (): boolean {
     return true;
   }
 
@@ -205,6 +195,7 @@ export class CaseDatatableComponent extends AbstractDatatableController implemen
 
     const requestBuilder = super.getRequestBuilder();
     requestBuilder.setSorter(new RequestBuilder([
+      new SortRequestField('id'),
       new SortRequestField('patientName'),
       new SortRequestField('createdAt'),
     ]));

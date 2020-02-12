@@ -18,7 +18,6 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { RequestBuilder } from '../../../../core/http/request';
 import { FilterRequestField } from '../../../../core/http/request/fields';
 import { AutoCompleteSrcConfig } from '../../../autosuggest/src';
-import { UiFilterTypesComponent } from '../../../filter/components/types';
 
 @Component({
   selector: 'nga-datatable-filter',

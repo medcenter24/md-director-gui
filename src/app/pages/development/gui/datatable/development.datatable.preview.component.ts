@@ -119,7 +119,7 @@ export class DevelopmentDatatablePreviewComponent extends AbstractDatatableContr
     return transformers;
   }
 
-  protected hasColumnFilters (): boolean {
+  protected hasFilterRow (): boolean {
     return true;
   }
 

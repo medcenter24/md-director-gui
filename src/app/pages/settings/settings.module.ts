@@ -23,6 +23,7 @@ import { AccidentCheckpointDatatableModule }
   from '../../components/accident/components/checkpoint/components/datatable';
 import { FormDatatableModule } from '../../components/forms/components/datatable';
 import { FormEditorPageModule } from './form/editor';
+import { DiseaseDatatableModule } from '../../components/disease/components/datatable';
 
 @NgModule({
   imports: [
@@ -31,6 +32,7 @@ import { FormEditorPageModule } from './form/editor';
     AccidentCheckpointDatatableModule,
     FormDatatableModule,
     FormEditorPageModule,
+    DiseaseDatatableModule,
   ],
   declarations: [
     SettingsComponent,

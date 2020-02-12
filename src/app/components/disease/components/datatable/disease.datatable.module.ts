@@ -15,24 +15,37 @@
  */
 
 import { NgModule } from '@angular/core';
-import { DatatableFiltersComponent } from './datatable.filters.component';
 import { CommonModule } from '@angular/common';
-import { InputTextModule } from 'primeng/inputtext';
+import { FormsModule } from '@angular/forms';
+import { AppTranslationModule } from '../../../../app.translation.module';
+import { DialogModule } from 'primeng/dialog';
 import { ButtonModule } from 'primeng/button';
-import { UiFilterTypeModule } from '../../../filter/components/types';
+import { DatatableModule } from '../../../ui/datatable';
+import { ConfirmDialogModule, InputMaskModule, InputSwitchModule } from 'primeng/primeng';
+import { DiseaseService } from '../../disease.service';
+import { DiseaseDatatableComponent } from './disease.datatable.component';
 
-@NgModule( {
+@NgModule({
   imports: [
     CommonModule,
-    InputTextModule,
+    FormsModule,
+    AppTranslationModule,
+    DialogModule,
     ButtonModule,
-    UiFilterTypeModule,
+    DatatableModule,
+    InputMaskModule,
+    ConfirmDialogModule,
+    InputSwitchModule,
+  ],
+  providers: [
+    DiseaseService,
   ],
   declarations: [
-    DatatableFiltersComponent,
+    DiseaseDatatableComponent,
   ],
   exports: [
-    DatatableFiltersComponent,
+    DiseaseDatatableComponent,
   ],
 })
-export class DatatableFiltersModule {}
+export class DiseaseDatatableModule {
+}

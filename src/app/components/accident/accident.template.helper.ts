@@ -14,25 +14,20 @@
  * Copyright (c) 2020 (original work) MedCenter24.com;
  */
 
-import { NgModule } from '@angular/core';
-import { DatatableFiltersComponent } from './datatable.filters.component';
-import { CommonModule } from '@angular/common';
-import { InputTextModule } from 'primeng/inputtext';
-import { ButtonModule } from 'primeng/button';
-import { UiFilterTypeModule } from '../../../filter/components/types';
+import { Injectable } from '@angular/core';
 
-@NgModule( {
-  imports: [
-    CommonModule,
-    InputTextModule,
-    ButtonModule,
-    UiFilterTypeModule,
-  ],
-  declarations: [
-    DatatableFiltersComponent,
-  ],
-  exports: [
-    DatatableFiltersComponent,
-  ],
-})
-export class DatatableFiltersModule {}
+@Injectable()
+export class AccidentTemplateHelper {
+
+  static getHtmlAccidentType(val: string): string {
+    return `
+                <div>
+                    <div class="circle-icon m-auto ${val === 'medcenter24\\mcCore\\App\\DoctorAccident'
+      ? 'doctor' : 'hospital'}">
+                        <span class="fa fa-${val === 'medcenter24\\mcCore\\App\\DoctorAccident'
+      ? 'user-md' : 'hospital-o'}"></span>
+                    </div>
+                </div>
+            `;
+  }
+}

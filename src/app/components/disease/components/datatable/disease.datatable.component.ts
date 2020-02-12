@@ -3,7 +3,6 @@
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; under version 2
  * of the License (non-upgradable).
- *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
@@ -12,46 +11,42 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2019 (original work) MedCenter24.com;
+ * Copyright (c) 2020 (original work) MedCenter24.com;
  */
 
 import { Component, ViewChild } from '@angular/core';
-import { DatatableCol } from '../../../ui/datatable';
-import { DatatableAction } from '../../../ui/datatable';
-import { TranslateService } from '@ngx-translate/core';
-import { GlobalState } from '../../../../global.state';
-import { SlimLoadingBarService } from 'ng2-slim-loading-bar';
-import { DatatableComponent } from '../../../ui/datatable';
-import { AssistantEditorComponent } from '../editor/assistant.editor.component';
-import { AssistantsService } from '../../assistant.service';
 import { AbstractDatatableController } from '../../../ui/tables/abstract.datatable.controller';
-import { LoadableServiceInterface } from '../../../core/loadable';
-import { Assistant } from '../../assistant';
+import { DatatableAction, DatatableCol, DatatableComponent } from '../../../ui/datatable';
+import { SlimLoadingBarService } from 'ng2-slim-loading-bar';
 import { LoggerComponent } from '../../../core/logger/LoggerComponent';
+import { GlobalState } from '../../../../global.state';
+import { TranslateService } from '@ngx-translate/core';
+import { ConfirmationService } from 'primeng/api';
 import { Breadcrumb } from '../../../../theme/components/baContentTop/breadcrumb';
+import { LoadableServiceInterface } from '../../../core/loadable';
 import { DatatableRequestBuilder } from '../../../ui/datatable/request/datatable.request.builder';
 import { RequestBuilder } from '../../../core/http/request';
 import { FilterRequestField, SortRequestField } from '../../../core/http/request/fields';
+import { DiseaseService } from '../../disease.service';
+import { Disease } from '../../disease';
 
 @Component({
-  selector: 'nga-assistant-datatable',
-  templateUrl: './assistant.datatable.html',
+  selector: 'nga-survey-datatable',
+  templateUrl: './disease.datatable.html',
 })
-export class AssistantDatatableComponent extends AbstractDatatableController {
-  protected componentName: string = 'AssistantDatatableComponent';
+export class DiseaseDatatableComponent extends AbstractDatatableController {
+  protected componentName: string = 'DiseaseDatatableComponent';
 
-  @ViewChild('assistantDatatableComponent')
-    private assistantDatatableComponent: DatatableComponent;
+  @ViewChild('diseaseDatatableComponent')
+  private datatable: DatatableComponent;
 
-  @ViewChild('editAssistantForm')
-    private editAssistantForm: AssistantEditorComponent;
-
-  constructor(
+  constructor (
+    protected loadingBar: SlimLoadingBarService,
     protected _logger: LoggerComponent,
     protected _state: GlobalState,
-    protected loadingBar: SlimLoadingBarService,
-    private translateService: TranslateService,
-    private assistantService: AssistantsService,
+    protected translateService: TranslateService,
+    private diseaseService: DiseaseService,
+    private confirmationService: ConfirmationService,
   ) {
     super();
   }
@@ -59,7 +54,7 @@ export class AssistantDatatableComponent extends AbstractDatatableController {
   protected onLangLoaded () {
     super.onLangLoaded();
     const breadcrumbs = [];
-    breadcrumbs.push(new Breadcrumb('Assistants', '/pages/companions/assistants', true));
+    breadcrumbs.push(new Breadcrumb('Diseases', '/pages/settings/diseases', true));
     this._state.notifyDataChanged('menu.activeLink', breadcrumbs);
   }
 
@@ -68,23 +63,22 @@ export class AssistantDatatableComponent extends AbstractDatatableController {
   }
 
   protected getDatatableComponent (): DatatableComponent {
-    return this.assistantDatatableComponent;
+    return this.datatable;
   }
 
-  getService (): LoadableServiceInterface {
-    return this.assistantService;
+  getService(): LoadableServiceInterface {
+    return this.diseaseService;
   }
 
-  getEmptyModel (): Object {
-    return new Assistant();
+  getEmptyModel(): Object {
+    return new Disease();
   }
 
-  getColumns (): DatatableCol[] {
+  getColumns(): DatatableCol[] {
     return [
       new DatatableCol('title', this.translateService.instant('Title')),
-      new DatatableCol('email', this.translateService.instant('E-Mail')),
-      new DatatableCol('commentary', this.translateService.instant('Commentary')),
-      new DatatableCol('refKey', this.translateService.instant('Ref. Key')),
+      new DatatableCol('description', this.translateService.instant('Description')),
+      new DatatableCol('code', this.translateService.instant('Code')),
     ];
   }
 
@@ -101,9 +95,13 @@ export class AssistantDatatableComponent extends AbstractDatatableController {
     ];
   }
 
-  onChanged(): void {
-    this.displayDialog = false;
-    this.getDatatableComponent().refresh();
+  confirmDelete(): void {
+    this.confirmationService.confirm({
+      message: this.translateService.instant('Are you sure that you want to perform this action?'),
+      accept: () => {
+        this.delete();
+      },
+    });
   }
 
   protected hasFilterRow (): boolean {
@@ -117,10 +115,8 @@ export class AssistantDatatableComponent extends AbstractDatatableController {
     ]));
     requestBuilder.setFilter(new RequestBuilder([
       new FilterRequestField('title', null, FilterRequestField.MATCH_CONTENTS, FilterRequestField.TYPE_TEXT),
-      new FilterRequestField('email', null, FilterRequestField.MATCH_CONTENTS, FilterRequestField.TYPE_TEXT),
-      new FilterRequestField('refKey', null, FilterRequestField.MATCH_CONTENTS, FilterRequestField.TYPE_TEXT),
+      new FilterRequestField('code', null, FilterRequestField.MATCH_CONTENTS, FilterRequestField.TYPE_TEXT),
     ]));
     return requestBuilder;
   }
 }
-

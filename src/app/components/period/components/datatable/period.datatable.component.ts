@@ -16,7 +16,6 @@
  */
 
 import { Component, ViewChild } from '@angular/core';
-import { LoadingComponent } from '../../../core/components/componentLoader';
 import { Period } from '../../period';
 import { PeriodService } from '../../period.service';
 import { DatatableConfig } from '../../../ui/datatable';
@@ -210,5 +209,4 @@ export class PeriodDatatableComponent extends AbstractDatatableController {
   setFromDow(dow: string): void {
     this.dowFrom = dow === null ? '' : dow;
   }
-
 }

@@ -14,25 +14,13 @@
  * Copyright (c) 2020 (original work) MedCenter24.com;
  */
 
-import { NgModule } from '@angular/core';
-import { DatatableFiltersComponent } from './datatable.filters.component';
-import { CommonModule } from '@angular/common';
-import { InputTextModule } from 'primeng/inputtext';
-import { ButtonModule } from 'primeng/button';
-import { UiFilterTypeModule } from '../../../filter/components/types';
+import { Injectable } from '@angular/core';
+import { HttpService } from '../core/http/http.service';
 
-@NgModule( {
-  imports: [
-    CommonModule,
-    InputTextModule,
-    ButtonModule,
-    UiFilterTypeModule,
-  ],
-  declarations: [
-    DatatableFiltersComponent,
-  ],
-  exports: [
-    DatatableFiltersComponent,
-  ],
-})
-export class DatatableFiltersModule {}
+@Injectable()
+export class SurveyStatusService extends HttpService {
+
+  protected getPrefix (): string {
+    return 'director/doctor/survey/statuses';
+  }
+}

@@ -34,6 +34,9 @@ import {
 import { AbstractDatatableController } from '../../../ui/tables/abstract.datatable.controller';
 import { Breadcrumb } from '../../../../theme/components/baContentTop/breadcrumb';
 import { LoadableServiceInterface } from '../../../core/loadable';
+import { DatatableRequestBuilder } from '../../../ui/datatable/request/datatable.request.builder';
+import { RequestBuilder } from '../../../core/http/request';
+import { FilterRequestField, SortRequestField } from '../../../core/http/request/fields';
 
 @Component({
   selector: 'nga-patient-datatable',
@@ -111,6 +114,22 @@ export class PatientDatatableComponent extends AbstractDatatableController {
         this.showDialogToAdd();
       }),
     ];
+  }
+
+  protected hasFilterRow (): boolean {
+    return true;
+  }
+
+  protected getRequestBuilder (): DatatableRequestBuilder {
+    const requestBuilder = super.getRequestBuilder();
+    requestBuilder.setSorter(new RequestBuilder([
+      new SortRequestField('name'),
+    ]));
+    requestBuilder.setFilter(new RequestBuilder([
+      new FilterRequestField('name', null, FilterRequestField.MATCH_CONTENTS, FilterRequestField.TYPE_TEXT),
+      new FilterRequestField('phones', null, FilterRequestField.MATCH_CONTENTS, FilterRequestField.TYPE_TEXT),
+    ]));
+    return requestBuilder;
   }
 
   showDialogToAdd() {

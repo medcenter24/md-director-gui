@@ -126,6 +126,14 @@ const menu = [
               },
             },
           },
+          {
+            path: 'diseases',
+            data: {
+              menu: {
+                title: 'Diseases',
+              },
+            },
+          },
         ],
       },
       {

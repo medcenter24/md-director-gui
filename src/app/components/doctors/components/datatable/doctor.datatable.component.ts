@@ -15,7 +15,7 @@
  * Copyright (c) 2019 (original work) MedCenter24.com;
  */
 
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { GlobalState } from '../../../../global.state';
 import { SlimLoadingBarService } from 'ng2-slim-loading-bar';
@@ -105,6 +105,7 @@ export class DoctorDatatableComponent extends AbstractDatatableController {
 
   closeDoctorEditor(): void {
     this.displayDialog = false;
+    this.deselectAll();
   }
 
   onDoctorChanged(doctor: Doctor): void {
@@ -118,5 +119,4 @@ export class DoctorDatatableComponent extends AbstractDatatableController {
     this.setModel(nDoctor);
     this.displayDialog = false;
   }
-
 }

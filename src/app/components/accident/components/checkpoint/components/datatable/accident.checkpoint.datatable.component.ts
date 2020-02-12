@@ -95,10 +95,6 @@ export class AccidentCheckpointDatatableComponent extends AbstractDatatableContr
     ];
   }
 
-  getSortBy(): string {
-    return 'title';
-  }
-
   confirmDelete(): void {
     this.confirmationService.confirm({
       header: this.translateService.instant('Delete'),

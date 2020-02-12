@@ -1,4 +1,7 @@
 {
+  "ID": "ID",
+  "Disease Description": "Описание болезни",
+  "Diseases": "Болезни",
   "HTTP Error Occurred": "Ошибка HTTP",
   "Loading": "Загрузка",
   "Undefined": "Неопределенно",

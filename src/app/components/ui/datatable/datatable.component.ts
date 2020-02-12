@@ -106,6 +106,11 @@ export class DatatableComponent extends LoadableComponent {
     this.refresh();
   }
 
+  // if I want to clean all selections
+  deselectAll(): void {
+    this.selectedData = [];
+  }
+
   loadLazy(event: LazyLoadEvent) {
     this.lazyLoadEvent = event;
   }

@@ -3,7 +3,6 @@
   ~ modify it under the terms of the GNU General Public License
   ~ as published by the Free Software Foundation; under version 2
   ~ of the License (non-upgradable).
-  ~
   ~ This program is distributed in the hope that it will be useful,
   ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
   ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
@@ -12,47 +11,35 @@
   ~ along with this program; if not, write to the Free Software
   ~ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
   ~
-  ~ Copyright (c) 2019 (original work) MedCenter24.com;
+  ~ Copyright (c) 2020 (original work) MedCenter24.com;
   -->
 
 <nga-datatable
+  #diseaseDatatableComponent
   *ngIf="langLoaded"
-  #datatable
   [config]="datatableConfig"
 ></nga-datatable>
 
 <p-dialog
-  header="{{ 'Hospital' | translate }}"
+  header="{{ 'Disease Description' | translate }}"
   [(visible)]="displayDialog"
   [responsive]="true"
   showEffect="fade"
   [modal]="true"
-  [style]="{width : '500px'}"
+  [style]="{width : '400px'}"
   (onHide)="deselectAll()">
 
-  <div class="ui-g ui-fluid" *ngIf="hospital">
+  <div class="ui-g ui-fluid" *ngIf="model">
     <div class="ui-g-12">
       <div class="ui-g-3">
         <label translate>Title</label>
       </div>
       <div class="ui-g-9">
-        <input pInputText [(ngModel)]="hospital.title" />
-      </div>
-    </div>
-    <div class="ui-g-12">
-      <div class="ui-g-3">
-        <label translate>Address</label>
-      </div>
-      <div class="ui-g-9">
-        <input pInputText [(ngModel)]="hospital.address" />
-      </div>
-    </div>
-    <div class="ui-g-12">
-      <div class="ui-g-3">
-        <label translate>Ref. Key</label>
-      </div>
-      <div class="ui-g-9">
-        <input pInputText [(ngModel)]="hospital.refKey" />
+        <input
+          pInputText
+          [(ngModel)]="model.title"
+          autocomplete="off"
+        />
       </div>
     </div>
     <div class="ui-g-12">
@@ -60,21 +47,29 @@
         <label translate>Description</label>
       </div>
       <div class="ui-g-9">
-        <textarea pInputTextarea [(ngModel)]="hospital.description"></textarea>
+        <input
+          pInputText
+          [(ngModel)]="model.description"
+          autocomplete="off"
+        />
       </div>
     </div>
     <div class="ui-g-12">
       <div class="ui-g-3">
-        <label translate>Phone</label>
+        <label translate>Disease Code</label>
       </div>
       <div class="ui-g-9">
-        <input pInputText [(ngModel)]="hospital.phones" />
+        <input
+          pInputText
+          [(ngModel)]="model.code"
+          autocomplete="off"
+        />
       </div>
     </div>
   </div>
   <p-footer>
     <div class="ui-dialog-buttonpane ui-helper-clearfix">
-      <button type="button" *ngIf="hospital && hospital.id" pButton icon="fa fa-close" (click)="delete()" label="{{ 'Delete' | translate }}"></button>
+      <button type="button" *ngIf="model && model.id" pButton icon="fa fa-close" (click)="confirmDelete()" label="{{ 'Delete' | translate }}"></button>
       <button type="button" pButton icon="fa fa-check" (click)="save()" label="{{ 'Save' | translate }}"></button>
     </div>
   </p-footer>

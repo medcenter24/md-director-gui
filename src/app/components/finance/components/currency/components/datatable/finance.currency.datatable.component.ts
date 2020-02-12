@@ -32,7 +32,6 @@ import { LoggerComponent } from '../../../../../core/logger/LoggerComponent';
 import { Breadcrumb } from '../../../../../../theme/components/baContentTop/breadcrumb';
 import { AbstractDatatableController } from '../../../../../ui/tables/abstract.datatable.controller';
 import { LoadableServiceInterface } from '../../../../../core/loadable';
-import { UiToastService } from '../../../../../ui/toast/ui.toast.service';
 
 @Component({
   selector: 'nga-currency-datatable',

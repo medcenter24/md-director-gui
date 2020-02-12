@@ -28,6 +28,7 @@
     [modal]="true"
     (onShow)="onDetailsShow()"
     appendTo="body"
+    (onHide)="deselectAll()"
 >
 
     <div class="ui-g ui-fluid" *ngIf="datePeriod">

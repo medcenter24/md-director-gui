@@ -27,7 +27,8 @@
   [responsive]="true"
   [closable]="true"
   [modal]="true"
-  appendTo="body">
+  appendTo="body"
+  (onHide)="deselectAll()">
 
   <div class="ui-g ui-fluid" *ngIf="city">
     <div class="ui-g-12">

@@ -98,12 +98,12 @@ export abstract class AbstractDatatableController extends LoadingComponent imple
         },
         transformers: this.getTransformers(),
         requestBuilder: this.getRequestBuilder(),
-        hasColumnFilters: this.hasColumnFilters(),
+        hasFilterRow: this.hasFilterRow(),
       });
     });
   }
 
-  protected hasColumnFilters(): boolean {
+  protected hasFilterRow(): boolean {
     return false;
   }
 
@@ -175,5 +175,9 @@ export abstract class AbstractDatatableController extends LoadingComponent imple
         this.getDatatableComponent().refresh();
       })
       .catch(() => this.stopLoader(postfix));
+  }
+
+  deselectAll(): void {
+    this.getDatatableComponent().deselectAll();
   }
 }
