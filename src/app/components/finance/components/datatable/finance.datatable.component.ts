@@ -28,7 +28,6 @@ import { ConfirmationService } from 'primeng/api';
 import { Router } from '@angular/router';
 import { LoggerComponent } from '../../../core/logger/LoggerComponent';
 import { Breadcrumb } from '../../../../theme/components/baContentTop/breadcrumb';
-import { CaseDatatableComponent } from '../../../case/components/datatable/case.datatable.component';
 import { AccidentTemplateHelper } from '../../../accident/accident.template.helper';
 
 @Component({
@@ -79,8 +78,8 @@ export class FinanceDatatableComponent extends AbstractDatatableController {
   getColumns(): DatatableCol[] {
     return [
       new DatatableCol('title', this.translateService.instant('Title')),
-      new DatatableCol('model', this.translateService.instant('Model')),
-      new DatatableCol('value', this.translateService.instant('Price')),
+      new DatatableCol('model', this.translateService.instant('Model'), { width: '5em' }),
+      new DatatableCol('value', this.translateService.instant('Price'), { width: '7em' }),
       new DatatableCol('condition', this.translateService.instant('Condition')),
     ];
   }

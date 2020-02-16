@@ -84,7 +84,7 @@ export class AssistantDatatableComponent extends AbstractDatatableController {
       new DatatableCol('title', this.translateService.instant('Title')),
       new DatatableCol('email', this.translateService.instant('E-Mail')),
       new DatatableCol('commentary', this.translateService.instant('Commentary')),
-      new DatatableCol('refKey', this.translateService.instant('Ref. Key')),
+      new DatatableCol('refKey', this.translateService.instant('Ref. Key'), { width: '5em' }),
     ];
   }
 
@@ -118,7 +118,6 @@ export class AssistantDatatableComponent extends AbstractDatatableController {
     requestBuilder.setFilter(new RequestBuilder([
       new FilterRequestField('title', null, FilterRequestField.MATCH_CONTENTS, FilterRequestField.TYPE_TEXT),
       new FilterRequestField('email', null, FilterRequestField.MATCH_CONTENTS, FilterRequestField.TYPE_TEXT),
-      new FilterRequestField('refKey', null, FilterRequestField.MATCH_CONTENTS, FilterRequestField.TYPE_TEXT),
     ]));
     return requestBuilder;
   }
