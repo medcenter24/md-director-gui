@@ -53,7 +53,6 @@ import { AutocompleterComponent } from '../../../ui/selector/components/autocomp
 import { CitiesService } from '../../../city';
 import { Hospital, HospitalsService } from '../../../hospital';
 import { BaToolboxAction } from '../../../../theme/components/baToolbox';
-import { FormViewerComponent } from '../../../forms/components/viewer';
 import { LoggerComponent } from '../../../core/logger/LoggerComponent';
 import { Breadcrumb } from '../../../../theme/components/baContentTop/breadcrumb';
 import { UiToastService } from '../../../ui/toast/ui.toast.service';

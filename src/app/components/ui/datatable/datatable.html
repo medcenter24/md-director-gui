@@ -74,6 +74,7 @@
     <tr>
       <th
         *ngFor="let col of columns"
+        [ngStyle]="col.style"
       >
         {{col.header}}
         <!-- Data sorting by the field -->

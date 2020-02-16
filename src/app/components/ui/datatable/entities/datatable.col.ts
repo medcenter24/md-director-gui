@@ -21,5 +21,7 @@ export class DatatableCol {
     public field: string = '',
     // title to show
     public header: string = '',
+    // styles for the col
+    public style: Object = null,
   ) {}
 }

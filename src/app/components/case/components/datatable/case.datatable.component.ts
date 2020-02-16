@@ -98,7 +98,7 @@ export class CaseDatatableComponent extends AbstractDatatableController implemen
 
   getColumns(): DatatableCol[] {
     return [
-      new DatatableCol('id', this.translateService.instant('ID')),
+      new DatatableCol('id', this.translateService.instant('ID'), { width: '5em' }),
       new DatatableCol('patientName', this.translateService.instant('Patient Name')),
       new DatatableCol('refNum', this.translateService.instant('Ref. Number')),
       new DatatableCol('assistantRefNum', this.translateService.instant('Assistant Ref Num')),
@@ -106,8 +106,8 @@ export class CaseDatatableComponent extends AbstractDatatableController implemen
       new DatatableCol('status', this.translateService.instant('Status')),
       // new DatatableCol('checkpoints', this.translateService.instant('Checkpoints')),
       // new DatatableCol('doctorsFee', this.translateService.instant('Doctors Fee')),
-      new DatatableCol('price', this.translateService.instant('Income')),
-      new DatatableCol('caseType', this.translateService.instant('Case Type')),
+      new DatatableCol('price', this.translateService.instant('Income'), { width: '7em' }),
+      new DatatableCol('caseType', this.translateService.instant('Case Type'), { width: '5em' }),
     ];
   }
 
