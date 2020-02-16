@@ -23,6 +23,9 @@ import { AutocompleterComponent } from '../../../ui/selector/components/autocomp
 import { Upload } from '../../../upload/upload';
 import { Invoice } from '../../invoice';
 import { InvoiceService } from '../../invoice.service';
+import { FormViewerComponent } from '../../../forms/components/viewer';
+import { UiToastService } from '../../../ui/toast/ui.toast.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'nga-invoice-editor',
@@ -33,6 +36,9 @@ export class InvoiceEditorComponent extends LoadableComponent implements OnInit 
 
   @ViewChild('invoiceFormAutocompleter')
     invoiceFormAutocompleter: AutocompleterComponent;
+
+  @ViewChild('formViewerComponent')
+    formViewerComponent: FormViewerComponent;
 
   @Input() invoice: Invoice;
   @Input() label: string = 'Invoice';
@@ -48,6 +54,8 @@ export class InvoiceEditorComponent extends LoadableComponent implements OnInit 
   constructor(
     public formService: FormService,
     public invoiceService: InvoiceService,
+    private uiToastService: UiToastService,
+    private translateService: TranslateService,
   ) {
     super();
   }
@@ -57,6 +65,17 @@ export class InvoiceEditorComponent extends LoadableComponent implements OnInit 
       this.invoice = new Invoice();
     } else if (this.reload) {
       this.setInvoice(this.invoice, true);
+    }
+  }
+
+  preview(): void {
+    if (this.formViewerComponent) {
+      this.formViewerComponent.preview( true );
+    } else {
+      this.translateService.get('Choose a form of the invoice')
+        .subscribe((translation: string) => {
+          this.uiToastService.errorMessage(translation);
+        });
     }
   }
 

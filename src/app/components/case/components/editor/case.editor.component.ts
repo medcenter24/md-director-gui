@@ -102,8 +102,8 @@ export class CaseEditorComponent extends LoadingComponent implements OnInit {
   @ViewChild('accidentReportFormAutocompleter')
     private accidentReportFormAutocompleter: AutocompleterComponent;
 
-  @ViewChild('formViewerComponent')
-    private formViewerComponent: FormViewerComponent;
+  @ViewChild('invoiceEditorComponent')
+    private invoiceEditorComponent: InvoiceEditorComponent;
 
   msgs: Message[] = [];
   accident: Accident;
@@ -296,31 +296,12 @@ export class CaseEditorComponent extends LoadingComponent implements OnInit {
 
   previewCase(): void {
     this.requireSave().then(() => {
-      if (this.formViewerComponent && typeof this.formViewerComponent['preview'] === 'function') {
-        this.formViewerComponent.preview(true);
+      if (this.invoiceEditorComponent && typeof this.invoiceEditorComponent['preview'] === 'function') {
+        this.invoiceEditorComponent.preview();
       } else {
         this.uiToastService.errorMessage(this.translate.instant('Form not selected'));
       }
     }).catch((e) => {
-      this._logger.error(e);
-      this.uiToastService.error();
-    });
-  }
-
-  casePdf(): void {
-    this.requireSave().then(() => {
-      this.formViewerComponent.downloadPdf(true);
-    }).catch((e) => {
-      this._logger.error(e);
-      this.uiToastService.error();
-    });
-  }
-
-  printCase(): void {
-    this.requireSave().then(() => {
-      this.formViewerComponent.print(true);
-    }).catch((e) => {
-      // have to be defined, otherwise won't work
       this._logger.error(e);
       this.uiToastService.error();
     });
