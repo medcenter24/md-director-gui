@@ -1,4 +1,8 @@
 {
+  "active": "active",
+  "disabled": "disabled",
+  "director": "Director",
+  "Created By": "Created By",
   "ID": "ID",
   "Disease Description": "Disease Description",
   "Diseases": "Diseases",

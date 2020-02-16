@@ -87,6 +87,8 @@ export class CityDatatableComponent extends AbstractDatatableController {
   protected getColumns (): DatatableCol[] {
     return [
       new DatatableCol('title', this.translateService.instant('Title')),
+      new DatatableCol('regionTitle', this.translateService.instant('Region')),
+      new DatatableCol('countryTitle', this.translateService.instant('Country')),
     ];
   }
 

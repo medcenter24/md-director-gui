@@ -174,16 +174,11 @@ export class CaseDatatableComponent extends AbstractDatatableController implemen
     return actions;
   }
 
-  private getHtmlState( val: string): string {
-    const title = this.translateService.instant(val);
-    return `<span>${title}</span>`;
-  }
-
   protected getTransformers (): DatatableTransformer[] {
     return [
       new DatatableTransformer('createdAt', val => DateHelper.toEuropeFormatWithTime(val)),
       new DatatableTransformer('caseType', val => AccidentTemplateHelper.getHtmlAccidentType(val)),
-      new DatatableTransformer('status', val => this.getHtmlState(val)),
+      new DatatableTransformer('status', val => this.translateService.instant(val)),
     ];
   }
 

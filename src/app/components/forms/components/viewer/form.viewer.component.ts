@@ -75,17 +75,6 @@ export class FormViewerComponent extends LoadableComponent {
   @Input() formableId: number;
 
   /**
-   * If initialized - will be run before performance
-   * doesn't work with all these inner parameters
-   */
- /*
-  @Input() before(): Promise<any> {
-    return new Promise<any>((resolve) => {
-      resolve();
-    });
-  }*/
-
-  /**
    * will be triggered event instead of real method
    * to pass control upper
    */
@@ -99,8 +88,6 @@ export class FormViewerComponent extends LoadableComponent {
   previewContainer: ElementRef;
 
   formPreviewerVisible: boolean = false;
-  private errorMessage: string = '';
-  private errorTitle: string = '';
 
   constructor(
     protected loadingBar: SlimLoadingBarService,

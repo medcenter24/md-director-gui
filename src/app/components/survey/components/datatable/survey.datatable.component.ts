@@ -32,6 +32,7 @@ import { RequestBuilder } from '../../../core/http/request';
 import { FilterRequestField, SortRequestField } from '../../../core/http/request/fields';
 import { AutoCompleteSrcConfig } from '../../../ui/autosuggest/src';
 import { SurveyStatusService } from '../../survey.status.service';
+import { CreatedbyViewHelper } from '../../../ui/helpers/createdby.view.helper';
 
 @Component({
   selector: 'nga-survey-datatable',
@@ -85,6 +86,7 @@ export class SurveyDatatableComponent extends AbstractDatatableController {
       new DatatableCol('title', this.translateService.instant('Title')),
       new DatatableCol('description', this.translateService.instant('Description')),
       new DatatableCol('status', this.translateService.instant('Status')),
+      new DatatableCol('type', this.translateService.instant('Created By')),
     ];
   }
 
@@ -122,17 +124,6 @@ export class SurveyDatatableComponent extends AbstractDatatableController {
     ]));
     requestBuilder.setFilter(new RequestBuilder([
       new FilterRequestField('title', null, FilterRequestField.MATCH_CONTENTS, FilterRequestField.TYPE_TEXT),
-      new FilterRequestField('status', null, FilterRequestField.MATCH_IN, FilterRequestField.TYPE_SELECT,
-        new AutoCompleteSrcConfig(
-          (filters) => this.surveyStatusProvider.search(filters),
-          1,
-          25,
-          this.translateService.instant('Status'),
-          'title',
-          'static',
-          true,
-        ),
-      ),
     ]));
     return requestBuilder;
   }
@@ -144,10 +135,16 @@ export class SurveyDatatableComponent extends AbstractDatatableController {
 
   getTransformers (): DatatableTransformer[] {
     const transformers = super.getTransformers();
+    transformers.push(new DatatableTransformer('type', (val) => {
+      return this.translateService.instant(val);
+    }));
+    transformers.push(new DatatableTransformer('status', (val) => {
+      return this.translateService.instant(val);
+    }));
     transformers.push(new DatatableTransformer('title', (val, row) => {
       if (row.status !== 'active') {
         const inactive = this.translateService.instant('Inactive');
-        return `<span class="text-danger" title="${inactive}">${val}</span>`;
+        return `<span class="text-muted font-weight-bold" title="${inactive}">${val}</span>`;
       }
       return val;
     }));

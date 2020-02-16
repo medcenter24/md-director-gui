@@ -128,34 +128,11 @@ export class DiagnosticDatatableComponent extends AbstractDatatableController {
 
   protected getCaptionActions (): DatatableAction[] {
     return [
-      new DatatableAction(this.translateService.instant('Show hidden'), 'fa fa-toggle-on', event => {
-        const btnEl = event.target.parentNode;
-        let st = btnEl.className;
-        const filters = this.getFiltersWithoutStatus();
-        if (st.includes('ui-button-success')) { // show hidden
-          st = st.replace('ui-button-success', '');
-          st = st.trim();
-          filters['status'] = { value: 'active', matchMode: 'eq' } as FilterMetadata;
-        } else {
-          // hide hidden
-          st += ' ui-button-success';
-        }
-        // todo replace it with new filtering model
-        // this.applyFilters(filters);
-        btnEl.className = st;
+      new DatatableAction(this.translateService.instant('Add'), 'fa fa-plus', () => {
+        this.setModel(this.getEmptyModel());
+        this.displayDialog = true;
       }),
     ];
-  }
-
-  private getFiltersWithoutStatus(): Object {
-    const newFilters = {};
-    const filters = this.getDatatableComponent().getConfig().get('filters');
-    Object.keys(filters).forEach(function (item: string) {
-      if (item !== 'status') {
-        newFilters[ item ] = filters[ item ];
-      }
-    });
-    return newFilters;
   }
 
   getTransformers (): DatatableTransformer[] {

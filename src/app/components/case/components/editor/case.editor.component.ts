@@ -37,7 +37,7 @@ import { AccidentCheckpoint } from '../../../accident/components/checkpoint/chec
 import { DoctorsService } from '../../../doctors';
 import { Doctor } from '../../../doctors';
 import { DateHelper } from '../../../../helpers/date.helper';
-import { Survey } from '../../../survey/survey';
+import { Survey } from '../../../survey';
 import { PatientEditorComponent } from '../../../patient/components/editor/patient.editor.component';
 import { LoadingComponent } from '../../../core/components/componentLoader';
 import { Patient } from '../../../patient/patient';
@@ -372,7 +372,6 @@ export class CaseEditorComponent extends LoadingComponent implements OnInit {
           const postfix = 'caseClosing';
           this.startLoader(postfix);
           this.caseService.closeCase(this.accident.id).then(() => {
-            this.uiToastService.successMessage(this.translate.instant('Case closed.'));
             this.scenarioComponent.reload();
             this.stopLoader(postfix);
           }).catch(err => {
@@ -438,7 +437,7 @@ export class CaseEditorComponent extends LoadingComponent implements OnInit {
         this.uiToastService.notFound();
         this.goToList().then(() => this.stopLoader(postfix));
       } else if (err.status === 403) {
-        this.uiToastService.successMessage(this.translate.instant('This case was closed'));
+        this.uiToastService.errorMessage(this.translate.instant('This case was closed'));
         this.stopLoader(postfix);
       } else {
         this._logger.error(err);

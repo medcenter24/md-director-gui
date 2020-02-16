@@ -87,6 +87,7 @@ export class RegionDatatableComponent extends AbstractDatatableController {
   protected getColumns (): DatatableCol[] {
     return [
       new DatatableCol('title', this.translateService.instant('Title')),
+      new DatatableCol('countryTitle', this.translateService.instant('Country')),
     ];
   }
 

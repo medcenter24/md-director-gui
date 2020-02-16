@@ -11,14 +11,26 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2019 (original work) MedCenter24.com;
+ * Copyright (c) 2020 (original work) MedCenter24.com;
  */
 
-export class Region {
-    constructor(
-        public id: number = 0,
-        public title: string = '',
-        public countryId: number = 0,
-        public countryTitle: string = '',
-    ) {}
+import { Injectable } from '@angular/core';
+
+@Injectable()
+export class CircleIconViewHelper {
+
+  static COLOR_BLUE = 'blue';
+  static COLOR_GREEN = 'green';
+  static COLOR_RED = 'red';
+  static COLOR_GREY = 'grey';
+
+  static template(colorClass: string, iconClass: string): string {
+    return `
+                <div>
+                    <div class="circle-icon m-auto ${colorClass}">
+                        <span class="${iconClass}"></span>
+                    </div>
+                </div>
+            `;
+  }
 }

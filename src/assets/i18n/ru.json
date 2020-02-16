@@ -1,4 +1,8 @@
 {
+  "active": "включено",
+  "disabled": "отключено",
+  "director": "Директор",
+  "Created By": "Кем создано",
   "ID": "ID",
   "Disease Description": "Описание болезни",
   "Diseases": "Болезни",

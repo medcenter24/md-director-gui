@@ -183,13 +183,22 @@ input[pInputText] {
   padding-left: 5px;
   border-radius: 50%;
 
-  &.doctor {
+  &.blue {
     background: #cce5ff;
     border-color: #b8daff;
   }
-  &.hospital {
+  &.green {
     background: #d4edda;
     border-color: #c3e6cb;
+  }
+
+  &.red {
+    background: #edb2b1;
+    border-color: #e6969e;
+  }
+  &.grey {
+    background: #A3A8A8;
+    border-color: #7f8484;
   }
 }
 

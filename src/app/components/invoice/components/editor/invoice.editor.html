@@ -17,16 +17,27 @@
 
 <div class="row">
     <div class="col-sm-4" *ngIf="isFormInvoice()">
-        <label class="label separate">{{ label }}</label>
-        <nga-autocompleter
-                #invoiceFormAutocompleter
-                [service]="formService"
-                placeholder="Choose a Form"
-                labelField="title"
-                (selected)="formSelected($event)"
-                (init)="startLoader($event)"
-                (loaded)="stopLoader($event)"
-        ></nga-autocompleter>
+      <div class="row">
+        <div class="col-md-6">
+          <label class="label separate">{{ label }}</label>
+          <nga-autocompleter
+            #invoiceFormAutocompleter
+            [service]="formService"
+            placeholder="Choose a Form"
+            labelField="title"
+            (selected)="formSelected($event)"
+            (init)="startLoader($event)"
+            (loaded)="stopLoader($event)"
+          ></nga-autocompleter>
+        </div>
+        <div class="col-md-6" *ngIf="form && invoice">
+          <label class="label separate" translate>Preview</label>
+          <nga-form-viewer
+            [formId]="form.id"
+            [formableId]="invoice.id"
+          ></nga-form-viewer>
+        </div>
+      </div>
     </div>
     <div class="col-sm-3" *ngIf="isFileInvoice()">
         <label class="label separate">{{ label }}</label>

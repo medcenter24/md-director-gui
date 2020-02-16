@@ -15,16 +15,32 @@
  */
 
 import { Injectable } from '@angular/core';
-import { CircleIconViewHelper } from '../ui/helpers/circle.icon.view.helper';
+import { CircleIconViewHelper } from './circle.icon.view.helper';
 
 @Injectable()
-export class AccidentTemplateHelper {
+export class CreatedbyViewHelper {
 
-  static getHtmlAccidentType(val: string): string {
-    const color = val === 'medcenter24\\mcCore\\App\\DoctorAccident'
-      ? CircleIconViewHelper.COLOR_BLUE
-      : CircleIconViewHelper.COLOR_GREEN;
-    const icon = val === 'medcenter24\\mcCore\\App\\DoctorAccident' ? 'fa fa-user-md' : 'fa fa-hospital-o';
+  static TYPE_DIRECTOR = 'director';
+  static TYPE_DOCTOR = 'doctor';
+  static TYPE_SYSTEM = 'system';
+
+  static template (type: string): string {
+    let icon = 'fa fa-question';
+    let color = CircleIconViewHelper.COLOR_GREY;
+    switch (type) {
+      case CreatedbyViewHelper.TYPE_DIRECTOR:
+        icon = 'fa fa-user';
+        color = CircleIconViewHelper.COLOR_GREEN;
+        break;
+      case CreatedbyViewHelper.TYPE_DOCTOR:
+        icon = 'fa fa-user-md';
+        color = CircleIconViewHelper.COLOR_BLUE;
+        break;
+      case CreatedbyViewHelper.TYPE_SYSTEM:
+        icon = 'fa fa-laptop';
+        color = CircleIconViewHelper.COLOR_RED;
+        break;
+    }
     return CircleIconViewHelper.template(color, icon);
   }
 }

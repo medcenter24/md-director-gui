@@ -51,37 +51,6 @@
                       class="text-danger" translate>Hospital Case</h4>
               </div>
               <!-- /Type of Case -->
-              <div class="col-sm-8">
-                <div class="row">
-                  <div class="col-sm-8 text-right">
-                    <!-- Accident Export-Print -->
-                    <nga-autocompleter
-                            *ngIf="!isLoading()"
-                        #accidentReportFormAutocompleter
-                        [service]="formService"
-                        placeholder="Choose a Form"
-                        labelField="title"
-                        (selected)="onReportFormChanged($event)"
-                        (init)="startLoader($event)"
-                        (loaded)="stopLoader($event)"
-                        [preloadedData]="accident.formReportId"
-                    ></nga-autocompleter>
-                  </div>
-                  <div class="col-sm-4 text-left">
-                    <nga-form-viewer
-                            #formViewerComponent
-                            *ngIf="+accident.formReportId"
-                            [formId]="accident.formReportId"
-                            [formableId]="accident.id"
-                            [emitInsteadOfAction]="true"
-                            (onPreview)="previewCase()"
-                            (onPdf)="casePdf()"
-                            (onPrint)="printCase()"
-                    ></nga-form-viewer>
-                  </div>
-                </div>
-                <!-- /Accident Export-Print -->
-              </div>
             </div>
           </div>
 
@@ -512,17 +481,6 @@
                   </div>
                 </div>
                 <!-- /Assistant Invoice -->
-
-                <!-- Assistant Invoice Viewer -->
-                <div class="row" *ngIf="assistantInvoice && assistantInvoice.id">
-                  <div class="col-12">
-                    <nga-form-viewer
-                      [formId]="assistantInvoice.id"
-                      [formableId]="accident.id"
-                    ></nga-form-viewer>
-                  </div>
-                </div>
-                <!-- /Assistant Invoice Viewer -->
 
                 <!-- Documents -->
                 <div class="row mt-2">
