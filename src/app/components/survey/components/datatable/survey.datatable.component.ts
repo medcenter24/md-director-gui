@@ -30,9 +30,7 @@ import { Breadcrumb } from '../../../../theme/components/baContentTop/breadcrumb
 import { DatatableRequestBuilder } from '../../../ui/datatable/request/datatable.request.builder';
 import { RequestBuilder } from '../../../core/http/request';
 import { FilterRequestField, SortRequestField } from '../../../core/http/request/fields';
-import { AutoCompleteSrcConfig } from '../../../ui/autosuggest/src';
 import { SurveyStatusService } from '../../survey.status.service';
-import { CreatedbyViewHelper } from '../../../ui/helpers/createdby.view.helper';
 
 @Component({
   selector: 'nga-survey-datatable',
@@ -87,6 +85,7 @@ export class SurveyDatatableComponent extends AbstractDatatableController {
       new DatatableCol('description', this.translateService.instant('Description')),
       new DatatableCol('status', this.translateService.instant('Status')),
       new DatatableCol('type', this.translateService.instant('Created By')),
+      new DatatableCol('diseaseTitle', this.translateService.instant('Disease')),
     ];
   }
 
