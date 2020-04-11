@@ -26,7 +26,7 @@ import { HttpService } from '../core/http/http.service';
 import { Document } from '../document/document';
 import { AccidentCheckpoint } from '../accident/components/checkpoint/checkpoint';
 import { AccidentScenario } from '../accident/components/scenario/scenario';
-import { Survey } from '../survey/survey';
+import { Survey } from '../survey';
 import { Accident } from '../accident/accident';
 import { AccidentHistory } from '../accident/components/history/history';
 import { Commentary } from '../comment/commentary';
