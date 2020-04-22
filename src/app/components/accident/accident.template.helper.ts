@@ -21,10 +21,10 @@ import { CircleIconViewHelper } from '../ui/helpers/circle.icon.view.helper';
 export class AccidentTemplateHelper {
 
   static getHtmlAccidentType(val: string): string {
-    const color = val === 'medcenter24\\mcCore\\App\\DoctorAccident'
+    const color = val === 'doctor'
       ? CircleIconViewHelper.COLOR_BLUE
       : CircleIconViewHelper.COLOR_GREEN;
-    const icon = val === 'medcenter24\\mcCore\\App\\DoctorAccident' ? 'fa fa-user-md' : 'fa fa-hospital-o';
+    const icon = val === 'doctor' ? 'fa fa-user-md' : 'fa fa-hospital-o';
     return CircleIconViewHelper.template(color, icon);
   }
 }

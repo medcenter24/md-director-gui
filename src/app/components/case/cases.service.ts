@@ -105,10 +105,12 @@ export class CasesService extends HttpService implements LoadableServiceInterfac
       .then(response => response as Commentary);
   }
 
-  getFinance (accident: Accident, types: Object): Promise<PaymentViewer[]> {
-    return this.http
-      .post(this.getUrl(`${accident.id}/finance`), JSON.stringify(types), { headers: this.getAuthHeaders() })
-      .toPromise()
+  getFinance (accident: Accident, types: string[]): Promise<PaymentViewer[]> {
+    let typesUri = '';
+    if (types.length) {
+      typesUri = `?types=${types.join(',')}`;
+    }
+    return this.get(`${accident.id}/finance${typesUri}`)
       .then(response => {
         let res = [];
         if (response && 'data' in response) {

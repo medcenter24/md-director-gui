@@ -178,7 +178,7 @@ export class CaseDatatableComponent extends AbstractDatatableController implemen
     return [
       new DatatableTransformer('createdAt', val => DateHelper.toEuropeFormatWithTime(val)),
       new DatatableTransformer('caseType', val => AccidentTemplateHelper.getHtmlAccidentType(val)),
-      new DatatableTransformer('status', val => this.translateService.instant(val)),
+      new DatatableTransformer('Status', val => this.translateService.instant( val ) ),
     ];
   }
 

@@ -406,7 +406,8 @@ export class CaseEditorComponent extends LoadingComponent implements OnInit {
       this.doctorBeforeSave = +this.doctorAccident.doctorId;
       this.hasChangedData = false;
       if (!data.accident.id) {
-        this.router.navigate([`pages/cases/${response.accident.id}`]).then(() => this.stopLoader(postfix));
+        this.router.navigate([`pages/cases/${response.id}`])
+          .then(() => this.stopLoader(postfix));
       } else {
         this.scenarioComponent.reload();
         this.caseFinance.reloadPayments(['income', 'assistant', 'caseable']);
@@ -428,7 +429,7 @@ export class CaseEditorComponent extends LoadingComponent implements OnInit {
 
   onCaseTypeSelected(type): void {
     this.accident.caseableType = type;
-    if (type === 'medcenter24\\mcCore\\App\\DoctorAccident' && !this.doctorAccident) {
+    if (type === 'doctor' && !this.doctorAccident) {
       this.doctorAccident = new DoctorAccident();
     } else if (!this.hospitalAccident) {
       this.hospitalAccident = new HospitalAccident();
@@ -625,11 +626,11 @@ export class CaseEditorComponent extends LoadingComponent implements OnInit {
   }
 
   isDoctorAccident(): boolean {
-    return this.accident.caseableType === 'medcenter24\\mcCore\\App\\DoctorAccident';
+    return this.accident.caseableType === 'doctor';
   }
 
   isHospitalAccident(): boolean {
-    return this.accident.caseableType === 'medcenter24\\mcCore\\App\\HospitalAccident';
+    return this.accident.caseableType === 'hospital';
   }
 
   onAssistantGuaranteeFileUploaded(file: Upload): void {
