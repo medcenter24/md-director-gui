@@ -23,9 +23,9 @@ import { GlobalState } from '../../../../global.state';
 import { AuthenticationService } from '../../../auth/authentication.service';
 import { DocumentsService } from '../../../document/documents.service';
 import { Document } from '../../../document/document';
-import { LoadableComponent } from '../../../core/components/componentLoader/LoadableComponent';
+import { LoadableComponent } from '../../../core/components/componentLoader';
 import { UiToastService } from '../../../ui/toast/ui.toast.service';
-
+import { HttpHeaders } from '@angular/common/http';
 
 // todo needs to be moved to documents
 @Component({
@@ -69,11 +69,11 @@ export class FileUploaderComponent extends LoadableComponent implements OnInit {
     this.startLoader('Uploader');
   }
 
-  handleBeforeSend(event): void {
-    event.xhr.setRequestHeader('Authorization', `Bearer ${this.authenticationService.getToken()}`);
+  headers(): HttpHeaders {
+    return new HttpHeaders({ 'Authorization': `Bearer ${this.authenticationService.getToken()}` });
   }
 
-  handleUpload(event): void {
+  handleUpload(): void {
     this.uiToastService.saved();
     this.changed.emit(this.documents);
     this.stopLoader('Uploader');
@@ -81,10 +81,10 @@ export class FileUploaderComponent extends LoadableComponent implements OnInit {
 
   // used by the template uploader.html
   handleError(event): void {
-      this.uiToastService.error();
-      this._logger.error(`Error: Upload to ${event.xhr.responseURL}
-        [${event.xhr.status}: ${event.xhr.statusText}]`);
-      this.stopLoader('Uploader');
+    this.stopLoader('Uploader');
+    this.uiToastService.error();
+    this._logger.error(`Error: Upload to ${event.error.url}
+      [${event.error.status}: ${event.error.statusText}]`);
   }
 
   downloadFile(file): void {

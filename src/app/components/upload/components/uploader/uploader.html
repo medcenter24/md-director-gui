@@ -19,14 +19,16 @@
         name="files[]"
         [url]="url"
         multiple="multiple"
-        accept="image/*" maxFileSize="1000000"
+        accept="image/*"
+        maxFileSize="10000000"
         chooseLabel="{{ 'Choose' | translate }}"
         uploadLabel="{{ 'Upload' | translate}}"
         cancelLabel="{{ 'Cancel' | translate}}"
-        (onUpload)="handleUpload($event)"
+        [withCredentials]="true"
+        [headers]="headers()"
+        (onUpload)="handleUpload()"
         (onError)="handleError($event)"
         (onBeforeUpload)="handleBeforeUpload($event)"
-        (onBeforeSend)="handleBeforeSend($event)"
 >
     <ng-template pTemplate="content">
         <h3 *ngIf="documents.length" translate>Uploaded Files</h3>

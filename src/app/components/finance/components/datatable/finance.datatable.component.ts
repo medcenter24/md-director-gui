@@ -28,7 +28,6 @@ import { ConfirmationService } from 'primeng/api';
 import { Router } from '@angular/router';
 import { LoggerComponent } from '../../../core/logger/LoggerComponent';
 import { Breadcrumb } from '../../../../theme/components/baContentTop/breadcrumb';
-import { AccidentTemplateHelper } from '../../../accident/accident.template.helper';
 
 @Component({
   selector: 'nga-finance-datatable',
@@ -86,7 +85,7 @@ export class FinanceDatatableComponent extends AbstractDatatableController {
 
   getTransformers(): DatatableTransformer[] {
     return [
-      new DatatableTransformer('model', val => AccidentTemplateHelper.getHtmlAccidentType(val)),
+      new DatatableTransformer('model', val => val),
       new DatatableTransformer('condition', (val, row: FinanceRule) => {
             let res: string[] = [];
             res.push(this.conditionToString(row, 'assistants', 'title'));

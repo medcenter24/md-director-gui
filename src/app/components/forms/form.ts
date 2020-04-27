@@ -21,7 +21,7 @@ export class Form {
     public title: string = '',
     public description: string = '',
     public template: string = '',
-    public formableType: string = 'medcenter24\\mcCore\\App\\Accident',
+    public formableType: string = 'accident',
   ) {
   }
 }

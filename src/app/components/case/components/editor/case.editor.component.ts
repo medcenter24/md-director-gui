@@ -694,6 +694,7 @@ export class CaseEditorComponent extends LoadingComponent implements OnInit {
 
   onDocumentsChanged(event): void {
     this.dataChanged();
+    this.loadDocuments();
     this.accident.assistantInvoiceId = event.id;
   }
 }

@@ -49,7 +49,10 @@ export abstract class HttpService implements LoadableServiceInterface {
   }
 
   protected getAuthHeaders(): HttpHeaders {
-    return new HttpHeaders({ 'Authorization': `Bearer ${this.authenticationService.getToken()}` });
+    return new HttpHeaders({
+      'Authorization': `Bearer ${this.authenticationService.getToken()}`,
+      'Content-Type': 'text/json',
+    });
   }
 
   /**
