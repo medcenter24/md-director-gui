@@ -18,7 +18,7 @@
 <div class="row">
     <div class="col-sm-4" *ngIf="isFormInvoice()">
       <div class="row">
-        <div class="col-md-6">
+        <div [ngClass]="form && invoice ? 'col-md-7' : 'col-md-12'">
           <label class="label separate">{{ label }}</label>
           <nga-autocompleter
             #invoiceFormAutocompleter
@@ -30,7 +30,7 @@
             (loaded)="stopLoader($event)"
           ></nga-autocompleter>
         </div>
-        <div class="col-md-6" *ngIf="form && invoice">
+        <div class="col-md-4" *ngIf="form && invoice">
           <label class="label separate" translate>Preview</label>
           <nga-form-viewer
             #formViewerComponent

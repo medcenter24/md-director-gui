@@ -240,8 +240,8 @@
               <div class="col-12">
                 <label class="label separate required">{{ 'patient' | translate }}</label>
                 <div class="row">
-                  <div class="col-12 col-md-6">
-                    <div class="patient-selector float-left">
+                  <div class="col-12">
+                    <div class="patient-selector">
                       <nga-patient-selector
                         #patientSelector
                         [initPatient]="patient"
@@ -250,19 +250,20 @@
                         (loaded)="stopLoader($event)"
                       ></nga-patient-selector>
                     </div>
-                  </div>
-                  <div class="col-12 col-md-6">
-                    <label class="label separated float-left offset-right10" translate>Patient editor</label>
-                    <div class="edit-patient">
+
+                    <div class="patient-editor">
+                      <label class="label separated float-left offset-right10" translate>Patient editor</label>
+                      <div class="edit-patient">
                       <span class="fa fa-edit lead linked text-success"
                             *ngIf="patient && patient.id"
                             (click)="openEditPatientForm(patient)"
                             title="{{ 'Edit patient data' | translate }}"></span>
-                    </div>
-                    <div class="add-patient">
+                      </div>
+                      <div class="add-patient">
                       <span class="fa fa-user-plus lead linked"
                             (click)="openEditPatientForm( null )"
                             title="{{ 'Add Patient' | translate }}"></span>
+                      </div>
                     </div>
                   </div>
                 </div>
