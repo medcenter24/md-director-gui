@@ -26,6 +26,7 @@ import { LoggerComponent } from '../logger/LoggerComponent';
 import { LoadableServiceInterface } from '../loadable';
 import { ObjectHelper } from '../../../helpers/object.helper';
 import { UiToastService } from '../../ui/toast/ui.toast.service';
+import { TokenService } from '../../auth/token.service';
 
 @Injectable()
 export abstract class HttpService implements LoadableServiceInterface {
@@ -37,6 +38,7 @@ export abstract class HttpService implements LoadableServiceInterface {
     private _state: GlobalState,
     private router: Router,
     private uiToastService: UiToastService,
+    private tokenService: TokenService,
   ) {
   }
 
@@ -50,7 +52,7 @@ export abstract class HttpService implements LoadableServiceInterface {
 
   protected getAuthHeaders(): HttpHeaders {
     return new HttpHeaders({
-      'Authorization': `Bearer ${this.authenticationService.getToken()}`,
+      'Authorization': `Bearer ${ this.tokenService.getToken() }`,
       'Content-Type': 'text/json',
     });
   }

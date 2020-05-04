@@ -30,6 +30,9 @@ import { LocalStorageHelper } from '../../helpers/local.storage.helper';
 import { UploaderOptions, UploadInput } from 'ngx-uploader';
 import { LoggerComponent } from '../../components/core/logger/LoggerComponent';
 import { UiToastService } from '../../components/ui/toast/ui.toast.service';
+import { TokenService } from '../../components/auth/token.service';
+import { JwtHelperService } from '@auth0/angular-jwt';
+import { Observable, Subscription } from 'rxjs/Rx';
 
 @Component({
   selector: 'nga-profile',
@@ -50,7 +53,9 @@ export class ProfileComponent extends LoadingComponent implements OnInit {
   eventToUpload: UploadInput;
   msgs: Message[] = [];
   directorPhotoUri: string = '';
+  tokenLiveTime: string = '';
   private profileTabIndexKey: string = 'profileTabIndex';
+  private timer: Subscription;
 
   constructor (
                protected loadingBar: SlimLoadingBarService,
@@ -62,6 +67,8 @@ export class ProfileComponent extends LoadingComponent implements OnInit {
                private authService: AuthenticationService,
                private storage: LocalStorageHelper,
                private uiToastService: UiToastService,
+               private tokenService: TokenService,
+               private jwtHelper: JwtHelperService,
   ) {
     super();
   }
@@ -70,9 +77,19 @@ export class ProfileComponent extends LoadingComponent implements OnInit {
     const langs = this.translateService.getLangs();
     this._state.notifyDataChanged('menu.activeLink', { title: 'Profile' });
     this.languages = langs.map((v) => ({ label: v, value: v }) );
-    this.startLoader();
+
+    this._state.subscribe('token', (token) => {
+
+      this.setTokensData(token);
+
+      if (this.eventToUpload) {
+        this.eventToUpload.headers = { 'Authorization': `Bearer ${token}` };
+      }
+    });
+
+    this.startLoader('getUser');
     this.loggedUserService.getUser().then((user: User) => {
-      this.stopLoader();
+      this.stopLoader('getUser');
       this.loggedUser = user;
       this.directorPhotoUri = user.thumb200 ? `data:image/jpeg;base64,${user.thumb200}` : '';
 
@@ -82,11 +99,7 @@ export class ProfileComponent extends LoadingComponent implements OnInit {
         method: 'POST',
         headers: { 'Authorization': `Bearer ${this.authService.getToken()}` },
       };
-    }).catch(() => this.stopLoader());
-
-    this._state.subscribe('token', (token) => {
-      this.eventToUpload.headers = { 'Authorization': `Bearer ${token}` };
-    });
+    }).catch(() => this.stopLoader('getUser'));
 
     this.tabs = [
         { id: 1, name: 'Director' },
@@ -123,7 +136,7 @@ export class ProfileComponent extends LoadingComponent implements OnInit {
   }
 
   refreshToken(): void {
-    this.authService.refresh();
+    this.tokenService.refresh();
   }
 
   saveDirector(): void {
@@ -193,5 +206,27 @@ export class ProfileComponent extends LoadingComponent implements OnInit {
     this.usersService.update(this.loggedUser)
       .then(() => this.stopLoader(opName))
       .catch(() => this.stopLoader(opName));
+  }
+
+  private setTokensData(token): void {
+    const decodedToken = this.jwtHelper.decodeToken( token );
+    const jwtExp = decodedToken.exp; // exp at
+    const now: number = Math.ceil( new Date().getTime() / 1000 ); // UTC seconds
+    const leftSec: number = jwtExp - now;
+
+    if (this.timer) {
+      this.timer.unsubscribe();
+    }
+    this.timer = Observable.interval(1000).subscribe((v) => {
+      this.setLeftTime(leftSec - v);
+    });
+  }
+
+  private setLeftTime(leftSec: number): void {
+    const min = Math.floor(leftSec / 60);
+    const hr = Math.floor(min / 60);
+    const sec = leftSec - (min * 60);
+
+    this.tokenLiveTime = `${hr}:${min - hr * 60}:${sec}`;
   }
 }

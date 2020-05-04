@@ -39,6 +39,7 @@ import { LoggerModule } from './components/core/logger';
 import { LoggerComponent } from './components/core/logger/LoggerComponent';
 import { UiToastModule } from './components/ui/toast';
 import { UiToastService } from './components/ui/toast/ui.toast.service';
+import { TokenService } from './components/auth/token.service';
 
 // Application wide providers
 const APP_PROVIDERS = [
@@ -50,6 +51,7 @@ const APP_PROVIDERS = [
   AuthGuard,
   LoggerComponent,
   UiToastService,
+  TokenService,
 ];
 
 export function tokenGetter() {
@@ -97,8 +99,13 @@ export function tokenGetter() {
 })
 
 export class AppModule {
-  constructor(public appState: AppState, private _logger: LoggerComponent) {
+  constructor(
+    public appState: AppState,
+    private _logger: LoggerComponent,
+    private _tokenService: TokenService,
+  ) {
     this.appState.set('appStatus', 'initialized');
     this._logger.setLevel(environment.logger.level);
+    this._tokenService.refresh();
   }
 }
