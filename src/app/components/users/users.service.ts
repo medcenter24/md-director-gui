@@ -43,7 +43,7 @@ export class UsersService extends HttpService {
   }
 
   update(user: User): Promise<User> {
-    return this.put(user.id, user).then(res => res.data as User);
+    return this.put(user.id, user).then(res => res as User);
   }
 
   deletePhoto(userId: number): Promise<void> {
