@@ -21,7 +21,7 @@ export class Diagnostic {
         public title: string = '',
         public description: string = '',
         public diagnosticCategoryId: number = 0,
-        public diseaseCode: string = '',
+        public diseaseId: number = 0,
         public type: string = '',
         public status: string = 'active',
     ) {}

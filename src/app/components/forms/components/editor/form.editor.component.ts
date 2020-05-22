@@ -28,6 +28,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { FormOption } from '../options/form.option';
 import { BaToolboxAction } from '../../../../theme/components/baToolbox';
 import { Breadcrumb } from '../../../../theme/components/baContentTop/breadcrumb';
+import { FormsOptionsEditorComponent } from '../options/editor';
 declare var $: any;
 
 @Component({
@@ -42,9 +43,14 @@ export class FormEditorComponent extends LoadableComponent implements OnInit {
   msgs: any;
   displayDialog: boolean = false;
   formPreviewerVisible: boolean = false;
+  allTypeVariables: FormOption[] = [];
+  usedTypeVariables: FormOption[] = [];
 
   @ViewChild('previewContainer')
     previewContainer: ElementRef;
+
+  @ViewChild('formsOptionsEditorComponent')
+    formOptionEditor: FormsOptionsEditorComponent;
 
   constructor(
     private formService: FormService,
@@ -169,9 +175,26 @@ export class FormEditorComponent extends LoadableComponent implements OnInit {
     const textAfter = this.form.template.substring(cursorPos, this.form.template.length);
 
     this.form.template = `${textBefore}${formParam.key}${textAfter}`;
+
+    this.checkActiveVars();
+  }
+
+  updateAllVars(vars: FormOption[]): void {
+    this.allTypeVariables = vars;
+    this.checkActiveVars();
   }
 
   onFormableTypeSelected(event): void {
     this.form.formableType = event.key;
+  }
+
+  checkActiveVars(): void {
+    this.usedTypeVariables = [];
+    this.allTypeVariables.forEach((formOption: FormOption) => {
+      if (this.form.template.includes(formOption.key)) {
+        this.usedTypeVariables.push(formOption);
+      }
+    });
+    this.formOptionEditor.updateUsedVars(this.usedTypeVariables);
   }
 }

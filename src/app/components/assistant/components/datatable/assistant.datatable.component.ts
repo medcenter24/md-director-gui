@@ -83,7 +83,7 @@ export class AssistantDatatableComponent extends AbstractDatatableController {
     return [
       new DatatableCol('title', this.translateService.instant('Title')),
       new DatatableCol('email', this.translateService.instant('E-Mail')),
-      new DatatableCol('commentary', this.translateService.instant('Commentary')),
+      new DatatableCol('comment', this.translateService.instant('Commentary')),
       new DatatableCol('refKey', this.translateService.instant('Ref. Key'), { width: '5em' }),
     ];
   }

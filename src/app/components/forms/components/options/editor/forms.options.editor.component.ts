@@ -35,13 +35,18 @@ export class FormsOptionsEditorComponent implements OnInit {
   /**
    * Variables that I can mark as used in template
    */
-  @Input() usedVars: FormOption[] = [];
+  usedVars: FormOption[] = [];
 
   /**
    * Selected parameter
    * @type {EventEmitter<string>}
    */
   @Output() selected: EventEmitter<FormOption> = new EventEmitter<FormOption>();
+
+  /**
+   * All parameters for the current form
+   */
+  @Output() formOptionsLoaded: EventEmitter<FormOption[]> = new EventEmitter<FormOption[]>();
 
   parameters: FormOption[] = [];
 
@@ -52,7 +57,10 @@ export class FormsOptionsEditorComponent implements OnInit {
 
   ngOnInit(): void {
     this.formOptionService.getOptions('accident')
-      .then(data => this.parameters = data);
+      .then(data => {
+        this.parameters = data;
+        this.formOptionsLoaded.emit(this.parameters);
+      });
   }
 
   // do not allow to change variables because they could be used in template
@@ -60,4 +68,7 @@ export class FormsOptionsEditorComponent implements OnInit {
     this.selected.emit(param);
   }
 
+  updateUsedVars(vars: FormOption[]): void {
+    this.usedVars = vars;
+  }
 }
