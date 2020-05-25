@@ -27,8 +27,8 @@ import { DiagnosticEditorComponent } from '../editor';
 import { DiagnosticService } from '../../diagnostic.service';
 import { Diagnostic } from '../../diagnostic';
 import { LoggerComponent } from '../../../core/logger/LoggerComponent';
-import { FilterMetadata } from 'primeng/api';
 import { Breadcrumb } from '../../../../theme/components/baContentTop/breadcrumb';
+import { Disease } from '../../../disease';
 
 @Component({
   selector: 'nga-diagnostic-datatable',
@@ -81,7 +81,7 @@ export class DiagnosticDatatableComponent extends AbstractDatatableController {
     return [
       new DatatableCol('title', this.translateService.instant('Title')),
       new DatatableCol('description', this.translateService.instant('Description')),
-      new DatatableCol('diseaseCode', this.translateService.instant('Disease Code')),
+      new DatatableCol('diseases', this.translateService.instant('Diseases')),
     ];
   }
 
@@ -143,6 +143,16 @@ export class DiagnosticDatatableComponent extends AbstractDatatableController {
         return `<span class="text-danger" title="${inactive}">${val}</span>`;
       }
       return val;
+    }));
+    transformers.push(new DatatableTransformer('diseases', (val, row) => {
+      if (!val.length) {
+        const noDiseasesMsg = this.translateService.instant('no_diseases_assigned');
+        return `<span class="text-muted">${noDiseasesMsg}</span>`;
+      } else {
+        const diseaseList = [];
+        val.forEach((v: Disease) => diseaseList.push(v.title));
+        return diseaseList.join(', ');
+      }
     }));
     return transformers;
   }

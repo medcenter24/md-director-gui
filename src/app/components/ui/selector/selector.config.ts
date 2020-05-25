@@ -17,7 +17,7 @@
 
 
 import { Configurable } from '../../core/configurable';
-import { SearchableServiceInterface } from '../../core/loadable/searchable.service.interface';
+import { SearchableServiceInterface } from '../../core/loadable';
 import { SearchFilter } from '../../core/loadable/search.filter';
 
 export class SelectorConfig extends Configurable {

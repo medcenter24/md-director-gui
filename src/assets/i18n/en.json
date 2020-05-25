@@ -462,9 +462,9 @@
   "Login": "Login",
   "Register": "Register",
   "Created With": "Created with",
-
+  "Select Diseases": "Select Diseases",
   "Password": "Password",
   "Incorrect Email or password": "Incorrect Email or password",
-
-  "test": "en translation :param1"
+  "test": "en translation :param1",
+  "no_diseases_assigned": "Diseases are not assigned"
 }
