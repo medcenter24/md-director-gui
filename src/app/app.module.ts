@@ -26,7 +26,7 @@ import { NgaModule } from './theme/nga.module';
 import { PagesModule } from './pages/pages.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { SlimLoadingBarModule } from 'ng2-slim-loading-bar';
-import { BlockUIModule, ConfirmationService, ConfirmDialogModule, GrowlModule } from 'primeng/primeng';
+import { BlockUIModule, ConfirmationService, ConfirmDialogModule } from 'primeng/primeng';
 import { environment } from '../environments/environment';
 import { routing } from './app.routing';
 import { ApiErrorService } from './components/ui/apiError.service';
@@ -37,6 +37,9 @@ import { JwtModule } from '@auth0/angular-jwt';
 import { AuthGuard } from './components/auth/auth.guard';
 import { LoggerModule } from './components/core/logger';
 import { LoggerComponent } from './components/core/logger/LoggerComponent';
+import { UiToastModule } from './components/ui/toast';
+import { UiToastService } from './components/ui/toast/ui.toast.service';
+import { TokenService } from './components/auth/token.service';
 
 // Application wide providers
 const APP_PROVIDERS = [
@@ -47,19 +50,14 @@ const APP_PROVIDERS = [
   LocalStorageHelper,
   AuthGuard,
   LoggerComponent,
+  UiToastService,
+  TokenService,
 ];
 
 export function tokenGetter() {
   const storage = new LocalStorageHelper();
   return storage.getItem('token');
 }
-/*
-@todo remove if not used or works without that
-export type StoreType = {
-  state: InternalStateType,
-  restoreInputValues: () => void,
-  disposeOldHosts: () => void,
-};*/
 
 /**
  * `AppModule` is the main entry point into Angular2's bootstraping process
@@ -80,18 +78,19 @@ export type StoreType = {
     PagesModule,
     routing,
     SlimLoadingBarModule.forRoot(),
-    GrowlModule,
     ConfirmDialogModule,
     BlockUIModule,
     AppTranslationModule,
-    JwtModule.forRoot({
+    JwtModule.forRoot( {
       config: {
         tokenGetter,
         // whitelistedDomains: ['localhost:3001']
         // blacklistedRoutes: ['localhost:3001/auth/']
       },
-    }),
+    } ),
     LoggerModule,
+    UiToastModule,
+    NgaModule,
   ],
   exports: [],
   providers: [ // expose our Services and Providers into Angular's dependency injection
@@ -100,8 +99,13 @@ export type StoreType = {
 })
 
 export class AppModule {
-  constructor(public appState: AppState, private _logger: LoggerComponent) {
+  constructor(
+    public appState: AppState,
+    private _logger: LoggerComponent,
+    private _tokenService: TokenService,
+  ) {
     this.appState.set('appStatus', 'initialized');
     this._logger.setLevel(environment.logger.level);
+    this._tokenService.refresh();
   }
 }

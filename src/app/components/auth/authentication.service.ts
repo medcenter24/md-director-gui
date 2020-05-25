@@ -16,7 +16,7 @@
  */
 
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import 'rxjs/add/operator/map';
 import { environment } from '../../../environments/environment';
@@ -26,7 +26,8 @@ import { GlobalState } from '../../global.state';
 import { Message } from 'primeng/primeng';
 import { Router } from '@angular/router';
 import { LocalStorageHelper } from '../../helpers/local.storage.helper';
-import { JwtHelperService } from '@auth0/angular-jwt';
+import { LoggerComponent } from '../core/logger/LoggerComponent';
+import { TokenService } from './token.service';
 
 /**
  * I met a lot of issues with tokens, so make it as simple as possible
@@ -45,21 +46,19 @@ import { JwtHelperService } from '@auth0/angular-jwt';
 @Injectable()
 export class AuthenticationService {
 
-  tokenKey: string = 'token';
   langKey: string = 'lang';
   msgs: Message[] = [];
+
   private authUrl = `${environment.apiHost}/authenticate`;  // URL to web api
-  private refreshUrl = `${environment.apiHost}/token`;
-  private refreshTimer;
 
   constructor(
     private http: HttpClient,
     private loadingBar: SlimLoadingBarService,
     private translate: TranslateService,
     private _state: GlobalState,
-    private router: Router,
     private storage: LocalStorageHelper,
-    private jwtHelper: JwtHelperService,
+    private _logger: LoggerComponent,
+    private tokenService: TokenService,
   ) {
   }
 
@@ -74,29 +73,7 @@ export class AuthenticationService {
   }
 
   logout(): void {
-    // clear token remove user from local storage to log user out
-    this.storage.removeItem(this.tokenKey);
-    this.stopRefreshTokenTimer();
-  }
-
-  refresh(): void {
-    this.http.get(this.refreshUrl,
-      { headers: new HttpHeaders({ 'Authorization': `Bearer ${this.getToken()}` }) })
-      .subscribe(
-        (response: any) => {
-          this.update(response);
-        },
-        err => {
-          if (err && err.status && err.status === 401) {
-            this.logout();
-            this.router.navigate(['login']);
-          } else {
-            this.msgs = [];
-            this.msgs.push({ severity: 'error', summary: this.translate.instant('Error'), detail: err });
-            this._state.notifyDataChanged('growl', this.msgs);
-          }
-        },
-      );
+    this.tokenService.removeToken();
   }
 
   private update(response): void {
@@ -104,48 +81,12 @@ export class AuthenticationService {
     const ava = response && response.thumb;
     const lang = response && response.lang;
     // store language
-    this._state.notifyDataChanged('token', token);
     this.storage.setItem(this.langKey, lang);
     this._state.notifyDataChanged('avatarB64', ava);
-    this.setToken(token);
+    this.tokenService.setToken(token);
   }
 
   getToken(): string {
-    return this.storage.getItem(this.tokenKey);
-  }
-
-  private runRefreshTokenTimer(): void {
-    const now: number = new Date().valueOf();
-    const jwtExp = this.jwtHelper.decodeToken(this.getToken()).exp;
-    const exp = new Date(0);
-    exp.setUTCSeconds(jwtExp);
-    let delay = exp.valueOf() - now;
-    if (delay > 5000) {
-      delay -= 5000;
-    }
-    this.refreshTimer = setTimeout(() => {
-      this.refresh();
-    }, delay);
-  }
-
-  private setToken(token: string): boolean {
-    if (token) {
-      // set token property
-      // store username and jwt token in local storage to keep user logged in between page refreshes
-      this.storage.setItem(this.tokenKey, token);
-      this.stopRefreshTokenTimer();
-      this.runRefreshTokenTimer();
-      // return true to indicate successful login
-      return true;
-    }
-    // return false to indicate failed login
-    return false;
-  }
-
-  private stopRefreshTokenTimer(): void {
-    if (this.refreshTimer) {
-      clearTimeout(this.refreshTimer);
-      this.refreshTimer = null;
-    }
+    return this.tokenService.getToken();
   }
 }

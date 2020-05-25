@@ -14,22 +14,21 @@
   ~ Copyright (c) 2020 (original work) MedCenter24.com;
   -->
 
-<ba-card class="col-lg-7" *ngIf="filter">
-  <div class="row mb-3">
-    <div class="col-md-4">
-      <div class="row mb-2">
-        <div class="col-5">
-          <label for="refNumFilter" translate>Ref. Number</label>
-        </div>
-        <div class="col-7">
-          <input id="refNumFilter" pInputText type="text" class="form-control" [(ngModel)]="filter.refNum">
-        </div>
-      </div>
-      <div class="row mb-2">
-        <div class="col-5">
-          <button pButton (click)="onFilter()" class="ui-button-success" type="button" label="{{ 'Find' | translate }}"></button>
-        </div>
-      </div>
-    </div>
+<div class="filter-component">
+  <span *ngIf="isUndefined()" class="text-warning" translate>Undefined</span>
+
+  <div *ngIf="isText()" class="ui-inputgroup">
+    <input type="text" pInputText [(ngModel)]="value">
+    <button pButton type="button" icon="pi pi-search" class="ui-button-warn" (click)="onSearch(value)"></button>
   </div>
-</ba-card>
+
+  <nga-auto-complete
+    *ngIf="isSelect() && autoCompleteConfig"
+    [config]="autoCompleteConfig"
+    (changed)="onAutoCompleteSearch($event)"
+  ></nga-auto-complete>
+
+  <nga-ui-date-picker [value]="value" [config]="datePickerConfig" *ngIf="isDateRange()" (changed)="onSearch($event)"></nga-ui-date-picker>
+
+  <span *ngIf="loading" class="fa fa-spinner fa-spin"></span>
+</div>

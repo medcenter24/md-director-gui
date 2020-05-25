@@ -15,12 +15,11 @@
  * Copyright (c) 2019 (original work) MedCenter24.com;
  */
 
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { PatientsService } from '../../patients.service';
 import { DateHelper } from '../../../../helpers/date.helper';
 import { Patient } from '../../patient';
-import { LoadingComponent } from '../../../core/components/componentLoader';
 import { LoggerComponent } from '../../../core/logger/LoggerComponent';
 import { GlobalState } from '../../../../global.state';
 import { SlimLoadingBarService } from 'ng2-slim-loading-bar';
@@ -32,12 +31,18 @@ import {
   DatatableConfig,
   DatatableTransformer,
 } from '../../../ui/datatable';
+import { AbstractDatatableController } from '../../../ui/tables/abstract.datatable.controller';
+import { Breadcrumb } from '../../../../theme/components/baContentTop/breadcrumb';
+import { LoadableServiceInterface } from '../../../core/loadable';
+import { DatatableRequestBuilder } from '../../../ui/datatable/request/datatable.request.builder';
+import { RequestBuilder } from '../../../core/http/request';
+import { FilterRequestField, SortRequestField } from '../../../core/http/request/fields';
 
 @Component({
   selector: 'nga-patient-datatable',
   templateUrl: './patient.datatable.html',
 })
-export class PatientDatatableComponent extends LoadingComponent implements OnInit {
+export class PatientDatatableComponent extends AbstractDatatableController {
 
   protected componentName: string = 'PatientDatatableComponent';
 
@@ -57,43 +62,74 @@ export class PatientDatatableComponent extends LoadingComponent implements OnIni
     protected loadingBar: SlimLoadingBarService,
     private translateService: TranslateService,
     private patientService: PatientsService,
-    private dateHelper: DateHelper,
   ) {
     super();
   }
 
-  ngOnInit(): void {
-    this.translateService.get('Yes').subscribe(() => {
-      this.langLoaded = true;
-      const cols = [
-        new DatatableCol('name', this.translateService.instant('Name')),
-        new DatatableCol('address', this.translateService.instant('Address')),
-        new DatatableCol('phones', this.translateService.instant('Phone')),
-        new DatatableCol('birthday', this.translateService.instant('Birthday')),
-      ];
+  protected onLangLoaded () {
+    super.onLangLoaded();
+    const breadcrumbs = [];
+    breadcrumbs.push(new Breadcrumb('Patients', '/pages/companions/patients', true));
+    this._state.notifyDataChanged('menu.activeLink', breadcrumbs);
+  }
 
-      this.datatableConfig = DatatableConfig.factory({
-        dataProvider: (filters: Object) => {
-          return this.patientService.search(filters);
-        },
-        cols,
-        refreshTitle: this.translateService.instant('Refresh'),
-        controlPanel: true,
-        controlPanelActions: [
-          new DatatableAction(this.translateService.instant('Add'), 'fa fa-plus', () => {
-            this.showDialogToAdd();
-          }),
-        ],
-        transformers: [
-          new DatatableTransformer('birthday', val => this.dateHelper.toEuropeFormat(val)),
-        ],
-        onRowSelect: event => {
-          this.onRowSelect(event);
-        },
-        sort: true,
-        sortBy: 'name',
-      });
-    });
+  protected getDatatableComponent (): DatatableComponent {
+    return this.patientDatatable;
+  }
+
+  protected getTranslateService (): TranslateService {
+    return this.translateService;
+  }
+
+  protected getService (): LoadableServiceInterface {
+    return this.patientService;
+  }
+
+  protected getEmptyModel (): Object {
+    return new Patient();
+  }
+
+  protected getColumns (): DatatableCol[] {
+    return [
+      new DatatableCol('name', this.translateService.instant('Name')),
+      new DatatableCol('address', this.translateService.instant('Address')),
+      new DatatableCol('phones', this.translateService.instant('Phone')),
+      new DatatableCol('birthday', this.translateService.instant('Birthday')),
+    ];
+  }
+
+  protected getTransformers (): DatatableTransformer[] {
+    return [
+      new DatatableTransformer('birthday', val => DateHelper.toEuropeFormat(val)),
+    ];
+  }
+
+  protected hasControlPanel (): boolean {
+    return true;
+  }
+
+  protected getControlPanelActions (): DatatableAction[] {
+    return [
+      new DatatableAction(this.translateService.instant('Add'), 'fa fa-plus', () => {
+        this.showDialogToAdd();
+      }),
+    ];
+  }
+
+  protected hasFilterRow (): boolean {
+    return true;
+  }
+
+  protected getRequestBuilder (): DatatableRequestBuilder {
+    const requestBuilder = super.getRequestBuilder();
+    requestBuilder.setSorter(new RequestBuilder([
+      new SortRequestField('name'),
+    ]));
+    requestBuilder.setFilter(new RequestBuilder([
+      new FilterRequestField('name', null, FilterRequestField.MATCH_CONTENTS, FilterRequestField.TYPE_TEXT),
+      new FilterRequestField('phones', null, FilterRequestField.MATCH_CONTENTS, FilterRequestField.TYPE_TEXT),
+    ]));
+    return requestBuilder;
   }
 
   showDialogToAdd() {
@@ -106,11 +142,11 @@ export class PatientDatatableComponent extends LoadingComponent implements OnIni
   }
 
   onRowSelect(event) {
-    this.setPatient(this.clonePatient(event.data));
+    this.setPatient(PatientDatatableComponent.clonePatient(event.data));
     this.displayDialog = true;
   }
 
-  private clonePatient(p: Patient): Patient {
+  private static clonePatient( p: Patient): Patient {
     const patient = new Patient();
     for (const prop of Object.keys(p)) {
       patient[prop] = p[prop];
@@ -118,7 +154,7 @@ export class PatientDatatableComponent extends LoadingComponent implements OnIni
     return patient;
   }
 
-  onPatientChanged(event): void {
+  onPatientChanged(): void {
     this.displayDialog = false;
     this.patientDatatable.refresh();
   }

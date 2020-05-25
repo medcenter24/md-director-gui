@@ -29,7 +29,7 @@ export class ExporterService extends HttpService {
   exportCases(params: Object): void {
     const dt = new Date();
     this.http
-      .post(this.getUrl('form1'), JSON.stringify(params), {
+      .post(this.getUrl('cases'), JSON.stringify(params), {
         headers: this.getAuthHeaders(),
         responseType: 'blob',
       })

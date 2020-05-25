@@ -32,7 +32,7 @@ export class FormsTypesSelectComponent {
   @Input() set formableType(type: string) {
     this.translateService.get('Yes').subscribe(() => {
       if (!this.currentType) {
-        this.currentType = new FormType('medcenter24\\mcCore\\App\\Accident', this.translateService.instant('Case'));
+        this.currentType = new FormType('accident', this.translateService.instant('Case'));
       }
 
       this.filteredFormableTypes = this.formableTypes = [

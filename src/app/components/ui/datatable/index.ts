@@ -15,10 +15,10 @@
  * Copyright (c) 2019 (original work) MedCenter24.com;
  */
 
-export * from './datatable.action';
-export * from './datatable.col';
+export * from './entities/datatable.action';
+export * from './entities/datatable.col';
 export * from './datatable.component';
-export * from './datatable.config';
+export * from './entities/datatable.config';
 export * from './datatable.module';
-export * from './datatable.response';
-export * from './datatable.transformer';
+export * from './entities/datatable.response';
+export * from './entities/datatable.transformer';

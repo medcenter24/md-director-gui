@@ -22,7 +22,6 @@
   [class.menu-collapsed]="isMenuCollapsed"
   baThemeRun>
   <ng2-slim-loading-bar [height]="'3px'" [color]="'#e85656'"></ng2-slim-loading-bar>
-  <p-growl [value]="msgs"></p-growl>
   <div class="additional-bg"></div>
   <router-outlet></router-outlet>
   <p-confirmDialog #apiErr>
@@ -33,4 +32,5 @@
               label="{{ 'Confirm' | translate }}" (click)="apiErr.accept()"></button>
     </p-footer>
   </p-confirmDialog>
+  <nga-toast-component #uiToastComponent></nga-toast-component>
 </main>

@@ -30,6 +30,8 @@ import { ServicesService } from '../../../service';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { GlobalState } from '../../../../global.state';
 import { FinanceCurrencyService } from '../currency/finance.currency.service';
+import { Breadcrumb } from '../../../../theme/components/baContentTop/breadcrumb';
+import { UiToastService } from '../../../ui/toast/ui.toast.service';
 
 @Component({
   selector: 'nga-finance-editor',
@@ -66,6 +68,7 @@ export class FinanceEditorComponent extends LoadableComponent implements OnInit 
     protected translateService: TranslateService,
     public currencyService: FinanceCurrencyService,
     public hospitalService: HospitalsService,
+    private uiToastService: UiToastService,
   ) {
     super();
   }
@@ -81,6 +84,14 @@ export class FinanceEditorComponent extends LoadableComponent implements OnInit 
           this.startLoader();
           this.financeService.getFinanceRule(id).then((financeRule: FinanceRule) => {
             this.stopLoader();
+
+            this.translateService.get('Finance').subscribe((trans: string) => {
+              const breadcrumbs = [];
+              breadcrumbs.push(new Breadcrumb(trans, '/pages/finance/conditions'));
+              breadcrumbs.push(new Breadcrumb(financeRule.title, `/pages/cases/${financeRule.id}`, true, false));
+              this._state.notifyDataChanged('menu.activeLink', breadcrumbs);
+            });
+
             this.rule = financeRule;
             this.isLoaded = true;
           }).catch(() => this.stopLoader());
@@ -116,20 +127,20 @@ export class FinanceEditorComponent extends LoadableComponent implements OnInit 
       this.conditionModels.push({
         label: this.translateService.instant('Assistant'),
         desc: this.translateService.instant('Invoice the assistant'), // how much assistant needs to pay
-        value: 'medcenter24\\mcCore\\App\\Assistant',
+        value: 'assistant',
       });
 
       // condition for the doctor
       this.conditionModels.push({
         label: this.translateService.instant('Doctor'),
         desc: this.translateService.instant('Doctor remuneration'),
-        value: 'medcenter24\\mcCore\\App\\Doctor',
+        value: 'doctor',
       });
 
       this.stopLoader(postfix);
 
       if (!this.rule.model) {
-        this.rule.model = 'medcenter24\\mcCore\\App\\Assistant';
+        this.rule.model = 'assistant';
       }
     });
   }

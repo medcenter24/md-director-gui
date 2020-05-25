@@ -26,6 +26,7 @@ import { DatatableModule } from '../../../ui/datatable';
 import { ConfirmDialogModule, InputMaskModule, InputSwitchModule } from 'primeng/primeng';
 import { SurveyService } from '../../survey.service';
 import { SurveyDatatableComponent } from './survey.datatable.component';
+import { SurveyStatusService } from '../../survey.status.service';
 
 @NgModule({
   imports: [
@@ -41,6 +42,7 @@ import { SurveyDatatableComponent } from './survey.datatable.component';
 ],
   providers: [
     SurveyService,
+    SurveyStatusService,
   ],
   declarations: [
     SurveyDatatableComponent,

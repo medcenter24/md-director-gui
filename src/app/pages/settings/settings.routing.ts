@@ -23,6 +23,7 @@ import { AccidentCheckpointDatatableComponent }
   from '../../components/accident/components/checkpoint/components/datatable/accident.checkpoint.datatable.component';
 import { FormDatatableComponent } from '../../components/forms/components/datatable';
 import { FormEditorPageComponent } from './form/editor';
+import { DiseaseDatatableComponent } from '../../components/disease/components/datatable';
 
 // noinspection TypeScriptValidateTypes
 const routes: Routes = [
@@ -35,6 +36,7 @@ const routes: Routes = [
       { path: 'forms', component: FormDatatableComponent },
       { path: 'forms/new', component: FormEditorPageComponent },
       { path: 'forms/:id', component: FormEditorPageComponent },
+      { path: 'diseases', component: DiseaseDatatableComponent },
     ],
   },
 ];

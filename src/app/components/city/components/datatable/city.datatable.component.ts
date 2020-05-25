@@ -15,8 +15,7 @@
  * Copyright (c) 2019 (original work) MedCenter24.com;
  */
 
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { LoadableComponent } from '../../../core/components/componentLoader';
+import { Component, ViewChild } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { GlobalState } from '../../../../global.state';
 import { SlimLoadingBarService } from 'ng2-slim-loading-bar';
@@ -29,12 +28,15 @@ import { DatatableComponent } from '../../../ui/datatable';
 import { RegionService } from '../../../region';
 import { AutocompleterComponent } from '../../../ui/selector/components/autocompleter';
 import { LoggerComponent } from '../../../core/logger/LoggerComponent';
+import { AbstractDatatableController } from '../../../ui/tables/abstract.datatable.controller';
+import { LoadableServiceInterface } from '../../../core/loadable';
+import { Breadcrumb } from '../../../../theme/components/baContentTop/breadcrumb';
 
 @Component({
   selector: 'nga-city-datatable',
   templateUrl: './city.datatable.html',
 })
-export class CityDatatableComponent extends LoadableComponent implements OnInit {
+export class CityDatatableComponent extends AbstractDatatableController {
   protected componentName: string = 'CityDatatableComponent';
 
   @ViewChild('cityDatatableComponent')
@@ -59,29 +61,47 @@ export class CityDatatableComponent extends LoadableComponent implements OnInit 
     super();
   }
 
-  ngOnInit() {
-    this.translateService.get('Yes').subscribe(() => {
-      this.langLoaded = true;
-      this.datatableConfig = DatatableConfig.factory({
-        dataProvider: (filters: Object) => {
-          return this.citiesService.search(filters);
-        },
-        cols: [
-          new DatatableCol('title', this.translateService.instant('Title')),
-        ],
-        refreshTitle: this.translateService.instant('Refresh'),
-        controlPanel: true,
-        controlPanelActions: [
-          new DatatableAction(this.translateService.instant('Add'), 'fa fa-plus', () => {
-            this.showDialogToAdd();
-          }),
-        ],
-        onRowSelect: event => {
-          this.onRowSelect(event);
-        },
-        sortBy: 'title',
-      });
-    });
+  protected onLangLoaded () {
+    super.onLangLoaded();
+    const breadcrumbs = [];
+    breadcrumbs.push(new Breadcrumb('Cities', '/pages/geo/cities', true));
+    this._state.notifyDataChanged('menu.activeLink', breadcrumbs);
+  }
+
+  protected getService (): LoadableServiceInterface {
+    return this.citiesService;
+  }
+
+  protected getTranslateService (): TranslateService {
+    return this.translateService;
+  }
+
+  protected getEmptyModel (): Object {
+    return new City();
+  }
+
+  protected getDatatableComponent (): DatatableComponent {
+    return this.cityDatatableComponent;
+  }
+
+  protected getColumns (): DatatableCol[] {
+    return [
+      new DatatableCol('title', this.translateService.instant('Title')),
+      new DatatableCol('regionTitle', this.translateService.instant('Region')),
+      new DatatableCol('countryTitle', this.translateService.instant('Country')),
+    ];
+  }
+
+  protected hasControlPanel (): boolean {
+    return true;
+  }
+
+  protected getControlPanelActions (): DatatableAction[] {
+    return [
+      new DatatableAction(this.translateService.instant('Add'), 'fa fa-plus', () => {
+        this.showDialogToAdd();
+      }),
+    ];
   }
 
   showDialogToAdd() {

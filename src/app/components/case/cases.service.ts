@@ -23,28 +23,21 @@ import { DoctorAccident } from '../doctorAccident/doctorAccident';
 import { HospitalAccident } from '../hospitalAccident/hospitalAccident';
 import { Diagnostic } from '../diagnostic/diagnostic';
 import { HttpService } from '../core/http/http.service';
-// import { ExtendCaseAccident } from './extendCaseAccident';
 import { Document } from '../document/document';
-// import { CaseAccident } from './case';
 import { AccidentCheckpoint } from '../accident/components/checkpoint/checkpoint';
 import { AccidentScenario } from '../accident/components/scenario/scenario';
-import { Survey } from '../survey/survey';
+import { Survey } from '../survey';
 import { Accident } from '../accident/accident';
 import { AccidentHistory } from '../accident/components/history/history';
 import { Commentary } from '../comment/commentary';
+import { LoadableServiceInterface } from '../core/loadable';
 
 @Injectable()
-export class CasesService extends HttpService {
+export class CasesService extends HttpService implements LoadableServiceInterface {
 
   protected getPrefix(): string {
     return 'director/cases';
   }
-
-  // todo check if I'm using it
-  /*getExtendedCase(id: number): Promise<ExtendCaseAccident[]> {
-    return this.get()
-      .then(response => response.data as ExtendCaseAccident[]);
-  }*/
 
   getDocumentsUrl(id): string {
     return `${this.getUrl()}/${id}/documents`;
@@ -54,11 +47,6 @@ export class CasesService extends HttpService {
     return this.get(`${id}/documents`)
       .then(response => response.data as Document[]);
   }
-
-  // todo delete, seems that not used
-  /*getCases(params): Promise<any> {
-    return this.get(null, params).then(response => response as CaseAccident[]);
-  }*/
 
   getCaseServices(id: number): Promise<Service[]> {
     return this.get(`${id}/services`).then(response => response.data as Service[]);
@@ -117,10 +105,12 @@ export class CasesService extends HttpService {
       .then(response => response as Commentary);
   }
 
-  getFinance (accident: Accident, types: Object): Promise<PaymentViewer[]> {
-    return this.http
-      .post(this.getUrl(`${accident.id}/finance`), JSON.stringify(types), { headers: this.getAuthHeaders() })
-      .toPromise()
+  getFinance (accident: Accident, types: string[]): Promise<PaymentViewer[]> {
+    let typesUri = '';
+    if (types.length) {
+      typesUri = `?types=${types.join(',')}`;
+    }
+    return this.get(`${accident.id}/finance${typesUri}`)
       .then(response => {
         let res = [];
         if (response && 'data' in response) {

@@ -21,15 +21,14 @@
   [value]="data"
   [lazy]="getConfig().get('lazy')"
   (onLazyLoad)="loadLazy($event)"
-  (onPage)="onPageChanged($event)"
+  (onPage)="onPageChange($event)"
   [paginator]="getConfig().get('paginator')"
-  [rows]="getConfig().get('rows')"
+  [rows]="paginationService.getLimit()"
   [totalRecords]="total"
   [loading]="loading"
   (onRowSelect)="onRowSelect($event)"
   [selectionMode]="getConfig().get('selectionMode')"
   [(selection)]="selectedData"
-  [sortMode]="getConfig().get('sort') && getConfig().get('sortMode')"
 >
   <ng-template pTemplate="caption" *ngIf="getConfig().get('captionPanel')">
     <div class="ui-helper-clearfix">
@@ -75,20 +74,29 @@
     <tr>
       <th
         *ngFor="let col of columns"
-        [pSortableColumn]="col.field"
+        [ngStyle]="col.style"
       >
         {{col.header}}
-        <p-sortIcon
-          *ngIf="isSortable(col.field)"
-          [field]="col.field"></p-sortIcon>
+        <!-- Data sorting by the field -->
+        <nga-datatable-sort
+          [fieldName]="col.field"
+          [sortRequestBuilder]="getConfig().getDatatableRequestBuilder().getSorter()"
+          (changed)="onSorted()"
+        ></nga-datatable-sort>
       </th>
     </tr>
     <tr
-      *ngIf="getConfig().get('filters') && getConfig().get('filterActions')"
+      *ngIf="getConfig().get('hasFilterRow')"
     >
       <th
         *ngFor="let col of columns"
-      >filter for {{col.header}}</th>
+      >
+        <nga-datatable-filter
+          [fieldName]="col.field"
+          [filterRequestBuilder]="getConfig().getDatatableRequestBuilder().getFilter()"
+          (changed)="onFilter()"
+        ></nga-datatable-filter>
+      </th>
     </tr>
   </ng-template>
   <ng-template pTemplate="body" let-rowData let-columns="columns">

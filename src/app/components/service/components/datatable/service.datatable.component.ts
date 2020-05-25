@@ -26,6 +26,7 @@ import { LoadableServiceInterface } from '../../../core/loadable';
 import { Service } from '../../service';
 import { DatatableAction, DatatableCol, DatatableComponent, DatatableTransformer } from '../../../ui/datatable';
 import { ConfirmationService, FilterMetadata } from 'primeng/api';
+import { Breadcrumb } from '../../../../theme/components/baContentTop/breadcrumb';
 
 @Component({
   selector: 'nga-service-datatable',
@@ -49,6 +50,13 @@ export class ServiceDatatableComponent extends AbstractDatatableController {
     private confirmationService: ConfirmationService,
   ) {
     super();
+  }
+
+  protected onLangLoaded () {
+    super.onLangLoaded();
+    const breadcrumbs = [];
+    breadcrumbs.push(new Breadcrumb('Services', '/pages/doctors/services', true));
+    this._state.notifyDataChanged('menu.activeLink', breadcrumbs);
   }
 
   save () {
@@ -81,17 +89,17 @@ export class ServiceDatatableComponent extends AbstractDatatableController {
     ];
   }
 
-  getActions(): DatatableAction[] {
+  protected hasControlPanel (): boolean {
+    return true;
+  }
+
+  protected getControlPanelActions (): DatatableAction[] {
     return [
       new DatatableAction(this.translateService.instant('Add'), 'fa fa-plus', () => {
         this.setModel(this.getEmptyModel());
         this.displayDialog = true;
       }),
     ];
-  }
-
-  getSortBy(): string {
-    return 'title';
   }
 
   confirmDelete(): void {
@@ -104,42 +112,15 @@ export class ServiceDatatableComponent extends AbstractDatatableController {
     });
   }
 
-  private getFiltersWithoutStatus(): Object {
-    const newFilters = {};
-    const filters = this.getDatatableComponent().getConfig().get('filters');
-    Object.keys(filters).forEach(function (item: string) {
-      if (item !== 'status') {
-        newFilters[ item ] = filters[ item ];
-      }
-    });
-    return newFilters;
-  }
-
   protected hasCaptionPanel (): boolean {
     return true;
   }
 
-  getFilters(): { [s: string]: FilterMetadata } {
-    const status = { value: 'active', matchMode: 'eq' } as FilterMetadata;
-    return { status };
-  }
-
   protected getCaptionActions (): DatatableAction[] {
     return [
-      new DatatableAction(this.translateService.instant('Show hidden'), 'fa fa-toggle-on', event => {
-        const btnEl = event.target.parentNode;
-        let st = btnEl.className;
-        const filters = this.getFiltersWithoutStatus();
-        if (st.includes('ui-button-success')) { // show hidden
-          st = st.replace('ui-button-success', '');
-          st = st.trim();
-          filters['status'] = { value: 'active', matchMode: 'eq' } as FilterMetadata;
-        } else {
-          // hide hidden
-          st += ' ui-button-success';
-        }
-        this.applyFilters(filters);
-        btnEl.className = st;
+      new DatatableAction(this.translateService.instant('Add'), 'fa fa-plus', () => {
+        this.setModel(this.getEmptyModel());
+        this.displayDialog = true;
       }),
     ];
   }

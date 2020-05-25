@@ -18,7 +18,6 @@ export class UrlHelper {
 
   static replaceOrAdd (location: string, name: string, value: string): string {
     try {
-      // const regEx = new RegExp(`${name}=\\d+`);
       const regEx = new RegExp(`${name}=[^&]+`);
       const newVal = value === '' ? '' : `${name}=${value}`;
 
@@ -55,6 +54,47 @@ export class UrlHelper {
     if (query) {
       res = decodeURIComponent(query[1]);
     }
+    return res;
+  }
+
+  static eachQueryVariable(location: string, func: Function): void {
+    const parts = location.split('?');
+    let varParts = location;
+    if (parts.length > 1) {
+      varParts = parts[1];
+    }
+    const vars = varParts.split( '&' );
+    vars.forEach(value => {
+      const val = value.split('=');
+      let valMe = '';
+      let valName = '';
+      if (val.length > 1) {
+        valName = decodeURIComponent(val[0]);
+        valMe = decodeURIComponent(val[1]);
+      } else {
+        valName = decodeURIComponent(value);
+      }
+
+      func(valName, valMe);
+    });
+  }
+
+  static getQueryVariables(location: string): Object[] {
+
+    const res = [];
+    UrlHelper.eachQueryVariable(location, (name: string, val: string) => {
+      const obj = {};
+      obj[name] = val;
+      res.push(obj);
+    });
+    return res;
+  }
+
+  static getQueryVarsAsObject(location: string): Object {
+    const res = {};
+    UrlHelper.eachQueryVariable(location, (name: string, val: string) => {
+      res[name] = val;
+    });
     return res;
   }
 }

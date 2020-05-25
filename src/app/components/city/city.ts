@@ -20,5 +20,7 @@ export class City {
         public id: number = 0,
         public title: string = '',
         public regionId: number = 0,
+        public regionTitle: string = '',
+        public countryTitle: string = '',
     ) {}
 }

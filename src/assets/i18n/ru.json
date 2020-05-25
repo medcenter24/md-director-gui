@@ -1,9 +1,23 @@
 {
+  "Token Countdown": "Время жизни ключа",
+  "Disease": "Болезнь",
+  "Choose a form of the invoice": "Выберите форму инвойса",
+  "Error Occurred": "Ошибка исполнения",
+  "active": "включено",
+  "disabled": "отключено",
+  "director": "Директор",
+  "Created By": "Кем создано",
+  "ID": "ID",
+  "Disease Description": "Описание болезни",
+  "Diseases": "Болезни",
+  "HTTP Error Occurred": "Ошибка HTTP",
+  "Loading": "Загрузка",
+  "Undefined": "Неопределенно",
   "Find": "Найти",
   "Inactive": "Неактивна",
   "Show hidden": "Показывать скрытые",
   "Active": "Активно",
-  "imported": "импортировано",
+  "imported": "Импортировано",
   "Form not selected": "Форма не выбрана",
   "Resource not found": "Ресурс не найден",
   "Are you sure that you want to DELETE case? After that this case won't be restored.":  "Вы хотите удалить дело?<br><br>Дело будет недоступно и удалено из поиска.",
@@ -449,5 +463,7 @@
   "Register": "Регистрация",
   "Created With": "Создано с",
   "Password": "Пароль",
-  "Incorrect Email or password": "Неправильный Е-Мейл или пароль"
+  "Incorrect Email or password": "Неправильный Е-Мейл или пароль",
+  "Select Diseases": "Выбор болезней",
+  "no_diseases_assigned": "Болезни не назначены"
 }

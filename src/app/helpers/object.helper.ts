@@ -47,7 +47,9 @@ export class ObjectHelper {
    * @param o
    * @param eo
    */
-  static extend(o: Object, eo: Object): Object {
+  static extend(o: Object = null, eo: Object = null): Object {
+    o = o || {};
+    eo = eo || {};
     // clone
     const obj = {};
     for (const key of Object.keys(o)) {

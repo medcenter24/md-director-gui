@@ -16,18 +16,25 @@
  */
 
 import { Injectable } from '@angular/core';
-import { HttpService } from '../../../core/http/http.service';
-import { AccidentScenario } from './scenario';
+
+import 'rxjs/add/operator/toPromise';
+
+import { Disease } from './disease';
+import { HttpService } from '../core/http/http.service';
 
 @Injectable()
-export class AccidentScenarioService extends HttpService {
+export class DiseaseService extends HttpService {
 
   protected getPrefix(): string {
-    return 'director/scenario';
+    return 'director/diseases';
   }
 
-  getDoctorScenario(): Promise<AccidentScenario[]> {
-    return this.get(`doctor`)
-      .then(response => response.data as AccidentScenario[]);
+  save(disease: Disease): Promise<Disease> {
+    const action = disease.id ? this.put(disease.id, disease) : this.store(disease);
+    return action.then(response => response as Disease);
+  }
+
+  destroy(disease: Disease): Promise<any> {
+    return this.remove(disease.id);
   }
 }

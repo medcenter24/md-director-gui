@@ -56,7 +56,7 @@ export class CaseFinanceComponent extends LoadableComponent implements OnInit {
    * @param types [income, assistant, caseable]
    */
   private reload(types: string[] = []): void {
-    this.caseService.getFinance(this.accident, { types }).then((paymentViewers: PaymentViewer[]) => {
+    this.caseService.getFinance(this.accident, types).then((paymentViewers: PaymentViewer[]) => {
       this.updatePaymentViewers(paymentViewers);
     });
   }
@@ -79,7 +79,7 @@ export class CaseFinanceComponent extends LoadableComponent implements OnInit {
       case 'income':
         return 'Income';
       case 'caseable':
-        return this.accident.caseableType === 'medcenter24\\mcCore\\App\\HospitalAccident'
+        return this.accident.caseableType === 'hospital'
           ? 'Payment to the hospital'
           : 'Payment to the doctor';
       case 'assistant':

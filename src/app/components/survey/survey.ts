@@ -22,5 +22,7 @@ export class Survey {
         public description: string = '',
         public type: string = '',
         public status: string = 'active',
+        public diseaseId: string = '',
+        public diseaseTitle: string = '',
     ) {}
 }

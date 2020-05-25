@@ -28,6 +28,10 @@ import { AbstractDatatableController } from '../../../ui/tables/abstract.datatab
 import { LoadableServiceInterface } from '../../../core/loadable';
 import { Assistant } from '../../assistant';
 import { LoggerComponent } from '../../../core/logger/LoggerComponent';
+import { Breadcrumb } from '../../../../theme/components/baContentTop/breadcrumb';
+import { DatatableRequestBuilder } from '../../../ui/datatable/request/datatable.request.builder';
+import { RequestBuilder } from '../../../core/http/request';
+import { FilterRequestField, SortRequestField } from '../../../core/http/request/fields';
 
 @Component({
   selector: 'nga-assistant-datatable',
@@ -52,6 +56,13 @@ export class AssistantDatatableComponent extends AbstractDatatableController {
     super();
   }
 
+  protected onLangLoaded () {
+    super.onLangLoaded();
+    const breadcrumbs = [];
+    breadcrumbs.push(new Breadcrumb('Assistants', '/pages/companions/assistants', true));
+    this._state.notifyDataChanged('menu.activeLink', breadcrumbs);
+  }
+
   protected getTranslateService (): TranslateService {
     return this.translateService;
   }
@@ -72,12 +83,16 @@ export class AssistantDatatableComponent extends AbstractDatatableController {
     return [
       new DatatableCol('title', this.translateService.instant('Title')),
       new DatatableCol('email', this.translateService.instant('E-Mail')),
-      new DatatableCol('commentary', this.translateService.instant('Commentary')),
-      new DatatableCol('refKey', this.translateService.instant('Ref. Key')),
+      new DatatableCol('comment', this.translateService.instant('Commentary')),
+      new DatatableCol('refKey', this.translateService.instant('Ref. Key'), { width: '5em' }),
     ];
   }
 
-  getActions (): DatatableAction[] {
+  protected hasControlPanel (): boolean {
+    return true;
+  }
+
+  protected getControlPanelActions (): DatatableAction[] {
     return [
       new DatatableAction(this.translateService.instant('Add'), 'fa fa-plus', () => {
         this.setModel(this.getEmptyModel());
@@ -86,13 +101,25 @@ export class AssistantDatatableComponent extends AbstractDatatableController {
     ];
   }
 
-  getSortBy(): string {
-    return 'title';
-  }
-
-  onChanged(assistant: Assistant): void {
+  onChanged(): void {
     this.displayDialog = false;
     this.getDatatableComponent().refresh();
+  }
+
+  protected hasFilterRow (): boolean {
+    return true;
+  }
+
+  protected getRequestBuilder (): DatatableRequestBuilder {
+    const requestBuilder = super.getRequestBuilder();
+    requestBuilder.setSorter(new RequestBuilder([
+      new SortRequestField('title'),
+    ]));
+    requestBuilder.setFilter(new RequestBuilder([
+      new FilterRequestField('title', null, FilterRequestField.MATCH_CONTENTS, FilterRequestField.TYPE_TEXT),
+      new FilterRequestField('email', null, FilterRequestField.MATCH_CONTENTS, FilterRequestField.TYPE_TEXT),
+    ]));
+    return requestBuilder;
   }
 }
 

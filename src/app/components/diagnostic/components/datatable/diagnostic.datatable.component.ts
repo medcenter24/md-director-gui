@@ -27,7 +27,8 @@ import { DiagnosticEditorComponent } from '../editor';
 import { DiagnosticService } from '../../diagnostic.service';
 import { Diagnostic } from '../../diagnostic';
 import { LoggerComponent } from '../../../core/logger/LoggerComponent';
-import { FilterMetadata } from 'primeng/api';
+import { Breadcrumb } from '../../../../theme/components/baContentTop/breadcrumb';
+import { Disease } from '../../../disease';
 
 @Component({
   selector: 'nga-diagnostic-datatable',
@@ -53,6 +54,13 @@ export class DiagnosticDatatableComponent extends AbstractDatatableController {
     super();
   }
 
+  protected onLangLoaded () {
+    super.onLangLoaded();
+    const breadcrumbs = [];
+    breadcrumbs.push(new Breadcrumb('Diagnostics', '/pages/doctors/diagnostics', true));
+    this._state.notifyDataChanged('menu.activeLink', breadcrumbs);
+  }
+
   protected getDatatableComponent (): DatatableComponent {
     return this.diagnosticDatatableComponent;
   }
@@ -73,7 +81,7 @@ export class DiagnosticDatatableComponent extends AbstractDatatableController {
     return [
       new DatatableCol('title', this.translateService.instant('Title')),
       new DatatableCol('description', this.translateService.instant('Description')),
-      new DatatableCol('diseaseCode', this.translateService.instant('Disease Code')),
+      new DatatableCol('diseases', this.translateService.instant('Diseases')),
     ];
   }
 
@@ -84,7 +92,11 @@ export class DiagnosticDatatableComponent extends AbstractDatatableController {
     }
   }
 
-  getActions(): DatatableAction[] {
+  protected hasControlPanel (): boolean {
+    return true;
+  }
+
+  protected getControlPanelActions (): DatatableAction[] {
     return [
       new DatatableAction(this.translateService.instant('Add'), 'fa fa-plus', () => {
         this.setModel(this.getEmptyModel());
@@ -93,17 +105,9 @@ export class DiagnosticDatatableComponent extends AbstractDatatableController {
     ];
   }
 
-  getSortBy(): string {
-    return 'name';
-  }
-
-  getFilters(): { [s: string]: FilterMetadata } {
-    const status = { value: 'active', matchMode: 'eq' } as FilterMetadata;
-    return { status };
-  }
-
   closeDiagnosticEditor(): void {
     this.displayDialog = false;
+    this.deselectAll();
   }
 
   onDiagnosticChanged(diagnostic: Diagnostic): void {
@@ -124,33 +128,11 @@ export class DiagnosticDatatableComponent extends AbstractDatatableController {
 
   protected getCaptionActions (): DatatableAction[] {
     return [
-      new DatatableAction(this.translateService.instant('Show hidden'), 'fa fa-toggle-on', event => {
-        const btnEl = event.target.parentNode;
-        let st = btnEl.className;
-        const filters = this.getFiltersWithoutStatus();
-        if (st.includes('ui-button-success')) { // show hidden
-          st = st.replace('ui-button-success', '');
-          st = st.trim();
-          filters['status'] = { value: 'active', matchMode: 'eq' } as FilterMetadata;
-        } else {
-          // hide hidden
-          st += ' ui-button-success';
-        }
-        this.applyFilters(filters);
-        btnEl.className = st;
+      new DatatableAction(this.translateService.instant('Add'), 'fa fa-plus', () => {
+        this.setModel(this.getEmptyModel());
+        this.displayDialog = true;
       }),
     ];
-  }
-
-  private getFiltersWithoutStatus(): Object {
-    const newFilters = {};
-    const filters = this.getDatatableComponent().getConfig().get('filters');
-    Object.keys(filters).forEach(function (item: string) {
-      if (item !== 'status') {
-        newFilters[ item ] = filters[ item ];
-      }
-    });
-    return newFilters;
   }
 
   getTransformers (): DatatableTransformer[] {
@@ -161,6 +143,16 @@ export class DiagnosticDatatableComponent extends AbstractDatatableController {
         return `<span class="text-danger" title="${inactive}">${val}</span>`;
       }
       return val;
+    }));
+    transformers.push(new DatatableTransformer('diseases', (val, row) => {
+      if (!val.length) {
+        const noDiseasesMsg = this.translateService.instant('no_diseases_assigned');
+        return `<span class="text-muted">${noDiseasesMsg}</span>`;
+      } else {
+        const diseaseList = [];
+        val.forEach((v: Disease) => diseaseList.push(v.title));
+        return diseaseList.join(', ');
+      }
     }));
     return transformers;
   }

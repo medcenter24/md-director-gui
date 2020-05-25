@@ -27,7 +27,8 @@
   [responsive]="true"
   showEffect="fade"
   [modal]="true"
-  [width]="500">
+  [style]="{width : '500px'}"
+  (onHide)="deselectAll()">
 
   <div class="ui-g ui-fluid" *ngIf="hospital">
     <div class="ui-g-12">

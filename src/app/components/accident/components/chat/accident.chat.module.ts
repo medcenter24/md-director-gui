@@ -18,6 +18,7 @@
 import { NgModule } from '@angular/core';
 import { AccidentChatComponent } from './accident.chat.component';
 import { CommentsModule } from '../../../comment/components';
+import { DateHelper } from '../../../../helpers/date.helper';
 
 @NgModule({
   imports: [
@@ -28,6 +29,9 @@ import { CommentsModule } from '../../../comment/components';
   ],
   exports: [
     AccidentChatComponent,
+  ],
+  providers: [
+    DateHelper,
   ],
 })
 export class AccidentChatModule {

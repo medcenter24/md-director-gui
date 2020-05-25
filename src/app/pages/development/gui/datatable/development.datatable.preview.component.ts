@@ -29,7 +29,10 @@ import { LoadableServiceInterface } from '../../../../components/core/loadable';
 import { TranslateService } from '@ngx-translate/core';
 import { PreviewDataService } from './preview.data.service';
 import { Breadcrumb } from '../../../../theme/components/baContentTop/breadcrumb';
-import { FilterMetadata } from 'primeng/api';
+import { DatatableRequestBuilder } from '../../../../components/ui/datatable/request/datatable.request.builder';
+import { FilterRequestField, SortRequestField } from '../../../../components/core/http/request/fields';
+import { RequestBuilder } from '../../../../components/core/http/request';
+import { UiToastService } from '../../../../components/ui/toast/ui.toast.service';
 
 @Component({
   selector: 'nga-development-datatable-preview',
@@ -48,6 +51,7 @@ export class DevelopmentDatatablePreviewComponent extends AbstractDatatableContr
     protected _state: GlobalState,
     private previewDataService: PreviewDataService,
     protected translateService: TranslateService,
+    private uiToastService: UiToastService,
   ) {
     super();
     const breadcrumbs = [];
@@ -58,6 +62,19 @@ export class DevelopmentDatatablePreviewComponent extends AbstractDatatableContr
 
   protected getTranslateService (): TranslateService {
     return this.translateService;
+  }
+
+  getRequestBuilder (): DatatableRequestBuilder {
+    const requestBuilder = super.getRequestBuilder();
+    requestBuilder.setSorter(new RequestBuilder([
+      new SortRequestField('title'),
+      new SortRequestField('icon'),
+    ]));
+    requestBuilder.setFilter(new RequestBuilder([
+      new FilterRequestField('title'),
+      new FilterRequestField('value', '', 'between', FilterRequestField.TYPE_DATE_RANGE),
+    ]));
+    return requestBuilder;
   }
 
   getDatatableComponent(): DatatableComponent {
@@ -76,17 +93,18 @@ export class DevelopmentDatatablePreviewComponent extends AbstractDatatableContr
     ];
   }
 
+  protected hasControlPanel (): boolean {
+    return true;
+  }
+
   getActions(): DatatableAction[] {
     return [
       new DatatableAction('Action', 'fa fa-plus', () => {
         this.setModel(this.getEmptyModel());
         this.displayDialog = true;
+        this.uiToastService.infoMessage('That is the test, real action was not run');
       }),
     ];
-  }
-
-  getSortBy(): string {
-    return 'title';
   }
 
   getEmptyModel(): Object {
@@ -95,10 +113,14 @@ export class DevelopmentDatatablePreviewComponent extends AbstractDatatableContr
 
   getTransformers (): DatatableTransformer[] {
     const transformers = super.getTransformers();
-    transformers.push(new DatatableTransformer('icon', (val, row) => {
+    transformers.push( new DatatableTransformer( 'icon', ( val, row ) => {
       return `<span class="text-danger" >${val}, ${row.title}</span>`;
-    }));
+    } ) );
     return transformers;
+  }
+
+  protected hasFilterRow (): boolean {
+    return true;
   }
 
   protected hasCaptionPanel(): boolean {
@@ -108,14 +130,20 @@ export class DevelopmentDatatablePreviewComponent extends AbstractDatatableContr
   protected getCaptionActions(): DatatableAction[] {
     return [
       new DatatableAction('Action', 'fa fa-download', () => {
-      }),
-      new DatatableAction('Setup filter', 'fa fa-gears', () => {
-        const filter = { value: 'text', matchMode: 'eq' } as FilterMetadata;
-        this.applyFilters({ filter });
-      }),
-      new DatatableAction('Clean filter', 'fa fa-gears', () => {
-        this.applyFilters({});
+        this.uiToastService.infoMessage('That is the test, real action was not run');
       }),
     ];
+  }
+
+  onSort(): void {
+    this.uiToastService.infoMessage('That is the test, real action was not run');
+  }
+
+  onFilter(): void {
+    this.uiToastService.infoMessage('That is the test, real action was not run');
+  }
+
+  onPaginate(): void {
+    this.uiToastService.infoMessage('That is the test, real action was not run');
   }
 }

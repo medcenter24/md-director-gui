@@ -26,7 +26,7 @@ export class Accident {
         public cityId: number = 0,
         public formReportId: number = 0,
         public caseableId: number = 0,
-        public caseableType: string = 'medcenter24\\mcCore\\App\\DoctorAccident',
+        public caseableType: string = 'doctor',
         public caseableCost: number = 0,
         public fixedIncome: number = 0,
         public refNum: string = '',

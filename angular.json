@@ -34,7 +34,8 @@
               "node_modules/font-awesome/scss/font-awesome.scss",
               "node_modules/pace-js/templates/pace-theme-flash.tmpl.css",
               "src/app/theme/theme.scss",
-              "src/styles.scss"
+              "src/styles.scss",
+              "node_modules/flatpickr/dist/flatpickr.min.css"
             ],
             "scripts": [
               "node_modules/jquery/dist/jquery.js",

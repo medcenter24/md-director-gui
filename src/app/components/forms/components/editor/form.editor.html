@@ -59,8 +59,10 @@
         [maximizable]="true"
         appendTo="body">
   <nga-forms-options-editor
+    #formsOptionsEditorComponent
     [formableType]="form.formableType"
     (selected)="setSelectedVar($event)"
+    (formOptionsLoaded)="updateAllVars($event)"
   ></nga-forms-options-editor>
 </p-dialog>
 

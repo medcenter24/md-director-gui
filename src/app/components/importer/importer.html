@@ -37,8 +37,7 @@
                   (onUpload)="handleUpload($event)"
                   (onError)="handleError($event)"
                   (onClear)="handleClear()"
-                  (onBeforeUpload)="handleBeforeUpload()"
-                  (onBeforeSend)="handleBeforeSend($event)">
+                  (onBeforeUpload)="handleBeforeUpload()">
         <ng-template pTemplate="content">
             <h3 translate *ngIf="uploadedFiles && uploadedFiles.length">Uploaded Files</h3>
             <table class="table table-striped table-bordered" *ngIf="uploadedFiles && uploadedFiles.length">

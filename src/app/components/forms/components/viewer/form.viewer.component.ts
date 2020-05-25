@@ -22,6 +22,7 @@ import { SlimLoadingBarService } from 'ng2-slim-loading-bar';
 import { GlobalState } from '../../../../global.state';
 import { LoadableComponent } from '../../../core/components/componentLoader';
 import { FormService } from '../../form.service';
+import { UiToastService } from '../../../ui/toast/ui.toast.service';
 
 @Component({
   selector: 'nga-form-viewer',
@@ -74,17 +75,6 @@ export class FormViewerComponent extends LoadableComponent {
   @Input() formableId: number;
 
   /**
-   * If initialized - will be run before performance
-   * doesn't work with all these inner parameters
-   */
- /*
-  @Input() before(): Promise<any> {
-    return new Promise<any>((resolve) => {
-      resolve();
-    });
-  }*/
-
-  /**
    * will be triggered event instead of real method
    * to pass control upper
    */
@@ -98,8 +88,6 @@ export class FormViewerComponent extends LoadableComponent {
   previewContainer: ElementRef;
 
   formPreviewerVisible: boolean = false;
-  private errorMessage: string = '';
-  private errorTitle: string = '';
 
   constructor(
     protected loadingBar: SlimLoadingBarService,
@@ -107,20 +95,17 @@ export class FormViewerComponent extends LoadableComponent {
     protected _state: GlobalState,
     protected translateService: TranslateService,
     protected formService: FormService,
+    private uiToastService: UiToastService,
   ) {
     super();
-    this.translateService.get('`form` and/or `data source` has not been provided').subscribe(res => {
-      this.errorMessage = res;
-      this.errorTitle = this.translateService.instant('Error');
-    });
   }
 
   private valid(): Promise<any> {
     return new Promise<any>((resolve, reject) => {
       if (!this.formId || !this.formableId) {
-        const msgs = [];
-        msgs.push({ severity: 'error', summary: this.errorTitle, detail: this.errorMessage });
-        this._state.notifyDataChanged('growl', msgs);
+        this.translateService.get('`form` and/or `data source` has not been provided').subscribe(res => {
+          this.uiToastService.errorMessage(res);
+        });
         if (reject) {
           reject();
         }

@@ -23,19 +23,6 @@ export class StatusColorMapService {
 
   constructor (private _baConfig: BaThemeConfigProvider) {}
 
-  getStatuses(): string[] {
-    return [
-      'new',
-      'assigned',
-      'in_progress',
-      'sent',
-      'sended',
-      'paid',
-      'closed',
-      'reject',
-    ];
-  }
-
   getColorByStatus(status: string) {
     let color;
     switch (status) {

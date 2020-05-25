@@ -76,16 +76,16 @@ export class PatientSelectComponent extends LoadableComponent implements OnInit 
   reload(): void {
       const postfix = 'Reload';
       this.startLoader(postfix);
-      this.patientService.getPatients().then(patients => {
-          this.stopLoader(postfix);
-          this.patients = patients;
-          this.dataPatients = patients.map(x => {
+      this.patientService.search({}).then(response => {
+          this.patients = response.data;
+          this.dataPatients = this.patients.map(x => {
               return {
                   label: `${x.name}`,
                   value: `${x.id}`,
               };
           });
           this.isLoaded = true;
+          this.stopLoader(postfix);
       }).catch((err) => {
           this.stopLoader(postfix);
           this._logger.error(err);

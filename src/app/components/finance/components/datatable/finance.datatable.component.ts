@@ -27,6 +27,7 @@ import { DatatableAction, DatatableCol, DatatableComponent, DatatableTransformer
 import { ConfirmationService } from 'primeng/api';
 import { Router } from '@angular/router';
 import { LoggerComponent } from '../../../core/logger/LoggerComponent';
+import { Breadcrumb } from '../../../../theme/components/baContentTop/breadcrumb';
 
 @Component({
   selector: 'nga-finance-datatable',
@@ -50,6 +51,13 @@ export class FinanceDatatableComponent extends AbstractDatatableController {
     super();
   }
 
+  protected onLangLoaded () {
+    super.onLangLoaded();
+    const breadcrumbs = [];
+    breadcrumbs.push(new Breadcrumb('Conditions', '/pages/finance/conditions', true));
+    this._state.notifyDataChanged('menu.activeLink', breadcrumbs);
+  }
+
   protected getDatatableComponent (): DatatableComponent {
     return this.financeDatatableComponent;
   }
@@ -69,14 +77,16 @@ export class FinanceDatatableComponent extends AbstractDatatableController {
   getColumns(): DatatableCol[] {
     return [
       new DatatableCol('title', this.translateService.instant('Title')),
-      new DatatableCol('model', this.translateService.instant('Model')),
-      new DatatableCol('value', this.translateService.instant('Price')),
+      new DatatableCol('model', this.translateService.instant('Model'), { width: '5em' }),
+      new DatatableCol('value', this.translateService.instant('Price'), { width: '7em' }),
+      new DatatableCol('condition', this.translateService.instant('Condition')),
     ];
   }
 
   getTransformers(): DatatableTransformer[] {
     return [
-        new DatatableTransformer('condition', (val, row: FinanceRule) => {
+      new DatatableTransformer('model', val => val),
+      new DatatableTransformer('condition', (val, row: FinanceRule) => {
             let res: string[] = [];
             res.push(this.conditionToString(row, 'assistants', 'title'));
             res.push(this.conditionToString(row, 'cities', 'title'));
@@ -99,7 +109,11 @@ export class FinanceDatatableComponent extends AbstractDatatableController {
     return res;
   }
 
-  getActions(): DatatableAction[] {
+  protected hasControlPanel (): boolean {
+    return true;
+  }
+
+  getControlPanelActions(): DatatableAction[] {
     return [
       new DatatableAction(this.translateService.instant('Add'), 'fa fa-plus', () => {
         this.setModel(this.getEmptyModel());

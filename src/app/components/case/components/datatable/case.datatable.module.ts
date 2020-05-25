@@ -22,9 +22,8 @@ import { CommonModule } from '@angular/common';
 import { ImporterModule } from '../../../importer/importer.module';
 import { ExporterService } from '../../../exporter/exporter.service';
 import { CasesService } from '../../cases.service';
-import { ExtensionsService } from '../../../extensions/extensions.service';
 import { InputTextModule } from 'primeng/inputtext';
-import { CaseFilterModule } from '../filter';
+import { AccidentStatusService } from '../../../accident/components/status';
 
 @NgModule({
   imports: [
@@ -32,7 +31,6 @@ import { CaseFilterModule } from '../filter';
     DatatableModule,
     ImporterModule,
     InputTextModule,
-    CaseFilterModule,
   ],
   declarations: [
     CaseDatatableComponent,
@@ -40,7 +38,7 @@ import { CaseFilterModule } from '../filter';
   providers: [
     ExporterService,
     CasesService,
-    ExtensionsService,
+    AccidentStatusService,
   ],
   exports: [
     CaseDatatableComponent,

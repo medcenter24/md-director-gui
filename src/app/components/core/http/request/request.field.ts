@@ -14,22 +14,40 @@
  * Copyright (c) 2020 (original work) MedCenter24.com;
  */
 
-import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { LoadableComponent } from '../../../core/components/componentLoader';
-import { CaseDatatableFilter } from './case.datatable.filter';
+export class RequestField {
 
-@Component({
-  selector: 'nga-case-filter',
-  templateUrl: './case.filter.html',
-})
-export class CaseFilterComponent extends LoadableComponent {
+  constructor (
+    public field: string,
+    public value: string = '',
+  ) {
+  }
 
-  protected componentName: string = 'CaseFilterComponent';
+  getFieldPrefix(): string {
+    return '';
+  }
 
-  @Output() protected runFilter: EventEmitter<CaseDatatableFilter> = new EventEmitter<CaseDatatableFilter>();
-  @Input() filter: CaseDatatableFilter;
+  toUrl(): string {
+    const uriField = encodeURIComponent(this.getField());
+    if (!uriField.length) {
+      throw new Error('Undefined field property');
+    }
+    const uriValue = encodeURIComponent(this.getValue());
+    return uriValue && uriValue !== 'null' ? `${uriField}=${uriValue}` : '';
+  }
 
-  onFilter(): void {
-    this.runFilter.emit(this.filter);
+  getField(): string {
+    return `${this.getFieldPrefix()}${this.field}`;
+  }
+
+  getValue(): string {
+    return this.value;
+  }
+
+  setValue(val: string): void {
+    this.value = val;
+  }
+
+  isActive(): boolean {
+    return true;
   }
 }

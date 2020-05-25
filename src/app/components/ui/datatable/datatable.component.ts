@@ -15,18 +15,23 @@
  * Copyright (c) 2019 (original work) MedCenter24.com;
  */
 
-import { Component, Input, ChangeDetectorRef, ViewChild } from '@angular/core';
+import { Component, Input, ChangeDetectorRef, ViewChild, Output, EventEmitter } from '@angular/core';
 import { LoadableComponent } from '../../core/components/componentLoader';
 import { LazyLoadEvent } from 'primeng/primeng';
-import { DatatableConfig } from './datatable.config';
-import { DatatableResponse } from './datatable.response';
-import { DatatableAction } from './datatable.action';
-import { DatatableTransformer } from './datatable.transformer';
-import { DatatableCol } from './datatable.col';
+import {
+  DatatableAction,
+  DatatableCol,
+  DatatableConfig,
+  DatatablePaginationService,
+  DatatableResponse,
+  DatatableTransformer,
+} from './entities';
 import { Location } from '@angular/common';
 import { UrlHelper } from '../../../helpers/url.helper';
 import { Table } from 'primeng/table';
-import { FilterMetadata } from 'primeng/api';
+import { DatatableRequestBuilder } from './request/datatable.request.builder';
+import { DatatableSortService } from './services/datatable.sort.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'nga-datatable',
@@ -36,6 +41,8 @@ export class DatatableComponent extends LoadableComponent {
   protected componentName: string = 'DatatableComponent';
 
   private _config: DatatableConfig ;
+  private preloadDelay;
+
   @Input() set config(config: DatatableConfig) {
 
     if (!config) {
@@ -45,6 +52,10 @@ export class DatatableComponent extends LoadableComponent {
       this.initialize();
     }
   }
+
+  @Output() sorted: EventEmitter<void> = new EventEmitter<void>();
+  @Output() filtered: EventEmitter<void> = new EventEmitter<void>();
+  @Output() pagination: EventEmitter<void> = new EventEmitter<void>();
 
   /**
    * it is used by this component only
@@ -57,12 +68,23 @@ export class DatatableComponent extends LoadableComponent {
   data: any[];
   loading: boolean = false;
   selectedData: any;
-  total: number = 0;
   lazyLoadEvent: LazyLoadEvent;
+  private paginationService: DatatablePaginationService;
+  private sortService: DatatableSortService;
+
+  /**
+   * Count rows that shown in the datatable
+   */
+  rows: number = 0;
+  /**
+   * total amount of rows that selected for datatable
+   */
+  total: number = 0;
 
   constructor (
     private cdr: ChangeDetectorRef,
     private location: Location,
+    private router: Router,
   ) {
     super();
   }
@@ -77,36 +99,79 @@ export class DatatableComponent extends LoadableComponent {
       }));
     }
 
-    // filters
-    this.updateFiltersByQuery();
+    this.paginationService = new DatatablePaginationService( this.getConfig(), this.location );
+    this.sortService = new DatatableSortService(this.getConfig(), this.location);
 
     // first loading of the table
     this.refresh();
+  }
+
+  // if I want to clean all selections
+  deselectAll(): void {
+    this.selectedData = [];
   }
 
   loadLazy(event: LazyLoadEvent) {
     this.lazyLoadEvent = event;
   }
 
-  pagedLoadLazy(event: LazyLoadEvent) {
-    // event.first = First row offset
-    // event.rows = Number of rows per page
-    // event.sortField = Field name to sort in single sort mode
-    // event.sortOrder = Sort order as number, 1 for asc and -1 for dec in single sort mode
-    // multiSortMeta: An array of SortMeta objects used in multiple columns sorting.
-    //     Each SortMeta has field and order properties.
-    // filters: Filters object having field as key and filter value, filter matchMode as value
-    // filtersActions // If i need to add filters as an extra row with html
-    // globalFilter: Value of the global filter if available
-    this.setLoading(true);
-    this.getConfig().dataProvider(event)
-      .then((response: DatatableResponse) => {
-        this.setLoading(false);
-        this.data = response.data;
-        this.total = response.meta.pagination.total;
-    }).catch(() => {
-      this.setLoading(false);
-    });
+  requestData(requestBuilder: DatatableRequestBuilder): void {
+    if (!this.getConfig().get('dataProvider')) {
+      throw new Error('Data provider was not configured for DataTable');
+    }
+
+    if (this.preloadDelay) {
+      // to avoid quick updates
+      clearTimeout(this.preloadDelay);
+    }
+
+    this.preloadDelay = setTimeout(() => {
+      if (
+        this.getConfig().get('dataProvider')
+        && typeof this.getConfig().get('dataProvider')['search'] === 'function'
+      ) {
+        this.setLoading(true);
+        this.getConfig().get( 'dataProvider' ).search( requestBuilder )
+          .then( ( response: DatatableResponse ) => {
+            this.setLoading( false );
+            this.data = response.data;
+            this.total = response.meta.pagination.total;
+            this.rows = this.data.length;
+            this.setUri(requestBuilder.toUrl());
+          } ).catch( () => {
+            this.setLoading( false );
+          } );
+      }
+    }, 500);
+  }
+
+  private setUri(uri: string): void {
+    let location = this.location.path(true);
+
+    const uriVars = UrlHelper.getQueryVariables(uri);
+    // delete unused parameters from the query
+    UrlHelper.getQueryVariables(location)
+      .forEach((obj: Object) => {
+        Object.keys(obj).forEach((key: string) => {
+          const filtered = uriVars.filter((uriVar: Object) => uriVar.hasOwnProperty(key));
+          const replaceVal = filtered.length ? filtered.pop()[key] : '';
+          location = UrlHelper.replaceOrAdd(location, key, replaceVal);
+        });
+      });
+    // adding new parameters to query
+    UrlHelper.getQueryVariables(uri)
+      .forEach((obj) => {
+        Object.keys(obj).forEach((key) => {
+          location = UrlHelper.replaceOrAdd(location, key, obj[key]);
+        });
+      });
+
+    if (location.includes('?')) {
+      const queryParams = { queryParams: UrlHelper.getQueryVarsAsObject(location) };
+      this.router.navigate([`${location.split('?')[0]}`], queryParams);
+    } else {
+      this.router.navigate([location]);
+    }
   }
 
   private setLoading(state: boolean): void {
@@ -123,16 +188,17 @@ export class DatatableComponent extends LoadableComponent {
     this.getConfig().onRowSelect(event);
   }
 
+  private datatableRequestBuilder(): DatatableRequestBuilder {
+    return this.getConfig().getDatatableRequestBuilder();
+  }
+
   refresh(): void {
-    // from url by query
-    const rows = +UrlHelper.get(this.getCurrentUrl(), 'rows', this.getConfig().get('rows'));
-    const first = +UrlHelper.get(this.getCurrentUrl(), 'first', this.getConfig().get('offset'));
-    const sortField = UrlHelper.get(this.getCurrentUrl(), 'sortField', this.getConfig().get('sortBy'));
-    const sortOrder = +UrlHelper.get(this.getCurrentUrl(), 'sortOrder', this.getConfig().get('sortOrder'));
-    this.updateFiltersByConfig();
-    const filters = this.getConfig().get('filters');
-    this.datatable.first = first; // to change the current page in the paginator
-    this.pagedLoadLazy({ rows, first, sortField, sortOrder, filters });
+    const requestBuilder = this.datatableRequestBuilder();
+    if (requestBuilder) {
+      this.requestData(requestBuilder);
+    } else {
+      throw new Error('Datatable RequestBuilder not initialized, so can not load any data');
+    }
   }
 
   showData(rowData: string[], col: DatatableCol): string {
@@ -147,17 +213,6 @@ export class DatatableComponent extends LoadableComponent {
     }
 
     return transformer || new DatatableTransformer(col.field);
-  }
-
-  /**
-   * Checks that field could be sorted
-   * @param {string} field
-   * @returns {boolean}
-   */
-  isSortable(field: string): boolean {
-    return this.getConfig().sort && (!this.getConfig().sortable
-      || !this.getConfig().sortable.length
-      || this.getConfig().sortable.indexOf(field) !== -1);
   }
 
   /**
@@ -179,62 +234,12 @@ export class DatatableComponent extends LoadableComponent {
     return found;
   }
 
-  private getCurrentUrl(): string {
-    return this.location.path(true);
-  }
-
-  /**
-   * set to config from query
-   */
-  private updateFiltersByQuery(): any {
-    const queryFilters = JSON.parse(UrlHelper.get(this.getCurrentUrl(), 'filters', '{}'));
-    const queryFiltersKeys = Object.keys(queryFilters);
-    if (queryFiltersKeys.length) {
-      const _filters = {};
-      queryFiltersKeys.forEach(k => {
-        _filters[k] = { value: queryFilters[k]['value'], matchMode: queryFilters[k]['matchMode'] } as FilterMetadata;
-      });
-      this.getConfig().update('filters', _filters);
-    }
-  }
-
-  /**
-   * set to query from config
-   */
-  private updateFiltersByConfig(): any {
-    const filters = this.getConfig().get('filters');
-    let location = this.getCurrentUrl();
-    const _filters = filters && Object.keys(filters).length ? encodeURIComponent(`${JSON.stringify(filters)}`) : '';
-    location = UrlHelper.replaceOrAdd(location, 'filters', _filters);
-    this.location.replaceState(location);
-  }
-
-  onPageChanged(event): void {
-    // I need to update request data (to have correct url)
-    let location = this.getCurrentUrl();
-    let first = this.getConfig().offset;
-    let rows = this.getConfig().rows;
-    if (+event.first) {
-      first = event.first;
-    }
-
-    if (+event.rows) {
-      rows = event.rows;
-    }
-
-    if (first && rows) {
-      location = UrlHelper.replaceOrAdd( location, 'first', `${first}` );
-      location = UrlHelper.replaceOrAdd( location, 'rows', `${rows}` );
-    } else {
-      location = UrlHelper.replaceOrAdd( location, 'first', `` );
-      location = UrlHelper.replaceOrAdd( location, 'rows', `` );
-    }
-    this.location.replaceState(location);
+  onPageChange(event): void {
+    this.paginationService.changePage(event);
     if (this.lazyLoadEvent) {
-      this.getConfig().update('first', { first });
-      this.getConfig().update('rows', { rows });
       this.refresh();
     }
+    this.pagination.emit();
   }
 
   /**
@@ -242,5 +247,21 @@ export class DatatableComponent extends LoadableComponent {
    */
   getConfig(): DatatableConfig {
     return this._config;
+  }
+
+  /**
+   * Datatable Sorted
+   */
+  onSorted(): void {
+    this.refresh();
+    this.sorted.emit();
+  }
+
+  /**
+   * Datatable Sorted
+   */
+  onFilter(): void {
+    this.refresh();
+    this.filtered.emit();
   }
 }

@@ -14,7 +14,25 @@
  * Copyright (c) 2020 (original work) MedCenter24.com;
  */
 
-export class CaseFilterTransformer {
-  toFilter(val): void {}
-  toQuery(val): void {}
-}
+import { NgModule } from '@angular/core';
+import { DatatableFiltersComponent } from './datatable.filters.component';
+import { CommonModule } from '@angular/common';
+import { InputTextModule } from 'primeng/inputtext';
+import { ButtonModule } from 'primeng/button';
+import { UiFilterTypeModule } from '../../../filter/components/types';
+
+@NgModule( {
+  imports: [
+    CommonModule,
+    InputTextModule,
+    ButtonModule,
+    UiFilterTypeModule,
+  ],
+  declarations: [
+    DatatableFiltersComponent,
+  ],
+  exports: [
+    DatatableFiltersComponent,
+  ],
+})
+export class DatatableFiltersModule {}

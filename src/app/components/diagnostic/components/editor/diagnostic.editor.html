@@ -34,12 +34,13 @@
           </div>
           <div class="col-sm-6">
             <div class="form-group">
-              <label for="inputComment" translate>Disease Code</label>
-              <input type="text" class="form-control" id="inputComment"
-                     [(ngModel)]="diagnostic.diseaseCode" name="disease_code"
-                     #comment="ngModel"
-                     placeholder="{{ 'Disease Code' | translate }}" maxlength="70"
-              >
+              <label translate>Diseases</label><br>
+              <nga-selector-multiple
+                [setConfig]="diseaseSelectorConfig"
+                (selected)="onDiseaseSelected($event)"
+                (init)="startLoader($event)"
+                (loaded)="stopLoader($event)"
+              ></nga-selector-multiple>
             </div>
           </div>
         </div>

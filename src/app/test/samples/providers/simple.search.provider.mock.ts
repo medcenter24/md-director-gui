@@ -36,7 +36,7 @@ export class SimpleSearchProviderMock implements SearchableServiceInterface {
   search(filter: SearchFilter = null): Promise<any> {
     const filtered = this.data;
     if (filter && filter.first) {
-      filtered.data = filtered.slice(filter.first, filter.rows);
+      filtered.data = filtered.data.slice(filter.first, filter.rows);
     }
     return new Promise<any>(resolve => resolve(filtered));
   }

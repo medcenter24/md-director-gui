@@ -51,37 +51,6 @@
                       class="text-danger" translate>Hospital Case</h4>
               </div>
               <!-- /Type of Case -->
-              <div class="col-sm-8">
-                <div class="row">
-                  <div class="col-sm-8 text-right">
-                    <!-- Accident Export-Print -->
-                    <nga-autocompleter
-                            *ngIf="!isLoading()"
-                        #accidentReportFormAutocompleter
-                        [service]="formService"
-                        placeholder="Choose a Form"
-                        labelField="title"
-                        (selected)="onReportFormChanged($event)"
-                        (init)="startLoader($event)"
-                        (loaded)="stopLoader($event)"
-                        [preloadedData]="accident.formReportId"
-                    ></nga-autocompleter>
-                  </div>
-                  <div class="col-sm-4 text-left">
-                    <nga-form-viewer
-                            #formViewerComponent
-                            *ngIf="+accident.formReportId"
-                            [formId]="accident.formReportId"
-                            [formableId]="accident.id"
-                            [emitInsteadOfAction]="true"
-                            (onPreview)="previewCase()"
-                            (onPdf)="casePdf()"
-                            (onPrint)="printCase()"
-                    ></nga-form-viewer>
-                  </div>
-                </div>
-                <!-- /Accident Export-Print -->
-              </div>
             </div>
           </div>
 
@@ -271,8 +240,8 @@
               <div class="col-12">
                 <label class="label separate required">{{ 'patient' | translate }}</label>
                 <div class="row">
-                  <div class="col-12 col-md-6">
-                    <div class="patient-selector float-left">
+                  <div class="col-12">
+                    <div class="patient-selector">
                       <nga-patient-selector
                         #patientSelector
                         [initPatient]="patient"
@@ -281,19 +250,20 @@
                         (loaded)="stopLoader($event)"
                       ></nga-patient-selector>
                     </div>
-                  </div>
-                  <div class="col-12 col-md-6">
-                    <label class="label separated float-left offset-right10" translate>Patient editor</label>
-                    <div class="edit-patient">
+
+                    <div class="patient-editor">
+                      <label class="label separated float-left offset-right10" translate>Patient editor</label>
+                      <div class="edit-patient">
                       <span class="fa fa-edit lead linked text-success"
                             *ngIf="patient && patient.id"
                             (click)="openEditPatientForm(patient)"
                             title="{{ 'Edit patient data' | translate }}"></span>
-                    </div>
-                    <div class="add-patient">
+                      </div>
+                      <div class="add-patient">
                       <span class="fa fa-user-plus lead linked"
                             (click)="openEditPatientForm( null )"
                             title="{{ 'Add Patient' | translate }}"></span>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -501,6 +471,7 @@
                 <div class="row mt-3">
                   <div class="col-12">
                     <nga-invoice-editor
+                        #invoiceEditorComponent
                             [autosave]="true"
                             [reload]="true"
                             [label]="'Invoice to the assistant' | translate"
@@ -513,24 +484,13 @@
                 </div>
                 <!-- /Assistant Invoice -->
 
-                <!-- Assistant Invoice Viewer -->
-                <div class="row" *ngIf="assistantInvoice && assistantInvoice.id">
-                  <div class="col-12">
-                    <nga-form-viewer
-                      [formId]="assistantInvoice.id"
-                      [formableId]="accident.id"
-                    ></nga-form-viewer>
-                  </div>
-                </div>
-                <!-- /Assistant Invoice Viewer -->
-
                 <!-- Documents -->
                 <div class="row mt-2">
                   <div class="col-12">
                     <label class="label separated" translate>Documents</label>
                     <nga-file-uploader
                       [documents]="documents"
-                      (change)="onDocumentsChanged($event)"
+                      (changed)="onDocumentsChanged($event)"
                       [url]="caseService.getDocumentsUrl(accident.id)"
                       (init)="startLoader($event)"
                       (loaded)="stopLoader($event)"

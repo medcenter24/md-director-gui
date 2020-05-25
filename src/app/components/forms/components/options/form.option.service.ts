@@ -26,18 +26,16 @@ export class FormOptionService extends HttpService {
     return 'director/forms/variables';
   }
 
-  getFormOptions(): Promise<FormOption[]> {
-    return this.search({}).then(response => response.data as FormOption[]);
+  getFormOptions(filters): Promise<FormOption[]> {
+    return this.search(filters).then(response => response.data as FormOption[]);
   }
 
   getOptions(type: string): Promise<FormOption[]> {
-    return this.getFormOptions().then((formOptions: FormOption[]) => {
-      return formOptions.filter((formOption: FormOption) => formOption.type === type);
-    });
+    return this.getFormOptions({ type });
   }
 
   get(key: string): Promise<FormOption> {
-    return this.getFormOptions()
+    return this.getFormOptions({ key })
       .then((options: FormOption[]) => options.find((formOption: FormOption) => formOption.key === key));
   }
 }
