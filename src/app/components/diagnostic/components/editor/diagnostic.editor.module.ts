@@ -26,21 +26,21 @@ import { DiagnosticService } from '../../diagnostic.service';
 import { DiagnosticCategorySelectModule } from '../../category/components/select';
 import { ButtonModule } from 'primeng/button';
 import { InputSwitchModule } from 'primeng/inputswitch';
-import { SelectorProviderMultipleModule } from '../../../ui/selector/provider/multiple';
 import { DiseaseService } from '../../../disease';
+import { MultiSelectorModule } from '../../../ui/selector/components/multiSelector';
 
 @NgModule({
-    imports: [
-        CommonModule,
-        FormsModule,
-        AppTranslationModule,
-        DiagnosticCategoryEditorModule,
-        NgaModule,
-        DiagnosticCategorySelectModule,
-        ButtonModule,
-        InputSwitchModule,
-        SelectorProviderMultipleModule,
-    ],
+  imports: [
+    CommonModule,
+    FormsModule,
+    AppTranslationModule,
+    DiagnosticCategoryEditorModule,
+    NgaModule,
+    DiagnosticCategorySelectModule,
+    ButtonModule,
+    InputSwitchModule,
+    MultiSelectorModule,
+  ],
   providers: [
     DiagnosticService,
     DiseaseService,
