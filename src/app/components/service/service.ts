@@ -15,14 +15,15 @@
  * Copyright (c) 2019 (original work) MedCenter24.com;
  */
 
+import { Disease } from '../disease';
+
 export class Service {
   constructor (public id: number = 0,
                public title: string = '',
                public description: string = '',
-               public diseaseCode: string = '',
-               // who created ^ doctor or director
                public type: string = '',
                public status: string = 'active',
+               public diseases: Disease[] = [],
   ) {
   }
 }
