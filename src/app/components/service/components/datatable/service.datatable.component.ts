@@ -25,8 +25,9 @@ import { ServicesService } from '../../services.service';
 import { LoadableServiceInterface } from '../../../core/loadable';
 import { Service } from '../../service';
 import { DatatableAction, DatatableCol, DatatableComponent, DatatableTransformer } from '../../../ui/datatable';
-import { ConfirmationService, FilterMetadata } from 'primeng/api';
+import { ConfirmationService } from 'primeng/api';
 import { Breadcrumb } from '../../../../theme/components/baContentTop/breadcrumb';
+import { Disease, DiseaseService } from '../../../disease';
 
 @Component({
   selector: 'nga-service-datatable',
@@ -48,6 +49,7 @@ export class ServiceDatatableComponent extends AbstractDatatableController {
     protected translateService: TranslateService,
     private servicesService: ServicesService,
     private confirmationService: ConfirmationService,
+    public diseaseService: DiseaseService,
   ) {
     super();
   }
@@ -84,7 +86,7 @@ export class ServiceDatatableComponent extends AbstractDatatableController {
     return [
       new DatatableCol('title', this.translateService.instant('Title')),
       new DatatableCol('description', this.translateService.instant('Description')),
-      new DatatableCol('diseaseCode', this.translateService.instant('Disease Code')),
+      new DatatableCol('diseases', this.translateService.instant('Diseases')),
       new DatatableCol('type', this.translateService.instant('Type')),
     ];
   }
@@ -130,7 +132,7 @@ export class ServiceDatatableComponent extends AbstractDatatableController {
     super.setModel( model );
   }
 
-  getTransformers (): DatatableTransformer[] {
+  getTransformers(): DatatableTransformer[] {
     const transformers = super.getTransformers();
     transformers.push(new DatatableTransformer('title', (val, row) => {
       if (row.status !== 'active') {
@@ -139,6 +141,21 @@ export class ServiceDatatableComponent extends AbstractDatatableController {
       }
       return val;
     }));
+    transformers.push(new DatatableTransformer('diseases', (val, row) => {
+      if (!val || !val.length) {
+        const noDiseasesMsg = this.translateService.instant('no_diseases_assigned');
+        return `<span class="text-muted">${noDiseasesMsg}</span>`;
+      } else {
+        const diseaseList = [];
+        val.forEach((v: Disease) => diseaseList.push(v.title));
+        return diseaseList.join(', ');
+      }
+    }));
+    transformers.push(new DatatableTransformer('type', val => this.translateService.instant(val)));
     return transformers;
+  }
+
+  diseasesChanged(event): void {
+    this.model.diseases = event;
   }
 }
