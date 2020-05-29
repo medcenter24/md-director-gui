@@ -15,6 +15,8 @@
  * Copyright (c) 2019 (original work) MedCenter24.com;
  */
 
+import { Disease } from '../disease';
+
 export class Survey {
     constructor (
         public id: number = 0,
@@ -22,7 +24,6 @@ export class Survey {
         public description: string = '',
         public type: string = '',
         public status: string = 'active',
-        public diseaseId: string = '',
-        public diseaseTitle: string = '',
+        public diseases: Disease[] = [],
     ) {}
 }

@@ -30,7 +30,7 @@ import { Breadcrumb } from '../../../../theme/components/baContentTop/breadcrumb
 import { DatatableRequestBuilder } from '../../../ui/datatable/request/datatable.request.builder';
 import { RequestBuilder } from '../../../core/http/request';
 import { FilterRequestField, SortRequestField } from '../../../core/http/request/fields';
-import { SurveyStatusService } from '../../survey.status.service';
+import { Disease, DiseaseService } from '../../../disease';
 
 @Component({
   selector: 'nga-survey-datatable',
@@ -51,7 +51,7 @@ export class SurveyDatatableComponent extends AbstractDatatableController {
     protected translateService: TranslateService,
     private surveyService: SurveyService,
     private confirmationService: ConfirmationService,
-    private surveyStatusProvider: SurveyStatusService,
+    public diseaseService: DiseaseService,
   ) {
     super();
   }
@@ -84,8 +84,8 @@ export class SurveyDatatableComponent extends AbstractDatatableController {
       new DatatableCol('title', this.translateService.instant('Title')),
       new DatatableCol('description', this.translateService.instant('Description')),
       new DatatableCol('status', this.translateService.instant('Status')),
+      new DatatableCol('diseases', this.translateService.instant('Diseases')),
       new DatatableCol('type', this.translateService.instant('Created By')),
-      new DatatableCol('diseaseTitle', this.translateService.instant('Disease')),
     ];
   }
 
@@ -147,11 +147,25 @@ export class SurveyDatatableComponent extends AbstractDatatableController {
       }
       return val;
     }));
+    transformers.push(new DatatableTransformer('diseases', (val, row) => {
+      if (!val || !val.length) {
+        const noDiseasesMsg = this.translateService.instant('no_diseases_assigned');
+        return `<span class="text-muted">${noDiseasesMsg}</span>`;
+      } else {
+        const diseaseList = [];
+        val.forEach((v: Disease) => diseaseList.push(v.title));
+        return diseaseList.join(', ');
+      }
+    }));
     return transformers;
   }
 
   save () {
     this.model.status = this.isActive ? 'active' : 'disabled';
     super.save();
+  }
+
+  diseasesChanged(event): void {
+    this.model.diseases = event;
   }
 }
