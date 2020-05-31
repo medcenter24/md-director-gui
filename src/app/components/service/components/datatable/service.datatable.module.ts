@@ -27,19 +27,21 @@ import { ConfirmDialogModule, InputMaskModule } from 'primeng/primeng';
 import { ServicesService } from '../../services.service';
 import { ServiceDatatableComponent } from './service.datatable.component';
 import { InputSwitchModule } from 'primeng/inputswitch';
+import { MultiSelectorModule } from '../../../ui/selector/components/multiSelector';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    FormsModule,
-    AppTranslationModule,
-    DialogModule,
-    ButtonModule,
-    DatatableModule,
-    InputMaskModule,
-    ConfirmDialogModule,
-    InputSwitchModule,
-  ],
+    imports: [
+        CommonModule,
+        FormsModule,
+        AppTranslationModule,
+        DialogModule,
+        ButtonModule,
+        DatatableModule,
+        InputMaskModule,
+        ConfirmDialogModule,
+        InputSwitchModule,
+        MultiSelectorModule,
+    ],
   providers: [
     ServicesService,
   ],

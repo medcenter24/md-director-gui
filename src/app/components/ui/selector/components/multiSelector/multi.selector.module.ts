@@ -18,8 +18,7 @@
 import { NgModule } from '@angular/core';
 import { MultiSelectorComponent } from './multi.selector.component';
 import { SelectorProviderMultipleModule } from '../../provider/multiple';
-import {FormsModule} from "@angular/forms";
-import {CommonModule} from "@angular/common";
+import { CommonModule } from '@angular/common';
 
 @NgModule({
   imports: [

@@ -35,12 +35,15 @@
           <div class="col-sm-6">
             <div class="form-group">
               <label translate>Diseases</label><br>
-              <nga-selector-multiple
-                [setConfig]="diseaseSelectorConfig"
-                (selected)="onDiseaseSelected($event)"
+              <nga-multi-selector
+                [service]="diseaseService"
+                placeholder="Select Diseases"
+                labelField="title"
                 (init)="startLoader($event)"
                 (loaded)="stopLoader($event)"
-              ></nga-selector-multiple>
+                (selected)="diagnostic.diseases = $event"
+                [preloadedData]="diagnostic.diseases"
+              ></nga-multi-selector>
             </div>
           </div>
         </div>

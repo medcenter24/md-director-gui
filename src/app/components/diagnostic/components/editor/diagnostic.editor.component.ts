@@ -25,8 +25,7 @@ import { DiagnosticCategoryEditorComponent } from '../../category/components/edi
 import { GlobalState } from '../../../../global.state';
 import { TranslateService } from '@ngx-translate/core';
 import { LoggerComponent } from '../../../core/logger/LoggerComponent';
-import { SelectorConfig } from '../../../ui/selector/selector.config';
-import { Disease, DiseaseService } from '../../../disease';
+import { DiseaseService } from '../../../disease';
 
 @Component({
   selector: 'nga-diagnostic-editor',
@@ -47,28 +46,19 @@ export class DiagnosticEditorComponent extends LoadableComponent implements OnIn
 
   showEditor: boolean = false;
   isActive: boolean = true;
-  diseaseSelectorConfig: SelectorConfig;
 
   constructor(
     private service: DiagnosticService,
     protected _state: GlobalState,
     private translateService: TranslateService,
     protected _logger: LoggerComponent,
-    private _diseaseService: DiseaseService,
+    public diseaseService: DiseaseService,
   ) {
     super();
   }
 
   ngOnInit(): void {
     this.isActive = this.diagnostic.status === 'active';
-
-    this.translateService.get('Select Diseases').subscribe(translation => {
-      this.diseaseSelectorConfig = SelectorConfig.instance({
-        dataProvider: this._diseaseService,
-        labelField: 'title',
-        placeholder: translation,
-      });
-    });
   }
 
   onSubmit(): void {
@@ -141,9 +131,5 @@ export class DiagnosticEditorComponent extends LoadableComponent implements OnIn
     this.showEditor = false;
     this.diagnostic.diagnosticCategoryId = dc.id;
     this.categorySelectComponent.selectItems(dc.id);
-  }
-
-  onDiseaseSelected(diseases: Disease[]): void {
-    this.diagnostic.diseases = diseases;
   }
 }

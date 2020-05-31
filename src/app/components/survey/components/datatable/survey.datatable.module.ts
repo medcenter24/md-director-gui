@@ -27,19 +27,21 @@ import { ConfirmDialogModule, InputMaskModule, InputSwitchModule } from 'primeng
 import { SurveyService } from '../../survey.service';
 import { SurveyDatatableComponent } from './survey.datatable.component';
 import { SurveyStatusService } from '../../survey.status.service';
+import { MultiSelectorModule } from '../../../ui/selector/components/multiSelector';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    FormsModule,
-    AppTranslationModule,
-    DialogModule,
-    ButtonModule,
-    DatatableModule,
-    InputMaskModule,
-    ConfirmDialogModule,
-    InputSwitchModule,
-],
+    imports: [
+        CommonModule,
+        FormsModule,
+        AppTranslationModule,
+        DialogModule,
+        ButtonModule,
+        DatatableModule,
+        InputMaskModule,
+        ConfirmDialogModule,
+        InputSwitchModule,
+        MultiSelectorModule,
+    ],
   providers: [
     SurveyService,
     SurveyStatusService,
