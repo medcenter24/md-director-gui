@@ -161,7 +161,9 @@ export class FormEditorComponent extends LoadableComponent implements OnInit {
         this.stopLoader(postfix);
         if (!previousId) {
           this.router.navigate([`pages/settings/forms/${savedForm.id}`]).then();
-        }
+        }/* else {
+          this.form = savedForm;
+        }*/
       })
       .catch(() => this.stopLoader(postfix) );
   }
