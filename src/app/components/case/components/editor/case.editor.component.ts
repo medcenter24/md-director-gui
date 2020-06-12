@@ -466,8 +466,8 @@ export class CaseEditorComponent extends LoadingComponent implements OnInit {
 
   onServicesChanged(services: Service[]): void {
     this.dataChanged();
+    this.services = services;
     if (!this.isLoading()) {
-      this.services = services;
       this.onSave();
     }
   }

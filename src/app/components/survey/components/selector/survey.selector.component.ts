@@ -19,7 +19,7 @@ import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angu
 import { LoggerComponent } from '../../../core/logger/LoggerComponent';
 import { Survey } from '../../survey';
 import { CasesService } from '../../../case/cases.service';
-import { LoadableComponent } from '../../../core/components/componentLoader/LoadableComponent';
+import { LoadableComponent } from '../../../core/components/componentLoader';
 import { SurveySelectComponent } from '../select/survey.select.component';
 
 @Component({
