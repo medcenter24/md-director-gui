@@ -54,6 +54,7 @@ export class FilterRequestField extends RequestField {
   static EL_TYPES = [
     FilterRequestField.TYPE_TEXT,
     FilterRequestField.TYPE_DATE_RANGE,
+    // IN
     FilterRequestField.TYPE_SELECT,
   ];
 

@@ -117,7 +117,15 @@ export class InvoiceEditorComponent extends LoadableComponent implements OnInit 
     if (update && +invoice.id) {
       const postfix = 'SearchInvoice';
       this.startLoader(postfix);
-      this.invoiceService.search({ ids: [invoice.id] }).then(response => {
+      this.invoiceService.search({
+        filter:
+          { fields: [{
+            elType: 'text',
+            field: 'id',
+            match: 'eq',
+            value: invoice.id,
+          }] },
+      }).then(response => {
         this.stopLoader(postfix);
         if (response.data.length) {
           this.invoice = response.data[0] as Invoice;
