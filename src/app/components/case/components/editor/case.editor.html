@@ -81,6 +81,7 @@
                   [service]="assistantService"
                   placeholder="Assistant"
                   labelField="title"
+                  providerType="loadable"
                   (selected)="onAssistantChanged($event)"
                   (init)="startLoader($event)"
                   (loaded)="stopLoader($event)"

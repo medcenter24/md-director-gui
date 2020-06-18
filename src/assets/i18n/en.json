@@ -444,7 +444,6 @@
   "Created for": "Created for",
   "Not saved": "Not saved",
   "Home": "Home",
-
   "Address Book": "Address Book",
   "Dashboard": "Dashboard",
   "Cases": "Cases",
@@ -466,5 +465,6 @@
   "Password": "Password",
   "Incorrect Email or password": "Incorrect Email or password",
   "test": "en translation :param1",
-  "no_diseases_assigned": "Diseases are not assigned"
+  "no_diseases_assigned": "Diseases are not assigned",
+  "amount_of_total": "{{amount}} of {{total}}"
 }

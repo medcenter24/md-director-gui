@@ -17,6 +17,7 @@
 
 import { AutoCompleteProvider } from './auto.complete.provider';
 import { AutoCompleteSrcConfig } from '../auto.complete.src.config';
+import { FilterRequestField } from '../../../../core/http/request/fields';
 
 /**
  * Loads only limit count of rows and for each request going to the server
@@ -34,6 +35,11 @@ export class AutoCompleteLoadableProvider implements AutoCompleteProvider {
    */
   selected: Object|Object[];
 
+  /**
+   * Total amount of data
+   */
+  total: number = 0;
+
   constructor (private config: AutoCompleteSrcConfig) {}
 
   /**
@@ -41,11 +47,26 @@ export class AutoCompleteLoadableProvider implements AutoCompleteProvider {
    * @param event
    */
   loadData(event): Promise<any> {
-    return this.config.dataProvider({ q: event });
+    const filterRequestField = new FilterRequestField(
+      this.config.fieldKey,
+      event.query,
+      FilterRequestField.MATCH_CONTENTS,
+      FilterRequestField.TYPE_TEXT,
+    );
+    return this.config.dataProvider({
+      filter: {
+        fields: [
+          filterRequestField,
+        ],
+      },
+    });
   }
 
   filter(event): void {
-    this.loadData(event).then(data => this.filtered = data);
+    this.loadData(event).then(response => {
+      this.total = response.meta.pagination.total;
+      return this.filtered = response.data;
+    });
   }
 
   /**

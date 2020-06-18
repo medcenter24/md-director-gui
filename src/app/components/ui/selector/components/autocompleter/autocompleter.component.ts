@@ -53,6 +53,12 @@ export class AutocompleterComponent extends LoadableComponent implements OnInit 
   @Input() preloadedData: any;
 
   /**
+   * @example
+   * 'static' or 'loadable'
+   */
+  @Input() providerType: string = 'static';
+
+  /**
    * Selected options
    * @type {EventEmitter<any>}
    */
@@ -83,6 +89,7 @@ export class AutocompleterComponent extends LoadableComponent implements OnInit 
         fieldKey: this.labelField,
         preloaded: this.preloadedData,
         placeholder: this.translateService.instant(this.placeholder),
+        provider: this.providerType,
       });
     });
   }

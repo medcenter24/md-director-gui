@@ -41,4 +41,8 @@ export class AssistantSelectComponent extends AbstractAutoCompleteController {
   getFieldKey(): string {
     return 'title';
   }
+
+  protected getProviderType (): string {
+    return 'loadable';
+  }
 }

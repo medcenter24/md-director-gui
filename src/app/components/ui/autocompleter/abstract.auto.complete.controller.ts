@@ -67,6 +67,13 @@ export abstract class AbstractAutoCompleteController extends LoadableComponent i
     return this.preloaded;
   }
 
+  /**
+   * Can be 'loadable' if autocompleter can manage a lot of data
+   */
+  protected getProviderType(): string {
+    return 'static';
+  }
+
   ngOnInit() {
     this.translateService.get('Yes').subscribe(() => {
       this.langLoaded = true;
@@ -76,6 +83,7 @@ export abstract class AbstractAutoCompleteController extends LoadableComponent i
         },
         fieldKey: this.getFieldKey(),
         preloaded: this.getPreloadedData(),
+        provider: this.getProviderType(),
       });
     });
   }
