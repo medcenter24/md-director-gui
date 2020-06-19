@@ -53,6 +53,10 @@ export class AutoCompleteLoadableProvider implements AutoCompleteProvider {
       FilterRequestField.MATCH_CONTENTS,
       FilterRequestField.TYPE_TEXT,
     );
+    return this.searchData(filterRequestField);
+  }
+
+  private searchData(filterRequestField: FilterRequestField): Promise<any> {
     return this.config.dataProvider({
       filter: {
         fields: [
@@ -74,6 +78,28 @@ export class AutoCompleteLoadableProvider implements AutoCompleteProvider {
    * @param {any} items
    */
   selectItems(items: any): void {
-    this.selected = items;
+    // if int id provided - try to load resource with the service
+    if (typeof items === 'number') {
+      this.findById(items).then(res => {
+        if (res.hasOwnProperty('data') && res['data'].length) {
+          this.selected = res.data[0];
+        } else {
+          console.error(`Record with ID ${items} not found`);
+        }
+      });
+    } else {
+      this.selected = items;
+    }
+  }
+
+  private findById(id: number): Promise<any> {
+    const filterRequestField = new FilterRequestField(
+      'id',
+      `${id}`,
+      FilterRequestField.MATCH_EQ,
+      FilterRequestField.TYPE_TEXT,
+    );
+
+    return this.searchData(filterRequestField);
   }
 }
