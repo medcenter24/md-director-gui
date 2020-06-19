@@ -16,20 +16,20 @@
  */
 
 import { NgModule } from '@angular/core';
-import { PatientSelectModule } from '../select/patient.select.module';
 import { PatientSelectorComponent } from './patient.selector.component';
 import { CommonModule } from '@angular/common';
 import { AppTranslationModule } from '../../../../app.translation.module';
 import { FormsModule } from '@angular/forms';
 import { PatientsService } from '../../patients.service';
+import { AutocompleterModule } from '../../../ui/selector/components/autocompleter';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    FormsModule,
-    AppTranslationModule,
-    PatientSelectModule,
-  ],
+    imports: [
+        CommonModule,
+        FormsModule,
+        AppTranslationModule,
+        AutocompleterModule,
+    ],
   providers: [
     PatientsService,
   ],
