@@ -114,7 +114,7 @@
                     (selected)="onCityChanged($event)"
                     (init)="startLoader($event)"
                     (loaded)="stopLoader($event)"
-                    [preloadedData]="accident.cityId"
+                    providerType="loadable"
                 ></nga-autocompleter>
               </div>
               <!-- /City -->
@@ -145,10 +145,10 @@
                     [service]="doctorService"
                     placeholder="Doctor"
                     labelField="name"
-                    [preloadedData]="doctorAccident.doctorId"
                     (selected)="onDoctorChanged($event)"
                     (init)="startLoader($event)"
                     (loaded)="stopLoader($event)"
+                    providerType="loadable"
                 ></nga-autocompleter>
               </div>
 
@@ -175,6 +175,7 @@
                   (selected)="onHospitalChanged($event)"
                   (init)="startLoader($event)"
                   (loaded)="stopLoader($event)"
+                  providerType="loadable"
                 ></nga-autocompleter>
               </div>
               <!-- HA /Hospital -->
@@ -214,7 +215,7 @@
                       (selected)="onAccidentSelected($event)"
                       (init)="startLoader($event)"
                       (loaded)="stopLoader($event)"
-                      [preloadedData]="accident.parentId"
+                      providerType="loadable"
                     ></nga-autocompleter>
                   </div>
                 </div>

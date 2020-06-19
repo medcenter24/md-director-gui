@@ -79,7 +79,7 @@ export class AutoCompleteLoadableProvider implements AutoCompleteProvider {
    */
   selectItems(items: any): void {
     // if int id provided - try to load resource with the service
-    if (typeof items === 'number') {
+    if (typeof items === 'number' && items) {
       this.findById(items).then(res => {
         if (res.hasOwnProperty('data') && res['data'].length) {
           this.selected = res.data[0];

@@ -237,6 +237,9 @@ export class CaseEditorComponent extends LoadingComponent implements OnInit {
             if (this.accident.formReportId && this.accidentReportFormAutocompleter) {
               this.accidentReportFormAutocompleter.selectItems(this.accident.formReportId);
             }
+            if (this.accident.parentId && this.parentSelector) {
+              this.parentSelector.selectItems(this.accident.parentId);
+            }
             // cheating to not make extra request
             if (+this.accident.assistantGuaranteeId) {
               this.assistantGuaranteeFile = new Upload(this.accident.assistantGuaranteeId);
