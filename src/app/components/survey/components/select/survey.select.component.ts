@@ -21,6 +21,12 @@ import { LoggerComponent } from '../../../core/logger/LoggerComponent';
 import { Survey } from '../../survey';
 import { SurveyService } from '../../survey.service';
 import { LoadableComponent } from '../../../core/components/componentLoader';
+import {
+  FilterRequestField,
+  PaginationLimitRequestField,
+  PaginationOffsetRequestField,
+  SortRequestField,
+} from '../../../core/http/request/fields';
 
 @Component({
   selector: 'nga-select-surveys',
@@ -46,9 +52,28 @@ export class SurveySelectComponent extends LoadableComponent implements OnInit {
 
   ngOnInit () {
     this.startLoader();
-    const statusFilter = { status: { value: 'active', matchMode: 'eq' } };
+    const statusFilter = {
+      'filter': {
+        'fields': [
+          new FilterRequestField('status', 'active', FilterRequestField.MATCH_EQ),
+        ],
+      },
+      'sorter': {
+        'fields': [
+          new SortRequestField('title'),
+          new SortRequestField('id'),
+        ],
+      },
+      'paginator': {
+        'fields': [
+          new PaginationLimitRequestField('500'),
+          new PaginationOffsetRequestField('0'),
+        ],
+      },
+    };
     this.surveysService.getSurveys(statusFilter).then(surveys => {
       this.stopLoader();
+
       this.surveys = surveys;
       this.dataSurveys = surveys.map(x => {
         return {
@@ -61,6 +86,7 @@ export class SurveySelectComponent extends LoadableComponent implements OnInit {
         // to show placeholder
         this.selectedSurveys = [];
       }
+
       this.isLoaded = true;
     }).catch((err) => {
       this.stopLoader();
@@ -77,6 +103,18 @@ export class SurveySelectComponent extends LoadableComponent implements OnInit {
    }
 
    reloadChosenSurveys(surveys: Survey[]): void {
+     surveys.forEach((survey: Survey) => {
+       const el = {
+         label: survey.title,
+         value: survey.id,
+       };
+
+       if (!this.dataSurveys.find(obj => +obj.value === +survey.id)) {
+         this.dataSurveys.push(el);
+         this.surveys.push(survey);
+       }
+     });
+
      this.chosenSurveys = surveys;
      this.selectedSurveys = this.chosenSurveys.length ? this.chosenSurveys.map(x => `${x.id}`) : [];
    }
