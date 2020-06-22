@@ -58,7 +58,7 @@
             <div class="row">
               <!-- Referral Number -->
               <div class="col-sm-4">
-                <label class="label separate" translate>Referral Number</label>
+                <label class="label separate" for="refNumber" translate>Referral Number</label>
                 <b pTooltip="{{ 'If you leave it empty then it will be generated automatically' | translate }}"
                    class="badge badge-secondary pull-left">?</b>
                 <p-inplace closable="true" class="pull-left">
@@ -67,6 +67,7 @@
                   </span>
                   <span pInplaceContent>
                     <input type="text" value="{{ accident.refNum }}"
+                           id="refNumber"
                            (change)="onReferralChanged($event)"
                            pInputText placeholder="{{ 'Referral Number' | translate }}">
                   </span>
@@ -90,8 +91,9 @@
               <!-- /Assistant -->
               <!-- Assistant Ref Num -->
               <div class="col-sm-4">
-                <label class="label required separate" translate>Assistant Ref Num</label>
+                <label class="label required separate" for="assistantRefNumber" translate>Assistant Ref Num</label>
                 <input type="text" pInputText
+                       id="assistantRefNumber"
                        name="assistant_ref_num"
                        [(ngModel)]="accident.assistantRefNum"
                        (change)="onAssistantRefNumChanged()"
@@ -189,8 +191,9 @@
               <div class="col-sm-6">
                 <div class="row">
                   <div class="col-sm-12">
-                    <label class="label separate" translate>Symptoms</label>
+                    <label class="label separate" for="symptoms" translate>Symptoms</label>
                     <textarea rows="5" cols="70" pInputTextarea
+                              id="symptoms"
                               autoResize="autoResize"
                               placeholder="{{ 'Symptoms' | translate }}"
                               class="form-control"
@@ -272,8 +275,9 @@
             </div>
             <div class="row offset-bottom20">
               <div class="col-sm-9">
-                <label class="label separate" translate>Patient Data</label>
+                <label class="label separate" for="contacts" translate>Patient Data</label>
                 <textarea rows="2" cols="50" pInputTextarea
+                          id="contacts"
                           autoResize="autoResize"
                           placeholder="{{ 'Patient Data' | translate }}"
                           class="form-control"
@@ -401,8 +405,9 @@
                 <!-- Doctor Accident => Diagnosis & Additional Investigation -->
                 <div class="row offset-bottom20" *ngIf="isDoctorAccident()">
                   <div class="col-sm-6">
-                    <label class="label separate" translate>Diagnosis</label>
+                    <label class="label separate" for="recommendation" translate>Diagnosis</label>
                     <textarea rows="5" cols="70" pInputTextarea
+                              id="recommendation"
                               autoResize="autoResize"
                               placeholder="{{ 'Made a diagnosis' | translate }}"
                               class="form-control"
@@ -412,8 +417,9 @@
                     ></textarea>
                   </div>
                   <div class="col-sm-6">
-                    <label class="label separate" translate>Additional Investigation</label>
+                    <label class="label separate" for="investigation" translate>Additional Investigation</label>
                     <textarea rows="5" cols="70" pInputTextarea
+                              id="investigation"
                               autoResize="autoResize"
                               placeholder="{{ 'Additional Investigation' | translate }}"
                               class="form-control"

@@ -28,6 +28,7 @@
             (selected)="formSelected($event)"
             (init)="startLoader($event)"
             (loaded)="stopLoader($event)"
+            providerType="loadable"
           ></nga-autocompleter>
         </div>
         <div class="col-md-4" *ngIf="form && invoice">

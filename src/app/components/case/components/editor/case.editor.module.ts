@@ -22,7 +22,7 @@ import {
   ConfirmDialogModule,
   DialogModule,
   FileUploadModule,
-  InplaceModule, InputMaskModule,
+  InplaceModule, InputMaskModule, InputTextareaModule, InputTextModule,
   TooltipModule,
 } from 'primeng/primeng';
 import { KeyFilterModule } from 'primeng/keyfilter';
@@ -91,6 +91,8 @@ import { HospitalsService } from '../../../hospital';
     UploadFileModule,
     DownloadFileModule,
     FormViewerModule,
+    InputTextareaModule,
+    InputTextModule,
   ],
   declarations: [
     CaseEditorComponent,
