@@ -22,7 +22,7 @@
             <nga-select-services
                 #selectServices
                 [(chosenServices)]="caseServices"
-                (chosenServicesChange)="onServicesChanged($event)"
+                (chosenServicesChange)="onServicesChanged()"
                 (loaded)="onSelectServicesLoaded($event)"
                 (init)="onSelectServicesInit($event)"
             ></nga-select-services>

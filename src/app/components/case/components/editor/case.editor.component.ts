@@ -142,7 +142,7 @@ export class CaseEditorComponent extends LoadingComponent implements OnInit {
                protected _logger: LoggerComponent,
                protected _state: GlobalState,
                public accidentsService: AccidentsService,
-               private caseService: CasesService,
+               public caseService: CasesService,
                public doctorService: DoctorsService,
                private router: Router,
                private patientService: PatientsService,

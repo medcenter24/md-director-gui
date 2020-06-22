@@ -45,8 +45,6 @@ export class FilterRequestField extends RequestField {
     FilterRequestField.MATCH_BETWEEN, // between val1 and val2
   ];
 
-  static DEFAULT_MATCH = 'eq';
-
   static TYPE_TEXT = 'text';
   static TYPE_DATE_RANGE = 'dateRange';
   static TYPE_SELECT = 'select';
@@ -58,15 +56,14 @@ export class FilterRequestField extends RequestField {
     FilterRequestField.TYPE_SELECT,
   ];
 
-  static DEFAULT_EL_TYPE = FilterRequestField.TYPE_TEXT;
   static FIELD_PREFIX = '_fl_';
 
   constructor (
     public field: string,
     public value: string = '',
-    public match: string = FilterRequestField.DEFAULT_MATCH,
+    public match: string = FilterRequestField.MATCH_EQ,
     public elType: string = FilterRequestField.TYPE_TEXT, // type of filtering @see getType() method
-    public autoCompleteConf: AutoCompleteSrcConfig = null, // for elType select or multipleSelect
+    public autoCompleteConf: AutoCompleteSrcConfig = null, // for elType `select` or multipleSelect
   ) {
     super( field, value );
     this.setValidType();
@@ -102,11 +99,11 @@ export class FilterRequestField extends RequestField {
   }
 
   getMatch (): string {
-    return FilterRequestField.MATCHES.includes( this.match ) ? this.match : FilterRequestField.DEFAULT_MATCH;
+    return FilterRequestField.MATCHES.includes( this.match ) ? this.match : FilterRequestField.MATCH_EQ;
   }
 
   getElType (): string {
-    return FilterRequestField.EL_TYPES.includes( this.elType ) ? this.elType : FilterRequestField.DEFAULT_EL_TYPE;
+    return FilterRequestField.EL_TYPES.includes( this.elType ) ? this.elType : FilterRequestField.TYPE_TEXT;
   }
 
   isActive (): boolean {
