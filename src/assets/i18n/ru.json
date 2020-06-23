@@ -1,4 +1,7 @@
 {
+  "Current Step": "Текущий шаг",
+  "Visited Step": "Пройденный шаг",
+  "Not Visited": "Не пройдено",
   "system": "система",
   "Token Countdown": "Время жизни ключа",
   "Disease": "Болезнь",
