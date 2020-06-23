@@ -60,6 +60,9 @@ export class FormEditorComponent extends LoadableComponent implements OnInit {
     private router: Router,
   ) {
     super();
+    this.translateService.get('Template').subscribe((text: string) => {
+      this._state.notifyDataChanged('changeTitle', `${text} · ${this.translateService.instant('Loading')}`);
+    });
   }
 
   ngOnInit(): void {
@@ -75,9 +78,11 @@ export class FormEditorComponent extends LoadableComponent implements OnInit {
           const id = +params['id'];
           if (id) {
             this.startLoader();
+
             this.formService.getForm(id)
               .then((form: Form) => {
                 this.stopLoader();
+                this._state.notifyDataChanged('changeTitle', `${this.translateService.instant('Template')} · ${form.title}`);
                 this.form = form;
                 this.readyToLoad();
               }).catch(() => this.stopLoader());

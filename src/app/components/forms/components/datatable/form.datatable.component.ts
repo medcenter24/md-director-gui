@@ -54,6 +54,7 @@ export class FormDatatableComponent extends AbstractDatatableController {
     const breadcrumbs = [];
     breadcrumbs.push(new Breadcrumb('Templates', '/pages/settings/forms', true));
     this._state.notifyDataChanged('menu.activeLink', breadcrumbs);
+    this._state.notifyDataChanged('changeTitle', this.translateService.instant('Templates'));
   }
 
   protected getDatatableComponent (): DatatableComponent {

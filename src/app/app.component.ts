@@ -26,6 +26,8 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { NavigationEnd, NavigationStart, Router } from '@angular/router';
 import { UiToastComponent } from './components/ui/toast';
 import { UiToastService } from './components/ui/toast/ui.toast.service';
+import { Title } from '@angular/platform-browser';
+import { TranslateService } from '@ngx-translate/core';
 
 /*
  * App Component
@@ -57,6 +59,8 @@ export class AppComponent implements AfterViewInit {
               private router: Router,
               protected cdRef: ChangeDetectorRef,
               public uiToastService: UiToastService,
+              private titleService: Title,
+              private translateService: TranslateService,
   ) {
     themeConfig.config();
 
@@ -105,6 +109,12 @@ export class AppComponent implements AfterViewInit {
 
     this._state.subscribe('seeker', (text: string) => {
       // someone click on the search button or provided the text to search and press enter
+    });
+
+    this._state.subscribe('changeTitle', (text: string) => {
+      this.translateService.get('director_title').subscribe((sectionTitle: string) => {
+        this.titleService.setTitle(`${sectionTitle} · ${text}`);
+      });
     });
 
     // blocker should be turned off on the route change (to not block content)

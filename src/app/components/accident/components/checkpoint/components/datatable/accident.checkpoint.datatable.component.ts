@@ -57,6 +57,7 @@ export class AccidentCheckpointDatatableComponent extends AbstractDatatableContr
     const breadcrumbs = [];
     breadcrumbs.push(new Breadcrumb('Checkpoints', '/pages/settings/checkpoints', true));
     this._state.notifyDataChanged('menu.activeLink', breadcrumbs);
+    this._state.notifyDataChanged('changeTitle', this.translateService.instant('Checkpoints'));
   }
 
   protected getTranslateService (): TranslateService {

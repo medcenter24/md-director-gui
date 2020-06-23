@@ -56,6 +56,9 @@ export class DashboardComponent extends LoadingComponent implements OnInit {
     private translateService: TranslateService,
   ) {
     super();
+    this.translateService.get('Dashboard').subscribe((text: string) => {
+      this._state.notifyDataChanged('changeTitle', text);
+    });
   }
 
   ngOnInit(): void {

@@ -56,6 +56,7 @@ import { BaToolboxAction } from '../../../../theme/components/baToolbox';
 import { LoggerComponent } from '../../../core/logger/LoggerComponent';
 import { Breadcrumb } from '../../../../theme/components/baContentTop/breadcrumb';
 import { UiToastService } from '../../../ui/toast/ui.toast.service';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'nga-case-editor',
@@ -154,6 +155,9 @@ export class CaseEditorComponent extends LoadingComponent implements OnInit {
                private uiToastService: UiToastService,
   ) {
     super();
+    this.translate.get('Case Loading').subscribe((text: string) => {
+      this._state.notifyDataChanged('changeTitle', text);
+    });
   }
 
   dataChanged(): void {
@@ -203,6 +207,8 @@ export class CaseEditorComponent extends LoadingComponent implements OnInit {
           this.startLoader(mainPostfix);
 
           this.accidentsService.getAccident(+params[ 'id' ]).then((accident: Accident) => {
+
+            this._state.notifyDataChanged('changeTitle', accident.refNum);
 
             this.translate.get('Cases').subscribe((trans: string) => {
               const breadcrumbs = [];
@@ -266,6 +272,9 @@ export class CaseEditorComponent extends LoadingComponent implements OnInit {
           setTimeout(() => {
             this._state.notifyDataChanged('menu.activeLink', { title: 'Cases' });
           }, 100);
+          this.translate.get('New Case').subscribe((text: string) => {
+            this._state.notifyDataChanged( 'changeTitle', text );
+          });
         }
       });
   }

@@ -23,7 +23,6 @@ import { GlobalState } from '../../../../global.state';
 import { TranslateService } from '@ngx-translate/core';
 import { Message } from 'primeng/primeng';
 import { LoadableComponent } from '../../../core/components/componentLoader';
-import { UiToastService } from '../../../ui/toast/ui.toast.service';
 
 @Component({
   selector: 'nga-patient-editor',
@@ -45,7 +44,6 @@ export class PatientEditorComponent extends LoadableComponent {
     private patientService: PatientsService,
     private _state: GlobalState,
     private translate: TranslateService,
-    private uiToastService: UiToastService,
   ) {
     super();
   }

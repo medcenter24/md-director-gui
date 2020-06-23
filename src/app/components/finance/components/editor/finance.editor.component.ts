@@ -68,9 +68,11 @@ export class FinanceEditorComponent extends LoadableComponent implements OnInit 
     protected translateService: TranslateService,
     public currencyService: FinanceCurrencyService,
     public hospitalService: HospitalsService,
-    private uiToastService: UiToastService,
   ) {
     super();
+    this.translateService.get('Condition').subscribe((text: string) => {
+      this._state.notifyDataChanged('changeTitle', `${text} · ${this.translateService.instant('Loading')}`);
+    });
   }
 
   ngOnInit(): void {
@@ -81,6 +83,11 @@ export class FinanceEditorComponent extends LoadableComponent implements OnInit 
         this.initTypes();
         this.initModels();
         if (id) {
+
+          this.translateService.get('Condition').subscribe((text: string) => {
+            this._state.notifyDataChanged('changeTitle', `${text} · ${id}`);
+          });
+
           this.startLoader();
           this.financeService.getFinanceRule(id).then((financeRule: FinanceRule) => {
             this.stopLoader();
@@ -97,6 +104,10 @@ export class FinanceEditorComponent extends LoadableComponent implements OnInit 
           }).catch(() => this.stopLoader());
         } else {
             this.isLoaded = true;
+
+            this.translateService.get('Condition').subscribe((text: string) => {
+              this._state.notifyDataChanged('changeTitle', `${text} · ${this.translateService.instant('New')}`);
+            });
         }
       });
   }

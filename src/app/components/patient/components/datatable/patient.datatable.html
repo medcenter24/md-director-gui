@@ -27,7 +27,8 @@
   [responsive]="true"
   [modal]="true"
   appendTo="body"
-  (onHide)="deselectAll()">
+  (onHide)="deselectAll()"
+  [contentStyle]="{paddingTop: '20px'}">
 
   <nga-patient-editor
     #editPatientForm

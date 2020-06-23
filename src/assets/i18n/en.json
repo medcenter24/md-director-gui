@@ -1,4 +1,9 @@
 {
+  "Assistant payment calculation": "Assistant payment calculation",
+  "List of Conditions": "List of Conditions",
+  "director_title": "Director",
+  "List of Cases": "List of Cases",
+  "Case Loading": "Case Loading",
   "Current Step": "Current Step",
   "Visited Step": "Visited Step",
   "Not Visited": "Not Visited",
@@ -260,7 +265,7 @@
   "Please, fix these issues": "Please, fix these issues",
   "Unsupported error, tell your administrator about it": "Unsupported error, tell your administrator about it",
   "Director": "Director",
-  "Create new case": "Create new case",
+  "New Case": "New Case",
   "Medical Company": "Medical Company",
   "Manage Company": "Manage Company",
   "Contacts": "Contacts",

@@ -1,4 +1,9 @@
 {
+  "Assistant payment calculation": "Расчет стоимости платежа от ассистанса",
+  "List of Conditions": "Список условий",
+  "director_title": "Директор",
+  "List of Cases": "Список дел",
+  "Case Loading": "Загрузка дела",
   "Current Step": "Текущий шаг",
   "Visited Step": "Пройденный шаг",
   "Not Visited": "Не пройдено",
@@ -261,7 +266,7 @@
   "Please, fix these issues": "Исправьте ошибки",
   "Unsupported error, tell your administrator about it": "Вы нашли новую ошибку. Сообщите, пожалуйста, администратору.",
   "Director": "Директор",
-  "Create new case": "Новое дело",
+  "New Case": "Новое дело",
   "Medical Company": "Медицинская компания",
   "Manage Company": "Управление компанией",
   "Contacts": "Контакты",

@@ -71,6 +71,9 @@ export class ProfileComponent extends LoadingComponent implements OnInit {
                private jwtHelper: JwtHelperService,
   ) {
     super();
+    this.translateService.get('Profile').subscribe((text: string) => {
+      this._state.notifyDataChanged('changeTitle', text);
+    });
   }
 
   ngOnInit (): void {

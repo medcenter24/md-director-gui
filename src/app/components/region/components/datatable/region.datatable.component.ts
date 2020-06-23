@@ -66,6 +66,7 @@ export class RegionDatatableComponent extends AbstractDatatableController {
     const breadcrumbs = [];
     breadcrumbs.push(new Breadcrumb('Regions', '/pages/geo/regions', true));
     this._state.notifyDataChanged('menu.activeLink', breadcrumbs);
+    this._state.notifyDataChanged('changeTitle', this.translateService.instant('Regions'));
   }
 
   protected getService (): LoadableServiceInterface {

@@ -59,6 +59,7 @@ export class ServiceDatatableComponent extends AbstractDatatableController {
     const breadcrumbs = [];
     breadcrumbs.push(new Breadcrumb('Services', '/pages/doctors/services', true));
     this._state.notifyDataChanged('menu.activeLink', breadcrumbs);
+    this._state.notifyDataChanged('changeTitle', this.translateService.instant('Services'));
   }
 
   save () {

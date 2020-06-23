@@ -61,6 +61,7 @@ export class AssistantDatatableComponent extends AbstractDatatableController {
     const breadcrumbs = [];
     breadcrumbs.push(new Breadcrumb('Assistants', '/pages/companions/assistants', true));
     this._state.notifyDataChanged('menu.activeLink', breadcrumbs);
+    this._state.notifyDataChanged('changeTitle', this.translateService.instant('Assistants'));
   }
 
   protected getTranslateService (): TranslateService {

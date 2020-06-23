@@ -58,6 +58,7 @@ export class HospitalDatatableComponent extends AbstractDatatableController {
     const breadcrumbs = [];
     breadcrumbs.push(new Breadcrumb('Hospitals', '/pages/geo/hospitals', true));
     this._state.notifyDataChanged('menu.activeLink', breadcrumbs);
+    this._state.notifyDataChanged('changeTitle', this.translateService.instant('Hospitals'));
   }
 
   protected getDatatableComponent (): DatatableComponent {

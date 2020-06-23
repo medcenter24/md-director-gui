@@ -59,6 +59,7 @@ export class DiagnosticDatatableComponent extends AbstractDatatableController {
     const breadcrumbs = [];
     breadcrumbs.push(new Breadcrumb('Diagnostics', '/pages/doctors/diagnostics', true));
     this._state.notifyDataChanged('menu.activeLink', breadcrumbs);
+    this._state.notifyDataChanged('changeTitle', this.translateService.instant('Diagnostics'));
   }
 
   protected getDatatableComponent (): DatatableComponent {

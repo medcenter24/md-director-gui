@@ -56,6 +56,7 @@ export class DiseaseDatatableComponent extends AbstractDatatableController {
     const breadcrumbs = [];
     breadcrumbs.push(new Breadcrumb('Diseases', '/pages/settings/diseases', true));
     this._state.notifyDataChanged('menu.activeLink', breadcrumbs);
+    this._state.notifyDataChanged('changeTitle', this.translateService.instant('Diseases'));
   }
 
   protected getTranslateService (): TranslateService {

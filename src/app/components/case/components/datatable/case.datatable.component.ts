@@ -82,6 +82,7 @@ export class CaseDatatableComponent extends AbstractDatatableController implemen
     const breadcrumbs = [];
     breadcrumbs.push(new Breadcrumb('Cases', '/pages/cases', true));
     this._state.notifyDataChanged('menu.activeLink', breadcrumbs);
+    this._state.notifyDataChanged('changeTitle', this.translateService.instant('List of Cases'));
   }
 
   protected getTranslateService (): TranslateService {
