@@ -23,16 +23,19 @@ import { saveAs } from 'file-saver';
 export class ExporterService extends HttpService {
 
   protected getPrefix(): string {
-    return 'director/export';
+    return 'director';
   }
 
   exportCases(params: Object): void {
     const dt = new Date();
     this.http
-      .post(this.getUrl('cases'), JSON.stringify(params), {
+      .post(this.getUrl('cases/export'), JSON.stringify(params), {
         headers: this.getAuthHeaders(),
         responseType: 'blob',
       })
-      .subscribe(data => saveAs(data, `Form1CasesExport_${dt.valueOf()}.xlsx`), err => this.handleError(err));
+      .subscribe(
+        data => saveAs( data, `Form1CasesExport_${dt.valueOf()}.xlsx` ),
+        err => this.handleError(err),
+      );
   }
 }

@@ -163,7 +163,9 @@ export class CaseDatatableComponent extends AbstractDatatableController implemen
 
     actions.push(
       new DatatableAction(this.translateService.instant('Cases Export'), 'fa fa-download', () => {
-        this.exporterService.exportCases({});
+        const builder = this.getRequestBuilder();
+        builder['lang'] = this.translateService.currentLang;
+        this.exporterService.exportCases(builder);
       }),
     );
 
