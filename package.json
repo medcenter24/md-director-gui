@@ -1,8 +1,7 @@
 {
   "name": "md-director-gui",
-  "version": "1.0.0",
   "description": "MedCenter24.com Directors UI",
-  "author": "Oleksandr Zagovorychev",
+  "author": "MedCenter24 <dev@medcenter24.com>",
   "homepage": "https://medcenter24.com",
   "repository": {
     "type": "git",
