@@ -17,6 +17,7 @@
 
 import { AutoCompleteProvider } from './auto.complete.provider';
 import { AutoCompleteSrcConfig } from '../auto.complete.src.config';
+import { FilterRequestField } from '../../../../core/http/request/fields';
 
 /**
  * Loads only limit count of rows and for each request going to the server
@@ -34,6 +35,11 @@ export class AutoCompleteLoadableProvider implements AutoCompleteProvider {
    */
   selected: Object|Object[];
 
+  /**
+   * Total amount of data
+   */
+  total: number = 0;
+
   constructor (private config: AutoCompleteSrcConfig) {}
 
   /**
@@ -41,11 +47,30 @@ export class AutoCompleteLoadableProvider implements AutoCompleteProvider {
    * @param event
    */
   loadData(event): Promise<any> {
-    return this.config.dataProvider({ q: event });
+    const filterRequestField = new FilterRequestField(
+      this.config.fieldKey,
+      event.query,
+      FilterRequestField.MATCH_CONTENTS,
+      FilterRequestField.TYPE_TEXT,
+    );
+    return this.searchData(filterRequestField);
+  }
+
+  private searchData(filterRequestField: FilterRequestField): Promise<any> {
+    return this.config.dataProvider({
+      filter: {
+        fields: [
+          filterRequestField,
+        ],
+      },
+    });
   }
 
   filter(event): void {
-    this.loadData(event).then(data => this.filtered = data);
+    this.loadData(event).then(response => {
+      this.total = response.meta.pagination.total;
+      return this.filtered = response.data;
+    });
   }
 
   /**
@@ -53,6 +78,28 @@ export class AutoCompleteLoadableProvider implements AutoCompleteProvider {
    * @param {any} items
    */
   selectItems(items: any): void {
-    this.selected = items;
+    // if int id provided - try to load resource with the service
+    if (typeof items === 'number' && items) {
+      this.findById(items).then(res => {
+        if (res.hasOwnProperty('data') && res['data'].length) {
+          this.selected = res.data[0];
+        } else {
+          console.error(`Record with ID ${items} not found`);
+        }
+      });
+    } else {
+      this.selected = items;
+    }
+  }
+
+  private findById(id: number): Promise<any> {
+    const filterRequestField = new FilterRequestField(
+      'id',
+      `${id}`,
+      FilterRequestField.MATCH_EQ,
+      FilterRequestField.TYPE_TEXT,
+    );
+
+    return this.searchData(filterRequestField);
   }
 }

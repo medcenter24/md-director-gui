@@ -37,7 +37,7 @@ import {
   BaMultiCheckbox,
   BaPageTopComponent,
   BaToolboxComponent,
-  BaSidebar,
+  BaSidebarComponent,
   BaFileUploader,
 } from './components';
 
@@ -81,7 +81,7 @@ const NGA_COMPONENTS = [
   BaMultiCheckbox,
   BaPageTopComponent,
   BaToolboxComponent,
-  BaSidebar,
+  BaSidebarComponent,
   BaFileUploader,
 ];
 

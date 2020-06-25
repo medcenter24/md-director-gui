@@ -25,7 +25,9 @@ import { ServicesService } from '../../services.service';
 import { LoadableServiceInterface } from '../../../core/loadable';
 import { Service } from '../../service';
 import { DatatableAction, DatatableCol, DatatableComponent, DatatableTransformer } from '../../../ui/datatable';
-import { ConfirmationService, FilterMetadata } from 'primeng/api';
+import { ConfirmationService } from 'primeng/api';
+import { Breadcrumb } from '../../../../theme/components/baContentTop/breadcrumb';
+import { Disease, DiseaseService } from '../../../disease';
 
 @Component({
   selector: 'nga-service-datatable',
@@ -47,8 +49,17 @@ export class ServiceDatatableComponent extends AbstractDatatableController {
     protected translateService: TranslateService,
     private servicesService: ServicesService,
     private confirmationService: ConfirmationService,
+    public diseaseService: DiseaseService,
   ) {
     super();
+  }
+
+  protected onLangLoaded () {
+    super.onLangLoaded();
+    const breadcrumbs = [];
+    breadcrumbs.push(new Breadcrumb('Services', '/pages/doctors/services', true));
+    this._state.notifyDataChanged('menu.activeLink', breadcrumbs);
+    this._state.notifyDataChanged('changeTitle', this.translateService.instant('Services'));
   }
 
   save () {
@@ -76,22 +87,22 @@ export class ServiceDatatableComponent extends AbstractDatatableController {
     return [
       new DatatableCol('title', this.translateService.instant('Title')),
       new DatatableCol('description', this.translateService.instant('Description')),
-      new DatatableCol('diseaseCode', this.translateService.instant('Disease Code')),
+      new DatatableCol('diseases', this.translateService.instant('Diseases')),
       new DatatableCol('type', this.translateService.instant('Type')),
     ];
   }
 
-  getActions(): DatatableAction[] {
+  protected hasControlPanel (): boolean {
+    return true;
+  }
+
+  protected getControlPanelActions (): DatatableAction[] {
     return [
       new DatatableAction(this.translateService.instant('Add'), 'fa fa-plus', () => {
         this.setModel(this.getEmptyModel());
         this.displayDialog = true;
       }),
     ];
-  }
-
-  getSortBy(): string {
-    return 'title';
   }
 
   confirmDelete(): void {
@@ -104,42 +115,15 @@ export class ServiceDatatableComponent extends AbstractDatatableController {
     });
   }
 
-  private getFiltersWithoutStatus(): Object {
-    const newFilters = {};
-    const filters = this.getDatatableComponent().getConfig().get('filters');
-    Object.keys(filters).forEach(function (item: string) {
-      if (item !== 'status') {
-        newFilters[ item ] = filters[ item ];
-      }
-    });
-    return newFilters;
-  }
-
   protected hasCaptionPanel (): boolean {
     return true;
   }
 
-  getFilters(): { [s: string]: FilterMetadata } {
-    const status = { value: 'active', matchMode: 'eq' } as FilterMetadata;
-    return { status };
-  }
-
   protected getCaptionActions (): DatatableAction[] {
     return [
-      new DatatableAction(this.translateService.instant('Show hidden'), 'fa fa-toggle-on', event => {
-        const btnEl = event.target.parentNode;
-        let st = btnEl.className;
-        const filters = this.getFiltersWithoutStatus();
-        if (st.includes('ui-button-success')) { // show hidden
-          st = st.replace('ui-button-success', '');
-          st = st.trim();
-          filters['status'] = { value: 'active', matchMode: 'eq' } as FilterMetadata;
-        } else {
-          // hide hidden
-          st += ' ui-button-success';
-        }
-        this.applyFilters(filters);
-        btnEl.className = st;
+      new DatatableAction(this.translateService.instant('Add'), 'fa fa-plus', () => {
+        this.setModel(this.getEmptyModel());
+        this.displayDialog = true;
       }),
     ];
   }
@@ -149,7 +133,7 @@ export class ServiceDatatableComponent extends AbstractDatatableController {
     super.setModel( model );
   }
 
-  getTransformers (): DatatableTransformer[] {
+  getTransformers(): DatatableTransformer[] {
     const transformers = super.getTransformers();
     transformers.push(new DatatableTransformer('title', (val, row) => {
       if (row.status !== 'active') {
@@ -158,6 +142,21 @@ export class ServiceDatatableComponent extends AbstractDatatableController {
       }
       return val;
     }));
+    transformers.push(new DatatableTransformer('diseases', (val, row) => {
+      if (!val || !val.length) {
+        const noDiseasesMsg = this.translateService.instant('no_diseases_assigned');
+        return `<span class="text-muted">${noDiseasesMsg}</span>`;
+      } else {
+        const diseaseList = [];
+        val.forEach((v: Disease) => diseaseList.push(v.title));
+        return diseaseList.join(', ');
+      }
+    }));
+    transformers.push(new DatatableTransformer('type', val => this.translateService.instant(val)));
     return transformers;
+  }
+
+  diseasesChanged(event): void {
+    this.model.diseases = event;
   }
 }

@@ -43,12 +43,12 @@ export class CaseTypeSelectComponent extends LoadableComponent implements OnInit
     this.translate.get('Yes').subscribe(() => {
       this.caseTypes = [];
       this.caseTypes.push({ label: this.translate.instant('Doctor Case'),
-        value: 'medcenter24\\mcCore\\App\\DoctorAccident' });
+        value: 'doctor' });
       this.caseTypes.push({ label: this.translate.instant('Hospital Case'),
-        value: 'medcenter24\\mcCore\\App\\HospitalAccident' });
+        value: 'hospital' });
 
       if (!this.selectedCaseTypeId) {
-        this.selectedCaseTypeId = 'medcenter24\\mcCore\\App\\DoctorAccident';
+        this.selectedCaseTypeId = 'doctor';
         this.onChanged({ value: this.selectedCaseTypeId });
       }
     });

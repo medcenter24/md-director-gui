@@ -19,5 +19,6 @@ export class Region {
         public id: number = 0,
         public title: string = '',
         public countryId: number = 0,
+        public countryTitle: string = '',
     ) {}
 }

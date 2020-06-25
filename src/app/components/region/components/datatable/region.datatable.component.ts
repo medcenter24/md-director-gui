@@ -14,8 +14,7 @@
  * Copyright (c) 2019 (original work) MedCenter24.com;
  */
 
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { LoadableComponent } from '../../../core/components/componentLoader';
+import { Component, ViewChild } from '@angular/core';
 import { LoggerComponent } from '../../../core/logger/LoggerComponent';
 import { TranslateService } from '@ngx-translate/core';
 import { GlobalState } from '../../../../global.state';
@@ -28,12 +27,15 @@ import { Region } from '../../region';
 import { DatatableComponent } from '../../../ui/datatable';
 import { CountryService } from '../../../country';
 import { AutocompleterComponent } from '../../../ui/selector/components/autocompleter';
+import { AbstractDatatableController } from '../../../ui/tables/abstract.datatable.controller';
+import { Breadcrumb } from '../../../../theme/components/baContentTop/breadcrumb';
+import { LoadableServiceInterface } from '../../../core/loadable';
 
 @Component({
   selector: 'nga-region-datatable',
   templateUrl: './region.datatable.html',
 })
-export class RegionDatatableComponent extends LoadableComponent implements OnInit {
+export class RegionDatatableComponent extends AbstractDatatableController {
   protected componentName: string = 'RegionDatatableComponent';
 
   @ViewChild('datatable')
@@ -59,29 +61,47 @@ export class RegionDatatableComponent extends LoadableComponent implements OnIni
     super();
   }
 
-  ngOnInit() {
-    this.translateService.get('Yes').subscribe(() => {
-      this.langLoaded = true;
-      this.datatableConfig = DatatableConfig.factory({
-        dataProvider: (filters: Object) => {
-          return this.regionService.search(filters);
-        },
-        cols: [
-          new DatatableCol('title', this.translateService.instant('Title')),
-        ],
-        refreshTitle: this.translateService.instant('Refresh'),
-        controlPanel: true,
-        controlPanelActions: [
-          new DatatableAction(this.translateService.instant('Add'), 'fa fa-plus', () => {
-            this.showDialogToAdd();
-          }),
-        ],
-        onRowSelect: event => {
-          this.onRowSelect(event);
-        },
-        sortBy: 'title',
-      });
-    });
+  protected onLangLoaded () {
+    super.onLangLoaded();
+    const breadcrumbs = [];
+    breadcrumbs.push(new Breadcrumb('Regions', '/pages/geo/regions', true));
+    this._state.notifyDataChanged('menu.activeLink', breadcrumbs);
+    this._state.notifyDataChanged('changeTitle', this.translateService.instant('Regions'));
+  }
+
+  protected getService (): LoadableServiceInterface {
+    return this.regionService;
+  }
+
+  protected getDatatableComponent (): DatatableComponent {
+    return this.datatable;
+  }
+
+  protected getTranslateService (): TranslateService {
+    return this.translateService;
+  }
+
+  protected getEmptyModel (): Object {
+    return new Region();
+  }
+
+  protected getColumns (): DatatableCol[] {
+    return [
+      new DatatableCol('title', this.translateService.instant('Title')),
+      new DatatableCol('countryTitle', this.translateService.instant('Country')),
+    ];
+  }
+
+  protected hasControlPanel (): boolean {
+    return true;
+  }
+
+  protected getControlPanelActions (): DatatableAction[] {
+    return [
+      new DatatableAction(this.translateService.instant('Add'), 'fa fa-plus', () => {
+        this.showDialogToAdd();
+      }),
+    ];
   }
 
   showDialogToAdd() {

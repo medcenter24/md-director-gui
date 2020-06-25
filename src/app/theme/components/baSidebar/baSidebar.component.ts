@@ -15,41 +15,42 @@
  * Copyright (c) 2019 (original work) MedCenter24.com;
  */
 
-import {Component, ElementRef, HostListener} from '@angular/core';
-import {GlobalState} from '../../../global.state';
-import {layoutSizes} from '../../../theme';
+import { Component, ElementRef, HostListener, OnInit } from '@angular/core';
+import { GlobalState } from '../../../global.state';
+import { layoutSizes } from '../../../theme';
 
 @Component({
-  selector: 'ba-sidebar',
+  selector: 'nga-ba-sidebar',
   templateUrl: './baSidebar.html',
-  styleUrls: ['./baSidebar.scss']
+  styleUrls: ['./baSidebar.scss'],
 })
-export class BaSidebar {
-  public menuHeight: number;
-  public isMenuCollapsed:boolean = false;
-  public isMenuShouldCollapsed:boolean = false;
+export class BaSidebarComponent implements OnInit {
+  menuHeight: number;
+  isMenuCollapsed: boolean = false;
+  isMenuShouldCollapsed: boolean = false;
 
-  constructor(private _elementRef:ElementRef, private _state:GlobalState) {
+  constructor(private _elementRef: ElementRef, private _state: GlobalState) {
 
     this._state.subscribe('menu.isCollapsed', (isCollapsed) => {
       this.isMenuCollapsed = isCollapsed;
     });
   }
 
-  public ngOnInit():void {
+  ngOnInit(): void {
     if (this._shouldMenuCollapse()) {
       this.menuCollapse();
     }
   }
 
-  public ngAfterViewInit():void {
+  /*
+  ngAfterViewInit(): void {
     setTimeout(() => this.updateSidebarHeight());
-  }
+  }*/
 
   @HostListener('window:resize')
-  public onWindowResize():void {
+  onWindowResize(): void {
 
-    var isMenuShouldCollapsed = this._shouldMenuCollapse();
+    const isMenuShouldCollapsed = this._shouldMenuCollapse();
 
     if (this.isMenuShouldCollapsed !== isMenuShouldCollapsed) {
       this.menuCollapseStateChange(isMenuShouldCollapsed);
@@ -58,25 +59,25 @@ export class BaSidebar {
     this.updateSidebarHeight();
   }
 
-  public menuExpand():void {
+  menuExpand(): void {
     this.menuCollapseStateChange(false);
   }
 
-  public menuCollapse():void {
+  menuCollapse(): void {
     this.menuCollapseStateChange(true);
   }
 
-  public menuCollapseStateChange(isCollapsed:boolean):void {
+  menuCollapseStateChange(isCollapsed: boolean): void {
     this.isMenuCollapsed = isCollapsed;
     this._state.notifyDataChanged('menu.isCollapsed', this.isMenuCollapsed);
   }
 
-  public updateSidebarHeight():void {
+  updateSidebarHeight(): void {
     // TODO: get rid of magic 84 constant
     this.menuHeight = this._elementRef.nativeElement.childNodes[0].clientHeight - 84;
   }
 
-  private _shouldMenuCollapse():boolean {
+  private _shouldMenuCollapse(): boolean {
     return window.innerWidth <= layoutSizes.resWidthCollapseSidebar;
   }
 }

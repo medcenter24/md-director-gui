@@ -23,8 +23,9 @@ import { GlobalState } from '../../../../global.state';
 import { AuthenticationService } from '../../../auth/authentication.service';
 import { DocumentsService } from '../../../document/documents.service';
 import { Document } from '../../../document/document';
-import { LoadableComponent } from '../../../core/components/componentLoader/LoadableComponent';
-
+import { LoadableComponent } from '../../../core/components/componentLoader';
+import { UiToastService } from '../../../ui/toast/ui.toast.service';
+import { HttpHeaders } from '@angular/common/http';
 
 // todo needs to be moved to documents
 @Component({
@@ -49,7 +50,9 @@ export class FileUploaderComponent extends LoadableComponent implements OnInit {
               private translate: TranslateService,
               private _logger: LoggerComponent, private _state: GlobalState,
               private authenticationService: AuthenticationService,
-              private documentsService: DocumentsService) {
+              private documentsService: DocumentsService,
+              private uiToastService: UiToastService,
+  ) {
     super();
   }
 
@@ -63,36 +66,25 @@ export class FileUploaderComponent extends LoadableComponent implements OnInit {
   }
 
   handleBeforeUpload(event): void {
-    this.msgs = [];
-    this._state.notifyDataChanged('growl', this.msgs);
     this.startLoader('Uploader');
   }
 
-  handleBeforeSend(event): void {
-    event.xhr.setRequestHeader('Authorization', `Bearer ${this.authenticationService.getToken()}`);
+  headers(): HttpHeaders {
+    return new HttpHeaders({ 'Authorization': `Bearer ${this.authenticationService.getToken()}` });
   }
 
-  handleUpload(event): void {
-    this.msgs = [];
-    const loadedFiles = JSON.parse(event.xhr.response).data as Document[];
-    for (const file of loadedFiles) {
-      this.documents.push(file);
-      this.msgs.push({ severity: 'info', summary: this.translateLoaded, detail: file.title });
-    }
-    this._state.notifyDataChanged('growl', this.msgs);
+  handleUpload(): void {
+    this.uiToastService.saved();
     this.changed.emit(this.documents);
     this.stopLoader('Uploader');
   }
 
   // used by the template uploader.html
   handleError(event): void {
-      for (const file of event.files) {
-          this.msgs.push({ severity: 'error', summary: this.translateErrorLoad, detail: file.name });
-      }
-      this._state.notifyDataChanged('growl', this.msgs);
-      this._logger.error(`Error: Upload to ${event.xhr.responseURL}
-        [${event.xhr.status}: ${event.xhr.statusText}]`);
-      this.stopLoader('Uploader');
+    this.stopLoader('Uploader');
+    this.uiToastService.error();
+    this._logger.error(`Error: Upload to ${event.error.url}
+      [${event.error.status}: ${event.error.statusText}]`);
   }
 
   downloadFile(file): void {

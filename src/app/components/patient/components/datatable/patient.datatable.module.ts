@@ -42,7 +42,6 @@ import { DialogModule } from 'primeng/dialog';
   ],
   providers: [
     PatientsService,
-    DateHelper,
   ],
 })
 export class PatientDatatableModule {

@@ -26,11 +26,6 @@ export class AccidentCheckpointsService extends HttpService {
     return 'director/checkpoints';
   }
 
-  getCheckpoints(): Promise<AccidentCheckpoint[]> {
-    return this.get()
-      .then(response => response.data as AccidentCheckpoint[]);
-  }
-
   save (checkpoint: AccidentCheckpoint): Promise<AccidentCheckpoint> {
     const action = checkpoint.id ? this.put(checkpoint.id, checkpoint) : this.store(checkpoint);
     return action.then(response => response.data as AccidentCheckpoint);

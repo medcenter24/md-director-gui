@@ -21,6 +21,12 @@ import { SelectItem } from 'primeng/primeng';
 import { Service } from '../../service';
 import { LoggerComponent } from '../../../core/logger/LoggerComponent';
 import { LoadableComponent } from '../../../core/components/componentLoader';
+import {
+  FilterRequestField,
+  PaginationLimitRequestField,
+  PaginationOffsetRequestField,
+  SortRequestField,
+} from '../../../core/http/request/fields';
 
 @Component({
   selector: 'nga-select-services',
@@ -46,9 +52,28 @@ export class SelectServicesComponent extends LoadableComponent implements OnInit
 
   ngOnInit () {
     this.startLoader();
-    const statusFilter = { status: { value: 'active', matchMode: 'eq' } };
+    const statusFilter = {
+      'filter': {
+        'fields': [
+          new FilterRequestField('status', 'active', FilterRequestField.MATCH_EQ),
+        ],
+      },
+      'sorter': {
+        'fields': [
+          new SortRequestField('title'),
+          new SortRequestField('id'),
+        ],
+      },
+      'paginator': {
+        'fields': [
+          new PaginationLimitRequestField('500'),
+          new PaginationOffsetRequestField('0'),
+        ],
+      },
+    };
     this.servicesService.getServices(statusFilter).then(services => {
       this.stopLoader();
+
       this.services = services;
       this.dataServices = services.map(x => {
         return {
@@ -77,6 +102,19 @@ export class SelectServicesComponent extends LoadableComponent implements OnInit
    }
 
    reloadChosenServices(services: Service[]): void {
+
+     // selected services should be in the services list
+     services.forEach((service: Service) => {
+       const el = {
+         label: service.title,
+         value: `${service.id}`,
+       };
+       if (!this.dataServices.find(obj => +obj.value === +service.id)) {
+         this.dataServices.push(el);
+         this.services.push(service);
+       }
+     });
+
      this.chosenServices = services;
      this.selectedServices = this.chosenServices.length ? this.chosenServices.map(x => `${x.id}`) : [];
    }

@@ -23,6 +23,8 @@ import { SlimLoadingBarService } from 'ng2-slim-loading-bar';
 import { GlobalState } from '../../global.state';
 import { LoggerComponent } from '../../components/core/logger/LoggerComponent';
 import { YearsList } from '../../components/statistics/years/yearsList';
+import { TranslateService } from '@ngx-translate/core';
+import { Breadcrumb } from '../../theme/components/baContentTop/breadcrumb';
 
 @Component({
   selector: 'nga-dashboard',
@@ -51,11 +53,21 @@ export class DashboardComponent extends LoadingComponent implements OnInit {
     protected _logger: LoggerComponent,
     protected loadingBar: SlimLoadingBarService,
     protected _state: GlobalState,
+    private translateService: TranslateService,
   ) {
     super();
+    this.translateService.get('Dashboard').subscribe((text: string) => {
+      this._state.notifyDataChanged('changeTitle', text);
+    });
   }
 
   ngOnInit(): void {
+    this.translateService.get('Dashboard').subscribe((trans) => {
+      const breadcrumbs = [];
+      breadcrumbs.push(new Breadcrumb('Dashboard', '/pages/dashboard', true));
+      this._state.notifyDataChanged('menu.activeLink', breadcrumbs);
+    });
+
     const year = `${(new Date()).getFullYear()}`;
     this.currentDocYear = year;
     this.currentAssistYear = year;

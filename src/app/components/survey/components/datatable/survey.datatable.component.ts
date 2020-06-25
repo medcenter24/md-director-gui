@@ -25,7 +25,12 @@ import { SurveyService } from '../../survey.service';
 import { LoadableServiceInterface } from '../../../core/loadable';
 import { Survey } from '../../survey';
 import { DatatableAction, DatatableCol, DatatableComponent, DatatableTransformer } from '../../../ui/datatable';
-import { ConfirmationService, FilterMetadata } from 'primeng/api';
+import { ConfirmationService } from 'primeng/api';
+import { Breadcrumb } from '../../../../theme/components/baContentTop/breadcrumb';
+import { DatatableRequestBuilder } from '../../../ui/datatable/request/datatable.request.builder';
+import { RequestBuilder } from '../../../core/http/request';
+import { FilterRequestField, SortRequestField } from '../../../core/http/request/fields';
+import { Disease, DiseaseService } from '../../../disease';
 
 @Component({
   selector: 'nga-survey-datatable',
@@ -46,8 +51,17 @@ export class SurveyDatatableComponent extends AbstractDatatableController {
     protected translateService: TranslateService,
     private surveyService: SurveyService,
     private confirmationService: ConfirmationService,
+    public diseaseService: DiseaseService,
   ) {
     super();
+  }
+
+  protected onLangLoaded () {
+    super.onLangLoaded();
+    const breadcrumbs = [];
+    breadcrumbs.push(new Breadcrumb('Surveys', '/pages/doctors/surveys', true));
+    this._state.notifyDataChanged('menu.activeLink', breadcrumbs);
+    this._state.notifyDataChanged('changeTitle', this.translateService.instant('Surveys'));
   }
 
   protected getTranslateService (): TranslateService {
@@ -70,20 +84,23 @@ export class SurveyDatatableComponent extends AbstractDatatableController {
     return [
       new DatatableCol('title', this.translateService.instant('Title')),
       new DatatableCol('description', this.translateService.instant('Description')),
+      new DatatableCol('status', this.translateService.instant('Status')),
+      new DatatableCol('diseases', this.translateService.instant('Diseases')),
+      new DatatableCol('type', this.translateService.instant('Created By')),
     ];
   }
 
-  getActions(): DatatableAction[] {
+  protected hasControlPanel (): boolean {
+    return true;
+  }
+
+  protected getControlPanelActions (): DatatableAction[] {
     return [
       new DatatableAction(this.translateService.instant('Add'), 'fa fa-plus', () => {
         this.setModel(this.getEmptyModel());
         this.displayDialog = true;
       }),
     ];
-  }
-
-  getSortBy(): string {
-    return 'title';
   }
 
   confirmDelete(): void {
@@ -95,44 +112,20 @@ export class SurveyDatatableComponent extends AbstractDatatableController {
     });
   }
 
-  private getFiltersWithoutStatus(): Object {
-    const newFilters = {};
-    const filters = this.getDatatableComponent().getConfig().get('filters');
-    Object.keys(filters).forEach(function (item: string) {
-      if (item !== 'status') {
-        newFilters[ item ] = filters[ item ];
-      }
-    });
-    return newFilters;
-  }
-
-  protected hasCaptionPanel (): boolean {
+  protected hasFilterRow (): boolean {
     return true;
   }
 
-  getFilters(): { [s: string]: FilterMetadata } {
-    const status = { value: 'active', matchMode: 'eq' } as FilterMetadata;
-    return { status };
-  }
-
-  protected getCaptionActions (): DatatableAction[] {
-    return [
-      new DatatableAction(this.translateService.instant('Show hidden'), 'fa fa-toggle-on', event => {
-        const btnEl = event.target.parentNode;
-        let st = btnEl.className;
-        const filters = this.getFiltersWithoutStatus();
-        if (st.includes('ui-button-success')) { // show hidden
-          st = st.replace('ui-button-success', '');
-          st = st.trim();
-          filters['status'] = { value: 'active', matchMode: 'eq' } as FilterMetadata;
-        } else {
-          // hide hidden
-          st += ' ui-button-success';
-        }
-        this.applyFilters(filters);
-        btnEl.className = st;
-      }),
-    ];
+  protected getRequestBuilder (): DatatableRequestBuilder {
+    const requestBuilder = super.getRequestBuilder();
+    requestBuilder.setSorter(new RequestBuilder([
+      new SortRequestField('title'),
+      new SortRequestField('status'),
+    ]));
+    requestBuilder.setFilter(new RequestBuilder([
+      new FilterRequestField('title', null, FilterRequestField.MATCH_CONTENTS, FilterRequestField.TYPE_TEXT),
+    ]));
+    return requestBuilder;
   }
 
   protected setModel ( model: Object = null ): void {
@@ -142,12 +135,28 @@ export class SurveyDatatableComponent extends AbstractDatatableController {
 
   getTransformers (): DatatableTransformer[] {
     const transformers = super.getTransformers();
+    transformers.push(new DatatableTransformer('type', (val) => {
+      return this.translateService.instant(val);
+    }));
+    transformers.push(new DatatableTransformer('status', (val) => {
+      return this.translateService.instant(val);
+    }));
     transformers.push(new DatatableTransformer('title', (val, row) => {
       if (row.status !== 'active') {
         const inactive = this.translateService.instant('Inactive');
-        return `<span class="text-danger" title="${inactive}">${val}</span>`;
+        return `<span class="text-muted font-weight-bold" title="${inactive}">${val}</span>`;
       }
       return val;
+    }));
+    transformers.push(new DatatableTransformer('diseases', (val, row) => {
+      if (!val || !val.length) {
+        const noDiseasesMsg = this.translateService.instant('no_diseases_assigned');
+        return `<span class="text-muted">${noDiseasesMsg}</span>`;
+      } else {
+        const diseaseList = [];
+        val.forEach((v: Disease) => diseaseList.push(v.title));
+        return diseaseList.join(', ');
+      }
     }));
     return transformers;
   }
@@ -155,5 +164,9 @@ export class SurveyDatatableComponent extends AbstractDatatableController {
   save () {
     this.model.status = this.isActive ? 'active' : 'disabled';
     super.save();
+  }
+
+  diseasesChanged(event): void {
+    this.model.diseases = event;
   }
 }

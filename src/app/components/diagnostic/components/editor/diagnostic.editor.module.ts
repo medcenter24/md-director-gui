@@ -26,6 +26,8 @@ import { DiagnosticService } from '../../diagnostic.service';
 import { DiagnosticCategorySelectModule } from '../../category/components/select';
 import { ButtonModule } from 'primeng/button';
 import { InputSwitchModule } from 'primeng/inputswitch';
+import { DiseaseService } from '../../../disease';
+import { MultiSelectorModule } from '../../../ui/selector/components/multiSelector';
 
 @NgModule({
   imports: [
@@ -37,9 +39,11 @@ import { InputSwitchModule } from 'primeng/inputswitch';
     DiagnosticCategorySelectModule,
     ButtonModule,
     InputSwitchModule,
+    MultiSelectorModule,
   ],
   providers: [
     DiagnosticService,
+    DiseaseService,
   ],
   declarations: [
     DiagnosticEditorComponent,

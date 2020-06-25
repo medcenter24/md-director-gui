@@ -17,16 +17,29 @@
 
 <div class="row">
     <div class="col-sm-4" *ngIf="isFormInvoice()">
-        <label class="label separate">{{ label }}</label>
-        <nga-autocompleter
-                #invoiceFormAutocompleter
-                [service]="formService"
-                placeholder="Choose a Form"
-                labelField="title"
-                (selected)="formSelected($event)"
-                (init)="startLoader($event)"
-                (loaded)="stopLoader($event)"
-        ></nga-autocompleter>
+      <div class="row">
+        <div [ngClass]="form && invoice ? 'col-md-7' : 'col-md-12'">
+          <label class="label separate">{{ label }}</label>
+          <nga-autocompleter
+            #invoiceFormAutocompleter
+            [service]="formService"
+            placeholder="Choose a Form"
+            labelField="title"
+            (selected)="formSelected($event)"
+            (init)="startLoader($event)"
+            (loaded)="stopLoader($event)"
+            providerType="loadable"
+          ></nga-autocompleter>
+        </div>
+        <div class="col-md-4" *ngIf="form && invoice">
+          <label class="label separate" translate>Preview</label>
+          <nga-form-viewer
+            #formViewerComponent
+            [formId]="form.id"
+            [formableId]="invoice.id"
+          ></nga-form-viewer>
+        </div>
+      </div>
     </div>
     <div class="col-sm-3" *ngIf="isFileInvoice()">
         <label class="label separate">{{ label }}</label>
@@ -61,11 +74,11 @@
             (init)="startLoader($event)"
         ></nga-ui-status-select>
     </div>
-    <div class="col-sm-2" *ngIf="!autosave">
+    <div class="col-sm-1" *ngIf="!autosave">
         <label class="label separate">{{ 'Action' | translate }}</label>
         <button pButton [label]="'Save' | translate" (click)="save()" class="ui-button-success"></button>
     </div>
-    <div class="col-sm-2 ml-4 mt-2" *ngIf="autosave">
+    <div class="col-sm-1 ml-4 mt-2" *ngIf="autosave">
         <label class="label separate">&nbsp;</label>
         <span class="fa fa-check text-success" *ngIf="!saving"></span>
         <span class="fa fa-spinner fa-spin" *ngIf="saving"></span>

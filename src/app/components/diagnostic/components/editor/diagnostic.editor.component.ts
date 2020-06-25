@@ -25,6 +25,7 @@ import { DiagnosticCategoryEditorComponent } from '../../category/components/edi
 import { GlobalState } from '../../../../global.state';
 import { TranslateService } from '@ngx-translate/core';
 import { LoggerComponent } from '../../../core/logger/LoggerComponent';
+import { DiseaseService } from '../../../disease';
 
 @Component({
   selector: 'nga-diagnostic-editor',
@@ -51,6 +52,7 @@ export class DiagnosticEditorComponent extends LoadableComponent implements OnIn
     protected _state: GlobalState,
     private translateService: TranslateService,
     protected _logger: LoggerComponent,
+    public diseaseService: DiseaseService,
   ) {
     super();
   }

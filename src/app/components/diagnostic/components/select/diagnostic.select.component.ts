@@ -21,6 +21,12 @@ import { SelectItem } from 'primeng/primeng';
 import { Diagnostic } from '../../diagnostic';
 import { LoadableComponent } from '../../../core/components/componentLoader';
 import { LoggerComponent } from '../../../core/logger/LoggerComponent';
+import {
+  FilterRequestField,
+  PaginationLimitRequestField,
+  PaginationOffsetRequestField,
+  SortRequestField,
+} from '../../../core/http/request/fields';
 
 @Component({
   selector: 'nga-select-diagnostics',
@@ -46,7 +52,28 @@ export class DiagnosticSelectComponent extends LoadableComponent implements OnIn
 
   ngOnInit () {
     this.startLoader();
-    this.diagnosticsService.getDiagnostics({ status: { value: 'active', matchMode: 'eq' } }).then(diagnostics => {
+
+    const statusFilter = {
+      'filter': {
+        'fields': [
+          new FilterRequestField('status', 'active', FilterRequestField.MATCH_EQ),
+        ],
+      },
+      'sorter': {
+        'fields': [
+          new SortRequestField('title'),
+          new SortRequestField('id'),
+        ],
+      },
+      'paginator': {
+        'fields': [
+          new PaginationLimitRequestField('500'),
+          new PaginationOffsetRequestField('0'),
+        ],
+      },
+    };
+
+    this.diagnosticsService.getDiagnostics(statusFilter).then(diagnostics => {
       this.diagnostics = diagnostics;
       this.dataDiagnostics = diagnostics.map(x => {
         return {
@@ -77,6 +104,17 @@ export class DiagnosticSelectComponent extends LoadableComponent implements OnIn
    }
 
    reloadChosenDiagnostics(diagnostics: Diagnostic[]): void {
+     diagnostics.forEach((diagnostic: Diagnostic) => {
+       const el = {
+         label: diagnostic.title,
+         value: diagnostic.id,
+       };
+
+       if (!this.dataDiagnostics.find(obj => +obj.value === +diagnostic.id)) {
+         this.dataDiagnostics.push(el);
+         this.diagnostics.push(diagnostic);
+       }
+     });
      this.chosenDiagnostics = diagnostics;
      this.selectedDiagnostics = this.chosenDiagnostics.length ? this.chosenDiagnostics.map(x => `${x.id}`) : [];
    }

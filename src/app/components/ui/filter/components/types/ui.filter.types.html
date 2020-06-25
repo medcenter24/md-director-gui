@@ -1,0 +1,34 @@
+<!--
+  ~ This program is free software; you can redistribute it and/or
+  ~ modify it under the terms of the GNU General Public License
+  ~ as published by the Free Software Foundation; under version 2
+  ~ of the License (non-upgradable).
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU General Public License for more details.
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with this program; if not, write to the Free Software
+  ~ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+  ~
+  ~ Copyright (c) 2020 (original work) MedCenter24.com;
+  -->
+
+<div class="filter-component">
+  <span *ngIf="isUndefined()" class="text-warning" translate>Undefined</span>
+
+  <div *ngIf="isText()" class="ui-inputgroup">
+    <input type="text" pInputText [(ngModel)]="value">
+    <button pButton type="button" icon="pi pi-search" class="ui-button-warn" (click)="onSearch(value)"></button>
+  </div>
+
+  <nga-auto-complete
+    *ngIf="isSelect() && autoCompleteConfig"
+    [config]="autoCompleteConfig"
+    (changed)="onAutoCompleteSearch($event)"
+  ></nga-auto-complete>
+
+  <nga-ui-date-picker [value]="value" [config]="datePickerConfig" *ngIf="isDateRange()" (changed)="onSearch($event)"></nga-ui-date-picker>
+
+  <span *ngIf="loading" class="fa fa-spinner fa-spin"></span>
+</div>

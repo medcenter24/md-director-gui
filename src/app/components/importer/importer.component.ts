@@ -23,6 +23,7 @@ import { GlobalState } from '../../global.state';
 import { AuthenticationService } from '../auth/authentication.service';
 import { ImporterService } from './importer.service';
 import { LoggerComponent } from '../core/logger/LoggerComponent';
+import { UiToastService } from '../ui/toast/ui.toast.service';
 
 @Component({
   selector: 'nga-importer',
@@ -39,13 +40,6 @@ export class ImporterComponent implements OnInit {
   selectedFiles: any[] = [];
   importedFiles: any[] = [];
 
-  // preload translations for the component
-  private translateLoaded: string;
-  private translateErrorLoad: string;
-  private transDeleteQuestion: string;
-  private transDeleteConfirmation: string;
-  private transReport: string;
-
   private deleterCounter: number = 0;
   private importerCounter: number = 0;
 
@@ -54,25 +48,10 @@ export class ImporterComponent implements OnInit {
                private authenticationService: AuthenticationService,
                private importerService: ImporterService,
                private confirmationService: ConfirmationService,
+               private uiToastService: UiToastService,
   ) { }
 
   ngOnInit() {
-    this.translate.get('File Uploaded').subscribe(res => {
-      this.translateLoaded = res;
-    });
-    this.translate.get('Upload Error').subscribe(res => {
-      this.translateErrorLoad = res;
-    });
-    this.translate.get('Do you want to delete this record(s)?').subscribe(res => {
-      this.transDeleteQuestion = res;
-    });
-    this.translate.get('Delete confirmation').subscribe(res => {
-      this.transDeleteConfirmation = res;
-    });
-    this.translate.get('Report').subscribe(res => {
-      this.transReport = res;
-    });
-
     this.loadImportQueue();
   }
 
@@ -96,31 +75,21 @@ export class ImporterComponent implements OnInit {
   }
 
   handleBeforeUpload(): void {
-    this.msgs = [];
-    this._state.notifyDataChanged('growl', []);
     this.loadingBar.start();
   }
 
   handleClear(): void {
-    this.msgs = [];
-    this._state.notifyDataChanged('growl', []);
   }
 
   handleUpload(event): void {
-    for (const file of event.files) {
-      this.msgs.push({ severity: 'info', summary: this.translateLoaded, detail: file.name });
-    }
-    this._state.notifyDataChanged('growl', this.msgs);
     this.loadingBar.complete();
-
     this.loadImportQueue();
   }
 
   handleError(event): void {
     for (const file of event.files) {
-      this.msgs.push({ severity: 'error', summary: this.translateErrorLoad, detail: file.name });
+      this.uiToastService.errorMessage(file.name);
     }
-    this._state.notifyDataChanged('growl', this.msgs);
     this._logger.error(`Error: Upload to ${event.xhr.responseURL} [${event.xhr.status}:${event.xhr.statusText}]`);
     this.loadingBar.complete();
   }
@@ -141,22 +110,25 @@ export class ImporterComponent implements OnInit {
     if (this.isImported(file.id)) {
       this.deleteFileFromGui(file.id);
     } else {
-      this.confirmationService.confirm({
-        message: this.transDeleteQuestion,
-        header: this.transDeleteConfirmation,
-        icon: 'fa fa-trash',
-        acceptVisible: true,
-        accept: () => {
-          let files = [];
 
-          if (file) {
-            files.push(file.id);
-          } else {
-            files = this.selectedFiles;
-          }
+      this.translate.get('Do you want to delete this record(s)?').subscribe(msg => {
+        this.confirmationService.confirm({
+          message: msg,
+          header: this.translate.instant('Delete confirmation'),
+          icon: 'fa fa-trash',
+          acceptVisible: true,
+          accept: () => {
+            let files = [];
 
-          this.deleter(files);
-        },
+            if (file) {
+              files.push(file.id);
+            } else {
+              files = this.selectedFiles;
+            }
+
+            this.deleter(files);
+          },
+        });
       });
     }
   }
@@ -164,11 +136,13 @@ export class ImporterComponent implements OnInit {
   report (file): void {
     const result = this.importedFiles.filter(val => +val.id === +file.id)[0];
 
-    this.confirmationService.confirm({
-      message: result.response,
-      header: this.transReport,
-      icon: result.success ? 'fa fa-check-circle-o' : 'fa fa-exclamation-triangle',
-      acceptVisible: false,
+    this.translate.get('Report').subscribe(msg => {
+      this.confirmationService.confirm({
+        message: result.response,
+        header: msg,
+        icon: result.success ? 'fa fa-check-circle-o' : 'fa fa-exclamation-triangle',
+        acceptVisible: false,
+      });
     });
   }
 

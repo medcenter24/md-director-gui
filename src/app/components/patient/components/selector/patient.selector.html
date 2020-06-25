@@ -17,15 +17,17 @@
 
 <div class="row patient-selector">
     <div class="col-12 col-md-8">
-        <nga-select-patient
-            #patientSelect
-            [patient]="patient"
-            (select)="onPatientChanged($event)"
-            (init)="startLoader($event)"
-            (loaded)="stopLoader($event)"
-            (input)="changedValue($event)"
-            class="pull-left"
-        ></nga-select-patient>
+      <nga-autocompleter
+        #patientSelect
+        [service]="patientService"
+        placeholder="Patient Name"
+        labelField="name"
+        (selected)="onPatientChanged($event)"
+        (init)="startLoader($event)"
+        (loaded)="stopLoader($event)"
+        providerType="loadable"
+      ></nga-autocompleter>
+
     </div>
     <div class="col-12 col-md-4">
         <div class="status pull-left">

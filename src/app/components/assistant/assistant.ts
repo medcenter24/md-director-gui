@@ -20,7 +20,7 @@ export class Assistant {
         public id: number = 0,
         public title: string = '',
         public email: string = '',
-        public commentary: string = '',
+        public comment: string = '',
         public refKey: string = '',
     ) {}
 }

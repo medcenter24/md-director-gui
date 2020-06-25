@@ -27,7 +27,8 @@
   [responsive]="true"
   showEffect="fade"
   [modal]="true"
-  [style]="{width : '400px'}">
+  [style]="{width : '400px'}"
+  (onHide)="deselectAll()">
 
   <div class="ui-g ui-fluid" *ngIf="model">
     <div class="ui-g-12">
@@ -52,6 +53,22 @@
           [(ngModel)]="model.description"
           autocomplete="off"
         />
+      </div>
+    </div>
+    <div class="ui-g-12">
+      <div class="ui-g-3">
+        <label translate>Diseases</label>
+      </div>
+      <div class="ui-g-9">
+        <nga-multi-selector
+          [service]="diseaseService"
+          placeholder="Select Diseases"
+          labelField="title"
+          (init)="startLoader($event)"
+          (loaded)="stopLoader($event)"
+          (selected)="diseasesChanged($event)"
+          [preloadedData]="model.diseases"
+        ></nga-multi-selector>
       </div>
     </div>
     <div class="ui-g-12">

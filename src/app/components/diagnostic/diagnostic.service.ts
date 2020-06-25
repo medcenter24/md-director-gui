@@ -19,7 +19,6 @@ import { Injectable } from '@angular/core';
 import { Diagnostic } from './diagnostic';
 import { HttpService } from '../core/http/http.service';
 import { LoadableServiceInterface } from '../core/loadable';
-import { FilterMetadata } from 'primeng/api';
 
 @Injectable()
 export class DiagnosticService extends HttpService implements LoadableServiceInterface {

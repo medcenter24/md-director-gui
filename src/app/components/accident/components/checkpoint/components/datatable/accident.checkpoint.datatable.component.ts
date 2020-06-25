@@ -28,6 +28,7 @@ import { AbstractDatatableController } from '../../../../../ui/tables/abstract.d
 import { ConfirmationService } from 'primeng/api';
 import { LoadableServiceInterface } from '../../../../../core/loadable';
 import { LoggerComponent } from '../../../../../core/logger/LoggerComponent';
+import { Breadcrumb } from '../../../../../../theme/components/baContentTop/breadcrumb';
 
 @Component({
   selector: 'nga-accident-checkpoint-datatable',
@@ -49,6 +50,14 @@ export class AccidentCheckpointDatatableComponent extends AbstractDatatableContr
     private confirmationService: ConfirmationService,
   ) {
     super();
+  }
+
+  protected onLangLoaded () {
+    super.onLangLoaded();
+    const breadcrumbs = [];
+    breadcrumbs.push(new Breadcrumb('Checkpoints', '/pages/settings/checkpoints', true));
+    this._state.notifyDataChanged('menu.activeLink', breadcrumbs);
+    this._state.notifyDataChanged('changeTitle', this.translateService.instant('Checkpoints'));
   }
 
   protected getTranslateService (): TranslateService {
@@ -74,17 +83,17 @@ export class AccidentCheckpointDatatableComponent extends AbstractDatatableContr
     ];
   }
 
-  getActions (): DatatableAction[] {
+  protected hasControlPanel (): boolean {
+    return true;
+  }
+
+  protected getControlPanelActions (): DatatableAction[] {
     return [
       new DatatableAction(this.translateService.instant('Add'), 'fa fa-plus', () => {
         this.setModel(this.getEmptyModel());
         this.displayDialog = true;
       }),
     ];
-  }
-
-  getSortBy(): string {
-    return 'title';
   }
 
   confirmDelete(): void {

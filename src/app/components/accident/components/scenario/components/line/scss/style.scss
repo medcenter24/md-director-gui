@@ -91,7 +91,7 @@ Primary style
 
     li.status-current > * {
       /* selected step */
-      color: $color-2;
+      color: $color-5;
     }
 
     .no-touch & a:hover {
@@ -211,8 +211,8 @@ Primary style
       li.status-current > * {
         /* selected step */
         color: $color-3;
-        background-color: $color-2;
-        border-color: $color-2;
+        background-color: $color-5;
+        border-color: $color-5;
       }
 
       li:first-of-type > * {
@@ -361,6 +361,10 @@ Primary style
         background-color: $color-2;
       }
 
+      &.status-current::after {
+        background-color: $color-5;
+      }
+
       & > *, &.status-current > * {
         position: relative;
         color: $color-1;
@@ -393,9 +397,14 @@ Primary style
         background-color: $color-1;
       }
 
-      li.status-current > *, li.status-visited > * {
+      li.status-visited > * {
         color: $color-3;
         background-color: $color-2;
+      }
+
+      li.status-current > * {
+        color: $color-3;
+        background-color: $color-5;
       }
 
       &.custom-icons li.status-visited a::before {
@@ -431,9 +440,12 @@ Primary style
         background-color: $color-4;
       }
 
-      li.status-visited > *::before,
-      li.status-current > *::before {
+      li.status-visited > *::before {
         background-color: $color-2;
+      }
+
+      li.status-current > *::before {
+        background-color: $color-5;
       }
 
       .no-touch & a:hover {

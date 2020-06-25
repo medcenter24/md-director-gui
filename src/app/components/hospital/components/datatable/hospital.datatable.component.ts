@@ -15,8 +15,7 @@
  * Copyright (c) 2019 (original work) MedCenter24.com;
  */
 
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { LoadingComponent } from '../../../core/components/componentLoader';
+import { Component, ViewChild } from '@angular/core';
 import { LoggerComponent } from '../../../core/logger/LoggerComponent';
 import { TranslateService } from '@ngx-translate/core';
 import { GlobalState } from '../../../../global.state';
@@ -24,12 +23,15 @@ import { SlimLoadingBarService } from 'ng2-slim-loading-bar';
 import { Hospital } from '../../hospital';
 import { HospitalsService } from '../../hospitals.service';
 import { DatatableAction, DatatableCol, DatatableComponent, DatatableConfig } from '../../../ui/datatable';
+import { AbstractDatatableController } from '../../../ui/tables/abstract.datatable.controller';
+import { LoadableServiceInterface } from '../../../core/loadable';
+import { Breadcrumb } from '../../../../theme/components/baContentTop/breadcrumb';
 
 @Component({
   selector: 'nga-hospital-datatable',
   templateUrl: './hospital.datatable.html',
 })
-export class HospitalDatatableComponent extends LoadingComponent implements OnInit {
+export class HospitalDatatableComponent extends AbstractDatatableController {
   protected componentName: string = 'HospitalDatatableComponent';
 
   @ViewChild('datatable')
@@ -51,30 +53,47 @@ export class HospitalDatatableComponent extends LoadingComponent implements OnIn
     super();
   }
 
-  ngOnInit() {
-    this.translateService.get('Yes').subscribe(() => {
-      this.langLoaded = true;
-      this.datatableConfig = DatatableConfig.factory({
-        dataProvider: (filters: Object) => {
-          return this.hospitalService.search(filters);
-        },
-        cols: [
-          new DatatableCol('title', this.translateService.instant('Title')),
-          new DatatableCol('refKey', this.translateService.instant('Ref. Key')),
-        ],
-        refreshTitle: this.translateService.instant('Refresh'),
-        controlPanel: true,
-        controlPanelActions: [
-          new DatatableAction(this.translateService.instant('Add'), 'fa fa-plus', () => {
-            this.showDialogToAdd();
-          }),
-        ],
-        onRowSelect: event => {
-          this.onRowSelect(event);
-        },
-        sortBy: 'title',
-      });
-    });
+  protected onLangLoaded () {
+    super.onLangLoaded();
+    const breadcrumbs = [];
+    breadcrumbs.push(new Breadcrumb('Hospitals', '/pages/geo/hospitals', true));
+    this._state.notifyDataChanged('menu.activeLink', breadcrumbs);
+    this._state.notifyDataChanged('changeTitle', this.translateService.instant('Hospitals'));
+  }
+
+  protected getDatatableComponent (): DatatableComponent {
+    return this.datatable;
+  }
+
+  protected getTranslateService (): TranslateService {
+    return this.translateService;
+  }
+
+  protected getService (): LoadableServiceInterface {
+    return this.hospitalService;
+  }
+
+  protected getEmptyModel (): Object {
+    return new Hospital();
+  }
+
+  protected getColumns (): DatatableCol[] {
+    return [
+      new DatatableCol('title', this.translateService.instant('Title')),
+      new DatatableCol('refKey', this.translateService.instant('Ref. Key')),
+    ];
+  }
+
+  protected hasControlPanel (): boolean {
+    return true;
+  }
+
+  protected getControlPanelActions (): DatatableAction[] {
+    return [
+      new DatatableAction(this.translateService.instant('Add'), 'fa fa-plus', () => {
+        this.showDialogToAdd();
+      }),
+    ];
   }
 
   showDialogToAdd() {

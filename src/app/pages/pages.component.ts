@@ -24,7 +24,7 @@ import { environment } from '../../environments/environment';
 @Component({
   selector: 'nga-pages',
   template: `
-      <ba-sidebar></ba-sidebar>
+      <nga-ba-sidebar></nga-ba-sidebar>
       <nga-ba-page-top></nga-ba-page-top>
       <div class="al-main">
           <nga-toolbox-component></nga-toolbox-component>

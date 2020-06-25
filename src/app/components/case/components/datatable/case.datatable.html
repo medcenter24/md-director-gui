@@ -15,18 +15,12 @@
   ~ Copyright (c) 2019 (original work) MedCenter24.com;
   -->
 
-<nga-case-filter
-  #filterComponent
-  [filter]="filter"
-  (runFilter)="onFilter($event)"
-></nga-case-filter>
-
 <nga-datatable
         #datatableComponent
-  *ngIf="langLoaded"
-  [config]="datatableConfig"
-  (init)="beforeDatatableLoad()"
-  (loaded)="onDatatableLoaded()"
+        *ngIf="datatableConfig"
+        [config]="datatableConfig"
+        (init)="beforeDatatableLoad()"
+        (loaded)="onDatatableLoaded()"
 ></nga-datatable>
 
 <nga-importer

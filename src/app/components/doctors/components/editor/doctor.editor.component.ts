@@ -174,6 +174,7 @@ export class DoctorEditorComponent extends LoadableComponent implements AfterVie
 
   handleUserEdited(event): void {
     this.showUserEditor = false;
+    console.log(event)
     this.doctor.userId = event.id;
     this.reloadUsers();
   }

@@ -24,7 +24,7 @@ import { HttpService } from '../../core/http/http.service';
 export class DiagnosticCategoryService extends HttpService {
 
     protected getPrefix(): string {
-        return 'director/categories';
+        return 'director/diagnostics/categories';
     }
 
     getCategory(id: number): Promise<DiagnosticCategory> {

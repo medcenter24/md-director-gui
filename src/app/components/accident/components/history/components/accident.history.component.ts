@@ -46,7 +46,7 @@ export class AccidentHistoryComponent extends LoadableComponent implements OnIni
     this.caseService.getHistory(this.accident).then(response => {
       this.stopLoader();
       response.map((row) => {
-        row.createdFormated = this.dateHelper.toEuropeFormatWithTime(row.created_at);
+        row.createdFormated = DateHelper.toEuropeFormatWithTime(row.created_at);
         return row;
       });
       this.history = response;

@@ -51,37 +51,6 @@
                       class="text-danger" translate>Hospital Case</h4>
               </div>
               <!-- /Type of Case -->
-              <div class="col-sm-8">
-                <div class="row">
-                  <div class="col-sm-8 text-right">
-                    <!-- Accident Export-Print -->
-                    <nga-autocompleter
-                            *ngIf="!isLoading()"
-                        #accidentReportFormAutocompleter
-                        [service]="formService"
-                        placeholder="Choose a Form"
-                        labelField="title"
-                        (selected)="onReportFormChanged($event)"
-                        (init)="startLoader($event)"
-                        (loaded)="stopLoader($event)"
-                        [preloadedData]="accident.formReportId"
-                    ></nga-autocompleter>
-                  </div>
-                  <div class="col-sm-4 text-left">
-                    <nga-form-viewer
-                            #formViewerComponent
-                            *ngIf="+accident.formReportId"
-                            [formId]="accident.formReportId"
-                            [formableId]="accident.id"
-                            [emitInsteadOfAction]="true"
-                            (onPreview)="previewCase()"
-                            (onPdf)="casePdf()"
-                            (onPrint)="printCase()"
-                    ></nga-form-viewer>
-                  </div>
-                </div>
-                <!-- /Accident Export-Print -->
-              </div>
             </div>
           </div>
 
@@ -89,7 +58,7 @@
             <div class="row">
               <!-- Referral Number -->
               <div class="col-sm-4">
-                <label class="label separate" translate>Referral Number</label>
+                <label class="label separate" for="refNumber" translate>Referral Number</label>
                 <b pTooltip="{{ 'If you leave it empty then it will be generated automatically' | translate }}"
                    class="badge badge-secondary pull-left">?</b>
                 <p-inplace closable="true" class="pull-left">
@@ -98,6 +67,7 @@
                   </span>
                   <span pInplaceContent>
                     <input type="text" value="{{ accident.refNum }}"
+                           id="refNumber"
                            (change)="onReferralChanged($event)"
                            pInputText placeholder="{{ 'Referral Number' | translate }}">
                   </span>
@@ -112,17 +82,18 @@
                   [service]="assistantService"
                   placeholder="Assistant"
                   labelField="title"
+                  providerType="loadable"
                   (selected)="onAssistantChanged($event)"
                   (init)="startLoader($event)"
                   (loaded)="stopLoader($event)"
-                  [preloadedData]="accident.assistantId"
                 ></nga-autocompleter>
               </div>
               <!-- /Assistant -->
               <!-- Assistant Ref Num -->
               <div class="col-sm-4">
-                <label class="label required separate" translate>Assistant Ref Num</label>
+                <label class="label required separate" for="assistantRefNumber" translate>Assistant Ref Num</label>
                 <input type="text" pInputText
+                       id="assistantRefNumber"
                        name="assistant_ref_num"
                        [(ngModel)]="accident.assistantRefNum"
                        (change)="onAssistantRefNumChanged()"
@@ -145,7 +116,7 @@
                     (selected)="onCityChanged($event)"
                     (init)="startLoader($event)"
                     (loaded)="stopLoader($event)"
-                    [preloadedData]="accident.cityId"
+                    providerType="loadable"
                 ></nga-autocompleter>
               </div>
               <!-- /City -->
@@ -176,10 +147,10 @@
                     [service]="doctorService"
                     placeholder="Doctor"
                     labelField="name"
-                    [preloadedData]="doctorAccident.doctorId"
                     (selected)="onDoctorChanged($event)"
                     (init)="startLoader($event)"
                     (loaded)="stopLoader($event)"
+                    providerType="loadable"
                 ></nga-autocompleter>
               </div>
 
@@ -206,6 +177,7 @@
                   (selected)="onHospitalChanged($event)"
                   (init)="startLoader($event)"
                   (loaded)="stopLoader($event)"
+                  providerType="loadable"
                 ></nga-autocompleter>
               </div>
               <!-- HA /Hospital -->
@@ -219,8 +191,9 @@
               <div class="col-sm-6">
                 <div class="row">
                   <div class="col-sm-12">
-                    <label class="label separate" translate>Symptoms</label>
+                    <label class="label separate" for="symptoms" translate>Symptoms</label>
                     <textarea rows="5" cols="70" pInputTextarea
+                              id="symptoms"
                               autoResize="autoResize"
                               placeholder="{{ 'Symptoms' | translate }}"
                               class="form-control"
@@ -245,7 +218,7 @@
                       (selected)="onAccidentSelected($event)"
                       (init)="startLoader($event)"
                       (loaded)="stopLoader($event)"
-                      [preloadedData]="accident.parentId"
+                      providerType="loadable"
                     ></nga-autocompleter>
                   </div>
                 </div>
@@ -271,8 +244,8 @@
               <div class="col-12">
                 <label class="label separate required">{{ 'patient' | translate }}</label>
                 <div class="row">
-                  <div class="col-12 col-md-6">
-                    <div class="patient-selector float-left">
+                  <div class="col-12">
+                    <div class="patient-selector">
                       <nga-patient-selector
                         #patientSelector
                         [initPatient]="patient"
@@ -281,19 +254,20 @@
                         (loaded)="stopLoader($event)"
                       ></nga-patient-selector>
                     </div>
-                  </div>
-                  <div class="col-12 col-md-6">
-                    <label class="label separated float-left offset-right10" translate>Patient editor</label>
-                    <div class="edit-patient">
+
+                    <div class="patient-editor">
+                      <label class="label separated float-left offset-right10" translate>Patient editor</label>
+                      <div class="edit-patient">
                       <span class="fa fa-edit lead linked text-success"
                             *ngIf="patient && patient.id"
                             (click)="openEditPatientForm(patient)"
                             title="{{ 'Edit patient data' | translate }}"></span>
-                    </div>
-                    <div class="add-patient">
+                      </div>
+                      <div class="add-patient">
                       <span class="fa fa-user-plus lead linked"
                             (click)="openEditPatientForm( null )"
                             title="{{ 'Add Patient' | translate }}"></span>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -301,8 +275,9 @@
             </div>
             <div class="row offset-bottom20">
               <div class="col-sm-9">
-                <label class="label separate" translate>Patient Data</label>
+                <label class="label separate" for="contacts" translate>Patient Data</label>
                 <textarea rows="2" cols="50" pInputTextarea
+                          id="contacts"
                           autoResize="autoResize"
                           placeholder="{{ 'Patient Data' | translate }}"
                           class="form-control"
@@ -317,6 +292,7 @@
         </div>
 
         <div *ngIf="accident.id" class="additional-part">
+
           <!-- Accident Scenario -->
           <div class="form-group">
             <div class="row">
@@ -333,7 +309,7 @@
           <!-- /Accident Scenario -->
 
           <!-- Checkpoints -->
-          <div class="form-group offset-bottom20" *ngIf="checkpoints.length">
+          <div class="form-group offset-bottom20">
             <div class="row">
               <div class="col-sm-12">
                 <label class="label separate" translate>Checkpoints</label>
@@ -430,8 +406,9 @@
                 <!-- Doctor Accident => Diagnosis & Additional Investigation -->
                 <div class="row offset-bottom20" *ngIf="isDoctorAccident()">
                   <div class="col-sm-6">
-                    <label class="label separate" translate>Diagnosis</label>
+                    <label class="label separate" for="recommendation" translate>Diagnosis</label>
                     <textarea rows="5" cols="70" pInputTextarea
+                              id="recommendation"
                               autoResize="autoResize"
                               placeholder="{{ 'Made a diagnosis' | translate }}"
                               class="form-control"
@@ -441,8 +418,9 @@
                     ></textarea>
                   </div>
                   <div class="col-sm-6">
-                    <label class="label separate" translate>Additional Investigation</label>
+                    <label class="label separate" for="investigation" translate>Additional Investigation</label>
                     <textarea rows="5" cols="70" pInputTextarea
+                              id="investigation"
                               autoResize="autoResize"
                               placeholder="{{ 'Additional Investigation' | translate }}"
                               class="form-control"
@@ -501,6 +479,7 @@
                 <div class="row mt-3">
                   <div class="col-12">
                     <nga-invoice-editor
+                        #invoiceEditorComponent
                             [autosave]="true"
                             [reload]="true"
                             [label]="'Invoice to the assistant' | translate"
@@ -513,24 +492,13 @@
                 </div>
                 <!-- /Assistant Invoice -->
 
-                <!-- Assistant Invoice Viewer -->
-                <div class="row" *ngIf="assistantInvoice && assistantInvoice.id">
-                  <div class="col-12">
-                    <nga-form-viewer
-                      [formId]="assistantInvoice.id"
-                      [formableId]="accident.id"
-                    ></nga-form-viewer>
-                  </div>
-                </div>
-                <!-- /Assistant Invoice Viewer -->
-
                 <!-- Documents -->
                 <div class="row mt-2">
                   <div class="col-12">
                     <label class="label separated" translate>Documents</label>
                     <nga-file-uploader
                       [documents]="documents"
-                      (change)="onDocumentsChanged($event)"
+                      (changed)="onDocumentsChanged($event)"
                       [url]="caseService.getDocumentsUrl(accident.id)"
                       (init)="startLoader($event)"
                       (loaded)="stopLoader($event)"

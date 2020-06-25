@@ -30,6 +30,8 @@ import { ServicesService } from '../../../service';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { GlobalState } from '../../../../global.state';
 import { FinanceCurrencyService } from '../currency/finance.currency.service';
+import { Breadcrumb } from '../../../../theme/components/baContentTop/breadcrumb';
+import { UiToastService } from '../../../ui/toast/ui.toast.service';
 
 @Component({
   selector: 'nga-finance-editor',
@@ -68,6 +70,9 @@ export class FinanceEditorComponent extends LoadableComponent implements OnInit 
     public hospitalService: HospitalsService,
   ) {
     super();
+    this.translateService.get('Condition').subscribe((text: string) => {
+      this._state.notifyDataChanged('changeTitle', `${text} · ${this.translateService.instant('Loading')}`);
+    });
   }
 
   ngOnInit(): void {
@@ -78,14 +83,31 @@ export class FinanceEditorComponent extends LoadableComponent implements OnInit 
         this.initTypes();
         this.initModels();
         if (id) {
+
+          this.translateService.get('Condition').subscribe((text: string) => {
+            this._state.notifyDataChanged('changeTitle', `${text} · ${id}`);
+          });
+
           this.startLoader();
           this.financeService.getFinanceRule(id).then((financeRule: FinanceRule) => {
             this.stopLoader();
+
+            this.translateService.get('Finance').subscribe((trans: string) => {
+              const breadcrumbs = [];
+              breadcrumbs.push(new Breadcrumb(trans, '/pages/finance/conditions'));
+              breadcrumbs.push(new Breadcrumb(financeRule.title, `/pages/cases/${financeRule.id}`, true, false));
+              this._state.notifyDataChanged('menu.activeLink', breadcrumbs);
+            });
+
             this.rule = financeRule;
             this.isLoaded = true;
           }).catch(() => this.stopLoader());
         } else {
             this.isLoaded = true;
+
+            this.translateService.get('Condition').subscribe((text: string) => {
+              this._state.notifyDataChanged('changeTitle', `${text} · ${this.translateService.instant('New')}`);
+            });
         }
       });
   }
@@ -116,20 +138,20 @@ export class FinanceEditorComponent extends LoadableComponent implements OnInit 
       this.conditionModels.push({
         label: this.translateService.instant('Assistant'),
         desc: this.translateService.instant('Invoice the assistant'), // how much assistant needs to pay
-        value: 'medcenter24\\mcCore\\App\\Assistant',
+        value: 'assistant',
       });
 
       // condition for the doctor
       this.conditionModels.push({
         label: this.translateService.instant('Doctor'),
         desc: this.translateService.instant('Doctor remuneration'),
-        value: 'medcenter24\\mcCore\\App\\Doctor',
+        value: 'doctor',
       });
 
       this.stopLoader(postfix);
 
       if (!this.rule.model) {
-        this.rule.model = 'medcenter24\\mcCore\\App\\Assistant';
+        this.rule.model = 'assistant';
       }
     });
   }

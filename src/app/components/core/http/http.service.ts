@@ -20,37 +20,26 @@ import { AuthenticationService } from '../../auth/authentication.service';
 import { environment } from '../../../../environments/environment';
 import 'rxjs/add/operator/toPromise';
 import { GlobalState } from '../../../global.state';
-import { TranslateService } from '@ngx-translate/core';
 import { Router } from '@angular/router';
-import { Message } from 'primeng/primeng';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { LoggerComponent } from '../logger/LoggerComponent';
+import { LoadableServiceInterface } from '../loadable';
+import { ObjectHelper } from '../../../helpers/object.helper';
+import { UiToastService } from '../../ui/toast/ui.toast.service';
+import { TokenService } from '../../auth/token.service';
 
 @Injectable()
-export abstract class HttpService {
-
-  private errorText: string = '';
-  private httpErrorMessage: string = '';
-  private successText: string = '';
-  private deletedText: string = '';
-  private storedText: string = '';
-  private msgs: Message[] = [];
+export abstract class HttpService implements LoadableServiceInterface {
 
   constructor (
     protected http: HttpClient,
     private authenticationService: AuthenticationService,
     private _logger: LoggerComponent,
     private _state: GlobalState,
-    private translate: TranslateService,
     private router: Router,
+    private uiToastService: UiToastService,
+    private tokenService: TokenService,
   ) {
-    this.translate.get('Error').subscribe(res => {
-      this.errorText = res;
-      this.httpErrorMessage = this.translate.instant('Http error occurred');
-      this.successText = this.translate.instant('Success');
-      this.deletedText = this.translate.instant('Deleted');
-      this.storedText = this.translate.instant('Stored');
-    });
   }
 
   getUrl(path: string|number = null): string {
@@ -62,7 +51,10 @@ export abstract class HttpService {
   }
 
   protected getAuthHeaders(): HttpHeaders {
-    return new HttpHeaders({ 'Authorization': `Bearer ${this.authenticationService.getToken()}` });
+    return new HttpHeaders({
+      'Authorization': `Bearer ${ this.tokenService.getToken() }`,
+      'Content-Type': 'text/json',
+    });
   }
 
   /**
@@ -76,6 +68,7 @@ export abstract class HttpService {
    * @returns {Promise<any>}
    */
   search (filters: Object): Promise<any> {
+    filters = ObjectHelper.extend({}, filters);
     return this.http.post(this.getUrl('search'), JSON.stringify(filters), { headers: this.getAuthHeaders() })
       .toPromise()
       .then(response => {
@@ -105,7 +98,7 @@ export abstract class HttpService {
   protected remove(id: any): Promise<any> {
     return this.http.delete(this.getUrl(id), { headers: this.getAuthHeaders() })
       .toPromise()
-      .then(() => this.success(this.deletedText, this))
+      .then(() => this.uiToastService.deleted())
       .catch(error => this.handleError(error));
   }
 
@@ -119,7 +112,7 @@ export abstract class HttpService {
       .post(this.getUrl(), JSON.stringify(data), { headers: this.getAuthHeaders() })
       .toPromise()
       .then(response => {
-        this.success(this.storedText, this);
+        this.uiToastService.created();
         return Promise.resolve(response);
       })
       .catch(error => this.handleError(error));
@@ -134,11 +127,16 @@ export abstract class HttpService {
   protected put(id, data): Promise<any> {
 
     if (!id) {
-      return this.handleError(this.httpErrorMessage);
+      this.uiToastService.httpError();
+      return;
     }
     return this.http
       .put(this.getUrl(id), JSON.stringify(data), { headers: this.getAuthHeaders() })
       .toPromise()
+      .then(response => {
+        this.uiToastService.saved();
+        return Promise.resolve(response);
+      })
       .catch(error => this.handleError(error));
   }
 
@@ -163,22 +161,27 @@ export abstract class HttpService {
       // using dingo/FormRequest style
       this._state.notifyDataChanged('apiError', error);
     } else if (typeof error === 'string') {
-      this.msgs = [];
-      this.msgs.push({ severity: 'error', summary: this.errorText, detail: error });
-      this._state.notifyDataChanged('growl', this.msgs);
+      this.uiToastService.error();
     } else {
-      this.msgs = [];
-      this.msgs.push({ severity: 'error', summary: this.errorText,
-          detail: this.httpErrorMessage });
-      this._state.notifyDataChanged('growl', this.msgs);
+      this.uiToastService.httpError();
     }
 
     return Promise.reject(error);
   }
 
-  private success(message: string = '', self: any): void {
-    this.msgs.push({ severity: 'success', summary: self.successText,
-      detail: message });
-    this._state.notifyDataChanged('growl', this.msgs);
+  /**
+   * Should be implemented if needed
+   * @param model
+   */
+  destroy ( model: Object ): Promise<any> {
+    return undefined;
+  }
+
+  /**
+   * Should be implemented if needed
+   * @param model
+   */
+  save ( model: Object ): Promise<any> {
+    return undefined;
   }
 }

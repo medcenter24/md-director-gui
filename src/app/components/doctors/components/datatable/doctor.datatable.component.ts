@@ -15,7 +15,7 @@
  * Copyright (c) 2019 (original work) MedCenter24.com;
  */
 
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { GlobalState } from '../../../../global.state';
 import { SlimLoadingBarService } from 'ng2-slim-loading-bar';
@@ -27,12 +27,13 @@ import { ObjectHelper } from '../../../../helpers/object.helper';
 import { DoctorEditorComponent } from '../editor';
 import { LoadableServiceInterface } from '../../../core/loadable';
 import { LoggerComponent } from '../../../core/logger/LoggerComponent';
+import { Breadcrumb } from '../../../../theme/components/baContentTop/breadcrumb';
 
 @Component({
   selector: 'nga-doctor-datatable',
   templateUrl: './doctor.datatable.html',
 })
-export class DoctorDatatableComponent extends AbstractDatatableController implements OnInit {
+export class DoctorDatatableComponent extends AbstractDatatableController {
   protected componentName: string = 'DoctorDatatableComponent';
 
   @ViewChild('doctorEditor')
@@ -49,6 +50,14 @@ export class DoctorDatatableComponent extends AbstractDatatableController implem
     private doctorsService: DoctorsService,
   ) {
     super();
+  }
+
+  protected onLangLoaded () {
+    super.onLangLoaded();
+    const breadcrumbs = [];
+    breadcrumbs.push(new Breadcrumb('Stuff', '/pages/doctors/stuff', true));
+    this._state.notifyDataChanged('menu.activeLink', breadcrumbs);
+    this._state.notifyDataChanged('changeTitle', this.translateService.instant('Stuff'));
   }
 
   protected getDatatableComponent (): DatatableComponent {
@@ -82,7 +91,11 @@ export class DoctorDatatableComponent extends AbstractDatatableController implem
     }
   }
 
-  getActions(): DatatableAction[] {
+  protected hasControlPanel (): boolean {
+    return true;
+  }
+
+  protected getControlPanelActions (): DatatableAction[] {
     return [
       new DatatableAction(this.translateService.instant('Add'), 'fa fa-plus', () => {
         this.setModel(this.getEmptyModel());
@@ -91,12 +104,9 @@ export class DoctorDatatableComponent extends AbstractDatatableController implem
     ];
   }
 
-  getSortBy(): string {
-    return 'name';
-  }
-
   closeDoctorEditor(): void {
     this.displayDialog = false;
+    this.deselectAll();
   }
 
   onDoctorChanged(doctor: Doctor): void {
@@ -110,5 +120,4 @@ export class DoctorDatatableComponent extends AbstractDatatableController implem
     this.setModel(nDoctor);
     this.displayDialog = false;
   }
-
 }

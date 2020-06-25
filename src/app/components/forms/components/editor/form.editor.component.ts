@@ -27,6 +27,8 @@ import { Form } from '../../form';
 import { TranslateService } from '@ngx-translate/core';
 import { FormOption } from '../options/form.option';
 import { BaToolboxAction } from '../../../../theme/components/baToolbox';
+import { Breadcrumb } from '../../../../theme/components/baContentTop/breadcrumb';
+import { FormsOptionsEditorComponent } from '../options/editor';
 declare var $: any;
 
 @Component({
@@ -41,9 +43,14 @@ export class FormEditorComponent extends LoadableComponent implements OnInit {
   msgs: any;
   displayDialog: boolean = false;
   formPreviewerVisible: boolean = false;
+  allTypeVariables: FormOption[] = [];
+  usedTypeVariables: FormOption[] = [];
 
   @ViewChild('previewContainer')
     previewContainer: ElementRef;
+
+  @ViewChild('formsOptionsEditorComponent')
+    formOptionEditor: FormsOptionsEditorComponent;
 
   constructor(
     private formService: FormService,
@@ -53,22 +60,29 @@ export class FormEditorComponent extends LoadableComponent implements OnInit {
     private router: Router,
   ) {
     super();
+    this.translateService.get('Template').subscribe((text: string) => {
+      this._state.notifyDataChanged('changeTitle', `${text} · ${this.translateService.instant('Loading')}`);
+    });
   }
 
   ngOnInit(): void {
     this.translateService.get('Form content is here').subscribe(() => {
       this.route.params
         .subscribe((params: Params) => {
-          this._state.notifyDataChanged('menu.activeLink', { title: 'Forms' });
+          const breadcrumbs = [];
+          breadcrumbs.push(new Breadcrumb('Forms', '/pages/settings/forms', true));
+          this._state.notifyDataChanged('menu.activeLink', breadcrumbs);
 
           this.showToolbox();
 
           const id = +params['id'];
           if (id) {
             this.startLoader();
+
             this.formService.getForm(id)
               .then((form: Form) => {
                 this.stopLoader();
+                this._state.notifyDataChanged('changeTitle', `${this.translateService.instant('Template')} · ${form.title}`);
                 this.form = form;
                 this.readyToLoad();
               }).catch(() => this.stopLoader());
@@ -150,13 +164,11 @@ export class FormEditorComponent extends LoadableComponent implements OnInit {
     this.formService.save(form)
       .then(savedForm => {
         this.stopLoader(postfix);
-        this.msgs = [];
-        this.msgs.push({ severity: 'success', summary: this.translateService.instant('Saved'),
-          detail: this.translateService.instant('Successfully saved') });
-        this._state.notifyDataChanged('growl', this.msgs);
         if (!previousId) {
           this.router.navigate([`pages/settings/forms/${savedForm.id}`]).then();
-        }
+        }/* else {
+          this.form = savedForm;
+        }*/
       })
       .catch(() => this.stopLoader(postfix) );
   }
@@ -170,9 +182,26 @@ export class FormEditorComponent extends LoadableComponent implements OnInit {
     const textAfter = this.form.template.substring(cursorPos, this.form.template.length);
 
     this.form.template = `${textBefore}${formParam.key}${textAfter}`;
+
+    this.checkActiveVars();
+  }
+
+  updateAllVars(vars: FormOption[]): void {
+    this.allTypeVariables = vars;
+    this.checkActiveVars();
   }
 
   onFormableTypeSelected(event): void {
     this.form.formableType = event.key;
+  }
+
+  checkActiveVars(): void {
+    this.usedTypeVariables = [];
+    this.allTypeVariables.forEach((formOption: FormOption) => {
+      if (this.form.template.includes(formOption.key)) {
+        this.usedTypeVariables.push(formOption);
+      }
+    });
+    this.formOptionEditor.updateUsedVars(this.usedTypeVariables);
   }
 }

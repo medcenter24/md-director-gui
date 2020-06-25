@@ -18,7 +18,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { AccidentCheckpoint } from '../../checkpoint';
 import { AccidentCheckpointsService } from '../../checkpoints.service';
-import { LoadableComponent } from '../../../../../core/components/componentLoader/LoadableComponent';
+import { LoadableComponent } from '../../../../../core/components/componentLoader';
 
 @Component({
   selector: 'nga-checkpoints-selector',
@@ -39,9 +39,9 @@ export class AccidentCheckpointsSelectorComponent extends LoadableComponent impl
   ngOnInit () {
     this.startLoader();
     this.isLoaded = false;
-    this.accidentCheckpointsService.getCheckpoints().then(checkpoints => {
+    this.accidentCheckpointsService.search([]).then(response => {
       this.stopLoader();
-      this.checkpoints = checkpoints;
+      this.checkpoints = response.data as AccidentCheckpoint[];
       this.isLoaded = true;
     }).catch(() => this.stopLoader());
   }

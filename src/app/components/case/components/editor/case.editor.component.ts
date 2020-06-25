@@ -37,7 +37,7 @@ import { AccidentCheckpoint } from '../../../accident/components/checkpoint/chec
 import { DoctorsService } from '../../../doctors';
 import { Doctor } from '../../../doctors';
 import { DateHelper } from '../../../../helpers/date.helper';
-import { Survey } from '../../../survey/survey';
+import { Survey } from '../../../survey';
 import { PatientEditorComponent } from '../../../patient/components/editor/patient.editor.component';
 import { LoadingComponent } from '../../../core/components/componentLoader';
 import { Patient } from '../../../patient/patient';
@@ -53,9 +53,10 @@ import { AutocompleterComponent } from '../../../ui/selector/components/autocomp
 import { CitiesService } from '../../../city';
 import { Hospital, HospitalsService } from '../../../hospital';
 import { BaToolboxAction } from '../../../../theme/components/baToolbox';
-import { FormViewerComponent } from '../../../forms/components/viewer';
 import { LoggerComponent } from '../../../core/logger/LoggerComponent';
 import { Breadcrumb } from '../../../../theme/components/baContentTop/breadcrumb';
+import { UiToastService } from '../../../ui/toast/ui.toast.service';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'nga-case-editor',
@@ -101,8 +102,8 @@ export class CaseEditorComponent extends LoadingComponent implements OnInit {
   @ViewChild('accidentReportFormAutocompleter')
     private accidentReportFormAutocompleter: AutocompleterComponent;
 
-  @ViewChild('formViewerComponent')
-    private formViewerComponent: FormViewerComponent;
+  @ViewChild('invoiceEditorComponent')
+    private invoiceEditorComponent: InvoiceEditorComponent;
 
   msgs: Message[] = [];
   accident: Accident;
@@ -142,18 +143,21 @@ export class CaseEditorComponent extends LoadingComponent implements OnInit {
                protected _logger: LoggerComponent,
                protected _state: GlobalState,
                public accidentsService: AccidentsService,
-               private caseService: CasesService,
+               public caseService: CasesService,
                public doctorService: DoctorsService,
                private router: Router,
-               private dateHelper: DateHelper,
                private patientService: PatientsService,
                private tabStopper: CaseEditorTabsService,
                public assistantService: AssistantsService,
                public cityService: CitiesService,
                public hospitalService: HospitalsService,
                public formService: FormService,
+               private uiToastService: UiToastService,
   ) {
     super();
+    this.translate.get('Case Loading').subscribe((text: string) => {
+      this._state.notifyDataChanged('changeTitle', text);
+    });
   }
 
   dataChanged(): void {
@@ -203,26 +207,32 @@ export class CaseEditorComponent extends LoadingComponent implements OnInit {
           this.startLoader(mainPostfix);
 
           this.accidentsService.getAccident(+params[ 'id' ]).then((accident: Accident) => {
-            const breadcrumbs = [];
-            breadcrumbs.push(new Breadcrumb('Cases', '/pages/cases'));
-            breadcrumbs.push(new Breadcrumb(accident.refNum, `/pages/cases/${accident.id}`, true, false));
-            this._state.notifyDataChanged('menu.activeLink', breadcrumbs);
+
+            this._state.notifyDataChanged('changeTitle', accident.refNum);
+
+            this.translate.get('Cases').subscribe((trans: string) => {
+              const breadcrumbs = [];
+              breadcrumbs.push(new Breadcrumb(trans, '/pages/cases'));
+              breadcrumbs.push(new Breadcrumb(accident.refNum, `/pages/cases/${accident.id}`, true, false));
+              this._state.notifyDataChanged('menu.activeLink', breadcrumbs);
+            });
+
             this.showToolbox();
             this.accident = accident ? accident : new Accident();
             if (this.accident.handlingTime && this.accident.handlingTime.length) {
-              this.handlingTime = this.dateHelper.toEuropeFormatWithTime(this.accident.handlingTime);
+              this.handlingTime = DateHelper.toEuropeFormatWithTime(this.accident.handlingTime);
             }
             if (this.accident.createdAt.length) {
-              this.createdTime = this.dateHelper.toEuropeFormatWithTime(this.accident.createdAt);
+              this.createdTime = DateHelper.toEuropeFormatWithTime(this.accident.createdAt);
             }
             if (this.accident.updatedAt && this.accident.updatedAt.length) {
-              this.updatedTime = this.dateHelper.toEuropeFormatWithTime(this.accident.updatedAt);
+              this.updatedTime = DateHelper.toEuropeFormatWithTime(this.accident.updatedAt);
             }
             if (this.accident.deletedAt && this.accident.deletedAt.length) {
-              this.deletedTime = this.dateHelper.toEuropeFormatWithTime(this.accident.deletedAt);
+              this.deletedTime = DateHelper.toEuropeFormatWithTime(this.accident.deletedAt);
             }
             if (this.accident.closedAt && this.accident.closedAt.length) {
-              this.closedTime = this.dateHelper.toEuropeFormatWithTime(this.accident.closedAt);
+              this.closedTime = DateHelper.toEuropeFormatWithTime(this.accident.closedAt);
             }
             if (this.accident.assistantId) {
               this.assistantAutocompleter.selectItems(this.accident.assistantId);
@@ -232,6 +242,9 @@ export class CaseEditorComponent extends LoadingComponent implements OnInit {
             }
             if (this.accident.formReportId && this.accidentReportFormAutocompleter) {
               this.accidentReportFormAutocompleter.selectItems(this.accident.formReportId);
+            }
+            if (this.accident.parentId && this.parentSelector) {
+              this.parentSelector.selectItems(this.accident.parentId);
             }
             // cheating to not make extra request
             if (+this.accident.assistantGuaranteeId) {
@@ -248,17 +261,20 @@ export class CaseEditorComponent extends LoadingComponent implements OnInit {
             this.stopLoader(mainPostfix);
             if (err.status === 404) {
               this._logger.error('Resource not found');
-              this.growlError('Error', 'Resource not found');
+              this.uiToastService.notFound();
               this.router.navigate(['pages/cases']).then();
             } else {
               this._logger.error(err);
             }
           });
         } else {
-          this.handlingTime = this.dateHelper.toEuropeFormatWithTime(Date().toString());
+          this.handlingTime = DateHelper.toEuropeFormatWithTime(Date().toString());
           setTimeout(() => {
             this._state.notifyDataChanged('menu.activeLink', { title: 'Cases' });
           }, 100);
+          this.translate.get('New Case').subscribe((text: string) => {
+            this._state.notifyDataChanged( 'changeTitle', text );
+          });
         }
       });
   }
@@ -289,55 +305,26 @@ export class CaseEditorComponent extends LoadingComponent implements OnInit {
     this.tabStopper.init();
   }
 
-  private growlError(title: string, msg: string): void {
-    this.translate.get('Save').subscribe(() => {
-      this._state.notifyDataChanged( 'growl', [{
-        severity: 'error',
-        summary: this.translate.instant( title ),
-        detail: this.translate.instant( msg ),
-      }]);
-    });
-  }
-
   previewCase(): void {
     this.requireSave().then(() => {
-      if (this.formViewerComponent && typeof this.formViewerComponent['preview'] === 'function') {
-        this.formViewerComponent.preview(true);
+      if (this.invoiceEditorComponent && typeof this.invoiceEditorComponent['preview'] === 'function') {
+        this.invoiceEditorComponent.preview();
       } else {
-        this.growlError('Error', 'Form not selected');
+        this.uiToastService.errorMessage(this.translate.instant('Form not selected'));
       }
     }).catch((e) => {
       this._logger.error(e);
-      this.growlError('Console Error', e.message);
-    });
-  }
-
-  casePdf(): void {
-    this.requireSave().then(() => {
-      this.formViewerComponent.downloadPdf(true);
-    }).catch((e) => {
-      this._logger.error(e);
-      this.growlError('Console Error', e.message);
-    });
-  }
-
-  printCase(): void {
-    this.requireSave().then(() => {
-      this.formViewerComponent.print(true);
-    }).catch((e) => {
-      // have to be defined, otherwise won't work
-      this._logger.error(e);
-      this.growlError('Console Error', e.message);
+      this.uiToastService.error();
     });
   }
 
   onSave(): void {
     this.accident.handlingTime = this.handlingTime && this.handlingTime.length
-      ? this.dateHelper.getUnixDateWithTime(this.dateHelper.parseDateFromFormat(this.handlingTime))
+      ? DateHelper.getUnixDateWithTime(DateHelper.parseDateFromFormat(this.handlingTime))
       : '';
 
     this.doctorAccident.visitTime = this.appliedTime && this.appliedTime.length
-      ? this.dateHelper.getUnixDateWithTime(this.dateHelper.parseDateFromFormat(this.appliedTime))
+      ? DateHelper.getUnixDateWithTime(DateHelper.parseDateFromFormat(this.appliedTime))
       : '';
 
     const data = {
@@ -377,18 +364,14 @@ export class CaseEditorComponent extends LoadingComponent implements OnInit {
           const postfix = 'caseClosing';
           this.startLoader(postfix);
           this.caseService.closeCase(this.accident.id).then(() => {
-            this.msgs = [];
-            this.msgs.push({ severity: 'success', summary: this.translate.instant('Success'),
-              detail: 'Case closed.' });
-            this._state.notifyDataChanged('growl', this.msgs);
             this.scenarioComponent.reload();
             this.stopLoader(postfix);
           }).catch(err => {
             if (err.status === 404) {
-              this.growlError('Error', 'Resource not found');
+              this.uiToastService.notFound();
             } else {
               this._logger.error(err);
-              this.growlError('Console Error', err.message);
+              this.uiToastService.error();
               this.stopLoader(postfix);
             }
           });
@@ -415,10 +398,7 @@ export class CaseEditorComponent extends LoadingComponent implements OnInit {
             this.goToList().then(() => this.stopLoader(postfix));
           }).catch(err => {
             if (err.status === 404) {
-              this.msgs = [];
-              this.msgs.push({ severity: 'error', summary: this.translate.instant('Error'),
-                detail: this.translate.instant('404 Not Found') });
-              this._state.notifyDataChanged('growl', this.msgs);
+              this.uiToastService.notFound();
               this.router.navigate(['pages/cases']).then(() => this.stopLoader(postfix));
             } else {
               this._logger.error(err);
@@ -436,13 +416,10 @@ export class CaseEditorComponent extends LoadingComponent implements OnInit {
     this.startLoader(postfix);
     this.caseService.saveCase(data).then(response => {
       this.doctorBeforeSave = +this.doctorAccident.doctorId;
-      this.msgs = [];
-      this.msgs.push({ severity: 'success', summary: this.translate.instant('Saved'),
-        detail: this.translate.instant('Successfully saved') });
       this.hasChangedData = false;
-      this._state.notifyDataChanged('growl', this.msgs);
       if (!data.accident.id) {
-        this.router.navigate([`pages/cases/${response.accident.id}`]).then(() => this.stopLoader(postfix));
+        this.router.navigate([`pages/cases/${response.id}`])
+          .then(() => this.stopLoader(postfix));
       } else {
         this.scenarioComponent.reload();
         this.caseFinance.reloadPayments(['income', 'assistant', 'caseable']);
@@ -450,18 +427,10 @@ export class CaseEditorComponent extends LoadingComponent implements OnInit {
       }
     }).catch(err => {
       if (err.status === 404) {
-        this.msgs = [];
-        this.msgs.push({ severity: 'error', summary: this.translate.instant('Error'),
-          detail: this.translate.instant('404 Not Found') });
-        this._state.notifyDataChanged('growl', this.msgs);
+        this.uiToastService.notFound();
         this.goToList().then(() => this.stopLoader(postfix));
       } else if (err.status === 403) {
-        this.msgs = [];
-        this.msgs.push({
-          severity: 'error', summary: this.translate.instant('Error'),
-          detail: this.translate.instant('This case was closed'),
-        });
-        this._state.notifyDataChanged('growl', this.msgs);
+        this.uiToastService.errorMessage(this.translate.instant('This case was closed'));
         this.stopLoader(postfix);
       } else {
         this._logger.error(err);
@@ -472,7 +441,7 @@ export class CaseEditorComponent extends LoadingComponent implements OnInit {
 
   onCaseTypeSelected(type): void {
     this.accident.caseableType = type;
-    if (type === 'medcenter24\\mcCore\\App\\DoctorAccident' && !this.doctorAccident) {
+    if (type === 'doctor' && !this.doctorAccident) {
       this.doctorAccident = new DoctorAccident();
     } else if (!this.hospitalAccident) {
       this.hospitalAccident = new HospitalAccident();
@@ -509,8 +478,8 @@ export class CaseEditorComponent extends LoadingComponent implements OnInit {
 
   onServicesChanged(services: Service[]): void {
     this.dataChanged();
+    this.services = services;
     if (!this.isLoading()) {
-      this.services = services;
       this.onSave();
     }
   }
@@ -615,7 +584,7 @@ export class CaseEditorComponent extends LoadingComponent implements OnInit {
           this.doctorAutocompleter.selectItems(+this.doctorAccident.doctorId);
         }
         if (doctorAccident.visitTime) {
-          this.appliedTime = this.dateHelper.toEuropeFormatWithTime(doctorAccident.visitTime);
+          this.appliedTime = DateHelper.toEuropeFormatWithTime(doctorAccident.visitTime);
         }
         this.stopLoader(postfix);
       }).catch(err => {
@@ -669,11 +638,11 @@ export class CaseEditorComponent extends LoadingComponent implements OnInit {
   }
 
   isDoctorAccident(): boolean {
-    return this.accident.caseableType === 'medcenter24\\mcCore\\App\\DoctorAccident';
+    return this.accident.caseableType === 'doctor';
   }
 
   isHospitalAccident(): boolean {
-    return this.accident.caseableType === 'medcenter24\\mcCore\\App\\HospitalAccident';
+    return this.accident.caseableType === 'hospital';
   }
 
   onAssistantGuaranteeFileUploaded(file: Upload): void {
@@ -732,11 +701,13 @@ export class CaseEditorComponent extends LoadingComponent implements OnInit {
 
   onInvoiceToAssistantChanged(event): void {
     this.dataChanged();
+    this.caseFinance.reloadPayments(['income', 'assistant', 'caseable']);
     this.accident.assistantInvoiceId = event.id;
   }
 
   onDocumentsChanged(event): void {
     this.dataChanged();
+    this.loadDocuments();
     this.accident.assistantInvoiceId = event.id;
   }
 }

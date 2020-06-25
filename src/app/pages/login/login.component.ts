@@ -23,6 +23,7 @@ import { Router } from '@angular/router';
 import { SlimLoadingBarService } from 'ng2-slim-loading-bar';
 import { LocalStorageHelper } from '../../helpers/local.storage.helper';
 import { environment } from '../../../environments/environment';
+import { UrlHelper } from '../../helpers/url.helper';
 
 @Component({
   selector: 'nga-login',
@@ -68,8 +69,16 @@ export class LoginComponent implements OnInit {
       this.authenticationService.login(this.email.value, this.password.value)
         .subscribe(() => {
           this.loadingBar.complete();
-          const lastUri = this.storage.getItem('lastActiveUri');
-          this.router.navigate([lastUri ? lastUri : '/']);
+          let lastUri = this.storage.getItem('lastActiveUri');
+          lastUri = lastUri && lastUri !== '/login' ? lastUri : '/';
+
+          if (lastUri.includes('?')) {
+            const queryParams = { queryParams: UrlHelper.getQueryVarsAsObject(lastUri) };
+            this.router.navigate([`${lastUri.split('?')[0]}`], queryParams);
+          } else {
+            this.router.navigate([lastUri]);
+          }
+
           this.submitted = false;
         }, () => {
           this.showError = true;

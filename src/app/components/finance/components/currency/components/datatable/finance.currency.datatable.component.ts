@@ -15,11 +15,10 @@
  * Copyright (c) 2019 (original work) MedCenter24.com;
  */
 
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { SlimLoadingBarService } from 'ng2-slim-loading-bar';
 import { GlobalState } from '../../../../../../global.state';
-import { LoadingComponent } from '../../../../../core/components/componentLoader';
 import {
   DatatableAction,
   DatatableCol,
@@ -30,12 +29,15 @@ import {
 import { FinanceCurrency } from '../../finance.currency';
 import { FinanceCurrencyService } from '../../finance.currency.service';
 import { LoggerComponent } from '../../../../../core/logger/LoggerComponent';
+import { Breadcrumb } from '../../../../../../theme/components/baContentTop/breadcrumb';
+import { AbstractDatatableController } from '../../../../../ui/tables/abstract.datatable.controller';
+import { LoadableServiceInterface } from '../../../../../core/loadable';
 
 @Component({
   selector: 'nga-currency-datatable',
   templateUrl: './finance.currency.datatable.html',
 })
-export class FinanceCurrencyDatatableComponent extends LoadingComponent implements OnInit {
+export class FinanceCurrencyDatatableComponent extends AbstractDatatableController {
   protected componentName: string = 'FinanceCurrencyDatatableComponent';
 
   @ViewChild('datatable')
@@ -57,35 +59,55 @@ export class FinanceCurrencyDatatableComponent extends LoadingComponent implemen
     super();
   }
 
-  ngOnInit() {
-    this.translateService.get('Yes').subscribe(() => {
-      this.langLoaded = true;
-      this.datatableConfig = DatatableConfig.factory({
-        dataProvider: (filters: Object) => {
-          return this.financeCurrencyService.search(filters);
-        },
-        cols: [
-          new DatatableCol('title', this.translateService.instant('Title')),
-          new DatatableCol('code', this.translateService.instant('Code')),
-          new DatatableCol('ico', this.translateService.instant('Icon')),
-          new DatatableCol('ico_preview', this.translateService.instant('Icon Preview')),
-        ],
-        transformers: [
-          new DatatableTransformer('ico_preview', (f, row: FinanceCurrency) => `<span class="${row.ico}"></span>`),
-        ],
-        refreshTitle: this.translateService.instant('Refresh'),
-        controlPanel: true,
-        controlPanelActions: [
-          new DatatableAction(this.translateService.instant('Add'), 'fa fa-plus', () => {
-            this.showDialogToAdd();
-          }),
-        ],
-        onRowSelect: event => {
-          this.onRowSelect(event);
-        },
-        sortBy: 'title',
-      });
-    });
+  protected onLangLoaded () {
+    super.onLangLoaded();
+    const breadcrumbs = [];
+    breadcrumbs.push(new Breadcrumb('Currencies', '/pages/finance/conditions', true));
+    this._state.notifyDataChanged('changeTitle', this.translateService.instant('Currencies'));
+    this._state.notifyDataChanged('menu.activeLink', breadcrumbs);
+  }
+
+  protected getDatatableComponent (): DatatableComponent {
+    return this.datatable;
+  }
+
+  protected getTranslateService (): TranslateService {
+    return this.translateService;
+  }
+
+  protected getService (): LoadableServiceInterface {
+    return this.financeCurrencyService;
+  }
+
+  protected getEmptyModel (): Object {
+    return new FinanceCurrency();
+  }
+
+  protected getColumns (): DatatableCol[] {
+    return [
+      new DatatableCol('title', this.translateService.instant('Title')),
+      new DatatableCol('code', this.translateService.instant('Code')),
+      new DatatableCol('ico', this.translateService.instant('Icon')),
+      new DatatableCol('ico_preview', this.translateService.instant('Icon Preview')),
+    ];
+  }
+
+  protected getTransformers (): DatatableTransformer[] {
+    return [
+      new DatatableTransformer('ico_preview', (f, row: FinanceCurrency) => `<span class="${row.ico}"></span>`),
+    ];
+  }
+
+  protected hasControlPanel (): boolean {
+    return true;
+  }
+
+  protected getControlPanelActions (): DatatableAction[] {
+    return [
+      new DatatableAction(this.translateService.instant('Add'), 'fa fa-plus', () => {
+        this.showDialogToAdd();
+      }),
+    ];
   }
 
   showDialogToAdd() {
@@ -107,7 +129,8 @@ export class FinanceCurrencyDatatableComponent extends LoadingComponent implemen
         this.displayDialog = false;
         this.datatable.refresh();
       })
-      .catch(() => {
+      .catch((e) => {
+        this._logger.error(e.toString());
         this.stopLoader(postfix);
       });
   }

@@ -25,7 +25,8 @@ import { TranslateService } from '@ngx-translate/core';
 import { LoadingComponent } from '../../core/components/componentLoader';
 import { ObjectHelper } from '../../../helpers/object.helper';
 import { LoadableServiceInterface } from '../../core/loadable';
-import { FilterMetadata } from 'primeng/components/common/filtermetadata';
+import { DatatableRequestBuilder } from '../datatable/request/datatable.request.builder';
+import { DatatableDataProvider } from '../datatable/entities';
 
 export abstract class AbstractDatatableController extends LoadingComponent implements OnInit {
   displayDialog: boolean;
@@ -39,44 +40,71 @@ export abstract class AbstractDatatableController extends LoadingComponent imple
 
   protected abstract getTranslateService(): TranslateService;
   protected abstract getDatatableComponent(): DatatableComponent;
-  abstract getService(): LoadableServiceInterface;
-  abstract getColumns(): DatatableCol[];
-  abstract getActions(): DatatableAction[];
-  abstract getSortBy(): string;
-  abstract getEmptyModel(): Object;
+  protected abstract getService(): LoadableServiceInterface;
+  protected abstract getColumns(): DatatableCol[];
+  protected abstract getEmptyModel(): Object;
 
-  getFilters(): { [s: string]: FilterMetadata } {
-    return {};
+  private datatableDataProvider: DatatableDataProvider;
+
+  protected getRequestBuilder(): DatatableRequestBuilder {
+    return new DatatableRequestBuilder();
+  }
+
+  protected getControlPanelActions(): DatatableAction[] {
+    return [];
   }
 
   /**
    * @return {DatatableTransformer[]}
    */
-  getTransformers(): DatatableTransformer[] {
+  protected getTransformers(): DatatableTransformer[] {
     return [];
+  }
+
+  protected getDatatableDataProvider(): DatatableDataProvider {
+    if (!this.datatableDataProvider) {
+      this.datatableDataProvider = new DatatableDataProvider(
+        this.datatableConfig,
+        this.getService(),
+      );
+    }
+    return this.datatableDataProvider;
+  }
+
+  /**
+   * after the language was loaded, but datatable is not initialized
+   */
+  protected onLangLoaded() {
+  }
+
+  protected hasControlPanel(): boolean {
+    return false;
   }
 
   ngOnInit() {
     this.getTranslateService().get('Yes').subscribe(() => {
       this.langLoaded = true;
+      this.onLangLoaded();
       this.datatableConfig = DatatableConfig.factory({
-        dataProvider: (filters: any) => {
-          return this.getService().search(filters);
-        },
+        dataProvider: this.getDatatableDataProvider(),
         cols: this.getColumns(),
         refreshTitle: this.getTranslateService().instant('Refresh'),
-        controlPanel: true,
-        controlPanelActions: this.getActions(),
+        controlPanel: this.hasControlPanel(),
+        controlPanelActions: this.getControlPanelActions(),
         captionPanel: this.hasCaptionPanel(),
         captionPanelActions: this.getCaptionActions(),
         onRowSelect: event => {
           this.onRowSelect(event);
         },
-        sortBy: this.getSortBy(),
         transformers: this.getTransformers(),
-        filters: this.getFilters(), // default filters
+        requestBuilder: this.getRequestBuilder(),
+        hasFilterRow: this.hasFilterRow(),
       });
     });
+  }
+
+  protected hasFilterRow(): boolean {
+    return false;
   }
 
   protected hasCaptionPanel(): boolean {
@@ -91,7 +119,7 @@ export abstract class AbstractDatatableController extends LoadingComponent imple
     this.model = model;
   }
 
-  save() {
+  protected save() {
     const postfix = 'Save';
     this.startLoader(postfix);
     this.getService().save(this.model)
@@ -128,15 +156,15 @@ export abstract class AbstractDatatableController extends LoadingComponent imple
     return cloned;
   }
 
-  refresh(): void {
+  protected refresh(): void {
     this.getDatatableComponent().refresh();
   }
 
-  updateModel(model: Object): boolean {
+  protected updateModel(model: Object): boolean {
     return this.getDatatableComponent().updateModel(model);
   }
 
-  delete(): void {
+  protected delete(): void {
     const postfix = 'Delete';
     this.startLoader(postfix);
     this.getService().destroy(this.model)
@@ -149,13 +177,7 @@ export abstract class AbstractDatatableController extends LoadingComponent imple
       .catch(() => this.stopLoader(postfix));
   }
 
-  /**
-   * Change filters and reload table data
-   * @param filters
-   */
-  protected applyFilters(filters: Object): void {
-    this.datatableConfig = this.getDatatableComponent().getConfig();
-    this.datatableConfig.update( 'filters', { filters } );
-    this.getDatatableComponent().refresh();
+  deselectAll(): void {
+    this.getDatatableComponent().deselectAll();
   }
 }

@@ -15,7 +15,7 @@
  * Copyright (c) 2019 (original work) MedCenter24.com;
  */
 
-import { AfterViewInit, ChangeDetectorRef, Component, ViewContainerRef } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, ViewChild, ViewContainerRef } from '@angular/core';
 import { GlobalState } from './global.state';
 import { BaImageLoaderService, BaThemePreloader, BaThemeSpinner } from './theme/services';
 import { BaThemeConfig } from './theme';
@@ -23,7 +23,11 @@ import { ConfirmationService, Message } from 'primeng/primeng';
 import { ApiErrorService } from './components/ui/apiError.service';
 import { LocalStorageHelper } from './helpers/local.storage.helper';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { NavigationStart, Router } from '@angular/router';
+import { NavigationEnd, NavigationStart, Router } from '@angular/router';
+import { UiToastComponent } from './components/ui/toast';
+import { UiToastService } from './components/ui/toast/ui.toast.service';
+import { Title } from '@angular/platform-browser';
+import { TranslateService } from '@ngx-translate/core';
 
 /*
  * App Component
@@ -36,11 +40,12 @@ import { NavigationStart, Router } from '@angular/router';
 })
 export class AppComponent implements AfterViewInit {
 
-  // growl messages
-  msgs: Message[] = [];
   isMenuCollapsed: boolean = false;
   // global window block
   blocked: boolean = false;
+
+  @ViewChild('uiToastComponent')
+    uiToastComponent: UiToastComponent;
 
   constructor(private _state: GlobalState,
               private _imageLoader: BaImageLoaderService,
@@ -53,8 +58,10 @@ export class AppComponent implements AfterViewInit {
               public http: HttpClient,
               private router: Router,
               protected cdRef: ChangeDetectorRef,
+              public uiToastService: UiToastService,
+              private titleService: Title,
+              private translateService: TranslateService,
   ) {
-
     themeConfig.config();
 
     this._loadImages();
@@ -62,11 +69,6 @@ export class AppComponent implements AfterViewInit {
     this._state.subscribe('menu.isCollapsed', (isCollapsed) => {
       this.isMenuCollapsed = isCollapsed;
     });
-
-    /**
-     * Messages on the top right
-     */
-    this._state.subscribe('growl', (msgs: Message[]) => this.msgs = msgs);
 
     /**
      * Dialogs to have opportunity to do it quickly
@@ -109,6 +111,12 @@ export class AppComponent implements AfterViewInit {
       // someone click on the search button or provided the text to search and press enter
     });
 
+    this._state.subscribe('changeTitle', (text: string) => {
+      this.translateService.get('director_title').subscribe((sectionTitle: string) => {
+        this.titleService.setTitle(`${sectionTitle} · ${text}`);
+      });
+    });
+
     // blocker should be turned off on the route change (to not block content)
     this.router.events
       .subscribe(event => {
@@ -117,6 +125,11 @@ export class AppComponent implements AfterViewInit {
         if (event instanceof NavigationStart) {
           this._state.notifyDataChanged('routerMove', 'NavigationStart');
           this._state.notifyDataChanged('blocker', false);
+        }
+        if (event instanceof NavigationEnd) {
+          if (event.url !== '/login') {
+            this._state.notifyDataChanged( 'changeUri', event.url );
+          }
         }
         // NavigationCancel
       });
@@ -127,6 +140,8 @@ export class AppComponent implements AfterViewInit {
     BaThemePreloader.load().then((values) => {
       this._spinner.hide();
     });
+
+    this.uiToastService.setComponent(this.uiToastComponent);
   }
 
   private _loadImages(): void {

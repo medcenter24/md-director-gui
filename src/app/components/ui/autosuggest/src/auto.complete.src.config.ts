@@ -61,7 +61,7 @@ export class AutoCompleteSrcConfig extends Configurable {
      * it is initialize default state of auto completer
      * @type {any[]}
      */
-    public preloaded: any,
+    public preloaded: any = [],
   ) {
     super();
   }

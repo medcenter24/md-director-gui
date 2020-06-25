@@ -27,6 +27,7 @@ import { DownloadFileModule } from '../../../upload/components/download';
 import { UploadFileModule } from '../../../upload/components/file';
 import { InvoiceService } from '../../invoice.service';
 import { InvoiceEditorComponent } from './invoice.editor.component';
+import { FormViewerModule } from '../../../forms/components/viewer';
 
 @NgModule({
   imports: [
@@ -40,6 +41,7 @@ import { InvoiceEditorComponent } from './invoice.editor.component';
     ButtonModule,
     UiStatusSelectModule,
     KeyFilterModule,
+    FormViewerModule,
   ],
   declarations: [
     InvoiceEditorComponent,
