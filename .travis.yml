@@ -16,7 +16,8 @@ install:
   #- "export DISPLAY=:99.0"
 script:
   # - yarn test
-  - yarn run build --prod --aot
+  # - yarn run build --prod --aot
+
 notifications:
   email:
     recipients:
