@@ -3,8 +3,8 @@ language: node_js
 node_js:
   - "10"
 dist: xenial
-addons:
-  chrome: stable
+#addons:
+#  chrome: stable
 
 before_install:
   - export PATH=$HOME/.yarn/bin:$PATH
@@ -12,10 +12,10 @@ before_install:
 install:
   - yarn install
 
-before_script:
-  - "export DISPLAY=:99.0"
+#before_script:
+  #- "export DISPLAY=:99.0"
 script:
-  - yarn test
+  # - yarn test
   - yarn run build --prod --aot
 notifications:
   email:
