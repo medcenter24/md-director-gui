@@ -24,7 +24,7 @@ import { CommonModule } from '@angular/common';
 import { DatatableModule } from '../../../ui/datatable';
 import { PeriodService } from '../../period.service';
 import { PeriodDatatableComponent } from './period.datatable.component';
-import { InputMaskModule } from 'primeng/primeng';
+import { InputMaskModule } from 'primeng/inputmask';
 import { UiDateDowDropdownModule } from '../../../ui/date/dow/dropdown';
 
 @NgModule({

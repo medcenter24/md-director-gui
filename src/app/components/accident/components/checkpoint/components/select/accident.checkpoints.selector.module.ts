@@ -18,7 +18,7 @@
 import { NgModule } from '@angular/core';
 import { AccidentCheckpointsSelectorComponent } from './accident.checkpoints.selector.component';
 import { CommonModule } from '@angular/common';
-import { CheckboxModule } from 'primeng/primeng';
+import { CheckboxModule } from 'primeng/checkbox';
 import { AppTranslationModule } from '../../../../../../app.translation.module';
 import { FormsModule } from '@angular/forms';
 import { AccidentCheckpointsService } from '../../checkpoints.service';

@@ -20,7 +20,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { GlobalState } from '../../../../global.state';
 import { LoggerComponent } from '../../../core/logger/LoggerComponent';
 import { AuthenticationService } from '../../../auth/authentication.service';
-import { Message } from 'primeng/primeng';
+import { Message } from 'primeng/api';
 import { LoadableComponent } from '../../../core/components/componentLoader';
 import { Upload } from '../../upload';
 import { UploadService } from '../../upload.service';

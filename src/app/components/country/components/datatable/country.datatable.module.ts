@@ -22,7 +22,7 @@ import { CountryService } from '../../country.service';
 import { DialogModule } from 'primeng/dialog';
 import { FormsModule } from '@angular/forms';
 import { ButtonModule } from 'primeng/button';
-import { InputTextModule } from 'primeng/primeng';
+import { InputTextModule } from 'primeng/inputtext';
 import { DatatableModule } from '../../../ui/datatable';
 
 @NgModule({

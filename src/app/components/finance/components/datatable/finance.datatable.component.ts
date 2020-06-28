@@ -54,9 +54,10 @@ export class FinanceDatatableComponent extends AbstractDatatableController {
   protected onLangLoaded () {
     super.onLangLoaded();
     const breadcrumbs = [];
-    breadcrumbs.push(new Breadcrumb('Conditions', '/pages/finance/conditions', true));
+    const title = this.translateService.instant('List of Conditions');
+    breadcrumbs.push(new Breadcrumb(title, '/pages/finance/conditions', true));
     this._state.notifyDataChanged('menu.activeLink', breadcrumbs);
-    this._state.notifyDataChanged('changeTitle', this.translateService.instant('List of Conditions'));
+    this._state.notifyDataChanged('changeTitle', title);
   }
 
   protected getDatatableComponent (): DatatableComponent {

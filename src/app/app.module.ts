@@ -26,7 +26,9 @@ import { NgaModule } from './theme/nga.module';
 import { PagesModule } from './pages/pages.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { SlimLoadingBarModule } from 'ng2-slim-loading-bar';
-import { BlockUIModule, ConfirmationService, ConfirmDialogModule } from 'primeng/primeng';
+import { BlockUIModule } from 'primeng/blockui';
+import { ConfirmationService } from 'primeng/api';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { environment } from '../environments/environment';
 import { routing } from './app.routing';
 import { ApiErrorService } from './components/ui/apiError.service';
@@ -40,6 +42,13 @@ import { LoggerComponent } from './components/core/logger/LoggerComponent';
 import { UiToastModule } from './components/ui/toast';
 import { UiToastService } from './components/ui/toast/ui.toast.service';
 import { TokenService } from './components/auth/token.service';
+import { BaImageLoaderService } from './theme/services/baImageLoader';
+import { BaThemePreloader } from './theme/services/baThemePreloader';
+import { BaThemeSpinner } from './theme/services/baThemeSpinner';
+import { BaMenuService } from './theme/services/baMenu';
+import { AuthenticationService } from './components/auth/authentication.service';
+import { BaThemeConfig, BaThemeConfigProvider } from './theme';
+import { EmailValidator, EqualPasswordsValidator } from './theme/validators';
 
 // Application wide providers
 const APP_PROVIDERS = [
@@ -52,6 +61,15 @@ const APP_PROVIDERS = [
   LoggerComponent,
   UiToastService,
   TokenService,
+  BaImageLoaderService,
+  BaThemePreloader,
+  BaThemeSpinner,
+  BaMenuService,
+  AuthenticationService,
+  BaThemeConfigProvider,
+  BaThemeConfig,
+  EmailValidator,
+  EqualPasswordsValidator,
 ];
 
 export function tokenGetter() {
@@ -74,7 +92,7 @@ export function tokenGetter() {
     RouterModule,
     FormsModule,
     ReactiveFormsModule,
-    NgaModule.forRoot(),
+    NgaModule,
     PagesModule,
     routing,
     SlimLoadingBarModule.forRoot(),

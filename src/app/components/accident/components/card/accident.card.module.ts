@@ -16,7 +16,7 @@
  */
 
 import { NgModule } from '@angular/core';
-import { PanelModule } from 'primeng/primeng';
+import { PanelModule } from 'primeng/panel';
 import { CommonModule } from '@angular/common';
 import { AppTranslationModule } from '../../../../app.translation.module';
 import { FormsModule } from '@angular/forms';

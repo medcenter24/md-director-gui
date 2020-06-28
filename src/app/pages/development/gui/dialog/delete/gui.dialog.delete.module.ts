@@ -17,7 +17,7 @@
 
 import { NgModule } from '@angular/core';
 import { GuiDialogDeleteComponent } from './gui.dialog.delete.component';
-import { ConfirmDialogModule } from 'primeng/primeng';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
 
 @NgModule({
   imports: [

@@ -19,7 +19,7 @@ import { AfterViewInit, ChangeDetectorRef, Component, ViewChild, ViewContainerRe
 import { GlobalState } from './global.state';
 import { BaImageLoaderService, BaThemePreloader, BaThemeSpinner } from './theme/services';
 import { BaThemeConfig } from './theme';
-import { ConfirmationService, Message } from 'primeng/primeng';
+import { ConfirmationService } from 'primeng/api';
 import { ApiErrorService } from './components/ui/apiError.service';
 import { LocalStorageHelper } from './helpers/local.storage.helper';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';

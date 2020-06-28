@@ -57,9 +57,10 @@ export class ServiceDatatableComponent extends AbstractDatatableController {
   protected onLangLoaded () {
     super.onLangLoaded();
     const breadcrumbs = [];
-    breadcrumbs.push(new Breadcrumb('Services', '/pages/doctors/services', true));
+    const title = this.translateService.instant('Services');
+    breadcrumbs.push(new Breadcrumb(title, '/pages/doctors/services', true));
     this._state.notifyDataChanged('menu.activeLink', breadcrumbs);
-    this._state.notifyDataChanged('changeTitle', this.translateService.instant('Services'));
+    this._state.notifyDataChanged('changeTitle', title);
   }
 
   save () {

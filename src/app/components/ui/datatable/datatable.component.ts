@@ -17,7 +17,7 @@
 
 import { Component, Input, ChangeDetectorRef, ViewChild, Output, EventEmitter } from '@angular/core';
 import { LoadableComponent } from '../../core/components/componentLoader';
-import { LazyLoadEvent } from 'primeng/primeng';
+import { LazyLoadEvent } from 'primeng/api';
 import {
   DatatableAction,
   DatatableCol,
@@ -69,7 +69,7 @@ export class DatatableComponent extends LoadableComponent {
   loading: boolean = false;
   selectedData: any;
   lazyLoadEvent: LazyLoadEvent;
-  private paginationService: DatatablePaginationService;
+  paginationService: DatatablePaginationService;
   private sortService: DatatableSortService;
 
   /**

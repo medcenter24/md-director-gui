@@ -66,7 +66,17 @@ import {
   EqualPasswordsValidator,
 } from './validators';
 import { AuthenticationService } from '../components/auth/authentication.service';
-import { ButtonModule, ToolbarModule } from 'primeng/primeng';
+import { ButtonModule } from 'primeng/button';
+import { ToolbarModule } from 'primeng/toolbar';
+
+import { FullCalendarModule } from '@fullcalendar/angular';
+import dayGridPlugin from '@fullcalendar/daygrid';
+import interactionPlugin from '@fullcalendar/interaction';
+
+FullCalendarModule.registerPlugins([ // register FullCalendar plugins
+  dayGridPlugin,
+  interactionPlugin
+]);
 
 const NGA_COMPONENTS = [
   BaBackTop,
@@ -124,6 +134,7 @@ const NGA_VALIDATORS = [
     NgxUploaderModule,
     ToolbarModule,
     ButtonModule,
+    FullCalendarModule,
 ],
   exports: [
     ...NGA_PIPES,
@@ -132,8 +143,8 @@ const NGA_VALIDATORS = [
   ],
 })
 export class NgaModule {
-  static forRoot(): ModuleWithProviders {
-    return <ModuleWithProviders> {
+  static forRoot() {
+    return <ModuleWithProviders<any>> {
       ngModule: NgaModule,
       providers: [
         AuthenticationService,

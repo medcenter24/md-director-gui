@@ -16,7 +16,7 @@
  */
 
 import { NgModule } from '@angular/core';
-import { FileUploadModule } from 'primeng/primeng';
+import { FileUploadModule } from 'primeng/fileupload';
 import { UploadFileComponent } from './upload.file.component';
 import { AppTranslationModule } from '../../../../app.translation.module';
 import { UploadService } from '../../upload.service';
