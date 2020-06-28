@@ -18,7 +18,8 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { InputSwitchModule, SelectButtonModule } from 'primeng/primeng';
+import { InputSwitchModule } from 'primeng/inputswitch';
+import { SelectButtonModule } from 'primeng/selectbutton';
 import { AppTranslationModule } from '../../../../app.translation.module';
 import { DoctorSelectModule } from '../../../doctors/components/select';
 import { HospitalsService } from '../../../hospital';

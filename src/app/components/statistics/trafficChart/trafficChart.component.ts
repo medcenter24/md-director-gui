@@ -15,8 +15,8 @@
  * Copyright (c) 2019 (original work) MedCenter24.com;
  */
 
-import { Component, ElementRef, Input, ViewChild } from '@angular/core';
-import * as Chart from 'chart.js';
+import { AfterViewInit, Component, ElementRef, Input, ViewChild } from '@angular/core';
+import { Chart } from 'chart.js';
 import 'style-loader!./trafficChart.scss';
 import { TrafficChartData } from './trafficChart.data';
 import { colorHelper } from '../../../theme';
@@ -27,7 +27,7 @@ import { LoadableComponent } from '../../core/components/componentLoader';
   templateUrl: './trafficChart.html',
 })
 
-export class TrafficChartComponent extends LoadableComponent {
+export class TrafficChartComponent extends LoadableComponent implements AfterViewInit {
 
   protected componentName: string = 'TrafficChartComponent';
 
@@ -36,21 +36,19 @@ export class TrafficChartComponent extends LoadableComponent {
   private transformedData: any;
   private chart: any;
 
+  @ViewChild('canvasChart')
+    chartElement: ElementRef<HTMLCanvasElement>;
+
   @Input() prefix: string = '';
   @Input() set setData(data: TrafficChartData[] ) {
     this.transformedData = this.transformTrafficChartData(data);
     if (this.chart) {
       this.chart.destroy();
     }
-    this.chart = this._loadDoughnutCharts(this.transformedData);
   }
 
-  @ViewChild('canvasChart')
-    private canvasEl: ElementRef;
-
-  constructor (
-  ) {
-    super();
+  ngAfterViewInit(): void {
+    this.chart = this._loadDoughnutCharts(this.transformedData);
   }
 
   private transformTrafficChartData(data: TrafficChartData[]): Object {
@@ -121,7 +119,7 @@ export class TrafficChartComponent extends LoadableComponent {
   }
 
   private _loadDoughnutCharts (data): Chart {
-    return new Chart(this.canvasEl.nativeElement, {
+    return new Chart(this.chartElement.nativeElement, {
       type: 'doughnut',
       data,
       options: {

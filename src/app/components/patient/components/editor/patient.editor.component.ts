@@ -21,7 +21,7 @@ import { DateHelper } from '../../../../helpers/date.helper';
 import { PatientsService } from '../../patients.service';
 import { GlobalState } from '../../../../global.state';
 import { TranslateService } from '@ngx-translate/core';
-import { Message } from 'primeng/primeng';
+import { Message } from 'primeng/api';
 import { LoadableComponent } from '../../../core/components/componentLoader';
 
 @Component({

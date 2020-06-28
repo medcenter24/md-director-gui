@@ -18,7 +18,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { MultiSelectModule } from 'primeng/primeng';
+import { MultiSelectModule } from 'primeng/multiselect';
 import { DiagnosticSelectComponent } from './diagnostic.select.component';
 import { AppTranslationModule } from '../../../../app.translation.module';
 import { DiagnosticService } from '../../diagnostic.service';

@@ -18,7 +18,9 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { InplaceModule, KeyFilterModule, ToggleButtonModule } from 'primeng/primeng';
+import { InplaceModule } from 'primeng/inplace';
+import { KeyFilterModule } from 'primeng/keyfilter';
+import { ToggleButtonModule } from 'primeng/togglebutton';
 import { AppTranslationModule } from '../../../../../../app.translation.module';
 import { PaymentBlockComponent } from './payment.block.component';
 

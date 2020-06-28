@@ -16,7 +16,8 @@
  */
 
 import { Component, Input, OnInit } from '@angular/core';
-import { ConfirmationService, Message } from 'primeng/primeng';
+import { ConfirmationService } from 'primeng/api';
+import { Message } from 'primeng/api';
 import { SlimLoadingBarService } from 'ng2-slim-loading-bar';
 import { TranslateService } from '@ngx-translate/core';
 import { GlobalState } from '../../global.state';

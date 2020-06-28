@@ -18,7 +18,9 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { ButtonModule, InputTextModule, KeyFilterModule } from 'primeng/primeng';
+import { ButtonModule } from 'primeng/button';
+import { InputTextModule } from 'primeng/inputtext';
+import { KeyFilterModule } from 'primeng/keyfilter';
 import { AppTranslationModule } from '../../../../app.translation.module';
 import { FormService } from '../../../forms';
 import { AutocompleterModule } from '../../../ui/selector/components/autocompleter';

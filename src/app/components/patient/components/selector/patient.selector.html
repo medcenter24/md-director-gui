@@ -32,9 +32,7 @@
     <div class="col-12 col-md-4">
         <div class="status pull-left">
                 <span class="text-danger"
-                      *ngIf="(!patient || !patient.id) && (isPhone===null || isPhone === true)" translate>Patient not selected</span>
-            <span class="text-warning"
-                  *ngIf="(!patient || !patient.id) && isPhone===false" translate>New patient will be created</span>
+                      *ngIf="!patient || !patient.id" translate>Patient not selected</span>
             <span class="text-success"
                   *ngIf="patient && patient.id" translate>Patient selected</span>
         </div>

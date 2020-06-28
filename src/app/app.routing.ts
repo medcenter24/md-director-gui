@@ -24,4 +24,4 @@ export const routes: Routes = [
   { path: '**', redirectTo: '/pages/dashboard', canActivate: [AuthGuard] },
 ];
 
-export const routing: ModuleWithProviders = RouterModule.forRoot(routes, { useHash: false });
+export const routing: ModuleWithProviders<any> = RouterModule.forRoot(routes, { useHash: false });

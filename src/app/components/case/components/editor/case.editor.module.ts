@@ -17,14 +17,16 @@
 
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import {
-  ButtonModule, CheckboxModule,
-  ConfirmDialogModule,
-  DialogModule,
-  FileUploadModule,
-  InplaceModule, InputMaskModule, InputTextareaModule, InputTextModule,
-  TooltipModule,
-} from 'primeng/primeng';
+import { ButtonModule } from 'primeng/button';
+import { CheckboxModule } from 'primeng/checkbox';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { DialogModule } from 'primeng/dialog';
+import { FileUploadModule } from 'primeng/fileupload';
+import { InplaceModule } from 'primeng/inplace';
+import { InputMaskModule } from 'primeng/inputmask';
+import { InputTextareaModule } from 'primeng/inputtextarea';
+import { InputTextModule } from 'primeng/inputtext';
+import { TooltipModule } from 'primeng/tooltip';
 import { KeyFilterModule } from 'primeng/keyfilter';
 import { AppTranslationModule } from '../../../../app.translation.module';
 import { FormsModule } from '@angular/forms';

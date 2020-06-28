@@ -17,7 +17,7 @@
 
 import { Component, Output, EventEmitter, Input, OnInit } from '@angular/core';
 import { ServicesService } from '../../services.service';
-import { SelectItem } from 'primeng/primeng';
+import { SelectItem } from 'primeng/api';
 import { Service } from '../../service';
 import { LoggerComponent } from '../../../core/logger/LoggerComponent';
 import { LoadableComponent } from '../../../core/components/componentLoader';

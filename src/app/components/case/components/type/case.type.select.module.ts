@@ -16,7 +16,7 @@
  */
 
 import { NgModule } from '@angular/core';
-import { SelectButtonModule } from 'primeng/primeng';
+import { SelectButtonModule } from 'primeng/selectbutton';
 import { CaseTypeSelectComponent } from './case.type.select.component';
 import { FormsModule } from '@angular/forms';
 

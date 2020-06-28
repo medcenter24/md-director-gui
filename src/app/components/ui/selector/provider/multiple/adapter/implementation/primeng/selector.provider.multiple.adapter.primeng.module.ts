@@ -16,7 +16,7 @@
  */
 
 import { NgModule } from '@angular/core';
-import { MultiSelectModule } from 'primeng/primeng';
+import { MultiSelectModule } from 'primeng/multiselect';
 import { SelectorProviderMultipleAdapterPrimengComponent }
   from './selector.provider.multiple.adapter.primeng.component';
 import { CommonModule } from '@angular/common';

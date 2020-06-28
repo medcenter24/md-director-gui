@@ -17,7 +17,7 @@
 
 import { Component, Output, EventEmitter, Input, OnInit } from '@angular/core';
 import { DiagnosticService } from '../../diagnostic.service';
-import { SelectItem } from 'primeng/primeng';
+import { SelectItem } from 'primeng/api';
 import { Diagnostic } from '../../diagnostic';
 import { LoadableComponent } from '../../../core/components/componentLoader';
 import { LoggerComponent } from '../../../core/logger/LoggerComponent';

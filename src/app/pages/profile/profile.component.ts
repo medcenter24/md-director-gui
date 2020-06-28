@@ -23,7 +23,7 @@ import { UsersService } from '../../components/users/users.service';
 import { User } from '../../components/users/user';
 import { LoggedUserService } from '../../components/auth/loggedUser.service';
 import { AuthenticationService } from '../../components/auth/authentication.service';
-import { Message } from 'primeng/primeng';
+import { Message } from 'primeng/api';
 import { Company } from '../../components/company/company';
 import { LoadingComponent } from '../../components/core/components/componentLoader';
 import { LocalStorageHelper } from '../../helpers/local.storage.helper';

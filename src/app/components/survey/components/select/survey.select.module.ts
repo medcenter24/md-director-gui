@@ -17,7 +17,7 @@
 
 import { NgModule } from '@angular/core';
 import { SurveySelectComponent } from './survey.select.component';
-import { MultiSelectModule } from 'primeng/primeng';
+import { MultiSelectModule } from 'primeng/multiselect';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { AppTranslationModule } from '../../../../app.translation.module';

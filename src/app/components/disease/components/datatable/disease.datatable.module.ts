@@ -21,7 +21,9 @@ import { AppTranslationModule } from '../../../../app.translation.module';
 import { DialogModule } from 'primeng/dialog';
 import { ButtonModule } from 'primeng/button';
 import { DatatableModule } from '../../../ui/datatable';
-import { ConfirmDialogModule, InputMaskModule, InputSwitchModule } from 'primeng/primeng';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { InputMaskModule } from 'primeng/inputmask';
+import { InputSwitchModule } from 'primeng/inputswitch';
 import { DiseaseService } from '../../disease.service';
 import { DiseaseDatatableComponent } from './disease.datatable.component';
 

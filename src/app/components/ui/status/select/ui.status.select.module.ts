@@ -19,7 +19,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { DropdownModule } from 'primeng/primeng';
+import { DropdownModule } from 'primeng/dropdown';
 import { AppTranslationModule } from '../../../../app.translation.module';
 import { UiStatusSelectComponent } from './ui.status.select.component';
 

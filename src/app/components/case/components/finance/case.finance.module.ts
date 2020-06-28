@@ -22,7 +22,9 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { AppTranslationModule } from '../../../../app.translation.module';
 import { InplaceModule } from 'primeng/inplace';
-import { InputTextModule, ToggleButtonModule, TooltipModule } from 'primeng/primeng';
+import { InputTextModule } from 'primeng/inputtext';
+import { ToggleButtonModule } from 'primeng/togglebutton';
+import { TooltipModule } from 'primeng/tooltip';
 import { NumbersHelper } from '../../../../helpers/numbers.helper';
 
 @NgModule({

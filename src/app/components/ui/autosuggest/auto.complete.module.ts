@@ -18,7 +18,7 @@
 import { NgModule } from '@angular/core';
 import { AutoCompleteComponent } from './auto.complete.component';
 import { CommonModule } from '@angular/common';
-import { AutoCompleteModule as ACM } from 'primeng/primeng';
+import { AutoCompleteModule as ACM } from 'primeng/autocomplete';
 import { AppTranslationModule } from '../../../app.translation.module';
 import { FormsModule } from '@angular/forms';
 
