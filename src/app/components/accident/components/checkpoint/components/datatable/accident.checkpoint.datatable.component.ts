@@ -55,9 +55,10 @@ export class AccidentCheckpointDatatableComponent extends AbstractDatatableContr
   protected onLangLoaded () {
     super.onLangLoaded();
     const breadcrumbs = [];
-    breadcrumbs.push(new Breadcrumb('Checkpoints', '/pages/settings/checkpoints', true));
+    const title = this.translateService.instant('Checkpoints');
+    breadcrumbs.push(new Breadcrumb(title, '/pages/settings/checkpoints', true));
     this._state.notifyDataChanged('menu.activeLink', breadcrumbs);
-    this._state.notifyDataChanged('changeTitle', this.translateService.instant('Checkpoints'));
+    this._state.notifyDataChanged('changeTitle', title);
   }
 
   protected getTranslateService (): TranslateService {

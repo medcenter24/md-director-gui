@@ -23,7 +23,7 @@ import { CitiesService } from '../../cities.service';
 import { DialogModule } from 'primeng/dialog';
 import { FormsModule } from '@angular/forms';
 import { ButtonModule } from 'primeng/button';
-import { InputTextModule } from 'primeng/primeng';
+import { InputTextModule } from 'primeng/inputtext';
 import { AutocompleterModule } from '../../../ui/selector/components/autocompleter';
 import { DatatableModule } from '../../../ui/datatable';
 import { RegionService } from '../../../region';

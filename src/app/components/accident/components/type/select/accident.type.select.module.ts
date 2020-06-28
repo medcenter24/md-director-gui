@@ -18,7 +18,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { SelectButtonModule } from 'primeng/primeng';
+import { SelectButtonModule } from 'primeng/selectbutton';
 import { AccidentTypeSelectComponent } from './accident.type.select.component';
 import { AccidentTypesService } from '../types.service';
 

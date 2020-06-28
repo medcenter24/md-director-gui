@@ -15,4 +15,4 @@
   ~ Copyright (c) 2019 (original work) MedCenter24.com;
   -->
 
-<div #baFullCalendar class="ba-full-calendar {{baFullCalendarClass || ''}}"></div>
+<full-calendar [options]="calendarOptions" (load)="calendarLoaded($event)"></full-calendar>

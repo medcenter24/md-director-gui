@@ -64,9 +64,10 @@ export class CityDatatableComponent extends AbstractDatatableController {
   protected onLangLoaded () {
     super.onLangLoaded();
     const breadcrumbs = [];
-    breadcrumbs.push(new Breadcrumb('Cities', '/pages/geo/cities', true));
+    const title = this.translateService.instant('Cities');
+    breadcrumbs.push(new Breadcrumb(title, '/pages/geo/cities', true));
     this._state.notifyDataChanged('menu.activeLink', breadcrumbs);
-    this._state.notifyDataChanged('changeTitle', this.translateService.instant('Cities'));
+    this._state.notifyDataChanged('changeTitle', title);
   }
 
   protected getService (): LoadableServiceInterface {

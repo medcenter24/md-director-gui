@@ -17,10 +17,8 @@
 
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { CalendarService } from './calendar.service';
-import * as jQuery from 'jquery';
 import { TranslateService } from '@ngx-translate/core';
-import { StatusColorMapService } from '../../../components/accident/components/status/colormap.service';
-import { SlimLoadingBarService } from 'ng2-slim-loading-bar';
+import { StatusColorMapService } from '../../../components/accident/components/status';
 
 @Component({
   selector: 'nga-calendar',
@@ -35,7 +33,6 @@ export class CalendarComponent implements OnInit {
   private eventsTimerId: any = false;
 
   constructor(
-    private _loadingBar: SlimLoadingBarService,
     private _calendarService: CalendarService,
     private _translateService: TranslateService,
     private _statusColorService: StatusColorMapService,
@@ -47,51 +44,41 @@ export class CalendarComponent implements OnInit {
 
     this._translateService.get('Today').subscribe(() => {
       this.calendarConfiguration = {
-        buttonIcons: {
-          prev: 'left-single-arrow',
-          next: 'right-single-arrow',
-          prevYear: 'left-double-arrow',
-          nextYear: 'right-double-arrow',
-        },
         buttonText: {
           today: this._translateService.instant('Today'),
           month: this._translateService.instant('Month'),
           week: this._translateService.instant('Week'),
           day: this._translateService.instant('Day'),
+          list: this._translateService.instant('List'),
         },
-        header: {
+        headerToolbar: {
           left: 'prevYear,prev,next,nextYear today',
           center: 'title',
-          right: 'month,agendaWeek,agendaDay',
+          right: 'dayGridMonth,dayGridWeek,dayGridDay',
         },
         locale: this._translateService.currentLang,
-        defaultDate: new Date(),
+        initialDate: new Date(),
         selectable: true,
-        selectHelper: true,
+        selectMirror: true,
         editable: false,
-        eventLimit: false,
-        timeFormat: 'H(:mm)',
-        events: (start, end, timezone, callback) => {
-
+        dayMaxEventRows: 1,
+        eventTimeFormat: { hour12: false, hour: '2-digit', minute: '2-digit' },
+        events: (params, callback) => {
           // prevent loading of the results too many times
           if (this.eventsTimerId) {
-            this._loadingBar.complete();
             clearTimeout(this.eventsTimerId);
           }
 
-          this._loadingBar.start();
           this.eventsTimerId = setTimeout(() => {
             this._calendarService
-              .loadEvents(start, end)
+              .loadEvents(params.startStr, params.endStr)
               .then(events => {
-                this._loadingBar.complete();
                 statistics = [];
                 this.eventsTimerId = false;
                 callback(events);
               })
-              .catch(this._loadingBar.complete);
+              .catch();
           }, 1000);
-
         },
         eventDataTransform: (event) => {
           return {
@@ -101,51 +88,10 @@ export class CalendarComponent implements OnInit {
             start: event.start,
             end: event.end,
             editable: false,
-            color: this._statusColorService.getColorByStatus(event.status),
+            color: this._statusColorService.getColorByStatus(event.statusTitle),
             status: event.status,
             textColor: '#fff',
           };
-        },
-        eventRender: (event, element) => {
-          const currentDate = event.start.format('YYYY-MM-DD');
-          element.css('display', 'none');
-          if (statistics.filter(vendor => (vendor.dt === currentDate && vendor.status === event.status)).length > 0) {
-            statistics.map(row => {
-              if (row.dt === currentDate && row.status === event.status) {
-                row.count++;
-              }
-              return row;
-            });
-          } else {
-            statistics.push({
-              dt: currentDate,
-              status: event.status,
-              count: 1,
-            });
-          }
-        },
-        eventAfterAllRender: (view) => {
-          const $container = $(view.el);
-          const colorService = this._statusColorService;
-          const translate = this._translateService;
-          $('.fc-day.fc-widget-content', $container).each(function () {
-            const $dayContainer = $(this);
-            const date = $dayContainer.data('date');
-            const events = statistics.filter(row => row.dt === date);
-            if (events.length) {
-              const $statusesContainer = $('<div>', { 'class' : 'calendar-day-statuses' });
-              $dayContainer.append($statusesContainer);
-              events.forEach(event => {
-                const $countBlock = $(`<div class="fc-event-count ${event.status}"
-                        title="${translate.instant(event.status)}">${event.count}</div>`);
-                $countBlock.css({
-                  'background-color': colorService.getColorByStatus(event.status),
-                  color: '#fff',
-                });
-                $statusesContainer.append($countBlock);
-              });
-            }
-          });
         },
       };
     });

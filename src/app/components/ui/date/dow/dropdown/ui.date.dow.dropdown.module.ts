@@ -17,7 +17,7 @@
 
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { DropdownModule } from 'primeng/primeng';
+import { DropdownModule } from 'primeng/dropdown';
 import { AppTranslationModule } from '../../../../../app.translation.module';
 import { UiDateDowDropdownComponent } from './ui.date.dow.dropdown.component';
 import { FormsModule } from '@angular/forms';

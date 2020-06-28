@@ -16,7 +16,7 @@
  */
 
 import { Component, Output, EventEmitter, Input, OnInit } from '@angular/core';
-import { SelectItem } from 'primeng/primeng';
+import { SelectItem } from 'primeng/api';
 import { LoggerComponent } from '../../../core/logger/LoggerComponent';
 import { Survey } from '../../survey';
 import { SurveyService } from '../../survey.service';

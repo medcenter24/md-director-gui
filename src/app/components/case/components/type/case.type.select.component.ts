@@ -17,7 +17,7 @@
 
 import { Component, Output, EventEmitter, Input, OnInit } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { SelectItem } from 'primeng/primeng';
+import { SelectItem } from 'primeng/api';
 import { LoadableComponent } from '../../../core/components/componentLoader';
 
 @Component({

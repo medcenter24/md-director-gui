@@ -19,7 +19,6 @@ import { Component, ViewChild, OnInit } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Accident } from '../../../accident/accident';
 import { AccidentsService } from '../../../accident/accidents.service';
-import { Message } from 'primeng/primeng';
 import { SlimLoadingBarService } from 'ng2-slim-loading-bar';
 import { TranslateService } from '@ngx-translate/core';
 import { AccidentType } from '../../../accident/components/type/type';
@@ -56,7 +55,6 @@ import { BaToolboxAction } from '../../../../theme/components/baToolbox';
 import { LoggerComponent } from '../../../core/logger/LoggerComponent';
 import { Breadcrumb } from '../../../../theme/components/baContentTop/breadcrumb';
 import { UiToastService } from '../../../ui/toast/ui.toast.service';
-import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'nga-case-editor',
@@ -105,7 +103,6 @@ export class CaseEditorComponent extends LoadingComponent implements OnInit {
   @ViewChild('invoiceEditorComponent')
     private invoiceEditorComponent: InvoiceEditorComponent;
 
-  msgs: Message[] = [];
   accident: Accident;
   appliedTime: string = '';
   doctorAccident: DoctorAccident;

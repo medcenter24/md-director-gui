@@ -20,7 +20,7 @@ import { CommonModule } from '@angular/common';
 import { DialogModule } from 'primeng/dialog';
 import { FormsModule } from '@angular/forms';
 import { ButtonModule } from 'primeng/button';
-import { InputTextModule } from 'primeng/primeng';
+import { InputTextModule } from 'primeng/inputtext';
 import { AppTranslationModule } from '../../../../../../app.translation.module';
 import { DatatableModule } from '../../../../../ui/datatable';
 import { FinanceCurrencyService } from '../../finance.currency.service';

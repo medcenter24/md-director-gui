@@ -18,9 +18,9 @@
 import { Component, Input, Output, EventEmitter, OnDestroy, OnInit } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
 import { Subscription } from 'rxjs/Rx';
-
 import { BaMenuService } from '../../services';
 import { GlobalState } from '../../../global.state';
+declare var $: any;
 
 @Component({
   selector: 'nga-ba-menu',
@@ -86,7 +86,7 @@ export class BaMenuComponent implements OnDestroy, OnInit {
   }
 
   toggleSubMenu($event): boolean {
-    const submenu = jQuery($event.currentTarget).next();
+    const submenu = $($event.currentTarget).next();
 
     if (this.sidebarCollapsed) {
       this.expandMenu.emit(null);

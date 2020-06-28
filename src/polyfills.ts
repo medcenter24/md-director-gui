@@ -58,8 +58,10 @@
 
 
 /** Evergreen browsers require these. **/
+/*
+polyfills handled by angular cli
 import 'core-js/es6/reflect';
-import 'core-js/es7/reflect';
+import 'core-js/es7/reflect';*/
 
 
 /** ALL Firefox browsers require the following to support `@angular/animation`. **/
@@ -81,3 +83,13 @@ import 'zone.js/dist/zone';  // Included with Angular CLI.
  * Needed for: All but Chrome, Firefox, Edge, IE11 and Safari 10
  */
 // import 'intl';  // Run `npm install --save intl`.
+
+/**
+ * Adding this line to polyfills.ts should resolve node global error
+
+ (window as any).global = window;
+
+ The solution was mentioned in this angular-cli issue thred
+ */
+(window as any).global = window;
+

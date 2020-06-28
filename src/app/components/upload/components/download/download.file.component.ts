@@ -16,7 +16,7 @@
  */
 
 import { Component, Input } from '@angular/core';
-import { Message } from 'primeng/primeng';
+import { Message } from 'primeng/api';
 import { LoadableComponent } from '../../../core/components/componentLoader';
 import { Upload } from '../../upload';
 import { UploadService } from '../../upload.service';

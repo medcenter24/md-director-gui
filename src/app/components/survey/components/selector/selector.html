@@ -22,7 +22,7 @@
             <nga-select-surveys
                 #selectSurveys
                 [(chosenSurveys)]="caseSurveys"
-                (chosenSurveysChange)="onSurveysChanged($event)"
+                (chosenSurveysChange)="onSurveysChanged()"
                 (loaded)="onSelectSurveysLoaded($event)"
                 (init)="onSelectSurveysInit($event)"
             ></nga-select-surveys>

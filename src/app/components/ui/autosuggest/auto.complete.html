@@ -31,7 +31,7 @@
     appendTo="body"
   ></p-autoComplete>
   <span class="text-muted small justify-content-center align-self-center pl-1"
-        *ngIf="provider.hasOwnProperty('total')"
+        *ngIf="provider && provider.hasOwnProperty('total')"
         translate [translateParams]="{amount: provider.filtered.length, total: provider.total}"
   >amount_of_total</span>
 </div>

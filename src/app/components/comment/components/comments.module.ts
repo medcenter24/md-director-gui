@@ -21,7 +21,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { AppTranslationModule } from '../../../app.translation.module';
 import { ButtonModule } from 'primeng/button';
-import { InputTextareaModule } from 'primeng/primeng';
+import { InputTextareaModule } from 'primeng/inputtextarea';
 
 @NgModule({
   imports: [

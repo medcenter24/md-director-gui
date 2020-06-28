@@ -24,7 +24,8 @@ import { FormsModule } from '@angular/forms';
 import { ButtonModule } from 'primeng/button';
 import { HospitalsService } from '../../hospitals.service';
 import { HospitalDatatableComponent } from './hospital.datatable.component';
-import { InputTextareaModule, InputTextModule } from 'primeng/primeng';
+import { InputTextareaModule } from 'primeng/inputtextarea';
+import { InputTextModule } from 'primeng/inputtext';
 
 @NgModule({
   imports: [

@@ -15,24 +15,27 @@
  * Copyright (c) 2019 (original work) MedCenter24.com;
  */
 
-import { Component, ViewChild, Input, Output, ElementRef, EventEmitter, AfterViewInit } from '@angular/core';
-import 'fullcalendar/dist/fullcalendar.js';
-import * as jQuery from 'jquery';
+
+/// https://fullcalendar.io/docs/angular
+
+import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { CalendarOptions } from '@fullcalendar/angular';
 
 @Component({
   selector: 'nga-full-calendar',
   templateUrl: './baFullCalendar.html',
 })
-export class BaFullCalendarComponent implements AfterViewInit {
+export class BaFullCalendarComponent {
 
-  @Input() baFullCalendarConfiguration: Object;
+  @Input() set baFullCalendarConfiguration(config) {
+    this.calendarOptions = config;
+  }
   @Input() baFullCalendarClass: string;
   @Output() onCalendarReady = new EventEmitter<any>();
 
-  @ViewChild('baFullCalendar') _selector: ElementRef;
+  calendarOptions: CalendarOptions;
 
-  ngAfterViewInit() {
-    const calendar = jQuery(this._selector.nativeElement).fullCalendar(this.baFullCalendarConfiguration);
-    this.onCalendarReady.emit(calendar);
+  calendarLoaded(event) {
+    this.onCalendarReady.emit(event);
   }
 }

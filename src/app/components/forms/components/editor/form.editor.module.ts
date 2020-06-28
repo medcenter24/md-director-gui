@@ -26,7 +26,8 @@ import { DialogModule } from 'primeng/dialog';
 import { ButtonModule } from 'primeng/button';
 import { FormsOptionsEditorModule } from '../options/editor';
 import { FormsTypesSelectModule } from '../types/select';
-import { InputTextareaModule, InputTextModule } from 'primeng/primeng';
+import { InputTextareaModule } from 'primeng/inputtextarea';
+import { InputTextModule } from 'primeng/inputtext';
 
 @NgModule({
   imports: [

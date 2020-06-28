@@ -2,18 +2,17 @@
   "extends": "../tsconfig.json",
   "compilerOptions": {
     "outDir": "../out-tsc/app",
-    "module": "es2015",
+    "module": "es2020",
     "baseUrl": "./",
-    "types": [],
-    "paths": {
-      "@angular/*": [
-        "../node_modules/@angular/*"
-      ]
-    }
+    "types": ["node"],
   },
   "include": [
     "../node_modules/angular2-logger",
     "./"
+  ],
+  "files": [
+    "main.ts",
+    "polyfills.ts"
   ],
   "exclude": [
     "test.ts",

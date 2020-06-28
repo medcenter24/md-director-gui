@@ -21,6 +21,7 @@ import { PieChartService } from './pieChart.service';
 
 import 'easy-pie-chart/dist/jquery.easypiechart.js';
 import 'style-loader!./pieChart.scss';
+declare var $: any;
 
 @Component({
   selector: 'pie-chart',
@@ -46,14 +47,14 @@ export class PieChart {
 
   private _loadPieCharts () {
 
-    jQuery('.chart').each(function () {
-      let chart = jQuery(this);
+    $('.chart').each(function () {
+      let chart = $(this);
       chart.easyPieChart({
         easing: 'easeOutBounce',
         onStep: function (from, to, percent) {
-          jQuery(this.el).find('.percent').text(Math.round(percent));
+          $(this.el).find('.percent').text(Math.round(percent));
         },
-        barColor: jQuery(this).attr('data-rel'),
+        barColor: $(this).attr('data-rel'),
         trackColor: 'rgba(0,0,0,0)',
         size: 84,
         scaleLength: 0,
@@ -69,8 +70,8 @@ export class PieChart {
       return Math.random() * (max - min) + min;
     };
 
-    jQuery('.pie-charts .chart').each(function (index, chart) {
-      jQuery(chart).data('easyPieChart').update(getRandomArbitrary(55, 90));
+    $('.pie-charts .chart').each(function (index, chart) {
+      $(chart).data('easyPieChart').update(getRandomArbitrary(55, 90));
     });
   }
 }

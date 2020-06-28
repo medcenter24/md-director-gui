@@ -15,13 +15,14 @@
  * Copyright (c) 2019 (original work) MedCenter24.com;
  */
 
-import { EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { EventEmitter, Injectable, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { LoadableComponent } from '../../core/components/componentLoader';
 import { AutoCompleteSrcConfig } from '../autosuggest/src';
 import { AutoCompleteComponent } from '../autosuggest';
 
 // template can't be inherited so it has no sense to declare abstract Component
+@Injectable()
 export abstract class AbstractAutoCompleteController extends LoadableComponent implements OnInit {
 
   preloaded: Object[]|Object = [];

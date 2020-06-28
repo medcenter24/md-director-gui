@@ -16,7 +16,7 @@
  */
 
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { Message } from 'primeng/primeng';
+import { Message } from 'primeng/api';
 import { TranslateService } from '@ngx-translate/core';
 import { LoggerComponent } from '../../../core/logger/LoggerComponent';
 import { GlobalState } from '../../../../global.state';
@@ -26,6 +26,7 @@ import { Document } from '../../../document/document';
 import { LoadableComponent } from '../../../core/components/componentLoader';
 import { UiToastService } from '../../../ui/toast/ui.toast.service';
 import { HttpHeaders } from '@angular/common/http';
+declare var $: any;
 
 // todo needs to be moved to documents
 @Component({

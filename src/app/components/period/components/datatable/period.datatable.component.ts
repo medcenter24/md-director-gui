@@ -71,9 +71,10 @@ export class PeriodDatatableComponent extends AbstractDatatableController {
   protected onLangLoaded () {
     super.onLangLoaded();
     const breadcrumbs = [];
-    breadcrumbs.push(new Breadcrumb('Date Periods', '/pages/settings/periods', true));
+    const title = this.translateService.instant('Date Periods');
+    breadcrumbs.push(new Breadcrumb(title, '/pages/settings/periods', true));
     this._state.notifyDataChanged('menu.activeLink', breadcrumbs);
-    this._state.notifyDataChanged('changeTitle', this.translateService.instant('Date Periods'));
+    this._state.notifyDataChanged('changeTitle', title);
   }
 
   protected getTranslateService (): TranslateService {

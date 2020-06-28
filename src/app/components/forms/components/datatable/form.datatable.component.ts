@@ -52,9 +52,10 @@ export class FormDatatableComponent extends AbstractDatatableController {
   protected onLangLoaded () {
     super.onLangLoaded();
     const breadcrumbs = [];
-    breadcrumbs.push(new Breadcrumb('Templates', '/pages/settings/forms', true));
+    const title = this.translateService.instant('Templates');
+    breadcrumbs.push(new Breadcrumb(title, '/pages/settings/forms', true));
     this._state.notifyDataChanged('menu.activeLink', breadcrumbs);
-    this._state.notifyDataChanged('changeTitle', this.translateService.instant('Templates'));
+    this._state.notifyDataChanged('changeTitle', title);
   }
 
   protected getDatatableComponent (): DatatableComponent {

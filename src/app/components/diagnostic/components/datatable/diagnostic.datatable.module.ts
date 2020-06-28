@@ -22,7 +22,7 @@ import { DatatableModule } from '../../../ui/datatable';
 import { DialogModule } from 'primeng/dialog';
 import { FormsModule } from '@angular/forms';
 import { ButtonModule } from 'primeng/button';
-import { InputTextModule } from 'primeng/primeng';
+import { InputTextModule } from 'primeng/inputtext';
 import { DiagnosticDatatableComponent } from './diagnostic.datatable.component';
 import { DiagnosticService } from '../../diagnostic.service';
 import { DiagnosticEditorModule } from '../editor';

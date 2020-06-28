@@ -17,7 +17,11 @@
 import { NgModule } from '@angular/core';
 import { ImporterComponent } from './importer.component';
 import { ImporterService } from './importer.service';
-import { ButtonModule, CheckboxModule, ConfirmDialogModule, DialogModule, FileUploadModule } from 'primeng/primeng';
+import { ButtonModule } from 'primeng/button';
+import { CheckboxModule } from 'primeng/checkbox';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { DialogModule } from 'primeng/dialog';
+import { FileUploadModule } from 'primeng/fileupload';
 import { AppTranslationModule } from '../../app.translation.module';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';

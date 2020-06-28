@@ -59,9 +59,10 @@ export class SurveyDatatableComponent extends AbstractDatatableController {
   protected onLangLoaded () {
     super.onLangLoaded();
     const breadcrumbs = [];
-    breadcrumbs.push(new Breadcrumb('Surveys', '/pages/doctors/surveys', true));
+    const title = this.translateService.instant('Surveys');
+    breadcrumbs.push(new Breadcrumb(title, '/pages/doctors/surveys', true));
     this._state.notifyDataChanged('menu.activeLink', breadcrumbs);
-    this._state.notifyDataChanged('changeTitle', this.translateService.instant('Surveys'));
+    this._state.notifyDataChanged('changeTitle', title);
   }
 
   protected getTranslateService (): TranslateService {

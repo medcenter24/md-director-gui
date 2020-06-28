@@ -15,7 +15,7 @@
  * Copyright (c) 2019 (original work) MedCenter24.com;
  */
 
-import { Component, ViewChild, Input, Output, EventEmitter, ElementRef, Renderer } from '@angular/core';
+import { Component, ViewChild, Input, Output, EventEmitter, ElementRef, Renderer2 } from '@angular/core';
 import { UploaderOptions } from 'ngx-uploader';
 
 // todo check if it is needed and refactor if it is
@@ -34,11 +34,12 @@ export class BaFileUploader {
   @ViewChild('inputText') _inputText: ElementRef;
 
   uploadFileInProgress: boolean;
-  constructor(private renderer: Renderer) { 
+  constructor(private renderer: Renderer2) {
   }
 
   bringFileSelector(): boolean {
-    this.renderer.invokeElementMethod(this._fileUpload.nativeElement, 'click');
+    console.error('renderer was not tested when switched to v2, this part should be rewritten if needed')
+    // this.renderer..invokeElementMethod(this._fileUpload.nativeElement, 'click');
     return false;
   }
 
