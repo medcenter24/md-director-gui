@@ -26,6 +26,7 @@ import { Document } from '../../../document/document';
 import { LoadableComponent } from '../../../core/components/componentLoader';
 import { UiToastService } from '../../../ui/toast/ui.toast.service';
 import { HttpHeaders } from '@angular/common/http';
+declare var $: any;
 
 // todo needs to be moved to documents
 @Component({

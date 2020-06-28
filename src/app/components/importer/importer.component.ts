@@ -17,7 +17,6 @@
 
 import { Component, Input, OnInit } from '@angular/core';
 import { ConfirmationService } from 'primeng/api';
-import { Message } from 'primeng/api';
 import { SlimLoadingBarService } from 'ng2-slim-loading-bar';
 import { TranslateService } from '@ngx-translate/core';
 import { GlobalState } from '../../global.state';
@@ -25,6 +24,7 @@ import { AuthenticationService } from '../auth/authentication.service';
 import { ImporterService } from './importer.service';
 import { LoggerComponent } from '../core/logger/LoggerComponent';
 import { UiToastService } from '../ui/toast/ui.toast.service';
+declare var $: any;
 
 @Component({
   selector: 'nga-importer',
@@ -35,7 +35,6 @@ export class ImporterComponent implements OnInit {
   @Input() url: string = '';
 
   display: boolean = false;
-  msgs: Message[] = [];
   uploadedFiles: any[] = [];
   selectedFormat: string = '.docx';
   selectedFiles: any[] = [];
