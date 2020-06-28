@@ -23,7 +23,6 @@ import { UsersService } from '../../components/users/users.service';
 import { User } from '../../components/users/user';
 import { LoggedUserService } from '../../components/auth/loggedUser.service';
 import { AuthenticationService } from '../../components/auth/authentication.service';
-import { Message } from 'primeng/api';
 import { Company } from '../../components/company/company';
 import { LoadingComponent } from '../../components/core/components/componentLoader';
 import { LocalStorageHelper } from '../../helpers/local.storage.helper';
@@ -33,6 +32,7 @@ import { UiToastService } from '../../components/ui/toast/ui.toast.service';
 import { TokenService } from '../../components/auth/token.service';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { Observable, Subscription } from 'rxjs/Rx';
+import { Breadcrumb } from '../../theme/components/baContentTop/breadcrumb';
 
 @Component({
   selector: 'nga-profile',
@@ -51,7 +51,6 @@ export class ProfileComponent extends LoadingComponent implements OnInit {
   defaultPicture: string = 'assets/img/theme/photo-camera.svg';
   uploaderOptions: UploaderOptions;
   eventToUpload: UploadInput;
-  msgs: Message[] = [];
   directorPhotoUri: string = '';
   tokenLiveTime: string = '';
   private profileTabIndexKey: string = 'profileTabIndex';
@@ -73,6 +72,9 @@ export class ProfileComponent extends LoadingComponent implements OnInit {
     super();
     this.translateService.get('Profile').subscribe((text: string) => {
       this._state.notifyDataChanged('changeTitle', text);
+      const breadcrumbs = [];
+      breadcrumbs.push(new Breadcrumb(text, '/pages/dashboard', true));
+      this._state.notifyDataChanged('menu.activeLink', breadcrumbs);
     });
   }
 

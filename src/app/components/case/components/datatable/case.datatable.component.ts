@@ -80,9 +80,10 @@ export class CaseDatatableComponent extends AbstractDatatableController implemen
   protected onLangLoaded () {
     super.onLangLoaded();
     const breadcrumbs = [];
-    breadcrumbs.push(new Breadcrumb('Cases', '/pages/cases', true));
+    const title = this.translateService.instant('List of Cases');
+    breadcrumbs.push(new Breadcrumb(title, '/pages/cases', true));
     this._state.notifyDataChanged('menu.activeLink', breadcrumbs);
-    this._state.notifyDataChanged('changeTitle', this.translateService.instant('List of Cases'));
+    this._state.notifyDataChanged('changeTitle', title);
   }
 
   protected getTranslateService (): TranslateService {
@@ -118,14 +119,14 @@ export class CaseDatatableComponent extends AbstractDatatableController implemen
 
   beforeDatatableLoad(): void {
     const breadcrumbs = [];
-    breadcrumbs.push(new Breadcrumb('Loading'));
+    breadcrumbs.push(new Breadcrumb(this.translateService.instant('Loading')));
     this._state.notifyDataChanged('menu.activeLink', breadcrumbs);
     this.startLoader(this.datatableLoaderPrefix);
   }
 
   onDatatableLoaded(): void {
     const breadcrumbs = [];
-    breadcrumbs.push(new Breadcrumb('Cases', '/pages/cases', true));
+    breadcrumbs.push(new Breadcrumb(this.translateService.instant('Cases'), '/pages/cases', true));
     this._state.notifyDataChanged('menu.activeLink', breadcrumbs);
     this.stopLoader(this.datatableLoaderPrefix);
   }

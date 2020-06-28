@@ -70,8 +70,10 @@ export class FormEditorComponent extends LoadableComponent implements OnInit {
       this.route.params
         .subscribe((params: Params) => {
           const breadcrumbs = [];
-          breadcrumbs.push(new Breadcrumb('Forms', '/pages/settings/forms', true));
+          const title = this.translateService.instant('Forms');
+          breadcrumbs.push(new Breadcrumb(title, '/pages/settings/forms', true));
           this._state.notifyDataChanged('menu.activeLink', breadcrumbs);
+          this._state.notifyDataChanged('changeTitle', title);
 
           this.showToolbox();
 
