@@ -143,7 +143,7 @@ const NGA_VALIDATORS = [
   ],
 })
 export class NgaModule {
-  static forRoot(): ModuleWithProviders<any> {
+  static forRoot() {
     return <ModuleWithProviders<any>> {
       ngModule: NgaModule,
       providers: [

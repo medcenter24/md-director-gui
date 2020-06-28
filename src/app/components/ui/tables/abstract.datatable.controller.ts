@@ -15,7 +15,7 @@
  * Copyright (c) 2019 (original work) MedCenter24.com;
  */
 
-import { OnInit } from '@angular/core';
+import { Injectable, OnInit } from '@angular/core';
 import {
   DatatableAction,
   DatatableCol, DatatableComponent,
@@ -28,6 +28,7 @@ import { LoadableServiceInterface } from '../../core/loadable';
 import { DatatableRequestBuilder } from '../datatable/request/datatable.request.builder';
 import { DatatableDataProvider } from '../datatable/entities';
 
+@Injectable()
 export abstract class AbstractDatatableController extends LoadingComponent implements OnInit {
   displayDialog: boolean;
   langLoaded: boolean = false;
