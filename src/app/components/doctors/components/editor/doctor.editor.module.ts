@@ -21,7 +21,6 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { AppTranslationModule } from '../../../../app.translation.module';
 import { NgaModule } from '../../../../theme/nga.module';
-import { UserSelectModule } from '../../../users/select';
 import { InputTextareaModule } from 'primeng/inputtextarea';
 import { InputTextModule } from 'primeng/inputtext';
 import { ButtonModule } from 'primeng/button';
@@ -40,7 +39,6 @@ import { UsersService } from '../../../users/users.service';
         FormsModule,
         AppTranslationModule,
         NgaModule,
-        UserSelectModule,
         InputTextModule,
         InputTextareaModule,
         ButtonModule,

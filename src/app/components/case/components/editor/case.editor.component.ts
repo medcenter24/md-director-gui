@@ -318,11 +318,11 @@ export class CaseEditorComponent extends LoadingComponent implements OnInit {
   onSave(): void {
     this.accident.handlingTime = this.handlingTime && this.handlingTime.length
       ? DateHelper.getUnixDateWithTime(DateHelper.parseDateFromFormat(this.handlingTime))
-      : '';
+      : DateHelper.getUnixDateWithTime(new Date());
 
     this.doctorAccident.visitTime = this.appliedTime && this.appliedTime.length
       ? DateHelper.getUnixDateWithTime(DateHelper.parseDateFromFormat(this.appliedTime))
-      : '';
+      : DateHelper.getUnixDateWithTime(new Date());
 
     const data = {
       accident: this.accident,
@@ -628,6 +628,7 @@ export class CaseEditorComponent extends LoadingComponent implements OnInit {
 
   onPatientSelected(patient: Patient): void {
     this.dataChanged();
+    this.patientEditFormDisplay = false;
     this.patient = patient;
     this.accident.patientId = patient.id;
     this.editPatientForm.setPatient(patient);
