@@ -23,16 +23,18 @@ import { AppTranslationModule } from '../../../app.translation.module';
 import { UserSelectModule } from '../select';
 import { NgaModule } from '../../../theme/nga.module';
 import { ButtonModule } from 'primeng/button';
+import { AutocompleterModule } from '../../ui/selector/components/autocompleter';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    FormsModule,
-    AppTranslationModule,
-    UserSelectModule,
-    NgaModule,
-    ButtonModule,
-  ],
+    imports: [
+        CommonModule,
+        FormsModule,
+        AppTranslationModule,
+        UserSelectModule,
+        NgaModule,
+        ButtonModule,
+        AutocompleterModule,
+    ],
   exports: [
     UserEditorComponent,
   ],

@@ -23,7 +23,9 @@ import { AppTranslationModule } from '../../../../../app.translation.module';
 import { NgaModule } from '../../../../../theme/nga.module';
 import { DiagnosticSelectorModule } from '../../../components/selector';
 import { ButtonModule } from 'primeng/button';
-import { DiagnosticCategorySelectModule } from '../select';
+import { AutocompleterModule } from '../../../../ui/selector/components/autocompleter';
+import { DiseaseService } from '../../../../disease';
+import { DiagnosticCategoryService } from '../../category.service';
 
 @NgModule({
   imports: [
@@ -31,15 +33,19 @@ import { DiagnosticCategorySelectModule } from '../select';
     FormsModule,
     AppTranslationModule,
     DiagnosticSelectorModule,
-    DiagnosticCategorySelectModule,
     NgaModule,
     ButtonModule,
+    AutocompleterModule,
   ],
   declarations: [
     DiagnosticCategoryEditorComponent,
   ],
   exports: [
     DiagnosticCategoryEditorComponent,
+  ],
+  providers: [
+    DiseaseService,
+    DiagnosticCategoryService,
   ],
 })
 export class DiagnosticCategoryEditorModule {

@@ -70,12 +70,16 @@
             </div>
 
             <div class="form-group">
-              <nga-diagnostic-category-select
-                [selectPreloaded]="diagnostic.diagnosticCategoryId"
+              <nga-autocompleter
+                #diagnosticCategoryAutoCompleter
+                [service]="diagnosticCategoryService"
+                placeholder="Category"
+                labelField="title"
+                providerType="loadable"
                 (selected)="onDiagnosticCategoryChanged($event)"
                 (init)="startLoader($event)"
                 (loaded)="stopLoader($event)"
-              ></nga-diagnostic-category-select>
+              ></nga-autocompleter>
 
               <a (click)="toggleEditor()"
                  *ngIf="showEditor" class="editor-toggle" translate>Close categories editor</a>

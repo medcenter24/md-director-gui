@@ -31,25 +31,29 @@ import { MultiSelectorModule } from '../../../ui/selector/components/multiSelect
 import { DoctorsService } from '../../doctors.service';
 import { CitiesService } from '../../../city';
 import { TranslateService } from '@ngx-translate/core';
+import { AutocompleterModule } from '../../../ui/selector/components/autocompleter';
+import { UsersService } from '../../../users/users.service';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    FormsModule,
-    AppTranslationModule,
-    NgaModule,
-    UserSelectModule,
-    InputTextModule,
-    InputTextareaModule,
-    ButtonModule,
-    UserEditorModule,
-    DiagnosticCategoryEditorModule,
-    MultiSelectorModule,
-  ],
+    imports: [
+        CommonModule,
+        FormsModule,
+        AppTranslationModule,
+        NgaModule,
+        UserSelectModule,
+        InputTextModule,
+        InputTextareaModule,
+        ButtonModule,
+        UserEditorModule,
+        DiagnosticCategoryEditorModule,
+        MultiSelectorModule,
+        AutocompleterModule,
+    ],
   providers: [
     DoctorsService,
     CitiesService,
     TranslateService,
+    UsersService,
   ],
   exports: [
     DoctorEditorComponent,

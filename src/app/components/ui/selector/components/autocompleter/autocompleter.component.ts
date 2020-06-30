@@ -94,9 +94,9 @@ export class AutocompleterComponent extends LoadableComponent implements OnInit 
     });
   }
 
-  selectItems(items: Object|Object[]): void {
+  selectItems(items: Object|Object[], fieldName: string = null): void {
     if (this.autocompleter) {
-      this.autocompleter.selectItems(items);
+      this.autocompleter.selectItems(items, fieldName);
     }
   }
 

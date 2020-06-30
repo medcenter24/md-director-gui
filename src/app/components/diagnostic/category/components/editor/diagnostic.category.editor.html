@@ -18,12 +18,16 @@
 <ba-card *ngIf="category" baCardClass="with-scroll" class="edit-form-container">
     <div class="row">
         <div class="col-sm-6">
-            <nga-diagnostic-category-select
-                    [selectPreloaded]="category"
-                    (selected)="onCategoryChange($event)"
-                    (loaded)="stopLoader($event)"
-                    (init)="startLoader($event)"
-            ></nga-diagnostic-category-select>
+          <nga-autocompleter
+            #diagnosticCategoryAutoCompleter
+            [service]="diagnosticCategoryService"
+            placeholder="Category"
+            labelField="title"
+            providerType="loadable"
+            (selected)="onCategoryChange($event)"
+            (init)="startLoader($event)"
+            (loaded)="stopLoader($event)"
+          ></nga-autocompleter>
         </div>
         <div class="col-sm-6 text-center">
           <button pButton (click)="onCreateCategory()" icon="fa fa-plus" [label]="'Add New' | translate"></button>

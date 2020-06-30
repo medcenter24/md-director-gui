@@ -57,7 +57,7 @@ export class AutoCompleteComponent {
     this.changed.emit(this.provider.selected);
   }
 
-  selectItems(items: any): void {
-    this.provider.selectItems(items);
+  selectItems(items: any, fieldName: string = null): void {
+    this.provider.selectItems(items, fieldName);
   }
 }

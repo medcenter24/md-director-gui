@@ -23,27 +23,29 @@ import { DiagnosticCategoryEditorModule } from '../../category/components/editor
 import { DiagnosticEditorComponent } from './diagnostic.editor.component';
 import { NgaModule } from '../../../../theme/nga.module';
 import { DiagnosticService } from '../../diagnostic.service';
-import { DiagnosticCategorySelectModule } from '../../category/components/select';
 import { ButtonModule } from 'primeng/button';
 import { InputSwitchModule } from 'primeng/inputswitch';
 import { DiseaseService } from '../../../disease';
 import { MultiSelectorModule } from '../../../ui/selector/components/multiSelector';
+import { AutocompleterModule } from '../../../ui/selector/components/autocompleter';
+import { DiagnosticCategoryService } from '../../category/category.service';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    FormsModule,
-    AppTranslationModule,
-    DiagnosticCategoryEditorModule,
-    NgaModule,
-    DiagnosticCategorySelectModule,
-    ButtonModule,
-    InputSwitchModule,
-    MultiSelectorModule,
-  ],
+    imports: [
+        CommonModule,
+        FormsModule,
+        AppTranslationModule,
+        DiagnosticCategoryEditorModule,
+        NgaModule,
+        ButtonModule,
+        InputSwitchModule,
+        MultiSelectorModule,
+        AutocompleterModule,
+    ],
   providers: [
     DiagnosticService,
     DiseaseService,
+    DiagnosticCategoryService,
   ],
   declarations: [
     DiagnosticEditorComponent,
