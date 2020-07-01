@@ -15,35 +15,46 @@
  * Copyright (c) 2019 (original work) MedCenter24.com;
  */
 
-import { Component, Input, ViewChild, Output, EventEmitter } from '@angular/core';
+import { Component, Input, ViewChild, Output, EventEmitter, AfterViewInit } from '@angular/core';
 import { DiagnosticCategory } from '../../category';
 import { DiagnosticCategoryService } from '../../category.service';
 import { LoadableComponent } from '../../../../core/components/componentLoader';
-import { DiagnosticCategorySelectComponent } from '../select';
+import { AutocompleterComponent } from '../../../../ui/selector/components/autocompleter';
 
 @Component({
   selector: 'nga-diagnostic-category-editor',
   templateUrl: './diagnostic.category.editor.html',
 })
-export class DiagnosticCategoryEditorComponent extends LoadableComponent {
+export class DiagnosticCategoryEditorComponent extends LoadableComponent implements AfterViewInit {
   protected componentName: string = 'DiagnosticCategoryEditorComponent';
 
   category: DiagnosticCategory = new DiagnosticCategory();
 
   @Input()
-  set categoryId (id: number) {
-    this.loadCategoryById(id);
-  }
+    set categoryId (id: number) {
+      this.loadCategoryById(id);
+    }
 
   @Output() updated: EventEmitter<DiagnosticCategory> = new EventEmitter<DiagnosticCategory>();
 
-  @ViewChild(DiagnosticCategorySelectComponent)
-    private categorySelectComponent: DiagnosticCategorySelectComponent;
+  @ViewChild('diagnosticCategoryAutoCompleter')
+    private categorySelectComponent: AutocompleterComponent;
+
+  ngAfterViewInit () {
+    this.selectCategory(this.category);
+  }
 
   constructor (
     private service: DiagnosticCategoryService,
+    public diagnosticCategoryService: DiagnosticCategoryService,
   ) {
     super();
+  }
+
+  selectCategory(category: DiagnosticCategory): void {
+    if (category.id) {
+      this.categorySelectComponent.selectItems(category.id);
+    }
   }
 
   onSubmit (): void {
@@ -78,6 +89,7 @@ export class DiagnosticCategoryEditorComponent extends LoadableComponent {
       this.service.getCategory(id).then((category) => {
         this.stopLoader(postfix);
         this.category = category;
+        this.selectCategory(this.category);
       }).catch(() => {
         this.stopLoader(postfix);
       });

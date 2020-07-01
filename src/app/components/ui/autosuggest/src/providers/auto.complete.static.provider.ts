@@ -56,13 +56,14 @@ export class AutoCompleteStaticProvider implements AutoCompleteProvider {
     this.selectItems(config.preloaded);
   }
 
-  selectItems(items: any): void {
+  selectItems(items: any, fieldName: string = null): void {
     if (typeof items === 'string') {
       items = +items;
     }
     if (typeof items === 'number') {
       this.afterLoaded(() => {
-        this.selected = this.data.find(v => v.hasOwnProperty('id') && v['id'] === items);
+        fieldName = fieldName ?? 'id';
+        this.selected = this.data.find(v => v.hasOwnProperty(fieldName) && v[fieldName] === items);
       });
     } else {
       this.selected = items;

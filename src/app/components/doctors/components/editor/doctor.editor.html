@@ -80,13 +80,16 @@
                   </div>
                   <div class="row">
                     <div class="col-12">
-                      <nga-user-select
-                        #userSelect
-                        [userId]="doctor.userId"
+                      <nga-autocompleter
+                        #userSelector
+                        [service]="userService"
+                        placeholder="User"
+                        labelField="name"
+                        providerType="loadable"
                         (selected)="onUserChanged($event)"
                         (init)="startLoader($event)"
                         (loaded)="stopLoader($event)"
-                      ></nga-user-select>
+                      ></nga-autocompleter>
                     </div>
                   </div>
                   <div class="row">
