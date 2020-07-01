@@ -18,6 +18,7 @@
 import { Injectable } from '@angular/core';
 import { HttpService } from '../core/http/http.service';
 import { saveAs } from 'file-saver';
+import { Document } from './document';
 
 @Injectable()
 export class DocumentsService extends HttpService {
@@ -34,5 +35,9 @@ export class DocumentsService extends HttpService {
     this.http
       .get(this.getUrl(file.id), { headers: this.getAuthHeaders(), responseType: 'blob' })
       .subscribe(data => saveAs(data, file.name), err => this.handleError(err));
+  }
+
+  update(document: Document): Promise<Document> {
+    return this.put( document.id, document ).then( response => response as Document );
   }
 }

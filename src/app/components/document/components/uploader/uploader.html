@@ -28,7 +28,7 @@
         [headers]="headers()"
         (onUpload)="handleUpload()"
         (onError)="handleError($event)"
-        (onBeforeUpload)="handleBeforeUpload($event)"
+        (onBeforeUpload)="handleBeforeUpload()"
 >
     <ng-template pTemplate="content">
         <h3 *ngIf="documents.length" translate>Uploaded Files</h3>
@@ -49,7 +49,16 @@
                     <img src="data:image/jpeg;base64,{{ file.b64thumb }}" width="120" alt="{{ file.title }}">
                 </td>
                 <td>
-                    {{ file.type | translate }}
+                  <p-dropdown
+                    *ngIf="langLoaded"
+                    [options]="docTypes"
+                    [(ngModel)]="file.type"
+                    appendTo="body"
+                    (onChange)="updateFile(file)">
+                    <ng-template let-docType pTemplate="item">
+                      {{ docType.label }}
+                    </ng-template>
+                  </p-dropdown>
                 </td>
                 <td>
                     {{ file.owner | translate }}

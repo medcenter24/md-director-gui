@@ -48,7 +48,7 @@ import { AccidentCheckpointsSelectorModule }
 import { AccidentTypeSelectModule } from '../../../accident/components/type/select';
 import { SurveySelectorModule } from '../../../survey/components/selector/survey.selector.module';
 import { DiagnosticSelectorModule } from '../../../diagnostic/components/selector';
-import { UploaderModule } from '../../../upload/components/uploader';
+import { UploaderModule } from '../../../document/components/uploader';
 import { CaseFinanceModule } from '../finance';
 import { NgaModule } from '../../../../theme/nga.module';
 import { AccidentActivityModule } from '../../../accident/components/activity';

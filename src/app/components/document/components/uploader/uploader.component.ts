@@ -16,19 +16,18 @@
  */
 
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { Message } from 'primeng/api';
+import { Message, SelectItem } from 'primeng/api';
 import { TranslateService } from '@ngx-translate/core';
 import { LoggerComponent } from '../../../core/logger/LoggerComponent';
 import { GlobalState } from '../../../../global.state';
 import { AuthenticationService } from '../../../auth/authentication.service';
-import { DocumentsService } from '../../../document/documents.service';
-import { Document } from '../../../document/document';
+import { DocumentsService } from '../../documents.service';
+import { Document } from '../../document';
 import { LoadableComponent } from '../../../core/components/componentLoader';
 import { UiToastService } from '../../../ui/toast/ui.toast.service';
 import { HttpHeaders } from '@angular/common/http';
 declare var $: any;
 
-// todo needs to be moved to documents
 @Component({
   selector: 'nga-file-uploader',
   templateUrl: './uploader.html',
@@ -41,6 +40,8 @@ export class FileUploaderComponent extends LoadableComponent implements OnInit {
   @Output() changed: EventEmitter<any[]> = new EventEmitter<any[]>();
 
   msgs: Message[] = [];
+  langLoaded: boolean = false;
+  docTypes: SelectItem[] = [];
 
   // preload translations for the component
   private translateLoaded: string;
@@ -60,13 +61,16 @@ export class FileUploaderComponent extends LoadableComponent implements OnInit {
   ngOnInit() {
     this.translate.get('File Uploaded').subscribe(res => {
       this.translateLoaded = res;
-    });
-    this.translate.get('Upload Error').subscribe(res => {
-      this.translateErrorLoad = res;
+      this.translateErrorLoad = this.translate.instant('Upload Error');
+      this.docTypes = [
+        { label: this.translate.instant('passport'), value: 'passport' },
+        { label: this.translate.instant('insurance'), value: 'insurance' },
+      ];
+      this.langLoaded = true;
     });
   }
 
-  handleBeforeUpload(event): void {
+  handleBeforeUpload(): void {
     this.startLoader('Uploader');
   }
 
@@ -90,6 +94,16 @@ export class FileUploaderComponent extends LoadableComponent implements OnInit {
 
   downloadFile(file): void {
     this.documentsService.download(file);
+  }
+
+  updateFile(file): void {
+    const postfix = 'Save';
+    this.startLoader(postfix);
+    this.documentsService.update(file).then(() => {
+      this.stopLoader(postfix);
+    }).catch(() => {
+      this.stopLoader(postfix);
+    });
   }
 
   deleteFile(file): void {

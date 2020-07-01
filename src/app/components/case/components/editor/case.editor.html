@@ -498,7 +498,7 @@
                     <label class="label separated" translate>Documents</label>
                     <nga-file-uploader
                       [documents]="documents"
-                      (changed)="onDocumentsChanged($event)"
+                      (changed)="onDocumentsChanged()"
                       [url]="caseService.getDocumentsUrl(accident.id)"
                       (init)="startLoader($event)"
                       (loaded)="stopLoader($event)"
