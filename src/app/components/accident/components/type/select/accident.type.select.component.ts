@@ -55,11 +55,13 @@ export class AccidentTypeSelectComponent extends LoadableComponent {
           v.trTitle = this.translate.instant(`${v.title} case`);
           if (!i || +v.id === +id) {
             this.selectedType = v;
+            this.onChanged();
           }
         });
         const filtered = this.loadedTypes.filter(value => value.id === id);
         if (filtered.length) {
           this.selectedType = filtered.pop();
+          this.onChanged();
         }
         this.isLoaded = true;
       }).catch(() => this.stopLoader(postfix));
