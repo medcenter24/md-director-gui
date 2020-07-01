@@ -41,6 +41,7 @@ export interface AutoCompleteProvider {
   /**
    * Select defined items in the autocompleter
    * @param {any} items
+   * @param fieldName
    */
-  selectItems(items: any): void;
+  selectItems(items: any, fieldName: string): void;
 }

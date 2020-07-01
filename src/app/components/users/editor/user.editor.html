@@ -18,12 +18,18 @@
 <ba-card baCardClass="with-scroll" class="edit-form-container">
     <div class="row">
         <div class="col-sm-6">
-            <nga-user-select
-                    [userId]="user.id"
-                    (selected)="onUserChanged($event)"
-                    (init)="startLoader($event)"
-                    (loaded)="stopLoader($event)"
-            ></nga-user-select>
+
+          <nga-autocompleter
+            #userSelector
+            [service]="service"
+            placeholder="User"
+            labelField="name"
+            providerType="loadable"
+            (selected)="onUserChanged($event)"
+            (init)="startLoader($event)"
+            (loaded)="stopLoader($event)"
+          ></nga-autocompleter>
+
         </div>
         <div class="col-sm-6 text-center">
           <button pButton (click)="onUserCreated()" icon="fa fa-plus" [label]="'Add New' | translate"></button>

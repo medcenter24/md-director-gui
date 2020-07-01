@@ -21,7 +21,6 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { AppTranslationModule } from '../../../../app.translation.module';
 import { NgaModule } from '../../../../theme/nga.module';
-import { UserSelectModule } from '../../../users/select';
 import { InputTextareaModule } from 'primeng/inputtextarea';
 import { InputTextModule } from 'primeng/inputtext';
 import { ButtonModule } from 'primeng/button';
@@ -31,25 +30,28 @@ import { MultiSelectorModule } from '../../../ui/selector/components/multiSelect
 import { DoctorsService } from '../../doctors.service';
 import { CitiesService } from '../../../city';
 import { TranslateService } from '@ngx-translate/core';
+import { AutocompleterModule } from '../../../ui/selector/components/autocompleter';
+import { UsersService } from '../../../users/users.service';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    FormsModule,
-    AppTranslationModule,
-    NgaModule,
-    UserSelectModule,
-    InputTextModule,
-    InputTextareaModule,
-    ButtonModule,
-    UserEditorModule,
-    DiagnosticCategoryEditorModule,
-    MultiSelectorModule,
-  ],
+    imports: [
+        CommonModule,
+        FormsModule,
+        AppTranslationModule,
+        NgaModule,
+        InputTextModule,
+        InputTextareaModule,
+        ButtonModule,
+        UserEditorModule,
+        DiagnosticCategoryEditorModule,
+        MultiSelectorModule,
+        AutocompleterModule,
+    ],
   providers: [
     DoctorsService,
     CitiesService,
     TranslateService,
+    UsersService,
   ],
   exports: [
     DoctorEditorComponent,

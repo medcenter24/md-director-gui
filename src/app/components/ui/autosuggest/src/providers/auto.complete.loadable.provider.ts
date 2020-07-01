@@ -76,11 +76,12 @@ export class AutoCompleteLoadableProvider implements AutoCompleteProvider {
   /**
    * Select new selection
    * @param {any} items
+   * @param fieldName
    */
-  selectItems(items: any): void {
+  selectItems(items: any, fieldName: string = null): void {
     // if int id provided - try to load resource with the service
     if (typeof items === 'number' && items) {
-      this.findById(items).then(res => {
+      this.findByField(items, fieldName).then(res => {
         if (res.hasOwnProperty('data') && res['data'].length) {
           this.selected = res.data[0];
         } else {
@@ -92,9 +93,9 @@ export class AutoCompleteLoadableProvider implements AutoCompleteProvider {
     }
   }
 
-  private findById(id: number): Promise<any> {
+  private findByField(id: number, fieldName: string = null): Promise<any> {
     const filterRequestField = new FilterRequestField(
-      'id',
+      fieldName ?? 'id',
       `${id}`,
       FilterRequestField.MATCH_EQ,
       FilterRequestField.TYPE_TEXT,

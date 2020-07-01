@@ -15,31 +15,32 @@
  * Copyright (c) 2019 (original work) MedCenter24.com;
  */
 
-import { Component, Input, Output, EventEmitter, ViewChild, OnInit } from '@angular/core';
+import { Component, Input, Output, EventEmitter, ViewChild, OnInit, AfterViewInit } from '@angular/core';
 import { Diagnostic } from '../../diagnostic';
 import { DiagnosticService } from '../../diagnostic.service';
 import { LoadableComponent } from '../../../core/components/componentLoader';
-import { DiagnosticCategorySelectComponent } from '../../category/components/select';
 import { DiagnosticCategory } from '../../category/category';
 import { DiagnosticCategoryEditorComponent } from '../../category/components/editor';
 import { GlobalState } from '../../../../global.state';
 import { TranslateService } from '@ngx-translate/core';
 import { LoggerComponent } from '../../../core/logger/LoggerComponent';
 import { DiseaseService } from '../../../disease';
+import { DiagnosticCategoryService } from '../../category/category.service';
+import { AutocompleterComponent } from '../../../ui/selector/components/autocompleter';
 
 @Component({
   selector: 'nga-diagnostic-editor',
   templateUrl: './diagnostic.editor.html',
 })
-export class DiagnosticEditorComponent extends LoadableComponent implements OnInit {
+export class DiagnosticEditorComponent extends LoadableComponent implements OnInit, AfterViewInit {
   protected componentName: string = 'DiagnosticEditorComponent';
 
   @Input() diagnostic: Diagnostic = new Diagnostic();
   @Output() diagnosticSaved: EventEmitter<Diagnostic> = new EventEmitter<Diagnostic>();
   @Output() close: EventEmitter<null> = new EventEmitter<null>();
 
-  @ViewChild(DiagnosticCategorySelectComponent)
-    private categorySelectComponent: DiagnosticCategorySelectComponent;
+  @ViewChild('diagnosticCategoryAutoCompleter')
+    private categorySelectComponent: AutocompleterComponent;
 
   @ViewChild('diagnosticCategoryEditor')
     private diagnosticCategoryEditor: DiagnosticCategoryEditorComponent;
@@ -53,12 +54,19 @@ export class DiagnosticEditorComponent extends LoadableComponent implements OnIn
     private translateService: TranslateService,
     protected _logger: LoggerComponent,
     public diseaseService: DiseaseService,
+    public diagnosticCategoryService: DiagnosticCategoryService,
   ) {
     super();
   }
 
   ngOnInit(): void {
     this.isActive = this.diagnostic.status === 'active';
+  }
+
+  ngAfterViewInit () {
+    if (this.diagnostic.diagnosticCategoryId) {
+      this.categorySelectComponent.selectItems(this.diagnostic.diagnosticCategoryId);
+    }
   }
 
   onSubmit(): void {
@@ -129,7 +137,9 @@ export class DiagnosticEditorComponent extends LoadableComponent implements OnIn
 
   onDiagnosticCategorySubmit (dc: DiagnosticCategory): void {
     this.showEditor = false;
-    this.diagnostic.diagnosticCategoryId = dc.id;
-    this.categorySelectComponent.selectItems(dc.id);
+    if (dc) {
+      this.diagnostic.diagnosticCategoryId = dc.id;
+      this.categorySelectComponent.selectItems( dc.id );
+    }
   }
 }

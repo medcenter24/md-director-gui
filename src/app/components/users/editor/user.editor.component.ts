@@ -18,8 +18,8 @@
 import { Component, ViewChild, Output, EventEmitter, OnInit } from '@angular/core';
 import { User } from '../user';
 import { UsersService } from '../users.service';
-import { UserSelectComponent } from '../select';
 import { LoadableComponent } from '../../core/components/componentLoader';
+import { AutocompleterComponent } from '../../ui/selector/components/autocompleter';
 
 @Component({
   selector: 'nga-user-editor',
@@ -33,10 +33,12 @@ export class UserEditorComponent extends LoadableComponent implements OnInit {
 
   @Output() saved: EventEmitter<User> = new EventEmitter<User>();
 
-  @ViewChild(UserSelectComponent)
-  private userSelectorComponent: UserSelectComponent;
+  @ViewChild('userSelector')
+  private userSelectComponent: AutocompleterComponent;
 
-  constructor(private service: UsersService) {
+  constructor(
+    public service: UsersService,
+  ) {
     super();
   }
 
@@ -71,10 +73,14 @@ export class UserEditorComponent extends LoadableComponent implements OnInit {
 
   private setUser(user: User): void {
     this.user = user;
+    this.userSelectComponent.selectItems(+this.user.id, 'users.id');
   }
 
   private setEmptyUser(): void {
     this.user = new User();
+    if (this.userSelectComponent) {
+      this.userSelectComponent.selectItems( +this.user.id, 'users.id' );
+    }
   }
 
   loadUser(id: number): void {

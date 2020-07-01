@@ -27,12 +27,13 @@ import { Doctor } from '../../doctor';
 import { DoctorsService } from '../../doctors.service';
 import { City, CitiesService } from '../../../city';
 import { LoadableComponent } from '../../../core/components/componentLoader';
-import { UserSelectComponent } from '../../../users/select';
 import { User } from '../../../users/user';
 import { UserEditorComponent } from '../../../users/editor/user.editor.component';
 import { MultiSelectorComponent } from '../../../ui/selector/components/multiSelector';
 import { GlobalState } from '../../../../global.state';
 import { TranslateService } from '@ngx-translate/core';
+import { UsersService } from '../../../users/users.service';
+import { AutocompleterComponent } from '../../../ui/selector/components/autocompleter';
 
 @Component({
   selector: 'nga-doctor-editor',
@@ -49,8 +50,8 @@ export class DoctorEditorComponent extends LoadableComponent implements AfterVie
   @Output() doctorChanged: EventEmitter<Doctor> = new EventEmitter<Doctor>();
   @Output() close: EventEmitter<boolean> = new EventEmitter();
 
-  @ViewChild('userSelect')
-    private userSelectComponent: UserSelectComponent;
+  @ViewChild('userSelector')
+    private userSelectComponent: AutocompleterComponent;
 
   @ViewChild('userEditor')
     private userEditor: UserEditorComponent;
@@ -69,6 +70,7 @@ export class DoctorEditorComponent extends LoadableComponent implements AfterVie
     public cityService: CitiesService,
     protected _state: GlobalState,
     private translateService: TranslateService,
+    public userService: UsersService,
   ) {
     super();
   }
@@ -147,7 +149,7 @@ export class DoctorEditorComponent extends LoadableComponent implements AfterVie
 
   reloadUsers(): void {
     if (this.doctor) {
-      this.userSelectComponent.setUserById(this.doctor.userId);
+      this.userSelectComponent.selectItems(+this.doctor.userId, 'users.id');
     }
   }
 
@@ -174,7 +176,6 @@ export class DoctorEditorComponent extends LoadableComponent implements AfterVie
 
   handleUserEdited(event): void {
     this.showUserEditor = false;
-    console.log(event)
     this.doctor.userId = event.id;
     this.reloadUsers();
   }
