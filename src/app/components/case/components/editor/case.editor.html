@@ -480,13 +480,14 @@
                   <div class="col-12">
                     <nga-invoice-editor
                         #invoiceEditorComponent
-                            [autosave]="true"
-                            [reload]="true"
-                            [label]="'Invoice to the assistant' | translate"
-                            (saved)="onInvoiceToAssistantChanged($event)"
-                            [invoice]="assistantInvoice"
-                            (init)="startLoader($event)"
-                            (loaded)="stopLoader($event)"
+                        [autosave]="true"
+                        [reload]="true"
+                        [label]="'Invoice to the assistant' | translate"
+                        (saved)="onInvoiceToAssistantChanged($event)"
+                        [invoice]="assistantInvoice"
+                        (init)="startLoader($event)"
+                        (loaded)="stopLoader($event)"
+                        [dataModelId]="accident.id"
                     ></nga-invoice-editor>
                   </div>
                 </div>

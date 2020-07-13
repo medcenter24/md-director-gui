@@ -31,12 +31,12 @@
             providerType="loadable"
           ></nga-autocompleter>
         </div>
-        <div class="col-md-4" *ngIf="form && invoice">
+        <div class="col-md-4" *ngIf="form && dataModelId">
           <label class="label separate" translate>Preview</label>
           <nga-form-viewer
             #formViewerComponent
             [formId]="form.id"
-            [formableId]="invoice.id"
+            [formableId]="dataModelId"
           ></nga-form-viewer>
         </div>
       </div>

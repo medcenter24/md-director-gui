@@ -44,6 +44,10 @@ export class InvoiceEditorComponent extends LoadableComponent implements OnInit 
   @Input() label: string = 'Invoice';
   @Input() autosave: boolean = false;
   @Input() reload: boolean = false; // reload Invoice on the initialization
+
+  @Input() dataModelId: number = 0; // entity which I can load for this invoice
+                                    // (for example accident for the current invoice)
+
   @Output() sourceChosen: EventEmitter<Form|Upload> = new EventEmitter<Form|Upload>();
   @Output() saved: EventEmitter<Invoice> = new EventEmitter<Invoice>();
 
