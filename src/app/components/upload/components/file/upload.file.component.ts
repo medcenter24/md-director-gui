@@ -15,7 +15,7 @@
  * Copyright (c) 2019 (original work) MedCenter24.com;
  */
 
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { GlobalState } from '../../../../global.state';
 import { LoggerComponent } from '../../../core/logger/LoggerComponent';
@@ -26,19 +26,21 @@ import { Upload } from '../../upload';
 import { UploadService } from '../../upload.service';
 import { HttpHeaders } from '@angular/common/http';
 import { UiToastService } from '../../../ui/toast/ui.toast.service';
+import { FileUpload } from 'primeng/fileupload';
 
 @Component({
   selector: 'nga-file-upload',
   template: `
       <p-fileUpload
-              #fubauto
+        #uploader
               mode="basic"
               name="uploadFile"
               [url]="url"
-              maxFileSize="1000000"
+              [maxFileSize]="maxSize"
               (onUpload)="handleUpload($event)"
-              (onError)="handleError($event)"
               (onBeforeUpload)="handleBeforeUpload()"
+              (onError)="handleError($event)"
+              (onSelect)="handleSelect($event)"
               [headers]="httpHeaders"
               [withCredentials]="true"
               auto="true"
@@ -51,6 +53,10 @@ export class UploadFileComponent extends LoadableComponent implements OnInit {
   url: string = '';
   httpHeaders: HttpHeaders;
   file: Upload;
+  maxSize: number = 10000000; // 10 Mb
+
+  @ViewChild('uploader')
+  fileUploader: FileUpload;
 
   @Output() changed: EventEmitter<Upload> = new EventEmitter<Upload>();
 
@@ -92,5 +98,11 @@ export class UploadFileComponent extends LoadableComponent implements OnInit {
       this._logger.error(event.message);
     }
     this.stopLoader('Uploader');
+  }
+
+  handleSelect(event): void {
+    if (!this.fileUploader.validate(event.files[0])) {
+      this.uiToastService.errorMessage(this.translate.instant('File is not valid (check file size)'));
+    }
   }
 }

@@ -1,4 +1,6 @@
 {
+  "Load new file": "Загрузить новый файл",
+  "File is not valid (check file size)": "Неподходящий файл (возможно слишком большой)",
   "Assistant Company": "Компания Ассистанса",
   "Category": "Категория",
   "List": "Список",
@@ -113,7 +115,7 @@
   "Invoice From Hospital": "Инвойс из больницы",
   "Invoice To Assistant": "Инвойс в ассистанс",
   "Application from the insurance company": "Заявка из страховой компании",
-  "Guarantee To the Hospital": "Гаран. письмо в больницу",
+  "Guarantee To the Hospital": "Гарантийное письмо в больницу",
   "Case": "Дело",
   "Choose Type": "Выберите тип",
   "Hospital Title": "Название больницы",

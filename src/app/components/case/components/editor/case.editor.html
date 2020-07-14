@@ -130,12 +130,19 @@
                         (loaded)="stopLoader($event)"
                         (init)="startLoader($event)"
                 ></nga-file-upload>
+
+                <!-- Assistant Guarantee File loaded -->
                 <nga-file-download
                         *ngIf="assistantGuaranteeFile"
                         [file]="assistantGuaranteeFile"
                         (loaded)="stopLoader($event)"
                         (init)="startLoader($event)"
                 ></nga-file-download>
+                <i class="fa fa-trash text-danger pl-3"
+                   *ngIf="assistantGuaranteeFile"
+                   (click)="assistantGuaranteeFile = null"
+                   title="{{ 'Load new file' | translate }}"></i>
+                <!-- /Assistant guarantee file loaded -->
               </div>
               <!-- /Assistants guarantee -->
 
