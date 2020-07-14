@@ -470,6 +470,7 @@
                         <nga-invoice-editor
                                 #hospitalInvoiceEditor
                                 [autosave]="true"
+                                [reload]="true"
                                 [label]="'Invoice from the hospital' | translate"
                                 (saved)="onHospitalInvoiceChanged($event)"
                                 (init)="startLoader($event)"

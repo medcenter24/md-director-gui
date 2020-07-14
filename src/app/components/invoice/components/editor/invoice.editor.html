@@ -55,6 +55,10 @@
                 (loaded)="stopLoader($event)"
                 (init)="startLoader($event)"
         ></nga-file-download>
+        <i class="fa fa-trash text-danger pl-3"
+                *ngIf="file"
+                (click)="file = null"
+                title="{{ 'Load new file' | translate }}"></i>
     </div>
     <div class="col-sm-3">
         <label class="label separate">{{ 'Price' | translate }}</label>

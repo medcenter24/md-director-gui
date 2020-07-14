@@ -163,10 +163,6 @@ export class InvoiceEditorComponent extends LoadableComponent implements OnInit 
   }
 
   save(): void {
-    if (!this.form || !this.form.id) {
-      return;
-    }
-
     const postfix = 'SaveInvoice';
     this.startLoader(postfix);
     this.saving = true;
@@ -181,6 +177,9 @@ export class InvoiceEditorComponent extends LoadableComponent implements OnInit 
         this.saving = false;
       });
     } else if (this.isFormInvoice()) {
+      if (!this.form || !this.form.id) {
+        return;
+      }
       this.invoiceService.assignForm(this.invoice, this.form).then((invoice: Invoice) => {
         this.saving = false;
         this.stopLoader(postfix);

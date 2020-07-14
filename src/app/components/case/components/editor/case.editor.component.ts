@@ -695,6 +695,7 @@ export class CaseEditorComponent extends LoadingComponent implements OnInit {
   onHospitalInvoiceChanged(event): void {
     this.dataChanged();
     this.hospitalAccident.hospitalInvoiceId = event.id;
+    this.caseFinance.reloadPayments(['income', 'assistant', 'caseable']);
   }
 
   onInvoiceToAssistantChanged(event): void {
