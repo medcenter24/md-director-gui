@@ -499,6 +499,7 @@ export class CaseEditorComponent extends LoadingComponent implements OnInit {
   onDoctorChanged(doc): void {
     this.dataChanged();
     this.doctorAccident.doctorId = doc ? doc.id : 0;
+    this.autoSave();
   }
 
   onHospitalChanged(hospital: Hospital): void {
@@ -647,6 +648,16 @@ export class CaseEditorComponent extends LoadingComponent implements OnInit {
     this.dataChanged();
     this.assistantGuaranteeFile = file;
     this.accident.assistantGuaranteeId = file.id;
+    this.autoSave();
+  }
+
+  /**
+   * Saving on data changed if accident exists and loaded
+   */
+  autoSave(): void {
+    if (this.accident.id) {
+      this.onSave(); // update story
+    }
   }
 
   onReportFormChanged(event): void {
@@ -696,14 +707,14 @@ export class CaseEditorComponent extends LoadingComponent implements OnInit {
     this.dataChanged();
     this.hospitalAccident.hospitalInvoiceId = event.id;
     this.caseFinance.reloadPayments(['income', 'assistant', 'caseable']);
-    this.onSave();
+    this.autoSave();
   }
 
   onInvoiceToAssistantChanged(event): void {
     this.dataChanged();
     this.caseFinance.reloadPayments(['income', 'assistant', 'caseable']);
     this.accident.assistantInvoiceId = event.id;
-    this.onSave();
+    this.autoSave();
   }
 
   onDocumentsChanged(): void {

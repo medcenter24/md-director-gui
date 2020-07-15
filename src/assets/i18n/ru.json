@@ -1,4 +1,7 @@
 {
+  "Fixed Value": "Зафиксированное значение",
+  "Invoice Value": "Значение из инвойса",
+  "Calculation Formula": "Формула расчета",
   "Load new file": "Загрузить новый файл",
   "File is not valid (check file size)": "Неподходящий файл (возможно слишком большой)",
   "Assistant Company": "Компания Ассистанса",

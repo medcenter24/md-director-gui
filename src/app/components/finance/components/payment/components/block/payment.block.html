@@ -46,5 +46,7 @@
       ></p-toggleButton>
     </p>
   </div>
-  <div class="card-footer bg-transparent small" *ngIf="showFormula">{{ formula }}</div>
+  <div class="card-footer bg-transparent small" *ngIf="showFormula && formula !== 'fixed' && formula !== 'invoice'">{{ 'Calculation Formula' | translate }} {{ formula }}</div>
+  <div class="card-footer bg-transparent small" *ngIf="showFormula && formula === 'fixed'" translate>Fixed Value</div>
+  <div class="card-footer bg-transparent small" *ngIf="showFormula && formula === 'invoice'" translate>Invoice Value</div>
 </div>
