@@ -44,7 +44,7 @@ export class AppComponent implements AfterViewInit {
   // global window block
   blocked: boolean = false;
   // global loading progress bar (slim loading bar)
-  runLoadingProcess = true;
+  runLoadingProcess = false;
 
   @ViewChild('uiToastComponent')
     uiToastComponent: UiToastComponent;
