@@ -16,7 +16,6 @@
  */
 
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { SlimLoadingBarService } from 'ng2-slim-loading-bar';
 import { LoadingComponent } from '../../../../components/core/components/componentLoader';
 import { InvoiceEditorComponent } from '../../../../components/invoice/components/editor';
 import { Invoice } from '../../../../components/invoice/invoice';
@@ -39,7 +38,6 @@ export class DevelopmentGuiInvoiceComponent extends LoadingComponent implements 
   constructor(
     protected _logger: LoggerComponent,
     protected _state: GlobalState,
-    protected loadingBar: SlimLoadingBarService,
   ) {
     super();
   }

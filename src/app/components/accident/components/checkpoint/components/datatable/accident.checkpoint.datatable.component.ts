@@ -20,7 +20,6 @@ import { DatatableCol } from '../../../../../ui/datatable';
 import { DatatableAction } from '../../../../../ui/datatable';
 import { TranslateService } from '@ngx-translate/core';
 import { GlobalState } from '../../../../../../global.state';
-import { SlimLoadingBarService } from 'ng2-slim-loading-bar';
 import { DatatableComponent } from '../../../../../ui/datatable';
 import { AccidentCheckpoint } from '../../checkpoint';
 import { AccidentCheckpointsService } from '../../checkpoints.service';
@@ -44,7 +43,6 @@ export class AccidentCheckpointDatatableComponent extends AbstractDatatableContr
   constructor(
     protected _logger: LoggerComponent,
     protected _state: GlobalState,
-    protected loadingBar: SlimLoadingBarService,
     private translateService: TranslateService,
     private checkpointService: AccidentCheckpointsService,
     private confirmationService: ConfirmationService,

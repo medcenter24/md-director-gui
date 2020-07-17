@@ -20,7 +20,6 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import 'rxjs/add/operator/map';
 import { environment } from '../../../environments/environment';
-import { SlimLoadingBarService } from 'ng2-slim-loading-bar';
 import { TranslateService } from '@ngx-translate/core';
 import { GlobalState } from '../../global.state';
 import { Message } from 'primeng/api';
@@ -52,7 +51,6 @@ export class AuthenticationService {
 
   constructor(
     private http: HttpClient,
-    private loadingBar: SlimLoadingBarService,
     private translate: TranslateService,
     private _state: GlobalState,
     private storage: LocalStorageHelper,
@@ -62,10 +60,10 @@ export class AuthenticationService {
   }
 
   login(username: string, password: string): Observable<boolean> {
-    this.loadingBar.start();
+    this._state.notifyDataChanged('runLoadingProcess', true);
     return this.http.post(this.authUrl, JSON.stringify({ email: username, password }))
       .map((response: Response) => {
-        this.loadingBar.stop();
+        this._state.notifyDataChanged('runLoadingProcess', false);
         this.update(response);
         return true;
       });

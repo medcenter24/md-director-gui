@@ -21,7 +21,9 @@ import { AppTranslationModule } from '../../../../app.translation.module';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { FileUploaderComponent } from './uploader.component';
-import { DocumentsService } from '../../../document/documents.service';
+import { DocumentsService } from '../../documents.service';
+import { AutocompleterModule } from '../../../ui/selector/components/autocompleter';
+import { DropdownModule } from 'primeng';
 
 @NgModule({
   imports: [
@@ -29,6 +31,8 @@ import { DocumentsService } from '../../../document/documents.service';
     FormsModule,
     FileUploadModule,
     AppTranslationModule,
+    AutocompleterModule,
+    DropdownModule,
   ],
   declarations: [
     FileUploaderComponent,

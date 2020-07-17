@@ -19,7 +19,6 @@ import { Component, ViewChild, OnInit } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Accident } from '../../../accident/accident';
 import { AccidentsService } from '../../../accident/accidents.service';
-import { SlimLoadingBarService } from 'ng2-slim-loading-bar';
 import { TranslateService } from '@ngx-translate/core';
 import { AccidentType } from '../../../accident/components/type/type';
 import { GlobalState } from '../../../../global.state';
@@ -135,7 +134,6 @@ export class CaseEditorComponent extends LoadingComponent implements OnInit {
   protected componentName: string = 'CaseEditorComponent';
 
   constructor (private route: ActivatedRoute,
-               protected loadingBar: SlimLoadingBarService,
                private translate: TranslateService,
                protected _logger: LoggerComponent,
                protected _state: GlobalState,
@@ -499,6 +497,7 @@ export class CaseEditorComponent extends LoadingComponent implements OnInit {
   onDoctorChanged(doc): void {
     this.dataChanged();
     this.doctorAccident.doctorId = doc ? doc.id : 0;
+    this.autoSave();
   }
 
   onHospitalChanged(hospital: Hospital): void {
@@ -647,6 +646,16 @@ export class CaseEditorComponent extends LoadingComponent implements OnInit {
     this.dataChanged();
     this.assistantGuaranteeFile = file;
     this.accident.assistantGuaranteeId = file.id;
+    this.autoSave();
+  }
+
+  /**
+   * Saving on data changed if accident exists and loaded
+   */
+  autoSave(): void {
+    if (this.accident.id) {
+      this.onSave(); // update story
+    }
   }
 
   onReportFormChanged(event): void {
@@ -695,17 +704,19 @@ export class CaseEditorComponent extends LoadingComponent implements OnInit {
   onHospitalInvoiceChanged(event): void {
     this.dataChanged();
     this.hospitalAccident.hospitalInvoiceId = event.id;
+    this.caseFinance.reloadPayments(['income', 'assistant', 'caseable']);
+    this.autoSave();
   }
 
   onInvoiceToAssistantChanged(event): void {
     this.dataChanged();
     this.caseFinance.reloadPayments(['income', 'assistant', 'caseable']);
     this.accident.assistantInvoiceId = event.id;
+    this.autoSave();
   }
 
-  onDocumentsChanged(event): void {
+  onDocumentsChanged(): void {
     this.dataChanged();
     this.loadDocuments();
-    this.accident.assistantInvoiceId = event.id;
   }
 }

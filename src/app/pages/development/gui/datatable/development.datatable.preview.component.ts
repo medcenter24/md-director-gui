@@ -16,7 +16,6 @@
 
 import { Component, ViewChild } from '@angular/core';
 import { AbstractDatatableController } from '../../../../components/ui/tables/abstract.datatable.controller';
-import { SlimLoadingBarService } from 'ng2-slim-loading-bar';
 import { LoggerComponent } from '../../../../components/core/logger/LoggerComponent';
 import { GlobalState } from '../../../../global.state';
 import {
@@ -46,7 +45,6 @@ export class DevelopmentDatatablePreviewComponent extends AbstractDatatableContr
   protected datatableComponentView: DatatableComponent;
 
   constructor (
-    protected loadingBar: SlimLoadingBarService,
     protected _logger: LoggerComponent,
     protected _state: GlobalState,
     private previewDataService: PreviewDataService,

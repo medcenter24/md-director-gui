@@ -25,7 +25,6 @@ import { GlobalState } from './global.state';
 import { NgaModule } from './theme/nga.module';
 import { PagesModule } from './pages/pages.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { SlimLoadingBarModule } from 'ng2-slim-loading-bar';
 import { BlockUIModule } from 'primeng/blockui';
 import { ConfirmationService } from 'primeng/api';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
@@ -49,6 +48,7 @@ import { BaMenuService } from './theme/services/baMenu';
 import { AuthenticationService } from './components/auth/authentication.service';
 import { BaThemeConfig, BaThemeConfigProvider } from './theme';
 import { EmailValidator, EqualPasswordsValidator } from './theme/validators';
+import { ProgressBarModule } from 'primeng';
 
 // Application wide providers
 const APP_PROVIDERS = [
@@ -95,7 +95,6 @@ export function tokenGetter() {
     NgaModule,
     PagesModule,
     routing,
-    SlimLoadingBarModule.forRoot(),
     ConfirmDialogModule,
     BlockUIModule,
     AppTranslationModule,
@@ -109,6 +108,7 @@ export function tokenGetter() {
     LoggerModule,
     UiToastModule,
     NgaModule,
+    ProgressBarModule,
   ],
   exports: [],
   providers: [ // expose our Services and Providers into Angular's dependency injection

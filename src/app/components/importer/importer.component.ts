@@ -17,7 +17,6 @@
 
 import { Component, Input, OnInit } from '@angular/core';
 import { ConfirmationService } from 'primeng/api';
-import { SlimLoadingBarService } from 'ng2-slim-loading-bar';
 import { TranslateService } from '@ngx-translate/core';
 import { GlobalState } from '../../global.state';
 import { AuthenticationService } from '../auth/authentication.service';
@@ -43,7 +42,8 @@ export class ImporterComponent implements OnInit {
   private deleterCounter: number = 0;
   private importerCounter: number = 0;
 
-  constructor (private loadingBar: SlimLoadingBarService, private translate: TranslateService,
+  constructor (
+    private translate: TranslateService,
                private _logger: LoggerComponent, private _state: GlobalState,
                private authenticationService: AuthenticationService,
                private importerService: ImporterService,
@@ -56,12 +56,12 @@ export class ImporterComponent implements OnInit {
   }
 
   private loadImportQueue(): void {
-    this.loadingBar.start();
+    this._state.notifyDataChanged('runLoadingProcess', true);
     this.importerService.getQueue(this.url).then(uploads => {
       this.uploadedFiles = uploads.data;
-      this.loadingBar.complete();
+      this._state.notifyDataChanged('runLoadingProcess', false);
     }).catch((err) => {
-      this.loadingBar.complete();
+      this._state.notifyDataChanged('runLoadingProcess', false);
       this._logger.error(err);
     });
   }
@@ -75,14 +75,14 @@ export class ImporterComponent implements OnInit {
   }
 
   handleBeforeUpload(): void {
-    this.loadingBar.start();
+    this._state.notifyDataChanged('runLoadingProcess', true);
   }
 
   handleClear(): void {
   }
 
   handleUpload(event): void {
-    this.loadingBar.complete();
+    this._state.notifyDataChanged('runLoadingProcess', false);
     this.loadImportQueue();
   }
 
@@ -91,7 +91,7 @@ export class ImporterComponent implements OnInit {
       this.uiToastService.errorMessage(file.name);
     }
     this._logger.error(`Error: Upload to ${event.xhr.responseURL} [${event.xhr.status}:${event.xhr.statusText}]`);
-    this.loadingBar.complete();
+    this._state.notifyDataChanged('runLoadingProcess', false);
   }
 
   importFile (file): void {
@@ -159,7 +159,7 @@ export class ImporterComponent implements OnInit {
     this.importerCounter = files.length;
 
     if (this.importerCounter) {
-      this.loadingBar.start();
+      this._state.notifyDataChanged('runLoadingProcess', true);
       files.map(id => {
         this.importerService.importFile(this.url, id).then(resp => {
           this.selectedFiles = this.selectedFiles.filter(val => +val !== +id);
@@ -169,7 +169,7 @@ export class ImporterComponent implements OnInit {
             success: true,
             response: resp.accidentId,
           });
-          this.loadingBar.complete();
+          this._state.notifyDataChanged('runLoadingProcess', false);
         }).catch(response => {
           this.selectedFiles = this.selectedFiles.filter(val => +val !== +id);
           $(`.row-file-${id}`).addClass('error');
@@ -179,7 +179,7 @@ export class ImporterComponent implements OnInit {
             response: response.error.message,
           });
           this._logger.info(response);
-          this.loadingBar.complete();
+          this._state.notifyDataChanged('runLoadingProcess', false);
         });
       });
     }
@@ -189,16 +189,16 @@ export class ImporterComponent implements OnInit {
     this.deleterCounter = files.length;
 
     if (this.deleterCounter) {
-      this.loadingBar.start();
+      this._state.notifyDataChanged('runLoadingProcess', true);
       files.map(id => {
         this.importerService.deleteFile(this.url, id).then(() => {
           this.deleteFileFromGui(id);
           if (--this.deleterCounter <= 0) {
-            this.loadingBar.complete();
+            this._state.notifyDataChanged('runLoadingProcess', false);
           }
         }).catch(err => {
           this._logger.error(err);
-          this.loadingBar.complete();
+          this._state.notifyDataChanged('runLoadingProcess', false);
         });
       });
     }

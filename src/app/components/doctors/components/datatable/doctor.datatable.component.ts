@@ -18,7 +18,6 @@
 import { Component, ViewChild } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { GlobalState } from '../../../../global.state';
-import { SlimLoadingBarService } from 'ng2-slim-loading-bar';
 import { Doctor } from '../../doctor';
 import { DoctorsService } from '../../doctors.service';
 import { AbstractDatatableController } from '../../../ui/tables/abstract.datatable.controller';
@@ -43,7 +42,6 @@ export class DoctorDatatableComponent extends AbstractDatatableController {
   private doctorDatatable: DatatableComponent;
 
   constructor (
-    protected loadingBar: SlimLoadingBarService,
     protected _logger: LoggerComponent,
     protected _state: GlobalState,
     protected translateService: TranslateService,

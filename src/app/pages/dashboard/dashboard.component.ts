@@ -19,7 +19,6 @@ import { Component, OnInit } from '@angular/core';
 import { TrafficChartData } from '../../components/statistics/trafficChart/trafficChart.data';
 import { LoadingComponent } from '../../components/core/components/componentLoader';
 import { StatisticsService } from '../../components/statistics/statistics.service';
-import { SlimLoadingBarService } from 'ng2-slim-loading-bar';
 import { GlobalState } from '../../global.state';
 import { LoggerComponent } from '../../components/core/logger/LoggerComponent';
 import { YearsList } from '../../components/statistics/years/yearsList';
@@ -51,7 +50,6 @@ export class DashboardComponent extends LoadingComponent implements OnInit {
   constructor(
     private _statService: StatisticsService,
     protected _logger: LoggerComponent,
-    protected loadingBar: SlimLoadingBarService,
     protected _state: GlobalState,
     private translateService: TranslateService,
   ) {
@@ -64,7 +62,7 @@ export class DashboardComponent extends LoadingComponent implements OnInit {
   ngOnInit(): void {
     this.translateService.get('Dashboard').subscribe((trans) => {
       const breadcrumbs = [];
-      const title = this.translateService.instant('Dashboard');
+      const title = this.translateService.instant(trans);
       breadcrumbs.push(new Breadcrumb(title, '/pages/dashboard', true));
       this._state.notifyDataChanged('menu.activeLink', breadcrumbs);
       this._state.notifyDataChanged('changeTitle', title);

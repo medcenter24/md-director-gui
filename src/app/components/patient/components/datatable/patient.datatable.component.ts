@@ -22,7 +22,6 @@ import { DateHelper } from '../../../../helpers/date.helper';
 import { Patient } from '../../patient';
 import { LoggerComponent } from '../../../core/logger/LoggerComponent';
 import { GlobalState } from '../../../../global.state';
-import { SlimLoadingBarService } from 'ng2-slim-loading-bar';
 import { PatientEditorComponent } from '../editor/patient.editor.component';
 import {
   DatatableAction,
@@ -59,7 +58,6 @@ export class PatientDatatableComponent extends AbstractDatatableController {
   constructor(
     protected _logger: LoggerComponent,
     protected _state: GlobalState,
-    protected loadingBar: SlimLoadingBarService,
     private translateService: TranslateService,
     private patientService: PatientsService,
   ) {

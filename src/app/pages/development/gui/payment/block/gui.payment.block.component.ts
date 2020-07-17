@@ -16,7 +16,6 @@
  */
 
 import { Component } from '@angular/core';
-import { SlimLoadingBarService } from 'ng2-slim-loading-bar';
 import { LoadingComponent } from '../../../../../components/core/components/componentLoader';
 import { FinanceCurrency } from '../../../../../components/finance/components/currency/finance.currency';
 import { GlobalState } from '../../../../../global.state';
@@ -32,7 +31,6 @@ export class GuiPaymentBlockComponent extends LoadingComponent {
   constructor(
     protected _logger: LoggerComponent,
     protected _state: GlobalState,
-    protected loadingBar: SlimLoadingBarService,
   ) {
     super();
   }

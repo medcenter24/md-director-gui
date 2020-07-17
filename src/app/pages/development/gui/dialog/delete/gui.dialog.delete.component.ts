@@ -18,7 +18,6 @@
 import { Component } from '@angular/core';
 import { LoadingComponent } from '../../../../../components/core/components/componentLoader';
 import { GlobalState } from '../../../../../global.state';
-import { SlimLoadingBarService } from 'ng2-slim-loading-bar';
 import { ConfirmationService } from 'primeng/api';
 import { LoggerComponent } from '../../../../../components/core/logger/LoggerComponent';
 
@@ -34,7 +33,6 @@ export class GuiDialogDeleteComponent extends LoadingComponent {
   constructor(
     protected _logger: LoggerComponent,
     protected _state: GlobalState,
-    protected loadingBar: SlimLoadingBarService,
     protected confirmationService: ConfirmationService,
   ) {
     super();

@@ -17,7 +17,6 @@
 import { Component, ViewChild } from '@angular/core';
 import { AbstractDatatableController } from '../../../ui/tables/abstract.datatable.controller';
 import { DatatableAction, DatatableCol, DatatableComponent } from '../../../ui/datatable';
-import { SlimLoadingBarService } from 'ng2-slim-loading-bar';
 import { LoggerComponent } from '../../../core/logger/LoggerComponent';
 import { GlobalState } from '../../../../global.state';
 import { TranslateService } from '@ngx-translate/core';
@@ -41,7 +40,6 @@ export class DiseaseDatatableComponent extends AbstractDatatableController {
   private datatable: DatatableComponent;
 
   constructor (
-    protected loadingBar: SlimLoadingBarService,
     protected _logger: LoggerComponent,
     protected _state: GlobalState,
     protected translateService: TranslateService,

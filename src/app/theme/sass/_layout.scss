@@ -244,3 +244,17 @@ a {
 .text-center {
   text-align: center;
 }
+
+.top-page-progress-bar .ui-progressbar {
+  border: 0 none;
+  position: fixed;
+  top: 0;
+  z-index: 1000;
+  left: 0;
+  width: 100%;
+  background-color: white;
+
+  .ui-progressbar-value {
+    background-color: #e85656;
+  }
+}

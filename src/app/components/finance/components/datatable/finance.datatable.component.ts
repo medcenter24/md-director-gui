@@ -18,7 +18,6 @@
 import { Component, ViewChild } from '@angular/core';
 import { AbstractDatatableController } from '../../../ui/tables/abstract.datatable.controller';
 import { GlobalState } from '../../../../global.state';
-import { SlimLoadingBarService } from 'ng2-slim-loading-bar';
 import { TranslateService } from '@ngx-translate/core';
 import { FinanceService } from '../../finance.service';
 import { LoadableServiceInterface } from '../../../core/loadable';
@@ -40,7 +39,6 @@ export class FinanceDatatableComponent extends AbstractDatatableController {
   private financeDatatableComponent: DatatableComponent;
 
   constructor (
-    protected loadingBar: SlimLoadingBarService,
     protected _logger: LoggerComponent,
     protected _state: GlobalState,
     protected translateService: TranslateService,

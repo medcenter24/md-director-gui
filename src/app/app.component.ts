@@ -43,6 +43,8 @@ export class AppComponent implements AfterViewInit {
   isMenuCollapsed: boolean = false;
   // global window block
   blocked: boolean = false;
+  // global loading progress bar (slim loading bar)
+  runLoadingProcess = true;
 
   @ViewChild('uiToastComponent')
     uiToastComponent: UiToastComponent;
@@ -92,6 +94,10 @@ export class AppComponent implements AfterViewInit {
      */
     this._state.subscribe('blocker', (block: boolean) => {
       this.blocked = block;
+      this.cdRef.detectChanges();
+    });
+    this._state.subscribe('runLoadingProcess', (state: boolean) => {
+      this.runLoadingProcess = state;
       this.cdRef.detectChanges();
     });
     this._state.subscribe('apiError', (errors: HttpErrorResponse) => {

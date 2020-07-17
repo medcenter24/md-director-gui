@@ -120,7 +120,7 @@ export abstract class AbstractDatatableController extends LoadingComponent imple
     this.model = model;
   }
 
-  public save() {
+  save() {
     const postfix = 'Save';
     this.startLoader(postfix);
     this.getService().save(this.model)

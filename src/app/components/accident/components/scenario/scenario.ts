@@ -23,5 +23,6 @@ export class AccidentScenario {
         public tag: string = '',
         public status: string = '',
         public title: string = '',
+        public accidentStatusType: string = '',
     ) {}
 }

@@ -16,7 +16,6 @@
  */
 
 import { Component, OnInit } from '@angular/core';
-import { SlimLoadingBarService } from 'ng2-slim-loading-bar';
 import { GlobalState } from '../../global.state';
 import { TranslateService } from '@ngx-translate/core';
 import { UsersService } from '../../components/users/users.service';
@@ -57,7 +56,6 @@ export class ProfileComponent extends LoadingComponent implements OnInit {
   private timer: Subscription;
 
   constructor (
-               protected loadingBar: SlimLoadingBarService,
                protected _state: GlobalState,
                protected _logger: LoggerComponent,
                private translateService: TranslateService,
@@ -130,7 +128,7 @@ export class ProfileComponent extends LoadingComponent implements OnInit {
     this.storage.setItem(this.profileTabIndexKey, `${id}`);
   }
 
-  onLangChanged (event): void {
+  onLangChanged (/*event*/): void {
     const opName = 'LangChange';
     this.startLoader(opName);
     this.usersService.update(this.loggedUser)
@@ -169,11 +167,11 @@ export class ProfileComponent extends LoadingComponent implements OnInit {
     this.loggedUser.phone = event.target.value;
   }
 
-  startPhotoUpload(event): void {
+  startPhotoUpload(/*event*/): void {
     this.startLoader('PhotoUpload');
   }
 
-  endPhotoUpload(event): void {
+  endPhotoUpload(/*event*/): void {
     this.stopLoader('PhotoUpload');
     this.uiToastService.saved();
 

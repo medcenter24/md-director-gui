@@ -19,7 +19,14 @@
     <ol class="cd-multi-steps text-center">
         <!-- possible statuses: visited <a>, current <em>, '' <>-->
         <li *ngFor="let step of steps" class="status-{{ step.status }} type-{{ step.title }}">
-            <em title="{{ step.status === 'current' ? 'Current Step' : ( step.status === 'visited' ? 'Visited Step' : 'Not Visited' ) | translate }}">{{ step.title | translate }}</em>
+            <em title="{{ step.status === 'current' ? 'Current Step' : ( step.status === 'visited' ? 'Visited Step' : 'Not Visited' ) | translate }}">
+              <span *ngIf="step.accidentStatusType === 'doctor'"  [title]="'Doctor' | translate" class="fa fa-user-md pr-1"></span>
+              <span *ngIf="step.accidentStatusType === 'hospital'" [title]="'Hospital' | translate" class="fa fa-hospital-o pr-1"></span>
+              <span *ngIf="step.accidentStatusType === 'accident'" [title]="'Case' | translate" class="fa fa-file-archive-o pr-1"></span>
+              <span *ngIf="step.accidentStatusType === 'assistant'" [title]="'Assistant Company' | translate" class="fa fa-building pr-1"></span>
+
+              {{ step.title | translate }}
+            </em>
         </li>
     </ol>
 </nav>

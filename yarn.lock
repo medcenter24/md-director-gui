@@ -5725,15 +5725,6 @@ handlebars@^4.7.6:
   optionalDependencies:
     uglify-js "^3.1.4"
 
-"handsontable@>= 0.37 < 1.0":
-  version "0.38.1"
-  resolved "https://registry.yarnpkg.com/handsontable/-/handsontable-0.38.1.tgz#b8829ef4a82c4aad7d09472b71b6b6aa19baa6ce"
-  integrity sha512-HKapaF9fXNgZaw2bSE3WQGEDM/7ClJ008jJUk3/fQgFUk9eS8/TRMUiXECokAExUeXhVtKYOjQ9Tfk6qyfFyLQ==
-  dependencies:
-    moment "2.20.1"
-    numbro "1.11.0"
-    pikaday "1.5.1"
-
 har-schema@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/har-schema/-/har-schema-2.0.0.tgz#a94c2224ebcac04782a0d9035521f24735b7ec92"
@@ -8167,12 +8158,7 @@ modify-values@^1.0.0:
   resolved "https://registry.yarnpkg.com/modify-values/-/modify-values-1.0.1.tgz#b3939fa605546474e3e3e3c63d64bd43b4ee6022"
   integrity sha512-xV2bxeN6F7oYjZWTe/YPAy6MN2M+sL4u/Rlm2AHCIVGfo2p1yGmBHQ6vHehl4bRTZBdHu3TSkWdYgkwpYzAGSw==
 
-moment@2.20.1:
-  version "2.20.1"
-  resolved "https://registry.yarnpkg.com/moment/-/moment-2.20.1.tgz#d6eb1a46cbcc14a2b2f9434112c1ff8907f313fd"
-  integrity sha512-Yh9y73JRljxW5QxN08Fner68eFLxM5ynNOAw2LbIB1YAGeQzZT8QFSUvkAz609Zf+IHhhaUxqZK8dG3W/+HEvg==
-
-moment@2.x, moment@^2.10.2:
+moment@^2.10.2:
   version "2.26.0"
   resolved "https://registry.yarnpkg.com/moment/-/moment-2.26.0.tgz#5e1f82c6bafca6e83e808b30c8705eed0dcbd39a"
   integrity sha512-oIixUO+OamkUkwjhAVE18rAMfRJNsNe/Stid/gwHSOfHrOtw9EhAY2AHvdKZ/k/MggcYELFCJz/Sn2pL8b8JMw==
@@ -8287,23 +8273,6 @@ ng2-flatpickr@^9.0.0:
   integrity sha512-lqoiVNOj0UukHrIHiMI0+ei34IlTaDFhYLnSv1U3iAbix+nsZ8RWHWXmW0noVYwALYbUf1U4IpGOWgLb3brAiA==
   dependencies:
     tslib "^1.9.0"
-
-ng2-handsontable@^2.1.0-rc.3:
-  version "2.1.0-rc.3"
-  resolved "https://registry.yarnpkg.com/ng2-handsontable/-/ng2-handsontable-2.1.0-rc.3.tgz#76c1035d9c4f8e0cb76584f86ffab3b30b844631"
-  integrity sha512-kKSeXLT6efbS3RgdZTCwWtuiztBjAYOCw5ebXIJ/XkNS77Mccz0zP4p2qm96kPKDBsmIZeqXX3g9LKLzfhPCLw==
-  dependencies:
-    handsontable ">= 0.37 < 1.0"
-
-ng2-slim-loading-bar@^4.0.0:
-  version "4.0.0"
-  resolved "https://registry.yarnpkg.com/ng2-slim-loading-bar/-/ng2-slim-loading-bar-4.0.0.tgz#7256fdde7c058f14955a3ef2e65afafb5b664603"
-  integrity sha1-clb93nwFjxSVWj7y5lr6+1tmRgM=
-
-ng2-tree@^2.0.0-rc.11:
-  version "2.0.0-rc.11"
-  resolved "https://registry.yarnpkg.com/ng2-tree/-/ng2-tree-2.0.0-rc.11.tgz#0fed58bd204646326d0cbcc0c84e3b0622d52cf8"
-  integrity sha512-COGMatd+YrwJb3LSobagDC+t2PlSh4GkgG75Akh9QbXOSdFFPkbGmZvILg2xO4Hc+xicacvHp+6GINvjIeJwkA==
 
 ngx-logger@^4.1.9:
   version "4.1.9"
@@ -8821,11 +8790,6 @@ number-is-nan@^1.0.0:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/number-is-nan/-/number-is-nan-1.0.1.tgz#097b602b53422a522c1afb8790318336941a011d"
   integrity sha1-CXtgK1NCKlIsGvuHkDGDNpQaAR0=
-
-numbro@1.11.0:
-  version "1.11.0"
-  resolved "https://registry.yarnpkg.com/numbro/-/numbro-1.11.0.tgz#39aa17b358b4682aec8ca0d5755f35c5d9ce8f9e"
-  integrity sha1-OaoXs1i0aCrsjKDVdV81xdnOj54=
 
 oauth-sign@~0.9.0:
   version "0.9.0"
@@ -9408,13 +9372,6 @@ pify@^4.0.1:
   version "4.0.1"
   resolved "https://registry.yarnpkg.com/pify/-/pify-4.0.1.tgz#4b2cd25c50d598735c50292224fd8c6df41e3231"
   integrity sha512-uB80kBFb/tfd68bVleG9T5GGsGPjJrLAUpR5PZIrhBnIaRTQRjqdJSsIKkOP6OAIFbj7GOrcudc5pNjZ+geV2g==
-
-pikaday@1.5.1:
-  version "1.5.1"
-  resolved "https://registry.yarnpkg.com/pikaday/-/pikaday-1.5.1.tgz#0a48549bc1a14ea1d08c44074d761bc2f2bfcfd3"
-  integrity sha1-CkhUm8GhTqHQjEQHTXYbwvK/z9M=
-  optionalDependencies:
-    moment "2.x"
 
 pinkie-promise@^2.0.0:
   version "2.0.1"

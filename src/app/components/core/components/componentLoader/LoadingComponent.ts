@@ -17,7 +17,6 @@
 
 import { Injectable } from '@angular/core';
 import { LoadableComponent } from './LoadableComponent';
-import { SlimLoadingBarService } from 'ng2-slim-loading-bar';
 import { GlobalState } from '../../../../global.state';
 import { LoggerComponent } from '../../logger/LoggerComponent';
 
@@ -32,7 +31,6 @@ export abstract class LoadingComponent extends LoadableComponent {
     protected abstract componentName;
 
     protected abstract _logger: LoggerComponent;
-    protected abstract loadingBar: SlimLoadingBarService;
     protected abstract _state: GlobalState;
     protected onComponentsLoadingCompleted(): void { }
     private componentsList: string[] = [];
@@ -47,7 +45,7 @@ export abstract class LoadingComponent extends LoadableComponent {
         if (!this.componentsList.length) {
           // if I use here setTimeout it is an issue that startLoader works after the stop loader
           this._state.notifyDataChanged('blocker', true);
-          this.loadingBar.start();
+          this._state.notifyDataChanged('runLoadingProcess', true);
         }
 
         if (this.componentsList.indexOf(name) !== -1) {
@@ -66,10 +64,10 @@ export abstract class LoadingComponent extends LoadableComponent {
         }
 
         if (this.componentsList.length === 0) {
-            this.loading = false;
-            this._state.notifyDataChanged('blocker', false);
-            this.loadingBar.complete();
-            this.onComponentsLoadingCompleted();
+          this.loading = false;
+          this._state.notifyDataChanged('blocker', false);
+          this._state.notifyDataChanged('runLoadingProcess', false);
+          this.onComponentsLoadingCompleted();
         }
     }
 

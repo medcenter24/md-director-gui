@@ -11,7 +11,6 @@ export class DiagnosticDatatableComponent extends AbstractDatatableController {
   private diagnosticEditor: DiagnosticEditorComponent;
 
   constructor (
-    protected loadingBar: SlimLoadingBarService,
     protected _logger: LoggerComponent,
     protected _state: GlobalState,
     protected translateService: TranslateService,

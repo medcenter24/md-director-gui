@@ -20,10 +20,10 @@ import { FormGroup, AbstractControl, FormBuilder, Validators } from '@angular/fo
 import 'style-loader!./login.scss';
 import { AuthenticationService } from '../../components/auth/authentication.service';
 import { Router } from '@angular/router';
-import { SlimLoadingBarService } from 'ng2-slim-loading-bar';
 import { LocalStorageHelper } from '../../helpers/local.storage.helper';
 import { environment } from '../../../environments/environment';
 import { UrlHelper } from '../../helpers/url.helper';
+import { GlobalState } from '../../global.state';
 
 @Component({
   selector: 'nga-login',
@@ -39,11 +39,12 @@ export class LoginComponent implements OnInit {
   year: number;
   projectName: string = '';
 
-  constructor (private fb: FormBuilder,
-               private authenticationService: AuthenticationService,
-               private router: Router,
-               private storage: LocalStorageHelper,
-               private loadingBar: SlimLoadingBarService,
+  constructor (
+    private fb: FormBuilder,
+    private authenticationService: AuthenticationService,
+    private router: Router,
+    private storage: LocalStorageHelper,
+    protected _state: GlobalState,
   ) {
     this.form = fb.group({
       'email': ['', Validators.compose([Validators.required, Validators.minLength(4)])],
@@ -61,28 +62,31 @@ export class LoginComponent implements OnInit {
   }
 
   onSubmit (): void {
-    this.loadingBar.start();
+    this._state.notifyDataChanged('runLoadingProcess', true);
     this.submitted = true;
     this.showError = false;
     if (this.form.valid) {
       // your code goes here
       this.authenticationService.login(this.email.value, this.password.value)
         .subscribe(() => {
-          this.loadingBar.complete();
+          this._state.notifyDataChanged('runLoadingProcess', true);
           let lastUri = this.storage.getItem('lastActiveUri');
           lastUri = lastUri && lastUri !== '/login' ? lastUri : '/';
 
           if (lastUri.includes('?')) {
             const queryParams = { queryParams: UrlHelper.getQueryVarsAsObject(lastUri) };
-            this.router.navigate([`${lastUri.split('?')[0]}`], queryParams);
+            this.router
+              .navigate([`${lastUri.split('?')[0]}`], queryParams)
+              .then(() => this._state.notifyDataChanged('runLoadingProcess', false));
           } else {
-            this.router.navigate([lastUri]);
+            this.router.navigate([lastUri])
+              .then(() => this._state.notifyDataChanged('runLoadingProcess', false));
           }
 
           this.submitted = false;
         }, () => {
           this.showError = true;
-          this.loadingBar.complete();
+          this._state.notifyDataChanged('runLoadingProcess', false);
           this.submitted = false;
         });
     }
