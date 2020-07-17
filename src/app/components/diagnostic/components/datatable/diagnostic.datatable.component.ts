@@ -18,7 +18,6 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { GlobalState } from '../../../../global.state';
-import { SlimLoadingBarService } from 'ng2-slim-loading-bar';
 import { AbstractDatatableController } from '../../../ui/tables/abstract.datatable.controller';
 import { DatatableAction, DatatableCol, DatatableComponent, DatatableTransformer } from '../../../ui/datatable';
 import { ObjectHelper } from '../../../../helpers/object.helper';
@@ -44,7 +43,6 @@ export class DiagnosticDatatableComponent extends AbstractDatatableController {
     private diagnosticDatatableComponent: DatatableComponent;
 
   constructor (
-    protected loadingBar: SlimLoadingBarService,
     protected _logger: LoggerComponent,
     protected _state: GlobalState,
     protected translateService: TranslateService,
@@ -146,7 +144,7 @@ export class DiagnosticDatatableComponent extends AbstractDatatableController {
       }
       return val;
     }));
-    transformers.push(new DatatableTransformer('diseases', (val, row) => {
+    transformers.push(new DatatableTransformer('diseases', (val/*, row*/) => {
       if (!val.length) {
         const noDiseasesMsg = this.translateService.instant('no_diseases_assigned');
         return `<span class="text-muted">${noDiseasesMsg}</span>`;

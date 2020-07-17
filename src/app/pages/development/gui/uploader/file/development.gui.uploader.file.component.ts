@@ -16,7 +16,6 @@
  */
 
 import { Component } from '@angular/core';
-import { SlimLoadingBarService } from 'ng2-slim-loading-bar';
 import { LoadingComponent } from '../../../../../components/core/components/componentLoader';
 import { Upload } from '../../../../../components/upload/upload';
 import { GlobalState } from '../../../../../global.state';
@@ -35,7 +34,6 @@ export class DevelopmentGuiUploaderFileComponent extends LoadingComponent {
   constructor(
     protected _logger: LoggerComponent,
     protected _state: GlobalState,
-    protected loadingBar: SlimLoadingBarService,
     protected simpleSearch: SimpleSearchProviderMock,
   ) {
     super();

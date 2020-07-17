@@ -18,7 +18,6 @@ import { Component, ViewChild } from '@angular/core';
 import { LoggerComponent } from '../../../core/logger/LoggerComponent';
 import { TranslateService } from '@ngx-translate/core';
 import { GlobalState } from '../../../../global.state';
-import { SlimLoadingBarService } from 'ng2-slim-loading-bar';
 import { DatatableConfig } from '../../../ui/datatable';
 import { DatatableCol } from '../../../ui/datatable';
 import { DatatableAction } from '../../../ui/datatable';
@@ -51,7 +50,6 @@ export class RegionDatatableComponent extends AbstractDatatableController {
   region: Region;
 
   constructor(
-    protected loadingBar: SlimLoadingBarService,
     protected _logger: LoggerComponent,
     protected _state: GlobalState,
     protected translateService: TranslateService,

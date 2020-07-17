@@ -17,7 +17,6 @@
 
 import { Component } from '@angular/core';
 import { LoadingComponent } from '../../../components/core/components/componentLoader';
-import { SlimLoadingBarService } from 'ng2-slim-loading-bar';
 import { GlobalState } from '../../../global.state';
 import { TranslateService } from '@ngx-translate/core';
 import { LoggerComponent } from '../../../components/core/logger/LoggerComponent';
@@ -35,7 +34,6 @@ export class GeoCityPageComponent extends LoadingComponent {
   protected componentName: string = 'GeoCityPageComponent';
 
   constructor (
-    protected loadingBar: SlimLoadingBarService,
     protected _logger: LoggerComponent,
     protected _state: GlobalState,
     protected translateService: TranslateService,

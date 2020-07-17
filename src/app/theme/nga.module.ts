@@ -75,7 +75,7 @@ import interactionPlugin from '@fullcalendar/interaction';
 
 FullCalendarModule.registerPlugins([ // register FullCalendar plugins
   dayGridPlugin,
-  interactionPlugin
+  interactionPlugin,
 ]);
 
 const NGA_COMPONENTS = [

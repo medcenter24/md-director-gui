@@ -30,7 +30,6 @@ import {
   DatatableTransformer,
 } from '../../../ui/datatable';
 import { GlobalState } from '../../../../global.state';
-import { SlimLoadingBarService } from 'ng2-slim-loading-bar';
 import { LoggerComponent } from '../../../core/logger/LoggerComponent';
 import { Breadcrumb } from '../../../../theme/components/baContentTop/breadcrumb';
 import { AccidentStatusService } from '../../../accident/components/status';
@@ -69,7 +68,6 @@ export class CaseDatatableComponent extends AbstractDatatableController implemen
     private router: Router,
     private exporterService: ExporterService,
     protected _state: GlobalState,
-    protected loadingBar: SlimLoadingBarService,
     protected _logger: LoggerComponent,
     protected accidentStatusProvider: AccidentStatusService,
     private location: Location,

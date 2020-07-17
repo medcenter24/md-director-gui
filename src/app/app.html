@@ -21,7 +21,7 @@
 <main
   [class.menu-collapsed]="isMenuCollapsed"
   baThemeRun>
-  <ng2-slim-loading-bar [height]="'3px'" [color]="'#e85656'"></ng2-slim-loading-bar>
+  <p-progressBar mode="indeterminate" *ngIf="runLoadingProcess" class="top-page-progress-bar" [style]="{'height': '3px'}"></p-progressBar>
   <div class="additional-bg"></div>
   <router-outlet></router-outlet>
   <p-confirmDialog #apiErr>

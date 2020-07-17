@@ -19,7 +19,6 @@ import { Component, ViewChild, OnInit } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Accident } from '../../../accident/accident';
 import { AccidentsService } from '../../../accident/accidents.service';
-import { SlimLoadingBarService } from 'ng2-slim-loading-bar';
 import { TranslateService } from '@ngx-translate/core';
 import { AccidentType } from '../../../accident/components/type/type';
 import { GlobalState } from '../../../../global.state';
@@ -135,7 +134,6 @@ export class CaseEditorComponent extends LoadingComponent implements OnInit {
   protected componentName: string = 'CaseEditorComponent';
 
   constructor (private route: ActivatedRoute,
-               protected loadingBar: SlimLoadingBarService,
                private translate: TranslateService,
                protected _logger: LoggerComponent,
                protected _state: GlobalState,

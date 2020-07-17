@@ -17,7 +17,6 @@
 
 import { Component, ViewChild } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { SlimLoadingBarService } from 'ng2-slim-loading-bar';
 import { GlobalState } from '../../../../../../global.state';
 import {
   DatatableAction,
@@ -50,7 +49,6 @@ export class FinanceCurrencyDatatableComponent extends AbstractDatatableControll
   currency: FinanceCurrency;
 
   constructor(
-    protected loadingBar: SlimLoadingBarService,
     protected _logger: LoggerComponent,
     protected _state: GlobalState,
     protected translateService: TranslateService,
