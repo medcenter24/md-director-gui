@@ -16,12 +16,12 @@
  */
 
 import { Injectable } from '@angular/core';
-import { Subject } from 'rxjs/Subject';
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable()
 export class GlobalState {
 
-  private _data = new Subject<Object>();
+  private _data = new BehaviorSubject<Object>([]);
   private _dataStream$ = this._data.asObservable();
 
   private _subscriptions: Map<string, Function[]> = new Map<string, Function[]>();
