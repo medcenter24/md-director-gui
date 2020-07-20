@@ -18,7 +18,6 @@
 import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
 import { LoadableComponent } from '../../../../../core/components/componentLoader';
 import { AccidentScenario } from '../../scenario';
-import 'rxjs/add/operator/map';
 import 'style-loader!./line.scss';
 import { CasesService } from '../../../../../case/cases.service';
 import { LoggerComponent } from '../../../../../core/logger/LoggerComponent';
