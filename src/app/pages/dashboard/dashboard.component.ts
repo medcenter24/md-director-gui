@@ -62,7 +62,7 @@ export class DashboardComponent extends LoadingComponent implements OnInit {
   ngOnInit(): void {
     this.translateService.get('Dashboard').subscribe((trans) => {
       const breadcrumbs = [];
-      const title = this.translateService.instant(trans);
+      const title = trans;
       breadcrumbs.push(new Breadcrumb(title, '/pages/dashboard', true));
       this._state.notifyDataChanged('menu.activeLink', breadcrumbs);
       this._state.notifyDataChanged('changeTitle', title);
