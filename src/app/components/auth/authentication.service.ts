@@ -17,8 +17,6 @@
 
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
-import 'rxjs/add/operator/map';
 import { environment } from '../../../environments/environment';
 import { TranslateService } from '@ngx-translate/core';
 import { GlobalState } from '../../global.state';
@@ -59,10 +57,11 @@ export class AuthenticationService {
   ) {
   }
 
-  login(username: string, password: string): Observable<boolean> {
+  login(username: string, password: string): Promise<Object> {
     this._state.notifyDataChanged('runLoadingProcess', true);
     return this.http.post(this.authUrl, JSON.stringify({ email: username, password }))
-      .map((response: Response) => {
+      .toPromise()
+      .then((response: Response) => {
         this._state.notifyDataChanged('runLoadingProcess', false);
         this.update(response);
         return true;

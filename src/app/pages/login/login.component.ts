@@ -68,7 +68,7 @@ export class LoginComponent implements OnInit {
     if (this.form.valid) {
       // your code goes here
       this.authenticationService.login(this.email.value, this.password.value)
-        .subscribe(() => {
+        .then(() => {
           this._state.notifyDataChanged('runLoadingProcess', true);
           let lastUri = this.storage.getItem('lastActiveUri');
           lastUri = lastUri && lastUri !== '/login' ? lastUri : '/';
