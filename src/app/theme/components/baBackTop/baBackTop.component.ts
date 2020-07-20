@@ -22,7 +22,7 @@ declare var $: any;
   selector: 'ba-back-top',
   styleUrls: ['./baBackTop.scss'],
   template: `
-    <i #baBackTop class="fa fa-angle-up back-top ba-back-top" title="Back to Top"></i>
+    <i #baBackTop class="fa fa-angle-up back-top ba-back-top" title="{{ 'Back to Top' | translate }}"></i>
   `
 })
 export class BaBackTop {
