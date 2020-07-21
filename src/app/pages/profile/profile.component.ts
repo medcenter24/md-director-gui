@@ -30,7 +30,6 @@ import { LoggerComponent } from '../../components/core/logger/LoggerComponent';
 import { UiToastService } from '../../components/ui/toast/ui.toast.service';
 import { TokenService } from '../../components/auth/token.service';
 import { JwtHelperService } from '@auth0/angular-jwt';
-import { Observable, Subscription } from 'rxjs/Rx';
 import { Breadcrumb } from '../../theme/components/baContentTop/breadcrumb';
 
 @Component({
@@ -53,7 +52,7 @@ export class ProfileComponent extends LoadingComponent implements OnInit {
   directorPhotoUri: string = '';
   tokenLiveTime: string = '';
   private profileTabIndexKey: string = 'profileTabIndex';
-  private timer: Subscription;
+  private timer: any;
 
   constructor (
                protected _state: GlobalState,
@@ -218,11 +217,11 @@ export class ProfileComponent extends LoadingComponent implements OnInit {
     const leftSec: number = jwtExp - now;
 
     if (this.timer) {
-      this.timer.unsubscribe();
+      clearInterval(this.timer);
     }
-    this.timer = Observable.interval(1000).subscribe((v) => {
+    this.timer = setInterval((v) => {
       this.setLeftTime(leftSec - v);
-    });
+    }, 1000);
   }
 
   private setLeftTime(leftSec: number): void {

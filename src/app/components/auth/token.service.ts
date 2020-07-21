@@ -23,7 +23,6 @@ import { LocalStorageHelper } from '../../helpers/local.storage.helper';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { GlobalState } from '../../global.state';
 import { Router } from '@angular/router';
-import { Observable, Subscription } from 'rxjs/Rx';
 
 @Injectable()
 export class TokenService {
@@ -35,7 +34,7 @@ export class TokenService {
 
   // key for storage
   tokenKey: string = 'token';
-  private timer: Subscription;
+  private timer: any;
 
   constructor (
     private http: HttpClient,
@@ -113,16 +112,16 @@ export class TokenService {
         }
 
         if (this.timer) {
-          this.timer.unsubscribe();
+          clearInterval(this.timer);
         }
         // each 5 min
-        this.timer = Observable.interval(300000).subscribe((v) => {
+        this.timer = setInterval((v) => {
           const now: number = Math.ceil( new Date().getTime() / 1000 ); // UTC seconds
           const left: number = jwtExp - now;
           if (left < period && !this.refreshStarted) { // less then allowed
             this.refresh();
           }
-        });
+        }, 300000);
       }
     }
   }
