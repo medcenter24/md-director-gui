@@ -41,7 +41,7 @@ import { environment } from '../../environments/environment';
               <img src="/assets/img/medical/medical_120.png" width="120"
                    height="120" alt="{{ 'Medical Company' | translate }}">
           </div>
-          <div class="al-footer-main clearfix">
+          <div class="al-footer-main clearfix" *ngIf="false">
               <ul class="al-share clearfix">
                   <li><i class="socicon socicon-facebook"></i></li>
                   <li><i class="socicon socicon-twitter"></i></li>
