@@ -101,8 +101,13 @@ export class CasesService extends HttpService implements LoadableServiceInterfac
   }
 
   createComment (accident: Accident, text: string): Promise <Commentary> {
-    return this.put(`${accident.id}/comments`, { text })
-      .then(response => response as Commentary);
+    return this.http
+      .post(this.getUrl(`${accident.id}/comments`), JSON.stringify( { text }), { headers: this.getAuthHeaders() })
+      .toPromise()
+      .then(response => {
+        return Promise.resolve(response);
+      })
+      .catch(error => this.handleError(error));
   }
 
   getFinance (accident: Accident, types: string[]): Promise<PaymentViewer[]> {

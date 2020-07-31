@@ -47,7 +47,7 @@ export class AccidentChatComponent extends LoadableComponent implements OnInit {
     this.caseService.getCommentaries(this.accident).then(response => {
       this.stopLoader();
       response.map((row) => {
-        row.created_at = DateHelper.toEuropeFormatWithTime(row.created_at);
+        row.createdAt = DateHelper.toEuropeFormatWithTime(row.createdAt);
         return row;
       });
       this.comments = response;
