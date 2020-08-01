@@ -36,7 +36,7 @@ export class AccidentHistoryComponent extends LoadableComponent implements OnIni
   history: AccidentHistory[];
   noPhoto: string = '';
 
-  constructor(private caseService: CasesService, private dateHelper: DateHelper) {
+  constructor(private caseService: CasesService) {
     super();
     this.noPhoto = `${layoutPaths.images.profile}no-photo.png`;
   }
@@ -46,7 +46,7 @@ export class AccidentHistoryComponent extends LoadableComponent implements OnIni
     this.caseService.getHistory(this.accident).then(response => {
       this.stopLoader();
       response.map((row) => {
-        row.createdFormated = DateHelper.toEuropeFormatWithTime(row.created_at);
+        row.createdFormatted = DateHelper.toEuropeFormatWithTime(row.createdAt);
         return row;
       });
       this.history = response;
