@@ -24,6 +24,7 @@
         chooseLabel="{{ 'Choose' | translate }}"
         uploadLabel="{{ 'Upload' | translate}}"
         cancelLabel="{{ 'Cancel' | translate}}"
+        [title]="'No file chosen' | translate"
         [withCredentials]="true"
         [headers]="headers()"
         (onUpload)="handleUpload()"

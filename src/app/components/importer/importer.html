@@ -33,6 +33,7 @@
                   chooseLabel="{{ 'Choose' | translate }}"
                   uploadLabel="{{ 'Upload' | translate}}"
                   cancelLabel="{{ 'Cancel' | translate}}"
+                  [title]="'No file chosen' | translate"
                   (onUpload)="handleUpload($event)"
                   (onError)="handleError($event)"
                   (onClear)="handleClear()"
